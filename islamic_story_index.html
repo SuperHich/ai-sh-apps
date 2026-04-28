@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Histoires des Prophètes ✦</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night:    #060e18;
+    --deep:     #0b1a28;
+    --card-bg:  #0f2235;
+    --gold:     #c9960c;
+    --gold-lt:  #f0c040;
+    --gold-dim: #8a6508;
+    --text:     #e8dcc8;
+    --muted:    rgba(232,220,200,.5);
+    --radius:   20px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--night);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── STARFIELD CANVAS ── */
+  #starfield {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── GEOMETRIC OVERLAY ── */
+  .geo-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .045;
+    background-image:
+      repeating-linear-gradient(60deg,  #f0c040 0, #f0c040 1px, transparent 0, transparent 50%),
+      repeating-linear-gradient(120deg, #f0c040 0, #f0c040 1px, transparent 0, transparent 50%),
+      repeating-linear-gradient(0deg,   #f0c040 0, #f0c040 1px, transparent 0, transparent 50%);
+    background-size: 60px 60px;
+  }
+
+  /* ── WRAPPER ── */
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── HERO HEADER ── */
+  .hero {
+    text-align: center;
+    padding: 80px 0 60px;
+    position: relative;
+  }
+
+  .hero-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    opacity: .7;
+  }
+  .hero-ornament span { color: var(--gold-lt); font-size: 1.2rem; letter-spacing: 6px; }
+  .ornament-line {
+    width: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-weight: 700;
+    color: var(--gold-lt);
+    line-height: 1.1;
+    text-shadow: 0 0 40px rgba(240,192,64,.25);
+    letter-spacing: 2px;
+  }
+
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    color: var(--muted);
+    margin-top: 14px;
+    font-style: italic;
+    letter-spacing: 1px;
+  }
+
+  .hero-arabic {
+    font-size: 1.5rem;
+    color: var(--gold-dim);
+    margin-top: 10px;
+    letter-spacing: 8px;
+    font-family: serif;
+  }
+
+  /* count badge */
+  .count-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
+    padding: 8px 20px;
+    border: 1px solid rgba(240,192,64,.25);
+    border-radius: 40px;
+    font-size: .85rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+  .count-badge strong { color: var(--gold-lt); font-size: 1.05rem; }
+
+  /* ── SECTION TITLE ── */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    margin-top: 20px;
+  }
+  .section-head h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--gold-lt);
+    white-space: nowrap;
+  }
+  .section-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+  }
+
+  /* ── GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 28px;
+  }
+
+  /* ── STORY CARD ── */
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid rgba(240,192,64,.12);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+    animation: fadeUp .6s ease both;
+  }
+  .card:hover {
+    transform: translateY(-8px) scale(1.015);
+    box-shadow: 0 24px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(240,192,64,.3);
+    border-color: rgba(240,192,64,.35);
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(30px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .card:nth-child(1) { animation-delay:.1s; }
+  .card:nth-child(2) { animation-delay:.2s; }
+  .card:nth-child(3) { animation-delay:.3s; }
+  .card:nth-child(4) { animation-delay:.4s; }
+  .card:nth-child(5) { animation-delay:.5s; }
+  .card:nth-child(6) { animation-delay:.6s; }
+
+  /* card illustration area */
+  .card-art {
+    width: 100%;
+    aspect-ratio: 4/3;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .card-art svg { width:100%; height:100%; display:block; }
+
+  /* shimmer overlay on hover */
+  .card-art::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,.08) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .card:hover .card-art::after { opacity: 1; }
+
+  /* gold arc bottom of art */
+  .card-arc {
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 32px;
+  }
+
+  /* card body */
+  .card-body {
+    padding: 20px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .card-tag {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--gold-lt);
+    line-height: 1.15;
+    margin-bottom: 4px;
+  }
+
+  .card-arabic {
+    font-size: 1rem;
+    color: var(--gold-dim);
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+    font-family: serif;
+  }
+
+  .card-desc {
+    font-size: .92rem;
+    color: var(--muted);
+    line-height: 1.65;
+    flex: 1;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(240,192,64,.1);
+  }
+
+  .card-chapters {
+    font-size: .8rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .card-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--gold-lt);
+    letter-spacing: .5px;
+    transition: gap .2s;
+  }
+  .card:hover .card-btn { gap: 10px; }
+  .card-btn svg { transition: transform .2s; }
+  .card:hover .card-btn svg { transform: translateX(3px); }
+
+  /* ── "COMING SOON" CARD ── */
+  .card-soon {
+    border: 2px dashed rgba(240,192,64,.15);
+    background: rgba(15,34,53,.4);
+    cursor: default;
+    pointer-events: none;
+  }
+  .card-soon:hover { transform: none; box-shadow: none; border-color: rgba(240,192,64,.15); }
+
+  .soon-art {
+    width: 100%;
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(240,192,64,.04);
+    position: relative;
+    overflow: hidden;
+  }
+  .soon-art::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(240,192,64,.03) 0px,
+      rgba(240,192,64,.03) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+  }
+  .soon-icon {
+    font-size: 3rem;
+    opacity: .25;
+    z-index: 1;
+  }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    color: var(--muted);
+    font-size: .85rem;
+    border-top: 1px solid rgba(240,192,64,.08);
+    margin-top: 60px;
+  }
+  .page-footer span { color: var(--gold-dim); }
+
+</style>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+<div class="geo-overlay"></div>
+
+<div class="wrapper">
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="hero-ornament">
+      <div class="ornament-line"></div>
+      <span>✦ ✦ ✦</span>
+      <div class="ornament-line" style="transform:scaleX(-1)"></div>
+    </div>
+    <h1>Histoires des Prophètes</h1>
+    <p class="hero-arabic">قصص الأنبياء</p>
+    <p class="hero-sub">Des récits merveilleux pour les petits cœurs curieux</p>
+    <div class="count-badge">
+      <span>✦</span>
+      <span><strong id="storyCount">3</strong> histoires disponibles</span>
+      <span>✦</span>
+    </div>
+  </header>
+
+  <!-- ── GRID ── -->
+  <div class="section-head">
+    <h2>Nos histoires</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="grid" id="storyGrid">
+
+    <!-- ══ ADAM ══ -->
+    <a class="card" href="adam.html">
+      <div class="card-art">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="adamBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#050f1a"/>
+              <stop offset="100%" stop-color="#0d2a16"/>
+            </linearGradient>
+            <radialGradient id="adamGlow" cx="50%" cy="45%" r="50%">
+              <stop offset="0%"   stop-color="#a0f0c0" stop-opacity=".35"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+            <radialGradient id="adamEarth" cx="50%" cy="90%" r="50%">
+              <stop offset="0%"   stop-color="#c8845a" stop-opacity=".4"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#adamBg)"/>
+          <rect width="400" height="300" fill="url(#adamGlow)"/>
+          <rect width="400" height="300" fill="url(#adamEarth)"/>
+          <!-- stars -->
+          <circle cx="40"  cy="25"  r="2"   fill="#f0c040" opacity=".8"/>
+          <circle cx="90"  cy="40"  r="1.5" fill="white"   opacity=".6"/>
+          <circle cx="150" cy="20"  r="2.5" fill="#f0c040" opacity=".9"/>
+          <circle cx="260" cy="30"  r="2"   fill="white"   opacity=".7"/>
+          <circle cx="340" cy="22"  r="1.5" fill="#f0c040" opacity=".8"/>
+          <circle cx="370" cy="55"  r="1"   fill="white"   opacity=".5"/>
+          <circle cx="200" cy="15"  r="1.5" fill="white"   opacity=".7"/>
+          <!-- Paradise trees both sides -->
+          <line x1="55"  y1="240" x2="50"  y2="150" stroke="#3a1a08" stroke-width="8"/>
+          <ellipse cx="47" cy="138" rx="38" ry="46" fill="#1a6b30"/>
+          <ellipse cx="62" cy="122" rx="28" ry="36" fill="#2a8040"/>
+          <circle cx="44" cy="135" r="6"  fill="#f0c040"/>
+          <circle cx="60" cy="126" r="5"  fill="#ff6644"/>
+          <line x1="345" y1="240" x2="350" y2="150" stroke="#3a1a08" stroke-width="8"/>
+          <ellipse cx="353" cy="138" rx="38" ry="46" fill="#1a6b30"/>
+          <ellipse cx="338" cy="122" rx="28" ry="36" fill="#2a8040"/>
+          <circle cx="356" cy="135" r="6"  fill="#f0c040"/>
+          <circle cx="340" cy="126" r="5"  fill="#ff6644"/>
+          <!-- Ground eden -->
+          <rect x="0" y="240" width="400" height="60" fill="#1a5a28"/>
+          <!-- Flowers -->
+          <circle cx="110" cy="242" r="5" fill="#ff9999"/>
+          <circle cx="135" cy="240" r="4" fill="#f0c040"/>
+          <circle cx="270" cy="242" r="5" fill="#ff9999"/>
+          <circle cx="295" cy="240" r="4" fill="#88ddff"/>
+          <!-- Adam figure arms open -->
+          <g transform="translate(200,185)">
+            <circle cx="0" cy="-14" r="30" fill="#c9960c" opacity=".1"/>
+            <path d="M-26,10 Q-20,72 0,76 Q20,72 26,10 Z" fill="#1e6b3a"/>
+            <line x1="-26" y1="16" x2="-70" y2="4"  stroke="#1e6b3a" stroke-width="10" stroke-linecap="round"/>
+            <line x1="26"  y1="16" x2="70"  y2="4"  stroke="#1e6b3a" stroke-width="10" stroke-linecap="round"/>
+            <circle cx="-70" cy="3"  r="8" fill="#c9960c" opacity=".5"/>
+            <circle cx="70"  cy="3"  r="8" fill="#c9960c" opacity=".5"/>
+            <circle cx="0" cy="-14" r="18" fill="#c8845a"/>
+            <circle cx="0" cy="-14" r="24" fill="none" stroke="#f0c040" stroke-width="1.5" opacity=".4"/>
+            <path d="M-15,-28 Q0,-52 15,-28 L18,-10 Q0,-6 -18,-10 Z" fill="#0d2a16"/>
+            <circle cx="-6" cy="-15" r="3" fill="#f0c040" opacity=".8"/>
+            <circle cx="6"  cy="-15" r="3" fill="#f0c040" opacity=".8"/>
+          </g>
+          <!-- forbidden tree small center back -->
+          <line x1="200" y1="240" x2="200" y2="165" stroke="#3a1a08" stroke-width="6" opacity=".5"/>
+          <circle cx="200" cy="158" r="14" fill="#1a3a10" opacity=".6"/>
+          <circle cx="200" cy="155" r="8"  fill="#c0392b" opacity=".7"/>
+        </svg>
+        <svg class="card-arc" viewBox="0 0 400 32" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,32 Q200,0 400,32 Z" fill="#0f2235"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">✦ Prophète · Premier Homme</div>
+        <div class="card-title">Adam</div>
+        <div class="card-arabic">آدم عليه السلام</div>
+        <p class="card-desc">La création du premier homme, le jardin du paradis, la tentation de l'arbre interdit, et comment le repentir ouvre les portes du pardon.</p>
+        <div class="card-footer">
+          <div class="card-chapters">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            5 chapitres
+          </div>
+          <div class="card-btn">
+            Lire l'histoire
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- ══ MOÏSE ══ -->
+    <a class="card" href="moise.html">
+      <div class="card-art">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="moiseBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#1a3a5c"/>
+              <stop offset="100%" stop-color="#c8a04a"/>
+            </linearGradient>
+            <radialGradient id="moiseGlow" cx="50%" cy="55%" r="55%">
+              <stop offset="0%"   stop-color="#ffe08a" stop-opacity=".3"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#moiseBg)"/>
+          <rect width="400" height="300" fill="url(#moiseGlow)"/>
+          <!-- stars -->
+          <circle cx="40"  cy="30"  r="2"   fill="white"   opacity=".7"/>
+          <circle cx="100" cy="18"  r="1.5" fill="#f0c040" opacity=".8"/>
+          <circle cx="300" cy="25"  r="2"   fill="white"   opacity=".6"/>
+          <circle cx="360" cy="40"  r="1.5" fill="#f0c040" opacity=".7"/>
+          <circle cx="180" cy="12"  r="1"   fill="white"   opacity=".6"/>
+          <!-- Desert mountains -->
+          <polygon points="0,250 80,140 170,200 260,120 360,180 400,145 400,300 0,300" fill="#c8a04a" opacity=".8"/>
+          <polygon points="0,270 70,190 150,230 240,165 330,210 400,185 400,300 0,300" fill="#d4b060"/>
+          <!-- Sun warm -->
+          <circle cx="320" cy="70" r="40" fill="#f0c040" opacity=".8"/>
+          <!-- Moses silhouette on mountain -->
+          <g transform="translate(200,175)">
+            <path d="M-22,12 Q-18,80 0,85 Q18,80 22,12 Z" fill="#2d6b9e"/>
+            <line x1="-22" y1="18" x2="-48" y2="-14" stroke="#2d6b9e" stroke-width="9" stroke-linecap="round"/>
+            <line x1="22"  y1="18" x2="40"  y2="10"  stroke="#2d6b9e" stroke-width="9" stroke-linecap="round"/>
+            <!-- staff up -->
+            <line x1="-48" y1="-14" x2="-44" y2="-75" stroke="#8b5e3c" stroke-width="7" stroke-linecap="round"/>
+            <circle cx="-44" cy="-78" r="8" fill="#f0c040" opacity=".8"/>
+            <!-- tablets -->
+            <g transform="translate(32,5)">
+              <rect x="-14" y="-35" width="26" height="36" rx="4" fill="#f5e6c8" stroke="#d4a017" stroke-width="2"/>
+              <rect x="14"  y="-35" width="26" height="36" rx="4" fill="#f5e6c8" stroke="#d4a017" stroke-width="2"/>
+              <line x1="-10" y1="-26" x2="6"   y2="-26" stroke="#d4a017" stroke-width="2"/>
+              <line x1="-10" y1="-18" x2="6"   y2="-18" stroke="#d4a017" stroke-width="2"/>
+              <line x1="-10" y1="-10" x2="6"   y2="-10" stroke="#d4a017" stroke-width="2"/>
+              <line x1="18"  y1="-26" x2="34"  y2="-26" stroke="#d4a017" stroke-width="2"/>
+              <line x1="18"  y1="-18" x2="34"  y2="-18" stroke="#d4a017" stroke-width="2"/>
+              <line x1="18"  y1="-10" x2="34"  y2="-10" stroke="#d4a017" stroke-width="2"/>
+              <line x1="13" y1="-35" x2="13" y2="1" stroke="#d4a017" stroke-width="2.5"/>
+            </g>
+            <!-- head -->
+            <circle cx="0" cy="-12" r="18" fill="#d4a57a"/>
+            <path d="M-14,-26 Q0,-50 14,-26 L17,-7 Q0,-4 -17,-7 Z" fill="#1a3a5c"/>
+            <!-- eyes -->
+            <circle cx="-6" cy="-13" r="3" fill="#1a1a1a"/>
+            <circle cx="6"  cy="-13" r="3" fill="#1a1a1a"/>
+          </g>
+          <!-- Burning bush glow in distance -->
+          <g transform="translate(80,200)" opacity=".7">
+            <circle cx="0" cy="0" rx="25" ry="25" r="25" fill="#ff6600" opacity=".25"/>
+            <path d="M-12,5 Q-8,-18 -2,5 Q2,-22 8,2 Q12,-18 16,5" fill="#ff6600" opacity=".8"/>
+            <path d="M-10,5 Q-5,-22 2,5 Q6,-20 12,3" fill="#ffaa00" opacity=".7"/>
+          </g>
+        </svg>
+        <svg class="card-arc" viewBox="0 0 400 32" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,32 Q200,0 400,32 Z" fill="#0f2235"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">✦ Prophète · L'Élu de Dieu</div>
+        <div class="card-title">Moïse</div>
+        <div class="card-arabic">موسى عليه السلام</div>
+        <p class="card-desc">Du bébé dans le panier sur le Nil jusqu'à la mer Rouge qui s'ouvre : le courage d'un homme qui a libéré tout un peuple.</p>
+        <div class="card-footer">
+          <div class="card-chapters">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            5 chapitres
+          </div>
+          <div class="card-btn">
+            Lire l'histoire
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- ══ MOHAMED ══ -->
+    <a class="card" href="mohamed.html">
+      <div class="card-art">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="mohamedBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#050f1a"/>
+              <stop offset="60%" stop-color="#0d2a1f"/>
+              <stop offset="100%" stop-color="#1a3a2a"/>
+            </linearGradient>
+            <radialGradient id="mohamedGlow" cx="65%" cy="30%" r="45%">
+              <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".35"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#mohamedBg)"/>
+          <rect width="400" height="300" fill="url(#mohamedGlow)"/>
+          <!-- Stars -->
+          <circle cx="30"  cy="20"  r="2"   fill="#f0c040" opacity=".9"/>
+          <circle cx="80"  cy="35"  r="1.5" fill="white"   opacity=".7"/>
+          <circle cx="140" cy="15"  r="2.5" fill="white"   opacity=".8"/>
+          <circle cx="220" cy="28"  r="1.5" fill="#f0c040" opacity=".7"/>
+          <circle cx="300" cy="18"  r="1"   fill="white"   opacity=".6"/>
+          <circle cx="360" cy="42"  r="2"   fill="white"   opacity=".8"/>
+          <!-- Crescent moon -->
+          <circle cx="340" cy="58" r="30"  fill="#ffe8a0" opacity=".8"/>
+          <circle cx="352" cy="48" r="25"  fill="#050f1a"/>
+          <!-- Star of Islam -->
+          <polygon points="385,28 388,38 398,38 390,44 393,54 385,48 377,54 380,44 372,38 382,38"
+                   fill="#f0c040" opacity=".9" transform="scale(.8) translate(95,5)"/>
+          <!-- Medina mosque silhouette -->
+          <g transform="translate(0,160)">
+            <rect x="30"  y="60" width="340" height="80" fill="#0d1f2d"/>
+            <!-- green dome -->
+            <path d="M175,60 Q200,20 225,60 Z" fill="#1a6b4a"/>
+            <ellipse cx="200" cy="59" rx="25" ry="7" fill="#1a6b4a"/>
+            <!-- dome top -->
+            <line x1="200" y1="18" x2="200" y2="4"   stroke="#c9960c" stroke-width="2.5"/>
+            <circle cx="200" cy="2" r="4" fill="#f0c040"/>
+            <path d="M196,-1 Q200,-8 204,-1" fill="none" stroke="#f0c040" stroke-width="2"/>
+            <!-- minarets -->
+            <rect x="70"  y="18" width="16" height="65" fill="#162030"/>
+            <path d="M70,18 Q78,4 86,18 Z" fill="#1a6b4a"/>
+            <line x1="78" y1="2" x2="78" y2="-6"  stroke="#c9960c" stroke-width="2"/>
+            <circle cx="78" cy="-7" r="3.5" fill="#f0c040"/>
+            <rect x="314" y="18" width="16" height="65" fill="#162030"/>
+            <path d="M314,18 Q322,4 330,18 Z" fill="#1a6b4a"/>
+            <line x1="322" y1="2" x2="322" y2="-6" stroke="#c9960c" stroke-width="2"/>
+            <circle cx="322" cy="-7" r="3.5" fill="#f0c040"/>
+            <!-- windows glowing -->
+            <ellipse cx="168" cy="105" rx="10" ry="7" fill="#f0c040" opacity=".4"/>
+            <ellipse cx="200" cy="103" rx="10" ry="7" fill="#f0c040" opacity=".5"/>
+            <ellipse cx="232" cy="105" rx="10" ry="7" fill="#f0c040" opacity=".4"/>
+            <!-- Arches -->
+            <path d="M100,105 Q112,90 124,105" fill="none" stroke="#c9960c" stroke-width="1.5" opacity=".5"/>
+            <path d="M136,105 Q148,90 160,105" fill="none" stroke="#c9960c" stroke-width="1.5" opacity=".5"/>
+            <path d="M240,105 Q252,90 264,105" fill="none" stroke="#c9960c" stroke-width="1.5" opacity=".5"/>
+            <path d="M276,105 Q288,90 300,105" fill="none" stroke="#c9960c" stroke-width="1.5" opacity=".5"/>
+          </g>
+          <!-- Doves -->
+          <path d="M100,110 Q110,98 122,106 Q130,96 140,104" fill="white" opacity=".6" stroke="none"/>
+          <path d="M260,95  Q270,83 282,91  Q290,81 300,89"  fill="white" opacity=".55" stroke="none"/>
+          <!-- Islamic pattern hints -->
+          <g opacity=".06">
+            <polygon points="200,60 210,85 236,85 215,101 223,127 200,111 177,127 185,101 164,85 190,85"
+                     fill="#f0c040"/>
+          </g>
+        </svg>
+        <svg class="card-arc" viewBox="0 0 400 32" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,32 Q200,0 400,32 Z" fill="#0f2235"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">✦ Prophète · Le Sceau des Prophètes</div>
+        <div class="card-title">Mohamed ﷺ</div>
+        <div class="card-arabic">محمد رسول الله</div>
+        <p class="card-desc">De La Mecque à Médine : l'histoire de l'homme le plus généreux, l'amine, la nuit de la révélation et la ville de la paix.</p>
+        <div class="card-footer">
+          <div class="card-chapters">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            5 chapitres
+          </div>
+          <div class="card-btn">
+            Lire l'histoire
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- ══ COMING SOON cards ══ -->
+    <div class="card card-soon">
+      <div class="soon-art">
+        <div class="soon-icon">✦</div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag" style="color:rgba(240,192,64,.25)">✦ Bientôt disponible</div>
+        <div class="card-title" style="color:rgba(240,192,64,.2);font-size:1.4rem">Prochaine histoire</div>
+        <p class="card-desc" style="color:rgba(232,220,200,.2)">Une nouvelle aventure prophétique arrive bientôt dans cette bibliothèque…</p>
+        <div class="card-footer">
+          <div class="card-chapters" style="color:rgba(232,220,200,.18)">— chapitres</div>
+          <div class="card-btn" style="color:rgba(240,192,64,.2)">En préparation…</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- ── FOOTER ── -->
+  <footer class="page-footer">
+    <div style="font-size:1.5rem;color:var(--gold-dim);letter-spacing:10px;margin-bottom:12px">✦ ✦ ✦</div>
+    Une bibliothèque de contes sacrés pour les petits — <span>avec amour ✦</span>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script>
+// ── Starfield canvas ──
+const canvas = document.getElementById('starfield');
+const ctx    = canvas.getContext('2d');
+let W, H, stars = [];
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function initStars() {
+  stars = Array.from({length: 180}, () => ({
+    x:    Math.random() * W,
+    y:    Math.random() * H,
+    r:    Math.random() * 1.5 + 0.3,
+    a:    Math.random(),
+    da:   (Math.random() * 0.008 + 0.002) * (Math.random()<.5?1:-1),
+    gold: Math.random() < 0.25
+  }));
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, W, H);
+  stars.forEach(s => {
+    s.a = Math.max(0.05, Math.min(1, s.a + s.da));
+    if (s.a <= 0.05 || s.a >= 1) s.da *= -1;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+    ctx.fillStyle = s.gold
+      ? `rgba(240,192,64,${s.a * 0.7})`
+      : `rgba(255,255,255,${s.a * 0.5})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+
+window.addEventListener('resize', () => { resize(); initStars(); });
+resize(); initStars(); drawStars();
+
+// ── Update story count from actual cards ──
+const realCards = document.querySelectorAll('.card:not(.card-soon)').length;
+document.getElementById('storyCount').textContent = realCards;
+</script>
+</body>
+</html>

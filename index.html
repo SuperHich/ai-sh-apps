@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini Apps IA — Accueil</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1208;
+    --parchment: #fdf6e3;
+    --warm-mid: #f0e6c8;
+    --gold: #c8922a;
+    --gold-light: #e8b84b;
+    --amber-deep: #7a4a10;
+    --rust: #9e3d1a;
+    --sage: #4a6741;
+    --story-bg: #2c1a08;
+    --game-bg: #0d2b1a;
+    --card-shadow: 0 8px 32px rgba(26,18,8,0.18), 0 2px 8px rgba(26,18,8,0.10);
+    --card-shadow-hover: 0 20px 60px rgba(26,18,8,0.28), 0 4px 16px rgba(26,18,8,0.16);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: #1a1208;
+    color: var(--parchment);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(200,146,42,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 90% 80%, rgba(74,103,65,0.08) 0%, transparent 60%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8922a' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+
+  /* ── Header ── */
+  header {
+    text-align: center;
+    padding: 4rem 0 3.5rem;
+    position: relative;
+  }
+
+  .header-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.8;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--parchment);
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  header h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .header-sub {
+    margin-top: 1rem;
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(253,246,227,0.55);
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .header-divider {
+    margin: 2rem auto 0;
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  /* ── Section title ── */
+  .section {
+    margin-top: 3rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .section-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+
+  .section-icon.story { background: rgba(200,146,42,0.15); border: 1px solid rgba(200,146,42,0.3); }
+  .section-icon.game  { background: rgba(74,103,65,0.2);  border: 1px solid rgba(74,103,65,0.4); }
+  .section-icon.more  { background: rgba(100,100,160,0.15); border: 1px solid rgba(100,100,160,0.3); }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--parchment);
+  }
+
+  .section-count {
+    margin-left: auto;
+    font-size: 12px;
+    color: rgba(253,246,227,0.35);
+    font-weight: 300;
+  }
+
+  /* ── Cards grid ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+
+  /* ── App card ── */
+  .app-card {
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    position: relative;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: var(--card-shadow);
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .app-card:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: var(--card-shadow-hover);
+  }
+
+  .app-card:hover .card-arrow { opacity: 1; transform: translate(2px, -2px); }
+  .app-card:hover .card-glow  { opacity: 1; }
+
+  .card-glow {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    border-radius: 16px;
+  }
+
+  /* Story cards */
+  .story .card-bg {
+    background: linear-gradient(160deg, #3d2210 0%, #1e0e04 100%);
+    border: 1px solid rgba(200,146,42,0.2);
+  }
+  .story .card-glow { box-shadow: inset 0 0 40px rgba(200,146,42,0.08); }
+  .story .card-accent { background: rgba(200,146,42,0.12); color: var(--gold-light); }
+  .story .card-icon-bg { background: rgba(200,146,42,0.15); }
+
+  /* Game cards */
+  .game .card-bg {
+    background: linear-gradient(160deg, #0e2618 0%, #051209 100%);
+    border: 1px solid rgba(74,103,65,0.25);
+  }
+  .game .card-glow { box-shadow: inset 0 0 40px rgba(74,103,65,0.1); }
+  .game .card-accent { background: rgba(74,103,65,0.2); color: #8ecb85; }
+  .game .card-icon-bg { background: rgba(74,103,65,0.2); }
+
+  /* Placeholder card */
+  .placeholder .card-bg {
+    background: rgba(255,255,255,0.02);
+    border: 1px dashed rgba(253,246,227,0.1);
+  }
+
+  .card-bg {
+    padding: 1.4rem;
+    height: 100%;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .card-arrow {
+    font-size: 16px;
+    color: rgba(253,246,227,0.3);
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .card-badge {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 20px;
+    margin-bottom: 0.6rem;
+  }
+
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--parchment);
+    margin-bottom: 0.4rem;
+    line-height: 1.25;
+  }
+
+  .card-desc {
+    font-size: 12.5px;
+    font-weight: 300;
+    color: rgba(253,246,227,0.5);
+    line-height: 1.5;
+  }
+
+  /* Placeholder */
+  .placeholder-inner {
+    border-radius: 16px;
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 148px;
+    cursor: default;
+    gap: 0.5rem;
+  }
+
+  .placeholder-plus {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px dashed rgba(253,246,227,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: rgba(253,246,227,0.2);
+  }
+
+  .placeholder-text {
+    font-size: 12px;
+    color: rgba(253,246,227,0.2);
+    font-weight: 300;
+  }
+
+  /* ── Coming soon section ── */
+  .coming-soon {
+    margin-top: 3.5rem;
+    border-top: 1px solid rgba(253,246,227,0.06);
+    padding-top: 2.5rem;
+    animation: fadeUp 0.5s 0.4s ease both;
+  }
+
+  .coming-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+
+  .coming-pill {
+    border: 1px solid rgba(253,246,227,0.08);
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 13px;
+    color: rgba(253,246,227,0.35);
+    font-weight: 300;
+  }
+
+  .coming-pill span { font-size: 15px; opacity: 0.6; }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 4rem;
+    text-align: center;
+    padding-bottom: 2rem;
+    font-size: 12px;
+    color: rgba(253,246,227,0.18);
+    font-weight: 300;
+    animation: fadeUp 0.5s 0.5s ease both;
+  }
+
+  footer strong { color: rgba(253,246,227,0.35); font-weight: 500; }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .cards-grid .app-card:nth-child(1) { animation-delay: 0.10s; }
+  .cards-grid .app-card:nth-child(2) { animation-delay: 0.18s; }
+  .cards-grid .app-card:nth-child(3) { animation-delay: 0.26s; }
+  .cards-grid .app-card:nth-child(4) { animation-delay: 0.34s; }
+
+  /* Responsive */
+  @media (max-width: 540px) {
+    .wrapper { padding: 0 1.2rem 3rem; }
+    header   { padding: 3rem 0 2.5rem; }
+    .cards-grid { grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- ── HEADER ── -->
+  <header>
+    <p class="header-eyebrow">Créations assistées par l'IA</p>
+    <h1>Le <em>Grenier</em> des Apps</h1>
+    <p class="header-sub">Toutes mes petites créations numériques, au même endroit.</p>
+    <div class="header-divider"></div>
+  </header>
+
+  <!-- ══════════════════════════════════
+       SECTION : HISTOIRES
+  ══════════════════════════════════ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-icon story">📖</div>
+      <span class="section-title">Histoires</span>
+      <span class="section-count">1 application</span>
+    </div>
+
+    <div class="cards-grid">
+
+      <!-- Carte : Conte interactif -->
+      <a href="conte.html" class="app-card story" style="animation-delay:0.10s">
+        <div class="card-bg">
+          <div class="card-glow"></div>
+          <div class="card-top">
+            <div class="card-icon card-icon-bg">🌙</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <span class="card-badge card-accent">Nouveau</span>
+          <div class="card-name">Le Conte du Soir</div>
+          <div class="card-desc">Une histoire générée à la demande, chaque soir différente.</div>
+        </div>
+      </a>
+
+      <!-- Placeholder -->
+      <div class="app-card placeholder" style="animation-delay:0.18s">
+        <div class="placeholder-inner">
+          <div class="placeholder-plus">+</div>
+          <div class="placeholder-text">Prochaine histoire</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       SECTION : MINI JEUX
+  ══════════════════════════════════ -->
+  <section class="section">
+    <div class="section-header" style="animation-delay:0.15s">
+      <div class="section-icon game">🎮</div>
+      <span class="section-title">Mini Jeux</span>
+      <span class="section-count">1 application</span>
+    </div>
+
+    <div class="cards-grid">
+
+      <!-- Carte : Quiz -->
+      <a href="quiz.html" class="app-card game" style="animation-delay:0.20s">
+        <div class="card-bg">
+          <div class="card-glow"></div>
+          <div class="card-top">
+            <div class="card-icon card-icon-bg">🧩</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <span class="card-badge card-accent">Quiz</span>
+          <div class="card-name">Question pour un Champion</div>
+          <div class="card-desc">Des questions générées par l'IA sur le thème de ton choix.</div>
+        </div>
+      </a>
+
+      <!-- Placeholder -->
+      <div class="app-card placeholder" style="animation-delay:0.28s">
+        <div class="placeholder-inner">
+          <div class="placeholder-plus">+</div>
+          <div class="placeholder-text">Prochain jeu</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       COMING SOON
+  ══════════════════════════════════ -->
+  <div class="coming-soon">
+    <div class="section-header" style="margin-bottom:0; animation-delay:0.3s">
+      <div class="section-icon more">✦</div>
+      <span class="section-title">À venir…</span>
+    </div>
+    <div class="coming-grid">
+      <div class="coming-pill"><span>🎨</span> Illustrations</div>
+      <div class="coming-pill"><span>🧮</span> Outils</div>
+      <div class="coming-pill"><span>🗺️</span> Aventures</div>
+      <div class="coming-pill"><span>🎵</span> Musique</div>
+      <div class="coming-pill"><span>📚</span> Apprentissage</div>
+      <div class="coming-pill"><span>🌍</span> Langues</div>
+    </div>
+  </div>
+
+  <footer>
+    Généré avec <strong>Claude</strong> · Mis à jour en 2025
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stop at 10!</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: hsl(142, 55%, 80%);
+  transition: background-color 0.06s linear;
+}
+
+.scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 1.5rem 1rem;
+  gap: 0.4rem;
+}
+
+h1 {
+  font-family: 'Bebas Neue', cursive;
+  font-size: clamp(2.8rem, 8vw, 4.5rem);
+  color: #1a1a2e;
+  letter-spacing: 4px;
+  text-shadow: 0 2px 0 rgba(255,255,255,0.3);
+  line-height: 1;
+}
+
+.subtitle {
+  font-size: clamp(0.88rem, 2.3vw, 1rem);
+  color: #1a1a2e;
+  font-weight: 700;
+  opacity: 0.65;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+/* =========== CARD =========== */
+.card {
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 2px solid rgba(255,255,255,0.5);
+  border-radius: 32px;
+  padding: 2rem 2rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  min-width: 300px;
+  max-width: 420px;
+  width: 90vw;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.13);
+  position: relative;
+  overflow: hidden;
+}
+
+/* =========== 7-SEGMENT LCD =========== */
+.lcd-wrap {
+  background: #1a2a1a;
+  border-radius: 16px;
+  padding: 1.1rem 1.6rem 0.9rem;
+  box-shadow:
+    inset 0 3px 12px rgba(0,0,0,0.6),
+    0 2px 0 rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  position: relative;
+}
+
+/* Subtle scan-line effect */
+.lcd-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,0.06) 3px,
+    rgba(0,0,0,0.06) 4px
+  );
+  pointer-events: none;
+}
+
+/* Each digit is an SVG-based 7-segment */
+.digit-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.seg-digit {
+  width: 44px;
+  height: 80px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.seg-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #00ff41;
+  box-shadow: 0 0 8px #00ff41, 0 0 18px #00ff4166;
+  align-self: flex-end;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.seg-dot.dim {
+  background: #0a2a0a;
+  box-shadow: none;
+}
+
+/* The 7 segments as absolutely positioned divs */
+/* Segment positions: a=top, b=top-right, c=bot-right, d=bot, e=bot-left, f=top-left, g=middle */
+.seg {
+  position: absolute;
+  background: #00ff41;
+  box-shadow: 0 0 6px #00ff41, 0 0 14px #00ff4144;
+  border-radius: 2px;
+  transition: background 0.05s, box-shadow 0.05s;
+}
+.seg.off {
+  background: #0a2a0a;
+  box-shadow: none;
+}
+
+/* Horizontal segs */
+.seg-a { top: 4px;    left: 6px;  width: 32px; height: 6px; }
+.seg-d { bottom: 4px; left: 6px;  width: 32px; height: 6px; }
+.seg-g { top: 37px;   left: 6px;  width: 32px; height: 6px; }
+
+/* Vertical segs */
+.seg-b { top: 8px;    right: 4px; width: 6px; height: 28px; }
+.seg-c { bottom: 8px; right: 4px; width: 6px; height: 28px; }
+.seg-e { bottom: 8px; left: 4px;  width: 6px; height: 28px; }
+.seg-f { top: 8px;    left: 4px;  width: 6px; height: 28px; }
+
+/* Colon separator */
+.seg-colon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 4px;
+  margin-bottom: 4px;
+}
+
+.seg-colon span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00ff41;
+  box-shadow: 0 0 6px #00ff41;
+}
+
+/* LCD label */
+.lcd-label {
+  position: absolute;
+  bottom: 6px;
+  right: 12px;
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #00ff4155;
+  text-transform: uppercase;
+}
+
+/* =========== BUTTONS =========== */
+.stop-btn {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 2rem;
+  letter-spacing: 3px;
+  background: white;
+  color: #c0392b;
+  border: none;
+  border-radius: 20px;
+  padding: 0.6em 2em;
+  cursor: pointer;
+  box-shadow: 0 9px 0 rgba(0,0,0,0.22), 0 12px 28px rgba(0,0,0,0.12);
+  transform: translateY(0);
+  transition: transform 0.07s, box-shadow 0.07s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  width: 100%;
+}
+.stop-btn:active {
+  transform: translateY(7px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.22), 0 3px 8px rgba(0,0,0,0.1);
+}
+.stop-btn:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.start-btn {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  background: rgba(255,255,255,0.45);
+  color: #1a1a2e;
+  border: 2px solid rgba(26,26,46,0.2);
+  border-radius: 14px;
+  padding: 0.55em 2.2em;
+  cursor: pointer;
+  transition: background 0.15s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.start-btn:hover  { background: rgba(255,255,255,0.65); }
+.start-btn:active { background: rgba(255,255,255,0.85); }
+.start-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.hint {
+  font-size: 0.72rem;
+  color: #1a1a2e;
+  opacity: 0.4;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-top: -0.4rem;
+}
+
+/* Result row */
+.result {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  width: 100%;
+}
+.result.show { display: flex; }
+
+.result-time {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  opacity: 0.65;
+}
+
+.result-verdict {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  padding: 0.35em 1.2em;
+  border-radius: 999px;
+}
+.verdict-fail    { background: rgba(0,0,0,0.18); color: #1a1a2e; }
+.verdict-success { background: rgba(255,255,255,0.6); color: #1a5c1a; }
+
+.attempts {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  opacity: 0.5;
+  letter-spacing: 1px;
+}
+
+/* =========== FAIL OVERLAY =========== */
+#failOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+
+#failOverlay.active {
+  animation: failFlash 0.7s ease forwards;
+}
+
+@keyframes failFlash {
+  0%   { opacity: 0; background: rgba(180,0,0,0); }
+  15%  { opacity: 1; background: rgba(180,0,0,0.55); }
+  40%  { opacity: 1; background: rgba(180,0,0,0.35); }
+  100% { opacity: 0; background: rgba(180,0,0,0); }
+}
+
+.fail-bubble {
+  background: white;
+  border-radius: 24px;
+  padding: 1.6rem 2.4rem;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  transform: scale(0.5);
+  opacity: 0;
+  pointer-events: none;
+}
+
+#failOverlay.active .fail-bubble {
+  animation: failPop 0.65s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+@keyframes failPop {
+  0%   { transform: scale(0.4) rotate(-8deg); opacity: 0; }
+  30%  { transform: scale(1.08) rotate(2deg); opacity: 1; }
+  55%  { transform: scale(0.97) rotate(-1deg); opacity: 1; }
+  70%  { transform: scale(1) rotate(0deg);    opacity: 1; }
+  88%  { transform: scale(1) rotate(0deg);    opacity: 1; }
+  100% { transform: scale(0.85); opacity: 0; }
+}
+
+.fail-emoji {
+  font-size: 3.2rem;
+  line-height: 1;
+  display: block;
+  margin-bottom: 0.15em;
+  animation: wobble 0.5s ease;
+}
+
+@keyframes wobble {
+  0%,100% { transform: rotate(0); }
+  25%      { transform: rotate(-12deg); }
+  75%      { transform: rotate(12deg); }
+}
+
+.fail-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 2rem;
+  letter-spacing: 3px;
+  color: #c0392b;
+  line-height: 1;
+}
+
+.fail-sub {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #555;
+  margin-top: 0.2em;
+}
+
+/* LCD red flash on fail */
+@keyframes lcdFail {
+  0%,100% { background: #1a2a1a; }
+  20%      { background: #2a0808; }
+  40%      { background: #1a2a1a; }
+  60%      { background: #2a0808; }
+}
+.lcd-wrap.fail-flash {
+  animation: lcdFail 0.6s ease;
+}
+
+/* LCD digits turn red momentarily */
+@keyframes segFail {
+  0%,100% { color: #00ff41; }
+  30%,60% { filter: hue-rotate(120deg); }
+}
+
+/* =========== SHAKE =========== */
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  18%      { transform: translateX(-16px); }
+  36%      { transform: translateX(16px); }
+  54%      { transform: translateX(-10px); }
+  72%      { transform: translateX(10px); }
+}
+.card.shake { animation: shake 0.48s ease; }
+
+/* =========== VICTORY OVERLAY =========== */
+.victory-msg {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(6px);
+}
+.victory-msg.show { opacity: 1; pointer-events: all; }
+
+.victory-bubble {
+  background: white;
+  border-radius: 32px;
+  padding: 2.4rem 3rem;
+  text-align: center;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.28);
+  transform: scale(0.7) translateY(40px);
+  transition: transform 0.5s cubic-bezier(.22,1,.36,1);
+  max-width: 360px;
+  width: 88vw;
+}
+.victory-msg.show .victory-bubble { transform: scale(1) translateY(0); }
+
+.victory-emoji {
+  font-size: 5rem;
+  line-height: 1;
+  display: block;
+  margin-bottom: 0.2em;
+  animation: floaty 1.2s ease-in-out infinite alternate;
+}
+@keyframes floaty {
+  from { transform: translateY(0) rotate(-5deg); }
+  to   { transform: translateY(-12px) rotate(5deg); }
+}
+
+.victory-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 3rem;
+  letter-spacing: 4px;
+  color: #1a1a2e;
+  line-height: 1;
+}
+.victory-sub     { font-size: 1rem; font-weight: 700; color: #444; margin: 0.4em 0 0.2em; }
+.victory-attempts{ font-size: 0.85rem; font-weight: 900; color: #777; margin-bottom: 1.4em; letter-spacing: 1px; text-transform: uppercase; }
+
+.victory-close {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  background: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 0.6em 2.2em;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #000;
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+.victory-close:active { transform: translateY(4px); box-shadow: 0 2px 0 #000; }
+
+/* =========== CONFETTI =========== */
+#confetti-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+}
+</style>
+</head>
+<body>
+
+<div id="failOverlay">
+  <div class="fail-bubble">
+    <span class="fail-emoji" id="failEmoji">😬</span>
+    <div class="fail-title" id="failTitle">TOO EARLY!</div>
+    <div class="fail-sub" id="failSub">You were 0.42s off</div>
+  </div>
+</div>
+
+<div class="scene">
+  <h1>STOP AT 10</h1>
+  <p class="subtitle">Press STOP on exactly <strong>10.00 seconds</strong></p>
+
+  <div class="card" id="card">
+
+    <!-- 7-segment LCD display -->
+    <div class="lcd-wrap" id="lcdWrap">
+      <!-- Digits: tens, units, dot, tenths, hundredths -->
+      <div class="digit-group">
+        <div class="seg-digit" id="d0">
+          <div class="seg seg-a off"></div><div class="seg seg-b off"></div>
+          <div class="seg seg-c off"></div><div class="seg seg-d off"></div>
+          <div class="seg seg-e off"></div><div class="seg seg-f off"></div>
+          <div class="seg seg-g off"></div>
+        </div>
+        <div class="seg-digit" id="d1">
+          <div class="seg seg-a"></div><div class="seg seg-b"></div>
+          <div class="seg seg-c"></div><div class="seg seg-d"></div>
+          <div class="seg seg-e"></div><div class="seg seg-f"></div>
+          <div class="seg seg-g off"></div>
+        </div>
+      </div>
+
+      <!-- Decimal dot -->
+      <div style="display:flex;align-items:flex-end;padding-bottom:10px;padding-left:3px;padding-right:3px">
+        <div class="seg-dot" id="dotEl"></div>
+      </div>
+
+      <div class="digit-group">
+        <div class="seg-digit" id="d2">
+          <div class="seg seg-a off"></div><div class="seg seg-b off"></div>
+          <div class="seg seg-c off"></div><div class="seg seg-d off"></div>
+          <div class="seg seg-e off"></div><div class="seg seg-f off"></div>
+          <div class="seg seg-g off"></div>
+        </div>
+        <div class="seg-digit" id="d3">
+          <div class="seg seg-a off"></div><div class="seg seg-b off"></div>
+          <div class="seg seg-c off"></div><div class="seg seg-d off"></div>
+          <div class="seg seg-e off"></div><div class="seg seg-f off"></div>
+          <div class="seg seg-g off"></div>
+        </div>
+      </div>
+      <div class="lcd-label">SEC</div>
+    </div>
+    <!-- end lcd-wrap -->
+
+    <button class="stop-btn" id="stopBtn" disabled onclick="stopTimer()">⛔ STOP!</button>
+    <button class="start-btn" id="startBtn" onclick="startTimer()">▶ START</button>
+    <div class="hint">or press SPACE</div>
+
+    <div class="result" id="result">
+      <div class="result-time" id="resTime"></div>
+      <div class="result-verdict" id="resVerdict"></div>
+    </div>
+    <div class="attempts" id="attemptsEl" style="display:none"></div>
+  </div>
+</div>
+
+<!-- Victory overlay -->
+<div class="victory-msg" id="victoryMsg">
+  <div class="victory-bubble">
+    <span class="victory-emoji">🎉</span>
+    <div class="victory-title">PERFECT!</div>
+    <div class="victory-sub" id="vSub">You hit exactly 10.00 seconds!</div>
+    <div class="victory-attempts" id="vAttempts"></div>
+    <button class="victory-close" onclick="closeVictory()">PLAY AGAIN 🔄</button>
+  </div>
+</div>
+
+<canvas id="confetti-canvas"></canvas>
+
+<script>
+// ========== 7-SEGMENT ENCODING ==========
+// Segments: a  b  c  d  e  f  g
+const SEG_MAP = {
+  '0': [1,1,1,1,1,1,0],
+  '1': [0,1,1,0,0,0,0],
+  '2': [1,1,0,1,1,0,1],
+  '3': [1,1,1,1,0,0,1],
+  '4': [0,1,1,0,0,1,1],
+  '5': [1,0,1,1,0,1,1],
+  '6': [1,0,1,1,1,1,1],
+  '7': [1,1,1,0,0,0,0],
+  '8': [1,1,1,1,1,1,1],
+  '9': [1,1,1,1,0,1,1],
+  ' ': [0,0,0,0,0,0,0],
+};
+const SEG_NAMES = ['a','b','c','d','e','f','g'];
+
+const digitEls = [
+  document.getElementById('d0'),
+  document.getElementById('d1'),
+  document.getElementById('d2'),
+  document.getElementById('d3'),
+];
+
+function renderDigit(el, char) {
+  const bits = SEG_MAP[char] || SEG_MAP[' '];
+  SEG_NAMES.forEach((name, i) => {
+    const seg = el.querySelector('.seg-' + name);
+    if (!seg) return;
+    seg.classList.toggle('off', !bits[i]);
+  });
+}
+
+function renderTime(secs) {
+  // Format: SS.cc  e.g. "09.47" or " 3.20"
+  const whole    = Math.min(Math.floor(secs), 99);
+  const frac     = Math.round((secs - Math.floor(secs)) * 100) % 100;
+  const tensChar = whole < 10 ? ' ' : String(Math.floor(whole / 10));
+  const unitsChar= String(whole % 10);
+  const tenthsChar   = String(Math.floor(frac / 10));
+  const hundredthsChar = String(frac % 10);
+
+  renderDigit(digitEls[0], tensChar);
+  renderDigit(digitEls[1], unitsChar);
+  renderDigit(digitEls[2], tenthsChar);
+  renderDigit(digitEls[3], hundredthsChar);
+}
+
+// ========== CONFIG ==========
+const TARGET = 10000; // ms — must be exactly 10.00
+
+// Background gradient stops
+const BG_STOPS = [
+  { t: 0,     h: 142, s: 55, l: 80 },
+  { t: 2000,  h: 115, s: 50, l: 77 },
+  { t: 4500,  h: 72,  s: 65, l: 74 },
+  { t: 6500,  h: 45,  s: 95, l: 72 },
+  { t: 8000,  h: 28,  s: 95, l: 62 },
+  { t: 9000,  h: 10,  s: 90, l: 52 },
+  { t: 9500,  h: 3,   s: 88, l: 44 },
+  { t: 10000, h: 0,   s: 92, l: 36 },
+  { t: 13000, h: 0,   s: 92, l: 36 },
+];
+const IDLE_BG = 'hsl(142, 55%, 80%)';
+
+let startTime, rafId, running = false;
+let attempts = 0;
+
+const stopBtn    = document.getElementById('stopBtn');
+const startBtn   = document.getElementById('startBtn');
+const result     = document.getElementById('result');
+const resTime    = document.getElementById('resTime');
+const resVerdict = document.getElementById('resVerdict');
+const attemptsEl = document.getElementById('attemptsEl');
+const card       = document.getElementById('card');
+const lcdWrap    = document.getElementById('lcdWrap');
+const failOverlay= document.getElementById('failOverlay');
+const FAIL_EMOJIS_EARLY = ['😬','😅','⏫','🐢','😮'];
+const FAIL_EMOJIS_LATE  = ['😤','⏰','🔥','😵','⚡'];
+
+function lerpColor(elapsed) {
+  let a = BG_STOPS[0], b = BG_STOPS[BG_STOPS.length - 1];
+  for (let i = 0; i < BG_STOPS.length - 1; i++) {
+    if (elapsed >= BG_STOPS[i].t && elapsed <= BG_STOPS[i+1].t) {
+      a = BG_STOPS[i]; b = BG_STOPS[i+1]; break;
+    }
+  }
+  const range = b.t - a.t;
+  const frac  = range === 0 ? 1 : Math.min(1, (elapsed - a.t) / range);
+  const e     = frac < 0.5 ? 2*frac*frac : 1 - Math.pow(-2*frac+2,2)/2;
+  return `hsl(${(a.h+(b.h-a.h)*e).toFixed(1)},${(a.s+(b.s-a.s)*e).toFixed(1)}%,${(a.l+(b.l-a.l)*e).toFixed(1)}%)`;
+}
+
+function setBg(c) { document.body.style.backgroundColor = c; }
+
+// ========== START ==========
+function startTimer() {
+  running   = true;
+  startTime = performance.now();
+  stopBtn.disabled  = false;
+  startBtn.disabled = true;
+  result.classList.remove('show');
+  card.classList.remove('shake');
+  renderTime(0);
+
+  function tick() {
+    if (!running) return;
+    const elapsed = performance.now() - startTime;
+    renderTime(elapsed / 1000);
+    setBg(lerpColor(elapsed));
+    if (elapsed >= 13000) { stopTimer(); return; }
+    rafId = requestAnimationFrame(tick);
+  }
+  rafId = requestAnimationFrame(tick);
+}
+
+// ========== STOP ==========
+function stopTimer() {
+  if (!running) return;
+  running = false;
+  cancelAnimationFrame(rafId);
+
+  const elapsed = performance.now() - startTime;
+  const diff    = Math.abs(elapsed - TARGET);
+  // Format to exactly 2 decimal places
+  const secs = (elapsed / 1000).toFixed(2);
+
+  attempts++;
+  renderTime(elapsed / 1000);
+  stopBtn.disabled  = true;
+  startBtn.disabled = false;
+  startBtn.textContent = '▶ TRY AGAIN';
+  attemptsEl.style.display = 'block';
+  attemptsEl.textContent = `Attempt #${attempts}`;
+
+  // Exact 10.00 → WIN (diff < 5ms to account for rounding to .00)
+  const displayedVal = parseFloat(secs);
+  if (displayedVal === 10.00) {
+    resTime.textContent    = `You stopped at ${secs}s`;
+    resVerdict.textContent = '🏆 EXACTLY 10.00!';
+    resVerdict.className   = 'result-verdict verdict-success';
+    result.classList.add('show');
+    setTimeout(() => showVictory(secs), 400);
+  } else {
+    // FAIL
+    const tooEarly = elapsed < TARGET;
+    const diffSec  = (diff / 1000).toFixed(2);
+    const emojis   = tooEarly ? FAIL_EMOJIS_EARLY : FAIL_EMOJIS_LATE;
+    const emoji    = emojis[attempts % emojis.length];
+    const label    = tooEarly ? 'TOO EARLY!' : 'TOO LATE!';
+
+    resTime.textContent    = `You stopped at ${secs}s`;
+    resVerdict.textContent = `❌ ${diffSec}s ${tooEarly ? 'early' : 'late'}`;
+    resVerdict.className   = 'result-verdict verdict-fail';
+    result.classList.add('show');
+
+    // Fail overlay
+    document.getElementById('failEmoji').textContent = emoji;
+    document.getElementById('failTitle').textContent = label;
+    document.getElementById('failSub').textContent   = `You were ${diffSec}s off`;
+    triggerFail();
+
+    setTimeout(() => setBg(IDLE_BG), 750);
+  }
+}
+
+function triggerFail() {
+  // LCD flash
+  lcdWrap.classList.remove('fail-flash');
+  void lcdWrap.offsetWidth;
+  lcdWrap.classList.add('fail-flash');
+  lcdWrap.addEventListener('animationend', () => lcdWrap.classList.remove('fail-flash'), { once: true });
+
+  // Card shake
+  card.classList.remove('shake');
+  void card.offsetWidth;
+  card.classList.add('shake');
+
+  // Overlay
+  failOverlay.classList.remove('active');
+  void failOverlay.offsetWidth;
+  failOverlay.classList.add('active');
+  failOverlay.addEventListener('animationend', () => {
+    failOverlay.classList.remove('active');
+  }, { once: true });
+}
+
+// ========== VICTORY ==========
+function showVictory(secs) {
+  document.getElementById('vSub').textContent =
+    `You nailed exactly ${secs}s — incredible!`;
+  document.getElementById('vAttempts').textContent =
+    attempts === 1 ? '🌟 FIRST TRY — LEGENDARY!' :
+    attempts <= 5  ? `🎯 Only ${attempts} attempts!` :
+                     `${attempts} attempts — totally worth it!`;
+  document.getElementById('victoryMsg').classList.add('show');
+  startConfetti();
+  setTimeout(() => setBg(IDLE_BG), 600);
+}
+
+function closeVictory() {
+  document.getElementById('victoryMsg').classList.remove('show');
+  stopConfetti();
+  attempts = 0;
+  attemptsEl.style.display = 'none';
+  result.classList.remove('show');
+  startBtn.textContent = '▶ START';
+  renderTime(0);
+  setBg(IDLE_BG);
+}
+
+// ========== CONFETTI ==========
+const canvas = document.getElementById('confetti-canvas');
+const ctx    = canvas.getContext('2d');
+let cRunning = false, pieces = [], cRaf;
+const CCOLORS = ['#FFD93D','#FF6B6B','#6BCB77','#4D96FF','#FF9F43','#c084fc','#fb7185','#34d399'];
+
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function startConfetti() {
+  resizeCanvas(); cRunning = true;
+  pieces = Array.from({ length: 220 }, () => ({
+    x: Math.random() * canvas.width, y: -30 - Math.random() * 350,
+    w: 8 + Math.random() * 14, h: 4 + Math.random() * 8,
+    color: CCOLORS[Math.floor(Math.random() * CCOLORS.length)],
+    vx: (Math.random() - 0.5) * 6, vy: 1.5 + Math.random() * 5,
+    rot: Math.random() * Math.PI * 2, rotV: (Math.random() - 0.5) * 0.2,
+    alpha: 1,
+  }));
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      ctx.save(); ctx.globalAlpha = p.alpha;
+      ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.beginPath(); ctx.ellipse(0, 0, p.w/2, p.h/2, 0, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+      p.x += p.vx; p.y += p.vy; p.rot += p.rotV;
+      if (p.y > canvas.height + 20) p.alpha -= 0.025;
+    });
+    pieces = pieces.filter(p => p.alpha > 0);
+    if (pieces.length > 0 && cRunning) cRaf = requestAnimationFrame(draw);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  cRaf = requestAnimationFrame(draw);
+}
+
+function stopConfetti() {
+  cRunning = false; cancelAnimationFrame(cRaf);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+// Spacebar
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space') {
+    e.preventDefault();
+    if (!running && !startBtn.disabled) startTimer();
+    else if (running) stopTimer();
+  }
+});
+
+// Init display
+renderTime(0);
+</script>
+</body>
+</html>

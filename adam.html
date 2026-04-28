@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adam – Le Premier Homme</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --eden-green:   #1e6b3a;
+    --deep-green:   #0d2a16;
+    --gold:         #c9960c;
+    --gold-light:   #f0c040;
+    --earth:        #8b5e3c;
+    --clay:         #c8845a;
+    --sky:          #4a9ede;
+    --heaven:       #c8e8ff;
+    --cream:        #fdf8ee;
+    --deep-night:   #050f1a;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: var(--deep-night);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px 80px;
+  }
+
+  .cover-stars { position:absolute; inset:0; pointer-events:none; }
+  .star-dot {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: tw 2.5s infinite alternate;
+  }
+  @keyframes tw {
+    from { opacity:.2; transform:scale(1); }
+    to   { opacity:.9; transform:scale(1.7); }
+  }
+
+  /* light rays from center */
+  .cover-rays {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse 60% 70% at 50% 55%, rgba(200,255,180,.08) 0%, transparent 70%);
+  }
+
+  .cover-scene {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin-bottom: 28px;
+    animation: floatY 5s ease-in-out infinite;
+  }
+  @keyframes floatY {
+    0%,100% { transform:translateY(0); }
+    50%      { transform:translateY(-12px); }
+  }
+
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem,9vw,4.5rem);
+    color: var(--gold-light);
+    text-align: center;
+    letter-spacing: 4px;
+    line-height: 1.1;
+    text-shadow: 0 2px 24px rgba(200,180,12,.5);
+  }
+  .cover .subtitle-ar {
+    font-size: 1.4rem;
+    color: rgba(255,255,255,.5);
+    margin-top: 8px;
+    letter-spacing: 6px;
+    font-family: serif;
+  }
+  .cover .subtitle {
+    color: rgba(255,255,255,.5);
+    font-size: .95rem;
+    margin-top: 12px;
+    font-style: italic;
+    letter-spacing: 2px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    color: rgba(255,255,255,.4);
+    font-size: .8rem;
+    display: flex; flex-direction:column; align-items:center; gap:5px;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);}
+  }
+
+  /* ── CHAPTERS ── */
+  .chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 24px 60px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .chapter.visible { opacity:1; transform:translateY(0); }
+
+  .ch1 { background: linear-gradient(155deg,#e8f8ff 0%,#c8e8ff 50%,#a0d0f0 100%); }
+  .ch2 { background: linear-gradient(155deg,#0d2a16 0%,#1a5030 50%,#2d7a48 100%); }
+  .ch3 { background: linear-gradient(155deg,#1a1a06 0%,#3a2a08 50%,#6b4a10 100%); }
+  .ch4 { background: linear-gradient(155deg,#c8845a 0%,#a05a30 50%,#7a3a10 100%); }
+  .ch5 { background: linear-gradient(155deg,#0a0a1e 0%,#1a1a3e 50%,#2a2a5e 100%); }
+
+  .ch-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9rem;
+    font-weight: 700;
+    position: absolute;
+    top: 0; right: 20px;
+    line-height: 1;
+    pointer-events: none;
+    opacity: .06;
+  }
+  .ch1 .ch-num { color:#1a3a5c; }
+  .ch2 .ch-num { color:#f0c040; }
+  .ch3 .ch-num { color:#f0c040; }
+  .ch4 .ch-num { color:#fff; }
+  .ch5 .ch-num { color:#87ceeb; }
+
+  .illustration {
+    width: min(340px,92vw);
+    height: min(255px,69vw);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 50px rgba(0,0,0,.35);
+    margin-bottom: 36px;
+    flex-shrink: 0;
+    position: relative; z-index:1;
+    border: 3px solid rgba(192,144,12,.3);
+  }
+  .illustration svg { width:100%; height:100%; display:block; }
+
+  .chapter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem,5vw,2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative; z-index:1;
+  }
+  .story-text {
+    max-width: 490px;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    position: relative; z-index:1;
+  }
+  .story-text p { margin-bottom:14px; }
+  .quote {
+    font-style: italic;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 14px 22px;
+    border-radius: 14px;
+    margin: 18px 0;
+    display: inline-block;
+    border-left: 4px solid currentColor;
+  }
+
+  .ch1 .chapter-title { color:#1a3a5c; }
+  .ch1 .story-text    { color:#0d2040; }
+  .ch1 .quote         { background:rgba(26,58,92,.1); color:#1a3a5c; }
+
+  .ch2 .chapter-title { color:#f0c040; }
+  .ch2 .story-text    { color:#d4f0c0; }
+  .ch2 .quote         { background:rgba(240,192,64,.15); color:#f0c040; }
+
+  .ch3 .chapter-title { color:#f0c040; }
+  .ch3 .story-text    { color:#f5e6c0; }
+  .ch3 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+  .ch4 .chapter-title { color:#fff8e0; }
+  .ch4 .story-text    { color:#fff0d8; }
+  .ch4 .quote         { background:rgba(255,255,255,.15); color:#fff8e0; }
+
+  .ch5 .chapter-title { color:#87ceeb; }
+  .ch5 .story-text    { color:#c8e0f8; }
+  .ch5 .quote         { background:rgba(135,206,235,.12); color:#87ceeb; }
+
+  /* ── ENDING ── */
+  .ending {
+    background: var(--deep-green);
+    padding: 90px 24px;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .ending.visible { opacity:1; transform:translateY(0); }
+  .ending-geo {
+    position:absolute; inset:0; opacity:.07; pointer-events:none;
+  }
+  .ending h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+  }
+  .ending p {
+    font-size:1.1rem; max-width:520px;
+    margin:0 auto; opacity:.85; line-height:1.9;
+  }
+  .end-star {
+    font-size:2.5rem; margin-top:36px;
+    display:inline-block;
+    animation: spinSlow 12s linear infinite;
+    color: var(--gold-light);
+  }
+  @keyframes spinSlow {
+    from{transform:rotate(0deg);} to{transform:rotate(360deg);}
+  }
+
+  @media(min-width:720px){
+    .chapter{flex-direction:row!important;gap:52px;padding:90px 64px;}
+    .illustration{margin-bottom:0;}
+    .story-text{text-align:left;}
+    .chapter-title{text-align:left;}
+    .chapter:nth-child(even){flex-direction:row-reverse!important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-stars" id="starsCover"></div>
+  <div class="cover-rays"></div>
+
+  <div class="cover-scene">
+    <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="heavenGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#a0f0c0" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="earthGlow" cx="50%" cy="80%" r="50%">
+          <stop offset="0%"   stop-color="#c8845a" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+
+      <!-- outer circle frame -->
+      <circle cx="140" cy="140" r="136" fill="#0d2a16" stroke="#c9960c" stroke-width="2"/>
+      <circle cx="140" cy="140" r="126" fill="none" stroke="#c9960c" stroke-width=".6"
+              stroke-dasharray="5 4" opacity=".45"/>
+
+      <!-- heaven above half -->
+      <path d="M4,140 A136,136 0 0,1 276,140 Z" fill="#1e4a2e" opacity=".7"/>
+      <!-- earth below half -->
+      <path d="M4,140 A136,136 0 0,0 276,140 Z" fill="#5a2e0a" opacity=".7"/>
+
+      <!-- glow halos -->
+      <ellipse cx="140" cy="100" rx="90" ry="70" fill="url(#heavenGlow)"/>
+      <ellipse cx="140" cy="190" rx="90" ry="60" fill="url(#earthGlow)"/>
+
+      <!-- stars in heaven half -->
+      <circle cx="60"  cy="55"  r="2"   fill="#f0c040"/>
+      <circle cx="110" cy="40"  r="1.5" fill="white" opacity=".8"/>
+      <circle cx="190" cy="50"  r="2"   fill="#f0c040"/>
+      <circle cx="220" cy="70"  r="1.5" fill="white" opacity=".7"/>
+      <circle cx="80"  cy="85"  r="1"   fill="white" opacity=".6"/>
+      <circle cx="200" cy="95"  r="1"   fill="white" opacity=".6"/>
+
+      <!-- Paradise trees -->
+      <line x1="50"  y1="140" x2="48"  y2="95"  stroke="#2d7a30" stroke-width="4"/>
+      <ellipse cx="47" cy="90"  rx="16" ry="22" fill="#2d7a30"/>
+      <ellipse cx="54" cy="84"  rx="12" ry="18" fill="#3a9040"/>
+      <line x1="230" y1="140" x2="232" y2="95"  stroke="#2d7a30" stroke-width="4"/>
+      <ellipse cx="233" cy="90" rx="16" ry="22" fill="#2d7a30"/>
+      <ellipse cx="226" cy="84" rx="12" ry="18" fill="#3a9040"/>
+
+      <!-- Adam figure (no face — symbolic) -->
+      <g transform="translate(140,115)">
+        <!-- light emanating -->
+        <circle cx="0" cy="-15" r="30" fill="#c9960c" opacity=".12"/>
+        <!-- robe of light -->
+        <path d="M-22,10 Q-18,70 0,75 Q18,70 22,10 Z" fill="#1e6b3a"/>
+        <!-- arms open wide — welcoming -->
+        <line x1="-22" y1="15" x2="-55" y2="5"  stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <line x1="22"  y1="15" x2="55"  y2="5"  stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- glow hands -->
+        <circle cx="-55" cy="4"  r="6" fill="#c9960c" opacity=".6"/>
+        <circle cx="55"  cy="4"  r="6" fill="#c9960c" opacity=".6"/>
+        <!-- head with light halo -->
+        <circle cx="0" cy="-12" r="16" fill="#c8845a"/>
+        <circle cx="0" cy="-12" r="20" fill="none" stroke="#f0c040" stroke-width="1.5" opacity=".5"/>
+        <!-- headcloth simple -->
+        <path d="M-13,-24 Q0,-44 13,-24 L15,-8 Q0,-5 -15,-8 Z" fill="#0d2a16"/>
+        <!-- no face — just two glowing eyes -->
+        <circle cx="-5" cy="-13" r="2.5" fill="#f0c040" opacity=".8"/>
+        <circle cx="5"  cy="-13" r="2.5" fill="#f0c040" opacity=".8"/>
+      </g>
+
+      <!-- Earth ground below -->
+      <ellipse cx="140" cy="215" rx="100" ry="22" fill="#7a3a10" opacity=".6"/>
+      <!-- flowers on earth line -->
+      <circle cx="90"  cy="210" r="4" fill="#ff9999"/>
+      <circle cx="115" cy="207" r="3" fill="#ffcc88"/>
+      <circle cx="165" cy="207" r="3" fill="#ffcc88"/>
+      <circle cx="190" cy="210" r="4" fill="#ff9999"/>
+
+      <!-- Forbidden tree (center, small, glowing fruit) -->
+      <line x1="140" y1="215" x2="140" y2="168" stroke="#5a2e0a" stroke-width="5"/>
+      <ellipse cx="140" cy="160" rx="22" ry="18" fill="#1a5020"/>
+      <circle  cx="140" cy="153" r="7"  fill="#c0392b" opacity=".9"/>
+      <circle  cx="140" cy="152" r="4"  fill="#e74c3c"/>
+      <!-- glow on fruit -->
+      <circle  cx="140" cy="153" r="9"  fill="#c0392b" opacity=".2"/>
+    </svg>
+  </div>
+
+  <h1>Adam</h1>
+  <p class="subtitle-ar">آدم عليه السلام</p>
+  <p class="subtitle">Le premier homme sur Terre</p>
+
+  <div class="scroll-hint">
+    <span>Fais défiler pour lire</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</div>
+
+
+<!-- ══ CH 1 : La création ══ -->
+<div class="chapter ch1">
+  <div class="ch-num">١</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="creationGlow" cx="50%" cy="45%" r="55%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".9"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="skyCreate" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#c8e8ff"/>
+          <stop offset="100%" stop-color="#e8f8ff"/>
+        </linearGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#skyCreate)"/>
+
+      <!-- Divine light from above -->
+      <ellipse cx="170" cy="0" rx="140" ry="100" fill="url(#creationGlow)"/>
+      <!-- Light rays -->
+      <g opacity=".2">
+        <line x1="170" y1="0" x2="60"  y2="200" stroke="#f0c040" stroke-width="2"/>
+        <line x1="170" y1="0" x2="110" y2="210" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="170" y1="0" x2="150" y2="220" stroke="#f0c040" stroke-width="1"/>
+        <line x1="170" y1="0" x2="190" y2="220" stroke="#f0c040" stroke-width="1"/>
+        <line x1="170" y1="0" x2="230" y2="210" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="170" y1="0" x2="280" y2="200" stroke="#f0c040" stroke-width="2"/>
+      </g>
+
+      <!-- Clouds in heaven -->
+      <ellipse cx="60"  cy="40" rx="40" ry="18" fill="white" opacity=".8"/>
+      <ellipse cx="80"  cy="34" rx="28" ry="16" fill="white" opacity=".9"/>
+      <ellipse cx="270" cy="50" rx="45" ry="20" fill="white" opacity=".8"/>
+      <ellipse cx="290" cy="43" rx="30" ry="16" fill="white" opacity=".9"/>
+      <ellipse cx="160" cy="30" rx="35" ry="14" fill="white" opacity=".7"/>
+
+      <!-- Earth ground brown clay -->
+      <ellipse cx="170" cy="225" rx="200" ry="40" fill="#c8845a" opacity=".6"/>
+      <rect x="0" y="210" width="340" height="45" fill="#c8845a"/>
+      <rect x="0" y="207" width="340" height="8"  fill="#d4956a" opacity=".5"/>
+
+      <!-- Clay mound (before Adam is given life) -->
+      <ellipse cx="170" cy="200" rx="70" ry="28" fill="#b07040" opacity=".8"/>
+
+      <!-- Adam lying, being given life — glowing hand from above -->
+      <g transform="translate(170,185)">
+        <!-- body horizontal -->
+        <path d="M-70,0 Q-40,-8 0,-6 Q40,-4 70,2 L68,14 Q40,10 0,8 Q-40,12 -68,14 Z"
+              fill="#c8845a"/>
+        <!-- head -->
+        <circle cx="-58" cy="0" r="16" fill="#c8906a"/>
+        <!-- hair -->
+        <path d="M-68,-10 Q-58,-24 -48,-10" fill="#5c3010" opacity=".8"/>
+        <!-- resting eyes (closed) -->
+        <path d="M-63,-2 Q-58,1 -53,-2" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <!-- arm up slightly -->
+        <line x1="-30" y1="-4" x2="-20" y2="-20" stroke="#c8906a" stroke-width="7" stroke-linecap="round"/>
+        <!-- finger pointing to heaven -->
+        <circle cx="-18" cy="-22" r="5" fill="#c8906a"/>
+      </g>
+
+      <!-- Divine light finger from above touching -->
+      <g opacity=".85">
+        <line x1="170" y1="0" x2="150" y2="155" stroke="#f0c040" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="150" cy="158" r="8" fill="#f0c040" opacity=".7"/>
+        <circle cx="150" cy="158" r="14" fill="#f0c040" opacity=".2"/>
+      </g>
+
+      <!-- Sparkles -->
+      <circle cx="140" cy="130" r="3" fill="#f0c040" opacity=".9"/>
+      <circle cx="120" cy="110" r="2" fill="#f0c040" opacity=".7"/>
+      <circle cx="160" cy="115" r="2" fill="#f0c040" opacity=".8"/>
+      <circle cx="105" cy="140" r="1.5" fill="#f0c040" opacity=".6"/>
+
+      <!-- Gold dust particles floating -->
+      <circle cx="200" cy="100" r="1.5" fill="#f0c040" opacity=".5"/>
+      <circle cx="220" cy="130" r="1"   fill="#f0c040" opacity=".4"/>
+      <circle cx="80"  cy="120" r="1.5" fill="#f0c040" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">✨ La création d'Adam</h2>
+    <p>Avant tout, avant les arbres, les animaux et les rivières, Dieu décida de créer quelque chose d'extraordinaire : <strong>un être humain</strong>.</p>
+    <p>Il prit de la belle terre et de l'argile rouge, et forma avec amour la silhouette du premier homme. Il lui donna une forme magnifique.</p>
+    <div class="quote">« Puis Il lui insuffla Son Souffle de vie… »</div>
+    <p>Et soudain, <strong>Adam</strong> ouvrit les yeux pour la première fois ! Il regarda autour de lui, émerveillé. Il était en vie ! Le premier homme venait de naître. 🌟</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 2 : Le Paradis ══ -->
+<div class="chapter ch2">
+  <div class="ch-num">٢</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gardenSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0d3a1a"/>
+          <stop offset="100%" stop-color="#1e6b3a"/>
+        </linearGradient>
+        <radialGradient id="sunGarden" cx="70%" cy="20%" r="45%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#gardenSky)"/>
+      <rect width="340" height="255" fill="url(#sunGarden)"/>
+
+      <!-- Ground of paradise -->
+      <rect x="0" y="190" width="340" height="65" fill="#1a5a28"/>
+      <rect x="0" y="188" width="340" height="8"  fill="#2a7a38" opacity=".6"/>
+
+      <!-- Flowers everywhere -->
+      <g>
+        <!-- left cluster -->
+        <circle cx="20"  cy="190" r="5" fill="#ff9999"/>
+        <circle cx="35"  cy="188" r="4" fill="#ffcc88"/>
+        <circle cx="50"  cy="191" r="5" fill="#ff88cc"/>
+        <circle cx="65"  cy="189" r="4" fill="#88ddff"/>
+        <!-- right cluster -->
+        <circle cx="280" cy="190" r="5" fill="#ff9999"/>
+        <circle cx="295" cy="188" r="4" fill="#ffcc88"/>
+        <circle cx="310" cy="191" r="5" fill="#ff88cc"/>
+        <circle cx="325" cy="189" r="4" fill="#88ddff"/>
+        <!-- middle scattered -->
+        <circle cx="130" cy="192" r="4" fill="#ffcc88"/>
+        <circle cx="150" cy="190" r="5" fill="#ff9999"/>
+        <circle cx="200" cy="192" r="4" fill="#88ffcc"/>
+        <circle cx="220" cy="190" r="5" fill="#ff88cc"/>
+      </g>
+
+      <!-- Big paradise trees -->
+      <!-- left tree -->
+      <line x1="55"  y1="190" x2="50"  y2="120" stroke="#5a3010" stroke-width="7"/>
+      <ellipse cx="47" cy="110" rx="32" ry="38" fill="#1a6b30"/>
+      <ellipse cx="58" cy="98"  rx="24" ry="30" fill="#2a8040"/>
+      <ellipse cx="38" cy="105" rx="20" ry="25" fill="#1a7030"/>
+      <!-- fruits -->
+      <circle cx="42" cy="108" r="5" fill="#f0c040"/>
+      <circle cx="60" cy="104" r="4" fill="#ff6644"/>
+      <circle cx="52" cy="122" r="4" fill="#f0c040"/>
+
+      <!-- right tree -->
+      <line x1="285" y1="190" x2="290" y2="120" stroke="#5a3010" stroke-width="7"/>
+      <ellipse cx="293" cy="110" rx="32" ry="38" fill="#1a6b30"/>
+      <ellipse cx="282" cy="98"  rx="24" ry="30" fill="#2a8040"/>
+      <ellipse cx="302" cy="105" rx="20" ry="25" fill="#1a7030"/>
+      <circle cx="298" cy="108" r="5" fill="#f0c040"/>
+      <circle cx="280" cy="104" r="4" fill="#ff6644"/>
+      <circle cx="288" cy="122" r="4" fill="#f0c040"/>
+
+      <!-- River of paradise -->
+      <path d="M0,210 Q85,200 170,210 Q255,220 340,210" fill="none"
+            stroke="#4a9ede" stroke-width="6" opacity=".5"/>
+      <path d="M0,215 Q85,206 170,215 Q255,225 340,215" fill="none"
+            stroke="#87ceeb" stroke-width="3" opacity=".3"/>
+
+      <!-- Adam and Hawa standing together -->
+      <!-- Adam -->
+      <g transform="translate(145,155)">
+        <path d="M-16,8 Q-12,60 0,63 Q12,60 16,8 Z" fill="#1e6b3a"/>
+        <line x1="16" y1="14" x2="36" y2="10" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="-16" y1="14" x2="-28" y2="5" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="0" cy="-8" r="14" fill="#c8906a"/>
+        <path d="M-11,-18 Q0,-36 11,-18 L13,-5 Q0,-2 -13,-5 Z" fill="#0d2a16"/>
+        <circle cx="-4.5" cy="-9" r="2.5" fill="#1a1a1a"/>
+        <circle cx="4.5"  cy="-9" r="2.5" fill="#1a1a1a"/>
+        <path d="M-4,0 Q0,4 4,0" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+      </g>
+      <!-- Hawa -->
+      <g transform="translate(195,158)">
+        <path d="M-14,8 Q-10,58 0,60 Q10,58 14,8 Z" fill="#c9960c"/>
+        <line x1="-14" y1="14" x2="-30" y2="8"  stroke="#c9960c" stroke-width="6" stroke-linecap="round"/>
+        <line x1="14"  y1="14" x2="28"  y2="8"  stroke="#c9960c" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="0" cy="-8" r="13" fill="#d4a57a"/>
+        <!-- flowing hair/veil -->
+        <path d="M-13,-18 Q0,-38 13,-18 Q18,-5 15,8 Q0,12 -15,8 Q-18,-5 -13,-18 Z"
+              fill="#8b4a10" opacity=".85"/>
+        <!-- long hair flowing -->
+        <path d="M13,-14 Q22,0 18,20" stroke="#5c2a08" stroke-width="4" fill="none"/>
+        <circle cx="-3.5" cy="-9" r="2.2" fill="#1a1a1a"/>
+        <circle cx="3.5"  cy="-9" r="2.2" fill="#1a1a1a"/>
+        <path d="M-3,0 Q0,4 3,0" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- Butterfly -->
+      <g transform="translate(120,140)" opacity=".8">
+        <path d="M0,0 Q-12,-10 -18,2 Q-12,12 0,0 Z" fill="#ff88cc" opacity=".7"/>
+        <path d="M0,0 Q12,-10 18,2 Q12,12 0,0 Z"  fill="#ff88cc" opacity=".7"/>
+        <line x1="0" y1="-3" x2="0" y2="3" stroke="#5c2a08" stroke-width="1.5"/>
+      </g>
+      <!-- Bird -->
+      <g transform="translate(240,110)" opacity=".7">
+        <path d="M0,0 Q8,-8 16,0 Q8,8 0,0 Z" fill="white"/>
+        <circle cx="2" cy="0" r="3" fill="#f0f0f0"/>
+        <circle cx="1" cy="-1" r="1" fill="#1a1a1a"/>
+      </g>
+
+      <!-- Golden sparkles in garden -->
+      <circle cx="100" cy="150" r="2" fill="#f0c040" opacity=".6"/>
+      <circle cx="250" cy="140" r="2" fill="#f0c040" opacity=".6"/>
+      <circle cx="170" cy="120" r="2" fill="#f0c040" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌿 Le Jardin du Paradis</h2>
+    <p>Dieu installa Adam dans le plus beau jardin qu'on puisse imaginer : le <strong>Paradis</strong> ! Des arbres chargés de fruits dorés, des rivières de miel, des fleurs de toutes les couleurs…</p>
+    <p>Mais Adam se sentait seul. Alors Dieu créa <strong>Hawa</strong> — Ève — sa compagne. Ils vivaient ensemble, heureux, dans cet Eden merveilleux.</p>
+    <div class="quote">« Mangez de tout ce que vous voulez… sauf de cet arbre-là. »</div>
+    <p>Un seul arbre était interdit. Un seul. Le reste du paradis leur appartenait. 🌸</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 3 : La tentation ══ -->
+<div class="chapter ch3">
+  <div class="ch-num">٣</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="fruitGlow" cx="50%" cy="40%" r="45%">
+          <stop offset="0%"   stop-color="#ff4422" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="tempSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a1a06"/>
+          <stop offset="60%"  stop-color="#3a2a08"/>
+          <stop offset="100%" stop-color="#6b4a10"/>
+        </linearGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#tempSky)"/>
+
+      <!-- Eerie glow around forbidden tree -->
+      <ellipse cx="170" cy="120" rx="80" ry="90" fill="url(#fruitGlow)"/>
+
+      <!-- Ground -->
+      <rect x="0" y="200" width="340" height="55" fill="#3a2008"/>
+      <rect x="0" y="197" width="340" height="7"  fill="#4a3010" opacity=".5"/>
+
+      <!-- The forbidden tree — dark and tempting -->
+      <line x1="170" y1="200" x2="170" y2="90" stroke="#3a1a08" stroke-width="10"/>
+      <!-- gnarled branch left -->
+      <line x1="170" y1="130" x2="110" y2="90" stroke="#3a1a08" stroke-width="7" stroke-linecap="round"/>
+      <line x1="110" y1="90"  x2="80"  y2="60" stroke="#3a1a08" stroke-width="5" stroke-linecap="round"/>
+      <!-- gnarled branch right -->
+      <line x1="170" y1="120" x2="230" y2="85" stroke="#3a1a08" stroke-width="7" stroke-linecap="round"/>
+      <line x1="230" y1="85"  x2="265" y2="55" stroke="#3a1a08" stroke-width="5" stroke-linecap="round"/>
+      <!-- dark leaves -->
+      <ellipse cx="130" cy="80" rx="30" ry="22" fill="#1a3a10" opacity=".9"/>
+      <ellipse cx="100" cy="65" rx="22" ry="16" fill="#0d2a08" opacity=".9"/>
+      <ellipse cx="215" cy="75" rx="28" ry="20" fill="#1a3a10" opacity=".9"/>
+      <ellipse cx="255" cy="58" rx="20" ry="15" fill="#0d2a08" opacity=".9"/>
+      <ellipse cx="170" cy="95" rx="35" ry="25" fill="#162810" opacity=".9"/>
+
+      <!-- Glowing forbidden fruit -->
+      <circle cx="170" cy="88" r="16"  fill="#c0392b" opacity=".9"/>
+      <circle cx="170" cy="87" r="10"  fill="#e74c3c"/>
+      <circle cx="165" cy="82" r="4"   fill="#ff8888" opacity=".6"/>
+      <circle cx="170" cy="88" r="20"  fill="#c0392b" opacity=".15"/>
+      <circle cx="170" cy="88" r="28"  fill="#c0392b" opacity=".08"/>
+      <!-- stem -->
+      <path d="M170,70 Q175,62 178,72" stroke="#3a1a08" stroke-width="2" fill="none"/>
+      <!-- leaf -->
+      <ellipse cx="178" cy="68" rx="6" ry="4" fill="#2a5010" transform="rotate(-30,178,68)"/>
+
+      <!-- Serpent (Iblis as serpent) coiled in tree -->
+      <path d="M200,100 Q230,80 220,60 Q210,45 195,55 Q185,65 200,75 Q215,82 205,95"
+            fill="none" stroke="#1a4a10" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="205" cy="96" r="8" fill="#1a4a10"/>
+      <!-- serpent eyes glowing red -->
+      <circle cx="202" cy="94" r="2" fill="#ff2200"/>
+      <circle cx="208" cy="94" r="2" fill="#ff2200"/>
+      <!-- forked tongue -->
+      <path d="M205,100 Q202,106 200,109 M205,100 Q208,106 210,109"
+            stroke="#c0392b" stroke-width="1.5" fill="none"/>
+
+      <!-- Adam and Hawa recoiling -->
+      <!-- Adam stepping back left -->
+      <g transform="translate(80,175)">
+        <path d="M-14,8 Q-10,55 0,58 Q10,55 14,8 Z" fill="#1e6b3a"/>
+        <line x1="14" y1="12" x2="32" y2="5" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- arm raised in surprise -->
+        <line x1="-14" y1="12" x2="-32" y2="-5" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="0" cy="-8" r="13" fill="#c8906a"/>
+        <path d="M-10,-18 Q0,-34 10,-18 L12,-5 Q0,-3 -12,-5 Z" fill="#0d2a16"/>
+        <!-- wide eyes surprised -->
+        <circle cx="-4" cy="-9" r="3" fill="white"/>
+        <circle cx="4"  cy="-9" r="3" fill="white"/>
+        <circle cx="-4" cy="-9" r="1.8" fill="#1a1a1a"/>
+        <circle cx="4"  cy="-9" r="1.8" fill="#1a1a1a"/>
+        <!-- open mouth -->
+        <ellipse cx="0" cy="1" rx="3" ry="2" fill="#5c3010"/>
+      </g>
+      <!-- Hawa right side -->
+      <g transform="translate(265,178)">
+        <path d="M-13,8 Q-9,53 0,56 Q9,53 13,8 Z" fill="#c9960c"/>
+        <line x1="-13" y1="12" x2="-28" y2="3"  stroke="#c9960c" stroke-width="6" stroke-linecap="round"/>
+        <line x1="13"  y1="12" x2="28"  y2="3"  stroke="#c9960c" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="0" cy="-8" r="12" fill="#d4a57a"/>
+        <path d="M-12,-17 Q0,-34 12,-17 Q15,-5 12,8 Q0,11 -12,8 Q-15,-5 -12,-17 Z"
+              fill="#8b4a10" opacity=".85"/>
+        <circle cx="-3.5" cy="-9" r="2.5" fill="white"/>
+        <circle cx="3.5"  cy="-9" r="2.5" fill="white"/>
+        <circle cx="-3.5" cy="-9" r="1.5" fill="#1a1a1a"/>
+        <circle cx="3.5"  cy="-9" r="1.5" fill="#1a1a1a"/>
+        <ellipse cx="0" cy="1" rx="2.5" ry="2" fill="#5c3010"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🍎 L'arbre interdit</h2>
+    <p>Dans ce paradis magnifique vivait aussi <strong>Iblis</strong>, un être jaloux d'Adam. Il voulait le tromper et s'approcha de lui sous la forme d'un serpent.</p>
+    <p>Il chuchota doucement, doucement… que le fruit de l'arbre interdit était le plus délicieux du monde. Que s'ils en mangeaient, ils deviendraient encore plus heureux.</p>
+    <div class="quote">« Juste une petite bouchée… personne ne le saura. »</div>
+    <p>Adam et Hawa furent trompés. Ils goûtèrent le fruit défendu. Aussitôt, ils sentirent qu'ils avaient fait une erreur, et leur cœur se remplit de <strong>honte et de tristesse</strong>. 😔</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 4 : Le repentir ══ -->
+<div class="chapter ch4">
+  <div class="ch-num">٤</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="descentSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#c8845a"/>
+          <stop offset="100%" stop-color="#7a3a10"/>
+        </linearGradient>
+        <radialGradient id="forgivenLight" cx="50%" cy="30%" r="50%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".6"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#descentSky)"/>
+      <rect width="340" height="255" fill="url(#forgivenLight)"/>
+
+      <!-- Clouds opening — being sent to earth -->
+      <ellipse cx="80"  cy="30" rx="60" ry="25" fill="white" opacity=".4"/>
+      <ellipse cx="100" cy="22" rx="45" ry="18" fill="white" opacity=".5"/>
+      <ellipse cx="250" cy="35" rx="65" ry="28" fill="white" opacity=".4"/>
+      <ellipse cx="270" cy="25" rx="48" ry="20" fill="white" opacity=".5"/>
+
+      <!-- Earth below — rocky terrain -->
+      <polygon points="0,200 50,160 100,185 150,155 200,175 250,148 300,170 340,150 340,255 0,255"
+               fill="#8b5e3c" opacity=".9"/>
+      <polygon points="0,220 60,190 130,210 200,185 270,205 340,185 340,255 0,255"
+               fill="#a06840"/>
+      <rect x="0" y="235" width="340" height="20" fill="#8b5e3c"/>
+
+      <!-- Rocks and grass patches -->
+      <ellipse cx="50"  cy="228" rx="24" ry="12" fill="#6b4020" opacity=".7"/>
+      <ellipse cx="280" cy="232" rx="28" ry="13" fill="#6b4020" opacity=".7"/>
+      <ellipse cx="160" cy="240" rx="20" ry="10" fill="#5a3a10" opacity=".6"/>
+
+      <!-- First small plants on earth -->
+      <line x1="100" y1="225" x2="98"  y2="210" stroke="#3a7a20" stroke-width="3"/>
+      <ellipse cx="96" cy="207" rx="8" ry="6" fill="#4a8a28"/>
+      <line x1="240" y1="220" x2="242" y2="205" stroke="#3a7a20" stroke-width="3"/>
+      <ellipse cx="244" cy="202" rx="8" ry="6" fill="#4a8a28"/>
+
+      <!-- Adam and Hawa kneeling in prayer/repentance -->
+      <!-- Adam kneeling left -->
+      <g transform="translate(120,185)">
+        <!-- kneeling body -->
+        <path d="M-14,5 Q-10,35 0,38 Q8,35 10,10 L-4,28 Z" fill="#1e6b3a"/>
+        <!-- leg bent -->
+        <path d="M-10,35 Q-14,50 -8,55" stroke="#1e6b3a" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <path d="M8,35 Q12,50 18,52"    stroke="#1e6b3a" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <!-- arms raised in dua/prayer -->
+        <line x1="-14" y1="8" x2="-30" y2="-18" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="10"  y1="8" x2="26"  y2="-18" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- open palms -->
+        <ellipse cx="-32" cy="-20" rx="7" ry="5" fill="#c8906a" transform="rotate(-30,-32,-20)"/>
+        <ellipse cx="28"  cy="-20" rx="7" ry="5" fill="#c8906a" transform="rotate(30,28,-20)"/>
+        <!-- head bowed -->
+        <circle cx="0" cy="-8" r="14" fill="#c8906a"/>
+        <path d="M-10,-18 Q0,-36 10,-18 L12,-5 Q0,-2 -12,-5 Z" fill="#0d2a16"/>
+        <!-- eyes closed in prayer -->
+        <path d="M-6,-10 Q-3,-7 0,-10" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M0,-10 Q3,-7 6,-10"   stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <!-- tear drop -->
+        <ellipse cx="-5" cy="-5" rx="1.5" ry="2" fill="#87ceeb" opacity=".8"/>
+      </g>
+
+      <!-- Hawa right side also praying -->
+      <g transform="translate(220,188)">
+        <path d="M-12,5 Q-8,32 0,35 Q8,32 12,5 Z" fill="#c9960c"/>
+        <path d="M-8,32 Q-12,46 -6,50" stroke="#c9960c" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <path d="M8,32 Q12,46 16,48"   stroke="#c9960c" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <line x1="-12" y1="8" x2="-28" y2="-15" stroke="#c9960c" stroke-width="6" stroke-linecap="round"/>
+        <line x1="12"  y1="8" x2="26"  y2="-15" stroke="#c9960c" stroke-width="6" stroke-linecap="round"/>
+        <ellipse cx="-30" cy="-17" rx="6" ry="4" fill="#d4a57a" transform="rotate(-25,-30,-17)"/>
+        <ellipse cx="28"  cy="-17" rx="6" ry="4" fill="#d4a57a" transform="rotate(25,28,-17)"/>
+        <circle cx="0" cy="-8" r="13" fill="#d4a57a"/>
+        <path d="M-11,-17 Q0,-34 11,-17 Q14,-5 11,5 Q0,8 -11,5 Q-14,-5 -11,-17 Z" fill="#8b4a10" opacity=".85"/>
+        <path d="M-5,-10 Q-2,-7 1,-10" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M1,-10 Q4,-7 7,-10"   stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <ellipse cx="-4" cy="-5" rx="1.5" ry="2" fill="#87ceeb" opacity=".8"/>
+      </g>
+
+      <!-- Divine light ray of forgiveness shining on them -->
+      <g opacity=".35">
+        <path d="M170,0 L100,180" stroke="#f0c040" stroke-width="20"
+              stroke-linecap="round" opacity=".08"/>
+        <path d="M170,0 L170,180" stroke="#f0c040" stroke-width="10"
+              stroke-linecap="round" opacity=".15"/>
+        <path d="M170,0 L240,180" stroke="#f0c040" stroke-width="20"
+              stroke-linecap="round" opacity=".08"/>
+      </g>
+      <!-- Gold sparkles of forgiveness -->
+      <circle cx="120" cy="150" r="3" fill="#f0c040" opacity=".8"/>
+      <circle cx="170" cy="130" r="4" fill="#f0c040" opacity=".7"/>
+      <circle cx="220" cy="148" r="3" fill="#f0c040" opacity=".8"/>
+      <circle cx="145" cy="165" r="2" fill="#f0c040" opacity=".6"/>
+      <circle cx="195" cy="162" r="2" fill="#f0c040" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌧️ Le repentir et le pardon</h2>
+    <p>Adam et Hawa furent envoyés sur la <strong>Terre</strong>. Pour la première fois, ils sentirent le sol chaud sous leurs pieds, le vent dans leurs cheveux, la pluie sur leur visage.</p>
+    <p>Mais dans leur cœur, ils ressentaient une grande tristesse. Ils avaient désobéi. Alors ils levèrent les mains vers le ciel et demandèrent pardon, du fond du cœur.</p>
+    <div class="quote">« Notre Seigneur, nous avons eu tort. Pardonne-nous s'il te plaît… »</div>
+    <p>Et Dieu, infiniment généreux, leur pardonna. 💛 Car Dieu aime toujours ceux qui reconnaissent leurs erreurs et qui reviennent à Lui.</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 5 : La vie sur Terre ══ -->
+<div class="chapter ch5">
+  <div class="ch-num">٥</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="earthEveSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#050f1a"/>
+          <stop offset="50%"  stop-color="#0a1e3a"/>
+          <stop offset="100%" stop-color="#1a2e5a"/>
+        </linearGradient>
+        <radialGradient id="moonEarth" cx="75%" cy="20%" r="35%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#earthEveSky)"/>
+      <rect width="340" height="255" fill="url(#moonEarth)"/>
+
+      <!-- Stars scattered -->
+      <circle cx="20"  cy="18"  r="1.5" fill="white"   opacity=".8"/>
+      <circle cx="55"  cy="30"  r="1"   fill="white"   opacity=".6"/>
+      <circle cx="100" cy="12"  r="2"   fill="#f0c040" opacity=".9"/>
+      <circle cx="150" cy="28"  r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="200" cy="10"  r="1"   fill="white"   opacity=".5"/>
+      <circle cx="250" cy="22"  r="2"   fill="white"   opacity=".8"/>
+      <circle cx="310" cy="15"  r="1.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="330" cy="40"  r="1"   fill="white"   opacity=".6"/>
+      <circle cx="70"  cy="50"  r="1"   fill="white"   opacity=".5"/>
+      <circle cx="180" cy="45"  r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="290" cy="55"  r="1"   fill="white"   opacity=".6"/>
+
+      <!-- Moon full and glowing -->
+      <circle cx="285" cy="48" r="30"  fill="#ffe8a0"  opacity=".85"/>
+      <circle cx="285" cy="48" r="26"  fill="#fff8e0"  opacity=".7"/>
+      <circle cx="279" cy="40" r="6"   fill="#ffe08a"  opacity=".3"/>
+      <circle cx="290" cy="56" r="4"   fill="#ffe08a"  opacity=".3"/>
+
+      <!-- Ground earth — now fertile -->
+      <polygon points="0,190 40,165 90,180 150,158 210,172 270,152 320,168 340,155 340,255 0,255"
+               fill="#2a5a18" opacity=".9"/>
+      <rect x="0" y="210" width="340" height="45" fill="#3a6a20"/>
+
+      <!-- Trees grown by Adam (olive, date palm, wheat) -->
+      <!-- big olive tree left -->
+      <line x1="55"  y1="205" x2="52"  y2="140" stroke="#5a3010" stroke-width="6"/>
+      <ellipse cx="50" cy="128" rx="28" ry="34" fill="#3a6a18"/>
+      <ellipse cx="62" cy="118" rx="20" ry="26" fill="#4a8028"/>
+      <ellipse cx="40" cy="122" rx="18" ry="22" fill="#3a6a18"/>
+      <circle cx="46" cy="126" r="4" fill="#8888ff" opacity=".6"/>
+      <circle cx="58" cy="120" r="3" fill="#8888ff" opacity=".6"/>
+      <circle cx="52" cy="135" r="3" fill="#8888ff" opacity=".6"/>
+
+      <!-- date palm right -->
+      <line x1="290" y1="200" x2="292" y2="132" stroke="#8b5e3c" stroke-width="7"/>
+      <path d="M292,132 Q265,115 250,100" stroke="#5a8a20" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M292,132 Q300,110 295,90"  stroke="#5a8a20" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M292,132 Q320,112 325,95"  stroke="#5a8a20" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <circle cx="293" cy="140" r="6" fill="#f0c040" opacity=".8"/>
+      <circle cx="296" cy="148" r="5" fill="#f0c040" opacity=".8"/>
+
+      <!-- wheat field middle -->
+      <g opacity=".8">
+        <line x1="140" y1="205" x2="140" y2="175" stroke="#d4a017" stroke-width="3"/>
+        <ellipse cx="140" cy="172" rx="5" ry="8" fill="#f0c040"/>
+        <line x1="155" y1="205" x2="155" y2="170" stroke="#d4a017" stroke-width="3"/>
+        <ellipse cx="155" cy="167" rx="5" ry="8" fill="#f0c040"/>
+        <line x1="170" y1="205" x2="170" y2="173" stroke="#d4a017" stroke-width="3"/>
+        <ellipse cx="170" cy="170" rx="5" ry="8" fill="#f0c040"/>
+        <line x1="185" y1="205" x2="185" y2="170" stroke="#d4a017" stroke-width="3"/>
+        <ellipse cx="185" cy="167" rx="5" ry="8" fill="#f0c040"/>
+        <line x1="200" y1="205" x2="200" y2="175" stroke="#d4a017" stroke-width="3"/>
+        <ellipse cx="200" cy="172" rx="5" ry="8" fill="#f0c040"/>
+      </g>
+
+      <!-- Adam and Hawa standing proud on earth — family scene -->
+      <!-- Adam -->
+      <g transform="translate(105,170)">
+        <path d="M-16,8 Q-12,55 0,58 Q12,55 16,8 Z" fill="#1e6b3a"/>
+        <line x1="16" y1="14" x2="36" y2="8"  stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="-16" y1="14" x2="-22" y2="30" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- tool in hand (hoe for farming) -->
+        <line x1="-22" y1="30" x2="-26" y2="60" stroke="#8b5e3c" stroke-width="4" stroke-linecap="round"/>
+        <line x1="-30" y1="58" x2="-18" y2="62" stroke="#8b5e3c" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="0"  cy="-8" r="13" fill="#c8906a"/>
+        <path d="M-10,-18 Q0,-34 10,-18 L12,-5 Q0,-2 -12,-5 Z" fill="#0d2a16"/>
+        <circle cx="-4" cy="-9" r="2.5" fill="#1a1a1a"/>
+        <circle cx="4"  cy="-9" r="2.5" fill="#1a1a1a"/>
+        <path d="M-4,0 Q0,4 4,0" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- Hawa -->
+      <g transform="translate(160,173)">
+        <path d="M-13,8 Q-9,53 0,56 Q9,53 13,8 Z" fill="#c9960c"/>
+        <line x1="-13" y1="14" x2="-28" y2="8"  stroke="#c9960c" stroke-width="6" stroke-linecap="round"/>
+        <line x1="13"  y1="14" x2="25"  y2="25" stroke="#c9960c" stroke-width="6" stroke-linecap="round"/>
+        <!-- basket of fruit -->
+        <g transform="translate(27,22)">
+          <path d="M-10,0 Q0,12 10,0 L8,12 Q0,18 -8,12 Z" fill="#c8845a"/>
+          <circle cx="-3" cy="-2" r="4" fill="#f0c040" opacity=".9"/>
+          <circle cx="3"  cy="-4" r="3" fill="#ff6644" opacity=".9"/>
+          <circle cx="0"  cy="-6" r="3" fill="#88cc44" opacity=".9"/>
+        </g>
+        <circle cx="0" cy="-8" r="12" fill="#d4a57a"/>
+        <path d="M-11,-17 Q0,-34 11,-17 Q14,-5 11,5 Q0,8 -11,5 Q-14,-5 -11,-17 Z"
+              fill="#8b4a10" opacity=".85"/>
+        <circle cx="-3.5" cy="-9" r="2.2" fill="#1a1a1a"/>
+        <circle cx="3.5"  cy="-9" r="2.2" fill="#1a1a1a"/>
+        <path d="M-3,0 Q0,4 3,0" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- Small child running (their descendants) -->
+      <g transform="translate(230,192)">
+        <circle cx="0"  cy="-16" r="8"  fill="#d4a57a"/>
+        <rect x="-7"  y="-9"  width="14" height="12" fill="#c0392b" rx="2"/>
+        <!-- running legs -->
+        <line x1="-5" y1="3"  x2="-8"  y2="15" stroke="#8b5e3c" stroke-width="4" stroke-linecap="round"/>
+        <line x1="5"  y1="3"  x2="10"  y2="13" stroke="#8b5e3c" stroke-width="4" stroke-linecap="round"/>
+        <!-- arms swinging -->
+        <line x1="-7" y1="-4" x2="-16" y2="4"  stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
+        <line x1="7"  y1="-4" x2="16"  y2="-8" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="-2.5" cy="-17" r="1.5" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-17" r="1.5" fill="#1a1a1a"/>
+        <path d="M-2,-11 Q0,-8 2,-11" stroke="#7a3a10" stroke-width="1" fill="none"/>
+      </g>
+
+      <!-- Fireflies / glowing dots -->
+      <circle cx="80"  cy="160" r="2" fill="#ccff88" opacity=".6"/>
+      <circle cx="260" cy="158" r="2" fill="#ccff88" opacity=".6"/>
+      <circle cx="170" cy="148" r="1.5" fill="#ccff88" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌍 La vie sur la belle Terre</h2>
+    <p>Adam et Hawa construisirent leur vie sur la Terre avec courage et amour. Adam apprit à cultiver la terre, à planter des arbres, à récolter du blé.</p>
+    <p>Hawa apprit à faire du pain, à cueillir des fruits, à prendre soin de leur famille. Ensemble, ils bâtirent le premier foyer humain.</p>
+    <div class="quote">« Chaque enfant né sur Terre descend d'Adam et Hawa. »</div>
+    <p>Nous sommes tous la <strong>grande famille d'Adam</strong> ! Toute l'humanité, toutes les couleurs, toutes les langues… nous sommes tous frères et sœurs. 🌍💛</p>
+  </div>
+</div>
+
+
+<!-- ══ ENDING ══ -->
+<div class="ending">
+  <svg class="ending-geo" viewBox="0 0 400 300">
+    <defs>
+      <pattern id="ep2" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+        <path d="M30,2 Q38,12 48,8 Q44,18 54,22 Q44,26 48,36 Q38,32 30,42 Q22,32 12,36 Q16,26 6,22 Q16,18 12,8 Q22,12 30,2 Z"
+              fill="none" stroke="#f0c040" stroke-width=".8"/>
+        <circle cx="30" cy="22" r="6" fill="none" stroke="#f0c040" stroke-width=".5"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="300" fill="url(#ep2)"/>
+  </svg>
+
+  <h2>✨ Fin ✨</h2>
+  <p>Et voilà l'histoire d'Adam, le premier homme,<br>
+  créé avec amour par Dieu, lui-même.<br><br>
+  Il nous apprend que tout le monde fait des erreurs —<br>
+  mais ce qui compte, c'est de demander pardon<br>
+  et de recommencer avec un cœur pur.<br><br>
+  <em>Nous sommes tous les enfants d'Adam. 🌿✨</em></p>
+  <div class="end-star">✦</div>
+</div>
+
+<script>
+  // Stars
+  const cover = document.getElementById('starsCover');
+  for (let i = 0; i < 90; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const sz = Math.random() * 2.8 + .8;
+    s.style.cssText = `
+      left:${Math.random()*100}%;top:${Math.random()*100}%;
+      width:${sz}px;height:${sz}px;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${1.5+Math.random()*2.5}s;
+    `;
+    cover.appendChild(s);
+  }
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries =>
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold:.12 }
+  );
+  document.querySelectorAll('.chapter,.ending').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

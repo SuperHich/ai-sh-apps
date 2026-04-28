@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moïse – Le Prophète Courageux</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5e6c8;
+    --gold: #d4a017;
+    --deep-blue: #1a3a5c;
+    --sky: #87ceeb;
+    --river: #4a9eca;
+    --green: #5a8a3c;
+    --red: #c0392b;
+    --purple: #6b3fa0;
+    --cream: #fdf6e3;
+    --brown: #8b5e3c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* COVER */
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #1a3a5c 0%, #2d6b9e 40%, #f5a623 80%, #d4a017 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px;
+  }
+
+  .stars {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 60%;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 2s infinite alternate;
+  }
+
+  @keyframes twinkle {
+    from { opacity: 0.3; transform: scale(1); }
+    to   { opacity: 1;   transform: scale(1.5); }
+  }
+
+  .cover-scene {
+    position: relative;
+    width: 320px;
+    height: 300px;
+    margin-bottom: 30px;
+    animation: floatScene 4s ease-in-out infinite;
+  }
+
+  @keyframes floatScene {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-10px); }
+  }
+
+  /* SVG Moses on mountain */
+  .cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    color: white;
+    text-align: center;
+    text-shadow: 2px 4px 12px rgba(0,0,0,0.5);
+    letter-spacing: 2px;
+    line-height: 1.1;
+  }
+
+  .cover h1 span {
+    font-style: italic;
+    color: #ffe08a;
+  }
+
+  .cover p.subtitle {
+    color: rgba(255,255,255,0.85);
+    font-size: 1.1rem;
+    margin-top: 12px;
+    font-style: italic;
+    letter-spacing: 1px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 30px;
+    color: rgba(255,255,255,0.7);
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(8px); }
+  }
+
+  /* CHAPTERS */
+  .chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .chapter:nth-child(even) { flex-direction: column-reverse; }
+
+  .ch1 { background: linear-gradient(135deg, #c8e6f0 0%, #87ceeb 50%, #d4e8b0 100%); }
+  .ch2 { background: linear-gradient(135deg, #f5e6c8 0%, #e8d5a0 50%, #fdf6e3 100%); }
+  .ch3 { background: linear-gradient(135deg, #1a2a1a 0%, #2d4a1e 40%, #f5a623 100%); }
+  .ch4 { background: linear-gradient(135deg, #1a3a5c 0%, #2d6b9e 50%, #87ceeb 100%); }
+  .ch5 { background: linear-gradient(135deg, #f5e6c8 0%, #e8c87a 50%, #c8a04a 100%); }
+
+  .chapter-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 700;
+    opacity: 0.12;
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .chapter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 5vw, 2rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .illustration {
+    width: min(320px, 90vw);
+    height: min(240px, 67vw);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    margin-bottom: 32px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .illustration svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .story-text {
+    max-width: 480px;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
+  }
+
+  .story-text p { margin-bottom: 12px; }
+
+  .quote {
+    font-style: italic;
+    font-size: 1.15rem;
+    font-weight: 700;
+    padding: 12px 20px;
+    border-radius: 12px;
+    margin: 16px 0;
+    display: inline-block;
+  }
+
+  /* Colors per chapter */
+  .ch1 .chapter-number { color: #1a3a5c; }
+  .ch1 .chapter-title  { color: #1a3a5c; }
+  .ch1 .story-text     { color: #1a3a5c; }
+  .ch1 .quote          { background: rgba(26,58,92,0.12); color: #1a3a5c; }
+
+  .ch2 .chapter-number { color: #5c3a1a; }
+  .ch2 .chapter-title  { color: #5c3a1a; }
+  .ch2 .story-text     { color: #5c3a1a; }
+  .ch2 .quote          { background: rgba(92,58,26,0.12); color: #5c3a1a; }
+
+  .ch3 .chapter-number { color: #f5a623; }
+  .ch3 .chapter-title  { color: #ffe08a; }
+  .ch3 .story-text     { color: #f5e6c8; }
+  .ch3 .quote          { background: rgba(245,166,35,0.2); color: #ffe08a; }
+
+  .ch4 .chapter-number { color: #87ceeb; }
+  .ch4 .chapter-title  { color: white; }
+  .ch4 .story-text     { color: white; }
+  .ch4 .quote          { background: rgba(255,255,255,0.2); color: white; }
+
+  .ch5 .chapter-number { color: #5c3a1a; }
+  .ch5 .chapter-title  { color: #1a2a1a; }
+  .ch5 .story-text     { color: #1a2a1a; }
+  .ch5 .quote          { background: rgba(26,26,26,0.1); color: #1a2a1a; }
+
+  /* ENDING */
+  .ending {
+    background: linear-gradient(135deg, #1a3a5c, #d4a017);
+    padding: 80px 24px;
+    text-align: center;
+    color: white;
+  }
+
+  .ending h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .ending p {
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto;
+    opacity: 0.9;
+    line-height: 1.8;
+  }
+
+  .star-end {
+    font-size: 2rem;
+    margin-top: 30px;
+    animation: spin 8s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* Animations on scroll */
+  .chapter { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .chapter.visible { opacity: 1; transform: translateY(0); }
+  .ending { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .ending.visible { opacity: 1; transform: translateY(0); }
+
+  @media (min-width: 700px) {
+    .chapter {
+      flex-direction: row !important;
+      gap: 48px;
+      padding: 80px 60px;
+    }
+    .illustration { margin-bottom: 0; }
+    .story-text { text-align: left; }
+    .chapter-title { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="stars" id="stars"></div>
+
+  <div class="cover-scene">
+    <svg viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg">
+      <!-- Sky gradient -->
+      <defs>
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1a3a5c"/>
+          <stop offset="100%" stop-color="#f5a623"/>
+        </linearGradient>
+        <radialGradient id="sunGlow" cx="50%" cy="60%" r="50%">
+          <stop offset="0%" stop-color="#ffe08a" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="320" height="300" fill="url(#skyGrad)"/>
+      <ellipse cx="160" cy="180" rx="160" ry="140" fill="url(#sunGlow)"/>
+      <!-- Sun -->
+      <circle cx="160" cy="110" r="30" fill="#ffe08a" opacity="0.9"/>
+      <!-- Desert mountains -->
+      <polygon points="0,300 80,160 160,220 240,140 320,300" fill="#c8a04a" opacity="0.8"/>
+      <polygon points="0,300 60,200 130,250 200,180 280,230 320,300" fill="#8b5e3c" opacity="0.7"/>
+      <!-- Moses silhouette -->
+      <g transform="translate(145,155)">
+        <!-- robe -->
+        <polygon points="0,0 -18,80 18,80" fill="#2d6b9e"/>
+        <!-- arms with staff -->
+        <line x1="-18" y1="20" x2="-35" y2="60" stroke="#2d6b9e" stroke-width="6" stroke-linecap="round"/>
+        <line x1="18" y1="20" x2="28" y2="60" stroke="#2d6b9e" stroke-width="6" stroke-linecap="round"/>
+        <!-- staff -->
+        <line x1="-35" y1="60" x2="-35" y2="100" stroke="#8b5e3c" stroke-width="5" stroke-linecap="round"/>
+        <!-- head -->
+        <circle cx="0" cy="-12" r="14" fill="#d4a57a"/>
+        <!-- beard -->
+        <ellipse cx="0" cy="-2" rx="9" ry="8" fill="#c8a080" opacity="0.7"/>
+        <!-- headdress -->
+        <path d="M-12,-20 Q0,-42 12,-20" fill="#f5e6c8" stroke="#d4a017" stroke-width="1"/>
+        <!-- tablets glow -->
+        <rect x="10" y="15" width="20" height="26" rx="3" fill="#ffe08a" opacity="0.9"/>
+        <line x1="20" y1="20" x2="20" y2="38" stroke="#d4a017" stroke-width="1.5"/>
+        <line x1="14" y1="25" x2="28" y2="25" stroke="#d4a017" stroke-width="1"/>
+        <line x1="14" y1="30" x2="28" y2="30" stroke="#d4a017" stroke-width="1"/>
+        <line x1="14" y1="35" x2="28" y2="35" stroke="#d4a017" stroke-width="1"/>
+      </g>
+      <!-- Stars in sky -->
+      <circle cx="40"  cy="30"  r="2" fill="white" opacity="0.8"/>
+      <circle cx="80"  cy="50"  r="1.5" fill="white" opacity="0.7"/>
+      <circle cx="250" cy="25"  r="2" fill="white" opacity="0.9"/>
+      <circle cx="290" cy="60"  r="1.5" fill="white" opacity="0.6"/>
+      <circle cx="120" cy="40"  r="1" fill="white" opacity="0.8"/>
+      <circle cx="200" cy="35"  r="2" fill="white" opacity="0.7"/>
+    </svg>
+  </div>
+
+  <h1>✦ <span>Moïse</span> ✦<br>Le Prophète Courageux</h1>
+  <p class="subtitle">Une histoire pour les petits explorateurs</p>
+
+  <div class="scroll-hint">
+    <span>Fais défiler pour lire</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</div>
+
+<!-- CHAPTER 1 -->
+<div class="chapter ch1">
+  <div class="chapter-number">1</div>
+  <div class="illustration">
+    <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="riverGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#87ceeb"/>
+          <stop offset="100%" stop-color="#4a9eca"/>
+        </linearGradient>
+        <linearGradient id="skyGrad1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffecd2"/>
+          <stop offset="100%" stop-color="#87ceeb"/>
+        </linearGradient>
+      </defs>
+      <!-- Sky -->
+      <rect width="320" height="240" fill="url(#skyGrad1)"/>
+      <!-- Pyramids far away -->
+      <polygon points="40,160 80,80 120,160" fill="#c8a04a" opacity="0.5"/>
+      <polygon points="180,160 230,90 280,160" fill="#c8a04a" opacity="0.4"/>
+      <!-- River -->
+      <rect x="0" y="150" width="320" height="90" fill="url(#riverGrad)" rx="0"/>
+      <!-- River ripples -->
+      <path d="M20,165 Q60,158 100,165 Q140,172 180,165 Q220,158 260,165 Q300,172 320,165" fill="none" stroke="white" stroke-width="1.5" opacity="0.4"/>
+      <path d="M0,175 Q50,168 100,175 Q150,182 200,175 Q250,168 320,175" fill="none" stroke="white" stroke-width="1" opacity="0.3"/>
+      <!-- Reeds on banks -->
+      <g opacity="0.8">
+        <line x1="10"  y1="148" x2="8"   y2="110" stroke="#5a8a3c" stroke-width="3"/>
+        <ellipse cx="8"  cy="107" rx="4" ry="8" fill="#4a7a2c"/>
+        <line x1="25"  y1="148" x2="22"  y2="105" stroke="#5a8a3c" stroke-width="3"/>
+        <ellipse cx="22" cy="102" rx="4" ry="8" fill="#4a7a2c"/>
+        <line x1="290" y1="148" x2="292" y2="108" stroke="#5a8a3c" stroke-width="3"/>
+        <ellipse cx="292" cy="105" rx="4" ry="8" fill="#4a7a2c"/>
+        <line x1="305" y1="148" x2="308" y2="112" stroke="#5a8a3c" stroke-width="3"/>
+        <ellipse cx="308" cy="109" rx="4" ry="8" fill="#4a7a2c"/>
+      </g>
+      <!-- Basket on river -->
+      <g transform="translate(140,148)">
+        <ellipse cx="20" cy="10" rx="28" ry="10" fill="#d4a017" opacity="0.3"/>
+        <!-- basket body -->
+        <path d="M-8,2 Q20,-10 48,2 L50,14 Q20,22 -10,14 Z" fill="#d4a017"/>
+        <!-- basket weave lines -->
+        <path d="M-5,4 Q20,-5 45,4" stroke="#8b5e3c" stroke-width="1.5" fill="none" opacity="0.6"/>
+        <path d="M-7,8 Q20,0 47,8" stroke="#8b5e3c" stroke-width="1.5" fill="none" opacity="0.6"/>
+        <path d="M-8,12 Q20,6 48,12" stroke="#8b5e3c" stroke-width="1.5" fill="none" opacity="0.6"/>
+        <!-- baby inside -->
+        <ellipse cx="20" cy="0" rx="10" ry="8" fill="#fdf6e3"/>
+        <circle cx="20" cy="-4" r="5" fill="#d4a57a"/>
+        <path d="M15,-2 Q20,2 25,-2" fill="#ffe0b2"/>
+        <!-- baby eyes -->
+        <circle cx="18" cy="-5" r="1" fill="#5c3a1a"/>
+        <circle cx="22" cy="-5" r="1" fill="#5c3a1a"/>
+        <!-- smile -->
+        <path d="M18,-2 Q20,0 22,-2" stroke="#5c3a1a" stroke-width="0.8" fill="none"/>
+      </g>
+      <!-- Miriam watching -->
+      <g transform="translate(260,120)">
+        <circle cx="0" cy="0" r="9" fill="#d4a57a"/>
+        <path d="M-8,10 Q0,30 8,10" fill="#c0392b"/>
+        <path d="M-10,-4 Q0,-18 10,-4" fill="#8b5e3c" opacity="0.8"/>
+        <!-- eyes -->
+        <circle cx="-3" cy="0" r="1.5" fill="#1a1a1a"/>
+        <circle cx="3"  cy="0" r="1.5" fill="#1a1a1a"/>
+      </g>
+      <!-- Lotus flowers -->
+      <g opacity="0.7">
+        <circle cx="70"  cy="155" r="5" fill="#ff9999"/>
+        <circle cx="68"  cy="152" r="3" fill="#ffcccc"/>
+        <circle cx="250" cy="155" r="5" fill="#ff9999"/>
+        <circle cx="252" cy="152" r="3" fill="#ffcccc"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌿 Le bébé dans le panier</h2>
+    <p>Il y a très très longtemps, en Égypte, un bébé s'appelait <strong>Moïse</strong>. Un roi méchant voulait lui faire du mal.</p>
+    <p>Sa maman courageuse fabriqua un panier en roseaux et le déposa doucement sur le grand fleuve <strong>Nil</strong>.</p>
+    <div class="quote">« Flotte, flotte, mon petit chéri… tu seras en sécurité. »</div>
+    <p>Sa sœur <strong>Myriam</strong> suivait le panier de loin, le cœur battant fort.</p>
+  </div>
+</div>
+
+<!-- CHAPTER 2 -->
+<div class="chapter ch2">
+  <div class="chapter-number">2</div>
+  <div class="illustration">
+    <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="palaceGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffecd2"/>
+          <stop offset="100%" stop-color="#f5e6c8"/>
+        </linearGradient>
+      </defs>
+      <rect width="320" height="240" fill="url(#palaceGrad)"/>
+      <!-- Palace background -->
+      <rect x="40" y="20" width="240" height="160" fill="#e8d5a0" rx="4"/>
+      <!-- Columns -->
+      <rect x="60"  y="30" width="20" height="130" fill="#d4c090" rx="2"/>
+      <rect x="100" y="30" width="20" height="130" fill="#d4c090" rx="2"/>
+      <rect x="200" y="30" width="20" height="130" fill="#d4c090" rx="2"/>
+      <rect x="240" y="30" width="20" height="130" fill="#d4c090" rx="2"/>
+      <!-- Column tops -->
+      <rect x="55"  y="28" width="30" height="8" fill="#c8b080" rx="2"/>
+      <rect x="95"  y="28" width="30" height="8" fill="#c8b080" rx="2"/>
+      <rect x="195" y="28" width="30" height="8" fill="#c8b080" rx="2"/>
+      <rect x="235" y="28" width="30" height="8" fill="#c8b080" rx="2"/>
+      <!-- Ground -->
+      <rect x="0" y="185" width="320" height="55" fill="#c8a04a"/>
+      <rect x="0" y="183" width="320" height="6" fill="#d4b060" opacity="0.5"/>
+      <!-- Princess -->
+      <g transform="translate(155,110)">
+        <!-- dress -->
+        <path d="M-20,10 Q-10,60 0,65 Q10,60 20,10 Z" fill="#c0392b"/>
+        <!-- belt -->
+        <rect x="-12" y="25" width="24" height="6" fill="#d4a017" rx="2"/>
+        <!-- head -->
+        <circle cx="0" cy="-2" r="14" fill="#d4a57a"/>
+        <!-- crown -->
+        <path d="M-10,-14 L-6,-24 L0,-18 L6,-24 L10,-14 Z" fill="#d4a017"/>
+        <circle cx="-10" cy="-14" r="2" fill="#c0392b"/>
+        <circle cx="0"  cy="-16" r="2" fill="#87ceeb"/>
+        <circle cx="10" cy="-14" r="2" fill="#c0392b"/>
+        <!-- hair -->
+        <path d="M-13,-6 Q-18,8 -15,20" stroke="#1a1a1a" stroke-width="4" fill="none"/>
+        <path d="M13,-6 Q18,8 15,20"  stroke="#1a1a1a" stroke-width="4" fill="none"/>
+        <!-- eyes -->
+        <ellipse cx="-5" cy="-2" rx="2.5" ry="2" fill="#1a1a1a"/>
+        <ellipse cx="5"  cy="-2" rx="2.5" ry="2" fill="#1a1a1a"/>
+        <!-- smile -->
+        <path d="M-5,6 Q0,10 5,6" stroke="#5c3a1a" stroke-width="1.5" fill="none"/>
+        <!-- arms holding baby -->
+        <path d="M-20,20 Q-35,35 -28,50" stroke="#d4a57a" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <path d="M20,20 Q35,35 28,50" stroke="#d4a57a" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <!-- Baby in arms -->
+        <circle cx="0" cy="52" r="10" fill="#fdf6e3"/>
+        <circle cx="0" cy="46" r="6"  fill="#d4a57a"/>
+        <path d="M-5,50 Q0,56 5,50" fill="#ffe0b2"/>
+        <circle cx="-2" cy="46" r="1" fill="#1a1a1a"/>
+        <circle cx="2"  cy="46" r="1" fill="#1a1a1a"/>
+        <!-- smile baby -->
+        <path d="M-2,49 Q0,51 2,49" stroke="#5c3a1a" stroke-width="0.8" fill="none"/>
+      </g>
+      <!-- Miriam on side -->
+      <g transform="translate(85,130)">
+        <circle cx="0" cy="0" r="8" fill="#d4a57a"/>
+        <path d="M-7,8 Q0,28 7,8" fill="#5a8a3c"/>
+        <path d="M-9,-3 Q0,-16 9,-3" fill="#8b5e3c" opacity="0.8"/>
+        <circle cx="-2.5" cy="0" r="1.2" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="0" r="1.2" fill="#1a1a1a"/>
+        <path d="M-2,4 Q0,6 2,4" stroke="#5c3a1a" stroke-width="0.8" fill="none"/>
+      </g>
+      <!-- Decorative Egyptian motifs -->
+      <g opacity="0.4">
+        <path d="M140,30 L145,20 L150,30 L155,20 L160,30 L165,20 L170,30" stroke="#d4a017" stroke-width="1.5" fill="none"/>
+        <path d="M140,210 L145,200 L150,210 L155,200 L160,210 L165,200 L170,210" stroke="#d4a017" stroke-width="1.5" fill="none"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">👑 La princesse et le bébé</h2>
+    <p>Le panier s'arrêta près du grand palais. La <strong>princesse</strong> entendit des pleurs et découvrit le petit Moïse.</p>
+    <p>Son cœur se remplit d'amour et elle décida de l'adopter comme son propre enfant !</p>
+    <p>Myriam, très maligne, s'approcha :</p>
+    <div class="quote">« Je connais une dame qui peut s'en occuper ! »</div>
+    <p>C'était la vraie maman de Moïse ! 🎉 Tout le monde était heureux.</p>
+  </div>
+</div>
+
+<!-- CHAPTER 3 -->
+<div class="chapter ch3">
+  <div class="chapter-number">3</div>
+  <div class="illustration">
+    <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="fireGlow" cx="50%" cy="60%" r="50%">
+          <stop offset="0%" stop-color="#ff6600" stop-opacity="0.8"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="nightSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0a0a2a"/>
+          <stop offset="60%" stop-color="#1a2a1a"/>
+          <stop offset="100%" stop-color="#2d4a1e"/>
+        </linearGradient>
+      </defs>
+      <rect width="320" height="240" fill="url(#nightSky)"/>
+      <!-- Stars -->
+      <circle cx="30"  cy="20"  r="1.5" fill="white" opacity="0.8"/>
+      <circle cx="80"  cy="35"  r="1"   fill="white" opacity="0.6"/>
+      <circle cx="140" cy="15"  r="2"   fill="white" opacity="0.9"/>
+      <circle cx="200" cy="30"  r="1.5" fill="white" opacity="0.7"/>
+      <circle cx="260" cy="18"  r="1"   fill="white" opacity="0.8"/>
+      <circle cx="300" cy="40"  r="1.5" fill="white" opacity="0.6"/>
+      <circle cx="50"  cy="55"  r="1"   fill="white" opacity="0.5"/>
+      <circle cx="110" cy="50"  r="1.5" fill="white" opacity="0.7"/>
+      <!-- Ground rocky -->
+      <ellipse cx="160" cy="220" rx="180" ry="30" fill="#1a1a0a"/>
+      <!-- Rocks -->
+      <ellipse cx="40"  cy="200" rx="35" ry="18" fill="#2a2a1a"/>
+      <ellipse cx="280" cy="195" rx="40" ry="20" fill="#2a2a1a"/>
+      <ellipse cx="160" cy="210" rx="60" ry="22" fill="#1a1a0a"/>
+      <!-- BURNING BUSH -->
+      <g transform="translate(160, 140)">
+        <!-- glow -->
+        <ellipse cx="0" cy="0" rx="60" ry="55" fill="url(#fireGlow)"/>
+        <!-- branches -->
+        <line x1="0"   y1="20"  x2="-20" y2="-20" stroke="#4a3010" stroke-width="6" stroke-linecap="round"/>
+        <line x1="0"   y1="20"  x2="20"  y2="-20" stroke="#4a3010" stroke-width="6" stroke-linecap="round"/>
+        <line x1="0"   y1="20"  x2="0"   y2="-30" stroke="#4a3010" stroke-width="6" stroke-linecap="round"/>
+        <line x1="-20" y1="-20" x2="-35" y2="-40" stroke="#4a3010" stroke-width="4" stroke-linecap="round"/>
+        <line x1="-20" y1="-20" x2="-10" y2="-45" stroke="#4a3010" stroke-width="4" stroke-linecap="round"/>
+        <line x1="20"  y1="-20" x2="35"  y2="-40" stroke="#4a3010" stroke-width="4" stroke-linecap="round"/>
+        <line x1="20"  y1="-20" x2="10"  y2="-45" stroke="#4a3010" stroke-width="4" stroke-linecap="round"/>
+        <!-- flames -->
+        <path d="M-30,-15 Q-20,-40 -10,-15 Q-5,-35 5,-10 Q15,-45 25,-15 Q30,-35 38,-18" fill="#ff6600" opacity="0.9"/>
+        <path d="M-28,-18 Q-18,-50 -8,-18 Q0,-40 8,-15 Q18,-48 28,-18" fill="#ff9900" opacity="0.8"/>
+        <path d="M-22,-22 Q-12,-55 -4,-22 Q4,-45 12,-20 Q20,-52 26,-22" fill="#ffcc00" opacity="0.7"/>
+        <path d="M-15,-30 Q-8,-58 0,-30 Q8,-50 14,-28" fill="#ffff80" opacity="0.5"/>
+      </g>
+      <!-- Moses watching -->
+      <g transform="translate(70,165)">
+        <!-- robe -->
+        <path d="M-14,8 Q-10,60 0,62 Q10,60 14,8 Z" fill="#2d6b9e"/>
+        <!-- staff -->
+        <line x1="-22" y1="20" x2="-22" y2="75" stroke="#8b5e3c" stroke-width="5" stroke-linecap="round"/>
+        <!-- arm on staff -->
+        <line x1="-14" y1="18" x2="-22" y2="30" stroke="#2d6b9e" stroke-width="6" stroke-linecap="round"/>
+        <!-- other arm raised in awe -->
+        <line x1="14" y1="15" x2="30" y2="-5" stroke="#2d6b9e" stroke-width="6" stroke-linecap="round"/>
+        <!-- head -->
+        <circle cx="0" cy="-8" r="13" fill="#d4a57a"/>
+        <!-- beard -->
+        <ellipse cx="0" cy="2" rx="8" ry="7" fill="#c8a080"/>
+        <!-- headdress -->
+        <path d="M-10,-18 Q0,-36 10,-18" fill="#f5e6c8" stroke="#d4a017" stroke-width="1"/>
+        <!-- open mouth in awe -->
+        <ellipse cx="0" cy="3" rx="3" ry="2" fill="#5c3a1a"/>
+        <!-- wide eyes -->
+        <circle cx="-4" cy="-8" r="2.5" fill="white"/>
+        <circle cx="4"  cy="-8" r="2.5" fill="white"/>
+        <circle cx="-4" cy="-8" r="1.5" fill="#1a1a1a"/>
+        <circle cx="4"  cy="-8" r="1.5" fill="#1a1a1a"/>
+        <!-- sheep nearby -->
+        <g transform="translate(-50,45)">
+          <ellipse cx="0" cy="0" rx="14" ry="10" fill="white"/>
+          <circle cx="-10" cy="-6" r="7" fill="white"/>
+          <circle cx="-10" cy="-6" r="7" fill="#f0f0f0"/>
+          <line x1="-6"  y1="8"  x2="-6"  y2="20" stroke="#8b7355" stroke-width="3"/>
+          <line x1="0"   y1="9"  x2="0"   y2="21" stroke="#8b7355" stroke-width="3"/>
+          <line x1="6"   y1="8"  x2="6"   y2="20" stroke="#8b7355" stroke-width="3"/>
+          <circle cx="-14" cy="-8" r="3" fill="#f0f0f0"/>
+          <circle cx="-8"  cy="-12" r="1.5" fill="#1a1a1a"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🔥 Le buisson qui brûle</h2>
+    <p>Moïse grandit et devint berger. Un jour dans le désert, il vit quelque chose d'<strong>extraordinaire</strong> :</p>
+    <p>Un buisson en feu… qui ne brûlait pas ! Moïse s'approcha tout étonné.</p>
+    <p>Une voix douce et puissante sortit des flammes. C'était la voix de <strong>Dieu</strong> !</p>
+    <div class="quote">« Moïse ! Va dire au Pharaon de libérer mon peuple ! »</div>
+    <p>Moïse avait peur, mais il dit <strong>oui</strong> avec tout son courage.</p>
+  </div>
+</div>
+
+<!-- CHAPTER 4 -->
+<div class="chapter ch4">
+  <div class="chapter-number">4</div>
+  <div class="illustration">
+    <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="seaGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1a4a7c"/>
+          <stop offset="100%" stop-color="#0a2a4c"/>
+        </linearGradient>
+        <linearGradient id="skyGrad4" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#87ceeb"/>
+          <stop offset="100%" stop-color="#c8e6f0"/>
+        </linearGradient>
+      </defs>
+      <rect width="320" height="240" fill="url(#skyGrad4)"/>
+      <!-- Clouds -->
+      <ellipse cx="60"  cy="40"  rx="35" ry="18" fill="white" opacity="0.7"/>
+      <ellipse cx="80"  cy="35"  rx="25" ry="14" fill="white" opacity="0.8"/>
+      <ellipse cx="250" cy="50"  rx="40" ry="18" fill="white" opacity="0.7"/>
+      <ellipse cx="270" cy="44"  rx="28" ry="14" fill="white" opacity="0.8"/>
+      <!-- Sea walls -->
+      <path d="M0,80 Q20,60 40,80 L40,200 L0,200 Z" fill="url(#seaGrad)" opacity="0.9"/>
+      <path d="M280,80 Q300,60 320,80 L320,200 L280,200 Z" fill="url(#seaGrad)" opacity="0.9"/>
+      <!-- Sea wall foam -->
+      <path d="M0,80 Q10,72 20,80 Q30,88 40,80" fill="none" stroke="white" stroke-width="3" opacity="0.6"/>
+      <path d="M280,80 Q290,72 300,80 Q310,88 320,80" fill="none" stroke="white" stroke-width="3" opacity="0.6"/>
+      <!-- Fish visible in walls -->
+      <ellipse cx="15"  cy="130" rx="8" ry="5"  fill="#5ab8e0" opacity="0.5"/>
+      <ellipse cx="305" cy="150" rx="8" ry="5"  fill="#5ab8e0" opacity="0.5"/>
+      <ellipse cx="20"  cy="160" rx="6" ry="3.5" fill="#7ac8f0" opacity="0.4"/>
+      <ellipse cx="310" cy="120" rx="6" ry="3.5" fill="#7ac8f0" opacity="0.4"/>
+      <!-- Sand path between sea -->
+      <rect x="40" y="120" width="240" height="80" fill="#c8a04a"/>
+      <path d="M40,130 Q160,120 280,130" fill="none" stroke="#d4b060" stroke-width="2" opacity="0.5"/>
+      <path d="M40,150 Q160,140 280,150" fill="none" stroke="#d4b060" stroke-width="2" opacity="0.5"/>
+      <!-- Moses with staff raised -->
+      <g transform="translate(160,105)">
+        <!-- robe flowing -->
+        <path d="M-18,10 Q-22,70 -5,80 Q10,75 18,10 Z" fill="#2d6b9e"/>
+        <!-- arm up with staff -->
+        <line x1="-18" y1="10" x2="-35" y2="-20" stroke="#2d6b9e" stroke-width="8" stroke-linecap="round"/>
+        <!-- staff raised high -->
+        <line x1="-35" y1="-20" x2="-32" y2="-70" stroke="#8b5e3c" stroke-width="6" stroke-linecap="round"/>
+        <!-- glow on staff -->
+        <circle cx="-32" cy="-70" r="6" fill="#ffe08a" opacity="0.8"/>
+        <!-- other arm outward -->
+        <line x1="18" y1="15" x2="38" y2="5" stroke="#2d6b9e" stroke-width="8" stroke-linecap="round"/>
+        <!-- head -->
+        <circle cx="0" cy="-8" r="14" fill="#d4a57a"/>
+        <ellipse cx="0" cy="3"  rx="9" ry="7" fill="#c8a080"/>
+        <path d="M-11,-18 Q0,-38 11,-18" fill="#f5e6c8" stroke="#d4a017" stroke-width="1.5"/>
+        <!-- determined eyes -->
+        <circle cx="-4.5" cy="-9" r="2.5" fill="#1a1a1a"/>
+        <circle cx="4.5"  cy="-9" r="2.5" fill="#1a1a1a"/>
+        <path d="M-7,-13 L-2,-11" stroke="#5c3a1a" stroke-width="1.5"/>
+        <path d="M7,-13 L2,-11"  stroke="#5c3a1a" stroke-width="1.5"/>
+      </g>
+      <!-- People following -->
+      <g transform="translate(90,155)" opacity="0.85">
+        <circle cx="0"  cy="-28" r="7" fill="#d4a57a"/>
+        <rect x="-7"  y="-22" width="14" height="22" fill="#c0392b" rx="2"/>
+        <circle cx="25" cy="-26" r="7" fill="#c8906a"/>
+        <rect x="18"  y="-20" width="14" height="22" fill="#5a8a3c" rx="2"/>
+        <circle cx="50" cy="-28" r="7" fill="#d4b080"/>
+        <rect x="43"  y="-22" width="14" height="22" fill="#6b3fa0" rx="2"/>
+      </g>
+      <g transform="translate(195,158)" opacity="0.75">
+        <circle cx="0"  cy="-25" r="6"  fill="#d4a57a"/>
+        <rect x="-6"  y="-20" width="12" height="20" fill="#d4a017" rx="2"/>
+        <circle cx="22" cy="-24" r="6"  fill="#c8906a"/>
+        <rect x="16"  y="-19" width="12" height="20" fill="#2d6b9e" rx="2"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌊 La mer qui s'ouvre !</h2>
+    <p>Moïse dit au Pharaon avec courage :</p>
+    <div class="quote">« Laisse partir mon peuple ! »</div>
+    <p>Après de grands signes merveilleux, Pharaon finit par dire <strong>oui</strong> !</p>
+    <p>Mais voilà qu'une énorme mer leur barrait la route. Moïse leva son bâton et… les eaux s'ouvrirent en <strong>deux</strong> !</p>
+    <p>Tout le peuple traversa sur la terre sèche, entre deux grands murs d'eau. <strong>✨ Un vrai miracle !</strong></p>
+  </div>
+</div>
+
+<!-- CHAPTER 5 -->
+<div class="chapter ch5">
+  <div class="chapter-number">5</div>
+  <div class="illustration">
+    <svg viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="mountainGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffe08a"/>
+          <stop offset="100%" stop-color="#f5a623"/>
+        </linearGradient>
+        <radialGradient id="lightBeam" cx="50%" cy="20%" r="60%">
+          <stop offset="0%" stop-color="#fffbe6" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <!-- Sky golden dawn -->
+      <rect width="320" height="240" fill="#ffecd2"/>
+      <ellipse cx="160" cy="0" rx="180" ry="100" fill="url(#lightBeam)"/>
+      <!-- Light rays from above -->
+      <g opacity="0.3">
+        <line x1="160" y1="0" x2="60"  y2="200" stroke="#d4a017" stroke-width="2"/>
+        <line x1="160" y1="0" x2="100" y2="200" stroke="#d4a017" stroke-width="1.5"/>
+        <line x1="160" y1="0" x2="140" y2="200" stroke="#d4a017" stroke-width="1"/>
+        <line x1="160" y1="0" x2="180" y2="200" stroke="#d4a017" stroke-width="1"/>
+        <line x1="160" y1="0" x2="220" y2="200" stroke="#d4a017" stroke-width="1.5"/>
+        <line x1="160" y1="0" x2="260" y2="200" stroke="#d4a017" stroke-width="2"/>
+      </g>
+      <!-- Mountain Sinai -->
+      <polygon points="160,20 40,200 280,200"  fill="#c8a04a" opacity="0.8"/>
+      <polygon points="160,20 90,200 230,200"  fill="#d4b060" opacity="0.7"/>
+      <polygon points="160,20 120,200 200,200" fill="#e8c87a" opacity="0.6"/>
+      <!-- Ground -->
+      <rect x="0" y="195" width="320" height="45" fill="#8b5e3c"/>
+      <!-- Moses on mountain with tablets -->
+      <g transform="translate(145,95)">
+        <!-- robe billowing -->
+        <path d="M-20,10 Q-25,80 -5,90 Q12,85 20,10 Z" fill="#2d6b9e"/>
+        <!-- left arm up -->
+        <line x1="-20" y1="12" x2="-40" y2="-15" stroke="#2d6b9e" stroke-width="8" stroke-linecap="round"/>
+        <!-- right arm holding tablets -->
+        <line x1="20" y1="12" x2="38" y2="0" stroke="#2d6b9e" stroke-width="8" stroke-linecap="round"/>
+        <!-- Tablets (two stone tablets) -->
+        <g transform="translate(30,-5)">
+          <rect x="-12" y="-30" width="22" height="32" rx="3" fill="#f5e6c8" stroke="#d4a017" stroke-width="2"/>
+          <rect x="12"  y="-30" width="22" height="32" rx="3" fill="#f5e6c8" stroke="#d4a017" stroke-width="2"/>
+          <!-- engraved lines -->
+          <line x1="-8"  y1="-22" x2="6"   y2="-22" stroke="#d4a017" stroke-width="1.5"/>
+          <line x1="-8"  y1="-16" x2="6"   y2="-16" stroke="#d4a017" stroke-width="1.5"/>
+          <line x1="-8"  y1="-10" x2="6"   y2="-10" stroke="#d4a017" stroke-width="1.5"/>
+          <line x1="-8"  y1="-4"  x2="6"   y2="-4"  stroke="#d4a017" stroke-width="1.5"/>
+          <line x1="16"  y1="-22" x2="30"  y2="-22" stroke="#d4a017" stroke-width="1.5"/>
+          <line x1="16"  y1="-16" x2="30"  y2="-16" stroke="#d4a017" stroke-width="1.5"/>
+          <line x1="16"  y1="-10" x2="30"  y2="-10" stroke="#d4a017" stroke-width="1.5"/>
+          <line x1="16"  y1="-4"  x2="30"  y2="-4"  stroke="#d4a017" stroke-width="1.5"/>
+          <!-- Center divider -->
+          <line x1="11" y1="-30" x2="11" y2="2" stroke="#d4a017" stroke-width="2"/>
+        </g>
+        <!-- head -->
+        <circle cx="0" cy="-8" r="15" fill="#d4a57a"/>
+        <ellipse cx="0" cy="4" rx="10" ry="7" fill="#c8a080"/>
+        <path d="M-12,-19 Q0,-42 12,-19" fill="#f5e6c8" stroke="#d4a017" stroke-width="1.5"/>
+        <!-- serene eyes -->
+        <circle cx="-5" cy="-8" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5"  cy="-8" r="2.5" fill="#1a1a1a"/>
+        <!-- gentle smile -->
+        <path d="M-5,0 Q0,4 5,0" stroke="#5c3a1a" stroke-width="1.5" fill="none"/>
+      </g>
+      <!-- People at the foot of mountain -->
+      <g opacity="0.7">
+        <g transform="translate(40,195)">
+          <circle cx="0"  cy="-18" r="6"  fill="#d4a57a"/>
+          <rect x="-6"  y="-13" width="12" height="14" fill="#c0392b" rx="1"/>
+        </g>
+        <g transform="translate(65,195)">
+          <circle cx="0"  cy="-16" r="5.5" fill="#c8906a"/>
+          <rect x="-5"  y="-11" width="11" height="13" fill="#5a8a3c" rx="1"/>
+        </g>
+        <g transform="translate(88,195)">
+          <circle cx="0"  cy="-17" r="6"  fill="#d4b080"/>
+          <rect x="-5"  y="-12" width="11" height="14" fill="#6b3fa0" rx="1"/>
+        </g>
+        <g transform="translate(230,195)">
+          <circle cx="0"  cy="-18" r="6"  fill="#d4a57a"/>
+          <rect x="-6"  y="-13" width="12" height="14" fill="#2d6b9e" rx="1"/>
+        </g>
+        <g transform="translate(255,195)">
+          <circle cx="0"  cy="-16" r="5"  fill="#c8906a"/>
+          <rect x="-5"  y="-11" width="10" height="12" fill="#d4a017" rx="1"/>
+        </g>
+        <g transform="translate(278,195)">
+          <circle cx="0"  cy="-17" r="5.5" fill="#d4b080"/>
+          <rect x="-5"  y="-12" width="11" height="13" fill="#c0392b" rx="1"/>
+        </g>
+      </g>
+      <!-- Doves in sky -->
+      <g opacity="0.7">
+        <path d="M50,50 Q55,42 62,48 Q67,42 74,50" fill="white" stroke="#ccc" stroke-width="0.5"/>
+        <path d="M240,60 Q245,52 252,58 Q257,52 264,60" fill="white" stroke="#ccc" stroke-width="0.5"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">📜 Les règles d'or</h2>
+    <p>Moïse guida son peuple à travers le grand désert. Dieu prenait soin d'eux :</p>
+    <p>quand ils avaient faim, de la nourriture apparaissait du ciel. Quand ils avaient soif, de l'eau jaillissait d'un rocher !</p>
+    <p>Sur la grande montagne <strong>Sinaï</strong>, Dieu donna à Moïse de belles règles gravées sur deux pierres :</p>
+    <div class="quote">✦ Aime les autres. ✦ Dis la vérité. ✦ Sois gentil. ✦</div>
+    <p>Moïse était devenu un grand guide, courageux et bon, qui avait sauvé tout son peuple avec <strong>la foi et l'amour</strong>. 💛</p>
+  </div>
+</div>
+
+<!-- ENDING -->
+<div class="ending">
+  <h2>✨ Fin ✨</h2>
+  <p>Et voilà l'histoire de Moïse, le bébé du panier devenu le plus grand guide de son peuple.<br><br>
+  Il nous apprend que même quand on a peur, le courage et la bonté peuvent changer le monde. 🌟</p>
+  <div class="star-end">✦</div>
+</div>
+
+<script>
+  // Generate random stars on cover
+  const starsContainer = document.getElementById('stars');
+  for (let i = 0; i < 60; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top  = Math.random() * 100 + '%';
+    star.style.animationDelay = Math.random() * 3 + 's';
+    star.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    starsContainer.appendChild(star);
+  }
+
+  // Intersection observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.chapter, .ending').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

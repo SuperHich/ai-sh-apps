@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Prophète Mohamed ﷺ</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --emerald: #1a6b4a;
+    --gold: #c9960c;
+    --gold-light: #f0c040;
+    --sand: #f5e6c0;
+    --deep: #0d1f2d;
+    --terracotta: #b84a20;
+    --sky-blue: #3a8fbf;
+    --cream: #fdf8ee;
+    --parchment: #f0e6c8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ─── GEOMETRIC BORDER HELPER ─── */
+  .geo-border {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── COVER ─── */
+  .cover {
+    min-height: 100vh;
+    background: var(--deep);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px 80px;
+  }
+
+  .cover-geo {
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+  }
+
+  .stars-cover { position: absolute; inset: 0; pointer-events: none; }
+  .star-dot {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: tw 2.5s infinite alternate;
+  }
+  @keyframes tw {
+    from { opacity: 0.2; transform: scale(1); }
+    to   { opacity: 0.9; transform: scale(1.6); }
+  }
+
+  .crescent-wrap {
+    position: relative;
+    width: 260px;
+    height: 260px;
+    margin-bottom: 28px;
+    animation: floatUp 5s ease-in-out infinite;
+  }
+  @keyframes floatUp {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-12px); }
+  }
+
+  .cover h1 {
+    font-family: 'Amiri', serif;
+    font-size: clamp(2.4rem, 8vw, 4rem);
+    color: var(--gold-light);
+    text-align: center;
+    letter-spacing: 3px;
+    line-height: 1.15;
+    text-shadow: 0 2px 20px rgba(192,144,12,0.6);
+  }
+
+  .cover .arabic {
+    font-family: 'Amiri', serif;
+    font-size: 1.6rem;
+    color: rgba(255,255,255,0.6);
+    margin-top: 8px;
+    letter-spacing: 4px;
+  }
+
+  .cover .subtitle {
+    color: rgba(255,255,255,0.55);
+    font-size: 0.95rem;
+    margin-top: 14px;
+    font-style: italic;
+    letter-spacing: 2px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    color: rgba(255,255,255,0.45);
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    animation: bounce2 2s infinite;
+  }
+  @keyframes bounce2 {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(8px); }
+  }
+
+  /* ─── CHAPTERS ─── */
+  .chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 24px 60px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.85s ease, transform 0.85s ease;
+  }
+  .chapter.visible { opacity: 1; transform: translateY(0); }
+
+  .ch1 { background: linear-gradient(150deg, #fdf3d8 0%, #f5e6c0 50%, #e8d5a0 100%); }
+  .ch2 { background: linear-gradient(150deg, #0d2a1f 0%, #1a4a30 50%, #2d6b44 100%); }
+  .ch3 { background: linear-gradient(150deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+  .ch4 { background: linear-gradient(150deg, #f5e6c0 0%, #edd8a0 50%, #c8a04a 100%); }
+  .ch5 { background: linear-gradient(150deg, #0d1f2d 0%, #1a3a5c 50%, #2d5a8a 100%); }
+
+  .ch-num {
+    font-family: 'Amiri', serif;
+    font-size: 8rem;
+    font-weight: 700;
+    position: absolute;
+    top: 10px;
+    right: 24px;
+    line-height: 1;
+    pointer-events: none;
+    opacity: 0.07;
+  }
+
+  .ch1 .ch-num, .ch4 .ch-num { color: #5c3a1a; }
+  .ch2 .ch-num, .ch5 .ch-num { color: #f0c040; }
+  .ch3 .ch-num { color: #87ceeb; }
+
+  .illustration {
+    width: min(340px, 92vw);
+    height: min(255px, 69vw);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 50px rgba(0,0,0,0.3);
+    margin-bottom: 36px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    border: 3px solid rgba(192,144,12,0.35);
+  }
+  .illustration svg { width: 100%; height: 100%; display: block; }
+
+  .chapter-title {
+    font-family: 'Amiri', serif;
+    font-size: clamp(1.5rem, 5vw, 2.1rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .story-text {
+    max-width: 490px;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    position: relative;
+    z-index: 1;
+  }
+  .story-text p { margin-bottom: 14px; }
+
+  .quote {
+    font-style: italic;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 14px 22px;
+    border-radius: 14px;
+    margin: 18px 0;
+    display: inline-block;
+    border-left: 4px solid currentColor;
+  }
+
+  /* per-chapter text colors */
+  .ch1 .chapter-title { color: #5c3a1a; }
+  .ch1 .story-text    { color: #3a2010; }
+  .ch1 .quote         { background: rgba(92,58,26,0.1); color: #5c3a1a; }
+
+  .ch2 .chapter-title { color: var(--gold-light); }
+  .ch2 .story-text    { color: #d4e8c0; }
+  .ch2 .quote         { background: rgba(240,192,64,0.15); color: var(--gold-light); }
+
+  .ch3 .chapter-title { color: #87ceeb; }
+  .ch3 .story-text    { color: #c8e0f0; }
+  .ch3 .quote         { background: rgba(135,206,235,0.12); color: #87ceeb; }
+
+  .ch4 .chapter-title { color: #5c3a1a; }
+  .ch4 .story-text    { color: #3a2010; }
+  .ch4 .quote         { background: rgba(92,58,26,0.1); color: #5c3a1a; }
+
+  .ch5 .chapter-title { color: var(--gold-light); }
+  .ch5 .story-text    { color: #c8e0f8; }
+  .ch5 .quote         { background: rgba(240,192,64,0.12); color: var(--gold-light); }
+
+  /* ─── DIVIDER ─── */
+  .geo-divider {
+    text-align: center;
+    font-size: 1.4rem;
+    padding: 10px;
+    color: var(--gold);
+    opacity: 0.6;
+    letter-spacing: 8px;
+  }
+
+  /* ─── ENDING ─── */
+  .ending {
+    background: var(--deep);
+    padding: 90px 24px;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.85s ease, transform 0.85s ease;
+  }
+  .ending.visible { opacity: 1; transform: translateY(0); }
+
+  .ending h2 {
+    font-family: 'Amiri', serif;
+    font-size: 2.2rem;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+  }
+  .ending p {
+    font-size: 1.1rem;
+    max-width: 520px;
+    margin: 0 auto;
+    opacity: 0.85;
+    line-height: 1.9;
+  }
+  .end-star {
+    font-size: 2.5rem;
+    margin-top: 36px;
+    display: inline-block;
+    animation: spinSlow 12s linear infinite;
+    color: var(--gold-light);
+  }
+  @keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  @media (min-width: 720px) {
+    .chapter {
+      flex-direction: row !important;
+      gap: 52px;
+      padding: 90px 64px;
+    }
+    .illustration { margin-bottom: 0; }
+    .story-text { text-align: left; }
+    .chapter-title { text-align: left; }
+    .chapter:nth-child(even) { flex-direction: row-reverse !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ COVER ══════════════ -->
+<div class="cover">
+  <div class="stars-cover" id="starsCover"></div>
+
+  <!-- Islamic geometric pattern SVG background -->
+  <svg class="cover-geo" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="islamicPat" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+        <polygon points="50,2 62,38 98,38 70,58 80,95 50,75 20,95 30,58 2,38 38,38" fill="none" stroke="#f0c040" stroke-width="1"/>
+        <circle cx="50" cy="50" r="18" fill="none" stroke="#f0c040" stroke-width="0.8"/>
+        <polygon points="50,32 58,46 74,46 62,56 66,72 50,62 34,72 38,56 26,46 42,46" fill="none" stroke="#f0c040" stroke-width="0.5" opacity="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="800" height="800" fill="url(#islamicPat)"/>
+  </svg>
+
+  <div class="crescent-wrap">
+    <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="moonGlow" cx="40%" cy="40%" r="60%">
+          <stop offset="0%" stop-color="#ffe08a"/>
+          <stop offset="100%" stop-color="#c9960c"/>
+        </radialGradient>
+        <radialGradient id="cityGlow" cx="50%" cy="100%" r="60%">
+          <stop offset="0%" stop-color="#c9960c" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+
+      <!-- night sky backdrop circle -->
+      <circle cx="130" cy="130" r="128" fill="#0d1f2d" stroke="#c9960c" stroke-width="2"/>
+      <!-- geometric ring -->
+      <circle cx="130" cy="130" r="118" fill="none" stroke="#c9960c" stroke-width="0.6" stroke-dasharray="6 4" opacity="0.5"/>
+
+      <!-- Stars scattered -->
+      <circle cx="55"  cy="55"  r="2.5" fill="#f0c040"/>
+      <circle cx="195" cy="45"  r="2"   fill="#f0c040"/>
+      <circle cx="220" cy="90"  r="1.5" fill="white" opacity="0.7"/>
+      <circle cx="40"  cy="100" r="1.5" fill="white" opacity="0.8"/>
+      <circle cx="180" cy="75"  r="2"   fill="#f0c040"/>
+      <circle cx="75"  cy="80"  r="1.5" fill="white" opacity="0.6"/>
+      <circle cx="210" cy="130" r="1.5" fill="white" opacity="0.5"/>
+      <circle cx="50"  cy="150" r="1.5" fill="white" opacity="0.7"/>
+
+      <!-- Crescent moon -->
+      <circle cx="120" cy="95" r="48" fill="url(#moonGlow)"/>
+      <circle cx="140" cy="80" r="40" fill="#0d1f2d"/>
+
+      <!-- Star next to crescent -->
+      <polygon points="185,60 189,73 203,73 192,81 196,95 185,87 174,95 178,81 167,73 181,73"
+               fill="#f0c040"/>
+
+      <!-- City of Mecca silhouette -->
+      <g transform="translate(30,170)">
+        <!-- ground -->
+        <rect x="0" y="50" width="200" height="20" fill="#1a3a5c"/>
+        <!-- buildings -->
+        <rect x="10"  y="30" width="18" height="30" fill="#2d5a8a"/>
+        <rect x="32"  y="20" width="14" height="40" fill="#1a4a6c"/>
+        <!-- Kaaba silhouette (cube) -->
+        <rect x="80"  y="18" width="40" height="42" fill="#1a1a2e"/>
+        <rect x="82"  y="20" width="36" height="38" fill="#0d1525" stroke="#c9960c" stroke-width="1.5"/>
+        <!-- gold strip on Kaaba -->
+        <rect x="82"  y="35" width="36" height="6"  fill="#c9960c" opacity="0.7"/>
+        <!-- door of Kaaba -->
+        <rect x="95"  y="40" width="12" height="18" fill="#c9960c" opacity="0.5" rx="1"/>
+        <!-- minarets -->
+        <rect x="55"  y="10" width="8"  height="50" fill="#2d5a8a"/>
+        <polygon points="55,10 59,0 63,10" fill="#c9960c"/>
+        <rect x="137" y="10" width="8"  height="50" fill="#2d5a8a"/>
+        <polygon points="137,10 141,0 145,10" fill="#c9960c"/>
+        <!-- other buildings -->
+        <rect x="155" y="28" width="16" height="32" fill="#2d5a8a"/>
+        <rect x="174" y="35" width="12" height="25" fill="#1a4a6c"/>
+        <!-- glow beneath -->
+        <ellipse cx="100" cy="60" rx="90" ry="15" fill="url(#cityGlow)"/>
+      </g>
+    </svg>
+  </div>
+
+  <h1>Le Prophète<br>Mohamed ﷺ</h1>
+  <p class="arabic">محمد رسول الله</p>
+  <p class="subtitle">Une histoire pour les petits cœurs</p>
+
+  <div class="scroll-hint">
+    <span>Fais défiler pour lire</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ══════════════ CH 1 : La naissance ══════════════ -->
+<div class="chapter ch1">
+  <div class="ch-num">١</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="dawnSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1a0a2e"/>
+          <stop offset="50%" stop-color="#8b3a8b"/>
+          <stop offset="100%" stop-color="#f5a623"/>
+        </linearGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#dawnSky)"/>
+      <!-- Stars fading -->
+      <circle cx="30"  cy="20"  r="1.5" fill="white" opacity="0.7"/>
+      <circle cx="80"  cy="35"  r="1"   fill="white" opacity="0.5"/>
+      <circle cx="150" cy="15"  r="2"   fill="white" opacity="0.8"/>
+      <circle cx="240" cy="28"  r="1.5" fill="white" opacity="0.6"/>
+      <circle cx="300" cy="18"  r="1"   fill="white" opacity="0.7"/>
+      <!-- Moon setting -->
+      <circle cx="290" cy="35" r="22" fill="#ffe08a" opacity="0.8"/>
+      <circle cx="302" cy="26" r="18" fill="#1a0a2e" opacity="0.9"/>
+      <!-- Desert landscape Mecca -->
+      <polygon points="0,180 60,120 120,165 180,110 240,150 300,105 340,140 340,255 0,255"
+               fill="#c8a04a" opacity="0.9"/>
+      <polygon points="0,200 50,155 110,185 170,140 230,170 290,130 340,165 340,255 0,255"
+               fill="#d4b060"/>
+      <!-- Ground -->
+      <rect x="0" y="215" width="340" height="40" fill="#b89040"/>
+      <!-- House in Mecca style -->
+      <rect x="120" y="155" width="100" height="70" fill="#e8d5a0" rx="3"/>
+      <rect x="135" y="145" width="70"  height="16" fill="#d4c090" rx="2"/>
+      <rect x="148" y="165" width="18"  height="30" fill="#8b6020" rx="2"/><!-- door -->
+      <rect x="130" y="170" width="16"  height="14" fill="#87ceeb" opacity="0.7" rx="2"/><!-- window -->
+      <rect x="194" y="170" width="16"  height="14" fill="#87ceeb" opacity="0.7" rx="2"/><!-- window -->
+      <!-- Bright star over the house -->
+      <polygon points="170,80 174,94 189,94 177,103 181,117 170,108 159,117 163,103 151,94 166,94"
+               fill="#f0c040"/>
+      <circle cx="170" cy="97" r="8" fill="#fffbe6" opacity="0.7"/>
+      <!-- Light rays from star -->
+      <g opacity="0.25">
+        <line x1="170" y1="70"  x2="170" y2="50"  stroke="#f0c040" stroke-width="2"/>
+        <line x1="185" y1="78"  x2="198" y2="66"  stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="155" y1="78"  x2="142" y2="66"  stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="188" y1="97"  x2="205" y2="97"  stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="152" y1="97"  x2="135" y2="97"  stroke="#f0c040" stroke-width="1.5"/>
+      </g>
+      <!-- Palm tree -->
+      <line x1="60" y1="215" x2="65" y2="155" stroke="#6b4020" stroke-width="5"/>
+      <ellipse cx="58" cy="152" rx="18" ry="10" fill="#4a7a2c" transform="rotate(-20,58,152)"/>
+      <ellipse cx="72" cy="148" rx="16" ry="9"  fill="#5a8a3c" transform="rotate(15,72,148)"/>
+      <!-- Camel -->
+      <g transform="translate(265,195)">
+        <ellipse cx="0"  cy="0" rx="24" ry="13" fill="#c8a04a"/>
+        <ellipse cx="-16" cy="-8" rx="10" ry="8"  fill="#c8a04a"/><!-- head area -->
+        <ellipse cx="-24" cy="-14" rx="7" ry="6"  fill="#d4b060"/><!-- head -->
+        <circle  cx="-28" cy="-18" r="3" fill="#d4b060"/><!-- snout -->
+        <!-- hump -->
+        <ellipse cx="6" cy="-14" rx="10" ry="9" fill="#d4b060"/>
+        <!-- legs -->
+        <line x1="-12" y1="12" x2="-12" y2="28" stroke="#b89040" stroke-width="4" stroke-linecap="round"/>
+        <line x1="0"   y1="12" x2="0"   y2="28" stroke="#b89040" stroke-width="4" stroke-linecap="round"/>
+        <line x1="12"  y1="12" x2="12"  y2="28" stroke="#b89040" stroke-width="4" stroke-linecap="round"/>
+        <!-- eye -->
+        <circle cx="-29" cy="-19" r="1.5" fill="#1a1a1a"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌟 La naissance à La Mecque</h2>
+    <p>Il y a très très longtemps, dans une belle ville appelée <strong>La Mecque</strong>, au pays des déserts et des palmiers, naquit un bébé extraordinaire.</p>
+    <p>Son nom était <strong>Mohamed</strong>. La nuit de sa naissance, le ciel était plein d'étoiles brillantes, comme si le monde entier se réjouissait !</p>
+    <div class="quote">« Une lumière nouvelle est née dans le monde. »</div>
+    <p>Sa maman s'appelait <strong>Amina</strong>, et il fut confié à une douce femme du désert, <strong>Halima</strong>, qui l'aima comme son propre enfant.</p>
+  </div>
+</div>
+
+<!-- ══════════════ CH 2 : L'enfant honnête ══════════════ -->
+<div class="chapter ch2">
+  <div class="ch-num">٢</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="oasisSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1a6b4a"/>
+          <stop offset="100%" stop-color="#2d8a5c"/>
+        </linearGradient>
+        <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c8a04a"/>
+          <stop offset="100%" stop-color="#8b6020"/>
+        </linearGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#oasisSky)"/>
+      <!-- Sun warm -->
+      <circle cx="270" cy="50" r="34" fill="#f0c040" opacity="0.85"/>
+      <g opacity="0.3">
+        <line x1="270" y1="10"  x2="270" y2="0"   stroke="#f0c040" stroke-width="2"/>
+        <line x1="300" y1="22"  x2="308" y2="14"  stroke="#f0c040" stroke-width="2"/>
+        <line x1="310" y1="50"  x2="320" y2="50"  stroke="#f0c040" stroke-width="2"/>
+        <line x1="300" y1="78"  x2="310" y2="86"  stroke="#f0c040" stroke-width="2"/>
+        <line x1="240" y1="22"  x2="232" y2="14"  stroke="#f0c040" stroke-width="2"/>
+        <line x1="232" y1="50"  x2="220" y2="50"  stroke="#f0c040" stroke-width="2"/>
+      </g>
+      <!-- Distant hills -->
+      <polygon points="0,160 70,100 140,150 210,90 280,130 340,95 340,255 0,255" fill="#1a5a38" opacity="0.6"/>
+      <!-- Ground desert -->
+      <rect x="0" y="185" width="340" height="70" fill="url(#groundGrad)"/>
+      <!-- Sheep herd -->
+      <g>
+        <g transform="translate(60,180)">
+          <ellipse cx="0" cy="0" rx="20" ry="13" fill="white"/>
+          <circle  cx="-14" cy="-8" r="10" fill="white"/>
+          <line x1="-8"  y1="12" x2="-8"  y2="26" stroke="#8b7355" stroke-width="3"/>
+          <line x1="4"   y1="13" x2="4"   y2="27" stroke="#8b7355" stroke-width="3"/>
+          <line x1="14"  y1="12" x2="14"  y2="26" stroke="#8b7355" stroke-width="3"/>
+          <circle cx="-20" cy="-12" r="4" fill="#f0f0f0"/>
+          <circle cx="-19" cy="-13" r="1.5" fill="#1a1a1a"/>
+        </g>
+        <g transform="translate(115,182)">
+          <ellipse cx="0" cy="0" rx="18" ry="11" fill="#f0f0f0"/>
+          <circle  cx="-12" cy="-7" r="9"  fill="#f0f0f0"/>
+          <line x1="-6"  y1="10" x2="-6"  y2="22" stroke="#8b7355" stroke-width="3"/>
+          <line x1="6"   y1="11" x2="6"   y2="23" stroke="#8b7355" stroke-width="3"/>
+          <circle cx="-17" cy="-11" r="3.5" fill="white"/>
+          <circle cx="-17" cy="-12" r="1.2" fill="#1a1a1a"/>
+        </g>
+        <g transform="translate(165,178)">
+          <ellipse cx="0" cy="0" rx="20" ry="13" fill="white"/>
+          <circle  cx="-14" cy="-8" r="10" fill="white"/>
+          <line x1="-8"  y1="12" x2="-8"  y2="26" stroke="#8b7355" stroke-width="3"/>
+          <line x1="4"   y1="13" x2="4"   y2="27" stroke="#8b7355" stroke-width="3"/>
+          <line x1="14"  y1="12" x2="14"  y2="26" stroke="#8b7355" stroke-width="3"/>
+          <circle cx="-20" cy="-12" r="4" fill="#f0f0f0"/>
+          <circle cx="-19" cy="-13" r="1.5" fill="#1a1a1a"/>
+        </g>
+      </g>
+      <!-- Young Mohamed as shepherd -->
+      <g transform="translate(260,160)">
+        <!-- robe -->
+        <path d="M-15,8 Q-12,65 0,68 Q12,65 15,8 Z" fill="#c9960c"/>
+        <!-- staff -->
+        <line x1="18" y1="15" x2="22" y2="75" stroke="#6b4020" stroke-width="5" stroke-linecap="round"/>
+        <!-- arm on staff -->
+        <line x1="15" y1="18" x2="22" y2="30" stroke="#c9960c" stroke-width="6" stroke-linecap="round"/>
+        <!-- other arm gesturing -->
+        <line x1="-15" y1="14" x2="-30" y2="5" stroke="#c9960c" stroke-width="6" stroke-linecap="round"/>
+        <!-- head -->
+        <circle cx="0" cy="-8" r="14" fill="#c8906a"/>
+        <!-- headscarf -->
+        <path d="M-12,-18 Q0,-36 12,-18 L14,-4 Q0,-2 -14,-4 Z" fill="#1a6b4a"/>
+        <path d="M12,-18 Q18,-10 16,2" stroke="#1a6b4a" stroke-width="4" fill="none"/>
+        <!-- gentle eyes -->
+        <circle cx="-4.5" cy="-9" r="2.5" fill="#1a1a1a"/>
+        <circle cx="4.5"  cy="-9" r="2.5" fill="#1a1a1a"/>
+        <!-- warm smile -->
+        <path d="M-4,0 Q0,4 4,0" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+      </g>
+      <!-- Palms -->
+      <line x1="30" y1="185" x2="26" y2="120" stroke="#6b4020" stroke-width="6"/>
+      <ellipse cx="22" cy="117" rx="20" ry="11" fill="#3a6a1c" transform="rotate(-15,22,117)"/>
+      <ellipse cx="34" cy="112" rx="18" ry="10" fill="#4a8a2c" transform="rotate(10,34,112)"/>
+      <line x1="215" y1="180" x2="220" y2="118" stroke="#6b4020" stroke-width="5"/>
+      <ellipse cx="216" cy="115" rx="18" ry="10" fill="#3a6a1c" transform="rotate(-10,216,115)"/>
+      <ellipse cx="228" cy="110" rx="16" ry="9"  fill="#4a8a2c" transform="rotate(18,228,110)"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🐑 L'enfant des déserts</h2>
+    <p>Mohamed grandit dans les dunes dorées. Dès tout petit, il était connu pour sa grande <strong>gentillesse</strong> et son honnêteté.</p>
+    <p>Tout le monde l'appelait <strong>Al-Amine</strong> — ce qui veut dire <em>le fidèle</em>, celui en qui on peut avoir confiance.</p>
+    <div class="quote">« Mohamed ne ment jamais. On peut tout lui confier ! »</div>
+    <p>Il gardait les moutons dans les collines, aimait les animaux, et aidait les pauvres et les vieux. Un enfant au cœur d'or ! 💛</p>
+  </div>
+</div>
+
+<!-- ══════════════ CH 3 : La grotte Hiraa ══════════════ -->
+<div class="chapter ch3">
+  <div class="ch-num">٣</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="caveGlow" cx="50%" cy="50%" r="55%">
+          <stop offset="0%" stop-color="#f0c040" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="nightGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#040815"/>
+          <stop offset="100%" stop-color="#0f2040"/>
+        </linearGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#nightGrad)"/>
+      <!-- Milky way band -->
+      <ellipse cx="170" cy="60" rx="200" ry="20" fill="white" opacity="0.04"/>
+      <!-- Many stars -->
+      <circle cx="20"  cy="15"  r="1.5" fill="white" opacity="0.9"/>
+      <circle cx="55"  cy="30"  r="1"   fill="white" opacity="0.7"/>
+      <circle cx="90"  cy="10"  r="2"   fill="#f0c040" opacity="0.8"/>
+      <circle cx="130" cy="25"  r="1.5" fill="white" opacity="0.8"/>
+      <circle cx="170" cy="8"   r="1"   fill="white" opacity="0.6"/>
+      <circle cx="210" cy="20"  r="2"   fill="white" opacity="0.9"/>
+      <circle cx="260" cy="12"  r="1.5" fill="#f0c040" opacity="0.7"/>
+      <circle cx="300" cy="35"  r="1"   fill="white" opacity="0.8"/>
+      <circle cx="320" cy="15"  r="2"   fill="white" opacity="0.6"/>
+      <circle cx="45"  cy="55"  r="1"   fill="white" opacity="0.5"/>
+      <circle cx="280" cy="55"  r="1.5" fill="white" opacity="0.7"/>
+      <circle cx="150" cy="45"  r="1"   fill="white" opacity="0.5"/>
+      <!-- Crescent and star -->
+      <circle cx="310" cy="60" r="22" fill="#1a2a3a"/>
+      <circle cx="320" cy="52" r="18" fill="#040815"/>
+      <circle cx="295" cy="62" r="7"  fill="#f0c040" opacity="0.9"/>
+      <polygon points="315,40 318,50 328,50 320,56 323,66 315,60 307,66 310,56 302,50 312,50"
+               fill="#f0c040" opacity="0.8" transform="scale(0.7) translate(140,10)"/>
+      <!-- Jabal al-Nour (mountain of light) -->
+      <polygon points="170,50 60,200 280,200" fill="#162030" opacity="0.95"/>
+      <polygon points="170,50 100,200 240,200" fill="#0d1828"/>
+      <!-- Cave opening glow -->
+      <ellipse cx="170" cy="155" rx="35" ry="25" fill="url(#caveGlow)"/>
+      <ellipse cx="170" cy="160" rx="25" ry="18" fill="#1a2a3a" opacity="0.8"/>
+      <!-- Cave arch -->
+      <path d="M145,175 Q170,145 195,175" fill="#0d1828" stroke="#c9960c" stroke-width="1.5" opacity="0.6"/>
+      <!-- Light beams from cave = revelation -->
+      <g opacity="0.4">
+        <line x1="170" y1="150" x2="120" y2="100" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="170" y1="150" x2="170" y2="90"  stroke="#f0c040" stroke-width="2"/>
+        <line x1="170" y1="150" x2="220" y2="100" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="170" y1="150" x2="100" y2="120" stroke="#f0c040" stroke-width="1"/>
+        <line x1="170" y1="150" x2="240" y2="120" stroke="#f0c040" stroke-width="1"/>
+      </g>
+      <!-- Mohamed in cave meditating -->
+      <g transform="translate(158,162)">
+        <!-- sitting figure -->
+        <path d="M-12,0 Q-8,20 0,22 Q8,20 12,0 Z" fill="#1a6b4a"/>
+        <!-- head bowed -->
+        <circle cx="0" cy="-10" r="12" fill="#c8906a"/>
+        <path d="M-10,-18 Q0,-34 10,-18 Q14,-8 12,0 Q-12,0 -14,-8 Z" fill="#0d2a1f"/>
+        <!-- eyes wide open in awe -->
+        <circle cx="-3.5" cy="-10" r="2.5" fill="white"/>
+        <circle cx="3.5"  cy="-10" r="2.5" fill="white"/>
+        <circle cx="-3.5" cy="-10" r="1.5" fill="#1a1a1a"/>
+        <circle cx="3.5"  cy="-10" r="1.5" fill="#1a1a1a"/>
+        <!-- open hand receiving -->
+        <path d="M14,2 Q22,-5 20,8" stroke="#c8906a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </g>
+      <!-- Glowing word IQRA (arabic calligraphy hint) -->
+      <text x="170" y="108" text-anchor="middle" font-size="18" fill="#f0c040" opacity="0.6"
+            font-family="serif" font-style="italic">اقرأ</text>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">✨ La nuit de la lumière</h2>
+    <p>Quand Mohamed eut 40 ans, il aimait aller méditer dans une grotte sur la montagne de la <strong>Lumière</strong>, appelée Jabal al-Nour.</p>
+    <p>Une nuit extraordinaire, l'ange <strong>Jibrîl</strong> (Gabriel) lui apparut, brillant comme mille étoiles !</p>
+    <div class="quote">« Lis ! » dit la voix lumineuse. C'était le début du Saint Coran.</div>
+    <p>Mohamed rentra chez lui, le cœur tremblant d'émerveillement. Sa femme <strong>Khadija</strong> le serra dans ses bras et lui dit : <em>« Sois confiant. Dieu ne t'abandonnera jamais. »</em></p>
+  </div>
+</div>
+
+<!-- ══════════════ CH 4 : La bonté ══════════════ -->
+<div class="chapter ch4">
+  <div class="ch-num">٤</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="marketSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#87ceeb"/>
+          <stop offset="100%" stop-color="#ffecd2"/>
+        </linearGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#marketSky)"/>
+      <!-- Sun -->
+      <circle cx="40" cy="40" r="28" fill="#f0c040" opacity="0.9"/>
+      <!-- Market of Medina -->
+      <!-- stall awnings -->
+      <path d="M10,100 L60,80 L110,100 Z"  fill="#c0392b" opacity="0.85"/>
+      <path d="M110,100 L160,80 L210,100 Z" fill="#1a6b4a" opacity="0.85"/>
+      <path d="M210,100 L260,80 L310,100 Z" fill="#c9960c" opacity="0.85"/>
+      <!-- stall frames -->
+      <rect x="10"  y="100" width="100" height="70" fill="#e8d5a0" opacity="0.7" rx="2"/>
+      <rect x="110" y="100" width="100" height="70" fill="#d4e8c0" opacity="0.7" rx="2"/>
+      <rect x="210" y="100" width="100" height="70" fill="#f5e6c0" opacity="0.7" rx="2"/>
+      <!-- Ground -->
+      <rect x="0" y="175" width="340" height="80" fill="#c8a04a"/>
+      <!-- Pebble texture -->
+      <circle cx="50"  cy="190" r="3" fill="#b89040" opacity="0.5"/>
+      <circle cx="120" cy="195" r="2" fill="#b89040" opacity="0.4"/>
+      <circle cx="200" cy="188" r="3" fill="#b89040" opacity="0.5"/>
+      <circle cx="280" cy="193" r="2" fill="#b89040" opacity="0.4"/>
+      <!-- Mohamed giving food to poor person -->
+      <!-- Mohamed -->
+      <g transform="translate(170,130)">
+        <path d="M-16,8 Q-12,65 0,68 Q12,65 16,8 Z" fill="#1a6b4a"/>
+        <line x1="-16" y1="14" x2="-35" y2="5"  stroke="#1a6b4a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="16"  y1="14" x2="38"  y2="10" stroke="#1a6b4a" stroke-width="7" stroke-linecap="round"/>
+        <!-- bread in hand -->
+        <ellipse cx="40" cy="9" rx="10" ry="6" fill="#d4a017" opacity="0.9"/>
+        <circle cx="0" cy="-8" r="14" fill="#c8906a"/>
+        <path d="M-11,-18 Q0,-36 11,-18 L14,-5 Q0,-2 -14,-5 Z" fill="#0d2a1f"/>
+        <!-- warm smile -->
+        <path d="M-5,0 Q0,5 5,0" stroke="#7a3a10" stroke-width="2" fill="none"/>
+        <circle cx="-4.5" cy="-9" r="2.5" fill="#1a1a1a"/>
+        <circle cx="4.5"  cy="-9" r="2.5" fill="#1a1a1a"/>
+      </g>
+      <!-- Poor elderly person receiving -->
+      <g transform="translate(240,138)">
+        <path d="M-12,6 Q-10,55 0,57 Q10,55 12,6 Z" fill="#c8a04a"/>
+        <!-- arm receiving -->
+        <line x1="-12" y1="14" x2="-32" y2="8"  stroke="#c8a04a" stroke-width="6" stroke-linecap="round"/>
+        <!-- bowl in hand -->
+        <path d="M-40,6 Q-35,14 -28,6" fill="none" stroke="#8b6020" stroke-width="3"/>
+        <circle cx="-34" cy="6" r="6" fill="#e8d5a0" opacity="0.7"/>
+        <circle cx="0" cy="-8" r="12" fill="#c8906a" opacity="0.8"/>
+        <!-- white hair -->
+        <path d="M-10,-18 Q0,-32 10,-18 Q12,-6 0,-4 Q-12,-6 -10,-18 Z" fill="#f0f0f0"/>
+        <!-- eyes -->
+        <circle cx="-3.5" cy="-9" r="2" fill="#1a1a1a"/>
+        <circle cx="3.5"  cy="-9" r="2" fill="#1a1a1a"/>
+        <!-- smile grateful -->
+        <path d="M-3,0 Q0,4 3,0" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+        <!-- walking stick -->
+        <line x1="14" y1="10" x2="18" y2="65" stroke="#6b4020" stroke-width="4" stroke-linecap="round"/>
+      </g>
+      <!-- Child playing nearby -->
+      <g transform="translate(80,175)">
+        <circle cx="0" cy="-20" r="9"  fill="#d4a57a"/>
+        <rect x="-8" y="-12" width="16" height="14" fill="#c0392b" rx="2"/>
+        <circle cx="-3" cy="-21" r="1.5" fill="#1a1a1a"/>
+        <circle cx="3"  cy="-21" r="1.5" fill="#1a1a1a"/>
+        <path d="M-2,-15 Q0,-12 2,-15" stroke="#7a3a10" stroke-width="1" fill="none"/>
+      </g>
+      <!-- Bird on ground -->
+      <g transform="translate(130,218)" opacity="0.8">
+        <ellipse cx="0" cy="0" rx="8" ry="5" fill="#c8906a"/>
+        <circle  cx="-6" cy="-3" r="4" fill="#c8906a"/>
+        <path d="M-10,-4 Q-14,-6 -10,-2" fill="#d4a017"/>
+        <circle cx="-7" cy="-4" r="1" fill="#1a1a1a"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🤝 Le cœur le plus généreux</h2>
+    <p>Mohamed enseignait la bonté par ses actes, chaque jour. Il aidait les vieux, nourrissait les affamés, et souriait à tout le monde.</p>
+    <p>Il disait que <strong>sourire à son frère</strong> est une forme de générosité. Il caressait la tête des enfants et défendait ceux qui étaient traités injustement.</p>
+    <div class="quote">« Le meilleur d'entre vous est celui qui est le meilleur avec les gens. »</div>
+    <p>Une vieille femme qui jetait des ordures sur son chemin : quand elle tomba malade, c'est Mohamed qui vint lui rendre visite. Elle pleura de honte et d'émotion. 💚</p>
+  </div>
+</div>
+
+<!-- ══════════════ CH 5 : L'Hégire et la paix ══════════════ -->
+<div class="chapter ch5">
+  <div class="ch-num">٥</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="medinaGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0d1f2d"/>
+          <stop offset="60%" stop-color="#1a3a5c"/>
+          <stop offset="100%" stop-color="#2d5a8a"/>
+        </linearGradient>
+        <radialGradient id="moonlight" cx="70%" cy="20%" r="50%">
+          <stop offset="0%" stop-color="#fffbe6" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#medinaGrad)"/>
+      <rect width="340" height="255" fill="url(#moonlight)"/>
+      <!-- Stars -->
+      <circle cx="20"  cy="18"  r="1.5" fill="white" opacity="0.8"/>
+      <circle cx="55"  cy="35"  r="1"   fill="white" opacity="0.6"/>
+      <circle cx="100" cy="12"  r="2"   fill="#f0c040" opacity="0.9"/>
+      <circle cx="155" cy="28"  r="1.5" fill="white" opacity="0.7"/>
+      <circle cx="200" cy="10"  r="1"   fill="white" opacity="0.5"/>
+      <circle cx="280" cy="25"  r="2"   fill="white" opacity="0.8"/>
+      <circle cx="320" cy="15"  r="1.5" fill="#f0c040" opacity="0.7"/>
+      <!-- Full moon -->
+      <circle cx="285" cy="50" r="32" fill="#ffe8a0" opacity="0.85"/>
+      <circle cx="285" cy="50" r="28" fill="#fff8e0" opacity="0.7"/>
+      <!-- Moon craters subtle -->
+      <circle cx="278" cy="42" r="5" fill="#ffe08a" opacity="0.4"/>
+      <circle cx="290" cy="58" r="4" fill="#ffe08a" opacity="0.3"/>
+      <!-- Medina mosque silhouette -->
+      <g transform="translate(0,130)">
+        <!-- Base wall -->
+        <rect x="20"  y="60" width="300" height="65" fill="#0d1f2d"/>
+        <!-- Main dome -->
+        <path d="M140,60 Q170,20 200,60 Z" fill="#1a3a5c"/>
+        <ellipse cx="170" cy="60" rx="30" ry="8" fill="#1a3a5c"/>
+        <!-- Green dome top (Madinah) -->
+        <path d="M148,60 Q170,25 192,60 Z" fill="#1a6b4a"/>
+        <ellipse cx="170" cy="58" rx="22" ry="6" fill="#1a6b4a"/>
+        <!-- Finial on dome -->
+        <line x1="170" y1="22" x2="170" y2="8"   stroke="#c9960c" stroke-width="2"/>
+        <polygon points="170,8 173,16 167,16" fill="#c9960c"/>
+        <circle cx="170" cy="6" r="3" fill="#f0c040"/>
+        <!-- Crescent on top -->
+        <path d="M166,3 Q170,-4 174,3" fill="none" stroke="#f0c040" stroke-width="1.5"/>
+        <!-- Minarets -->
+        <rect x="50"  y="20" width="14" height="60" fill="#162030"/>
+        <path d="M50,20 Q57,8 64,20 Z" fill="#1a6b4a"/>
+        <line x1="57" y1="6" x2="57" y2="-2"  stroke="#c9960c" stroke-width="1.5"/>
+        <circle cx="57" cy="-3" r="2.5" fill="#f0c040"/>
+        <rect x="276" y="20" width="14" height="60" fill="#162030"/>
+        <path d="M276,20 Q283,8 290,20 Z" fill="#1a6b4a"/>
+        <line x1="283" y1="6" x2="283" y2="-2" stroke="#c9960c" stroke-width="1.5"/>
+        <circle cx="283" cy="-3" r="2.5" fill="#f0c040"/>
+        <!-- Side minarets smaller -->
+        <rect x="105" y="35" width="10" height="45" fill="#162030"/>
+        <path d="M105,35 Q110,26 115,35 Z" fill="#c9960c" opacity="0.7"/>
+        <rect x="225" y="35" width="10" height="45" fill="#162030"/>
+        <path d="M225,35 Q230,26 235,35 Z" fill="#c9960c" opacity="0.7"/>
+        <!-- Arcade arches -->
+        <path d="M70,80 Q80,68 90,80"  fill="none" stroke="#c9960c" stroke-width="1.5" opacity="0.6"/>
+        <path d="M100,80 Q110,68 120,80" fill="none" stroke="#c9960c" stroke-width="1.5" opacity="0.6"/>
+        <path d="M220,80 Q230,68 240,80" fill="none" stroke="#c9960c" stroke-width="1.5" opacity="0.6"/>
+        <path d="M250,80 Q260,68 270,80" fill="none" stroke="#c9960c" stroke-width="1.5" opacity="0.6"/>
+        <!-- Windows glowing -->
+        <ellipse cx="135" cy="90" rx="8" ry="5" fill="#f0c040" opacity="0.4"/>
+        <ellipse cx="170" cy="88" rx="8" ry="5" fill="#f0c040" opacity="0.5"/>
+        <ellipse cx="205" cy="90" rx="8" ry="5" fill="#f0c040" opacity="0.4"/>
+      </g>
+      <!-- People coming peacefully -->
+      <g transform="translate(30,215)" opacity="0.75">
+        <circle cx="0"  cy="-18" r="6"  fill="#c8906a"/>
+        <rect x="-6"  y="-13" width="12" height="14" fill="#1a6b4a" rx="1"/>
+        <circle cx="22" cy="-16" r="5.5" fill="#d4a57a"/>
+        <rect x="16"  y="-11" width="11" height="13" fill="#c0392b" rx="1"/>
+        <circle cx="42" cy="-17" r="6"  fill="#c8906a"/>
+        <rect x="36"  y="-12" width="12" height="13" fill="#c9960c" rx="1"/>
+      </g>
+      <!-- Doves of peace -->
+      <g opacity="0.7">
+        <path d="M90,100 Q97,90 106,97 Q112,88 120,96"  fill="white" stroke="#ddd" stroke-width="0.5"/>
+        <path d="M200,85 Q207,75 216,82 Q222,73 230,81" fill="white" stroke="#ddd" stroke-width="0.5"/>
+      </g>
+      <!-- Geometric frame ornament -->
+      <rect x="4" y="4" width="332" height="247" rx="8" fill="none" stroke="#c9960c" stroke-width="1.5" opacity="0.3"/>
+      <rect x="10" y="10" width="320" height="235" rx="6" fill="none" stroke="#c9960c" stroke-width="0.5" opacity="0.2" stroke-dasharray="5 5"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🕌 La ville de la paix</h2>
+    <p>Mohamed et ses amis durent quitter La Mecque pour aller vers une nouvelle ville : <strong>Médine</strong>. Ce grand voyage s'appelle l'<em>Hégire</em>.</p>
+    <p>À Médine, il construisit la première mosquée et créa une ville où juifs, chrétiens et musulmans vivaient ensemble en <strong>paix</strong>.</p>
+    <div class="quote">« Aimez-vous les uns les autres comme je vous aime. »</div>
+    <p>Mohamed nous a appris que l'<strong>amour</strong>, le respect et le partage sont les plus belles choses que l'on puisse offrir au monde. 🌙✨</p>
+  </div>
+</div>
+
+<!-- ══════════════ ENDING ══════════════ -->
+<div class="ending">
+  <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.08" viewBox="0 0 400 400">
+    <defs>
+      <pattern id="ep" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+        <polygon points="40,2 50,30 78,30 56,46 64,76 40,60 16,76 24,46 2,30 30,30"
+                 fill="none" stroke="#f0c040" stroke-width="1"/>
+        <circle cx="40" cy="40" r="15" fill="none" stroke="#f0c040" stroke-width="0.6"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="400" fill="url(#ep)"/>
+  </svg>
+
+  <h2>ﷺ Fin ✨</h2>
+  <p>Et voilà l'histoire du Prophète Mohamed ﷺ,<br>
+  l'homme le plus aimé, le plus généreux, le plus courageux.<br><br>
+  Il nous apprend à être gentil avec tout le monde,<br>
+  à dire la vérité, à partager, et à ne jamais perdre espoir.<br><br>
+  <em>Que la paix et la bénédiction soient sur lui. 🌙⭐</em></p>
+  <div class="end-star">✦</div>
+</div>
+
+<script>
+  // Stars on cover
+  const cover = document.getElementById('starsCover');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const sz = Math.random() * 2.5 + 1;
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      width:${sz}px; height:${sz}px;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${1.5+Math.random()*2.5}s;
+    `;
+    cover.appendChild(s);
+  }
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.chapter, .ending').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
