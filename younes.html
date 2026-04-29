@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Younes – Le Prophète et la Baleine</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ocean-deep:  #020d1a;
+    --ocean-mid:   #063a5c;
+    --ocean-light: #0a6b8a;
+    --gold:        #c9960c;
+    --gold-light:  #f0c040;
+    --foam:        #c8f0ff;
+    --cream:       #fdf8ee;
+    --teal:        #0abfbc;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--ocean-deep);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    color: #e8dcc8;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #020d1a 0%, #063a5c 60%, #0a6b8a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px 80px;
+  }
+
+  /* Animated bubbles */
+  .bubble {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(200,240,255,.25);
+    animation: rise linear infinite;
+    pointer-events: none;
+  }
+  @keyframes rise {
+    from { transform: translateY(100vh) scale(1); opacity:.6; }
+    to   { transform: translateY(-20vh) scale(1.3); opacity:0; }
+  }
+
+  /* Stars top half */
+  .star-dot {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: tw 2.5s infinite alternate;
+    pointer-events: none;
+  }
+  @keyframes tw {
+    from { opacity:.2; transform:scale(1); }
+    to   { opacity:.9; transform:scale(1.7); }
+  }
+
+  .cover-stars { position:absolute; inset:0; pointer-events:none; }
+
+  /* Ocean waves on cover */
+  .cover-wave {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    pointer-events: none;
+  }
+
+  .cover-scene {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 28px;
+    animation: floatY 4s ease-in-out infinite;
+  }
+  @keyframes floatY {
+    0%,100% { transform:translateY(0); }
+    50%      { transform:translateY(-14px); }
+  }
+
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem,9vw,4.5rem);
+    color: var(--gold-light);
+    text-align: center;
+    letter-spacing: 3px;
+    line-height: 1.1;
+    text-shadow: 0 2px 30px rgba(10,191,188,.4);
+  }
+  .cover .subtitle-ar {
+    font-size: 1.4rem;
+    color: rgba(200,240,255,.5);
+    margin-top: 8px;
+    letter-spacing: 6px;
+    font-family: serif;
+  }
+  .cover .subtitle {
+    color: rgba(200,240,255,.5);
+    font-size: .95rem;
+    margin-top: 12px;
+    font-style: italic;
+    letter-spacing: 2px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    color: rgba(200,240,255,.4);
+    font-size: .8rem;
+    display: flex; flex-direction:column; align-items:center; gap:5px;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);}
+  }
+
+  /* ── CHAPTERS ── */
+  .chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 24px 60px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .chapter.visible { opacity:1; transform:translateY(0); }
+
+  .ch1 { background: linear-gradient(155deg,#fdf3d8 0%,#f5e6c0 50%,#e8d5a0 100%); }
+  .ch2 { background: linear-gradient(155deg,#020d1a 0%,#063a5c 60%,#0a4a6a 100%); }
+  .ch3 { background: linear-gradient(155deg,#010810 0%,#021520 50%,#031e2e 100%); }
+  .ch4 { background: linear-gradient(155deg,#010810 0%,#052030 50%,#0a3a50 100%); }
+  .ch5 { background: linear-gradient(155deg,#063a5c 0%,#0a6b8a 50%,#c8a04a 100%); }
+
+  .ch-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9rem;
+    font-weight: 700;
+    position: absolute;
+    top: 0; right: 20px;
+    line-height: 1;
+    pointer-events: none;
+    opacity: .05;
+  }
+  .ch1 .ch-num { color:#5c3a1a; }
+  .ch2 .ch-num,.ch3 .ch-num,.ch4 .ch-num { color:#c8f0ff; }
+  .ch5 .ch-num { color:#f0c040; }
+
+  .illustration {
+    width: min(340px,92vw);
+    height: min(255px,69vw);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 50px rgba(0,0,0,.5);
+    margin-bottom: 36px;
+    flex-shrink: 0;
+    position: relative; z-index:1;
+    border: 3px solid rgba(10,191,188,.25);
+  }
+  .illustration svg { width:100%; height:100%; display:block; }
+
+  .chapter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem,5vw,2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative; z-index:1;
+  }
+  .story-text {
+    max-width: 490px;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    position: relative; z-index:1;
+  }
+  .story-text p { margin-bottom:14px; }
+  .quote {
+    font-style: italic;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 14px 22px;
+    border-radius: 14px;
+    margin: 18px 0;
+    display: inline-block;
+    border-left: 4px solid currentColor;
+  }
+
+  .ch1 .chapter-title { color:#5c3a1a; }
+  .ch1 .story-text    { color:#3a2010; }
+  .ch1 .quote         { background:rgba(92,58,26,.1); color:#5c3a1a; }
+
+  .ch2 .chapter-title { color:#c8f0ff; }
+  .ch2 .story-text    { color:#a0d8f0; }
+  .ch2 .quote         { background:rgba(200,240,255,.08); color:#c8f0ff; }
+
+  .ch3 .chapter-title { color:#f0c040; }
+  .ch3 .story-text    { color:#a0c8e0; }
+  .ch3 .quote         { background:rgba(240,192,64,.1); color:#f0c040; }
+
+  .ch4 .chapter-title { color:#c8f0ff; }
+  .ch4 .story-text    { color:#a0d0e8; }
+  .ch4 .quote         { background:rgba(200,240,255,.08); color:#c8f0ff; }
+
+  .ch5 .chapter-title { color:#f0c040; }
+  .ch5 .story-text    { color:#3a2010; }
+  .ch5 .quote         { background:rgba(92,58,26,.1); color:#8b5e20; }
+
+  /* ── ENDING ── */
+  .ending {
+    background: linear-gradient(180deg,#020d1a 0%,#031a2e 100%);
+    padding: 90px 24px;
+    text-align: center;
+    color: white;
+    position: relative; overflow: hidden;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .ending.visible { opacity:1; transform:translateY(0); }
+  .ending h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+  }
+  .ending p {
+    font-size:1.1rem; max-width:520px;
+    margin:0 auto; opacity:.85; line-height:1.9;
+  }
+  .end-star {
+    font-size:2.5rem; margin-top:36px;
+    display:inline-block;
+    animation: spinSlow 12s linear infinite;
+    color: var(--teal);
+  }
+  @keyframes spinSlow {
+    from{transform:rotate(0deg);} to{transform:rotate(360deg);}
+  }
+
+  @media(min-width:720px){
+    .chapter{flex-direction:row!important;gap:52px;padding:90px 64px;}
+    .illustration{margin-bottom:0;}
+    .story-text{text-align:left;}
+    .chapter-title{text-align:left;}
+    .chapter:nth-child(even){flex-direction:row-reverse!important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-stars" id="starsCover"></div>
+  <div id="bubblesContainer"></div>
+
+  <div class="cover-scene">
+    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="covGlow" cx="50%" cy="55%" r="50%">
+          <stop offset="0%"   stop-color="#0abfbc" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".9"/>
+          <stop offset="100%" stop-color="#c9960c" stop-opacity=".6"/>
+        </radialGradient>
+        <linearGradient id="covOcean" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#063a5c"/>
+          <stop offset="100%" stop-color="#010a14"/>
+        </linearGradient>
+      </defs>
+
+      <!-- outer circle frame -->
+      <circle cx="150" cy="150" r="147" fill="#020d1a" stroke="#0abfbc" stroke-width="1.5"/>
+      <circle cx="150" cy="150" r="137" fill="none"    stroke="#0abfbc" stroke-width=".5"
+              stroke-dasharray="5 4" opacity=".35"/>
+
+      <!-- ocean fill -->
+      <clipPath id="circleClip">
+        <circle cx="150" cy="150" r="145"/>
+      </clipPath>
+      <rect width="300" height="300" fill="url(#covOcean)" clip-path="url(#circleClip)"/>
+      <rect width="300" height="300" fill="url(#covGlow)"  clip-path="url(#circleClip)"/>
+
+      <!-- night sky top half -->
+      <path d="M3,150 A147,147 0 0,1 297,150 Z" fill="#020d1a" opacity=".7" clip-path="url(#circleClip)"/>
+
+      <!-- stars top -->
+      <circle cx="60"  cy="55"  r="2"   fill="#f0c040"/>
+      <circle cx="110" cy="38"  r="1.5" fill="white" opacity=".8"/>
+      <circle cx="200" cy="48"  r="2"   fill="#f0c040"/>
+      <circle cx="240" cy="68"  r="1.5" fill="white" opacity=".7"/>
+      <circle cx="80"  cy="80"  r="1"   fill="white" opacity=".6"/>
+
+      <!-- Moon -->
+      <circle cx="230" cy="55" r="26" fill="url(#moonGlow)" opacity=".9"/>
+      <circle cx="240" cy="47" r="21" fill="#020d1a"/>
+
+      <!-- Ocean surface waves -->
+      <path d="M3,150 Q40,138 80,150 Q120,162 160,150 Q200,138 240,150 Q270,158 297,150"
+            fill="none" stroke="#c8f0ff" stroke-width="2" opacity=".5" clip-path="url(#circleClip)"/>
+      <path d="M3,158 Q50,147 100,158 Q150,169 200,158 Q250,147 297,158"
+            fill="none" stroke="#c8f0ff" stroke-width="1" opacity=".25" clip-path="url(#circleClip)"/>
+
+      <!-- WHALE in ocean -->
+      <g transform="translate(75,195)" clip-path="url(#circleClip)">
+        <!-- body -->
+        <ellipse cx="70" cy="0" rx="80" ry="34" fill="#0a3a5c"/>
+        <!-- head -->
+        <ellipse cx="-5" cy="0" rx="30" ry="28" fill="#0a4a6c"/>
+        <!-- tail fin -->
+        <path d="M148,-8 Q175,-28 170,0 Q165,28 148,8 Z" fill="#063a5c"/>
+        <!-- belly -->
+        <ellipse cx="60" cy="12" rx="55" ry="16" fill="#0d5a7a" opacity=".5"/>
+        <!-- mouth line -->
+        <path d="M-30,8 Q-10,18 10,10" stroke="#c8f0ff" stroke-width="2" fill="none" opacity=".5"/>
+        <!-- eye -->
+        <circle cx="-8" cy="-8" r="6"  fill="white"/>
+        <circle cx="-8" cy="-8" r="3.5" fill="#020d1a"/>
+        <circle cx="-6" cy="-10" r="1.5" fill="white"/>
+        <!-- blowhole spray -->
+        <line x1="40" y1="-34" x2="38" y2="-55" stroke="#c8f0ff" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+        <line x1="40" y1="-34" x2="30" y2="-52" stroke="#c8f0ff" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+        <line x1="40" y1="-34" x2="50" y2="-50" stroke="#c8f0ff" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+        <!-- pectoral fin -->
+        <path d="M30,18 Q10,48 40,44 Q60,40 50,20 Z" fill="#084a6a"/>
+      </g>
+
+      <!-- Younes silhouette inside whale (small) -->
+      <g transform="translate(128,198)" opacity=".7">
+        <circle cx="0" cy="-12" r="6"  fill="#c8906a"/>
+        <path d="M-6,0 Q0,16 6,0 Z" fill="#1e6b3a"/>
+        <!-- praying hands -->
+        <line x1="-6" y1="2"  x2="-14" y2="-8"  stroke="#1e6b3a" stroke-width="3" stroke-linecap="round"/>
+        <line x1="6"  y1="2"  x2="14"  y2="-8"  stroke="#1e6b3a" stroke-width="3" stroke-linecap="round"/>
+      </g>
+
+      <!-- underwater glow around whale -->
+      <ellipse cx="150" cy="210" rx="110" ry="45" fill="#0abfbc" opacity=".06" clip-path="url(#circleClip)"/>
+
+      <!-- Fish around whale -->
+      <g opacity=".6" clip-path="url(#circleClip)">
+        <ellipse cx="48"  cy="210" rx="8" ry="5" fill="#0abfbc"/>
+        <path d="M40,210 Q36,206 38,210 Q36,214 40,210 Z" fill="#0abfbc"/>
+        <ellipse cx="240" cy="220" rx="7" ry="4" fill="#5ab8e0"/>
+        <path d="M233,220 Q229,217 231,220 Q229,223 233,220 Z" fill="#5ab8e0"/>
+      </g>
+    </svg>
+  </div>
+
+  <h1>Younes<br>et la Baleine</h1>
+  <p class="subtitle-ar">يونس عليه السلام</p>
+  <p class="subtitle">L'histoire du prophète au ventre de la baleine</p>
+
+  <div class="scroll-hint">
+    <span>Fais défiler pour lire</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+
+  <!-- animated ocean wave bottom of cover -->
+  <svg class="cover-wave" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 Q180,0 360,40 Q540,80 720,40 Q900,0 1080,40 Q1260,80 1440,40 L1440,80 L0,80 Z"
+          fill="#020d1a" opacity=".6"/>
+    <path d="M0,55 Q180,20 360,55 Q540,90 720,55 Q900,20 1080,55 Q1260,90 1440,55 L1440,80 L0,80 Z"
+          fill="#020d1a"/>
+  </svg>
+</div>
+
+
+<!-- ══ CH 1 : La ville de Ninive ══ -->
+<div class="chapter ch1">
+  <div class="ch-num">١</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="niniSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#87ceeb"/>
+          <stop offset="100%" stop-color="#ffecd2"/>
+        </linearGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#niniSky)"/>
+      <!-- Sun -->
+      <circle cx="280" cy="45" r="30" fill="#f0c040" opacity=".85"/>
+      <!-- City Ninive ancient Mesopotamia -->
+      <!-- walls -->
+      <rect x="0"   y="140" width="340" height="115" fill="#c8a04a"/>
+      <rect x="0"   y="138" width="340" height="8"   fill="#d4b060" opacity=".5"/>
+      <!-- big gate -->
+      <rect x="145" y="100" width="50" height="48" fill="#b89040"/>
+      <path d="M145,100 Q170,80 195,100 Z" fill="#a07830"/>
+      <!-- gate door -->
+      <rect x="155" y="118" width="14" height="30" fill="#5c3a1a" rx="1"/>
+      <rect x="171" y="118" width="14" height="30" fill="#5c3a1a" rx="1"/>
+      <!-- towers -->
+      <rect x="30"  y="80"  width="38" height="68" fill="#c8a04a"/>
+      <rect x="272" y="80"  width="38" height="68" fill="#c8a04a"/>
+      <!-- tower tops -->
+      <rect x="28"  y="74"  width="42" height="10" fill="#d4b060"/>
+      <rect x="270" y="74"  width="42" height="10" fill="#d4b060"/>
+      <!-- merlons (battlements) -->
+      <g fill="#d4b060">
+        <rect x="30"  y="60" width="8"  height="16"/>
+        <rect x="42"  y="60" width="8"  height="16"/>
+        <rect x="54"  y="60" width="8"  height="16"/>
+        <rect x="272" y="60" width="8"  height="16"/>
+        <rect x="284" y="60" width="8"  height="16"/>
+        <rect x="296" y="60" width="8"  height="16"/>
+      </g>
+      <!-- buildings inside -->
+      <rect x="70"  y="115" width="30" height="33" fill="#d4b060"/>
+      <rect x="105" y="108" width="25" height="40" fill="#c8a04a"/>
+      <rect x="210" y="115" width="28" height="33" fill="#d4b060"/>
+      <rect x="240" y="105" width="26" height="43" fill="#c8a04a"/>
+      <!-- ziggurat in background -->
+      <rect x="135" y="50"  width="70" height="15" fill="#c8a04a" opacity=".4"/>
+      <rect x="145" y="38"  width="50" height="14" fill="#c8a04a" opacity=".4"/>
+      <rect x="155" y="28"  width="30" height="12" fill="#c8a04a" opacity=".4"/>
+      <!-- Younes walking away from city (tiny figure seen from behind) -->
+      <g transform="translate(290,175)">
+        <path d="M-10,5 Q-7,40 0,42 Q7,40 10,5 Z" fill="#1e6b3a"/>
+        <circle cx="0" cy="-5" r="10" fill="#c8906a"/>
+        <path d="M-8,-14 Q0,-26 8,-14 L10,-3 Q0,-1 -10,-3 Z" fill="#0d2a16"/>
+        <!-- staff -->
+        <line x1="12" y1="10" x2="16" y2="50" stroke="#8b5e3c" stroke-width="4" stroke-linecap="round"/>
+        <!-- walking legs -->
+        <line x1="-6" y1="40" x2="-8"  y2="56" stroke="#1e6b3a" stroke-width="5" stroke-linecap="round"/>
+        <line x1="4"  y1="40" x2="8"   y2="54" stroke="#1e6b3a" stroke-width="5" stroke-linecap="round"/>
+      </g>
+      <!-- people in city not listening (backs turned) -->
+      <g transform="translate(80,175)" opacity=".75">
+        <circle cx="0"  cy="-18" r="6"  fill="#d4a57a"/>
+        <rect x="-6"  y="-13" width="12" height="14" fill="#c0392b" rx="1"/>
+        <circle cx="22" cy="-16" r="5.5" fill="#c8906a"/>
+        <rect x="16"  y="-11" width="11" height="13" fill="#c9960c" rx="1"/>
+        <circle cx="42" cy="-18" r="6"  fill="#d4a57a"/>
+        <rect x="36"  y="-13" width="12" height="14" fill="#8b4a10" rx="1"/>
+      </g>
+      <!-- Palm tree -->
+      <line x1="20" y1="170" x2="16" y2="105" stroke="#6b4020" stroke-width="5"/>
+      <ellipse cx="14" cy="102" rx="18" ry="10" fill="#3a6a1c" transform="rotate(-15,14,102)"/>
+      <ellipse cx="24" cy="97"  rx="15" ry="9"  fill="#4a8a2c" transform="rotate(12,24,97)"/>
+      <!-- Desert ground -->
+      <rect x="0" y="220" width="340" height="35" fill="#b89040"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🏛️ La ville qui n'écoutait pas</h2>
+    <p>Il y a très longtemps, dans une grande ville appelée <strong>Ninive</strong>, Dieu envoya le prophète <strong>Younes</strong> pour guider ses habitants.</p>
+    <p>Mais les gens de Ninive ne voulaient pas écouter. Ils riaient, ils tournaient le dos et continuaient à faire n'importe quoi.</p>
+    <div class="quote">« Pourquoi perdre mon temps ici ? Ils ne m'écoutent jamais ! »</div>
+    <p>Younes, découragé, prit une grande décision : il quitta la ville sans attendre la permission de Dieu. Il marcha jusqu'au port et monta sur un <strong>grand bateau</strong>. 🚢</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 2 : La tempête ══ -->
+<div class="chapter ch2">
+  <div class="ch-num">٢</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="stormSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0a0a1a"/>
+          <stop offset="100%" stop-color="#1a2a4a"/>
+        </linearGradient>
+        <linearGradient id="stormSea" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0a3a5c"/>
+          <stop offset="100%" stop-color="#020d1a"/>
+        </linearGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#stormSky)"/>
+      <!-- storm clouds -->
+      <ellipse cx="80"  cy="30" rx="80" ry="35" fill="#1a1a3a" opacity=".9"/>
+      <ellipse cx="100" cy="18" rx="60" ry="28" fill="#252545" opacity=".9"/>
+      <ellipse cx="240" cy="40" rx="90" ry="38" fill="#1a1a3a" opacity=".9"/>
+      <ellipse cx="260" cy="22" rx="65" ry="30" fill="#252545" opacity=".9"/>
+      <ellipse cx="170" cy="50" rx="70" ry="32" fill="#1a1a40" opacity=".8"/>
+      <!-- lightning bolts -->
+      <path d="M100,50 L88,85 L96,85 L80,125" stroke="#f0c040" stroke-width="2.5" fill="none" opacity=".9"/>
+      <path d="M240,45 L252,80 L244,80 L258,118" stroke="#f0c040" stroke-width="2" fill="none" opacity=".7"/>
+      <!-- Rain diagonal lines -->
+      <g stroke="#87ceeb" stroke-width="1" opacity=".25">
+        <line x1="20"  y1="0"   x2="0"   y2="80"/>
+        <line x1="60"  y1="0"   x2="40"  y2="80"/>
+        <line x1="100" y1="0"   x2="80"  y2="80"/>
+        <line x1="140" y1="0"   x2="120" y2="80"/>
+        <line x1="180" y1="0"   x2="160" y2="80"/>
+        <line x1="220" y1="0"   x2="200" y2="80"/>
+        <line x1="260" y1="0"   x2="240" y2="80"/>
+        <line x1="300" y1="0"   x2="280" y2="80"/>
+        <line x1="340" y1="0"   x2="320" y2="80"/>
+        <line x1="40"  y1="80"  x2="20"  y2="160"/>
+        <line x1="80"  y1="80"  x2="60"  y2="160"/>
+        <line x1="120" y1="80"  x2="100" y2="160"/>
+        <line x1="160" y1="80"  x2="140" y2="160"/>
+        <line x1="200" y1="80"  x2="180" y2="160"/>
+        <line x1="240" y1="80"  x2="220" y2="160"/>
+        <line x1="280" y1="80"  x2="260" y2="160"/>
+        <line x1="320" y1="80"  x2="300" y2="160"/>
+      </g>
+      <!-- Raging sea -->
+      <rect x="0" y="150" width="340" height="105" fill="url(#stormSea)"/>
+      <!-- big waves -->
+      <path d="M0,155 Q30,130 60,155 Q90,180 120,155 Q150,130 180,155 Q210,180 240,155 Q270,130 300,155 Q325,173 340,155"
+            fill="none" stroke="#4a9ede" stroke-width="4" opacity=".7"/>
+      <path d="M0,175 Q25,150 55,175 Q85,200 115,175 Q145,150 175,175 Q205,200 235,175 Q265,150 295,175 Q320,195 340,175"
+            fill="none" stroke="#5ab8e0" stroke-width="3" opacity=".5"/>
+      <!-- Foam crests -->
+      <path d="M0,155 Q30,130 60,155" fill="#c8f0ff" opacity=".15"/>
+      <path d="M120,155 Q150,130 180,155" fill="#c8f0ff" opacity=".15"/>
+      <path d="M240,155 Q270,130 300,155" fill="#c8f0ff" opacity=".15"/>
+      <!-- The boat tossed in storm -->
+      <g transform="translate(170,162) rotate(-12)">
+        <!-- hull -->
+        <path d="M-70,0 Q-60,20 0,22 Q60,20 70,0 Z" fill="#8b5e3c"/>
+        <path d="M-60,0 Q-50,15 0,17 Q50,15 60,0 Z" fill="#a07050"/>
+        <!-- mast -->
+        <line x1="0" y1="0" x2="0" y2="-70" stroke="#6b4020" stroke-width="5" stroke-linecap="round"/>
+        <!-- sail torn in wind -->
+        <path d="M0,-65 Q30,-45 28,-10 L2,0 Z" fill="#f5e6c0" opacity=".8"/>
+        <!-- cross beam -->
+        <line x1="-20" y1="-40" x2="30" y2="-40" stroke="#6b4020" stroke-width="3" stroke-linecap="round"/>
+        <!-- people panicking on boat (tiny) -->
+        <circle cx="-40" cy="-5" r="5"  fill="#d4a57a"/>
+        <rect x="-45" y="-1" width="10" height="8" fill="#c0392b" rx="1"/>
+        <circle cx="-20" cy="-5" r="5"  fill="#c8906a"/>
+        <rect x="-25" y="-1" width="10" height="8" fill="#1e6b3a" rx="1"/>
+        <!-- Younes about to jump -->
+        <g transform="translate(45,-3)">
+          <circle cx="0" cy="-8" r="6"  fill="#c8906a"/>
+          <path d="M-6,0 Q0,14 6,0 Z" fill="#1e6b3a"/>
+          <!-- arms out jumping -->
+          <line x1="-6" y1="2"  x2="-18" y2="-8" stroke="#1e6b3a" stroke-width="4" stroke-linecap="round"/>
+          <line x1="6"  y1="2"  x2="18"  y2="-8" stroke="#1e6b3a" stroke-width="4" stroke-linecap="round"/>
+        </g>
+      </g>
+      <!-- Waves splashing at boat -->
+      <path d="M100,170 Q130,152 160,165" fill="none" stroke="#c8f0ff" stroke-width="3" opacity=".5"/>
+      <path d="M195,165 Q225,148 255,162" fill="none" stroke="#c8f0ff" stroke-width="3" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">⛈️ La terrible tempête</h2>
+    <p>En pleine mer, une tempête <strong>effroyable</strong> éclata ! Les vagues devenaient des montagnes d'eau, le vent hurlait, le bateau grinçait et se penchait dangereusement.</p>
+    <p>Les marins, très effrayés, tirèrent au sort pour savoir qui devait être jeté à l'eau pour alléger le bateau. Le sort tomba sur <strong>Younes</strong>, trois fois de suite.</p>
+    <div class="quote">« C'est moi le responsable. Je dois sauter. »</div>
+    <p>Younes, le cœur lourd, sauta dans les eaux noires et déchaînées. 🌊 Et aussitôt… la tempête s'arrêta.</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 3 : Le ventre de la baleine ══ -->
+<div class="chapter ch3">
+  <div class="ch-num">٣</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="whaleGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#0abfbc" stop-opacity=".3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="prayGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="deepSea" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#010810"/>
+          <stop offset="100%" stop-color="#000508"/>
+        </linearGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#deepSea)"/>
+
+      <!-- Bioluminescent particles deep sea -->
+      <circle cx="30"  cy="40"  r="2"   fill="#0abfbc" opacity=".4"/>
+      <circle cx="310" cy="60"  r="1.5" fill="#0abfbc" opacity=".3"/>
+      <circle cx="60"  cy="120" r="1.5" fill="#0abfbc" opacity=".35"/>
+      <circle cx="290" cy="140" r="2"   fill="#0abfbc" opacity=".4"/>
+      <circle cx="40"  cy="200" r="1.5" fill="#0abfbc" opacity=".3"/>
+      <circle cx="305" cy="210" r="1"   fill="#0abfbc" opacity=".25"/>
+      <circle cx="170" cy="20"  r="1.5" fill="#5ab8e0" opacity=".3"/>
+      <circle cx="130" cy="240" r="1"   fill="#0abfbc" opacity=".3"/>
+      <circle cx="220" cy="230" r="1.5" fill="#0abfbc" opacity=".25"/>
+
+      <!-- Deep sea creatures faintly -->
+      <path d="M20,80 Q28,72 36,80 Q28,88 20,80 Z"  fill="#0abfbc" opacity=".2"/>
+      <path d="M295,170 Q303,162 311,170 Q303,178 295,170 Z" fill="#0abfbc" opacity=".2"/>
+
+      <!-- THE GREAT WHALE — side view large -->
+      <g transform="translate(170,130)">
+        <!-- glow aura -->
+        <ellipse cx="0" cy="0" rx="150" ry="70" fill="url(#whaleGlow)"/>
+        <!-- body massive -->
+        <ellipse cx="0" cy="0" rx="135" ry="52" fill="#0a3a5c"/>
+        <!-- head left -->
+        <ellipse cx="-110" cy="0" rx="45" ry="40" fill="#0a4a6c"/>
+        <!-- belly lighter -->
+        <ellipse cx="20" cy="22" rx="90" ry="22" fill="#0d5a7a" opacity=".45"/>
+        <!-- tail right -->
+        <path d="M132,-14 Q165,-42 162,0 Q158,42 132,14 Z" fill="#063a5c"/>
+        <!-- pectoral fin top -->
+        <path d="M20,-50 Q-10,-90 30,-80 Q55,-70 40,-50 Z" fill="#084a6a"/>
+        <!-- pectoral fin bottom -->
+        <path d="M20,38 Q-10,72 28,62 Q52,54 38,38 Z" fill="#084a6a"/>
+        <!-- eye -->
+        <circle cx="-100" cy="-10" r="10"  fill="white"/>
+        <circle cx="-100" cy="-10" r="6"   fill="#020d1a"/>
+        <circle cx="-97"  cy="-13" r="2.5" fill="white"/>
+        <!-- mouth closed but visible -->
+        <path d="M-148,8 Q-130,22 -110,14" stroke="#c8f0ff" stroke-width="2.5" fill="none" opacity=".4"/>
+        <!-- blowhole -->
+        <ellipse cx="-40" cy="-52" rx="8" ry="4" fill="#0abfbc" opacity=".3"/>
+
+        <!-- INSIDE THE WHALE — glowing cavity -->
+        <ellipse cx="10" cy="5" rx="45" ry="28" fill="#021820" opacity=".95"/>
+        <ellipse cx="10" cy="5" rx="45" ry="28" fill="url(#prayGlow)"/>
+
+        <!-- ribs of whale interior -->
+        <path d="M-28,25 Q-20,5 -28,-18" stroke="#0a3a4a" stroke-width="3" fill="none" opacity=".7"/>
+        <path d="M-12,30 Q-4,5 -12,-22"  stroke="#0a3a4a" stroke-width="3" fill="none" opacity=".7"/>
+        <path d="M8,32 Q16,5 8,-24"      stroke="#0a3a4a" stroke-width="3" fill="none" opacity=".6"/>
+        <path d="M28,28 Q36,5 28,-20"    stroke="#0a3a4a" stroke-width="3" fill="none" opacity=".5"/>
+
+        <!-- YOUNES praying inside — golden glow -->
+        <g transform="translate(5,8)">
+          <!-- glow of prayer -->
+          <circle cx="0" cy="-10" r="22" fill="#f0c040" opacity=".12"/>
+          <!-- kneeling body -->
+          <path d="M-10,8 Q-7,22 0,24 Q7,22 10,8 Z" fill="#1e6b3a"/>
+          <!-- head bowed low -->
+          <circle cx="0" cy="-4" r="9"  fill="#c8906a"/>
+          <path d="M-8,-12 Q0,-24 8,-12 L9,-3 Q0,-1 -9,-3 Z" fill="#0d2a16"/>
+          <!-- arms raised in dua -->
+          <line x1="-10" y1="10" x2="-24" y2="-8" stroke="#1e6b3a" stroke-width="5" stroke-linecap="round"/>
+          <line x1="10"  y1="10" x2="24"  y2="-8" stroke="#1e6b3a" stroke-width="5" stroke-linecap="round"/>
+          <!-- open palms glowing gold -->
+          <ellipse cx="-26" cy="-10" rx="5" ry="3.5" fill="#f0c040" opacity=".7" transform="rotate(-20,-26,-10)"/>
+          <ellipse cx="26"  cy="-10" rx="5" ry="3.5" fill="#f0c040" opacity=".7" transform="rotate(20,26,-10)"/>
+          <!-- golden light from above on him -->
+          <line x1="0" y1="-32" x2="0"  y2="-22" stroke="#f0c040" stroke-width="2" opacity=".6"/>
+          <line x1="-8" y1="-30" x2="-6" y2="-20" stroke="#f0c040" stroke-width="1" opacity=".4"/>
+          <line x1="8"  y1="-30" x2="6"  y2="-20" stroke="#f0c040" stroke-width="1" opacity=".4"/>
+        </g>
+      </g>
+
+      <!-- Depth pressure lines (water pressure) -->
+      <g opacity=".06" stroke="#4a9ede" stroke-width="1">
+        <line x1="0"   y1="50"  x2="340" y2="50"/>
+        <line x1="0"   y1="90"  x2="340" y2="90"/>
+        <line x1="0"   y1="180" x2="340" y2="180"/>
+        <line x1="0"   y1="220" x2="340" y2="220"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🐋 Dans le ventre de la baleine</h2>
+    <p>Alors qu'il coulait dans les profondeurs, une <strong>immense baleine</strong> surgit des abysses et… l'avala tout entier !</p>
+    <p>Younes se retrouva dans le noir total, dans le ventre chaud et humide de la baleine, au fond de l'océan. Tout était silencieux. Il était seul.</p>
+    <p>Mais Younes ne désespéra pas. Il leva les mains et pria de tout son cœur :</p>
+    <div class="quote">« Il n'y a de Dieu que Toi. Tu es parfait. J'ai eu tort… Pardonne-moi ! »</div>
+    <p>Cette prière, les poissons, l'eau et même les rochers du fond de la mer l'entendirent et prièrent avec lui. 🌊✨</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 4 : La délivrance ══ -->
+<div class="chapter ch4">
+  <div class="ch-num">٤</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="dawnSea" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0a1a2a"/>
+          <stop offset="50%"  stop-color="#0a4a6a"/>
+          <stop offset="100%" stop-color="#c8a04a"/>
+        </linearGradient>
+        <radialGradient id="sunRise" cx="50%" cy="60%" r="55%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#dawnSea)"/>
+      <rect width="340" height="255" fill="url(#sunRise)"/>
+
+      <!-- Rising sun on horizon -->
+      <ellipse cx="170" cy="175" rx="180" ry="60" fill="#f0c040" opacity=".2"/>
+      <circle  cx="170" cy="180" r="40"  fill="#f0c040" opacity=".7"/>
+      <circle  cx="170" cy="180" r="30"  fill="#ffe08a" opacity=".8"/>
+      <!-- sun rays -->
+      <g opacity=".3">
+        <line x1="170" y1="138" x2="170" y2="115" stroke="#f0c040" stroke-width="2.5"/>
+        <line x1="198" y1="152" x2="212" y2="134" stroke="#f0c040" stroke-width="2"/>
+        <line x1="142" y1="152" x2="128" y2="134" stroke="#f0c040" stroke-width="2"/>
+        <line x1="208" y1="178" x2="228" y2="175" stroke="#f0c040" stroke-width="2"/>
+        <line x1="132" y1="178" x2="112" y2="175" stroke="#f0c040" stroke-width="2"/>
+      </g>
+
+      <!-- Ocean surface calm now -->
+      <rect x="0" y="170" width="340" height="85" fill="#0a4a6a" opacity=".8"/>
+      <path d="M0,170 Q85,158 170,170 Q255,182 340,170" fill="none" stroke="#c8f0ff" stroke-width="2" opacity=".4"/>
+      <path d="M0,180 Q85,170 170,180 Q255,190 340,180" fill="none" stroke="#c8f0ff" stroke-width="1" opacity=".25"/>
+
+      <!-- gentle reflections -->
+      <line x1="170" y1="180" x2="170" y2="255" stroke="#f0c040" stroke-width="2" opacity=".2"/>
+
+      <!-- THE WHALE spitting Younes onto shore -->
+      <g transform="translate(85,175)">
+        <!-- whale partial view surface -->
+        <ellipse cx="0"  cy="5"  rx="75" ry="28" fill="#0a3a5c"/>
+        <ellipse cx="-55" cy="5" rx="30" ry="24" fill="#0a4a6c"/>
+        <!-- mouth OPEN -->
+        <path d="M-80,-5 Q-68,20 -52,12" fill="#0d2a3a" stroke="#0a3a5c" stroke-width="2"/>
+        <path d="M-80,-5 Q-68,-25 -52,-14 Q-60,0 -80,-5 Z" fill="#1a5a7a"/>
+        <!-- teeth hint -->
+        <path d="M-76,-4 L-72,0 M-68,-8 L-65,-2 M-60,-12 L-58,-5" stroke="#c8f0ff" stroke-width="1.5" opacity=".4"/>
+        <!-- eye -->
+        <circle cx="-44" cy="-2" r="7"   fill="white"/>
+        <circle cx="-44" cy="-2" r="4.5" fill="#020d1a"/>
+        <circle cx="-42" cy="-4" r="2"   fill="white"/>
+        <!-- water spray from blowhole -->
+        <line x1="10" y1="-28" x2="8"  y2="-52" stroke="#c8f0ff" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+        <line x1="10" y1="-28" x2="-2" y2="-50" stroke="#c8f0ff" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+        <line x1="10" y1="-28" x2="22" y2="-48" stroke="#c8f0ff" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+      </g>
+
+      <!-- Younes thrown onto BEACH shore -->
+      <g transform="translate(250,190)">
+        <!-- sandy shore -->
+        <ellipse cx="30" cy="40" rx="60" ry="18" fill="#c8a04a" opacity=".6"/>
+        <!-- Younes lying exhausted on sand -->
+        <path d="M-20,25 Q10,20 55,26 L54,36 Q10,32 -18,36 Z" fill="#c8906a"/>
+        <!-- head -->
+        <circle cx="-22" cy="28" r="12" fill="#c8906a"/>
+        <!-- eyes opening, looking at sky -->
+        <circle cx="-25" cy="26" r="2" fill="#1a1a1a"/>
+        <circle cx="-19" cy="26" r="2" fill="#1a1a1a"/>
+        <path d="M-26,32 Q-22,36 -18,32" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+        <!-- robe dishevelled -->
+        <path d="M-12,24 Q10,18 52,24" fill="#1e6b3a" opacity=".7"/>
+        <!-- arm weakly raised toward sky -->
+        <line x1="20" y1="22" x2="30" y2="5" stroke="#c8906a" stroke-width="6" stroke-linecap="round"/>
+      </g>
+
+      <!-- Gourd plant growing next to him (miracle of the gourd) -->
+      <g transform="translate(318,165)" opacity=".8">
+        <line x1="0" y1="30" x2="-2" y2="0"  stroke="#3a8a20" stroke-width="3"/>
+        <ellipse cx="-4" cy="-2" rx="12" ry="9" fill="#4a9a28" transform="rotate(-20,-4,-2)"/>
+        <ellipse cx="8"  cy="5"  rx="10" ry="8" fill="#3a8a20" transform="rotate(15,8,5)"/>
+        <circle  cx="-2" cy="-5" r="6" fill="#7ac840" opacity=".7"/>
+      </g>
+
+      <!-- Stars still faintly visible in dawn sky -->
+      <circle cx="40"  cy="25" r="1.5" fill="white" opacity=".4"/>
+      <circle cx="100" cy="15" r="1"   fill="white" opacity=".3"/>
+      <circle cx="280" cy="30" r="1.5" fill="white" opacity=".4"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌅 La délivrance miraculeuse</h2>
+    <p>Dieu entendit la prière de Younes du fond des océans. Il ordonna à la baleine de nager vers la surface et de le déposer <strong>doucement sur le rivage</strong>.</p>
+    <p>La baleine obéit aussitôt. Elle remonta, remonta… et cracha Younes sur une plage de sable doré, sous un ciel qui s'illuminait de rose et d'or.</p>
+    <div class="quote">« N'eût-il pas prié, il serait resté au fond jusqu'au Jour du Jugement. »</div>
+    <p>Younes était épuisé, mais vivant ! Et Dieu fit pousser une belle plante aux grandes feuilles pour lui donner de l'ombre et le protéger du soleil. 🌿</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 5 : Le retour à Ninive ══ -->
+<div class="chapter ch5">
+  <div class="ch-num">٥</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="returnSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#87ceeb"/>
+          <stop offset="60%"  stop-color="#ffecd2"/>
+          <stop offset="100%" stop-color="#f5a623"/>
+        </linearGradient>
+        <radialGradient id="hopeSun" cx="50%" cy="30%" r="50%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".6"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#returnSky)"/>
+      <rect width="340" height="255" fill="url(#hopeSun)"/>
+
+      <!-- Bright sun -->
+      <circle cx="170" cy="55" r="36" fill="#f0c040" opacity=".85"/>
+      <circle cx="170" cy="55" r="28" fill="#ffe08a" opacity=".8"/>
+      <!-- rays -->
+      <g opacity=".3">
+        <line x1="170" y1="15"  x2="170" y2="0"   stroke="#f0c040" stroke-width="2.5"/>
+        <line x1="200" y1="27"  x2="214" y2="14"  stroke="#f0c040" stroke-width="2"/>
+        <line x1="140" y1="27"  x2="126" y2="14"  stroke="#f0c040" stroke-width="2"/>
+        <line x1="207" y1="56"  x2="226" y2="55"  stroke="#f0c040" stroke-width="2"/>
+        <line x1="133" y1="56"  x2="114" y2="55"  stroke="#f0c040" stroke-width="2"/>
+        <line x1="200" y1="84"  x2="212" y2="96"  stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="140" y1="84"  x2="128" y2="96"  stroke="#f0c040" stroke-width="1.5"/>
+      </g>
+
+      <!-- Joyful clouds -->
+      <ellipse cx="55"  cy="45" rx="44" ry="20" fill="white" opacity=".7"/>
+      <ellipse cx="72"  cy="36" rx="30" ry="17" fill="white" opacity=".8"/>
+      <ellipse cx="290" cy="50" rx="44" ry="20" fill="white" opacity=".7"/>
+      <ellipse cx="308" cy="38" rx="30" ry="17" fill="white" opacity=".8"/>
+
+      <!-- Ninive city in background now with happy people -->
+      <rect x="0"   y="130" width="340" height="125" fill="#c8a04a"/>
+      <rect x="0"   y="128" width="340" height="8"   fill="#d4b060" opacity=".5"/>
+      <!-- city walls -->
+      <rect x="20"  y="90"  width="40"  height="48" fill="#c8a04a"/>
+      <rect x="280" y="90"  width="40"  height="48" fill="#c8a04a"/>
+      <!-- gate open wide (now welcoming) -->
+      <rect x="140" y="98"  width="60" height="40" fill="#b89040"/>
+      <path d="M140,98 Q170,76 200,98 Z" fill="#a07830"/>
+      <!-- gate OPEN doors -->
+      <path d="M140,138 L140,100 Q148,96 152,100 L152,138 Z" fill="#5c3a1a"/>
+      <path d="M200,138 L200,100 Q192,96 188,100 L188,138 Z" fill="#5c3a1a"/>
+      <!-- festive banners on walls -->
+      <path d="M20,88 Q30,78 40,88" fill="#c0392b" opacity=".7"/>
+      <path d="M50,85 Q60,75 70,85" fill="#f0c040" opacity=".7"/>
+      <path d="M270,85 Q280,75 290,85" fill="#c0392b" opacity=".7"/>
+      <path d="M300,88 Q310,78 320,88" fill="#f0c040" opacity=".7"/>
+
+      <!-- Ground desert with flowers (repentance brought blessings) -->
+      <rect x="0" y="220" width="340" height="35" fill="#b89040"/>
+      <circle cx="30"  cy="222" r="4" fill="#ff9999"/>
+      <circle cx="60"  cy="220" r="3" fill="#f0c040"/>
+      <circle cx="280" cy="222" r="4" fill="#ff9999"/>
+      <circle cx="310" cy="220" r="3" fill="#f0c040"/>
+      <circle cx="170" cy="221" r="3" fill="#88ffcc"/>
+
+      <!-- YOUNES returning — walking toward city strong -->
+      <g transform="translate(80,168)">
+        <path d="M-16,8 Q-12,58 0,62 Q12,58 16,8 Z" fill="#1e6b3a"/>
+        <line x1="16" y1="14" x2="38" y2="10" stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- staff raised in mission -->
+        <line x1="-16" y1="14" x2="-30" y2="-5" stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <line x1="-30" y1="-5" x2="-28" y2="-60" stroke="#8b5e3c" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="-28" cy="-62" r="6" fill="#f0c040" opacity=".8"/>
+        <!-- head proud and purposeful -->
+        <circle cx="0" cy="-8" r="15" fill="#c8906a"/>
+        <path d="M-12,-20 Q0,-40 12,-20 L14,-5 Q0,-2 -14,-5 Z" fill="#0d2a16"/>
+        <!-- determined eyes -->
+        <circle cx="-5" cy="-9" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5"  cy="-9" r="2.5" fill="#1a1a1a"/>
+        <!-- beard grew from time in whale -->
+        <ellipse cx="0" cy="2" rx="8" ry="6" fill="#8b5e3c" opacity=".7"/>
+        <!-- smile -->
+        <path d="M-5,2 Q0,6 5,2" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+        <!-- walking legs -->
+        <line x1="-8" y1="60" x2="-12" y2="80" stroke="#1e6b3a" stroke-width="6" stroke-linecap="round"/>
+        <line x1="8"  y1="60" x2="12"  y2="78" stroke="#1e6b3a" stroke-width="6" stroke-linecap="round"/>
+      </g>
+
+      <!-- People of Ninive coming OUT to meet him with joy -->
+      <g transform="translate(190,172)" opacity=".9">
+        <circle cx="0"  cy="-20" r="7"  fill="#d4a57a"/>
+        <rect x="-7"  y="-14" width="14" height="16" fill="#c0392b" rx="2"/>
+        <!-- arms raised in welcome -->
+        <line x1="-7"  y1="-8" x2="-20" y2="-22" stroke="#c0392b" stroke-width="5" stroke-linecap="round"/>
+        <line x1="7"   y1="-8" x2="20"  y2="-22" stroke="#c0392b" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="-3" cy="-21" r="2" fill="#1a1a1a"/>
+        <circle cx="3"  cy="-21" r="2" fill="#1a1a1a"/>
+        <path d="M-2,-14 Q0,-10 2,-14" stroke="#7a3a10" stroke-width="1" fill="none"/>
+
+        <circle cx="28" cy="-18" r="6"  fill="#c8906a"/>
+        <rect x="21"  y="-13" width="13" height="14" fill="#1e6b3a" rx="2"/>
+        <line x1="21"  y1="-7" x2="10"  y2="-20" stroke="#1e6b3a" stroke-width="5" stroke-linecap="round"/>
+        <line x1="34"  y1="-7" x2="45"  y2="-20" stroke="#1e6b3a" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="25" cy="-19" r="2" fill="#1a1a1a"/>
+        <circle cx="31" cy="-19" r="2" fill="#1a1a1a"/>
+
+        <circle cx="58" cy="-20" r="7"  fill="#d4a57a"/>
+        <rect x="51"  y="-14" width="14" height="16" fill="#c9960c" rx="2"/>
+        <line x1="51"  y1="-8" x2="40"  y2="-22" stroke="#c9960c" stroke-width="5" stroke-linecap="round"/>
+        <line x1="65"  y1="-8" x2="76"  y2="-22" stroke="#c9960c" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="55" cy="-21" r="2" fill="#1a1a1a"/>
+        <circle cx="61" cy="-21" r="2" fill="#1a1a1a"/>
+      </g>
+
+      <!-- Doves of peace -->
+      <path d="M130,95 Q138,86 148,93 Q155,84 164,91" fill="white" opacity=".65"/>
+      <path d="M190,88 Q198,79 208,86 Q215,77 224,84" fill="white" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🎉 Le retour triomphal</h2>
+    <p>Younes, guéri et transformé, retourna à <strong>Ninive</strong> avec un cœur encore plus plein d'amour et de sagesse. Cette fois, il était prêt à tout donner.</p>
+    <p>Et miracle des miracles : les habitants de Ninive l'accueillirent les bras grands ouverts ! Ils avaient vu des signes dans le ciel et dans leurs cœurs, et ils voulaient changer.</p>
+    <div class="quote">« Toute une ville qui se repent ensemble — c'est un miracle ! »</div>
+    <p>Younes et les habitants de Ninive nous apprennent que <strong>l'espoir ne meurt jamais</strong>, et qu'il n'est jamais trop tard pour demander pardon et recommencer. 🐋💛</p>
+  </div>
+</div>
+
+
+<!-- ══ ENDING ══ -->
+<div class="ending">
+  <!-- animated bubbles in ending too -->
+  <div id="endBubbles" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;"></div>
+
+  <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.06;pointer-events:none" viewBox="0 0 400 300">
+    <defs>
+      <pattern id="wavePat" x="0" y="0" width="80" height="40" patternUnits="userSpaceOnUse">
+        <path d="M0,20 Q20,0 40,20 Q60,40 80,20" fill="none" stroke="#0abfbc" stroke-width="1"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="300" fill="url(#wavePat)"/>
+  </svg>
+
+  <div style="font-size:2.5rem;margin-bottom:16px">🐋</div>
+  <h2>✨ Fin ✨</h2>
+  <p>Et voilà l'histoire de Younes ﷺ,<br>
+  le prophète qui descendit au plus profond de l'océan<br>
+  et qui, grâce à sa prière, remonta vers la lumière.<br><br>
+  Il nous apprend que <em>même dans l'obscurité totale,</em><br>
+  Dieu entend toujours celui qui L'appelle.<br>
+  Il ne faut <strong>jamais perdre espoir</strong>. 🌊✨<br><br>
+  <em>Que la paix et la bénédiction soient sur lui.</em></p>
+  <div class="end-star">✦</div>
+</div>
+
+<script>
+  // ── Animated stars (cover sky half) ──
+  const cover = document.getElementById('starsCover');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const sz = Math.random() * 2.5 + .6;
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*45}%;
+      width:${sz}px;height:${sz}px;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${1.5+Math.random()*2.5}s;
+    `;
+    cover.appendChild(s);
+  }
+
+  // ── Rising bubbles on cover ──
+  function makeBubble(container, coverOnly) {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const sz = Math.random() * 18 + 4;
+    b.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      left:${Math.random()*100}%;
+      bottom:${Math.random()*20}%;
+      animation-duration:${4+Math.random()*6}s;
+      animation-delay:${Math.random()*6}s;
+    `;
+    container.appendChild(b);
+    b.addEventListener('animationend', () => b.remove());
+  }
+
+  const bubblesContainer = document.getElementById('bubblesContainer');
+  bubblesContainer.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;';
+
+  setInterval(() => makeBubble(bubblesContainer), 400);
+
+  // bubbles in ending
+  const endB = document.getElementById('endBubbles');
+  setInterval(() => {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const sz = Math.random() * 14 + 3;
+    b.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      left:${Math.random()*100}%;
+      bottom:0;
+      animation-duration:${5+Math.random()*5}s;
+      animation-delay:0s;
+    `;
+    endB.appendChild(b);
+    b.addEventListener('animationend', () => b.remove());
+  }, 600);
+
+  // ── Scroll reveal ──
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold:.1 }
+  );
+  document.querySelectorAll('.chapter,.ending').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
