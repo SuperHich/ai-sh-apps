@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔢 Remember!</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #fdf6ec;
+  --card:    #ffffff;
+  --ink:     #2c2c3e;
+  --muted:   #9090a8;
+  --yellow:  #ffc532;
+  --coral:   #ff6b6b;
+  --mint:    #43c98c;
+  --sky:     #4da6ff;
+  --lavender:#b08cff;
+  --shadow:  rgba(44,44,62,0.10);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem 1rem 2rem;
+  overflow-x: hidden;
+}
+
+/* Soft blobs */
+body::before, body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+body::before {
+  width: 340px; height: 340px;
+  background: radial-gradient(circle, #ffc53244 0%, transparent 70%);
+  top: -80px; left: -80px;
+}
+body::after {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, #4da6ff33 0%, transparent 70%);
+  bottom: -60px; right: -60px;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+/* ===== HEADER ===== */
+.hdr {
+  text-align: center;
+}
+h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(2.2rem, 8vw, 3rem);
+  color: var(--ink);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+h1 span { color: var(--coral); }
+.subtitle {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-top: 0.2em;
+}
+
+/* ===== LEVEL BADGE ===== */
+.level-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.level-badge {
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.3em 1em;
+}
+.lives {
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+}
+
+/* ===== STAGE CARD ===== */
+.stage-card {
+  width: 100%;
+  background: var(--card);
+  border-radius: 28px;
+  box-shadow: 0 8px 32px var(--shadow), 0 2px 0 rgba(255,255,255,0.8) inset;
+  padding: 1.8rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  min-height: 220px;
+  justify-content: center;
+}
+
+/* ===== SEQUENCE DISPLAY ===== */
+.seq-display {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.seq-digit {
+  width: 54px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fredoka One', cursive;
+  font-size: 2rem;
+  color: white;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.18), 0 8px 20px rgba(0,0,0,0.08);
+  opacity: 0;
+  transform: scale(0.6) translateY(10px);
+  transition: opacity 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.seq-digit.show {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.seq-digit.hide-num .num-val { opacity: 0; }
+
+.seq-digit::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.22) 0%, transparent 60%);
+  border-radius: 16px;
+  pointer-events: none;
+}
+
+/* Digit color palette */
+.dc-0 { background: linear-gradient(135deg, #ff6b6b, #ff3d5a); }
+.dc-1 { background: linear-gradient(135deg, #ffa94d, #ff7c00); }
+.dc-2 { background: linear-gradient(135deg, #ffd43b, #f0a800); }
+.dc-3 { background: linear-gradient(135deg, #69db7c, #2f9e44); }
+.dc-4 { background: linear-gradient(135deg, #4dabf7, #1971c2); }
+.dc-5 { background: linear-gradient(135deg, #b197fc, #7048e8); }
+.dc-6 { background: linear-gradient(135deg, #f783ac, #c2255c); }
+.dc-7 { background: linear-gradient(135deg, #63e6be, #0ca678); }
+.dc-8 { background: linear-gradient(135deg, #74c0fc, #1864ab); }
+.dc-9 { background: linear-gradient(135deg, #ff8787, #c92a2a); }
+
+/* Flash animation when showing */
+@keyframes digitPop {
+  0%   { transform: scale(0.5) translateY(12px); }
+  60%  { transform: scale(1.1) translateY(-2px); }
+  100% { transform: scale(1) translateY(0); }
+}
+.seq-digit.popping { animation: digitPop 0.3s cubic-bezier(.22,1,.36,1) forwards; opacity: 1; }
+
+/* ===== IDLE MESSAGE ===== */
+.idle-msg {
+  text-align: center;
+}
+.idle-emoji { font-size: 3.2rem; line-height: 1; margin-bottom: 0.2em; display:block; }
+.idle-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.5rem;
+  color: var(--ink);
+}
+.idle-sub { font-size: 0.88rem; font-weight: 700; color: var(--muted); margin-top: 0.2em; }
+
+/* ===== INPUT AREA ===== */
+.input-area {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+}
+.input-area.show { display: flex; }
+
+.input-prompt {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  color: var(--ink);
+  letter-spacing: 0.5px;
+}
+
+/* Answer bubbles */
+.answer-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ans-slot {
+  width: 50px;
+  height: 58px;
+  border-radius: 14px;
+  border: 3px dashed #d0d0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.8rem;
+  color: var(--ink);
+  background: #f5f5fc;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+}
+.ans-slot.filled {
+  border-style: solid;
+  border-color: var(--lavender);
+  background: #f0eaff;
+  transform: scale(1.05);
+}
+.ans-slot.correct {
+  border-color: var(--mint);
+  background: #e8fdf4;
+  color: var(--mint);
+  animation: correctPop 0.35s cubic-bezier(.22,1,.36,1);
+}
+.ans-slot.wrong {
+  border-color: var(--coral);
+  background: #fff0f0;
+  color: var(--coral);
+  animation: wrongShake 0.4s ease;
+}
+@keyframes correctPop {
+  0%   { transform: scale(0.85); }
+  60%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+@keyframes wrongShake {
+  0%,100% { transform: translateX(0); }
+  25%      { transform: translateX(-6px); }
+  75%      { transform: translateX(6px); }
+}
+
+/* ===== NUMPAD ===== */
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.num-key {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.6rem;
+  padding: 0.6em 0;
+  border: none;
+  border-radius: 16px;
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 5px 0 #d8d8e8, 0 6px 14px rgba(0,0,0,0.07);
+  cursor: pointer;
+  transition: transform 0.07s, box-shadow 0.07s;
+  user-select: none;
+}
+.num-key:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #d8d8e8;
+}
+.num-key.del-key {
+  font-size: 1.2rem;
+  background: #fff0f0;
+  color: var(--coral);
+  box-shadow: 0 5px 0 #f0c0c0, 0 6px 14px rgba(0,0,0,0.07);
+}
+.num-key.del-key:active { box-shadow: 0 1px 0 #f0c0c0; }
+
+/* ===== MAIN BUTTON ===== */
+.main-btn {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.35rem;
+  letter-spacing: 1px;
+  width: 100%;
+  padding: 0.7em 1em;
+  border: none;
+  border-radius: 18px;
+  cursor: pointer;
+  background: var(--coral);
+  color: white;
+  box-shadow: 0 7px 0 #c03030, 0 10px 24px rgba(255,107,107,0.25);
+  transform: translateY(0);
+  transition: transform 0.07s, box-shadow 0.07s, background 0.15s;
+}
+.main-btn:active {
+  transform: translateY(5px);
+  box-shadow: 0 2px 0 #c03030;
+}
+.main-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: 0 7px 0 #c03030; }
+.main-btn.green { background: var(--mint); box-shadow: 0 7px 0 #208a5a, 0 10px 24px rgba(67,201,140,0.25); }
+.main-btn.green:active { box-shadow: 0 2px 0 #208a5a; }
+
+/* ===== FEEDBACK OVERLAY ===== */
+.feedback {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+}
+.feedback.show { opacity: 1; pointer-events: all; }
+
+.fb-blob {
+  background: white;
+  border-radius: 32px;
+  padding: 2.2rem 2.8rem;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(44,44,62,0.22);
+  transform: scale(0.7);
+  transition: transform 0.4s cubic-bezier(.22,1,.36,1), opacity 0.3s;
+  max-width: 340px;
+  width: 88vw;
+}
+.feedback.show .fb-blob { transform: scale(1); }
+
+.fb-emoji { font-size: 4.5rem; line-height: 1; display: block; margin-bottom: 0.15em; }
+.fb-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 2.2rem;
+  color: var(--ink);
+  line-height: 1;
+}
+.fb-sub { font-size: 0.95rem; font-weight: 700; color: var(--muted); margin-top: 0.3em; }
+.fb-score {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1rem;
+  margin-top: 0.5em;
+  padding: 0.3em 1em;
+  border-radius: 999px;
+  background: #f5f5fc;
+  color: var(--ink);
+  display: inline-block;
+}
+
+.fb-btn {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.15rem;
+  background: var(--ink);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 0.6em 2em;
+  cursor: pointer;
+  margin-top: 1.1rem;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.4);
+  transition: transform 0.07s, box-shadow 0.07s;
+}
+.fb-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,0.4); }
+
+.feedback-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(44,44,62,0.28);
+  backdrop-filter: blur(5px);
+  z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.feedback-bg.show { opacity: 1; pointer-events: all; }
+
+/* ===== PROGRESS BAR ===== */
+.progress-wrap {
+  width: 100%;
+  height: 8px;
+  background: #e8e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--sky), var(--lavender));
+  transition: width 0.4s cubic-bezier(.22,1,.36,1);
+}
+
+/* ===== BEST SCORE ===== */
+.best-row {
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.best-row span { color: var(--yellow); }
+
+/* Countdown pill */
+.countdown-pill {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1rem;
+  background: var(--ink);
+  color: white;
+  border-radius: 999px;
+  padding: 0.25em 1.1em;
+  letter-spacing: 1px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.countdown-pill.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <!-- Header -->
+  <div class="hdr">
+    <h1>Mem<span>ory</span>! 🔢</h1>
+    <p class="subtitle">Watch the numbers — then type them back</p>
+  </div>
+
+  <!-- Level + lives -->
+  <div class="level-row">
+    <div class="level-badge" id="levelBadge">LEVEL 1</div>
+    <div class="lives" id="livesEl">❤️❤️❤️</div>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-wrap">
+    <div class="progress-bar" id="progressBar" style="width:0%"></div>
+  </div>
+
+  <!-- Stage card -->
+  <div class="stage-card" id="stageCard">
+
+    <!-- Idle -->
+    <div class="idle-msg" id="idleMsg">
+      <span class="idle-emoji">🧠</span>
+      <div class="idle-title">Ready to remember?</div>
+      <div class="idle-sub">Numbers will flash one by one.<br>Type them back in order!</div>
+    </div>
+
+    <!-- Sequence display -->
+    <div class="seq-display" id="seqDisplay" style="display:none"></div>
+
+    <!-- Countdown pill -->
+    <div class="countdown-pill" id="countdownPill" style="display:none">Get ready…</div>
+
+    <!-- Input area -->
+    <div class="input-area" id="inputArea">
+      <div class="input-prompt">Type the sequence!</div>
+      <div class="answer-row" id="answerRow"></div>
+    </div>
+
+  </div>
+
+  <!-- Numpad -->
+  <div class="numpad" id="numpad" style="display:none">
+    <button class="num-key" onclick="pressNum(7)">7</button>
+    <button class="num-key" onclick="pressNum(8)">8</button>
+    <button class="num-key" onclick="pressNum(9)">9</button>
+    <button class="num-key" onclick="pressNum(4)">4</button>
+    <button class="num-key" onclick="pressNum(5)">5</button>
+    <button class="num-key" onclick="pressNum(6)">6</button>
+    <button class="num-key" onclick="pressNum(1)">1</button>
+    <button class="num-key" onclick="pressNum(2)">2</button>
+    <button class="num-key" onclick="pressNum(3)">3</button>
+    <button class="num-key del-key" onclick="pressDelete()">⌫</button>
+    <button class="num-key" onclick="pressNum(0)">0</button>
+    <button class="num-key del-key" onclick="pressDelete(true)">✕</button>
+  </div>
+
+  <!-- Main button -->
+  <button class="main-btn" id="mainBtn" onclick="mainAction()">▶ START</button>
+
+  <!-- Best score -->
+  <div class="best-row" id="bestRow" style="display:none">
+    🏆 Best level reached: <span id="bestSpan">—</span>
+  </div>
+</div>
+
+<!-- Feedback overlay -->
+<div class="feedback-bg" id="fbBg"></div>
+<div class="feedback" id="feedback">
+  <div class="fb-blob">
+    <span class="fb-emoji" id="fbEmoji">🎉</span>
+    <div class="fb-title" id="fbTitle">Amazing!</div>
+    <div class="fb-sub" id="fbSub">You remembered them all!</div>
+    <div class="fb-score" id="fbScore"></div>
+    <button class="fb-btn" id="fbBtn" onclick="closeFeedback()">Next level →</button>
+  </div>
+</div>
+
+<script>
+// ===== CONFIG =====
+const DIGIT_COLORS = ['dc-0','dc-1','dc-2','dc-3','dc-4','dc-5','dc-6','dc-7','dc-8','dc-9'];
+const SHOW_MS  = 600;   // how long each digit shows
+const GAP_MS   = 200;   // gap between digits
+const LIVES    = 3;
+
+// Sequence length per level
+function seqLen(level) { return Math.min(2 + level, 12); }
+
+// ===== STATE =====
+let level   = 1;
+let lives   = LIVES;
+let sequence= [];
+let answer  = [];
+let phase   = 'idle'; // idle | showing | input
+let bestLevel = 0;
+let showTimeout;
+
+// ===== ELEMENTS =====
+const levelBadge   = document.getElementById('levelBadge');
+const livesEl      = document.getElementById('livesEl');
+const progressBar  = document.getElementById('progressBar');
+const idleMsg      = document.getElementById('idleMsg');
+const seqDisplay   = document.getElementById('seqDisplay');
+const countdownPill= document.getElementById('countdownPill');
+const inputArea    = document.getElementById('inputArea');
+const answerRow    = document.getElementById('answerRow');
+const numpad       = document.getElementById('numpad');
+const mainBtn      = document.getElementById('mainBtn');
+const bestRow      = document.getElementById('bestRow');
+const bestSpan     = document.getElementById('bestSpan');
+
+function updateHUD() {
+  levelBadge.textContent = `LEVEL ${level}`;
+  const hearts = '❤️'.repeat(lives) + '🖤'.repeat(LIVES - lives);
+  livesEl.textContent = hearts;
+  const pct = Math.min(((level - 1) / 10) * 100, 100);
+  progressBar.style.width = pct + '%';
+}
+
+// ===== GENERATE SEQUENCE =====
+function generateSeq(len) {
+  const seq = [];
+  for (let i = 0; i < len; i++) seq.push(Math.floor(Math.random() * 10));
+  return seq;
+}
+
+// ===== SHOW SEQUENCE =====
+function showSequence() {
+  phase = 'showing';
+  mainBtn.disabled = true;
+  numpad.style.display = 'none';
+  idleMsg.style.display = 'none';
+  inputArea.classList.remove('show');
+
+  sequence = generateSeq(seqLen(level));
+  answer   = [];
+
+  // Build digit cards (all hidden)
+  seqDisplay.innerHTML = '';
+  seqDisplay.style.display = 'flex';
+  sequence.forEach((n, i) => {
+    const d = document.createElement('div');
+    d.className = `seq-digit ${DIGIT_COLORS[n]}`;
+    d.innerHTML = `<span class="num-val">${n}</span>`;
+    d.id = `sd${i}`;
+    seqDisplay.appendChild(d);
+  });
+
+  // Flash digits one by one
+  let idx = 0;
+  function showNext() {
+    if (idx > 0) {
+      const prev = document.getElementById(`sd${idx-1}`);
+      if (prev) { prev.classList.remove('popping', 'show'); }
+    }
+    if (idx >= sequence.length) {
+      // All shown — switch to input
+      setTimeout(startInput, 400);
+      return;
+    }
+    const el = document.getElementById(`sd${idx}`);
+    if (el) {
+      el.classList.add('popping');
+      el.addEventListener('animationend', () => el.classList.add('show'), { once: true });
+    }
+    idx++;
+    showTimeout = setTimeout(showNext, SHOW_MS + GAP_MS);
+  }
+
+  // Brief "watch!" countdown
+  countdownPill.style.display = 'flex';
+  countdownPill.classList.add('show');
+  countdownPill.textContent = '👀 Watch!';
+  setTimeout(() => {
+    countdownPill.classList.remove('show');
+    setTimeout(() => {
+      countdownPill.style.display = 'none';
+      showNext();
+    }, 300);
+  }, 900);
+}
+
+// ===== START INPUT PHASE =====
+function startInput() {
+  phase = 'input';
+  seqDisplay.style.display = 'none';
+
+  // Build answer slots
+  answerRow.innerHTML = '';
+  sequence.forEach((_, i) => {
+    const slot = document.createElement('div');
+    slot.className = 'ans-slot';
+    slot.id = `as${i}`;
+    answerRow.appendChild(slot);
+  });
+
+  inputArea.classList.add('show');
+  numpad.style.display = 'grid';
+  mainBtn.textContent = '✓ Check';
+  mainBtn.disabled = true;
+  mainBtn.classList.remove('green');
+  updateHUD();
+}
+
+// ===== NUMPAD =====
+function pressNum(n) {
+  if (phase !== 'input') return;
+  if (answer.length >= sequence.length) return;
+
+  answer.push(n);
+  const slot = document.getElementById(`as${answer.length - 1}`);
+  if (slot) {
+    slot.textContent = n;
+    slot.classList.add('filled');
+  }
+
+  if (answer.length === sequence.length) {
+    mainBtn.disabled = false;
+    mainBtn.classList.add('green');
+    mainBtn.textContent = '✓ Check!';
+  }
+}
+
+function pressDelete(all = false) {
+  if (phase !== 'input') return;
+  if (answer.length === 0) return;
+
+  if (all) {
+    answer.forEach((_, i) => {
+      const s = document.getElementById(`as${i}`);
+      if (s) { s.textContent = ''; s.classList.remove('filled','correct','wrong'); }
+    });
+    answer = [];
+  } else {
+    const slot = document.getElementById(`as${answer.length - 1}`);
+    if (slot) { slot.textContent = ''; slot.classList.remove('filled','correct','wrong'); }
+    answer.pop();
+  }
+
+  mainBtn.disabled = true;
+  mainBtn.classList.remove('green');
+  mainBtn.textContent = '✓ Check';
+}
+
+// ===== CHECK ANSWER =====
+function checkAnswer() {
+  if (answer.length !== sequence.length) return;
+
+  let allCorrect = true;
+  sequence.forEach((n, i) => {
+    const slot = document.getElementById(`as${i}`);
+    if (!slot) return;
+    if (answer[i] === n) {
+      slot.classList.add('correct');
+    } else {
+      slot.classList.add('wrong');
+      allCorrect = false;
+    }
+  });
+
+  numpad.style.display = 'none';
+  mainBtn.disabled = true;
+
+  setTimeout(() => {
+    if (allCorrect) {
+      openFeedback(true);
+    } else {
+      lives--;
+      updateHUD();
+      if (lives <= 0) {
+        openFeedback(false, true); // game over
+      } else {
+        openFeedback(false, false); // lose a life
+      }
+    }
+  }, 600);
+}
+
+// ===== MAIN ACTION =====
+function mainAction() {
+  if (phase === 'idle') {
+    showSequence();
+  } else if (phase === 'input' && answer.length === sequence.length) {
+    checkAnswer();
+  }
+}
+
+// ===== FEEDBACK OVERLAY =====
+function openFeedback(win, gameOver = false) {
+  const fb    = document.getElementById('feedback');
+  const fbBg  = document.getElementById('fbBg');
+  const emoji = document.getElementById('fbEmoji');
+  const title = document.getElementById('fbTitle');
+  const sub   = document.getElementById('fbSub');
+  const score = document.getElementById('fbScore');
+  const btn   = document.getElementById('fbBtn');
+
+  if (win) {
+    emoji.textContent = level >= 8 ? '🏆' : ['🎉','⭐','🚀','🧠','🔥','💡'][Math.min(level-1,5)];
+    title.textContent = ['Great!','Brilliant!','Amazing!','Incredible!','Genius!'][Math.min(level-1,4)];
+    sub.textContent   = `You nailed all ${sequence.length} numbers!`;
+    score.textContent = `Level ${level} complete ✓`;
+    btn.textContent   = level >= 12 ? '🏆 You Win!' : 'Next level →';
+    btn.onclick       = () => { closeFeedback(); nextLevel(); };
+  } else if (gameOver) {
+    emoji.textContent = '💀';
+    title.textContent = 'Game Over!';
+    sub.textContent   = `You reached Level ${level}`;
+    score.textContent = bestLevel >= level ? `Your best: Level ${bestLevel}` : `🏆 New best: Level ${level}!`;
+    btn.textContent   = '🔄 Play again';
+    btn.onclick       = () => { closeFeedback(); resetGame(); };
+    if (level > bestLevel) { bestLevel = level; saveBest(); }
+  } else {
+    const diff = lives;
+    emoji.textContent = diff === 2 ? '😬' : '😰';
+    title.textContent = 'Oops!';
+    sub.textContent   = `Wrong sequence — ${lives} life${lives>1?'s':''} left`;
+    score.textContent = `The answer was: ${sequence.join(' · ')}`;
+    btn.textContent   = '↩ Try again';
+    btn.onclick       = () => { closeFeedback(); retryLevel(); };
+  }
+
+  fb.classList.add('show');
+  fbBg.classList.add('show');
+}
+
+function closeFeedback() {
+  document.getElementById('feedback').classList.remove('show');
+  document.getElementById('fbBg').classList.remove('show');
+}
+
+function nextLevel() {
+  level++;
+  phase = 'idle';
+  answer = [];
+  inputArea.classList.remove('show');
+  numpad.style.display = 'none';
+  mainBtn.disabled = false;
+  mainBtn.classList.remove('green');
+  mainBtn.textContent = '▶ GO!';
+  idleMsg.style.display = 'block';
+  idleMsg.querySelector('.idle-emoji').textContent = '🔢';
+  idleMsg.querySelector('.idle-title').textContent = `Level ${level}!`;
+  idleMsg.querySelector('.idle-sub').textContent   = `Remember ${seqLen(level)} numbers this time!`;
+  updateHUD();
+  showBest();
+}
+
+function retryLevel() {
+  phase = 'idle';
+  answer = [];
+  inputArea.classList.remove('show');
+  numpad.style.display = 'none';
+  mainBtn.disabled = false;
+  mainBtn.classList.remove('green');
+  mainBtn.textContent = '↩ Retry';
+  idleMsg.style.display = 'block';
+  idleMsg.querySelector('.idle-emoji').textContent = '💪';
+  idleMsg.querySelector('.idle-title').textContent = 'Try again!';
+  idleMsg.querySelector('.idle-sub').textContent   = `${seqLen(level)} numbers — you've got this!`;
+  updateHUD();
+}
+
+function resetGame() {
+  level = 1; lives = LIVES; answer = []; phase = 'idle';
+  inputArea.classList.remove('show');
+  numpad.style.display = 'none';
+  mainBtn.disabled = false;
+  mainBtn.classList.remove('green');
+  mainBtn.textContent = '▶ START';
+  idleMsg.style.display = 'block';
+  idleMsg.querySelector('.idle-emoji').textContent = '🧠';
+  idleMsg.querySelector('.idle-title').textContent = 'Ready to remember?';
+  idleMsg.querySelector('.idle-sub').textContent   = 'Numbers will flash one by one.\nType them back in order!';
+  updateHUD();
+  showBest();
+}
+
+function saveBest() {
+  try { localStorage.setItem('memgame_best', bestLevel); } catch(e){}
+}
+function loadBest() {
+  try { bestLevel = parseInt(localStorage.getItem('memgame_best')) || 0; } catch(e){}
+}
+function showBest() {
+  if (bestLevel > 0) {
+    bestRow.style.display = 'block';
+    bestSpan.textContent = `Level ${bestLevel}`;
+  }
+}
+
+// Keyboard support
+document.addEventListener('keydown', e => {
+  if (e.key >= '0' && e.key <= '9') pressNum(parseInt(e.key));
+  else if (e.key === 'Backspace') pressDelete();
+  else if (e.key === 'Escape') pressDelete(true);
+  else if (e.key === 'Enter') mainAction();
+});
+
+// Init
+loadBest();
+updateHUD();
+showBest();
+</script>
+</body>
+</html>

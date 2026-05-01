@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ React!</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dark: #0d0d1a;
+  --card: #161628;
+  --yellow: #f9e000;
+  --green: #39ff14;
+  --red: #ff2442;
+  --blue: #00cfff;
+  --text: #f0f0ff;
+  --muted: rgba(240,240,255,0.45);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+  transition: background 0.12s;
+}
+
+/* Stars background */
+.stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  opacity: 0;
+  animation: twinkle var(--dur) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+@keyframes twinkle {
+  0%,100% { opacity:0; transform:scale(0.6); }
+  50%      { opacity:var(--op); transform:scale(1); }
+}
+
+/* ===== BIG ARENA ===== */
+#arena {
+  position: relative;
+  width: min(92vw, 420px);
+  height: min(92vw, 420px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 38%, #1e1e3a 0%, #0a0a18 70%);
+  border: 3px solid rgba(255,255,255,0.07);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 30px 80px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.08s, box-shadow 0.08s;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+
+#arena.flash-go {
+  background: radial-gradient(circle at 38% 38%, #39ff14 0%, #145c00 60%, #0a0a18 100%);
+  box-shadow: 0 0 80px #39ff1488, 0 0 160px #39ff1433, 0 30px 80px rgba(0,0,0,0.5);
+  border-color: #39ff1466;
+}
+
+#arena.flash-early {
+  background: radial-gradient(circle at 38% 38%, #ff2442 0%, #6a0010 60%, #0a0a18 100%);
+  box-shadow: 0 0 80px #ff244288, 0 30px 80px rgba(0,0,0,0.5);
+  border-color: #ff244266;
+}
+
+/* Inner ring pulse */
+#arena::before {
+  content: '';
+  position: absolute;
+  width: 72%;
+  height: 72%;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.05);
+  transition: border-color 0.1s, box-shadow 0.1s;
+}
+#arena.flash-go::before {
+  border-color: rgba(57,255,20,0.3);
+  box-shadow: 0 0 30px #39ff1444;
+}
+
+/* Arena content */
+.arena-icon {
+  font-size: 3.5rem;
+  line-height: 1;
+  margin-bottom: 0.15em;
+  transition: transform 0.15s;
+  filter: drop-shadow(0 0 12px rgba(255,255,255,0.2));
+}
+
+.arena-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: clamp(2.2rem, 10vw, 3.4rem);
+  letter-spacing: 4px;
+  color: var(--text);
+  text-shadow: 0 0 20px rgba(255,255,255,0.15);
+  line-height: 1;
+}
+
+.arena-sub {
+  font-size: clamp(0.78rem, 2.5vw, 0.92rem);
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 0.3em;
+  text-align: center;
+  padding: 0 1.5rem;
+}
+
+/* Result time shown inside arena */
+.arena-result {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.result-ms {
+  font-family: 'Bebas Neue', cursive;
+  font-size: clamp(3.5rem, 14vw, 5.5rem);
+  letter-spacing: 2px;
+  line-height: 1;
+  color: var(--green);
+  text-shadow: 0 0 30px var(--green);
+}
+
+.result-label {
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.1em;
+}
+
+.result-grade {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.5rem;
+  letter-spacing: 3px;
+  margin-top: 0.3em;
+  padding: 0.2em 1em;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+}
+
+/* ===== BOTTOM UI ===== */
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 1.4rem;
+  width: min(92vw, 420px);
+}
+
+/* Start / Again button */
+.main-btn {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.5rem;
+  letter-spacing: 3px;
+  width: 100%;
+  padding: 0.65em 1em;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  background: var(--yellow);
+  color: #111;
+  box-shadow: 0 7px 0 #a09000, 0 10px 24px rgba(249,224,0,0.25);
+  transform: translateY(0);
+  transition: transform 0.07s, box-shadow 0.07s;
+}
+.main-btn:active {
+  transform: translateY(5px);
+  box-shadow: 0 2px 0 #a09000, 0 4px 10px rgba(249,224,0,0.15);
+}
+.main-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+/* Scoreboard */
+.scoreboard {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  padding: 1rem 1.2rem;
+  display: none;
+}
+.scoreboard.show { display: block; }
+
+.sb-header {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1rem;
+  letter-spacing: 3px;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+
+.sb-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sb-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 0.3em 0.6em;
+  border-radius: 10px;
+  animation: rowPop 0.3s cubic-bezier(.22,1,.36,1);
+}
+@keyframes rowPop {
+  from { opacity:0; transform:translateY(6px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.sb-row.rank-1 { background: rgba(249,224,0,0.12); color: var(--yellow); }
+.sb-row.rank-2 { background: rgba(180,180,200,0.08); color: #c0c0d0; }
+.sb-row.rank-3 { background: rgba(200,130,60,0.10); color: #e0a060; }
+.sb-row.rank-n { background: rgba(255,255,255,0.04); color: var(--muted); }
+
+.sb-medal { font-size: 1rem; width: 1.4em; }
+.sb-ms { font-family: 'Bebas Neue', cursive; font-size: 1.1rem; letter-spacing: 1px; }
+.sb-grade { font-size: 0.72rem; opacity: 0.7; font-weight: 900; letter-spacing: 1px; }
+
+/* Countdown overlay inside arena */
+.countdown {
+  font-family: 'Bebas Neue', cursive;
+  font-size: clamp(4rem, 18vw, 7rem);
+  color: rgba(255,255,255,0.12);
+  letter-spacing: 2px;
+  position: absolute;
+  animation: cdPulse 1s ease;
+  pointer-events: none;
+}
+@keyframes cdPulse {
+  0%   { opacity:0; transform: scale(1.8); }
+  20%  { opacity:1; transform: scale(1); }
+  80%  { opacity:1; }
+  100% { opacity:0; }
+}
+
+/* Too soon overlay */
+.too-soon {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+.too-soon.show {
+  opacity: 1;
+  animation: tooSoonAnim 0.5s cubic-bezier(.22,1,.36,1);
+}
+@keyframes tooSoonAnim {
+  from { transform: scale(0.7); opacity:0; }
+  to   { transform: scale(1); opacity:1; }
+}
+.too-soon-emoji { font-size: 3rem; line-height:1; margin-bottom:0.1em; }
+.too-soon-text {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.6rem;
+  letter-spacing: 3px;
+  color: var(--red);
+  text-shadow: 0 0 20px var(--red);
+}
+
+/* Hint */
+.hint {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--muted);
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div id="arena" onclick="arenaClick()">
+  <!-- idle / waiting state -->
+  <div id="idleView">
+    <div class="arena-icon" id="arenaIcon">⚡</div>
+    <div class="arena-title" id="arenaTitle">REACT!</div>
+    <div class="arena-sub" id="arenaSub">Press START then tap when<br>the screen turns GREEN</div>
+  </div>
+
+  <!-- result state -->
+  <div class="arena-result" id="resultView">
+    <div class="result-ms" id="resultMs">000</div>
+    <div class="result-label">milliseconds</div>
+    <div class="result-grade" id="resultGrade"></div>
+  </div>
+
+  <!-- too soon -->
+  <div class="too-soon" id="tooSoon">
+    <div class="too-soon-emoji">🙈</div>
+    <div class="too-soon-text">TOO SOON!</div>
+  </div>
+
+  <!-- countdown numbers appear here -->
+</div>
+
+<div class="bottom">
+  <button class="main-btn" id="mainBtn" onclick="startRound()">▶ START</button>
+  <div class="hint" id="hintEl">Tap the circle OR press SPACE to react</div>
+  <div class="scoreboard" id="scoreboard">
+    <div class="sb-header">⚡ BEST TIMES</div>
+    <div class="sb-list" id="sbList"></div>
+  </div>
+</div>
+
+<script>
+// ===== STARS =====
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 60; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = 1 + Math.random() * 2.5;
+  s.style.cssText = `
+    width:${size}px; height:${size}px;
+    left:${Math.random()*100}%; top:${Math.random()*100}%;
+    --dur:${2+Math.random()*4}s; --delay:${Math.random()*5}s;
+    --op:${0.3+Math.random()*0.5};
+  `;
+  starsEl.appendChild(s);
+}
+
+// ===== GRADE SYSTEM =====
+function grade(ms) {
+  if (ms < 150) return { label: '🧠 SUPERHUMAN',  color: '#f9e000' };
+  if (ms < 200) return { label: '⚡ LIGHTNING',    color: '#39ff14' };
+  if (ms < 270) return { label: '🚀 BLAZING',      color: '#00cfff' };
+  if (ms < 350) return { label: '🎯 SHARP',        color: '#a0d0ff' };
+  if (ms < 450) return { label: '👍 SOLID',        color: '#a0b0c0' };
+  if (ms < 600) return { label: '🐢 SLEEPY',       color: '#e08060' };
+  return              { label: '😴 ZZZZ...',       color: '#ff6080' };
+}
+
+// ===== STATE =====
+const STATE = { IDLE:'idle', WAITING:'waiting', READY:'ready', RESULT:'result', TOOSOON:'toosoon' };
+let state = STATE.IDLE;
+let goTimeout, countTimeout;
+let flashTime;
+let scores = [];
+
+const arena      = document.getElementById('arena');
+const idleView   = document.getElementById('idleView');
+const resultView = document.getElementById('resultView');
+const tooSoon    = document.getElementById('tooSoon');
+const arenaIcon  = document.getElementById('arenaIcon');
+const arenaTitle = document.getElementById('arenaTitle');
+const arenaSub   = document.getElementById('arenaSub');
+const resultMs   = document.getElementById('resultMs');
+const resultGrade= document.getElementById('resultGrade');
+const mainBtn    = document.getElementById('mainBtn');
+const scoreboard = document.getElementById('scoreboard');
+const sbList     = document.getElementById('sbList');
+const hintEl     = document.getElementById('hintEl');
+
+function setIdle() {
+  state = STATE.IDLE;
+  arena.className = '';
+  idleView.style.display  = 'flex';
+  resultView.style.display= 'none';
+  tooSoon.classList.remove('show');
+  arenaIcon.textContent = '⚡';
+  arenaTitle.textContent = 'REACT!';
+  arenaSub.textContent = scores.length
+    ? 'Tap START to play again'
+    : 'Press START then tap when\nthe screen turns GREEN';
+  mainBtn.disabled = false;
+  mainBtn.textContent = scores.length ? '▶ AGAIN' : '▶ START';
+  hintEl.style.opacity = '1';
+}
+
+function startRound() {
+  if (state !== STATE.IDLE) return;
+  state = STATE.WAITING;
+  mainBtn.disabled = true;
+  hintEl.style.opacity = '0';
+  idleView.style.display  = 'flex';
+  resultView.style.display= 'none';
+  tooSoon.classList.remove('show');
+  arena.className = '';
+  arenaIcon.textContent = '👀';
+  arenaTitle.textContent = 'WAIT...';
+  arenaSub.textContent = '';
+  document.body.style.background = '';
+
+  // Random delay 1.5s – 5s
+  const delay = 1500 + Math.random() * 3500;
+  goTimeout = setTimeout(flashGo, delay);
+}
+
+function flashGo() {
+  if (state !== STATE.WAITING) return;
+  state = STATE.READY;
+  flashTime = performance.now();
+  arena.className = 'flash-go';
+  arenaIcon.textContent = '🟢';
+  arenaTitle.textContent = 'NOW!';
+  arenaSub.textContent = 'TAP!';
+  document.body.style.background = '#051a05';
+
+  // Auto-fail after 2s
+  goTimeout = setTimeout(() => {
+    if (state === STATE.READY) {
+      showResult(performance.now() - flashTime);
+    }
+  }, 2000);
+}
+
+function arenaClick() {
+  if (state === STATE.WAITING) {
+    // Tapped too early
+    clearTimeout(goTimeout);
+    state = STATE.TOOSOON;
+    arena.className = 'flash-early';
+    idleView.style.display = 'flex';
+    arenaIcon.textContent = '🙈';
+    arenaTitle.textContent = 'TOO SOON!';
+    arenaSub.textContent = 'Wait for GREEN!';
+    document.body.style.background = '#1a0008';
+    setTimeout(setIdle, 1400);
+    return;
+  }
+
+  if (state === STATE.READY) {
+    clearTimeout(goTimeout);
+    showResult(performance.now() - flashTime);
+    return;
+  }
+
+  if (state === STATE.RESULT || state === STATE.IDLE) {
+    // Gentle nudge — do nothing, button handles it
+  }
+}
+
+function showResult(ms) {
+  state = STATE.RESULT;
+  const roundedMs = Math.round(ms);
+  const g = grade(roundedMs);
+
+  arena.className = '';
+  document.body.style.background = '';
+
+  idleView.style.display   = 'none';
+  resultView.style.display = 'flex';
+  tooSoon.classList.remove('show');
+
+  resultMs.textContent   = roundedMs;
+  resultMs.style.color   = g.color;
+  resultMs.style.textShadow = `0 0 30px ${g.color}`;
+  resultGrade.textContent = g.label;
+  resultGrade.style.color = g.color;
+
+  // Save score
+  scores.push(roundedMs);
+  scores.sort((a,b) => a - b);
+  if (scores.length > 6) scores.length = 6;
+  renderScoreboard();
+
+  mainBtn.disabled = false;
+  mainBtn.textContent = '▶ AGAIN';
+  hintEl.style.opacity = '1';
+}
+
+function renderScoreboard() {
+  scoreboard.classList.add('show');
+  sbList.innerHTML = '';
+  const medals = ['🥇','🥈','🥉'];
+  scores.forEach((ms, i) => {
+    const g   = grade(ms);
+    const row = document.createElement('div');
+    row.className = `sb-row ${i < 3 ? 'rank-'+(i+1) : 'rank-n'}`;
+    row.innerHTML = `
+      <span class="sb-medal">${medals[i] || (i+1)+'.'}</span>
+      <span class="sb-ms">${ms} ms</span>
+      <span class="sb-grade" style="color:${g.color}">${g.label}</span>`;
+    sbList.appendChild(row);
+  });
+}
+
+// Spacebar
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space') {
+    e.preventDefault();
+    if (state === STATE.IDLE) startRound();
+    else if (state === STATE.WAITING || state === STATE.READY) arenaClick();
+  }
+});
+
+// Init
+setIdle();
+</script>
+</body>
+</html>
