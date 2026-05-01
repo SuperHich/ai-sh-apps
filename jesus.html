@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jésus – Le Prophète de l'Amour</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --byzantium:  #4a1a5c;
+    --gold:       #c9960c;
+    --gold-light: #f0c040;
+    --ivory:      #fdf6e3;
+    --parchment:  #f0e6c0;
+    --olive:      #6b7a2a;
+    --galilee:    #2a6b9a;
+    --warm-dark:  #1a0e06;
+    --terracotta: #b85a28;
+    --cream:      #fdf8ee;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--warm-dark);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    color: #e8dcc8;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #0e0805 0%, #2a1a08 40%, #4a2a10 70%, #c8a04a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px 80px;
+  }
+
+  /* cross-hatch texture overlay */
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(240,192,64,.03) 0, rgba(240,192,64,.03) 1px, transparent 0, transparent 50%),
+      repeating-linear-gradient(-45deg, rgba(240,192,64,.03) 0, rgba(240,192,64,.03) 1px, transparent 0, transparent 50%);
+    background-size: 30px 30px;
+    pointer-events: none;
+  }
+
+  .cover-stars { position:absolute; inset:0; pointer-events:none; }
+  .star-dot {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: tw 2.5s infinite alternate;
+  }
+  @keyframes tw {
+    from { opacity:.15; transform:scale(1); }
+    to   { opacity:.85; transform:scale(1.7); }
+  }
+
+  /* gold dust particles */
+  .dust {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold-light);
+    pointer-events: none;
+    animation: drift linear infinite;
+  }
+  @keyframes drift {
+    from { transform: translateY(0) rotate(0deg); opacity:.6; }
+    to   { transform: translateY(-120vh) rotate(360deg); opacity:0; }
+  }
+
+  .cover-scene {
+    position: relative;
+    width: 290px;
+    height: 290px;
+    margin-bottom: 28px;
+    animation: floatY 5s ease-in-out infinite;
+  }
+  @keyframes floatY {
+    0%,100% { transform:translateY(0); }
+    50%      { transform:translateY(-12px); }
+  }
+
+  .cover h1 {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(3rem,9vw,5rem);
+    color: var(--gold-light);
+    text-align: center;
+    letter-spacing: 3px;
+    line-height: 1.05;
+    text-shadow: 0 2px 30px rgba(200,160,74,.6), 0 0 80px rgba(240,192,64,.2);
+  }
+  .cover .subtitle-lang {
+    font-family: 'IM Fell English', serif;
+    font-size: 1rem;
+    color: rgba(240,192,64,.45);
+    margin-top: 10px;
+    letter-spacing: 5px;
+    font-style: italic;
+  }
+  .cover .subtitle {
+    color: rgba(240,220,180,.5);
+    font-size: .95rem;
+    margin-top: 10px;
+    font-style: italic;
+    letter-spacing: 1px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    color: rgba(240,220,180,.4);
+    font-size: .8rem;
+    display: flex; flex-direction:column; align-items:center; gap:5px;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);}
+  }
+
+  /* bottom fade */
+  .cover-fade {
+    position: absolute;
+    bottom: 0; left:0; right:0;
+    height: 100px;
+    background: linear-gradient(transparent, #1a0e06);
+    pointer-events: none;
+  }
+
+  /* ── CHAPTERS ── */
+  .chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 24px 60px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .chapter.visible { opacity:1; transform:translateY(0); }
+
+  .ch1 { background: linear-gradient(155deg,#fdf3d8 0%,#f0e6c0 50%,#e0d0a0 100%); }
+  .ch2 { background: linear-gradient(155deg,#0a1e30 0%,#1a3a5c 55%,#2a6b9a 100%); }
+  .ch3 { background: linear-gradient(155deg,#1a0e06 0%,#2a1a08 50%,#4a3a18 100%); }
+  .ch4 { background: linear-gradient(155deg,#0e1a08 0%,#1a3010 50%,#2a5020 100%); }
+  .ch5 { background: linear-gradient(155deg,#0a0410 0%,#1a0e28 55%,#2a1a48 100%); }
+
+  .ch-num {
+    font-family: 'IM Fell English', serif;
+    font-size: 9rem;
+    font-weight: 400;
+    position: absolute;
+    top: 0; right: 20px;
+    line-height: 1;
+    pointer-events: none;
+    opacity: .05;
+  }
+  .ch1 .ch-num { color:#5c3a1a; }
+  .ch2 .ch-num { color:#c8f0ff; }
+  .ch3 .ch-num { color:#f0c040; }
+  .ch4 .ch-num { color:#88cc44; }
+  .ch5 .ch-num { color:#d4a0ff; }
+
+  .illustration {
+    width: min(340px,92vw);
+    height: min(255px,69vw);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 60px rgba(0,0,0,.5);
+    margin-bottom: 36px;
+    flex-shrink: 0;
+    position: relative; z-index:1;
+    border: 3px solid rgba(200,160,74,.3);
+  }
+  .illustration svg { width:100%; height:100%; display:block; }
+
+  .chapter-title {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(1.6rem,5vw,2.2rem);
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative; z-index:1;
+    letter-spacing: 1px;
+  }
+  .story-text {
+    max-width: 490px;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    position: relative; z-index:1;
+  }
+  .story-text p { margin-bottom:14px; }
+  .quote {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    padding: 14px 22px;
+    border-radius: 14px;
+    margin: 18px 0;
+    display: inline-block;
+    border-left: 4px solid currentColor;
+  }
+
+  .ch1 .chapter-title { color:#5c3a1a; }
+  .ch1 .story-text    { color:#3a2010; }
+  .ch1 .quote         { background:rgba(92,58,26,.1); color:#5c3a1a; }
+
+  .ch2 .chapter-title { color:#c8e8ff; }
+  .ch2 .story-text    { color:#a0c8e8; }
+  .ch2 .quote         { background:rgba(200,232,255,.08); color:#c8e8ff; }
+
+  .ch3 .chapter-title { color:#f0c040; }
+  .ch3 .story-text    { color:#e0c890; }
+  .ch3 .quote         { background:rgba(240,192,64,.1); color:#f0c040; }
+
+  .ch4 .chapter-title { color:#c8f0a0; }
+  .ch4 .story-text    { color:#b0d890; }
+  .ch4 .quote         { background:rgba(136,204,68,.1); color:#c8f0a0; }
+
+  .ch5 .chapter-title { color:#d4a0ff; }
+  .ch5 .story-text    { color:#c0b0e0; }
+  .ch5 .quote         { background:rgba(180,130,255,.1); color:#d4a0ff; }
+
+  /* ── ENDING ── */
+  .ending {
+    background: linear-gradient(160deg,#0e0805 0%,#2a1a08 50%,#4a2a10 100%);
+    padding: 90px 24px;
+    text-align: center;
+    color: white;
+    position: relative; overflow:hidden;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .ending.visible { opacity:1; transform:translateY(0); }
+  .ending h2 {
+    font-family: 'IM Fell English', serif;
+    font-size: 2.4rem;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+    letter-spacing: 2px;
+  }
+  .ending p {
+    font-size:1.1rem; max-width:520px;
+    margin:0 auto; opacity:.85; line-height:1.9;
+  }
+  .end-star {
+    font-size:2.5rem; margin-top:36px;
+    display:inline-block;
+    animation: spinSlow 12s linear infinite;
+    color: var(--gold-light);
+  }
+  @keyframes spinSlow {
+    from{transform:rotate(0deg);} to{transform:rotate(360deg);}
+  }
+
+  @media(min-width:720px){
+    .chapter{flex-direction:row!important;gap:52px;padding:90px 64px;}
+    .illustration{margin-bottom:0;}
+    .story-text{text-align:left;}
+    .chapter-title{text-align:left;}
+    .chapter:nth-child(even){flex-direction:row-reverse!important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-stars" id="starsCover"></div>
+  <div id="dustContainer"></div>
+
+  <div class="cover-scene">
+    <svg viewBox="0 0 290 290" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="haloGrad" cx="50%" cy="45%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".7"/>
+          <stop offset="60%"  stop-color="#c9960c" stop-opacity=".2"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="skyGradCov" cx="50%" cy="30%" r="60%">
+          <stop offset="0%"   stop-color="#4a2a10"/>
+          <stop offset="100%" stop-color="#1a0805"/>
+        </radialGradient>
+        <linearGradient id="groundCov" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#c8a04a"/>
+          <stop offset="100%" stop-color="#8b5e3c"/>
+        </linearGradient>
+        <!-- byzantine cross pattern -->
+        <pattern id="byzPat" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path d="M10,2 L10,18 M2,10 L18,10" stroke="#f0c040" stroke-width=".5" opacity=".3"/>
+        </pattern>
+      </defs>
+
+      <!-- outer circle frame — byzantine gold -->
+      <circle cx="145" cy="145" r="142" fill="#1a0805" stroke="#c9960c" stroke-width="2.5"/>
+      <circle cx="145" cy="145" r="132" fill="none" stroke="#c9960c" stroke-width=".6"
+              stroke-dasharray="4 3" opacity=".4"/>
+      <!-- inner decorative ring -->
+      <circle cx="145" cy="145" r="126" fill="none" stroke="#c9960c" stroke-width=".3" opacity=".25"/>
+
+      <!-- Night sky with stars -->
+      <clipPath id="covClip">
+        <circle cx="145" cy="145" r="140"/>
+      </clipPath>
+      <rect width="290" height="290" fill="url(#skyGradCov)" clip-path="url(#covClip)"/>
+      <!-- star of Bethlehem very bright -->
+      <circle cx="145" cy="35" r="12" fill="#fffbe6" opacity=".95" clip-path="url(#covClip)"/>
+      <circle cx="145" cy="35" r="20" fill="#f0c040" opacity=".3"  clip-path="url(#covClip)"/>
+      <circle cx="145" cy="35" r="30" fill="#f0c040" opacity=".1"  clip-path="url(#covClip)"/>
+      <!-- star rays -->
+      <g clip-path="url(#covClip)" opacity=".5">
+        <line x1="145" y1="10"  x2="145" y2="0"   stroke="#fffbe6" stroke-width="2"/>
+        <line x1="145" y1="60"  x2="145" y2="290" stroke="#fffbe6" stroke-width="1" opacity=".15"/>
+        <line x1="120" y1="10"  x2="100" y2="0"   stroke="#fffbe6" stroke-width="1.5" opacity=".6"/>
+        <line x1="170" y1="10"  x2="190" y2="0"   stroke="#fffbe6" stroke-width="1.5" opacity=".6"/>
+        <line x1="112" y1="22"  x2="90"  y2="14"  stroke="#fffbe6" stroke-width="1" opacity=".5"/>
+        <line x1="178" y1="22"  x2="200" y2="14"  stroke="#fffbe6" stroke-width="1" opacity=".5"/>
+        <line x1="108" y1="35"  x2="85"  y2="35"  stroke="#fffbe6" stroke-width="1.5" opacity=".6"/>
+        <line x1="182" y1="35"  x2="205" y2="35"  stroke="#fffbe6" stroke-width="1.5" opacity=".6"/>
+      </g>
+      <!-- scattered stars -->
+      <circle cx="50"  cy="60"  r="1.5" fill="white" opacity=".7" clip-path="url(#covClip)"/>
+      <circle cx="80"  cy="45"  r="1"   fill="white" opacity=".5" clip-path="url(#covClip)"/>
+      <circle cx="200" cy="55"  r="1.5" fill="white" opacity=".7" clip-path="url(#covClip)"/>
+      <circle cx="240" cy="70"  r="1"   fill="white" opacity=".6" clip-path="url(#covClip)"/>
+      <circle cx="30"  cy="90"  r="1"   fill="white" opacity=".5" clip-path="url(#covClip)"/>
+      <circle cx="255" cy="95"  r="1.5" fill="white" opacity=".6" clip-path="url(#covClip)"/>
+
+      <!-- Hills of Galilee -->
+      <polygon points="0,200 60,150 130,185 200,145 260,175 290,155 290,290 0,290"
+               fill="#3a2808" clip-path="url(#covClip)"/>
+      <polygon points="0,220 50,180 110,205 175,170 240,195 290,175 290,290 0,290"
+               fill="#4a3810" clip-path="url(#covClip)"/>
+      <!-- ground -->
+      <rect x="0" y="240" width="290" height="50" fill="url(#groundCov)" clip-path="url(#covClip)"/>
+
+      <!-- Olive trees (silhouettes) -->
+      <g clip-path="url(#covClip)" opacity=".7">
+        <line x1="40"  y1="240" x2="38"  y2="195" stroke="#3a2808" stroke-width="5"/>
+        <ellipse cx="36" cy="188" rx="20" ry="26" fill="#4a5a18"/>
+        <line x1="250" y1="240" x2="252" y2="195" stroke="#3a2808" stroke-width="5"/>
+        <ellipse cx="254" cy="188" rx="20" ry="26" fill="#4a5a18"/>
+      </g>
+
+      <!-- JESUS figure — radiating light — no face (respectful) -->
+      <g transform="translate(145,175)" clip-path="url(#covClip)">
+        <!-- divine halo glow -->
+        <circle cx="0" cy="-20" r="55" fill="url(#haloGrad)"/>
+        <!-- golden halo ring -->
+        <circle cx="0" cy="-20" r="28" fill="none" stroke="#f0c040" stroke-width="2" opacity=".7"/>
+        <circle cx="0" cy="-20" r="32" fill="none" stroke="#f0c040" stroke-width=".8" opacity=".4"/>
+        <!-- cross in halo (Byzantine style) -->
+        <line x1="0"  y1="-46" x2="0"  y2="-6"  stroke="#f0c040" stroke-width="1.5" opacity=".5"/>
+        <line x1="-20" y1="-26" x2="20" y2="-26" stroke="#f0c040" stroke-width="1.5" opacity=".5"/>
+        <!-- robe white light -->
+        <path d="M-26,10 Q-22,80 0,85 Q22,80 26,10 Z" fill="#f5f0e8"/>
+        <!-- cloak blue -->
+        <path d="M-36,5 Q-30,80 -10,88 Q-22,80 -26,10 Z" fill="#2a5a8a" opacity=".8"/>
+        <path d="M36,5 Q30,80 10,88 Q22,80 26,10 Z"  fill="#2a5a8a" opacity=".8"/>
+        <!-- arms open blessing -->
+        <line x1="-26" y1="12" x2="-65" y2="2"  stroke="#f5f0e8" stroke-width="9" stroke-linecap="round"/>
+        <line x1="26"  y1="12" x2="65"  y2="2"  stroke="#f5f0e8" stroke-width="9" stroke-linecap="round"/>
+        <!-- glowing hands -->
+        <circle cx="-65" cy="1"  r="7" fill="#f0c040" opacity=".5"/>
+        <circle cx="65"  cy="1"  r="7" fill="#f0c040" opacity=".5"/>
+        <!-- head (no face — just light silhouette) -->
+        <circle cx="0" cy="-20" r="20" fill="#f0e8d0"/>
+        <!-- glowing light from above head -->
+        <line x1="0" y1="-50" x2="0"  y2="-40" stroke="#fffbe6" stroke-width="3" opacity=".8"/>
+        <!-- flowing hair suggestion -->
+        <path d="M-16,-10 Q-22,5 -18,20"  stroke="#8b5e3c" stroke-width="4" fill="none" opacity=".6"/>
+        <path d="M16,-10  Q22,5  18,20"   stroke="#8b5e3c" stroke-width="4" fill="none" opacity=".6"/>
+        <!-- dove above (Holy Spirit symbol) -->
+        <g transform="translate(-5,-56)" opacity=".75">
+          <ellipse cx="0" cy="0" rx="8" ry="5" fill="white"/>
+          <circle  cx="-6" cy="-3" r="5" fill="white"/>
+          <path d="M-10,-4 Q-14,-8 -10,-2" fill="#e8e8e8"/>
+          <circle cx="-7" cy="-4" r="1.2" fill="#1a1a1a" opacity=".5"/>
+          <!-- tiny wings -->
+          <path d="M0,-2 Q8,-10 14,-2 Q8,4 0,-2 Z" fill="white" opacity=".8"/>
+        </g>
+      </g>
+
+      <!-- byzantine cross ornament bottom -->
+      <g transform="translate(145,265)" clip-path="url(#covClip)" opacity=".35">
+        <line x1="0"  y1="-10" x2="0"  y2="10"  stroke="#c9960c" stroke-width="1.5"/>
+        <line x1="-8" y1="-3"  x2="8"  y2="-3"  stroke="#c9960c" stroke-width="1.5"/>
+        <line x1="-5" y1="4"   x2="5"  y2="4"   stroke="#c9960c" stroke-width="1"/>
+      </g>
+    </svg>
+  </div>
+
+  <h1>Jésus<br>
+  <span style="font-size:.65em;letter-spacing:5px;opacity:.9">Le Prophète de l'Amour</span></h1>
+  <p class="subtitle-lang">Issa ibn Maryam — Jésus fils de Marie</p>
+  <p class="subtitle">Une histoire pour les petits cœurs ouverts</p>
+
+  <div class="scroll-hint">
+    <span>Fais défiler pour lire</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+  <div class="cover-fade"></div>
+</div>
+
+
+<!-- ══ CH 1 : La naissance à Bethléem ══ -->
+<div class="chapter ch1">
+  <div class="ch-num">I</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bethSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0a0510"/>
+          <stop offset="60%"  stop-color="#1a1030"/>
+          <stop offset="100%" stop-color="#2a1a50"/>
+        </linearGradient>
+        <radialGradient id="bethStar" cx="50%" cy="18%" r="35%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".9"/>
+          <stop offset="50%"  stop-color="#f0c040" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#bethSky)"/>
+      <rect width="340" height="255" fill="url(#bethStar)"/>
+
+      <!-- stars night of Bethlehem -->
+      <circle cx="30"  cy="25"  r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="70"  cy="40"  r="1"   fill="white"   opacity=".6"/>
+      <circle cx="130" cy="18"  r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="200" cy="30"  r="1"   fill="white"   opacity=".6"/>
+      <circle cx="270" cy="22"  r="2"   fill="white"   opacity=".7"/>
+      <circle cx="310" cy="45"  r="1.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="90"  cy="55"  r="1"   fill="white"   opacity=".5"/>
+      <circle cx="240" cy="55"  r="1"   fill="white"   opacity=".5"/>
+
+      <!-- THE STAR OF BETHLEHEM -->
+      <circle cx="170" cy="45" r="10"  fill="#fffbe6"  opacity=".95"/>
+      <circle cx="170" cy="45" r="18"  fill="#f0c040"  opacity=".3"/>
+      <circle cx="170" cy="45" r="30"  fill="#f0c040"  opacity=".1"/>
+      <!-- star rays -->
+      <g opacity=".6">
+        <line x1="170" y1="28" x2="170" y2="12"  stroke="#fffbe6" stroke-width="2.5"/>
+        <line x1="182" y1="33" x2="192" y2="22"  stroke="#fffbe6" stroke-width="1.5"/>
+        <line x1="158" y1="33" x2="148" y2="22"  stroke="#fffbe6" stroke-width="1.5"/>
+        <line x1="187" y1="45" x2="202" y2="45"  stroke="#fffbe6" stroke-width="1.5"/>
+        <line x1="153" y1="45" x2="138" y2="45"  stroke="#fffbe6" stroke-width="1.5"/>
+        <line x1="182" y1="57" x2="192" y2="68"  stroke="#fffbe6" stroke-width="1.5"/>
+        <line x1="158" y1="57" x2="148" y2="68"  stroke="#fffbe6" stroke-width="1.5"/>
+        <line x1="170" y1="62" x2="170" y2="75"  stroke="#fffbe6" stroke-width="2" opacity=".4"/>
+      </g>
+
+      <!-- Bethlehem hills silhouette -->
+      <polygon points="0,200 50,155 110,180 170,148 230,172 290,148 340,165 340,255 0,255"
+               fill="#2a1a08" opacity=".9"/>
+      <!-- stable/manger -->
+      <g transform="translate(140,165)">
+        <!-- roof -->
+        <polygon points="-50,-30 0,-55 50,-30" fill="#5c3a1a" opacity=".9"/>
+        <!-- walls -->
+        <rect x="-48" y="-30" width="96" height="60" fill="#4a2a08" rx="2"/>
+        <!-- golden glow inside stable -->
+        <rect x="-40" y="-22" width="80" height="52" fill="#c8a04a" opacity=".25" rx="2"/>
+        <!-- manger (crib) -->
+        <path d="M-18,20 Q0,10 18,20 L16,32 Q0,38 -16,32 Z" fill="#6b4020"/>
+        <!-- baby Jesus in manger — glowing -->
+        <ellipse cx="0" cy="18" rx="14" ry="9" fill="#f5f0e8"/>
+        <circle  cx="0" cy="13" r="7"   fill="#f0d8b0"/>
+        <circle  cx="0" cy="13" r="10"  fill="#f0c040" opacity=".2"/>
+        <!-- swaddling clothes -->
+        <path d="M-14,20 Q0,14 14,20 Q10,28 0,30 Q-10,28 -14,20 Z" fill="#f0e8d0" opacity=".7"/>
+        <!-- ox and donkey silhouettes -->
+        <g transform="translate(-38,12)" opacity=".6">
+          <ellipse cx="0" cy="0" rx="14" ry="9" fill="#3a2008"/>
+          <circle  cx="-10" cy="-6" r="7"  fill="#3a2008"/>
+          <line x1="-5"  y1="8"  x2="-5"  y2="20" stroke="#3a2008" stroke-width="3"/>
+          <line x1="5"   y1="8"  x2="5"   y2="20" stroke="#3a2008" stroke-width="3"/>
+        </g>
+        <g transform="translate(38,12)" opacity=".6">
+          <ellipse cx="0" cy="0" rx="12" ry="8" fill="#3a2808"/>
+          <circle  cx="-9" cy="-5" r="6"  fill="#3a2808"/>
+          <!-- donkey ears -->
+          <line x1="-12" y1="-10" x2="-14" y2="-18" stroke="#3a2808" stroke-width="3"/>
+          <line x1="-7"  y1="-10" x2="-5"  y2="-18" stroke="#3a2808" stroke-width="3"/>
+          <line x1="3"   y1="8"   x2="3"   y2="18"  stroke="#3a2808" stroke-width="3"/>
+          <line x1="-5"  y1="8"   x2="-5"  y2="18"  stroke="#3a2808" stroke-width="3"/>
+        </g>
+      </g>
+      <!-- Mary silhouette kneeling -->
+      <g transform="translate(130,195)">
+        <path d="M-12,5 Q-8,35 0,38 Q8,35 12,5 Z" fill="#2a5a8a" opacity=".85"/>
+        <!-- blue veil -->
+        <path d="M-14,-5 Q0,-28 14,-5 Q18,10 14,35 Q0,40 -14,35 Q-18,10 -14,-5 Z"
+              fill="#2a5a8a" opacity=".7"/>
+        <circle cx="0" cy="-5" r="10" fill="#e0c8a0"/>
+        <!-- bowed head in adoration -->
+        <path d="M-8,-14 Q0,-26 8,-14" fill="#8b6020" opacity=".7"/>
+      </g>
+      <!-- Joseph silhouette standing -->
+      <g transform="translate(175,188)">
+        <path d="M-12,8 Q-8,55 0,58 Q8,55 12,8 Z" fill="#8b5e3c" opacity=".85"/>
+        <circle cx="0" cy="-4" r="11" fill="#c8906a"/>
+        <path d="M-10,-14 Q0,-28 10,-14 L12,-2 Q0,0 -12,-2 Z" fill="#5c3a1a" opacity=".8"/>
+        <!-- staff -->
+        <line x1="14" y1="12" x2="18" y2="65" stroke="#6b4020" stroke-width="4" stroke-linecap="round"/>
+      </g>
+      <!-- Sheep in background -->
+      <g transform="translate(55,220)" opacity=".6">
+        <ellipse cx="0" cy="0" rx="14" ry="9"  fill="white"/>
+        <circle  cx="-10" cy="-6" r="7" fill="white"/>
+        <line x1="-4"  y1="8"  x2="-4"  y2="18" stroke="#8b7355" stroke-width="3"/>
+        <line x1="6"   y1="8"  x2="6"   y2="18" stroke="#8b7355" stroke-width="3"/>
+      </g>
+      <g transform="translate(285,215)" opacity=".6">
+        <ellipse cx="0" cy="0" rx="12" ry="8"  fill="white"/>
+        <circle  cx="-9" cy="-5" r="6" fill="white"/>
+        <line x1="-3"  y1="7"  x2="-3"  y2="16" stroke="#8b7355" stroke-width="3"/>
+        <line x1="5"   y1="7"  x2="5"   y2="16" stroke="#8b7355" stroke-width="3"/>
+      </g>
+      <!-- Ground -->
+      <rect x="0" y="240" width="340" height="15" fill="#3a2808"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">⭐ La nuit de Bethléem</h2>
+    <p>Il y a très longtemps, dans la belle ville de <strong>Bethléem</strong>, une étoile plus brillante que toutes les autres éclaira le ciel de la nuit.</p>
+    <p>Dans une petite étable toute simple, la douce <strong>Marie</strong> (Maryam) donna naissance à un enfant extraordinaire : <strong>Jésus</strong>, appelé aussi Issa.</p>
+    <div class="quote">« Un enfant nous est né, et sa lumière illuminera le monde. »</div>
+    <p>Des bergers accoururent depuis les collines, guidés par l'étoile. Des sages vinrent de loin. Tous venaient saluer cet enfant qui allait changer le monde avec <strong>amour</strong>. 🌟</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 2 : Le baptême et la mission ══ -->
+<div class="chapter ch2">
+  <div class="ch-num">II</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="jordanSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#87ceeb"/>
+          <stop offset="100%" stop-color="#c8e8ff"/>
+        </linearGradient>
+        <linearGradient id="jordanRiver" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#2a6b9a"/>
+          <stop offset="100%" stop-color="#0a3a5c"/>
+        </linearGradient>
+        <radialGradient id="doveLight" cx="50%" cy="30%" r="40%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".6"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#jordanSky)"/>
+      <rect width="340" height="255" fill="url(#doveLight)"/>
+
+      <!-- Clouds parting with light -->
+      <ellipse cx="80"  cy="38" rx="60" ry="26" fill="white" opacity=".8"/>
+      <ellipse cx="100" cy="26" rx="44" ry="20" fill="white" opacity=".9"/>
+      <ellipse cx="250" cy="42" rx="65" ry="28" fill="white" opacity=".8"/>
+      <ellipse cx="270" cy="28" rx="48" ry="22" fill="white" opacity=".9"/>
+      <!-- parting clouds in centre — opening sky -->
+      <ellipse cx="170" cy="55" rx="50" ry="22" fill="#fffbe6" opacity=".4"/>
+
+      <!-- Divine light rays from sky opening -->
+      <g opacity=".25">
+        <line x1="170" y1="32" x2="140" y2="155" stroke="#f0c040" stroke-width="3"/>
+        <line x1="170" y1="32" x2="160" y2="160" stroke="#f0c040" stroke-width="2"/>
+        <line x1="170" y1="32" x2="170" y2="162" stroke="#f0c040" stroke-width="2.5"/>
+        <line x1="170" y1="32" x2="180" y2="160" stroke="#f0c040" stroke-width="2"/>
+        <line x1="170" y1="32" x2="200" y2="155" stroke="#f0c040" stroke-width="3"/>
+      </g>
+
+      <!-- DOVE descending -->
+      <g transform="translate(168,80)" opacity=".9">
+        <ellipse cx="0" cy="0" rx="12" ry="7"  fill="white"/>
+        <circle  cx="-8" cy="-4" r="7"  fill="white"/>
+        <!-- wings spread descending -->
+        <path d="M0,-4 Q18,-18 28,-8 Q18,4 0,-4 Z"   fill="white" opacity=".9"/>
+        <path d="M0,-4 Q-18,-18 -28,-8 Q-18,4 0,-4 Z" fill="white" opacity=".9"/>
+        <!-- tail -->
+        <path d="M10,5 Q16,12 8,14 Q4,8 10,5 Z"  fill="white" opacity=".8"/>
+        <path d="M-6,6 Q-14,13 -6,14 Q-2,8 -6,6 Z" fill="white" opacity=".8"/>
+        <!-- eye -->
+        <circle cx="-10" cy="-5" r="2" fill="#1a1a1a" opacity=".5"/>
+        <!-- golden glow on dove -->
+        <circle cx="0" cy="0" r="18" fill="#f0c040" opacity=".1"/>
+      </g>
+
+      <!-- River Jordan -->
+      <rect x="0" y="170" width="340" height="85" fill="url(#jordanRiver)"/>
+      <path d="M0,170 Q85,158 170,170 Q255,182 340,170"
+            fill="none" stroke="#c8f0ff" stroke-width="2.5" opacity=".4"/>
+      <path d="M0,182 Q85,171 170,182 Q255,193 340,182"
+            fill="none" stroke="#c8f0ff" stroke-width="1.5" opacity=".25"/>
+      <!-- water ripples around figures -->
+      <ellipse cx="170" cy="192" rx="55" ry="12" fill="#4a9ede" opacity=".2"/>
+
+      <!-- Reeds/palm on banks -->
+      <g opacity=".7">
+        <line x1="30"  y1="168" x2="28"  y2="130" stroke="#5a8a20" stroke-width="3"/>
+        <ellipse cx="26" cy="127" rx="8" ry="14" fill="#4a7a18"/>
+        <line x1="50"  y1="168" x2="48"  y2="125" stroke="#5a8a20" stroke-width="3"/>
+        <ellipse cx="46" cy="122" rx="7" ry="12" fill="#4a7a18"/>
+        <line x1="300" y1="168" x2="302" y2="130" stroke="#5a8a20" stroke-width="3"/>
+        <ellipse cx="304" cy="127" rx="8" ry="14" fill="#4a7a18"/>
+        <line x1="318" y1="168" x2="320" y2="125" stroke="#5a8a20" stroke-width="3"/>
+        <ellipse cx="322" cy="122" rx="7" ry="12" fill="#4a7a18"/>
+      </g>
+
+      <!-- Jesus in river arms open, light around him -->
+      <g transform="translate(155,172)">
+        <!-- standing in water -->
+        <path d="M-16,8 Q-12,48 0,52 Q12,48 16,8 Z" fill="#f5f0e8"/>
+        <!-- blue cloak -->
+        <path d="M-28,4 Q-22,50 -8,55 Q-14,48 -18,8 Z" fill="#2a5a8a" opacity=".8"/>
+        <path d="M28,4 Q22,50 8,55 Q14,48 18,8 Z"  fill="#2a5a8a" opacity=".8"/>
+        <!-- arms open blessing -->
+        <line x1="-18" y1="12" x2="-42" y2="4"  stroke="#f5f0e8" stroke-width="8" stroke-linecap="round"/>
+        <line x1="18"  y1="12" x2="42"  y2="4"  stroke="#f5f0e8" stroke-width="8" stroke-linecap="round"/>
+        <!-- head halo -->
+        <circle cx="0" cy="-10" r="20" fill="#f0c040" opacity=".15"/>
+        <circle cx="0" cy="-10" r="16" fill="none" stroke="#f0c040" stroke-width="1.5" opacity=".6"/>
+        <circle cx="0" cy="-10" r="14" fill="#f0e8d0"/>
+        <!-- flowing hair -->
+        <path d="M-12,-2 Q-18,12 -14,24" stroke="#8b5e3c" stroke-width="3.5" fill="none" opacity=".7"/>
+        <path d="M12,-2  Q18,12  14,24"  stroke="#8b5e3c" stroke-width="3.5" fill="none" opacity=".7"/>
+        <!-- golden light lines emanating -->
+        <line x1="-25" y1="-18" x2="-40" y2="-30" stroke="#f0c040" stroke-width="1" opacity=".4"/>
+        <line x1="25"  y1="-18" x2="40"  y2="-30" stroke="#f0c040" stroke-width="1" opacity=".4"/>
+        <line x1="0"   y1="-28" x2="0"   y2="-42" stroke="#f0c040" stroke-width="1.5" opacity=".5"/>
+      </g>
+
+      <!-- John the Baptist on bank -->
+      <g transform="translate(232,168)">
+        <path d="M-10,5 Q-7,38 0,40 Q7,38 10,5 Z" fill="#8b5e3c"/>
+        <circle cx="0" cy="-5" r="10" fill="#c8906a"/>
+        <path d="M-8,-14 Q0,-26 8,-14 L10,-3 Q0,-1 -10,-3 Z" fill="#5c3a1a" opacity=".8"/>
+        <!-- hand raised in blessing -->
+        <line x1="-10" y1="8" x2="-24" y2="-6" stroke="#8b5e3c" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="-26" cy="-8" r="5" fill="#c8906a" opacity=".8"/>
+        <circle cx="-2.5" cy="-5" r="1.5" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-5" r="1.5" fill="#1a1a1a"/>
+        <path d="M-2,1 Q0,4 2,1" stroke="#7a3a10" stroke-width="1.2" fill="none"/>
+      </g>
+
+      <!-- Lotus / water lilies -->
+      <circle cx="80"  cy="185" r="6" fill="#ff9999" opacity=".5"/>
+      <circle cx="265" cy="188" r="5" fill="#ff9999" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🕊️ La Lumière du Jourdain</h2>
+    <p>Jésus grandit en sagesse et en bonté. Quand il eut 30 ans, il se rendit au fleuve <strong>Jourdain</strong>, où son cousin <strong>Jean</strong> baptisait les gens.</p>
+    <p>Jésus entra dans l'eau. Le ciel s'ouvrit soudain et une <strong>colombe blanche</strong> descendit, baignée d'une lumière dorée extraordinaire.</p>
+    <div class="quote">« C'est en Toi que je mets toute ma confiance, pour guider ceux qui sont perdus. »</div>
+    <p>C'était le début de sa grande mission : parcourir les routes de <strong>Galilée</strong>, enseigner l'amour, guérir les malades, et redonner espoir aux plus petits. 🌿</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 3 : Les miracles ══ -->
+<div class="chapter ch3">
+  <div class="ch-num">III</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="miracleSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a0e06"/>
+          <stop offset="60%"  stop-color="#2a1a08"/>
+          <stop offset="100%" stop-color="#4a3010"/>
+        </linearGradient>
+        <radialGradient id="miracleGlow" cx="40%" cy="50%" r="45%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="fishGlow" cx="60%" cy="60%" r="40%">
+          <stop offset="0%"   stop-color="#4a9ede" stop-opacity=".3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#miracleSky)"/>
+      <rect width="340" height="255" fill="url(#miracleGlow)"/>
+      <rect width="340" height="255" fill="url(#fishGlow)"/>
+
+      <!-- Night shore of Galilee -->
+      <rect x="0" y="175" width="340" height="80" fill="#0a3a5c" opacity=".6"/>
+      <path d="M0,175 Q85,163 170,175 Q255,187 340,175"
+            fill="none" stroke="#4a9ede" stroke-width="2" opacity=".4"/>
+      <!-- Ground -->
+      <rect x="0" y="200" width="340" height="55" fill="#3a2808"/>
+      <!-- Stars -->
+      <circle cx="40"  cy="22"  r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="90"  cy="38"  r="1"   fill="white"   opacity=".6"/>
+      <circle cx="240" cy="25"  r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="295" cy="42"  r="1"   fill="#f0c040" opacity=".7"/>
+
+      <!-- SPLIT SCENE: left = loaves & fish / right = healing -->
+
+      <!-- Left panel: multiplication of loaves and fish -->
+      <!-- basket of bread -->
+      <g transform="translate(75,160)">
+        <!-- golden glow -->
+        <circle cx="0" cy="-15" r="40" fill="#f0c040" opacity=".08"/>
+        <!-- basket -->
+        <path d="M-28,0 Q-20,20 0,22 Q20,20 28,0 L24,-8 Q0,-15 -24,-8 Z" fill="#8b6020"/>
+        <!-- weave lines -->
+        <path d="M-26,-2 Q0,-12 26,-2" stroke="#6b4010" stroke-width="1.5" fill="none" opacity=".6"/>
+        <path d="M-28,4  Q0,-6  28,4"  stroke="#6b4010" stroke-width="1.5" fill="none" opacity=".6"/>
+        <!-- bread loaves stacked -->
+        <ellipse cx="-12" cy="-12" rx="12" ry="7" fill="#c8a050"/>
+        <ellipse cx="10"  cy="-15" rx="12" ry="7" fill="#d4b060"/>
+        <ellipse cx="-4"  cy="-22" rx="10" ry="6" fill="#c8a050"/>
+        <!-- glowing light from bread -->
+        <circle  cx="0"   cy="-15" r="15" fill="#f0c040" opacity=".1"/>
+        <!-- fish -->
+        <g transform="translate(-30,-30)">
+          <ellipse cx="0" cy="0" rx="18" ry="8" fill="#4a9ede" opacity=".8"/>
+          <path d="M-17,0 Q-24,-6 -22,0 Q-24,6 -17,0 Z" fill="#4a9ede" opacity=".8"/>
+          <circle cx="12" cy="-2" r="2" fill="#020d1a" opacity=".6"/>
+        </g>
+        <g transform="translate(25,-28)">
+          <ellipse cx="0" cy="0" rx="14" ry="6" fill="#5ab8e0" opacity=".8"/>
+          <path d="M-13,0 Q-19,-5 -17,0 Q-19,5 -13,0 Z" fill="#5ab8e0" opacity=".8"/>
+          <circle cx="8" cy="-2" r="1.5" fill="#020d1a" opacity=".6"/>
+        </g>
+      </g>
+
+      <!-- Jesus figure with halo blessing the bread -->
+      <g transform="translate(155,168)">
+        <path d="M-16,8 Q-12,55 0,58 Q12,55 16,8 Z" fill="#f5f0e8"/>
+        <path d="M-28,4 Q-22,55 -8,60 Q-14,52 -18,8 Z" fill="#2a5a8a" opacity=".7"/>
+        <path d="M28,4 Q22,55 8,60 Q14,52 18,8 Z"  fill="#2a5a8a" opacity=".7"/>
+        <!-- right hand raised blessing -->
+        <line x1="16" y1="12" x2="36" y2="-5" stroke="#f5f0e8" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="38" cy="-7" r="6" fill="#f0c040" opacity=".5"/>
+        <!-- left hand toward crowd -->
+        <line x1="-16" y1="14" x2="-38" y2="8"  stroke="#f5f0e8" stroke-width="7" stroke-linecap="round"/>
+        <!-- halo -->
+        <circle cx="0" cy="-10" r="18" fill="#f0c040" opacity=".12"/>
+        <circle cx="0" cy="-10" r="14" fill="none" stroke="#f0c040" stroke-width="1.8" opacity=".6"/>
+        <circle cx="0" cy="-10" r="12" fill="#f0e8d0"/>
+        <path d="M-10,-2 Q-16,12 -12,22" stroke="#8b5e3c" stroke-width="3" fill="none" opacity=".6"/>
+        <path d="M10,-2  Q16,12  12,22"  stroke="#8b5e3c" stroke-width="3" fill="none" opacity=".6"/>
+        <!-- blessing rays -->
+        <line x1="14"  y1="-22" x2="28"  y2="-35" stroke="#f0c040" stroke-width="1" opacity=".5"/>
+        <line x1="-14" y1="-22" x2="-28" y2="-35" stroke="#f0c040" stroke-width="1" opacity=".5"/>
+        <line x1="0"   y1="-26" x2="0"   y2="-42" stroke="#f0c040" stroke-width="1.5" opacity=".6"/>
+      </g>
+
+      <!-- Right panel: healing a blind person -->
+      <g transform="translate(268,178)">
+        <!-- sick person kneeling -->
+        <path d="M-12,5 Q-8,30 0,32 Q8,30 12,5 Z" fill="#c8a04a" opacity=".7"/>
+        <circle cx="0" cy="-6" r="10" fill="#c8906a"/>
+        <path d="M-8,-14 Q0,-26 8,-14 L10,-3 Q0,-1 -10,-3 Z" fill="#5c3a1a" opacity=".7"/>
+        <!-- eyes closed / blind -->
+        <path d="M-4,-7 Q-1,-4 2,-7" stroke="#5c3a1a" stroke-width="1.2" fill="none"/>
+        <path d="M2,-7 Q5,-4 8,-7"   stroke="#5c3a1a" stroke-width="1.2" fill="none"/>
+        <!-- kneeling -->
+        <path d="M-8,30 Q-10,42 -6,46"  stroke="#c8a04a" stroke-width="6" stroke-linecap="round" fill="none"/>
+        <path d="M8,30  Q10,42  14,44"  stroke="#c8a04a" stroke-width="6" stroke-linecap="round" fill="none"/>
+        <!-- Jesus hand touching — golden -->
+        <line x1="-18" y1="-3" x2="-32" y2="-8" stroke="#f0c040" stroke-width="5" stroke-linecap="round" opacity=".7"/>
+        <!-- sparkle of healing -->
+        <circle cx="-32" cy="-9" r="5" fill="#f0c040" opacity=".6"/>
+        <circle cx="-32" cy="-9" r="9" fill="#f0c040" opacity=".15"/>
+        <circle cx="-38" cy="-4" r="2" fill="#f0c040" opacity=".5"/>
+        <circle cx="-28" cy="-16" r="2" fill="#f0c040" opacity=".5"/>
+      </g>
+
+      <!-- crowd watching (tiny) -->
+      <g transform="translate(25,205)" opacity=".65">
+        <circle cx="0"  cy="-15" r="5"  fill="#d4a57a"/>
+        <rect x="-5"  y="-10" width="10" height="12" fill="#c0392b" rx="1"/>
+        <circle cx="18" cy="-13" r="4.5" fill="#c8906a"/>
+        <rect x="13"  y="-9"  width="9"  height="11" fill="#1e6b3a" rx="1"/>
+        <circle cx="34" cy="-15" r="5"  fill="#d4a57a"/>
+        <rect x="29"  y="-10" width="10" height="12" fill="#c9960c" rx="1"/>
+      </g>
+
+      <!-- Gold dust sparkles floating -->
+      <circle cx="130" cy="120" r="2" fill="#f0c040" opacity=".6"/>
+      <circle cx="100" cy="100" r="1.5" fill="#f0c040" opacity=".5"/>
+      <circle cx="200" cy="110" r="2" fill="#f0c040" opacity=".5"/>
+      <circle cx="170" cy="90"  r="1.5" fill="#f0c040" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">✨ Les miracles de l'Amour</h2>
+    <p>Jésus parcourait les villages de <strong>Galilée</strong>, et partout où il passait, il faisait des choses extraordinaires avec la permission de Dieu.</p>
+    <p>Il guérissait les malades d'un simple toucher. Il redonna la vue à des aveugles. Il nourrit des milliers de personnes avec seulement <strong>cinq pains et deux poissons</strong> !</p>
+    <div class="quote">« Ce ne sont pas mes forces, c'est l'amour de Dieu qui passe à travers moi. »</div>
+    <p>Mais plus que les miracles, c'est son enseignement qui touchait les cœurs : <em>aimez-vous les uns les autres, pardonnez, prenez soin des plus petits.</em> 💛</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 4 : Le Sermon sur la Montagne ══ -->
+<div class="chapter ch4">
+  <div class="ch-num">IV</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sermonSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#c8e8ff"/>
+          <stop offset="100%" stop-color="#e8f8e8"/>
+        </linearGradient>
+        <radialGradient id="sermonSun" cx="60%" cy="25%" r="40%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".7"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#sermonSky)"/>
+      <rect width="340" height="255" fill="url(#sermonSun)"/>
+
+      <!-- Sun -->
+      <circle cx="280" cy="48" r="32" fill="#f0c040" opacity=".8"/>
+      <!-- Fluffy clouds -->
+      <ellipse cx="60"  cy="42" rx="50" ry="22" fill="white" opacity=".75"/>
+      <ellipse cx="80"  cy="30" rx="36" ry="18" fill="white" opacity=".85"/>
+      <ellipse cx="200" cy="35" rx="44" ry="19" fill="white" opacity=".7"/>
+      <!-- Green hills of Beatitudes -->
+      <polygon points="0,200 55,145 120,175 190,135 265,165 320,138 340,155 340,255 0,255"
+               fill="#4a6a1a" opacity=".9"/>
+      <polygon points="0,220 45,178 100,200 170,165 250,188 320,165 340,178 340,255 0,255"
+               fill="#5a8a28"/>
+      <!-- Wildflowers on hills -->
+      <g opacity=".8">
+        <circle cx="30"  cy="222" r="4" fill="#ff9999"/>
+        <circle cx="55"  cy="218" r="3" fill="#f0c040"/>
+        <circle cx="80"  cy="225" r="4" fill="#88ddff"/>
+        <circle cx="260" cy="220" r="4" fill="#ff9999"/>
+        <circle cx="290" cy="225" r="3" fill="#f0c040"/>
+        <circle cx="315" cy="218" r="4" fill="#ff88cc"/>
+      </g>
+      <!-- Ground -->
+      <rect x="0" y="238" width="340" height="17" fill="#6b8a2a"/>
+
+      <!-- The mountain/hill where Jesus sits -->
+      <polygon points="100,200 170,140 240,200" fill="#5a7a22" opacity=".8"/>
+      <polygon points="110,200 170,148 230,200" fill="#6a9030"/>
+
+      <!-- JESUS sitting on the mount -->
+      <g transform="translate(170,162)">
+        <!-- sitting figure (cross-legged) -->
+        <path d="M-22,5 Q-16,35 0,38 Q16,35 22,5 Z" fill="#f5f0e8"/>
+        <!-- blue cloak draped -->
+        <path d="M-36,2 Q-28,38 -10,42 Q-18,35 -22,5 Z" fill="#2a5a8a" opacity=".8"/>
+        <path d="M36,2 Q28,38 10,42 Q18,35 22,5 Z"  fill="#2a5a8a" opacity=".8"/>
+        <!-- sitting legs -->
+        <path d="M-22,35 Q-30,50 -10,52 Q10,50 22,35" fill="#f5f0e8" opacity=".5"/>
+        <!-- arms open teaching -->
+        <line x1="-22" y1="10" x2="-48" y2="2"   stroke="#f5f0e8" stroke-width="7" stroke-linecap="round"/>
+        <line x1="22"  y1="10" x2="48"  y2="2"   stroke="#f5f0e8" stroke-width="7" stroke-linecap="round"/>
+        <!-- halo golden -->
+        <circle cx="0" cy="-12" r="22" fill="#f0c040" opacity=".12"/>
+        <circle cx="0" cy="-12" r="17" fill="none" stroke="#f0c040" stroke-width="1.8" opacity=".65"/>
+        <circle cx="0" cy="-12" r="15" fill="#f0e8d0"/>
+        <!-- hair -->
+        <path d="M-12,-4  Q-18,10 -14,22"  stroke="#8b5e3c" stroke-width="3.5" fill="none" opacity=".7"/>
+        <path d="M12,-4   Q18,10  14,22"   stroke="#8b5e3c" stroke-width="3.5" fill="none" opacity=".7"/>
+        <!-- gentle eyes -->
+        <circle cx="-4.5" cy="-13" r="2.5" fill="#1a1a1a" opacity=".7"/>
+        <circle cx="4.5"  cy="-13" r="2.5" fill="#1a1a1a" opacity=".7"/>
+        <!-- serene smile -->
+        <path d="M-4,-5 Q0,-1 4,-5" stroke="#7a3a10" stroke-width="1.5" fill="none" opacity=".6"/>
+        <!-- light radiating gently -->
+        <line x1="-22" y1="-22" x2="-36" y2="-35" stroke="#f0c040" stroke-width="1" opacity=".4"/>
+        <line x1="22"  y1="-22" x2="36"  y2="-35" stroke="#f0c040" stroke-width="1" opacity=".4"/>
+        <line x1="0"   y1="-30" x2="0"   y2="-48" stroke="#f0c040" stroke-width="1.5" opacity=".5"/>
+      </g>
+
+      <!-- Crowd sitting on hillside listening -->
+      <!-- row 1 close -->
+      <g transform="translate(50,200)" opacity=".85">
+        <circle cx="0"  cy="-16" r="7"  fill="#d4a57a"/>
+        <rect x="-7"  y="-10" width="14" height="14" fill="#c0392b" rx="1"/>
+        <circle cx="22" cy="-14" r="6.5" fill="#c8906a"/>
+        <rect x="15"  y="-9"  width="13" height="13" fill="#c9960c" rx="1"/>
+        <circle cx="44" cy="-16" r="7"  fill="#d4b080"/>
+        <rect x="37"  y="-10" width="14" height="14" fill="#1e6b3a" rx="1"/>
+        <!-- all looking up -->
+        <circle cx="-2.5" cy="-17" r="1.5" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-17" r="1.5" fill="#1a1a1a"/>
+        <circle cx="20"   cy="-15" r="1.5" fill="#1a1a1a"/>
+        <circle cx="25"   cy="-15" r="1.5" fill="#1a1a1a"/>
+        <circle cx="42"   cy="-17" r="1.5" fill="#1a1a1a"/>
+        <circle cx="46"   cy="-17" r="1.5" fill="#1a1a1a"/>
+      </g>
+      <!-- row 2 far right -->
+      <g transform="translate(215,205)" opacity=".75">
+        <circle cx="0"  cy="-14" r="6"  fill="#d4a57a"/>
+        <rect x="-6"  y="-9"  width="12" height="12" fill="#6b3fa0" rx="1"/>
+        <circle cx="20" cy="-12" r="5.5" fill="#c8906a"/>
+        <rect x="14"  y="-8"  width="11" height="11" fill="#c0392b" rx="1"/>
+        <circle cx="38" cy="-14" r="6"  fill="#d4b080"/>
+        <rect x="32"  y="-9"  width="12" height="12" fill="#c9960c" rx="1"/>
+      </g>
+
+      <!-- Child in front listening intently -->
+      <g transform="translate(155,215)">
+        <circle cx="0" cy="-12" r="7"   fill="#d4a57a"/>
+        <rect x="-6" y="-6" width="12" height="10" fill="#ff9999" rx="1"/>
+        <!-- looking up with wide eyes -->
+        <circle cx="-2.5" cy="-13" r="2" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-13" r="2" fill="#1a1a1a"/>
+        <!-- open mouth in wonder -->
+        <ellipse cx="0" cy="-7" rx="2" ry="1.5" fill="#5c3a1a"/>
+      </g>
+
+      <!-- birds soaring above -->
+      <g opacity=".5">
+        <path d="M80,90  Q88,82 96,90"  fill="none" stroke="#5a8a20" stroke-width="1.5"/>
+        <path d="M110,78 Q118,70 126,78" fill="none" stroke="#5a8a20" stroke-width="1.5"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌿 Le Sermon sur la Montagne</h2>
+    <p>Un jour, Jésus monta sur une belle colline verdoyante en <strong>Galilée</strong>. Des milliers de personnes s'assirent autour de lui sur l'herbe pour l'écouter.</p>
+    <p>Il leur parla avec des mots simples et doux, les plus beaux que le monde ait jamais entendus :</p>
+    <div class="quote">« Heureux les doux. Heureux ceux qui font la paix. Aimez même ceux qui vous font du mal. »</div>
+    <p>Les gens écoutaient, le cœur ouvert. Il leur dit que Dieu aime tous les hommes, les riches comme les pauvres, et que ce qui compte vraiment, c'est la <strong>bonté du cœur</strong>. 🌸</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 5 : L'Ascension et l'héritage ══ -->
+<div class="chapter ch5">
+  <div class="ch-num">V</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ascSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#050010"/>
+          <stop offset="50%"  stop-color="#1a0e28"/>
+          <stop offset="100%" stop-color="#2a1a48"/>
+        </linearGradient>
+        <radialGradient id="ascGlow" cx="50%" cy="35%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".5"/>
+          <stop offset="40%"  stop-color="#c090ff" stop-opacity=".2"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="ascGlow2" cx="50%" cy="35%" r="30%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".8"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#ascSky)"/>
+      <rect width="340" height="255" fill="url(#ascGlow)"/>
+      <rect width="340" height="255" fill="url(#ascGlow2)"/>
+
+      <!-- Stars scattered -->
+      <circle cx="25"  cy="18"  r="1.5" fill="white"   opacity=".8"/>
+      <circle cx="65"  cy="35"  r="1"   fill="white"   opacity=".6"/>
+      <circle cx="110" cy="14"  r="2"   fill="#f0c040" opacity=".9"/>
+      <circle cx="200" cy="28"  r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="280" cy="16"  r="2"   fill="#d4a0ff" opacity=".8"/>
+      <circle cx="315" cy="40"  r="1.5" fill="white"   opacity=".6"/>
+      <circle cx="155" cy="10"  r="1"   fill="white"   opacity=".5"/>
+      <circle cx="90"  cy="52"  r="1"   fill="#d4a0ff" opacity=".6"/>
+      <circle cx="250" cy="55"  r="1.5" fill="white"   opacity=".7"/>
+
+      <!-- Ground hill -->
+      <polygon points="0,210 60,170 130,195 200,162 270,185 320,165 340,175 340,255 0,255"
+               fill="#1a0e06"/>
+      <rect x="0" y="230" width="340" height="25" fill="#2a1808"/>
+
+      <!-- Olive trees silhouettes -->
+      <g opacity=".5">
+        <line x1="40"  y1="230" x2="38"  y2="182" stroke="#3a2808" stroke-width="5"/>
+        <ellipse cx="36" cy="176" rx="18" ry="24" fill="#3a4a10"/>
+        <line x1="300" y1="230" x2="302" y2="185" stroke="#3a2808" stroke-width="5"/>
+        <ellipse cx="304" cy="179" rx="18" ry="24" fill="#3a4a10"/>
+      </g>
+
+      <!-- ASCENSION — Jesus rising into light -->
+      <g transform="translate(170,135)">
+        <!-- massive divine light burst -->
+        <circle cx="0" cy="-35" r="70"  fill="#f0c040" opacity=".06"/>
+        <circle cx="0" cy="-35" r="50"  fill="#f0c040" opacity=".1"/>
+        <circle cx="0" cy="-35" r="35"  fill="#fffbe6" opacity=".2"/>
+        <circle cx="0" cy="-35" r="20"  fill="#fffbe6" opacity=".4"/>
+
+        <!-- light rays going outward -->
+        <g opacity=".3">
+          <line x1="0"   y1="-65" x2="0"   y2="-100" stroke="#f0c040" stroke-width="3"/>
+          <line x1="22"  y1="-57" x2="40"  y2="-82"  stroke="#f0c040" stroke-width="2"/>
+          <line x1="-22" y1="-57" x2="-40" y2="-82"  stroke="#f0c040" stroke-width="2"/>
+          <line x1="36"  y1="-40" x2="60"  y2="-55"  stroke="#f0c040" stroke-width="1.5"/>
+          <line x1="-36" y1="-40" x2="-60" y2="-55"  stroke="#f0c040" stroke-width="1.5"/>
+          <line x1="40"  y1="-18" x2="68"  y2="-22"  stroke="#f0c040" stroke-width="1.5"/>
+          <line x1="-40" y1="-18" x2="-68" y2="-22"  stroke="#f0c040" stroke-width="1.5"/>
+        </g>
+
+        <!-- purple/violet celestial light -->
+        <g opacity=".2">
+          <line x1="16"  y1="-65" x2="30"  y2="-98"  stroke="#d4a0ff" stroke-width="2"/>
+          <line x1="-16" y1="-65" x2="-30" y2="-98"  stroke="#d4a0ff" stroke-width="2"/>
+        </g>
+
+        <!-- Jesus ascending — floating figure in white -->
+        <g transform="translate(0,-30)">
+          <!-- robe billowing upward -->
+          <path d="M-20,20 Q-16,-30 0,-35 Q16,-30 20,20 Z" fill="#f5f0e8"/>
+          <!-- cloak flowing -->
+          <path d="M-32,15 Q-26,-28 -12,-32 Q-18,-26 -20,20 Z" fill="#2a5a8a" opacity=".7"/>
+          <path d="M32,15 Q26,-28 12,-32 Q18,-26 20,20 Z"  fill="#2a5a8a" opacity=".7"/>
+          <!-- arms stretched upward and outward -->
+          <line x1="-20" y1="5"  x2="-50" y2="-12" stroke="#f5f0e8" stroke-width="8" stroke-linecap="round"/>
+          <line x1="20"  y1="5"  x2="50"  y2="-12" stroke="#f5f0e8" stroke-width="8" stroke-linecap="round"/>
+          <!-- hands glowing -->
+          <circle cx="-52" cy="-14" r="7" fill="#f0c040" opacity=".6"/>
+          <circle cx="52"  cy="-14" r="7" fill="#f0c040" opacity=".6"/>
+          <!-- brilliant halo -->
+          <circle cx="0" cy="-20" r="24" fill="#f0c040" opacity=".15"/>
+          <circle cx="0" cy="-20" r="18" fill="none" stroke="#f0c040" stroke-width="2.5" opacity=".7"/>
+          <circle cx="0" cy="-20" r="16" fill="#fffbe6"/>
+          <!-- just radiant light for face -->
+          <circle cx="0" cy="-20" r="10" fill="#f0c040" opacity=".2"/>
+        </g>
+      </g>
+
+      <!-- Disciples below watching in awe -->
+      <g transform="translate(60,210)" opacity=".8">
+        <circle cx="0"  cy="-18" r="7"  fill="#d4a57a"/>
+        <rect x="-7"  y="-12" width="14" height="14" fill="#1e6b3a" rx="1"/>
+        <!-- arm raised upward in awe -->
+        <line x1="7" y1="-7" x2="18" y2="-22" stroke="#1e6b3a" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="-2.5" cy="-19" r="2" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-19" r="2" fill="#1a1a1a"/>
+      </g>
+      <g transform="translate(110,215)" opacity=".75">
+        <circle cx="0" cy="-16" r="6.5" fill="#c8906a"/>
+        <rect x="-6" y="-11" width="13" height="13" fill="#c9960c" rx="1"/>
+        <!-- looking up -->
+        <circle cx="-2.5" cy="-17" r="1.8" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-17" r="1.8" fill="#1a1a1a"/>
+      </g>
+      <g transform="translate(240,212)" opacity=".75">
+        <circle cx="0" cy="-17" r="7"  fill="#d4b080"/>
+        <rect x="-7" y="-11" width="14" height="13" fill="#c0392b" rx="1"/>
+        <line x1="-7" y1="-6" x2="-18" y2="-20" stroke="#c0392b" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="-2.5" cy="-18" r="2" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-18" r="2" fill="#1a1a1a"/>
+      </g>
+      <g transform="translate(285,208)" opacity=".7">
+        <circle cx="0" cy="-15" r="6"  fill="#d4a57a"/>
+        <rect x="-6" y="-10" width="12" height="12" fill="#6b3fa0" rx="1"/>
+        <circle cx="-2" cy="-16" r="1.8" fill="#1a1a1a"/>
+        <circle cx="2"  cy="-16" r="1.8" fill="#1a1a1a"/>
+      </g>
+
+      <!-- Doves ascending with him -->
+      <g opacity=".65">
+        <path d="M120,105 Q128,95 138,103 Q145,93 153,101" fill="white" stroke="none"/>
+        <path d="M195,95  Q203,85 213,93  Q220,83 228,91"  fill="white" stroke="none"/>
+      </g>
+
+      <!-- Byzantine cross floating in light -->
+      <g transform="translate(170,62)" opacity=".35">
+        <line x1="0"  y1="-18" x2="0"  y2="18"  stroke="#f0c040" stroke-width="2.5"/>
+        <line x1="-14" y1="-4" x2="14" y2="-4"  stroke="#f0c040" stroke-width="2.5"/>
+        <line x1="-8"  y1="8"  x2="8"  y2="8"   stroke="#f0c040" stroke-width="1.5"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌟 L'héritage d'Amour</h2>
+    <p>Jésus laissa à ses disciples — ses amis fidèles — un message simple mais immense : <strong>aimez-vous les uns les autres</strong> comme Dieu vous aime.</p>
+    <p>Après sa mission accomplie, il fut élevé vers Dieu dans une lumière éblouissante, depuis le mont des Oliviers. Ses disciples regardèrent le ciel, le cœur plein d'amour et d'espoir.</p>
+    <div class="quote">« Je suis avec vous jusqu'à la fin des temps. »</div>
+    <p>Jésus nous apprend que la vraie force, c'est la <strong>douceur</strong>. Que la vraie richesse, c'est l'<strong>amour</strong>. Et que Dieu est toujours là, pour chacun d'entre nous. ✨</p>
+  </div>
+</div>
+
+
+<!-- ══ ENDING ══ -->
+<div class="ending">
+  <!-- subtle gold cross pattern -->
+  <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.05;pointer-events:none"
+       viewBox="0 0 400 300">
+    <defs>
+      <pattern id="crossPat" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+        <line x1="25" y1="5"  x2="25" y2="45" stroke="#f0c040" stroke-width="1"/>
+        <line x1="8"  y1="18" x2="42" y2="18" stroke="#f0c040" stroke-width="1"/>
+        <line x1="14" y1="30" x2="36" y2="30" stroke="#f0c040" stroke-width=".5"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="300" fill="url(#crossPat)"/>
+  </svg>
+
+  <div style="font-size:2.5rem;margin-bottom:16px">🕊️</div>
+  <h2>✨ Fin ✨</h2>
+  <p>Et voilà l'histoire de Jésus,<br>
+  le prophète de la douceur et de l'amour.<br><br>
+  Né dans une humble étable, il grandit pour enseigner<br>
+  au monde entier que <em>chaque être humain mérite amour et dignité.</em><br><br>
+  Il nous apprend à pardonner, à partager,<br>
+  à prendre soin de ceux qui souffrent.<br><br>
+  <em>Son message d'amour traverse les siècles. 🌟</em></p>
+  <div class="end-star">✦</div>
+</div>
+
+<script>
+  // Stars on cover
+  const cover = document.getElementById('starsCover');
+  for (let i = 0; i < 70; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const sz = Math.random() * 2.5 + .6;
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*55}%;
+      width:${sz}px;height:${sz}px;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${1.5+Math.random()*2.5}s;
+    `;
+    cover.appendChild(s);
+  }
+
+  // Gold dust drifting upward
+  const dustC = document.getElementById('dustContainer');
+  dustC.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;';
+
+  function makeDust() {
+    const d = document.createElement('div');
+    d.className = 'dust';
+    const sz = Math.random() * 3 + 1;
+    d.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      left:${Math.random()*100}%;
+      bottom:${Math.random()*30}%;
+      animation-duration:${8+Math.random()*8}s;
+      animation-delay:${Math.random()*5}s;
+      opacity:0;
+    `;
+    dustC.appendChild(d);
+    d.addEventListener('animationend', () => d.remove());
+  }
+  setInterval(makeDust, 500);
+  for(let i=0;i<20;i++) makeDust();
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold:.1 }
+  );
+  document.querySelectorAll('.chapter,.ending').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
