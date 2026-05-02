@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔴 Hot Potato!</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-idle:   #1a0f00;
+  --bg-hot:    #2a0800;
+  --orange:    #ff8c00;
+  --red:       #ff2200;
+  --yellow:    #ffe000;
+  --cream:     #fff8e8;
+  --muted:     rgba(255,248,232,0.5);
+  --panel:     rgba(255,255,255,0.06);
+  --border:    rgba(255,255,255,0.1);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg-idle);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+  transition: background 0.3s;
+}
+
+/* Flames pattern bg */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(ellipse 80% 50% at 50% 110%, rgba(255,140,0,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 380px;
+  padding: 1rem 1.2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* ===== TITLE ===== */
+h1 {
+  font-family: 'Boogaloo', cursive;
+  font-size: clamp(2.4rem, 9vw, 3.4rem);
+  color: var(--orange);
+  text-align: center;
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(255,140,0,0.5), 0 4px 0 #5a2800;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* ===== PLAYERS STRIP ===== */
+.players-wrap {
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 0.9rem 1rem;
+}
+
+.players-label {
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+
+.players-row {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.player-chip {
+  font-family: 'Boogaloo', cursive;
+  font-size: 1rem;
+  padding: 0.35em 0.9em;
+  border-radius: 999px;
+  border: 2px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,248,232,0.4);
+  transition: all 0.2s;
+  cursor: default;
+}
+
+.player-chip.active {
+  background: var(--orange);
+  border-color: var(--yellow);
+  color: #1a0800;
+  font-weight: 900;
+  box-shadow: 0 0 16px rgba(255,140,0,0.5);
+  transform: scale(1.08);
+}
+
+.player-chip.out {
+  background: rgba(255,30,0,0.15);
+  border-color: rgba(255,30,0,0.3);
+  color: rgba(255,80,50,0.5);
+  text-decoration: line-through;
+}
+
+/* ===== POTATO ARENA ===== */
+#arena {
+  width: min(88vw, 300px);
+  height: min(88vw, 300px);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: box-shadow 0.15s;
+  border: 3px solid rgba(255,140,0,0.2);
+  background: radial-gradient(circle at 40% 35%, #2a1800 0%, #0e0600 70%);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+#arena.hot {
+  animation: hotPulse 0.6s ease-in-out infinite alternate;
+  border-color: rgba(255,60,0,0.5);
+}
+
+@keyframes hotPulse {
+  from { box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(255,80,0,0.3); }
+  to   { box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 80px rgba(255,80,0,0.6); }
+}
+
+#arena.exploded {
+  background: radial-gradient(circle at 40% 35%, #ff2200 0%, #5a0000 60%, #0e0600 100%);
+  border-color: var(--red);
+  box-shadow: 0 0 120px rgba(255,30,0,0.7), 0 20px 60px rgba(0,0,0,0.6);
+  animation: none;
+}
+
+.potato-emoji {
+  font-size: clamp(4rem, 18vw, 7rem);
+  line-height: 1;
+  filter: drop-shadow(0 4px 16px rgba(255,140,0,0.4));
+  transition: all 0.15s;
+}
+
+#arena.hot .potato-emoji {
+  animation: potatoWiggle 0.3s ease infinite alternate;
+}
+@keyframes potatoWiggle {
+  from { transform: rotate(-5deg) scale(1); }
+  to   { transform: rotate(5deg) scale(1.08); }
+}
+
+#arena.exploded .potato-emoji {
+  animation: explodePop 0.4s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes explodePop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.5) rotate(15deg); }
+  100% { transform: scale(0.6) rotate(-20deg); opacity: 0.5; }
+}
+
+.arena-text {
+  font-family: 'Boogaloo', cursive;
+  font-size: clamp(1.4rem, 6vw, 2rem);
+  color: var(--cream);
+  letter-spacing: 2px;
+  margin-top: 0.2em;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  text-align: center;
+  padding: 0 1rem;
+  line-height: 1.2;
+}
+
+.arena-sub {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 0.3em;
+  text-align: center;
+}
+
+/* Countdown ring (danger indicator) */
+.danger-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  transition: border-color 0.3s;
+}
+#arena.hot .danger-ring {
+  border-color: var(--red);
+  box-shadow: 0 0 20px var(--red);
+  animation: ringPulse 0.5s ease infinite alternate;
+}
+@keyframes ringPulse {
+  from { opacity: 0.4; }
+  to   { opacity: 1; }
+}
+
+/* Flame particles */
+.flames {
+  position: absolute;
+  bottom: -10px;
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+#arena.hot .flames { opacity: 1; }
+#arena.exploded .flames { opacity: 0; }
+
+.flame {
+  font-size: 1.4rem;
+  animation: flameFloat var(--fd) ease-in-out infinite alternate;
+  animation-delay: var(--dl);
+}
+@keyframes flameFloat {
+  from { transform: translateY(0) scale(0.9) rotate(-5deg); }
+  to   { transform: translateY(-12px) scale(1.1) rotate(5deg); }
+}
+
+/* ===== PASS BUTTON ===== */
+.pass-btn {
+  font-family: 'Boogaloo', cursive;
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  width: 100%;
+  padding: 0.65em 1em;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background: var(--orange);
+  color: #1a0800;
+  box-shadow: 0 8px 0 #5a2800, 0 10px 24px rgba(255,140,0,0.3);
+  transform: translateY(0);
+  transition: transform 0.07s, box-shadow 0.07s, background 0.2s;
+}
+.pass-btn:active {
+  transform: translateY(6px);
+  box-shadow: 0 2px 0 #5a2800;
+}
+.pass-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+.pass-btn.hot {
+  background: var(--red);
+  box-shadow: 0 8px 0 #5a0000, 0 10px 24px rgba(255,30,0,0.4);
+  animation: btnShake 0.3s ease infinite;
+}
+@keyframes btnShake {
+  0%,100% { transform: translateX(0); }
+  33%      { transform: translateX(-4px); }
+  66%      { transform: translateX(4px); }
+}
+.pass-btn.hot:active { animation: none; transform: translateY(6px); }
+
+/* ===== PLAYER COUNT ===== */
+.player-count-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  justify-content: center;
+}
+.count-label { font-size: 0.85rem; font-weight: 700; color: var(--muted); }
+.count-btn {
+  font-family: 'Boogaloo', cursive;
+  font-size: 1.2rem;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--orange);
+  background: transparent;
+  color: var(--orange);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.count-btn:hover { background: rgba(255,140,0,0.15); }
+.count-val {
+  font-family: 'Boogaloo', cursive;
+  font-size: 1.8rem;
+  color: var(--cream);
+  min-width: 2ch;
+  text-align: center;
+}
+
+/* ===== ROUND / ELIMINATED ===== */
+.info-row {
+  display: flex;
+  gap: 0.8rem;
+  width: 100%;
+  justify-content: center;
+}
+.info-pill {
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  padding: 0.3em 0.9em;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  display: none;
+}
+.info-pill.show { display: block; }
+
+/* ===== EXPLOSION OVERLAY ===== */
+.boom-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(140,0,0,0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+}
+.boom-overlay.show {
+  opacity: 1;
+  pointer-events: all;
+  animation: boomBg 0.5s ease forwards;
+}
+@keyframes boomBg {
+  0%  { background: rgba(255,30,0,0.8); }
+  100%{ background: rgba(20,0,0,0.88); }
+}
+
+.boom-box {
+  background: #1a0600;
+  border: 2px solid rgba(255,80,0,0.4);
+  border-radius: 28px;
+  padding: 2rem 2.5rem;
+  text-align: center;
+  max-width: 320px;
+  width: 88vw;
+  transform: scale(0.4);
+  transition: transform 0.5s cubic-bezier(.22,1,.36,1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.boom-overlay.show .boom-box { transform: scale(1); }
+
+.boom-emoji { font-size: 5rem; line-height: 1; animation: boomSpin 0.6s cubic-bezier(.22,1,.36,1); }
+@keyframes boomSpin {
+  from { transform: rotate(-30deg) scale(0.3); }
+  to   { transform: rotate(0) scale(1); }
+}
+
+.boom-title {
+  font-family: 'Boogaloo', cursive;
+  font-size: 2.2rem;
+  color: var(--red);
+  text-shadow: 0 0 20px var(--red);
+  letter-spacing: 2px;
+}
+
+.boom-loser {
+  font-family: 'Boogaloo', cursive;
+  font-size: 1.3rem;
+  color: var(--cream);
+  opacity: 0.8;
+}
+
+.boom-btn {
+  font-family: 'Boogaloo', cursive;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  background: var(--orange);
+  color: #1a0800;
+  border: none;
+  border-radius: 14px;
+  padding: 0.6em 2em;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  box-shadow: 0 5px 0 #5a2800;
+  transition: transform 0.07s, box-shadow 0.07s;
+}
+.boom-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #5a2800; }
+</style>
+</head>
+<body>
+
+<a href="../index.html" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;background:rgba(255,248,232,0.12);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,248,232,0.15);color:#fff8e8;text-decoration:none;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;transition:background 0.2s,transform 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.2);" onmouseover="this.style.background='rgba(255,248,232,0.22)';this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(255,248,232,0.12)';this.style.transform='scale(1)'" onfocus="this.style.background='rgba(255,248,232,0.22)';this.style.transform='scale(1.05)'" onblur="this.style.background='rgba(255,248,232,0.12)';this.style.transform='scale(1)'">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  Accueil
+</a>
+
+<div class="wrap">
+  <h1>🔴 Hot Potato!</h1>
+  <p class="subtitle">Pass before it EXPLODES — random timer!</p>
+
+  <!-- Player count selector (shown before start) -->
+  <div class="player-count-row" id="playerCountRow">
+    <span class="count-label">Players:</span>
+    <button class="count-btn" onclick="changeCount(-1)">−</button>
+    <span class="count-val" id="countVal">4</span>
+    <button class="count-btn" onclick="changeCount(1)">+</button>
+  </div>
+
+  <!-- Players strip -->
+  <div class="players-wrap" id="playersWrap" style="display:none">
+    <div class="players-label">Current holder</div>
+    <div class="players-row" id="playersRow"></div>
+  </div>
+
+  <!-- Info pills -->
+  <div class="info-row" id="infoRow">
+    <div class="info-pill" id="roundPill"></div>
+    <div class="info-pill" id="alivePill"></div>
+  </div>
+
+  <!-- Arena -->
+  <div id="arena" onclick="passOrStart()">
+    <div class="danger-ring"></div>
+    <div class="flames">
+      <span class="flame" style="--fd:0.5s;--dl:0s">🔥</span>
+      <span class="flame" style="--fd:0.4s;--dl:0.1s">🔥</span>
+      <span class="flame" style="--fd:0.6s;--dl:0.05s">🔥</span>
+    </div>
+    <div class="potato-emoji" id="potatoEmoji">🥔</div>
+    <div class="arena-text" id="arenaText">HOT POTATO</div>
+    <div class="arena-sub" id="arenaSub">Tap to start!</div>
+  </div>
+
+  <!-- Pass button -->
+  <button class="pass-btn" id="passBtn" onclick="passOrStart()" disabled>▶ START GAME</button>
+</div>
+
+<!-- Boom overlay -->
+<div class="boom-overlay" id="boomOverlay">
+  <div class="boom-box">
+    <div class="boom-emoji">💥</div>
+    <div class="boom-title">BOOM!</div>
+    <div class="boom-loser" id="boomLoser">Player 1 is OUT!</div>
+    <button class="boom-btn" id="boomBtn" onclick="nextRound()">Next Round 🥔</button>
+  </div>
+</div>
+
+<script>
+// ===== CONFIG =====
+const MIN_MS = 3000;
+const MAX_MS = 12000;
+const MIN_PLAYERS = 2;
+const MAX_PLAYERS = 8;
+
+let playerCount  = 4;
+let players      = [];   // { name, alive }
+let currentIdx   = 0;
+let bombTimeout  = null;
+let dangerTimeout= null;
+let running      = false;
+let round        = 1;
+let gameStarted  = false;
+
+const arena       = document.getElementById('arena');
+const passBtn     = document.getElementById('passBtn');
+const potatoEmoji = document.getElementById('potatoEmoji');
+const arenaText   = document.getElementById('arenaText');
+const arenaSub    = document.getElementById('arenaSub');
+const playersWrap = document.getElementById('playersWrap');
+const playersRow  = document.getElementById('playersRow');
+const playerCountRow = document.getElementById('playerCountRow');
+const countVal    = document.getElementById('countVal');
+const roundPill   = document.getElementById('roundPill');
+const alivePill   = document.getElementById('alivePill');
+const boomOverlay = document.getElementById('boomOverlay');
+
+function changeCount(d) {
+  if (running || gameStarted) return;
+  playerCount = Math.max(MIN_PLAYERS, Math.min(MAX_PLAYERS, playerCount + d));
+  countVal.textContent = playerCount;
+}
+
+function initPlayers() {
+  players = [];
+  const emojis = ['🐶','🐱','🐻','🐸','🦊','🐼','🦁','🐯'];
+  for (let i = 0; i < playerCount; i++) {
+    players.push({ name: `${emojis[i]} P${i+1}`, alive: true });
+  }
+  currentIdx = 0;
+}
+
+function renderPlayers() {
+  playersRow.innerHTML = '';
+  players.forEach((p, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'player-chip' +
+      (p.alive && i === currentIdx ? ' active' : '') +
+      (!p.alive ? ' out' : '');
+    chip.textContent = p.name;
+    playersRow.appendChild(chip);
+  });
+}
+
+function alivePlayers() { return players.filter(p => p.alive); }
+function aliveCount()   { return alivePlayers().length; }
+
+function startGame() {
+  gameStarted = true;
+  round = 1;
+  initPlayers();
+  playerCountRow.style.display = 'none';
+  playersWrap.style.display    = 'block';
+  roundPill.classList.add('show');
+  alivePill.classList.add('show');
+  startRound();
+}
+
+function startRound() {
+  running = true;
+
+  // Find a random alive starting player
+  const aliveList = alivePlayers();
+  const starter   = aliveList[Math.floor(Math.random() * aliveList.length)];
+  currentIdx      = players.indexOf(starter);
+
+  renderPlayers();
+  updateInfo();
+
+  arena.className = 'hot';
+  document.body.style.background = '#2a0800';
+  potatoEmoji.textContent = '🥔';
+  arenaText.textContent   = players[currentIdx].name;
+  arenaSub.textContent    = 'PASS IT FAST!';
+  passBtn.textContent     = '🔥 PASS!';
+  passBtn.disabled        = false;
+  passBtn.classList.add('hot');
+
+  // Random bomb timer
+  const delay = MIN_MS + Math.random() * (MAX_MS - MIN_MS);
+
+  // "Danger" warning at 70% of the way
+  dangerTimeout = setTimeout(() => {
+    if (!running) return;
+    arenaSub.textContent = '⚠️ ALMOST!';
+  }, delay * 0.7);
+
+  bombTimeout = setTimeout(explode, delay);
+}
+
+function passOrStart() {
+  if (!gameStarted) { startGame(); return; }
+  if (!running)     return;
+
+  // Find next alive player
+  let next = (currentIdx + 1) % players.length;
+  while (!players[next].alive) {
+    next = (next + 1) % players.length;
+  }
+  currentIdx = next;
+  arenaText.textContent = players[currentIdx].name;
+
+  // Quick flash
+  arena.style.boxShadow = '0 0 60px rgba(255,200,0,0.6), 0 20px 60px rgba(0,0,0,0.6)';
+  setTimeout(() => arena.style.boxShadow = '', 200);
+
+  renderPlayers();
+}
+
+function explode() {
+  if (!running) return;
+  running = false;
+  clearTimeout(dangerTimeout);
+
+  arena.className = 'exploded';
+  document.body.style.background = '#300000';
+  potatoEmoji.textContent = '💥';
+  arenaText.textContent   = 'BOOM!';
+  arenaSub.textContent    = '';
+  passBtn.disabled        = true;
+  passBtn.classList.remove('hot');
+  passBtn.textContent     = '💥 BOOM!';
+
+  // Eliminate current player
+  players[currentIdx].alive = false;
+  renderPlayers();
+
+  const loser = players[currentIdx].name;
+  document.getElementById('boomLoser').textContent = `${loser} is OUT! 💀`;
+
+  const alive = aliveCount();
+  if (alive <= 1) {
+    // Game over — we have a winner!
+    const winner = alivePlayers()[0];
+    document.getElementById('boomLoser').textContent = `${loser} is OUT! 💀\n${winner ? winner.name + ' WINS! 🏆' : ''}`;
+    document.getElementById('boomBtn').textContent = '🏆 Play again!';
+    document.getElementById('boomBtn').onclick = resetGame;
+  } else {
+    document.getElementById('boomBtn').textContent = `Next round → (${alive} left)`;
+    document.getElementById('boomBtn').onclick = nextRound;
+  }
+
+  setTimeout(() => boomOverlay.classList.add('show'), 400);
+}
+
+function nextRound() {
+  boomOverlay.classList.remove('show');
+  round++;
+  document.body.style.background = '';
+  arena.className = '';
+  potatoEmoji.textContent = '🥔';
+  setTimeout(startRound, 300);
+}
+
+function resetGame() {
+  boomOverlay.classList.remove('show');
+  gameStarted = false;
+  running     = false;
+  round       = 1;
+  document.body.style.background = '';
+  arena.className = '';
+  playerCountRow.style.display = '';
+  playersWrap.style.display    = 'none';
+  roundPill.classList.remove('show');
+  alivePill.classList.remove('show');
+  potatoEmoji.textContent = '🥔';
+  arenaText.textContent   = 'HOT POTATO';
+  arenaSub.textContent    = 'Tap to start!';
+  passBtn.textContent     = '▶ START GAME';
+  passBtn.disabled        = false;
+  passBtn.classList.remove('hot');
+}
+
+function updateInfo() {
+  roundPill.textContent = `Round ${round}`;
+  alivePill.textContent = `${aliveCount()} players left`;
+}
+
+// Space / Enter to pass
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' || e.code === 'Enter') {
+    e.preventDefault();
+    passOrStart();
+  }
+});
+
+// Init pass button
+passBtn.disabled = false;
+passBtn.textContent = '▶ START GAME';
+</script>
+</body>
+</html>
