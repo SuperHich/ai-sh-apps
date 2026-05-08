@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noé – Le Prophète et l'Arche</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --storm:      #0a1220;
+    --deep-sea:   #0d2a3a;
+    --wood:       #8b5e3c;
+    --wood-dark:  #5c3a1a;
+    --gold:       #c9960c;
+    --gold-light: #f0c040;
+    --rain-blue:  #4a8ab0;
+    --rainbow1:   #e74c3c;
+    --rainbow7:   #9b59b6;
+    --foam:       #c8f0ff;
+    --cream:      #fdf8ee;
+    --earth:      #7a4a20;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--storm);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    color: #e8dcc8;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #060c18 0%, #0a1e30 40%, #0d2a3a 70%, #1a3a5c 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px 80px;
+  }
+
+  /* animated rain on cover */
+  .rain-drop {
+    position: absolute;
+    width: 1px;
+    background: linear-gradient(transparent, rgba(200,240,255,.5));
+    pointer-events: none;
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    from { transform: translateY(-100px) rotate(15deg); opacity:.7; }
+    to   { transform: translateY(110vh)  rotate(15deg); opacity:0; }
+  }
+
+  .cover-stars { position:absolute; inset:0; pointer-events:none; }
+  .star-dot {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: tw 2.5s infinite alternate;
+  }
+  @keyframes tw {
+    from { opacity:.15; transform:scale(1); }
+    to   { opacity:.8;  transform:scale(1.6); }
+  }
+
+  .cover-scene {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 28px;
+    animation: floatY 4s ease-in-out infinite;
+  }
+  @keyframes floatY {
+    0%,100% { transform:translateY(0) rotate(-.5deg); }
+    50%      { transform:translateY(-12px) rotate(.5deg); }
+  }
+
+  .cover h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(3rem,9vw,5rem);
+    color: var(--gold-light);
+    text-align: center;
+    letter-spacing: 4px;
+    line-height: 1.1;
+    text-shadow: 0 2px 30px rgba(10,100,150,.6), 0 0 60px rgba(240,192,64,.2);
+  }
+  .cover .subtitle-ar {
+    font-size: 1.4rem;
+    color: rgba(200,240,255,.45);
+    margin-top: 8px;
+    letter-spacing: 6px;
+    font-family: serif;
+  }
+  .cover .subtitle {
+    color: rgba(200,240,255,.45);
+    font-size: .95rem;
+    margin-top: 12px;
+    font-style: italic;
+    letter-spacing: 2px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    color: rgba(200,240,255,.35);
+    font-size: .8rem;
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);}
+  }
+
+  .cover-fade {
+    position: absolute;
+    bottom:0; left:0; right:0;
+    height: 100px;
+    background: linear-gradient(transparent, #060c18);
+    pointer-events: none;
+  }
+
+  /* ── CHAPTERS ── */
+  .chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 24px 60px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .chapter.visible { opacity:1; transform:translateY(0); }
+
+  .ch1 { background: linear-gradient(155deg,#f5e6c0 0%,#e8d5a0 50%,#d4c080 100%); }
+  .ch2 { background: linear-gradient(155deg,#1a2a10 0%,#2a4a18 50%,#3a6a28 100%); }
+  .ch3 { background: linear-gradient(155deg,#060c18 0%,#0a1e30 55%,#0d2a3a 100%); }
+  .ch4 { background: linear-gradient(155deg,#060c18 0%,#0d2040 55%,#0a3a5c 100%); }
+  .ch5 { background: linear-gradient(155deg,#0a1a08 0%,#1a3a10 50%,#3a6a20 100%); }
+
+  .ch-num {
+    font-family: 'Cinzel', serif;
+    font-size: 9rem;
+    position: absolute;
+    top: 0; right: 20px;
+    line-height: 1;
+    pointer-events: none;
+    opacity: .05;
+  }
+  .ch1 .ch-num { color:#5c3a1a; }
+  .ch2 .ch-num { color:#f0c040; }
+  .ch3 .ch-num,.ch4 .ch-num { color:#c8f0ff; }
+  .ch5 .ch-num { color:#88ff88; }
+
+  .illustration {
+    width: min(340px,92vw);
+    height: min(255px,69vw);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 60px rgba(0,0,0,.55);
+    margin-bottom: 36px;
+    flex-shrink: 0;
+    position: relative; z-index:1;
+    border: 3px solid rgba(10,100,160,.3);
+  }
+  .illustration svg { width:100%; height:100%; display:block; }
+
+  .chapter-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem,5vw,2.1rem);
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative; z-index:1;
+    letter-spacing: 2px;
+  }
+  .story-text {
+    max-width: 490px;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    position: relative; z-index:1;
+  }
+  .story-text p { margin-bottom:14px; }
+  .quote {
+    font-family: 'Cinzel', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    padding: 14px 22px;
+    border-radius: 14px;
+    margin: 18px 0;
+    display: inline-block;
+    border-left: 4px solid currentColor;
+  }
+
+  .ch1 .chapter-title { color:#5c3a1a; }
+  .ch1 .story-text    { color:#3a2010; }
+  .ch1 .quote         { background:rgba(92,58,26,.1); color:#5c3a1a; }
+
+  .ch2 .chapter-title { color:#f0c040; }
+  .ch2 .story-text    { color:#c8e8a0; }
+  .ch2 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+  .ch3 .chapter-title { color:#c8f0ff; }
+  .ch3 .story-text    { color:#90c8e8; }
+  .ch3 .quote         { background:rgba(200,240,255,.08); color:#c8f0ff; }
+
+  .ch4 .chapter-title { color:#c8f0ff; }
+  .ch4 .story-text    { color:#90c8e8; }
+  .ch4 .quote         { background:rgba(200,240,255,.08); color:#c8f0ff; }
+
+  .ch5 .chapter-title { color:#c8ff88; }
+  .ch5 .story-text    { color:#a0d880; }
+  .ch5 .quote         { background:rgba(136,255,136,.08); color:#c8ff88; }
+
+  /* ── ENDING ── */
+  .ending {
+    background: linear-gradient(160deg,#060c18 0%,#0a1e30 50%,#1a3a5c 100%);
+    padding: 90px 24px;
+    text-align: center;
+    color: white;
+    position: relative; overflow:hidden;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .ending.visible { opacity:1; transform:translateY(0); }
+  .ending h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.4rem;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+    letter-spacing: 3px;
+  }
+  .ending p {
+    font-size:1.1rem; max-width:520px;
+    margin:0 auto; opacity:.85; line-height:1.9;
+  }
+  .end-star {
+    font-size:2.5rem; margin-top:36px;
+    display:inline-block;
+    animation: spinSlow 12s linear infinite;
+    color: var(--gold-light);
+  }
+  @keyframes spinSlow {
+    from{transform:rotate(0deg);} to{transform:rotate(360deg);}
+  }
+
+  @media(min-width:720px){
+    .chapter{flex-direction:row!important;gap:52px;padding:90px 64px;}
+    .illustration{margin-bottom:0;}
+    .story-text{text-align:left;}
+    .chapter-title{text-align:left;}
+    .chapter:nth-child(even){flex-direction:row-reverse!important;}
+  }
+</style>
+</head>
+<body>
+
+<a href="../stories/index.html" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;background:rgba(30,107,58,0.15);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(30,107,58,0.3);color:#1e6b3a;text-decoration:none;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;transition:background 0.2s,transform 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.1);" onmouseover="this.style.background='rgba(30,107,58,0.25)';this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(30,107,58,0.15)';this.style.transform='scale(1)'" onfocus="this.style.background='rgba(30,107,58,0.25)';this.style.transform='scale(1.05)'" onblur="this.style.background='rgba(30,107,58,0.15)';this.style.transform='scale(1)'">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  Retour
+</a>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-stars" id="starsCover"></div>
+  <div id="rainContainer"></div>
+
+  <div class="cover-scene">
+    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="stormGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#1a4a6a" stop-opacity=".6"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="oceanCov" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0d2a3a"/>
+          <stop offset="100%" stop-color="#030810"/>
+        </linearGradient>
+        <linearGradient id="woodCov" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#a07040"/>
+          <stop offset="100%" stop-color="#5c3a1a"/>
+        </linearGradient>
+        <radialGradient id="lightHole" cx="50%" cy="30%" r="40%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".25"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+
+      <!-- circle frame -->
+      <circle cx="150" cy="150" r="147" fill="#060c18" stroke="#4a8ab0" stroke-width="2"/>
+      <circle cx="150" cy="150" r="137" fill="none" stroke="#4a8ab0" stroke-width=".5"
+              stroke-dasharray="4 4" opacity=".4"/>
+
+      <clipPath id="covClip">
+        <circle cx="150" cy="150" r="145"/>
+      </clipPath>
+
+      <!-- stormy sky -->
+      <rect width="300" height="300" fill="#060c18" clip-path="url(#covClip)"/>
+      <rect width="300" height="300" fill="url(#stormGlow)" clip-path="url(#covClip)"/>
+      <rect width="300" height="300" fill="url(#lightHole)" clip-path="url(#covClip)"/>
+
+      <!-- storm clouds -->
+      <ellipse cx="75"  cy="55"  rx="65" ry="30" fill="#1a2a3a" clip-path="url(#covClip)"/>
+      <ellipse cx="95"  cy="40"  rx="50" ry="24" fill="#253545" clip-path="url(#covClip)"/>
+      <ellipse cx="210" cy="60"  rx="70" ry="32" fill="#1a2a3a" clip-path="url(#covClip)"/>
+      <ellipse cx="225" cy="42"  rx="55" ry="26" fill="#253545" clip-path="url(#covClip)"/>
+      <ellipse cx="150" cy="72"  rx="60" ry="28" fill="#1e3040" clip-path="url(#covClip)"/>
+
+      <!-- lightning -->
+      <path d="M90,55 L78,90 L86,90 L70,132"  stroke="#f0c040" stroke-width="2.5" fill="none" opacity=".8" clip-path="url(#covClip)"/>
+      <path d="M210,60 L222,92 L214,92 L228,130" stroke="#f0c040" stroke-width="2" fill="none" opacity=".6" clip-path="url(#covClip)"/>
+
+      <!-- rain lines -->
+      <g stroke="#c8f0ff" stroke-width="1" opacity=".2" clip-path="url(#covClip)">
+        <line x1="20"  y1="0"   x2="5"   y2="100"/>
+        <line x1="50"  y1="0"   x2="35"  y2="100"/>
+        <line x1="80"  y1="0"   x2="65"  y2="100"/>
+        <line x1="110" y1="0"   x2="95"  y2="100"/>
+        <line x1="140" y1="0"   x2="125" y2="100"/>
+        <line x1="170" y1="0"   x2="155" y2="100"/>
+        <line x1="200" y1="0"   x2="185" y2="100"/>
+        <line x1="230" y1="0"   x2="215" y2="100"/>
+        <line x1="260" y1="0"   x2="245" y2="100"/>
+        <line x1="290" y1="0"   x2="275" y2="100"/>
+      </g>
+
+      <!-- raging ocean -->
+      <rect x="0" y="195" width="300" height="110" fill="url(#oceanCov)" clip-path="url(#covClip)"/>
+      <!-- waves -->
+      <path d="M0,195 Q37,178 75,195 Q112,212 150,195 Q187,178 225,195 Q262,212 300,195"
+            fill="none" stroke="#4a9ede" stroke-width="4" opacity=".7" clip-path="url(#covClip)"/>
+      <path d="M0,210 Q37,194 75,210 Q112,226 150,210 Q187,194 225,210 Q262,226 300,210"
+            fill="none" stroke="#5ab8e0" stroke-width="2.5" opacity=".4" clip-path="url(#covClip)"/>
+
+      <!-- THE ARK floating on waves -->
+      <g transform="translate(150,200)" clip-path="url(#covClip)">
+        <!-- hull (large wooden boat) -->
+        <path d="M-90,-5 Q-80,25 0,28 Q80,25 90,-5 Z" fill="url(#woodCov)"/>
+        <path d="M-85,-5 Q-75,18 0,21 Q75,18 85,-5 Z" fill="#a07040" opacity=".6"/>
+        <!-- wood planks -->
+        <line x1="-85" y1="0"  x2="85"  y2="0"  stroke="#5c3a1a" stroke-width="2" opacity=".4"/>
+        <line x1="-80" y1="8"  x2="80"  y2="8"  stroke="#5c3a1a" stroke-width="2" opacity=".4"/>
+        <line x1="-72" y1="16" x2="72"  y2="16" stroke="#5c3a1a" stroke-width="2" opacity=".4"/>
+        <!-- cabin / deck structure -->
+        <rect x="-60" y="-48" width="120" height="48" fill="#8b5e3c" rx="4"/>
+        <rect x="-55" y="-44" width="110" height="42" fill="#9a6a48" rx="3"/>
+        <!-- window openings -->
+        <rect x="-40" y="-36" width="18" height="14" fill="#4a2a08" rx="2"/>
+        <rect x="-10" y="-36" width="18" height="14" fill="#4a2a08" rx="2"/>
+        <rect x="20"  y="-36" width="18" height="14" fill="#4a2a08" rx="2"/>
+        <!-- roof of cabin -->
+        <polygon points="-65,-48 0,-72 65,-48" fill="#6b4020"/>
+        <polygon points="-55,-48 0,-65 55,-48" fill="#7a4a28"/>
+        <!-- animals peeking from windows -->
+        <!-- giraffe neck from window -->
+        <g transform="translate(-31,-34)">
+          <rect x="-4" y="-20" width="7" height="20" fill="#d4a017" rx="2"/>
+          <ellipse cx="-1" cy="-22" rx="6" ry="5" fill="#d4b060"/>
+          <line x1="-5" y1="-26" x2="-7" y2="-32" stroke="#d4a017" stroke-width="2" stroke-linecap="round"/>
+          <line x1="1"  y1="-26" x2="3"  y2="-32" stroke="#d4a017" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="-1" cy="-22" r="2" fill="#1a1a1a" opacity=".5"/>
+        </g>
+        <!-- elephant trunk from window -->
+        <g transform="translate(0,-30)">
+          <circle cx="0" cy="-5" r="8" fill="#808080"/>
+          <path d="M-3,2 Q-8,15 -4,18" stroke="#808080" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <circle cx="-5" cy="-7" r="1.5" fill="#1a1a1a" opacity=".6"/>
+        </g>
+        <!-- dove (bird) on roof -->
+        <g transform="translate(20,-72)">
+          <ellipse cx="0" cy="0" rx="8" ry="5" fill="white" opacity=".9"/>
+          <circle  cx="-5" cy="-3" r="5" fill="white" opacity=".9"/>
+          <path d="M-9,-4 Q-12,-8 -9,-2" fill="#e0e0e0"/>
+          <circle cx="-6" cy="-3" r="1.2" fill="#1a1a1a" opacity=".5"/>
+        </g>
+        <!-- Noah on deck -->
+        <g transform="translate(-68,-60)">
+          <circle cx="0" cy="-10" r="8"  fill="#c8906a"/>
+          <path d="M-7,0 Q0,20 7,0 Z" fill="#1e6b3a"/>
+          <!-- long beard -->
+          <path d="M-5,0 Q-6,12 0,14 Q6,12 5,0 Z" fill="#e0e0e0" opacity=".8"/>
+          <path d="M-8,-16 Q0,-30 8,-16 L10,-5 Q0,-2 -10,-5 Z" fill="#2a1a08"/>
+          <!-- arm raised in prayer / supplication to the sky -->
+          <line x1="-7" y1="2"  x2="-20" y2="-15" stroke="#1e6b3a" stroke-width="5" stroke-linecap="round"/>
+          <line x1="7"  y1="2"  x2="20"  y2="-15" stroke="#1e6b3a" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="-4" cy="-10" r="1.5" fill="#1a1a1a" opacity=".6"/>
+          <circle cx="3"  cy="-10" r="1.5" fill="#1a1a1a" opacity=".6"/>
+        </g>
+        <!-- light beam from sky onto ark -->
+        <line x1="0" y1="-140" x2="0" y2="-75" stroke="#f0c040" stroke-width="3" opacity=".2" stroke-linecap="round"/>
+      </g>
+
+      <!-- stars through storm gaps -->
+      <circle cx="155" cy="28" r="2"   fill="#f0c040" opacity=".6" clip-path="url(#covClip)"/>
+      <circle cx="175" cy="38" r="1.5" fill="white"   opacity=".5" clip-path="url(#covClip)"/>
+    </svg>
+  </div>
+
+  <h1>Noé<br>
+  <span style="font-size:.55em;letter-spacing:6px;opacity:.9">et la Grande Arche</span></h1>
+  <p class="subtitle-ar">نوح عليه السلام</p>
+  <p class="subtitle">L'histoire du déluge et du salut</p>
+
+  <div class="scroll-hint">
+    <span>Fais défiler pour lire</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+  <div class="cover-fade"></div>
+</div>
+
+
+<!-- ══ CH 1 : La mission de Noé ══ -->
+<div class="chapter ch1">
+  <div class="ch-num">١</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="missionSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#87ceeb"/>
+          <stop offset="100%" stop-color="#ffecd2"/>
+        </linearGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#missionSky)"/>
+      <!-- Sun -->
+      <circle cx="270" cy="45" r="30" fill="#f0c040" opacity=".85"/>
+      <!-- Landscape green fertile -->
+      <polygon points="0,195 50,155 110,178 180,148 250,170 310,145 340,162 340,255 0,255"
+               fill="#4a7a20" opacity=".8"/>
+      <rect x="0" y="215" width="340" height="40" fill="#5a8a28"/>
+      <!-- River -->
+      <path d="M0,230 Q85,218 170,230 Q255,242 340,230" fill="none" stroke="#4a9ede" stroke-width="6" opacity=".5"/>
+
+      <!-- People feasting, ignoring Noe — background -->
+      <g transform="translate(40,195)" opacity=".7">
+        <circle cx="0"  cy="-18" r="7"  fill="#d4a57a"/>
+        <rect x="-7"  y="-12" width="14" height="15" fill="#c0392b" rx="1"/>
+        <circle cx="22" cy="-16" r="6.5" fill="#c8906a"/>
+        <rect x="15"  y="-11" width="13" height="14" fill="#c9960c" rx="1"/>
+        <circle cx="44" cy="-18" r="7"  fill="#d4b080"/>
+        <rect x="37"  y="-12" width="14" height="15" fill="#8b4a10" rx="1"/>
+        <!-- laughing/ignoring gestures -->
+        <line x1="7"  y1="-7" x2="18"  y2="-18" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
+        <line x1="29" y1="-7" x2="36"  y2="-18" stroke="#c9960c" stroke-width="4" stroke-linecap="round"/>
+      </g>
+
+      <!-- NOE figure — old man with long beard, speaking -->
+      <g transform="translate(230,175)">
+        <path d="M-18,10 Q-14,62 0,65 Q14,62 18,10 Z" fill="#1e6b3a"/>
+        <!-- staff -->
+        <line x1="20" y1="18" x2="24" y2="72" stroke="#8b5e3c" stroke-width="5" stroke-linecap="round"/>
+        <!-- arm pointing to sky -->
+        <line x1="-18" y1="14" x2="-40" y2="-10" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="18"  y1="16" x2="35"  y2="8"   stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- head -->
+        <circle cx="0" cy="-10" r="15" fill="#c8906a"/>
+        <!-- long white hair and beard -->
+        <path d="M-12,-22 Q0,-42 12,-22 L14,-6 Q0,-3 -14,-6 Z" fill="#e0e0e0" opacity=".9"/>
+        <path d="M-10,-5 Q-14,12 -8,22 Q0,28 8,22 Q14,12 10,-5" fill="#f0f0f0" opacity=".85"/>
+        <!-- eyes kind but firm -->
+        <circle cx="-4.5" cy="-12" r="2.5" fill="#1a1a1a"/>
+        <circle cx="4.5"  cy="-12" r="2.5" fill="#1a1a1a"/>
+        <!-- open mouth speaking -->
+        <path d="M-4,-4 Q0,0 4,-4" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+        <!-- divine light above him -->
+        <circle cx="0" cy="-30" r="12" fill="#f0c040" opacity=".12"/>
+        <line x1="0"  y1="-28" x2="0"  y2="-42" stroke="#f0c040" stroke-width="1.5" opacity=".5"/>
+        <line x1="-8" y1="-28" x2="-14" y2="-40" stroke="#f0c040" stroke-width="1" opacity=".35"/>
+        <line x1="8"  y1="-28" x2="14"  y2="-40" stroke="#f0c040" stroke-width="1" opacity=".35"/>
+      </g>
+
+      <!-- Trees olive + palm -->
+      <line x1="170" y1="215" x2="168" y2="152" stroke="#6b4020" stroke-width="5"/>
+      <ellipse cx="166" cy="146" rx="20" ry="28" fill="#3a6a18"/>
+      <ellipse cx="175" cy="140" rx="16" ry="22" fill="#4a8a28"/>
+      <!-- small animals in foreground (God's creatures) -->
+      <g transform="translate(100,228)" opacity=".75">
+        <!-- rabbit -->
+        <ellipse cx="0" cy="0"  rx="10" ry="7"  fill="#e8d8c0"/>
+        <ellipse cx="-7" cy="-6" rx="6" ry="4"  fill="#e8d8c0"/>
+        <line x1="-10" y1="-8" x2="-12" y2="-18" stroke="#e8d8c0" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="-5"  y1="-9" x2="-3"  y2="-19" stroke="#e8d8c0" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="-8" cy="-6" r="1.2" fill="#1a1a1a" opacity=".5"/>
+      </g>
+      <g transform="translate(290,230)" opacity=".75">
+        <!-- fox/dog shape -->
+        <ellipse cx="0" cy="0"  rx="14" ry="8"  fill="#c8845a"/>
+        <ellipse cx="-10" cy="-5" rx="8" ry="6"  fill="#c8845a"/>
+        <line x1="-14" y1="-8" x2="-17" y2="-16" stroke="#c8845a" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="-7"  y1="-9" x2="-5"  y2="-17" stroke="#c8845a" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="-11" cy="-5" r="1.5" fill="#1a1a1a" opacity=".5"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌿 Le Messager Ignoré</h2>
+    <p>Il y a très très longtemps, vivait un homme sage et bon nommé <strong>Noé</strong> (Nouh). Dieu lui parla et lui confia une mission importante : avertir son peuple.</p>
+    <p>Les gens avaient oublié Dieu, ils se disputaient, faisaient du mal aux autres et ne voulaient plus écouter. Noé leur parlait chaque jour, chaque nuit, avec patience.</p>
+    <div class="quote">« Revenez à Dieu ! Il vous pardonnera et vous bénira. »</div>
+    <p>Mais les gens riaient de lui, se moquaient et détournaient la tête. Seule une petite poignée de croyants l'écoutait. Noé ne perdit jamais espoir et continua pendant <strong>950 ans</strong> ! 🌿</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 2 : La construction de l'Arche ══ -->
+<div class="chapter ch2">
+  <div class="ch-num">٢</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="buildSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a2a10"/>
+          <stop offset="100%" stop-color="#2a4a18"/>
+        </linearGradient>
+        <linearGradient id="woodGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#b07040"/>
+          <stop offset="100%" stop-color="#6b4020"/>
+        </linearGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#buildSky)"/>
+      <!-- Sun warm afternoon build -->
+      <circle cx="290" cy="40" r="28" fill="#f0c040" opacity=".8"/>
+      <!-- Ground with sawdust / planks -->
+      <rect x="0" y="200" width="340" height="55" fill="#3a2808"/>
+      <!-- Forest behind — cedar trees -->
+      <g opacity=".6">
+        <line x1="20"  y1="200" x2="18"  y2="140" stroke="#3a2808" stroke-width="5"/>
+        <polygon points="0,148 18,100 36,148" fill="#2a4a18"/>
+        <polygon points="4,164 18,118 32,164" fill="#3a6a28"/>
+        <line x1="55"  y1="200" x2="52"  y2="135" stroke="#3a2808" stroke-width="5"/>
+        <polygon points="34,144 52,95 70,144" fill="#2a4a18"/>
+        <polygon points="38,162 52,112 66,162" fill="#3a6a28"/>
+        <line x1="295" y1="200" x2="297" y2="140" stroke="#3a2808" stroke-width="5"/>
+        <polygon points="278,148 297,100 316,148" fill="#2a4a18"/>
+        <polygon points="282,165 297,118 312,165" fill="#3a6a28"/>
+        <line x1="325" y1="200" x2="328" y2="135" stroke="#3a2808" stroke-width="5"/>
+        <polygon points="310,145 328,98 346,145" fill="#2a4a18"/>
+      </g>
+
+      <!-- THE ARK BEING BUILT — side view frame -->
+      <g transform="translate(170,155)">
+        <!-- hull skeleton (ribs visible) -->
+        <path d="M-110,-5 Q-100,50 0,55 Q100,50 110,-5 Z" fill="url(#woodGrad)" opacity=".9"/>
+        <!-- hull planking horizontal lines -->
+        <path d="M-108,-2 Q-98,38 0,42 Q98,38 108,-2" fill="none" stroke="#5c3a1a" stroke-width="2" opacity=".5"/>
+        <path d="M-104,10 Q-94,42 0,46 Q94,42 104,10" fill="none" stroke="#5c3a1a" stroke-width="2" opacity=".5"/>
+        <path d="M-96,24 Q-86,46 0,50 Q86,46 96,24"  fill="none" stroke="#5c3a1a" stroke-width="2" opacity=".5"/>
+        <!-- frame ribs vertical -->
+        <line x1="-60" y1="0" x2="-55" y2="52" stroke="#5c3a1a" stroke-width="3" opacity=".4"/>
+        <line x1="-20" y1="-4" x2="-18" y2="54" stroke="#5c3a1a" stroke-width="3" opacity=".4"/>
+        <line x1="20"  y1="-4" x2="18"  y2="54" stroke="#5c3a1a" stroke-width="3" opacity=".4"/>
+        <line x1="60"  y1="0"  x2="55"  y2="52" stroke="#5c3a1a" stroke-width="3" opacity=".4"/>
+        <!-- upper deck being built -->
+        <rect x="-90" y="-55" width="180" height="55" fill="#8b5e3c" opacity=".9" rx="4"/>
+        <rect x="-82" y="-50" width="164" height="46" fill="#9a6a48" opacity=".8" rx="3"/>
+        <!-- roof frame (partial — under construction) -->
+        <line x1="-92" y1="-55" x2="0"   y2="-88" stroke="#6b4020" stroke-width="7" stroke-linecap="round"/>
+        <line x1="92"  y1="-55" x2="0"   y2="-88" stroke="#6b4020" stroke-width="7" stroke-linecap="round"/>
+        <line x1="-60" y1="-67" x2="60"  y2="-67" stroke="#6b4020" stroke-width="5" stroke-linecap="round"/>
+        <!-- scaffolding ladder -->
+        <line x1="95"  y1="-55" x2="100" y2="0"   stroke="#8b5e3c" stroke-width="4"/>
+        <line x1="106" y1="-55" x2="110" y2="0"   stroke="#8b5e3c" stroke-width="4"/>
+        <line x1="95"  y1="-45" x2="110" y2="-45" stroke="#8b5e3c" stroke-width="3"/>
+        <line x1="95"  y1="-32" x2="110" y2="-32" stroke="#8b5e3c" stroke-width="3"/>
+        <line x1="95"  y1="-18" x2="110" y2="-18" stroke="#8b5e3c" stroke-width="3"/>
+        <line x1="96"  y1="-5"  x2="110" y2="-5"  stroke="#8b5e3c" stroke-width="3"/>
+      </g>
+
+      <!-- Noe directing / hammering -->
+      <g transform="translate(248,185)">
+        <path d="M-14,8 Q-10,52 0,55 Q10,52 14,8 Z" fill="#1e6b3a"/>
+        <!-- arm swinging hammer -->
+        <line x1="14" y1="10" x2="38" y2="-10" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- hammer -->
+        <rect x="32" y="-18" width="14" height="10" fill="#5c3a1a" rx="2"/>
+        <line x1="-14" y1="12" x2="-26" y2="5" stroke="#1e6b3a" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="0" cy="-8" r="13" fill="#c8906a"/>
+        <!-- long white beard -->
+        <path d="M-10,-18 Q0,-34 10,-18 L12,-4 Q0,-1 -12,-4 Z" fill="#e0e0e0" opacity=".9"/>
+        <path d="M-8,-3 Q-10,10 -4,18 Q0,22 4,18 Q10,10 8,-3" fill="#f0f0f0" opacity=".8"/>
+        <circle cx="-3.5" cy="-9" r="2" fill="#1a1a1a"/>
+        <circle cx="3.5"  cy="-9" r="2" fill="#1a1a1a"/>
+      </g>
+
+      <!-- Helper workers (sons) -->
+      <g transform="translate(120,195)" opacity=".8">
+        <circle cx="0"  cy="-16" r="8"  fill="#d4a57a"/>
+        <rect x="-8"  y="-9"  width="16" height="16" fill="#c9960c" rx="1"/>
+        <line x1="8"  y1="-4" x2="22" y2="-16" stroke="#c9960c" stroke-width="5" stroke-linecap="round"/>
+        <!-- plank of wood -->
+        <rect x="18" y="-20" width="40" height="6" fill="#8b5e3c" rx="1"/>
+      </g>
+      <g transform="translate(80,200)" opacity=".75">
+        <circle cx="0" cy="-14" r="7"  fill="#c8906a"/>
+        <rect x="-7" y="-8"  width="14" height="14" fill="#c0392b" rx="1"/>
+        <!-- carrying logs -->
+        <line x1="-7" y1="-2" x2="-22" y2="-8"  stroke="#c0392b" stroke-width="5" stroke-linecap="round"/>
+        <line x1="-22" y1="-8" x2="-50" y2="-6" stroke="#8b5e3c" stroke-width="7" stroke-linecap="round"/>
+      </g>
+
+      <!-- Sawdust / wood chips on ground -->
+      <g fill="#8b5e3c" opacity=".4">
+        <ellipse cx="160" cy="208" rx="8" ry="3" transform="rotate(-20,160,208)"/>
+        <ellipse cx="200" cy="212" rx="6" ry="2" transform="rotate(15,200,212)"/>
+        <ellipse cx="240" cy="206" rx="7" ry="3" transform="rotate(-10,240,206)"/>
+      </g>
+      <!-- Gold dust / divine blessing -->
+      <circle cx="170" cy="100" r="2.5" fill="#f0c040" opacity=".5"/>
+      <circle cx="140" cy="80"  r="2"   fill="#f0c040" opacity=".4"/>
+      <circle cx="200" cy="90"  r="1.5" fill="#f0c040" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🪵 La Construction de l'Arche</h2>
+    <p>Dieu dit à Noé : <em>« Construis un grand bateau en bois — une arche — car un déluge va venir couvrir toute la Terre. »</em></p>
+    <p>Noé obéit sans hésiter. Avec ses fils, il abattit des arbres, tailla des planches et assembla une arche <strong>gigantesque</strong>. Les gens du village se moquaient de lui.</p>
+    <div class="quote">« Un bateau au milieu des terres ? Il est fou ce vieux ! »</div>
+    <p>Mais Noé continuait, marteau en main, planche après planche, avec foi et patience. Car il savait que Dieu ne ment jamais. 🪵✨</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 3 : Le Déluge ══ -->
+<div class="chapter ch3">
+  <div class="ch-num">٣</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="floodSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#050a12"/>
+          <stop offset="100%" stop-color="#0a1a28"/>
+        </linearGradient>
+        <linearGradient id="floodSea" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0d2a3a"/>
+          <stop offset="100%" stop-color="#020810"/>
+        </linearGradient>
+        <radialGradient id="lightningGlow" cx="30%" cy="20%" r="40%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".25"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#floodSky)"/>
+      <rect width="340" height="255" fill="url(#lightningGlow)"/>
+
+      <!-- Massive storm clouds -->
+      <ellipse cx="80"  cy="35"  rx="90" ry="42" fill="#0e1e2e" opacity=".95"/>
+      <ellipse cx="100" cy="18"  rx="70" ry="32" fill="#182838" opacity=".95"/>
+      <ellipse cx="240" cy="42"  rx="100" ry="45" fill="#0e1e2e" opacity=".95"/>
+      <ellipse cx="260" cy="22"  rx="75"  ry="35" fill="#182838" opacity=".95"/>
+      <ellipse cx="165" cy="55"  rx="80"  ry="36" fill="#121e2e" opacity=".9"/>
+
+      <!-- Multiple lightning bolts -->
+      <path d="M80,38 L65,80 L74,80 L55,128"  stroke="#f0c040" stroke-width="3" fill="none" opacity=".9"/>
+      <path d="M230,42 L245,82 L237,82 L254,126" stroke="#f0c040" stroke-width="2.5" fill="none" opacity=".8"/>
+      <path d="M155,52 L145,90 L152,90 L138,130" stroke="#fffbe6" stroke-width="2" fill="none" opacity=".6"/>
+
+      <!-- Heavy rain -->
+      <g stroke="#c8f0ff" stroke-width="1.5" opacity=".3">
+        <line x1="15"  y1="0"   x2="0"   y2="90"/>
+        <line x1="45"  y1="0"   x2="30"  y2="90"/>
+        <line x1="75"  y1="0"   x2="60"  y2="90"/>
+        <line x1="105" y1="0"   x2="90"  y2="90"/>
+        <line x1="135" y1="0"   x2="120" y2="90"/>
+        <line x1="165" y1="0"   x2="150" y2="90"/>
+        <line x1="195" y1="0"   x2="180" y2="90"/>
+        <line x1="225" y1="0"   x2="210" y2="90"/>
+        <line x1="255" y1="0"   x2="240" y2="90"/>
+        <line x1="285" y1="0"   x2="270" y2="90"/>
+        <line x1="315" y1="0"   x2="300" y2="90"/>
+        <line x1="30"  y1="90"  x2="14"  y2="180"/>
+        <line x1="60"  y1="90"  x2="44"  y2="180"/>
+        <line x1="90"  y1="90"  x2="74"  y2="180"/>
+        <line x1="120" y1="90"  x2="104" y2="180"/>
+        <line x1="150" y1="90"  x2="134" y2="180"/>
+        <line x1="180" y1="90"  x2="164" y2="180"/>
+        <line x1="210" y1="90"  x2="194" y2="180"/>
+        <line x1="240" y1="90"  x2="224" y2="180"/>
+        <line x1="270" y1="90"  x2="254" y2="180"/>
+        <line x1="300" y1="90"  x2="284" y2="180"/>
+        <line x1="330" y1="90"  x2="314" y2="180"/>
+      </g>
+
+      <!-- Raging flood water -->
+      <rect x="0" y="160" width="340" height="95" fill="url(#floodSea)"/>
+      <!-- massive waves -->
+      <path d="M0,160 Q42,136 85,160 Q127,184 170,160 Q212,136 255,160 Q297,184 340,160"
+            fill="none" stroke="#2a6b9a" stroke-width="5" opacity=".8"/>
+      <path d="M0,178 Q42,155 85,178 Q127,200 170,178 Q212,155 255,178 Q297,200 340,178"
+            fill="none" stroke="#3a8ab0" stroke-width="3.5" opacity=".5"/>
+      <path d="M0,195 Q42,173 85,195 Q127,217 170,195 Q212,173 255,195 Q297,217 340,195"
+            fill="none" stroke="#4a9ede" stroke-width="2.5" opacity=".35"/>
+
+      <!-- THE ARK riding the waves heroically -->
+      <g transform="translate(170,165) rotate(-3)">
+        <!-- hull -->
+        <path d="M-95,-8 Q-85,28 0,32 Q85,28 95,-8 Z" fill="#8b5e3c"/>
+        <path d="M-88,-8 Q-78,22 0,26 Q78,22 88,-8 Z" fill="#a07040" opacity=".7"/>
+        <!-- plank lines -->
+        <line x1="-88" y1="-4" x2="88"  y2="-4" stroke="#5c3a1a" stroke-width="2" opacity=".4"/>
+        <line x1="-84" y1="6"  x2="84"  y2="6"  stroke="#5c3a1a" stroke-width="2" opacity=".4"/>
+        <line x1="-78" y1="16" x2="78"  y2="16" stroke="#5c3a1a" stroke-width="2" opacity=".4"/>
+        <!-- cabin -->
+        <rect x="-65" y="-55" width="130" height="52" fill="#7a4a2a" rx="4"/>
+        <rect x="-58" y="-50" width="116" height="44" fill="#8b5e3c" rx="3"/>
+        <!-- roof -->
+        <polygon points="-70,-55 0,-85 70,-55" fill="#6b4020"/>
+        <polygon points="-60,-55 0,-75 60,-55" fill="#7a4a28"/>
+        <!-- small window glowing warm -->
+        <rect x="-32" y="-42" width="18" height="14" fill="#c8a050" rx="2" opacity=".8"/>
+        <rect x="-8"  y="-42" width="18" height="14" fill="#c8a050" rx="2" opacity=".8"/>
+        <rect x="16"  y="-42" width="18" height="14" fill="#c8a050" rx="2" opacity=".8"/>
+        <!-- glow from windows -->
+        <rect x="-34" y="-44" width="22" height="18" fill="#f0c040" rx="2" opacity=".15"/>
+        <rect x="-10" y="-44" width="22" height="18" fill="#f0c040" rx="2" opacity="-15"/>
+        <rect x="14"  y="-44" width="22" height="18" fill="#f0c040" rx="2" opacity=".15"/>
+        <!-- animal heads peeking from roof hatch -->
+        <!-- elephant -->
+        <g transform="translate(-25,-82)">
+          <circle cx="0" cy="0" r="8"   fill="#808080"/>
+          <path d="M-3,6 Q-8,18 -4,22" stroke="#808080" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <circle cx="-3" cy="-2" r="1.5" fill="#1a1a1a" opacity=".6"/>
+        </g>
+        <!-- giraffe neck -->
+        <g transform="translate(25,-80)">
+          <rect x="-4" y="-18" width="7" height="18" fill="#d4a017" rx="2"/>
+          <ellipse cx="-1" cy="-20" rx="6" ry="5" fill="#d4b060"/>
+          <line x1="-5" y1="-24" x2="-7" y2="-30" stroke="#d4a017" stroke-width="2" stroke-linecap="round"/>
+          <line x1="1"  y1="-24" x2="3"  y2="-30" stroke="#d4a017" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <!-- Noe praying at bow -->
+        <g transform="translate(-80,-62)">
+          <circle cx="0" cy="-10" r="8"  fill="#c8906a"/>
+          <path d="M-8,0 Q0,18 8,0 Z" fill="#1e6b3a"/>
+          <!-- white beard -->
+          <path d="M-6,-1 Q-8,12 0,15 Q8,12 6,-1" fill="#f0f0f0" opacity=".85"/>
+          <path d="M-8,-18 Q0,-32 8,-18 L10,-5 Q0,-2 -10,-5 Z" fill="#e0e0e0" opacity=".9"/>
+          <!-- arms raised in prayer/faith -->
+          <line x1="-8"  y1="2"  x2="-22" y2="-15" stroke="#1e6b3a" stroke-width="5" stroke-linecap="round"/>
+          <line x1="8"   y1="2"  x2="22"  y2="-15" stroke="#1e6b3a" stroke-width="5" stroke-linecap="round"/>
+        </g>
+      </g>
+
+      <!-- Wave spray / foam -->
+      <path d="M0,160 Q42,136 85,160"  fill="#c8f0ff" opacity=".1"/>
+      <path d="M170,160 Q212,136 255,160" fill="#c8f0ff" opacity=".1"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">⛈️ Le Grand Déluge</h2>
+    <p>Puis vint le jour tant redouté. Dieu dit à Noé : <em>« Monte dans l'arche avec ta famille et emmène de chaque animal une paire — mâle et femelle. »</em></p>
+    <p>Noé fit tout cela. Et soudain… le ciel s'ouvrit ! Des torrents d'eau tombèrent du ciel, des sources jaillirent du sol. L'eau monta, monta, couvrant tout.</p>
+    <div class="quote">« En avant, au nom de Dieu ! Qu'Il nous garde ! »</div>
+    <p>L'arche flottait sur les vagues comme une montagne de bois, portant en son ventre toute la vie que Dieu voulait sauver. 🌊</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 4 : La colombe et l'olivier ══ -->
+<div class="chapter ch4">
+  <div class="ch-num">٤</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hopeSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0a1a2a"/>
+          <stop offset="50%"  stop-color="#1a3a5c"/>
+          <stop offset="100%" stop-color="#2a5a8a"/>
+        </linearGradient>
+        <radialGradient id="doveBeam" cx="50%" cy="25%" r="45%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#hopeSky)"/>
+      <rect width="340" height="255" fill="url(#doveBeam)"/>
+
+      <!-- Clouds breaking apart — hope emerging -->
+      <ellipse cx="60"  cy="30" rx="65" ry="28" fill="#1a2a40" opacity=".7"/>
+      <ellipse cx="78"  cy="18" rx="48" ry="22" fill="#202e42" opacity=".7"/>
+      <ellipse cx="260" cy="35" rx="70" ry="30" fill="#1a2a40" opacity=".7"/>
+      <ellipse cx="278" cy="20" rx="50" ry="24" fill="#202e42" opacity=".7"/>
+      <!-- Gap of light in clouds -->
+      <ellipse cx="170" cy="38" rx="55" ry="28" fill="#fffbe6" opacity=".18"/>
+
+      <!-- Sun peeking through -->
+      <circle cx="170" cy="38" r="22" fill="#f0c040" opacity=".7"/>
+      <circle cx="170" cy="38" r="16" fill="#ffe08a" opacity=".8"/>
+      <!-- sun rays through cloud gap -->
+      <g opacity=".2">
+        <line x1="170" y1="14"  x2="170" y2="0"   stroke="#f0c040" stroke-width="2"/>
+        <line x1="188" y1="22"  x2="202" y2="10"  stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="152" y1="22"  x2="138" y2="10"  stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="193" y1="40"  x2="210" y2="40"  stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="147" y1="40"  x2="130" y2="40"  stroke="#f0c040" stroke-width="1.5"/>
+      </g>
+
+      <!-- Calmer water — flood receding -->
+      <rect x="0" y="185" width="340" height="70" fill="#0d2a3a" opacity=".8"/>
+      <path d="M0,185 Q85,172 170,185 Q255,198 340,185"
+            fill="none" stroke="#4a9ede" stroke-width="2.5" opacity=".5"/>
+      <path d="M0,198 Q85,186 170,198 Q255,210 340,198"
+            fill="none" stroke="#5ab8e0" stroke-width="1.5" opacity=".3"/>
+
+      <!-- Mountain top emerging from water (Ararat) -->
+      <polygon points="140,185 170,135 200,185" fill="#5a3a18" opacity=".8"/>
+      <polygon points="148,185 170,145 192,185" fill="#7a4a28" opacity=".7"/>
+      <!-- snow on peak -->
+      <polygon points="158,155 170,138 182,155" fill="white" opacity=".6"/>
+
+      <!-- THE ARK resting near mountain -->
+      <g transform="translate(80,188) rotate(2)">
+        <path d="M-55,-6 Q-48,18 0,20 Q48,18 55,-6 Z" fill="#8b5e3c"/>
+        <rect x="-40" y="-40" width="80" height="38" fill="#7a4a2a" rx="3"/>
+        <polygon points="-44,-40 0,-62 44,-40" fill="#6b4020"/>
+        <!-- window light -->
+        <rect x="-18" y="-32" width="12" height="10" fill="#f0c040" rx="1" opacity=".7"/>
+        <rect x="6"   y="-32" width="12" height="10" fill="#f0c040" rx="1" opacity=".7"/>
+      </g>
+
+      <!-- THE DOVE returning with olive branch -->
+      <g transform="translate(170,95)">
+        <!-- glow around dove -->
+        <circle cx="0" cy="0" r="25" fill="#f0c040" opacity=".1"/>
+        <!-- wings spread wide -->
+        <path d="M0,-5 Q25,-28 40,-12 Q28,4 0,-5 Z"   fill="white" opacity=".95"/>
+        <path d="M0,-5 Q-25,-28 -40,-12 Q-28,4 0,-5 Z" fill="white" opacity=".95"/>
+        <!-- body -->
+        <ellipse cx="0" cy="2" rx="14" ry="9" fill="white"/>
+        <!-- head -->
+        <circle  cx="-8" cy="-6" r="8"   fill="white"/>
+        <!-- beak -->
+        <path d="M-14,-7 Q-18,-10 -14,-5" fill="#f0c040" stroke="none"/>
+        <!-- eye -->
+        <circle cx="-9" cy="-7" r="2"   fill="#1a1a1a" opacity=".7"/>
+        <!-- OLIVE BRANCH in beak -->
+        <line x1="-14" y1="-7" x2="-38" y2="10"  stroke="#4a7a18" stroke-width="2" stroke-linecap="round"/>
+        <ellipse cx="-28" cy="5"  rx="6" ry="4" fill="#5a8a20" transform="rotate(-30,-28,5)"/>
+        <ellipse cx="-36" cy="10" rx="5" ry="3" fill="#4a7a18" transform="rotate(-20,-36,10)"/>
+        <ellipse cx="-22" cy="1"  rx="5" ry="3" fill="#6a9a28" transform="rotate(-40,-22,1)"/>
+        <!-- tail feathers -->
+        <path d="M12,6 Q18,14 10,16 Q6,10 12,6 Z"  fill="white" opacity=".8"/>
+        <path d="M6,8 Q10,16 2,18 Q-2,12 6,8 Z"    fill="white" opacity=".8"/>
+      </g>
+
+      <!-- Noe's hand reaching out from ark window -->
+      <g transform="translate(84,172)">
+        <!-- hand extended -->
+        <line x1="0" y1="0" x2="18" y2="-15" stroke="#c8906a" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="20" cy="-17" r="7" fill="#c8906a"/>
+        <!-- fingers hint -->
+        <line x1="16" y1="-22" x2="18" y2="-28" stroke="#c8906a" stroke-width="3" stroke-linecap="round"/>
+        <line x1="21" y1="-23" x2="24" y2="-29" stroke="#c8906a" stroke-width="3" stroke-linecap="round"/>
+        <line x1="26" y1="-22" x2="29" y2="-27" stroke="#c8906a" stroke-width="3" stroke-linecap="round"/>
+      </g>
+
+      <!-- Stars still faintly visible -->
+      <circle cx="28"  cy="15" r="1.5" fill="white" opacity=".4"/>
+      <circle cx="300" cy="18" r="1.5" fill="white" opacity=".4"/>
+      <circle cx="250" cy="10" r="1"   fill="white" opacity=".35"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🕊️ La Colombe et le Rameau d'Olivier</h2>
+    <p>Les eaux couvrirent la Terre pendant de longues semaines. Puis Dieu ordonna aux eaux de se retirer. Doucement, doucement, le niveau baissait.</p>
+    <p>Noé envoya une <strong>colombe blanche</strong> pour voir si la terre était réapparue. Elle revint… avec une petite branche d'<strong>olivier vert</strong> dans le bec !</p>
+    <div class="quote">« La terre renaît ! Dieu nous a sauvés ! »</div>
+    <p>Ce petit rameau vert était le plus beau cadeau du monde. La vie recommençait. L'arche s'arrêta sur la montagne <strong>Ararat</strong>, et les portes s'ouvrirent enfin. 🌿</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 5 : L'arc-en-ciel et la promesse ══ -->
+<div class="chapter ch5">
+  <div class="ch-num">٥</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="rainbowSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#c8e8ff"/>
+          <stop offset="100%" stop-color="#e8f8e0"/>
+        </linearGradient>
+        <radialGradient id="rainbowGlow" cx="50%" cy="80%" r="70%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#rainbowSky)"/>
+      <rect width="340" height="255" fill="url(#rainbowGlow)"/>
+
+      <!-- Sun bright and warm -->
+      <circle cx="50"  cy="45" r="32" fill="#f0c040" opacity=".85"/>
+      <circle cx="50"  cy="45" r="24" fill="#ffe08a" opacity=".8"/>
+
+      <!-- Puffy happy clouds -->
+      <ellipse cx="260" cy="38" rx="55" ry="24" fill="white" opacity=".8"/>
+      <ellipse cx="278" cy="26" rx="40" ry="18" fill="white" opacity=".9"/>
+      <ellipse cx="100" cy="50" rx="40" ry="18" fill="white" opacity=".7"/>
+      <ellipse cx="115" cy="38" rx="30" ry="14" fill="white" opacity=".8"/>
+
+      <!-- THE RAINBOW — 7 arcs -->
+      <path d="M5,200 Q170,-30 335,200" fill="none" stroke="#e74c3c" stroke-width="7" opacity=".7"/>
+      <path d="M12,200 Q170,-14 328,200" fill="none" stroke="#e67e22" stroke-width="7" opacity=".7"/>
+      <path d="M19,200 Q170,2 321,200"  fill="none" stroke="#f1c40f" stroke-width="7" opacity=".7"/>
+      <path d="M26,200 Q170,18 314,200" fill="none" stroke="#2ecc71" stroke-width="7" opacity=".7"/>
+      <path d="M33,200 Q170,34 307,200" fill="none" stroke="#3498db" stroke-width="7" opacity=".7"/>
+      <path d="M40,200 Q170,50 300,200" fill="none" stroke="#2980b9" stroke-width="7" opacity=".7"/>
+      <path d="M47,200 Q170,66 293,200" fill="none" stroke="#9b59b6" stroke-width="7" opacity=".7"/>
+      <!-- rainbow glow -->
+      <path d="M5,200 Q170,-30 335,200" fill="none" stroke="white" stroke-width="2" opacity=".3"/>
+
+      <!-- Green earth returned — flowers everywhere -->
+      <rect x="0" y="195" width="340" height="60" fill="#5a8a28"/>
+      <rect x="0" y="193" width="340" height="8"  fill="#6a9a30" opacity=".6"/>
+      <!-- flowers mass bloom -->
+      <g>
+        <circle cx="20"  cy="196" r="5" fill="#ff9999"/>
+        <circle cx="40"  cy="194" r="4" fill="#f0c040"/>
+        <circle cx="60"  cy="197" r="5" fill="#ff88cc"/>
+        <circle cx="80"  cy="195" r="4" fill="#88ddff"/>
+        <circle cx="100" cy="196" r="5" fill="#ff9999"/>
+        <circle cx="120" cy="194" r="4" fill="#88ff88"/>
+        <circle cx="200" cy="196" r="5" fill="#f0c040"/>
+        <circle cx="220" cy="194" r="4" fill="#ff88cc"/>
+        <circle cx="240" cy="197" r="5" fill="#ff9999"/>
+        <circle cx="260" cy="195" r="4" fill="#88ddff"/>
+        <circle cx="280" cy="196" r="5" fill="#88ff88"/>
+        <circle cx="300" cy="194" r="4" fill="#ff9999"/>
+        <circle cx="320" cy="197" r="5" fill="#f0c040"/>
+      </g>
+
+      <!-- Animals coming OUT of the ark — parade! -->
+      <!-- elephant -->
+      <g transform="translate(55,210)">
+        <ellipse cx="0" cy="0" rx="22" ry="14" fill="#909090"/>
+        <ellipse cx="-16" cy="-8" rx="12" ry="10" fill="#a0a0a0"/>
+        <path d="M-18,4 Q-26,20 -20,24" stroke="#909090" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <line x1="-8"  y1="12" x2="-8"  y2="26" stroke="#808080" stroke-width="5"/>
+        <line x1="4"   y1="12" x2="4"   y2="26" stroke="#808080" stroke-width="5"/>
+        <line x1="16"  y1="12" x2="16"  y2="24" stroke="#808080" stroke-width="5"/>
+        <circle cx="-18" cy="-10" r="3" fill="#1a1a1a" opacity=".5"/>
+        <!-- ear -->
+        <ellipse cx="-22" cy="-4" rx="8" ry="12" fill="#808080" opacity=".6"/>
+      </g>
+      <!-- giraffe -->
+      <g transform="translate(140,185)">
+        <ellipse cx="0" cy="25" rx="16" ry="10" fill="#d4a017"/>
+        <rect x="-5" y="-20" width="10" height="46" fill="#d4b030" rx="3"/>
+        <ellipse cx="0" cy="-22" rx="10" ry="8" fill="#d4b060"/>
+        <line x1="-8" y1="-28" x2="-10" y2="-40" stroke="#d4a017" stroke-width="3" stroke-linecap="round"/>
+        <line x1="2"  y1="-28" x2="4"   y2="-40" stroke="#d4a017" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="-2" cy="-22" r="2.5" fill="#1a1a1a" opacity=".5"/>
+        <!-- spots -->
+        <circle cx="0" cy="5"  r="4" fill="#c8900a" opacity=".4"/>
+        <circle cx="-2" cy="18" r="3" fill="#c8900a" opacity=".4"/>
+        <!-- legs -->
+        <line x1="-8"  y1="34" x2="-10" y2="55" stroke="#c8900a" stroke-width="5" stroke-linecap="round"/>
+        <line x1="0"   y1="34" x2="0"   y2="55" stroke="#c8900a" stroke-width="5" stroke-linecap="round"/>
+        <line x1="8"   y1="34" x2="10"  y2="55" stroke="#c8900a" stroke-width="5" stroke-linecap="round"/>
+      </g>
+      <!-- lion/cat shape -->
+      <g transform="translate(220,216)">
+        <ellipse cx="0" cy="0" rx="18" ry="11" fill="#c8a040"/>
+        <ellipse cx="-13" cy="-7" rx="10" ry="8" fill="#d4b050"/>
+        <!-- mane -->
+        <circle cx="-13" cy="-7" r="13" fill="#a07830" opacity=".5"/>
+        <line x1="-6"  y1="10" x2="-6"  y2="24" stroke="#b89030" stroke-width="4"/>
+        <line x1="6"   y1="10" x2="6"   y2="24" stroke="#b89030" stroke-width="4"/>
+        <line x1="14"  y1="8"  x2="16"  y2="22" stroke="#b89030" stroke-width="4"/>
+        <!-- tail up -->
+        <path d="M18,-2 Q28,-8 26,-18 Q22,-14 18,-2 Z" fill="#c8a040"/>
+        <circle cx="-15" cy="-8" r="2" fill="#1a1a1a" opacity=".5"/>
+      </g>
+      <!-- pair of birds flying -->
+      <g opacity=".75">
+        <path d="M260,110 Q268,100 278,108 Q285,98 294,106" fill="white" stroke="none"/>
+        <path d="M280,95 Q288,85 298,93 Q305,83 314,91" fill="white" stroke="none"/>
+      </g>
+
+      <!-- Noe and family on grass — arms open to sky -->
+      <g transform="translate(170,208)">
+        <!-- Noe center -->
+        <path d="M-14,8 Q-10,42 0,44 Q10,42 14,8 Z" fill="#1e6b3a"/>
+        <line x1="-14" y1="12" x2="-35" y2="-8"  stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="14"  y1="12" x2="35"  y2="-8"  stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="0" cy="-8" r="13" fill="#c8906a"/>
+        <!-- white hair -->
+        <path d="M-10,-18 Q0,-32 10,-18 L12,-5 Q0,-2 -12,-5 Z" fill="#f0f0f0" opacity=".9"/>
+        <path d="M-8,-2 Q-10,10 -4,16 Q0,20 4,16 Q10,10 8,-2" fill="#f0f0f0" opacity=".8"/>
+        <!-- big smile -->
+        <path d="M-5,0 Q0,5 5,0" stroke="#7a3a10" stroke-width="2" fill="none"/>
+        <circle cx="-3.5" cy="-9" r="2" fill="#1a1a1a"/>
+        <circle cx="3.5"  cy="-9" r="2" fill="#1a1a1a"/>
+        <!-- family left -->
+        <g transform="translate(-35,5)">
+          <circle cx="0" cy="-14" r="8"  fill="#d4a57a"/>
+          <rect x="-8" y="-8" width="16" height="14" fill="#c0392b" rx="1"/>
+          <line x1="-8" y1="-2" x2="-20" y2="-14" stroke="#c0392b" stroke-width="5" stroke-linecap="round"/>
+          <line x1="8"  y1="-2" x2="20"  y2="-14" stroke="#c0392b" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="-3" cy="-15" r="1.8" fill="#1a1a1a"/>
+          <circle cx="3"  cy="-15" r="1.8" fill="#1a1a1a"/>
+        </g>
+        <!-- family right -->
+        <g transform="translate(35,5)">
+          <circle cx="0" cy="-14" r="8"  fill="#c8906a"/>
+          <rect x="-8" y="-8" width="16" height="14" fill="#c9960c" rx="1"/>
+          <line x1="-8" y1="-2" x2="-20" y2="-14" stroke="#c9960c" stroke-width="5" stroke-linecap="round"/>
+          <line x1="8"  y1="-2" x2="20"  y2="-14" stroke="#c9960c" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="-3" cy="-15" r="1.8" fill="#1a1a1a"/>
+          <circle cx="3"  cy="-15" r="1.8" fill="#1a1a1a"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌈 L'Arc-en-Ciel de la Promesse</h2>
+    <p>Noé et sa famille sortirent de l'arche. Les animaux se répandirent sur la Terre verdoyante — élephants, girafes, lions, oiseaux — tous libres et vivants !</p>
+    <p>Ils se prosternèrent pour remercier Dieu. Et alors, quelque chose de magnifique apparut dans le ciel pour la première fois : un immense <strong>arc-en-ciel</strong> aux sept couleurs.</p>
+    <div class="quote">« C'est Mon signe. Jamais plus un tel déluge ne détruira toute la Terre. »</div>
+    <p>L'arc-en-ciel, c'est la promesse de Dieu. Chaque fois que tu en vois un, souviens-toi de Noé, de sa foi, de son courage — et de l'amour de Dieu pour toutes Ses créatures. 🌈💛</p>
+  </div>
+</div>
+
+
+<!-- ══ ENDING ══ -->
+<div class="ending">
+  <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.05;pointer-events:none"
+       viewBox="0 0 400 300">
+    <defs>
+      <pattern id="wavePat2" x="0" y="0" width="80" height="40" patternUnits="userSpaceOnUse">
+        <path d="M0,20 Q20,0 40,20 Q60,40 80,20" fill="none" stroke="#4a9ede" stroke-width="1.5"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="300" fill="url(#wavePat2)"/>
+  </svg>
+
+  <div style="font-size:2.5rem;margin-bottom:16px">🌈</div>
+  <h2>✨ Fin ✨</h2>
+  <p>Et voilà l'histoire de Noé,<br>
+  l'homme qui construisit une arche au milieu des terres sèches<br>
+  parce qu'il faisait confiance à Dieu — même quand tout le monde se moquait.<br><br>
+  Il nous apprend que la <em>foi et la patience</em><br>
+  peuvent traverser même les plus grandes tempêtes.<br><br>
+  Et que chaque arc-en-ciel dans le ciel<br>
+  est un rappel : <strong>Dieu tient toujours Ses promesses.</strong> 🌊🕊️</p>
+  <div class="end-star">✦</div>
+</div>
+
+<script>
+  // Stars on cover (top half only — above the storm)
+  const cover = document.getElementById('starsCover');
+  for (let i = 0; i < 40; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const sz = Math.random() * 2 + .5;
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*30}%;
+      width:${sz}px; height:${sz}px;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${1.5+Math.random()*2.5}s;
+    `;
+    cover.appendChild(s);
+  }
+
+  // Animated rain on cover
+  const rainC = document.getElementById('rainContainer');
+  rainC.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;';
+
+  function makeRain() {
+    const r = document.createElement('div');
+    r.className = 'rain-drop';
+    const h = Math.random() * 60 + 40;
+    r.style.cssText = `
+      left:${Math.random()*110-5}%;
+      top:-${h}px;
+      height:${h}px;
+      animation-duration:${0.5+Math.random()*0.8}s;
+      animation-delay:${Math.random()*2}s;
+    `;
+    rainC.appendChild(r);
+    r.addEventListener('animationend', () => r.remove());
+  }
+  for(let i=0;i<80;i++) makeRain();
+  setInterval(makeRain, 50);
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold:.1 }
+  );
+  document.querySelectorAll('.chapter,.ending').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

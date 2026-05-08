@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎵 Simon Dit!</title>
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #0f0f0f;
+  --center: #1a1a1a;
+  --red:    #ff2020;
+  --red-dim:#4a0808;
+  --green:  #20ff40;
+  --grn-dim:#084a10;
+  --blue:   #2060ff;
+  --blu-dim:#081040;
+  --yellow: #ffdd00;
+  --yel-dim:#4a3a00;
+  --ink:    #f0f0f0;
+  --muted:  rgba(240,240,240,0.45);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+html { overflow-x: hidden; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+  user-select: none;
+  padding: 1.5rem 1rem 2rem;
+}
+
+/* Radial glow behind device */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse 70% 70% at 50% 48%, rgba(255,255,255,0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ===== TITLE ===== */
+h1 {
+  font-family: 'Righteous', cursive;
+  font-size: clamp(1.8rem, 7vw, 2.6rem);
+  color: var(--ink);
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom: 0.1em;
+  position: relative; z-index: 1;
+}
+.subtitle {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1.4rem;
+  position: relative; z-index: 1;
+}
+
+/* ===== DEVICE ===== */
+.device {
+  position: relative;
+  width: min(88vw, 340px);
+  height: min(88vw, 340px);
+  border-radius: 50%;
+  background: #222;
+  box-shadow:
+    0 0 0 6px #111,
+    0 0 0 10px #2a2a2a,
+    0 30px 80px rgba(0,0,0,0.8),
+    0 0 60px rgba(0,0,0,0.5);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== 4 QUADRANT BUTTONS ===== */
+.quad {
+  position: absolute;
+  width: 50%; height: 50%;
+  border: none; cursor: pointer;
+  transition: filter 0.05s;
+  overflow: hidden;
+}
+
+/* Quadrant shapes via clip-path */
+.quad-red    { top:0; left:0;   background: var(--red-dim);    border-radius: 100% 0 0 0; }
+.quad-blue   { top:0; right:0;  background: var(--blu-dim);    border-radius: 0 100% 0 0; }
+.quad-yellow { bottom:0; left:0; background: var(--yel-dim);   border-radius: 0 0 0 100%; }
+.quad-green  { bottom:0; right:0; background: var(--grn-dim);  border-radius: 0 0 100% 0; }
+
+/* Gap between quads */
+.quad-red    { width: calc(50% - 4px); height: calc(50% - 4px); }
+.quad-blue   { width: calc(50% - 4px); height: calc(50% - 4px); }
+.quad-yellow { width: calc(50% - 4px); height: calc(50% - 4px); }
+.quad-green  { width: calc(50% - 4px); height: calc(50% - 4px); }
+
+/* Lit states */
+.quad-red.lit    { background: var(--red);    filter: brightness(1.2); box-shadow: inset 0 0 40px rgba(255,255,255,0.2), 0 0 40px var(--red); }
+.quad-blue.lit   { background: var(--blue);   filter: brightness(1.2); box-shadow: inset 0 0 40px rgba(255,255,255,0.2), 0 0 40px var(--blue); }
+.quad-yellow.lit { background: var(--yellow); filter: brightness(1.2); box-shadow: inset 0 0 40px rgba(255,255,255,0.2), 0 0 40px var(--yellow); }
+.quad-green.lit  { background: var(--green);  filter: brightness(1.2); box-shadow: inset 0 0 40px rgba(255,255,255,0.2), 0 0 40px var(--green); }
+
+.quad:active { filter: brightness(1.4); }
+.quad:disabled { cursor: not-allowed; }
+
+/* Subtle sheen on each quad */
+.quad::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ===== CENTER CIRCLE ===== */
+.center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 38%; height: 38%;
+  border-radius: 50%;
+  background: var(--center);
+  box-shadow: 0 0 0 4px #111, 0 0 0 6px #2a2a2a, 0 4px 20px rgba(0,0,0,0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  gap: 2px;
+}
+
+.level-num {
+  font-family: 'Righteous', cursive;
+  font-size: clamp(1.6rem, 6vw, 2.4rem);
+  color: var(--ink);
+  line-height: 1;
+}
+
+.center-label {
+  font-size: clamp(0.42rem, 1.5vw, 0.58rem);
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ===== BOTTOM UI ===== */
+.bottom {
+  position: relative; z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+  width: min(88vw, 340px);
+}
+
+.status-text {
+  font-family: 'Righteous', cursive;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: var(--ink);
+  text-align: center;
+  min-height: 1.4em;
+}
+
+.start-btn {
+  font-family: 'Righteous', cursive;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  width: 100%;
+  padding: 0.7em 1em;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  background: #e8e8e8;
+  color: #111;
+  box-shadow: 0 6px 0 #555, 0 8px 20px rgba(0,0,0,0.4);
+  transform: translateY(0);
+  transition: transform 0.07s, box-shadow 0.07s;
+}
+.start-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #555; }
+.start-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+/* High score */
+.best-row {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-align: center;
+}
+.best-row span { color: var(--yellow); }
+
+/* Speed selector */
+.speed-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.speed-label { font-size: 0.78rem; font-weight: 700; color: var(--muted); letter-spacing: 1px; }
+.speed-btn {
+  font-family: 'Righteous', cursive;
+  font-size: 0.8rem;
+  padding: 0.3em 0.9em;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 1px;
+}
+.speed-btn.active { background: var(--yellow); color: #111; border-color: var(--yellow); }
+
+/* ===== FAIL OVERLAY ===== */
+.fail-overlay {
+  position: fixed; inset: 0;
+  background: rgba(180,0,0,0);
+  z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none; opacity: 0;
+}
+.fail-overlay.show {
+  opacity: 1; pointer-events: all;
+  animation: failBg 0.5s ease forwards;
+}
+@keyframes failBg {
+  0%  { background: rgba(220,0,0,0.7); }
+  100%{ background: rgba(10,0,0,0.88); }
+}
+.fail-box {
+  background: #1a0000;
+  border: 2px solid rgba(255,50,50,0.4);
+  border-radius: 24px;
+  padding: 2rem 2.5rem;
+  text-align: center;
+  max-width: 300px; width: 88vw;
+  transform: scale(0.5);
+  transition: transform 0.45s cubic-bezier(.22,1,.36,1);
+  display: flex; flex-direction: column;
+  align-items: center; gap: 0.5rem;
+}
+.fail-overlay.show .fail-box { transform: scale(1); }
+.fail-emoji { font-size: 4rem; line-height: 1; }
+.fail-title { font-family: 'Righteous', cursive; font-size: 2rem; letter-spacing: 3px; color: var(--red); }
+.fail-sub   { font-size: 0.88rem; font-weight: 700; color: rgba(255,200,200,0.6); }
+.fail-score { font-family: 'Righteous', cursive; font-size: 1.4rem; color: var(--ink); margin-top: 0.2em; }
+.fail-best  { font-size: 0.78rem; font-weight: 700; color: var(--yellow); }
+.fail-btn {
+  font-family: 'Righteous', cursive;
+  font-size: 1.1rem; letter-spacing: 1px;
+  background: #e8e8e8; color: #111;
+  border: none; border-radius: 12px;
+  padding: 0.6em 2em; cursor: pointer;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 0 #555;
+  transition: transform 0.07s, box-shadow 0.07s;
+}
+.fail-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #555; }
+
+/* Win flash */
+@keyframes winPulse {
+  0%,100% { box-shadow: 0 0 0 6px #111, 0 0 0 10px #2a2a2a, 0 30px 80px rgba(0,0,0,0.8); }
+  50% { box-shadow: 0 0 0 6px #111, 0 0 0 10px #2a2a2a, 0 30px 80px rgba(0,0,0,0.8), 0 0 60px var(--green); }
+}
+.device.win { animation: winPulse 0.4s ease 3; }
+</style>
+</head>
+<body>
+
+<a href="../index.html" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;background:rgba(255,255,255,0.12);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.15);color:#f0f0ff;text-decoration:none;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;transition:background 0.2s,transform 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.2);" onmouseover="this.style.background='rgba(255,255,255,0.22)';this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(255,255,255,0.12)';this.style.transform='scale(1)'" onfocus="this.style.background='rgba(255,255,255,0.22)';this.style.transform='scale(1.05)'" onblur="this.style.background='rgba(255,255,255,0.12)';this.style.transform='scale(1)'">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  Accueil
+</a>
+
+<h1>🎵 Simon Dit !</h1>
+<p class="subtitle">Répète la séquence — sans te tromper !</p>
+
+<div class="device" id="device">
+  <button class="quad quad-red"    id="q-red"    onclick="playerTap('red')"   ></button>
+  <button class="quad quad-blue"   id="q-blue"   onclick="playerTap('blue')"  ></button>
+  <button class="quad quad-yellow" id="q-yellow" onclick="playerTap('yellow')" ></button>
+  <button class="quad quad-green"  id="q-green"  onclick="playerTap('green')" ></button>
+
+  <div class="center">
+    <div class="level-num" id="levelNum">—</div>
+    <div class="center-label" id="centerLabel">Simon</div>
+  </div>
+</div>
+
+<div class="bottom">
+  <div class="status-text" id="statusText">Prêt à jouer ?</div>
+
+  <div class="speed-row">
+    <span class="speed-label">Vitesse :</span>
+    <button class="speed-btn active" onclick="setSpeed('normal',this)">Normal</button>
+    <button class="speed-btn"        onclick="setSpeed('fast',this)">Rapide</button>
+    <button class="speed-btn"        onclick="setSpeed('turbo',this)">Turbo 🔥</button>
+  </div>
+
+  <button class="start-btn" id="startBtn" onclick="startGame()">▶ JOUER</button>
+  <div class="best-row" id="bestRow" style="display:none">🏆 Meilleur score : <span id="bestSpan">0</span></div>
+</div>
+
+<div class="fail-overlay" id="failOverlay">
+  <div class="fail-box">
+    <div class="fail-emoji">😵</div>
+    <div class="fail-title">RATÉ !</div>
+    <div class="fail-sub" id="failSub">La séquence était…</div>
+    <div class="fail-score" id="failScore"></div>
+    <div class="fail-best"  id="failBest"></div>
+    <button class="fail-btn" onclick="closeFail()">🔄 Rejouer</button>
+  </div>
+</div>
+
+<script>
+// ===== AUDIO =====
+let audioCtx = null;
+function getAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+const TONES = { red:260, blue:370, yellow:440, green:310 };
+
+function playTone(color, duration=350) {
+  try {
+    const ctx  = getAudio();
+    const osc  = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.value = TONES[color];
+    gain.gain.setValueAtTime(0.35, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration/1000);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + duration/1000);
+  } catch(e){}
+}
+
+function playFail() {
+  try {
+    const ctx  = getAudio();
+    const osc  = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(200, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(60, ctx.currentTime + 0.5);
+    gain.gain.setValueAtTime(0.4, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+    osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.5);
+  } catch(e){}
+}
+
+// ===== CONFIG =====
+const SPEEDS = {
+  normal: { lit:500, gap:250, between:800 },
+  fast:   { lit:350, gap:150, between:600 },
+  turbo:  { lit:200, gap:100, between:400 },
+};
+let speed = 'normal';
+let cfg   = SPEEDS[speed];
+
+function setSpeed(s, btn) {
+  speed = s; cfg = SPEEDS[s];
+  document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ===== STATE =====
+const COLORS = ['red','blue','yellow','green'];
+let sequence  = [];
+let playerSeq = [];
+let level     = 0;
+let accepting = false;
+let best      = 0;
+
+function loadBest() { try { best = parseInt(localStorage.getItem('simon_best')||'0')||0; } catch(e){} }
+function saveBest() { try { localStorage.setItem('simon_best', String(best)); } catch(e){} }
+
+const device     = document.getElementById('device');
+const levelNum   = document.getElementById('levelNum');
+const centerLabel= document.getElementById('centerLabel');
+const statusText = document.getElementById('statusText');
+const startBtn   = document.getElementById('startBtn');
+const failOverlay= document.getElementById('failOverlay');
+const bestRow    = document.getElementById('bestRow');
+const bestSpan   = document.getElementById('bestSpan');
+
+function setButtons(on) {
+  COLORS.forEach(c => document.getElementById('q-'+c).disabled = !on);
+}
+
+function lightUp(color, duration) {
+  const el = document.getElementById('q-'+color);
+  el.classList.add('lit');
+  playTone(color, duration);
+  return new Promise(r => setTimeout(() => { el.classList.remove('lit'); r(); }, duration));
+}
+
+// ===== GAME FLOW =====
+function startGame() {
+  sequence  = [];
+  playerSeq = [];
+  level     = 0;
+  accepting = false;
+  startBtn.disabled = true;
+  setButtons(false);
+  statusText.textContent = 'Simon montre…';
+  device.classList.remove('win');
+  setTimeout(nextRound, 600);
+}
+
+async function nextRound() {
+  level++;
+  playerSeq = [];
+  accepting = false;
+  setButtons(false);
+  levelNum.textContent    = level;
+  centerLabel.textContent = 'niveau';
+  statusText.textContent  = 'Regarde bien…';
+
+  // Add one random color
+  sequence.push(COLORS[Math.floor(Math.random() * 4)]);
+
+  // Play sequence
+  await delay(cfg.between);
+  for (const color of sequence) {
+    await lightUp(color, cfg.lit);
+    await delay(cfg.gap);
+  }
+
+  // Player's turn
+  accepting = true;
+  setButtons(true);
+  statusText.textContent = 'À toi ! 👆';
+  centerLabel.textContent = 'écoute';
+}
+
+function playerTap(color) {
+  if (!accepting) return;
+  lightUp(color, 200);
+  playerSeq.push(color);
+
+  const idx = playerSeq.length - 1;
+  if (playerSeq[idx] !== sequence[idx]) {
+    // WRONG
+    accepting = false;
+    setButtons(false);
+    playFail();
+    statusText.textContent = '❌ Raté !';
+    centerLabel.textContent = 'oups';
+    if (level - 1 > best) { best = level - 1; saveBest(); }
+    setTimeout(showFail, 600);
+    return;
+  }
+
+  if (playerSeq.length === sequence.length) {
+    // ROUND COMPLETE
+    accepting = false;
+    setButtons(false);
+    statusText.textContent = '✅ Bravo !';
+    device.classList.add('win');
+    setTimeout(() => {
+      device.classList.remove('win');
+      nextRound();
+    }, 800);
+  }
+}
+
+function showFail() {
+  const score = level - 1;
+  const isNew = score >= best;
+  document.getElementById('failSub').textContent   = score === 0 ? 'Dommage…' : `Tu as atteint le niveau ${score} !`;
+  document.getElementById('failScore').textContent = score === 0 ? '😬 Aucun niveau validé' : `${score} niveau${score>1?'x':''} réussi${score>1?'s':''}`;
+  document.getElementById('failBest').textContent  = isNew && score > 0 ? '🏆 Nouveau record !' : `Meilleur : ${best}`;
+  failOverlay.classList.add('show');
+  updateBestRow();
+}
+
+function closeFail() {
+  failOverlay.classList.remove('show');
+  startBtn.disabled = false;
+  levelNum.textContent    = '—';
+  centerLabel.textContent = 'Simon';
+  statusText.textContent  = 'Prêt à rejouer ?';
+  setButtons(false);
+}
+
+function updateBestRow() {
+  if (best > 0) {
+    bestRow.style.display = 'block';
+    bestSpan.textContent  = best;
+  }
+}
+
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+loadBest();
+updateBestRow();
+setButtons(false);
+</script>
+</body>
+</html>
