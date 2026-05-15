@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youssef – Le Prophète aux Rêves d'Or</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+          --sand:       #c8a04a;
+          --gold:       #c9960c;
+          --gold-light: #f0c040;
+          --egypt-blue: #1a3a6c;
+          --deep-night: #060a12;
+          --terracotta: #b85a28;
+          --violet:     #5a2a7a;
+          --cream:      #fdf8ee;
+          --emerald:    #1a6b4a;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+          background: var(--deep-night);
+          font-family: 'Nunito', sans-serif;
+          overflow-x: hidden;
+          color: #e8dcc8;
+        }
+
+        /* ── COVER ── */
+        .cover {
+          min-height: 100vh;
+          background: linear-gradient(160deg, #060a12 0%, #1a1008 35%, #3a2008 65%, #c8a04a 100%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+          padding: 40px 20px 80px;
+        }
+
+        /* star dots */
+        .cover-stars { position:absolute; inset:0; pointer-events:none; }
+        .star-dot {
+          position: absolute;
+          background: white;
+          border-radius: 50%;
+          animation: tw 2.5s infinite alternate;
+        }
+        @keyframes tw {
+          from { opacity:.15; transform:scale(1); }
+          to   { opacity:.9;  transform:scale(1.7); }
+        }
+
+        /* golden shimmer particles */
+        .shimmer {
+          position: absolute;
+          width: 2px; height: 2px;
+          background: var(--gold-light);
+          border-radius: 50%;
+          pointer-events: none;
+          animation: shimmerFloat linear infinite;
+          opacity: 0;
+        }
+        @keyframes shimmerFloat {
+          0%   { transform: translateY(0) translateX(0); opacity:0; }
+          20%  { opacity:.8; }
+          80%  { opacity:.6; }
+          100% { transform: translateY(-80px) translateX(20px); opacity:0; }
+        }
+
+        .cover-scene {
+          position: relative;
+          width: 300px;
+          height: 300px;
+          margin-bottom: 28px;
+          animation: floatY 5s ease-in-out infinite;
+        }
+        @keyframes floatY {
+          0%,100% { transform:translateY(0); }
+          50%      { transform:translateY(-12px); }
+        }
+
+        .cover h1 {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: clamp(3rem,9vw,5rem);
+          color: var(--gold-light);
+          text-align: center;
+          letter-spacing: 3px;
+          line-height: 1.1;
+          text-shadow: 0 2px 30px rgba(200,160,74,.6);
+        }
+        .cover .subtitle-ar {
+          font-size: 1.4rem;
+          color: rgba(240,192,64,.45);
+          margin-top: 8px;
+          letter-spacing: 6px;
+          font-family: serif;
+        }
+        .cover .subtitle {
+          color: rgba(240,220,180,.45);
+          font-size: .95rem;
+          margin-top: 12px;
+          font-style: italic;
+          letter-spacing: 2px;
+        }
+
+        .scroll-hint {
+          position: absolute;
+          bottom: 28px;
+          color: rgba(240,220,180,.35);
+          font-size: .8rem;
+          display:flex; flex-direction:column; align-items:center; gap:5px;
+          animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+          0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);}
+        }
+
+        .cover-fade {
+          position:absolute; bottom:0; left:0; right:0;
+          height: 100px;
+          background: linear-gradient(transparent, #060a12);
+          pointer-events: none;
+        }
+
+        /* ── CHAPTERS ── */
+        .chapter {
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 70px 24px 60px;
+          position: relative;
+          overflow: hidden;
+          opacity: 0;
+          transform: translateY(40px);
+          transition: opacity .85s ease, transform .85s ease;
+        }
+        .chapter.visible { opacity:1; transform:translateY(0); }
+
+        .ch1 { background: linear-gradient(155deg,#1a0e06 0%,#2a1a08 50%,#3a2808 100%); }
+        .ch2 { background: linear-gradient(155deg,#0a0a1a 0%,#1a1230 50%,#2a1a50 100%); }
+        .ch3 { background: linear-gradient(155deg,#1a0808 0%,#3a1010 50%,#5a2018 100%); }
+        .ch4 { background: linear-gradient(155deg,#0a1a10 0%,#1a3a20 50%,#2a5a30 100%); }
+        .ch5 { background: linear-gradient(155deg,#1a1008 0%,#3a2808 50%,#c8a04a 100%); }
+
+        .ch-num {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 9rem;
+          font-weight: 700;
+          position: absolute;
+          top: 0; right: 20px;
+          line-height: 1;
+          pointer-events: none;
+          opacity: .05;
+        }
+        .ch1 .ch-num,.ch5 .ch-num { color:#f0c040; }
+        .ch2 .ch-num { color:#d4a0ff; }
+        .ch3 .ch-num { color:#ff8888; }
+        .ch4 .ch-num { color:#88ff88; }
+
+        .illustration {
+          width: min(340px,92vw);
+          height: min(255px,69vw);
+          border-radius: 24px;
+          overflow: hidden;
+          box-shadow: 0 16px 60px rgba(0,0,0,.5);
+          margin-bottom: 36px;
+          flex-shrink: 0;
+          position: relative; z-index:1;
+          border: 3px solid rgba(200,160,74,.3);
+        }
+        .illustration svg { width:100%; height:100%; display:block; }
+
+        .chapter-title {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: clamp(1.6rem,5vw,2.2rem);
+          font-weight: 700;
+          text-align: center;
+          margin-bottom: 20px;
+          position: relative; z-index:1;
+          letter-spacing: 1px;
+        }
+        .story-text {
+          max-width: 490px;
+          text-align: center;
+          font-size: 1.05rem;
+          line-height: 1.85;
+          position: relative; z-index:1;
+        }
+        .story-text p { margin-bottom:14px; }
+        .quote {
+          font-family: 'Cormorant Garamond', serif;
+          font-style: italic;
+          font-size: 1.15rem;
+          padding: 14px 22px;
+          border-radius: 14px;
+          margin: 18px 0;
+          display: inline-block;
+          border-left: 4px solid currentColor;
+        }
+
+        .ch1 .chapter-title { color:#f0c040; }
+        .ch1 .story-text    { color:#e0c890; }
+        .ch1 .quote         { background:rgba(240,192,64,.1); color:#f0c040; }
+
+        .ch2 .chapter-title { color:#d4a0ff; }
+        .ch2 .story-text    { color:#c0b0e0; }
+        .ch2 .quote         { background:rgba(180,130,255,.1); color:#d4a0ff; }
+
+        .ch3 .chapter-title { color:#ffb088; }
+        .ch3 .story-text    { color:#e0c0a8; }
+        .ch3 .quote         { background:rgba(255,160,100,.1); color:#ffb088; }
+
+        .ch4 .chapter-title { color:#f0c040; }
+        .ch4 .story-text    { color:#f0ead8; }
+        .ch4 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+        .ch5 .chapter-title { color:#f0c040; }
+        .ch5 .story-text    { color:#f0ead8; }
+        .ch5 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+        /* ── ENDING ── */
+        .ending {
+          background: linear-gradient(160deg,#060a12 0%,#1a1008 50%,#3a2808 100%);
+          padding: 90px 24px;
+          text-align: center;
+          color: white;
+          position: relative; overflow:hidden;
+          opacity: 0; transform: translateY(40px);
+          transition: opacity .85s ease, transform .85s ease;
+        }
+        .ending.visible { opacity:1; transform:translateY(0); }
+        .ending h2 {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 2.4rem;
+          color: var(--gold-light);
+          margin-bottom: 24px;
+          letter-spacing: 2px;
+        }
+        .ending p {
+          font-size:1.1rem; max-width:520px;
+          margin:0 auto; opacity:.85; line-height:1.9;
+        }
+        .end-star {
+          font-size:2.5rem; margin-top:36px;
+          display:inline-block;
+          animation: spinSlow 12s linear infinite;
+          color: var(--gold-light);
+        }
+        @keyframes spinSlow {
+          from{transform:rotate(0deg);} to{transform:rotate(360deg);}
+        }
+
+        @media(min-width:720px){
+          .chapter{flex-direction:row!important;gap:52px;padding:90px 64px;}
+          .illustration{margin-bottom:0;}
+          .story-text{text-align:left;}
+          .chapter-title{text-align:left;}
+          .chapter:nth-child(even){flex-direction:row-reverse!important;}
+        }
+    </style>
+</head>
+<body>
+
+<a href="../stories/index.html"
+   style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;background:rgba(30,107,58,0.15);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(30,107,58,0.3);color:#1e6b3a;text-decoration:none;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;transition:background 0.2s,transform 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.1);"
+   onmouseover="this.style.background='rgba(30,107,58,0.25)';this.style.transform='scale(1.05)'"
+   onmouseout="this.style.background='rgba(30,107,58,0.15)';this.style.transform='scale(1)'"
+   onfocus="this.style.background='rgba(30,107,58,0.25)';this.style.transform='scale(1.05)'"
+   onblur="this.style.background='rgba(30,107,58,0.15)';this.style.transform='scale(1)'">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    Retour
+</a>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+    <div class="cover-stars" id="starsCover"></div>
+    <div id="shimmerContainer"></div>
+
+    <div class="cover-scene">
+        <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="covGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#f0c040" stop-opacity=".3"/>
+                    <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+                <linearGradient id="coatGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#e74c3c"/>
+                    <stop offset="20%" stop-color="#e67e22"/>
+                    <stop offset="40%" stop-color="#f1c40f"/>
+                    <stop offset="60%" stop-color="#2ecc71"/>
+                    <stop offset="80%" stop-color="#3498db"/>
+                    <stop offset="100%" stop-color="#9b59b6"/>
+                </linearGradient>
+                <linearGradient id="nightSky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#060a12"/>
+                    <stop offset="100%" stop-color="#1a1008"/>
+                </linearGradient>
+                <linearGradient id="sandGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#c8a04a"/>
+                    <stop offset="100%" stop-color="#8b5e3c"/>
+                </linearGradient>
+            </defs>
+
+            <!-- outer circle -->
+            <circle cx="150" cy="150" r="147" fill="#060a12" stroke="#c9960c" stroke-width="2"/>
+            <circle cx="150" cy="150" r="137" fill="none" stroke="#c9960c" stroke-width=".5"
+                    stroke-dasharray="5 4" opacity=".4"/>
+
+            <clipPath id="covClip">
+                <circle cx="150" cy="150" r="145"/>
+            </clipPath>
+
+            <!-- night sky -->
+            <rect width="300" height="300" fill="url(#nightSky)" clip-path="url(#covClip)"/>
+            <rect width="300" height="300" fill="url(#covGlow)" clip-path="url(#covClip)"/>
+
+            <!-- 11 stars (Youssef's dream) — arranged in a circle above -->
+            <g clip-path="url(#covClip)">
+                <!-- central bright star -->
+                <circle cx="150" cy="55" r="6" fill="#f0c040" opacity=".95"/>
+                <circle cx="150" cy="55" r="10" fill="#f0c040" opacity=".3"/>
+                <!-- 10 surrounding stars -->
+                <circle cx="116" cy="68" r="4" fill="#f0c040" opacity=".85"/>
+                <circle cx="100" cy="92" r="3.5" fill="#e8d050" opacity=".8"/>
+                <circle cx="96" cy="120" r="3" fill="#f0c040" opacity=".75"/>
+                <circle cx="106" cy="145" r="3" fill="#e8d050" opacity=".8"/>
+                <circle cx="184" cy="68" r="4" fill="#f0c040" opacity=".85"/>
+                <circle cx="200" cy="92" r="3.5" fill="#e8d050" opacity=".8"/>
+                <circle cx="204" cy="120" r="3" fill="#f0c040" opacity=".75"/>
+                <circle cx="194" cy="145" r="3" fill="#e8d050" opacity=".8"/>
+                <circle cx="130" cy="155" r="3.5" fill="#f0c040" opacity=".8"/>
+                <circle cx="170" cy="155" r="3.5" fill="#f0c040" opacity=".8"/>
+                <!-- sun and moon small -->
+                <circle cx="85" cy="72" r="5" fill="#ffe08a" opacity=".7"/>
+                <circle cx="215" cy="72" r="4" fill="white" opacity=".6"/>
+                <circle cx="220" cy="68" r="3" fill="#060a12"/>
+                <!-- star rays from center star -->
+                <g opacity=".4">
+                    <line x1="150" y1="44" x2="150" y2="32" stroke="#f0c040" stroke-width="1.5"/>
+                    <line x1="159" y1="46" x2="166" y2="36" stroke="#f0c040" stroke-width="1"/>
+                    <line x1="141" y1="46" x2="134" y2="36" stroke="#f0c040" stroke-width="1"/>
+                    <line x1="162" y1="55" x2="174" y2="55" stroke="#f0c040" stroke-width="1"/>
+                    <line x1="138" y1="55" x2="126" y2="55" stroke="#f0c040" stroke-width="1"/>
+                </g>
+            </g>
+
+            <!-- Egypt pyramids silhouette -->
+            <g clip-path="url(#covClip)">
+                <polygon points="50,225  90,165 130,225" fill="#2a1808" opacity=".8"/>
+                <polygon points="160,225 210,148 260,225" fill="#1a1208" opacity=".8"/>
+                <!-- desert ground -->
+                <rect x="0" y="222" width="300" height="80" fill="url(#sandGrad)" opacity=".7"/>
+            </g>
+
+            <!-- YOUSSEF figure — wearing the colourful coat -->
+            <g transform="translate(150,190)" clip-path="url(#covClip)">
+                <!-- coat of many colours -->
+                <path d="M-24,8 Q-20,70 0,74 Q20,70 24,8 Z" fill="url(#coatGrad)"/>
+                <!-- coloured patches on coat -->
+                <path d="M-24,8 Q-20,35 -8,40 Q-18,20 -24,8 Z" fill="#e74c3c" opacity=".8"/>
+                <path d="M-8,40 Q0,45 8,40 Q4,20 -4,15 Q-8,25 -8,40 Z" fill="#f1c40f" opacity=".8"/>
+                <path d="M8,40 Q18,35 24,8 Q18,20 12,30 Z" fill="#3498db" opacity=".8"/>
+                <path d="M-18,60 Q-8,68 0,70 Q-10,55 -18,60 Z" fill="#9b59b6" opacity=".7"/>
+                <path d="M18,60 Q8,68 0,70 Q10,55 18,60 Z" fill="#2ecc71" opacity=".7"/>
+                <!-- arms open wide proud -->
+                <line x1="-24" y1="14" x2="-58" y2="2" stroke="url(#coatGrad)" stroke-width="9"
+                      stroke-linecap="round"/>
+                <line x1="24" y1="14" x2="58" y2="2" stroke="url(#coatGrad)" stroke-width="9"
+                      stroke-linecap="round"/>
+                <!-- golden glow hands -->
+                <circle cx="-60" cy="1" r="7" fill="#f0c040" opacity=".5"/>
+                <circle cx="60" cy="1" r="7" fill="#f0c040" opacity=".5"/>
+                <!-- head -->
+                <circle cx="0" cy="-10" r="18" fill="#c8906a"/>
+                <!-- hair dark -->
+                <path d="M-14,-22 Q0,-42 14,-22 L16,-6 Q0,-3 -16,-6 Z" fill="#1a0a04"/>
+                <!-- halo of golden light -->
+                <circle cx="0" cy="-10" r="24" fill="#f0c040" opacity=".1"/>
+                <!-- gentle confident eyes -->
+                <circle cx="-5" cy="-11" r="2.5" fill="#1a1a1a"/>
+                <circle cx="5" cy="-11" r="2.5" fill="#1a1a1a"/>
+                <!-- warm smile -->
+                <path d="M-5,-2 Q0,3 5,-2" stroke="#7a3a10" stroke-width="1.8" fill="none"/>
+            </g>
+
+            <!-- decorative Egyptian border arc bottom -->
+            <g clip-path="url(#covClip)" opacity=".3">
+                <path d="M20,280 Q150,260 280,280" fill="none" stroke="#c9960c" stroke-width="1.5"/>
+                <path d="M30,285 Q150,268 270,285" fill="none" stroke="#c9960c" stroke-width=".8"/>
+            </g>
+        </svg>
+    </div>
+
+    <h1>Youssef<br>
+        <span style="font-size:.6em;letter-spacing:4px;opacity:.9">Le Prophète aux Rêves d'Or</span>
+    </h1>
+    <p class="subtitle-ar">يوسف عليه السلام</p>
+    <p class="subtitle">La plus belle des histoires</p>
+
+    <div class="scroll-hint">
+        <span>Fais défiler pour lire</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+    </div>
+    <div class="cover-fade"></div>
+</div>
+
+
+<!-- ══ CH 1 : Le rêve des étoiles ══ -->
+<div class="chapter ch1">
+    <div class="ch-num">١</div>
+    <div class="illustration">
+        <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="dreamSky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#04080f"/>
+                    <stop offset="60%" stop-color="#0a1428"/>
+                    <stop offset="100%" stop-color="#1a1808"/>
+                </linearGradient>
+                <radialGradient id="dreamGlow" cx="50%" cy="40%" r="50%">
+                    <stop offset="0%" stop-color="#f0c040" stop-opacity=".25"/>
+                    <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+            </defs>
+            <rect width="340" height="255" fill="url(#dreamSky)"/>
+            <rect width="340" height="255" fill="url(#dreamGlow)"/>
+
+            <!-- Milky way band subtle -->
+            <ellipse cx="170" cy="80" rx="200" ry="30" fill="white" opacity=".03"/>
+
+            <!-- 11 STARS arranged in arc (Youssef's dream) -->
+            <!-- Large central star -->
+            <circle cx="170" cy="45" r="7" fill="#f0c040" opacity=".95"/>
+            <circle cx="170" cy="45" r="13" fill="#f0c040" opacity=".2"/>
+            <!-- star rays -->
+            <g opacity=".5">
+                <line x1="170" y1="32" x2="170" y2="18" stroke="#f0c040" stroke-width="2"/>
+                <line x1="181" y1="36" x2="190" y2="25" stroke="#f0c040" stroke-width="1.5"/>
+                <line x1="159" y1="36" x2="150" y2="25" stroke="#f0c040" stroke-width="1.5"/>
+                <line x1="184" y1="45" x2="200" y2="45" stroke="#f0c040" stroke-width="1.5"/>
+                <line x1="156" y1="45" x2="140" y2="45" stroke="#f0c040" stroke-width="1.5"/>
+                <line x1="181" y1="54" x2="190" y2="65" stroke="#f0c040" stroke-width="1.5"/>
+                <line x1="159" y1="54" x2="150" y2="65" stroke="#f0c040" stroke-width="1.5"/>
+            </g>
+            <!-- 10 smaller stars around in an arc -->
+            <circle cx="120" cy="58" r="4.5" fill="#f0c040" opacity=".85"/>
+            <circle cx="100" cy="78" r="4" fill="#e8d050" opacity=".8"/>
+            <circle cx="92" cy="105" r="3.5" fill="#f0c040" opacity=".75"/>
+            <circle cx="100" cy="132" r="3.5" fill="#e8d050" opacity=".8"/>
+            <circle cx="220" cy="58" r="4.5" fill="#f0c040" opacity=".85"/>
+            <circle cx="240" cy="78" r="4" fill="#e8d050" opacity=".8"/>
+            <circle cx="248" cy="105" r="3.5" fill="#f0c040" opacity=".75"/>
+            <circle cx="240" cy="132" r="3.5" fill="#e8d050" opacity=".8"/>
+            <circle cx="140" cy="145" r="4" fill="#f0c040" opacity=".8"/>
+            <circle cx="200" cy="145" r="4" fill="#f0c040" opacity=".8"/>
+            <!-- SUN: warm disc top left -->
+            <circle cx="72" cy="52" r="9" fill="#ffe08a" opacity=".8"/>
+            <circle cx="72" cy="52" r="14" fill="#f0c040" opacity=".2"/>
+            <!-- MOON: crescent top right -->
+            <circle cx="268" cy="52" r="9" fill="white" opacity=".75"/>
+            <circle cx="274" cy="46" r="7" fill="#0a1428"/>
+
+            <!-- labels in Arabic style (just decorative marks) -->
+            <g opacity=".3">
+                <line x1="80" y1="52" x2="66" y2="52" stroke="#ffe08a"
+                      stroke-width="1"/>
+                <line x1="272" y1="52" x2="288" y2="52" stroke="white"
+                      stroke-width="1"/>
+            </g>
+
+            <!-- Young Youssef lying asleep, dreaming -->
+            <g transform="translate(170,205)">
+                <!-- sleeping mat -->
+                <ellipse cx="0" cy="10" rx="75" ry="12" fill="#3a2808" opacity=".6"/>
+                <!-- body sleeping horizontal -->
+                <path d="M-65,0 Q-30,-6 0,-4 Q30,-2 65,2 L64,14 Q30,10 0,8 Q-30,12 -64,14 Z"
+                      fill="#1e6b3a" opacity=".9"/>
+                <!-- head -->
+                <circle cx="-55" cy="0" r="14" fill="#c8906a"/>
+                <!-- dark hair -->
+                <path d="M-62,-10 Q-55,-26 -48,-10" fill="#1a0a04" opacity=".9"/>
+                <!-- eyes closed dreaming — with little smile -->
+                <path d="M-60,-2 Q-55,1 -50,-2" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+                <!-- arm under head -->
+                <path d="M-65,4 Q-70,0 -65,-4" stroke="#c8906a" stroke-width="7" fill="none"
+                      stroke-linecap="round"/>
+                <!-- dream cloud above head -->
+                <g transform="translate(-40,-40)" opacity=".7">
+                    <ellipse cx="0" cy="0" rx="18" ry="12" fill="white" opacity=".2"/>
+                    <ellipse cx="14" cy="-5" rx="12" ry="9" fill="white" opacity=".2"/>
+                    <ellipse cx="-8" cy="-6" rx="10" ry="8" fill="white" opacity=".2"/>
+                    <!-- mini stars in dream bubble -->
+                    <circle cx="0" cy="-2" r="3" fill="#f0c040" opacity=".8"/>
+                    <circle cx="10" cy="-8" r="2" fill="#f0c040" opacity=".7"/>
+                    <circle cx="-6" cy="-8" r="2" fill="#f0c040" opacity=".7"/>
+                </g>
+                <!-- dotted line from head to dream cloud -->
+                <line x1="-55" y1="-14" x2="-40" y2="-28" stroke="white" stroke-width="1"
+                      stroke-dasharray="3 3" opacity=".4"/>
+            </g>
+
+            <!-- Desert tents in background -->
+            <g opacity=".5">
+                <polygon points="20,220 50,180 80,220" fill="#3a2808"/>
+                <polygon points="260,220 290,180 320,220" fill="#3a2808"/>
+                <polygon points="30,220 55,185 80,220" fill="#2a1808"/>
+                <polygon points="265,220 288,188 315,220" fill="#2a1808"/>
+            </g>
+            <rect x="0" y="220" width="340" height="35" fill="#3a2808"/>
+            <!-- sand dunes -->
+            <path d="M0,220 Q85,208 170,220 Q255,232 340,220" fill="#4a3810" opacity=".5"/>
+        </svg>
+    </div>
+    <div class="story-text">
+        <h2 class="chapter-title">✨ Le Rêve des Onze Étoiles</h2>
+        <p>Il y a très longtemps, dans les terres de <strong>Canaan</strong>, vivait un jeune garçon
+            extraordinaire nommé <strong>Youssef</strong>. Son père Ya'qoub (Jacob) l'aimait
+            profondément.</p>
+        <p>Une nuit, Youssef fit un rêve extraordinaire : il vit <strong>onze étoiles, le soleil et
+            la lune</strong> se prosterner devant lui !</p>
+        <div class="quote">« Papa ! J'ai rêvé que onze étoiles, le soleil et la lune s'inclinaient
+            devant moi ! »
+        </div>
+        <p>Son père sourit avec douceur. Il savait que ce rêve venait de Dieu. <em>« Ne le raconte
+            pas à tes frères »</em>, lui dit-il doucement. Car ce rêve annonçait quelque chose de
+            grand. 🌟</p>
+    </div>
+</div>
+
+
+<!-- ══ CH 2 : Le puits ══ -->
+<div class="chapter ch2">
+    <div class="ch-num">٢</div>
+    <div class="illustration">
+        <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="wellSky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#0a0a1e"/>
+                    <stop offset="100%" stop-color="#1a1a3e"/>
+                </linearGradient>
+                <radialGradient id="wellDark" cx="50%" cy="80%" r="50%">
+                    <stop offset="0%" stop-color="#000008" stop-opacity=".9"/>
+                    <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+                <linearGradient id="wellCoat" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#e74c3c"/>
+                    <stop offset="33%" stop-color="#f1c40f"/>
+                    <stop offset="66%" stop-color="#3498db"/>
+                    <stop offset="100%" stop-color="#9b59b6"/>
+                </linearGradient>
+            </defs>
+            <rect width="340" height="255" fill="url(#wellSky)"/>
+            <!-- stars -->
+            <circle cx="30" cy="22" r="1.5" fill="white" opacity=".6"/>
+            <circle cx="80" cy="38" r="1" fill="#f0c040" opacity=".7"/>
+            <circle cx="140" cy="18" r="2" fill="white" opacity=".7"/>
+            <circle cx="220" cy="28" r="1.5" fill="white" opacity=".6"/>
+            <circle cx="290" cy="20" r="1.5" fill="#f0c040" opacity=".7"/>
+            <circle cx="320" cy="42" r="1" fill="white" opacity=".5"/>
+            <!-- Desert landscape -->
+            <polygon points="0,185 55,145 120,168 200,138 275,158 340,135 340,255 0,255"
+                     fill="#2a1808" opacity=".8"/>
+            <rect x="0" y="210" width="340" height="45" fill="#3a2808"/>
+
+            <!-- THE WELL — dark deep pit -->
+            <g transform="translate(170,185)">
+                <!-- well surround stone -->
+                <ellipse cx="0" cy="-5" rx="42" ry="16" fill="#5a3a18"/>
+                <ellipse cx="0" cy="-5" rx="36" ry="12" fill="#3a2208"/>
+                <!-- dark interior -->
+                <ellipse cx="0" cy="-2" rx="32" ry="10" fill="#050510"/>
+                <!-- depth glow — faint glimmer from bottom -->
+                <ellipse cx="0" cy="2" rx="20" ry="6" fill="#1a1a5a" opacity=".5"/>
+                <!-- stone blocks of well -->
+                <rect x="-42" y="-5" width="84" height="22" fill="#4a3018" rx="2"/>
+                <rect x="-40" y="-3" width="80" height="18" fill="#5a3a18" rx="2"/>
+                <!-- mortar lines -->
+                <line x1="-20" y1="-3" x2="-20" y2="15" stroke="#3a2208" stroke-width="1.5"
+                      opacity=".5"/>
+                <line x1="0" y1="-3" x2="0" y2="15" stroke="#3a2208" stroke-width="1.5"
+                      opacity=".5"/>
+                <line x1="20" y1="-3" x2="20" y2="15" stroke="#3a2208" stroke-width="1.5"
+                      opacity=".5"/>
+                <!-- rope going down into well -->
+                <line x1="8" y1="-2" x2="6" y2="8" stroke="#8b6020" stroke-width="2.5"
+                      stroke-dasharray="2 2"/>
+                <!-- Youssef tiny at bottom of well — looking up -->
+                <g transform="translate(0,4)" opacity=".8">
+                    <circle cx="0" cy="-4" r="4" fill="#c8906a"/>
+                    <path d="M-4,0 Q0,8 4,0 Z" fill="url(#wellCoat)"/>
+                    <!-- arms reaching up -->
+                    <line x1="-4" y1="1" x2="-10" y2="-8" stroke="url(#wellCoat)" stroke-width="3"
+                          stroke-linecap="round"/>
+                    <line x1="4" y1="1" x2="10" y2="-8" stroke="url(#wellCoat)" stroke-width="3"
+                          stroke-linecap="round"/>
+                </g>
+                <!-- cruelty of coat thrown in after -->
+                <g transform="translate(-18,-8)">
+                    <path d="M-8,0 Q0,12 8,0 Q4,-4 -4,-4 Z" fill="#e74c3c" opacity=".6"/>
+                    <path d="M-6,0 Q0,10 6,0" fill="#f1c40f" opacity=".5"/>
+                </g>
+            </g>
+
+            <!-- The jealous brothers watching (silhouettes) -->
+            <g transform="translate(60,195)" opacity=".7">
+                <circle cx="0" cy="-18" r="8" fill="#2a1808"/>
+                <path d="M-8,-10 Q0,12 8,-10 Z" fill="#1a1208"/>
+                <circle cx="24" cy="-16" r="7" fill="#2a1808"/>
+                <path d="M16,-9 Q24,12 32,-9 Z" fill="#1a1208"/>
+                <circle cx="46" cy="-18" r="8" fill="#2a1808"/>
+                <path d="M38,-10 Q46,12 54,-10 Z" fill="#1a1208"/>
+            </g>
+            <g transform="translate(240,198)" opacity=".65">
+                <circle cx="0" cy="-16" r="7" fill="#2a1808"/>
+                <path d="M-7,-9 Q0,10 7,-9 Z" fill="#1a1208"/>
+                <circle cx="22" cy="-17" r="7.5" fill="#2a1808"/>
+                <path d="M15,-10 Q22,11 29,-10 Z" fill="#1a1208"/>
+            </g>
+
+            <!-- Full moon giving some light -->
+            <circle cx="290" cy="50" r="26" fill="#ffe8a0" opacity=".7"/>
+            <circle cx="290" cy="50" r="20" fill="#fff8e0" opacity=".6"/>
+            <!-- reflection of moon in well water -->
+            <ellipse cx="170" cy="188" rx="14" ry="4" fill="#ffe8a0" opacity=".2"/>
+
+            <!-- Tears drop near well -->
+            <ellipse cx="160" cy="178" rx="2" ry="3" fill="#87ceeb" opacity=".5"/>
+            <ellipse cx="178" cy="180" rx="1.5" ry="2.5" fill="#87ceeb" opacity=".4"/>
+        </svg>
+    </div>
+    <div class="story-text">
+        <h2 class="chapter-title">🕳️ La Trahison du Puits</h2>
+        <p>Youssef avait onze frères. Certains d'entre eux étaient jaloux de l'amour que leur père
+            lui portait. Un jour, ils l'emmenèrent en promenade dans le désert et…</p>
+        <p>…ils le jetèrent dans le fond d'un <strong>puits profond</strong> et sombre, et
+            arrachèrent sa belle tunique aux mille couleurs !</p>
+        <div class="quote">« Pitié, mes frères ! Qu'est-ce que j'ai fait de mal ? »</div>
+        <p>Mais Youssef ne perdit pas la foi. Au fond du puits, dans le noir complet, il pria Dieu.
+            Il savait au fond de son cœur que Dieu ne l'avait pas abandonné. 💧</p>
+    </div>
+</div>
+
+
+<!-- ══ CH 3 : L'Égypte et la prison ══ -->
+<div class="chapter ch3">
+    <div class="ch-num">٣</div>
+    <div class="illustration">
+        <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="egyptSky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#1a0808"/>
+                    <stop offset="60%" stop-color="#2a1010"/>
+                    <stop offset="100%" stop-color="#4a2010"/>
+                </linearGradient>
+                <radialGradient id="prisonGlow" cx="40%" cy="50%" r="45%">
+                    <stop offset="0%" stop-color="#f0c040" stop-opacity=".2"/>
+                    <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+            </defs>
+            <rect width="340" height="255" fill="url(#egyptSky)"/>
+            <rect width="340" height="255" fill="url(#prisonGlow)"/>
+
+            <!-- Stars -->
+            <circle cx="25" cy="20" r="1.5" fill="#f0c040" opacity=".7"/>
+            <circle cx="70" cy="35" r="1" fill="white" opacity=".6"/>
+            <circle cx="280" cy="22" r="1.5" fill="white" opacity=".7"/>
+            <circle cx="320" cy="40" r="1" fill="#f0c040" opacity=".6"/>
+            <circle cx="165" cy="14" r="1" fill="white" opacity=".5"/>
+
+            <!-- Egypt Pyramids and Sphinx background -->
+            <polygon points="0,195 60,125 120,195" fill="#2a1808" opacity=".8"/>
+            <polygon points="130,195 205,105 280,195" fill="#1a1008" opacity=".85"/>
+            <!-- Sphinx shape -->
+            <g transform="translate(290,185)" opacity=".6">
+                <ellipse cx="0" cy="-5" rx="25" ry="15" fill="#2a1808"/>
+                <circle cx="-15" cy="-18" r="12" fill="#2a1808"/>
+                <!-- nemes headdress hint -->
+                <path d="M-24,-12 Q-28,-5 -26,10" stroke="#2a1808" stroke-width="6" fill="none"
+                      stroke-linecap="round"/>
+                <path d="M-6,-12 Q-2,-5 -4,10" stroke="#2a1808" stroke-width="6" fill="none"
+                      stroke-linecap="round"/>
+            </g>
+
+            <!-- Ground / sand -->
+            <rect x="0" y="200" width="340" height="55" fill="#3a2808"/>
+
+            <!-- PRISON CELL — left side -->
+            <g transform="translate(90,135)">
+                <!-- stone wall -->
+                <rect x="-55" y="-65" width="110" height="115" fill="#2a1010" rx="3"/>
+                <rect x="-50" y="-60" width="100" height="105" fill="#1a0808" rx="2"/>
+                <!-- iron bars vertical -->
+                <line x1="-20" y1="-60" x2="-20" y2="45" stroke="#3a3a3a" stroke-width="5"/>
+                <line x1="0" y1="-60" x2="0" y2="45" stroke="#3a3a3a" stroke-width="5"/>
+                <line x1="20" y1="-60" x2="20" y2="45" stroke="#3a3a3a" stroke-width="5"/>
+                <!-- horizontal bar -->
+                <line x1="-50" y1="-10" x2="50" y2="-10" stroke="#3a3a3a" stroke-width="4"/>
+                <!-- small glimmer of light from high window -->
+                <line x1="0" y1="-60" x2="0" y2="-48" stroke="#f0c040" stroke-width="2"
+                      opacity=".3"/>
+                <circle cx="0" cy="-62" r="4" fill="#f0c040" opacity=".25"/>
+                <!-- Youssef praying inside cell -->
+                <g transform="translate(0,20)">
+                    <path d="M-12,5 Q-8,32 0,34 Q8,32 12,5 Z" fill="#1e6b3a"/>
+                    <!-- bowed in prayer (sujood) -->
+                    <circle cx="0" cy="-5" r="10" fill="#c8906a"/>
+                    <path d="M-8,-14 Q0,-28 8,-14 L10,-3 Q0,-1 -10,-3 Z" fill="#1a0804"/>
+                    <!-- hands on ground -->
+                    <line x1="-12" y1="8" x2="-24" y2="20" stroke="#1e6b3a" stroke-width="5"
+                          stroke-linecap="round"/>
+                    <line x1="12" y1="8" x2="24" y2="20" stroke="#1e6b3a" stroke-width="5"
+                          stroke-linecap="round"/>
+                    <!-- golden glow of prayer -->
+                    <circle cx="0" cy="-5" r="18" fill="#f0c040" opacity=".08"/>
+                    <line x1="0" y1="-22" x2="0" y2="-35" stroke="#f0c040" stroke-width="1.5"
+                          opacity=".4"/>
+                </g>
+            </g>
+
+            <!-- Palace of Egypt — right side opulent -->
+            <g transform="translate(245,120)">
+                <!-- palace walls -->
+                <rect x="-55" y="-60" width="110" height="115" fill="#3a2010" rx="3"/>
+                <!-- columns -->
+                <rect x="-40" y="-60" width="10" height="100" fill="#c8a04a" opacity=".6" rx="1"/>
+                <rect x="-10" y="-60" width="10" height="100" fill="#c8a04a" opacity=".6" rx="1"/>
+                <rect x="20" y="-60" width="10" height="100" fill="#c8a04a" opacity=".6" rx="1"/>
+                <!-- hieroglyphs hint -->
+                <rect x="-48" y="-50" width="6" height="80" fill="#f0c040" opacity=".1" rx="1"/>
+                <!-- ornate top -->
+                <rect x="-58" y="-65" width="116" height="10" fill="#c8a04a" opacity=".5" rx="2"/>
+                <!-- interior glow gold and purple -->
+                <rect x="-38" y="-55" width="76" height="110" fill="#3a1808" opacity=".5"/>
+                <ellipse cx="0" cy="10" rx="35" ry="50" fill="#f0c040" opacity=".06"/>
+                <!-- Youssef doing good as minister — small figure -->
+                <g transform="translate(0,30)">
+                    <path d="M-12,5 Q-8,35 0,38 Q8,35 12,5 Z" fill="#1e6b3a"/>
+                    <!-- colourful coat (faint — lost it by now) -->
+                    <line x1="12" y1="10" x2="30" y2="3" stroke="#1e6b3a" stroke-width="6"
+                          stroke-linecap="round"/>
+                    <line x1="-12" y1="10" x2="-26" y2="3" stroke="#1e6b3a" stroke-width="6"
+                          stroke-linecap="round"/>
+                    <circle cx="0" cy="-5" r="11" fill="#c8906a"/>
+                    <path d="M-8,-14 Q0,-30 8,-14 L10,-3 Q0,-1 -10,-3 Z" fill="#1a0804"/>
+                    <circle cx="-3.5" cy="-6" r="2" fill="#1a1a1a"/>
+                    <circle cx="3.5" cy="-6" r="2" fill="#1a1a1a"/>
+                    <path d="M-3,1 Q0,4 3,1" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+                </g>
+                <!-- scroll in hand -->
+                <g transform="translate(22,40)">
+                    <rect x="-4" y="-8" width="12" height="16" fill="#f5e6c8" rx="1" opacity=".8"/>
+                    <line x1="-2" y1="-4" x2="6" y2="-4" stroke="#8b5e20" stroke-width="1"/>
+                    <line x1="-2" y1="0" x2="6" y2="0" stroke="#8b5e20" stroke-width="1"/>
+                    <line x1="-2" y1="4" x2="6" y2="4" stroke="#8b5e20" stroke-width="1"/>
+                </g>
+            </g>
+
+            <!-- Dividing line between prison and palace (contrast) -->
+            <line x1="168" y1="70" x2="168" y2="215" stroke="#f0c040" stroke-width="1" opacity=".2"
+                  stroke-dasharray="4 4"/>
+            <text x="130" y="88" fill="#ff8888" opacity=".5" font-size="10" font-family="serif">
+                Prison
+            </text>
+            <text x="210" y="88" fill="#f0c040" opacity=".5" font-size="10" font-family="serif">
+                Palais
+            </text>
+        </svg>
+    </div>
+    <div class="story-text">
+        <h2 class="chapter-title">🏛️ De la Prison au Palais</h2>
+        <p>Des marchands trouvèrent Youssef dans le puits et l'emmenèrent en <strong>Égypte</strong>,
+            le pays des grandes pyramides. Il fut vendu comme esclave.</p>
+        <p>Des épreuves s'enchaînèrent — même la prison injuste — mais Youssef gardait toujours la
+            foi. En prison, Dieu lui donna un don extraordinaire : <strong>interpréter les
+                rêves</strong> !</p>
+        <div class="quote">« C'est Dieu seul qui m'enseigne le sens des rêves. Je vous
+            l'expliquerai. »
+        </div>
+        <p>Sa réputation grandit. Le <strong>Pharaon</strong> lui-même fit un rêve troublant que
+            personne ne pouvait expliquer. On appela Youssef… et il trouva la réponse ! 📜</p>
+    </div>
+</div>
+
+
+<!-- ══ CH 4 : Le ministre d'Égypte ══ -->
+<div class="chapter ch4">
+    <div class="ch-num">٤</div>
+    <div class="illustration">
+        <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="pharaohSky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#c8e8ff"/>
+                    <stop offset="100%" stop-color="#e8f8e0"/>
+                </linearGradient>
+                <radialGradient id="pharaohSun" cx="80%" cy="20%" r="40%">
+                    <stop offset="0%" stop-color="#fffbe6" stop-opacity=".7"/>
+                    <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+                <linearGradient id="grainGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#f0c040"/>
+                    <stop offset="100%" stop-color="#c8a020"/>
+                </linearGradient>
+            </defs>
+            <rect width="340" height="255" fill="url(#pharaohSky)"/>
+            <rect width="340" height="255" fill="url(#pharaohSun)"/>
+
+            <!-- Egyptian sun high -->
+            <circle cx="290" cy="40" r="30" fill="#f0c040" opacity=".85"/>
+            <circle cx="290" cy="40" r="22" fill="#ffe08a" opacity=".8"/>
+
+            <!-- Nile river -->
+            <path d="M0,180 Q85,165 170,180 Q255,195 340,180" fill="none" stroke="#4a9ede"
+                  stroke-width="8" opacity=".4"/>
+            <rect x="0" y="175" width="340" height="80" fill="#4a9ede" opacity=".15"/>
+
+            <!-- Ground fertile Egypt -->
+            <rect x="0" y="205" width="340" height="50" fill="#4a7a18"/>
+            <rect x="0" y="202" width="340" height="7" fill="#5a8a22" opacity=".6"/>
+
+            <!-- GRAIN SILOS (Youssef's plan for 7 years of famine) -->
+            <g opacity=".85">
+                <!-- silo 1 -->
+                <rect x="25" y="155" width="30" height="52" fill="#c8a04a" rx="3"/>
+                <ellipse cx="40" cy="155" rx="15" ry="7" fill="#d4b060"/>
+                <ellipse cx="40" cy="152" rx="12" ry="5" fill="#f0c040" opacity=".7"/>
+                <!-- silo 2 -->
+                <rect x="60" y="148" width="30" height="59" fill="#d4b060" rx="3"/>
+                <ellipse cx="75" cy="148" rx="15" ry="7" fill="#e0c040"/>
+                <ellipse cx="75" cy="145" rx="12" ry="5" fill="#f0c040" opacity=".7"/>
+                <!-- silo 3 smaller -->
+                <rect x="95" y="162" width="24" height="45" fill="#c8a04a" rx="3"/>
+                <ellipse cx="107" cy="162" rx="12" ry="5" fill="#d4b060"/>
+                <!-- grain spilling out -->
+                <path d="M25,207 Q40,200 55,207" fill="url(#grainGrad)" opacity=".6"/>
+                <path d="M60,207 Q75,200 90,207" fill="url(#grainGrad)" opacity=".6"/>
+                <!-- wheat stalks -->
+                <line x1="30" y1="205" x2="28" y2="178" stroke="#d4a017" stroke-width="2.5"/>
+                <ellipse cx="27" cy="175" rx="5" ry="8" fill="#f0c040" opacity=".8"/>
+                <line x1="48" y1="205" x2="50" y2="172" stroke="#d4a017" stroke-width="2.5"/>
+                <ellipse cx="51" cy="169" rx="5" ry="8" fill="#f0c040" opacity=".8"/>
+            </g>
+
+            <!-- PHARAOH on throne right side -->
+            <g transform="translate(240,160)">
+                <!-- throne -->
+                <rect x="-30" y="-30" width="60" height="75" fill="#c8a04a" rx="4"/>
+                <rect x="-26" y="-26" width="52" height="65" fill="#d4b060" rx="3"/>
+                <!-- armrests -->
+                <rect x="-38" y="-10" width="14" height="8" fill="#c8a04a" rx="2"/>
+                <rect x="24" y="-10" width="14" height="8" fill="#c8a04a" rx="2"/>
+                <!-- Pharaoh sitting -->
+                <path d="M-18,8 Q-14,40 0,42 Q14,40 18,8 Z" fill="#c0392b"/>
+                <!-- nemes headdress -->
+                <circle cx="0" cy="-12" r="13" fill="#d4a57a"/>
+                <path d="M-12,-22 Q0,-40 12,-22 L14,-5 Q0,-2 -14,-5 Z" fill="#f0c040"/>
+                <path d="M12,-18 Q20,-5 18,15" stroke="#f0c040" stroke-width="4" fill="none"
+                      stroke-linecap="round"/>
+                <path d="M-12,-18 Q-20,-5 -18,15" stroke="#f0c040" stroke-width="4" fill="none"
+                      stroke-linecap="round"/>
+                <!-- crook and flail -->
+                <line x1="14" y1="5" x2="28" y2="-8" stroke="#d4a017" stroke-width="3"
+                      stroke-linecap="round"/>
+                <line x1="-14" y1="5" x2="-25" y2="-5" stroke="#d4a017" stroke-width="3"
+                      stroke-linecap="round"/>
+                <!-- Pharaoh eyes -->
+                <circle cx="-4" cy="-13" r="2" fill="#1a1a1a"/>
+                <circle cx="4" cy="-13" r="2" fill="#1a1a1a"/>
+                <!-- kohl lines -->
+                <line x1="-8" y1="-13" x2="-4" y2="-13" stroke="#1a1a1a" stroke-width="1"/>
+                <line x1="4" y1="-13" x2="8" y2="-13" stroke="#1a1a1a" stroke-width="1"/>
+            </g>
+
+            <!-- YOUSSEF as minister bowing respectfully — colourful coat -->
+            <g transform="translate(160,182)">
+                <path d="M-14,5 Q-10,48 0,50 Q10,48 14,5 Z" fill="#1e6b3a"/>
+                <!-- minister's robe strips of colour -->
+                <path d="M-14,5 Q-12,28 -6,35 Q-12,18 -14,5 Z" fill="#e74c3c" opacity=".7"/>
+                <path d="M14,5 Q12,28 6,35 Q12,18 14,5 Z" fill="#3498db" opacity=".7"/>
+                <!-- bowing gesture hand touching ground -->
+                <line x1="-14" y1="10" x2="-32" y2="28" stroke="#1e6b3a" stroke-width="6"
+                      stroke-linecap="round"/>
+                <line x1="14" y1="10" x2="32" y2="5" stroke="#1e6b3a" stroke-width="6"
+                      stroke-linecap="round"/>
+                <!-- scroll of plans in hand -->
+                <rect x="26" y="2" width="16" height="8" fill="#f5e6c8" rx="1" opacity=".8"/>
+                <!-- head bowed respectfully -->
+                <circle cx="0" cy="-6" r="12" fill="#c8906a"/>
+                <path d="M-10,-16 Q0,-30 10,-16 L12,-4 Q0,-1 -12,-4 Z" fill="#1a0804"/>
+                <!-- minister's gold collar -->
+                <path d="M-12,-4 Q0,4 12,-4" stroke="#f0c040" stroke-width="3" fill="none"
+                      opacity=".8"/>
+                <circle cx="-3" cy="-7" r="1.8" fill="#1a1a1a"/>
+                <circle cx="3" cy="-7" r="1.8" fill="#1a1a1a"/>
+                <path d="M-2,1 Q0,4 2,1" stroke="#7a3a10" stroke-width="1.2" fill="none"/>
+            </g>
+
+            <!-- People bringing offerings of food -->
+            <g transform="translate(60,210)" opacity=".75">
+                <circle cx="0" cy="-18" r="7" fill="#d4a57a"/>
+                <rect x="-7" y="-12" width="14" height="14" fill="#8b4a10" rx="1"/>
+                <!-- basket on head -->
+                <ellipse cx="0" cy="-26" rx="9" ry="5" fill="#c8a04a"/>
+                <circle cx="0" cy="-28" r="3" fill="#f0c040" opacity=".6"/>
+                <circle cx="-3" cy="-19" r="1.5" fill="#1a1a1a"/>
+                <circle cx="3" cy="-19" r="1.5" fill="#1a1a1a"/>
+            </g>
+            <!-- Lotus flowers on Nile bank -->
+            <circle cx="160" cy="200" r="5" fill="#ff9999" opacity=".6"/>
+            <circle cx="180" cy="198" r="4" fill="#ff88cc" opacity=".5"/>
+            <circle cx="200" cy="201" r="5" fill="#ff9999" opacity=".6"/>
+        </svg>
+    </div>
+    <div class="story-text">
+        <h2 class="chapter-title">👑 Le Grand Ministre d'Égypte</h2>
+        <p>Youssef interpréta le rêve du Pharaon : <em>sept années d'abondance suivies de sept
+            années de famine</em>. Il proposa un plan brillant pour stocker le grain.</p>
+        <p>Le Pharaon, impressionné, le nomma <strong>Grand Ministre de toute l'Égypte</strong> !
+            Lui, l'ancien esclave, l'ancien prisonnier, devenait le deuxième homme le plus puissant
+            du pays.</p>
+        <div class="quote">« Nomme-moi gardien des greniers du pays. Je sais les gérer et je suis de
+            confiance. »
+        </div>
+        <p>Pendant sept ans, Youssef stocka le grain avec sagesse. Quand la famine arriva, l'Égypte
+            était prête et put nourrir tous les peuples alentour. 🌾</p>
+    </div>
+</div>
+
+
+<!-- ══ CH 5 : Les retrouvailles ══ -->
+<div class="chapter ch5">
+    <div class="ch-num">٥</div>
+    <div class="illustration">
+        <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="reunionSky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#ffecd2"/>
+                    <stop offset="60%" stop-color="#f5e6c0"/>
+                    <stop offset="100%" stop-color="#e8d590"/>
+                </linearGradient>
+                <radialGradient id="reunionGlow" cx="50%" cy="45%" r="55%">
+                    <stop offset="0%" stop-color="#fffbe6" stop-opacity=".7"/>
+                    <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+                <linearGradient id="reunionCoat" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#e74c3c"/>
+                    <stop offset="25%" stop-color="#f1c40f"/>
+                    <stop offset="50%" stop-color="#2ecc71"/>
+                    <stop offset="75%" stop-color="#3498db"/>
+                    <stop offset="100%" stop-color="#9b59b6"/>
+                </linearGradient>
+            </defs>
+            <rect width="340" height="255" fill="url(#reunionSky)"/>
+            <rect width="340" height="255" fill="url(#reunionGlow)"/>
+
+            <!-- Warm sun -->
+            <circle cx="60" cy="45" r="32" fill="#f0c040" opacity=".8"/>
+            <circle cx="60" cy="45" r="24" fill="#ffe08a" opacity=".8"/>
+            <!-- gentle rays -->
+            <g opacity=".2">
+                <line x1="60" y1="10" x2="60" y2="0" stroke="#f0c040" stroke-width="2.5"/>
+                <line x1="84" y1="20" x2="92" y2="12" stroke="#f0c040" stroke-width="2"/>
+                <line x1="92" y1="45" x2="104" y2="45" stroke="#f0c040" stroke-width="2"/>
+                <line x1="84" y1="70" x2="92" y2="78" stroke="#f0c040" stroke-width="2"/>
+                <line x1="36" y1="20" x2="28" y2="12" stroke="#f0c040" stroke-width="2"/>
+            </g>
+
+            <!-- Fluffy clouds -->
+            <ellipse cx="220" cy="38" rx="52" ry="22" fill="white" opacity=".7"/>
+            <ellipse cx="238" cy="26" rx="38" ry="18" fill="white" opacity=".8"/>
+            <ellipse cx="310" cy="50" rx="35" ry="16" fill="white" opacity=".65"/>
+
+            <!-- Egypt palace grand archway -->
+            <g transform="translate(170,115)">
+                <!-- arch columns -->
+                <rect x="-100" y="-60" width="25" height="130" fill="#c8a04a" opacity=".7" rx="3"/>
+                <rect x="75" y="-60" width="25" height="130" fill="#c8a04a" opacity=".7" rx="3"/>
+                <!-- arch top -->
+                <path d="M-100,-60 Q-100,-100 0,-110 Q100,-100 100,-60" fill="#d4b060"
+                      opacity=".6"/>
+                <!-- ornate top lintel -->
+                <rect x="-102" y="-64" width="204" height="10" fill="#f0c040" opacity=".5" rx="2"/>
+                <!-- Egyptian relief carvings hint -->
+                <rect x="-85" y="-55" width="8" height="120" fill="#f0c040" opacity=".08" rx="1"/>
+                <rect x="77" y="-55" width="8" height="120" fill="#f0c040" opacity=".08" rx="1"/>
+            </g>
+
+            <!-- Ground ornate tiles -->
+            <rect x="0" y="215" width="340" height="40" fill="#c8a04a" opacity=".6"/>
+            <rect x="0" y="212" width="340" height="7" fill="#d4b060" opacity=".5"/>
+            <!-- tile pattern -->
+            <g stroke="#b89040" stroke-width=".8" opacity=".3">
+                <line x1="0" y1="215" x2="340" y2="215"/>
+                <line x1="40" y1="215" x2="40" y2="255"/>
+                <line x1="80" y1="215" x2="80" y2="255"/>
+                <line x1="120" y1="215" x2="120" y2="255"/>
+                <line x1="160" y1="215" x2="160" y2="255"/>
+                <line x1="200" y1="215" x2="200" y2="255"/>
+                <line x1="240" y1="215" x2="240" y2="255"/>
+                <line x1="280" y1="215" x2="280" y2="255"/>
+                <line x1="320" y1="215" x2="320" y2="255"/>
+            </g>
+
+            <!-- THE EMOTIONAL REUNION — Youssef embracing his father Ya'qoub -->
+            <!-- Youssef (left) arms wide open — minister robes colourful -->
+            <g transform="translate(130,178)">
+                <path d="M-20,8 Q-16,55 0,58 Q16,55 20,8 Z" fill="url(#reunionCoat)"/>
+                <!-- arms wide open in embrace -->
+                <line x1="-20" y1="14" x2="-55" y2="5" stroke="url(#reunionCoat)" stroke-width="9"
+                      stroke-linecap="round"/>
+                <line x1="20" y1="14" x2="55" y2="5" stroke="url(#reunionCoat)" stroke-width="9"
+                      stroke-linecap="round"/>
+                <!-- gold minister collar -->
+                <path d="M-15,-5 Q0,5 15,-5" stroke="#f0c040" stroke-width="3" fill="none"
+                      opacity=".8"/>
+                <!-- head -->
+                <circle cx="0" cy="-10" r="15" fill="#c8906a"/>
+                <path d="M-12,-22 Q0,-38 12,-22 L14,-7 Q0,-4 -14,-7 Z" fill="#1a0804"/>
+                <!-- tears of joy — visible -->
+                <ellipse cx="-6" cy="-5" rx="1.5" ry="2.5" fill="#87ceeb" opacity=".7"/>
+                <ellipse cx="4" cy="-5" rx="1.5" ry="2.5" fill="#87ceeb" opacity=".7"/>
+                <!-- huge smile -->
+                <path d="M-6,0 Q0,6 6,0" stroke="#7a3a10" stroke-width="2" fill="none"/>
+                <!-- shining eyes -->
+                <circle cx="-4.5" cy="-11" r="2.5" fill="#1a1a1a"/>
+                <circle cx="4.5" cy="-11" r="2.5" fill="#1a1a1a"/>
+                <circle cx="-3.5" cy="-12" r="1" fill="white" opacity=".6"/>
+                <circle cx="5.5" cy="-12" r="1" fill="white" opacity=".6"/>
+            </g>
+
+            <!-- Father Ya'qoub (right) — old, white beard, weeping with joy -->
+            <g transform="translate(210,182)">
+                <path d="M-15,6 Q-10,48 0,50 Q10,48 15,6 Z" fill="#8b5e3c"/>
+                <!-- arm reaching to embrace -->
+                <line x1="-15" y1="10" x2="-42" y2="2" stroke="#8b5e3c" stroke-width="7"
+                      stroke-linecap="round"/>
+                <line x1="15" y1="10" x2="28" y2="5" stroke="#8b5e3c" stroke-width="7"
+                      stroke-linecap="round"/>
+                <!-- head old man -->
+                <circle cx="0" cy="-8" r="13" fill="#c8906a"/>
+                <!-- long white hair and beard -->
+                <path d="M-10,-18 Q0,-34 10,-18 L12,-5 Q0,-2 -12,-5 Z" fill="#f0f0f0" opacity=".9"/>
+                <path d="M-8,-2 Q-10,14 -4,20 Q0,24 4,20 Q10,14 8,-2" fill="#f0f0f0" opacity=".85"/>
+                <!-- wrinkles hint -->
+                <path d="M-7,-10 Q-5,-8 -3,-10" stroke="#b8906a" stroke-width=".8" fill="none"
+                      opacity=".5"/>
+                <path d="M3,-10 Q5,-8 7,-10" stroke="#b8906a" stroke-width=".8" fill="none"
+                      opacity=".5"/>
+                <!-- eyes full of tears -->
+                <circle cx="-3.5" cy="-9" r="2" fill="#1a1a1a"/>
+                <circle cx="3.5" cy="-9" r="2" fill="#1a1a1a"/>
+                <ellipse cx="-4" cy="-5" rx="1.5" ry="2" fill="#87ceeb" opacity=".8"/>
+                <ellipse cx="3" cy="-5" rx="1.5" ry="2" fill="#87ceeb" opacity=".8"/>
+                <!-- overjoyed smile -->
+                <path d="M-4,0 Q0,4 4,0" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+            </g>
+
+            <!-- Brothers watching humbly (bowing) -->
+            <g transform="translate(55,212)" opacity=".8">
+                <circle cx="0" cy="-14" r="6" fill="#d4a57a"/>
+                <rect x="-6" y="-9" width="12" height="12" fill="#c0392b" rx="1" opacity=".7"/>
+                <!-- bowing down to ground -->
+                <path d="M-6,-4 Q-12,4 -16,14" stroke="#c0392b" stroke-width="5"
+                      stroke-linecap="round" fill="none"/>
+                <circle cx="-2.5" cy="-15" r="1.5" fill="#1a1a1a" opacity=".7"/>
+                <circle cx="2.5" cy="-15" r="1.5" fill="#1a1a1a" opacity=".7"/>
+            </g>
+            <g transform="translate(85,215)" opacity=".75">
+                <circle cx="0" cy="-13" r="5.5" fill="#c8906a"/>
+                <rect x="-5" y="-8" width="11" height="11" fill="#8b4a10" rx="1" opacity=".7"/>
+                <path d="M-5,-3 Q-10,5 -14,14" stroke="#8b4a10" stroke-width="4"
+                      stroke-linecap="round" fill="none"/>
+                <circle cx="-2" cy="-14" r="1.5" fill="#1a1a1a" opacity=".7"/>
+                <circle cx="2" cy="-14" r="1.5" fill="#1a1a1a" opacity=".7"/>
+            </g>
+
+            <!-- Golden sparkles of joy around reunion -->
+            <circle cx="168" cy="155" r="3" fill="#f0c040" opacity=".8"/>
+            <circle cx="145" cy="140" r="2" fill="#f0c040" opacity=".6"/>
+            <circle cx="195" cy="145" r="2.5" fill="#f0c040" opacity=".7"/>
+            <circle cx="172" cy="125" r="2" fill="#f0c040" opacity=".6"/>
+            <circle cx="158" cy="130" r="1.5" fill="#f0c040" opacity=".5"/>
+            <circle cx="185" cy="128" r="1.5" fill="#f0c040" opacity=".5"/>
+
+            <!-- Dream of 11 stars fulfilled subtly in sky -->
+            <g opacity=".3">
+                <circle cx="110" cy="30" r="2.5" fill="#f0c040"/>
+                <circle cx="140" cy="18" r="2" fill="#f0c040"/>
+                <circle cx="170" cy="15" r="2.5" fill="#f0c040"/>
+                <circle cx="200" cy="18" r="2" fill="#f0c040"/>
+                <circle cx="165" cy="32" r="1.5" fill="#ffe08a"/>
+                <circle cx="115" cy="42" r="4" fill="#ffe08a" opacity=".7"/><!-- sun -->
+                <circle cx="218" cy="35" r="3.5" fill="white" opacity=".6"/><!-- moon -->
+                <circle cx="225" cy="30" r="2.8" fill="#060a12"/><!-- moon crescent -->
+            </g>
+        </svg>
+    </div>
+    <div class="story-text">
+        <h2 class="chapter-title">🤗 Les Retrouvailles et le Pardon</h2>
+        <p>La famine frappa tous les pays. Les frères de Youssef vinrent en Égypte chercher du
+            grain, sans savoir qu'ils se retrouvaient devant leur propre frère !</p>
+        <p>Youssef les reconnut immédiatement. Il aurait pu se venger. Mais son cœur était pur et
+            grand. Il se révéla à eux en pleurant de joie :</p>
+        <div class="quote">« Je suis Youssef, votre frère ! Ne soyez pas tristes. Dieu avait tout
+            prévu. »
+        </div>
+        <p>Son vieux père <strong>Ya'qoub</strong> vint le rejoindre. Le rêve des onze étoiles
+            s'était accompli : toute la famille s'inclina devant lui, non par soumission, mais par
+            <strong>amour et gratitude</strong>. 💛✨</p>
+    </div>
+</div>
+
+
+<!-- ══ ENDING ══ -->
+<div class="ending">
+    <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.05;pointer-events:none"
+         viewBox="0 0 400 300">
+        <defs>
+            <pattern id="starPat" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+                <polygon points="30,4 34,22 52,22 38,32 44,50 30,40 16,50 22,32 8,22 26,22"
+                         fill="none" stroke="#f0c040" stroke-width=".8"/>
+            </pattern>
+        </defs>
+        <rect width="400" height="300" fill="url(#starPat)"/>
+    </svg>
+
+    <div style="font-size:2.5rem;margin-bottom:16px">🌟</div>
+    <h2>✨ Fin ✨</h2>
+    <p>Et voilà l'histoire de Youssef,<br>
+        le prophète aux rêves d'or et au cœur sans rancune.<br><br>
+        Du fond d'un puits jusqu'au trône d'Égypte,<br>
+        il nous apprend que <em>les épreuves ne sont jamais la fin de l'histoire.</em><br><br>
+        Dieu n'oublie jamais ceux qui gardent foi en Lui,<br>
+        et que <strong>pardonner est la plus grande force qui soit.</strong> 💛⭐<br><br>
+        <em>« Aucune âme patiente ne sera jamais perdue. »</em></p>
+    <div class="end-star">✦</div>
+</div>
+
+<script>
+    // Stars on cover
+    const cover = document.getElementById('starsCover');
+    for (let i = 0; i < 70; i++) {
+      const s = document.createElement('div');
+      s.className = 'star-dot';
+      const sz = Math.random() * 2.5 + .6;
+      s.style.cssText = `
+        left:${Math.random()*100}%;
+        top:${Math.random()*55}%;
+        width:${sz}px; height:${sz}px;
+        animation-delay:${Math.random()*4}s;
+        animation-duration:${1.5+Math.random()*2.5}s;
+      `;
+      cover.appendChild(s);
+    }
+
+    // Golden shimmer particles
+    const shimC = document.getElementById('shimmerContainer');
+    shimC.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;';
+    function makeShimmer() {
+      const p = document.createElement('div');
+      p.className = 'shimmer';
+      const sz = Math.random() * 3 + 1;
+      p.style.cssText = `
+        width:${sz}px; height:${sz}px;
+        left:${Math.random()*100}%;
+        top:${60+Math.random()*40}%;
+        animation-duration:${3+Math.random()*4}s;
+        animation-delay:${Math.random()*3}s;
+      `;
+      shimC.appendChild(p);
+      p.addEventListener('animationend', () => p.remove());
+    }
+    for(let i=0;i<20;i++) makeShimmer();
+    setInterval(makeShimmer, 300);
+
+    // Scroll reveal
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold:.1 }
+    );
+    document.querySelectorAll('.chapter,.ending').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
