@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ibrahim – Le Père des Prophètes</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fire:       #e74c3c;
+    --fire-gold:  #f0c040;
+    --deep-night: #060a12;
+    --desert:     #c8a04a;
+    --sand:       #e8d090;
+    --gold:       #c9960c;
+    --gold-light: #f0c040;
+    --kaaba-dark: #0d0d0d;
+    --emerald:    #1a6b4a;
+    --sky-blue:   #2a6b9a;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--deep-night);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    color: #e8dcc8;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(160deg,#060a12 0%,#1a0808 35%,#3a1005 65%,#c8601a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px 80px;
+  }
+
+  /* fire embers rising */
+  .ember {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--fire-gold);
+    pointer-events: none;
+    animation: riseEmber linear infinite;
+    opacity: 0;
+  }
+  @keyframes riseEmber {
+    0%   { transform:translateY(0) scale(1);     opacity:.9; }
+    60%  { opacity:.6; }
+    100% { transform:translateY(-100vh) scale(.3); opacity:0; }
+  }
+
+  .cover-stars { position:absolute; inset:0; pointer-events:none; }
+  .star-dot {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: tw 2.5s infinite alternate;
+  }
+  @keyframes tw {
+    from { opacity:.15; transform:scale(1); }
+    to   { opacity:.9;  transform:scale(1.7); }
+  }
+
+  .cover-scene {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 28px;
+    animation: floatY 5s ease-in-out infinite;
+  }
+  @keyframes floatY {
+    0%,100%{transform:translateY(0);}
+    50%    {transform:translateY(-12px);}
+  }
+
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem,9vw,5rem);
+    color: var(--gold-light);
+    text-align: center;
+    letter-spacing: 3px;
+    line-height: 1.1;
+    text-shadow: 0 2px 30px rgba(230,100,30,.7), 0 0 60px rgba(240,192,64,.25);
+  }
+  .cover .subtitle-ar {
+    font-size: 1.4rem;
+    color: rgba(240,192,64,.45);
+    margin-top: 8px;
+    letter-spacing: 6px;
+    font-family: serif;
+  }
+  .cover .subtitle {
+    color: rgba(240,220,180,.45);
+    font-size: .95rem;
+    margin-top: 12px;
+    font-style: italic;
+    letter-spacing: 2px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    color: rgba(240,180,100,.4);
+    font-size: .8rem;
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);}
+  }
+
+  .cover-fade {
+    position:absolute; bottom:0; left:0; right:0;
+    height: 100px;
+    background: linear-gradient(transparent,#060a12);
+    pointer-events: none;
+  }
+
+  /* ── CHAPTERS ── */
+  .chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 24px 60px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .chapter.visible { opacity:1; transform:translateY(0); }
+
+  .ch1 { background: linear-gradient(155deg,#0a0a1e 0%,#1a1230 55%,#2a1a50 100%); }
+  .ch2 { background: linear-gradient(155deg,#1a0400 0%,#3a0800 50%,#5a1000 100%); }
+  .ch3 { background: linear-gradient(155deg,#f5e6c0 0%,#e8d5a0 50%,#d4c080 100%); }
+  .ch4 { background: linear-gradient(155deg,#060a12 0%,#0d1e2e 50%,#1a3040 100%); }
+  .ch5 { background: linear-gradient(155deg,#1a0e06 0%,#2a1a08 50%,#c8a04a 100%); }
+
+  .ch-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9rem;
+    font-weight: 700;
+    position: absolute;
+    top: 0; right: 20px;
+    line-height: 1;
+    pointer-events: none;
+    opacity: .05;
+  }
+  .ch1 .ch-num { color:#d4a0ff; }
+  .ch2 .ch-num { color:#ff8844; }
+  .ch3 .ch-num { color:#5c3a1a; }
+  .ch4 .ch-num { color:#c8f0ff; }
+  .ch5 .ch-num { color:#f0c040; }
+
+  .illustration {
+    width: min(340px,92vw);
+    height: min(255px,69vw);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 60px rgba(0,0,0,.55);
+    margin-bottom: 36px;
+    flex-shrink: 0;
+    position: relative; z-index:1;
+    border: 3px solid rgba(200,160,74,.3);
+  }
+  .illustration svg { width:100%; height:100%; display:block; }
+
+  .chapter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem,5vw,2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative; z-index:1;
+  }
+  .story-text {
+    max-width: 490px;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    position: relative; z-index:1;
+  }
+  .story-text p { margin-bottom:14px; }
+  .quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    padding: 14px 22px;
+    border-radius: 14px;
+    margin: 18px 0;
+    display: inline-block;
+    border-left: 4px solid currentColor;
+  }
+
+  .ch1 .chapter-title { color:#d4a0ff; }
+  .ch1 .story-text    { color:#c0b0e0; }
+  .ch1 .quote         { background:rgba(180,130,255,.1); color:#d4a0ff; }
+
+  .ch2 .chapter-title { color:#f0c040; }
+  .ch2 .story-text    { color:#f0e0c8; }
+  .ch2 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+  .ch3 .chapter-title { color:#5c3a1a; }
+  .ch3 .story-text    { color:#3a2010; }
+  .ch3 .quote         { background:rgba(92,58,26,.1); color:#5c3a1a; }
+
+  .ch4 .chapter-title { color:#c8f0ff; }
+  .ch4 .story-text    { color:#f0ead8; }
+  .ch4 .quote         { background:rgba(200,240,255,.08); color:#c8f0ff; }
+
+  .ch5 .chapter-title { color:#f0c040; }
+  .ch5 .story-text    { color:#f0ead8; }
+  .ch5 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+  /* ── ENDING ── */
+  .ending {
+    background: linear-gradient(160deg,#060a12 0%,#1a0e06 50%,#3a2808 100%);
+    padding: 90px 24px;
+    text-align: center;
+    color: white;
+    position: relative; overflow:hidden;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .ending.visible { opacity:1; transform:translateY(0); }
+  .ending h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+    letter-spacing: 2px;
+  }
+  .ending p {
+    font-size:1.1rem; max-width:520px;
+    margin:0 auto; opacity:.85; line-height:1.9;
+  }
+  .end-star {
+    font-size:2.5rem; margin-top:36px;
+    display:inline-block;
+    animation: spinSlow 12s linear infinite;
+    color: var(--gold-light);
+  }
+  @keyframes spinSlow {
+    from{transform:rotate(0deg);} to{transform:rotate(360deg);}
+  }
+
+  @media(min-width:720px){
+    .chapter{flex-direction:row!important;gap:52px;padding:90px 64px;}
+    .illustration{margin-bottom:0;}
+    .story-text{text-align:left;}
+    .chapter-title{text-align:left;}
+    .chapter:nth-child(even){flex-direction:row-reverse!important;}
+  }
+</style>
+</head>
+<body>
+
+<a href="../stories/index.html"
+   style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;background:rgba(30,107,58,0.15);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(30,107,58,0.3);color:#1e6b3a;text-decoration:none;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;transition:background 0.2s,transform 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.1);"
+   onmouseover="this.style.background='rgba(30,107,58,0.25)';this.style.transform='scale(1.05)'"
+   onmouseout="this.style.background='rgba(30,107,58,0.15)';this.style.transform='scale(1)'"
+   onfocus="this.style.background='rgba(30,107,58,0.25)';this.style.transform='scale(1.05)'"
+   onblur="this.style.background='rgba(30,107,58,0.15)';this.style.transform='scale(1)'">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M19 12H5M12 19l-7-7 7-7"/>
+  </svg>
+  Retour
+</a>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-stars" id="starsCover"></div>
+  <div id="emberContainer"></div>
+
+  <div class="cover-scene">
+    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="fireGlowCov" cx="50%" cy="65%" r="50%">
+          <stop offset="0%"   stop-color="#ff6600" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="starGlowCov" cx="50%" cy="30%" r="40%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="nightCov" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#060a12"/>
+          <stop offset="100%" stop-color="#1a0808"/>
+        </linearGradient>
+      </defs>
+
+      <!-- circle frame -->
+      <circle cx="150" cy="150" r="147" fill="#060a12" stroke="#c9960c" stroke-width="2"/>
+      <circle cx="150" cy="150" r="137" fill="none" stroke="#c9960c"
+              stroke-width=".5" stroke-dasharray="5 4" opacity=".4"/>
+      <clipPath id="covClip"><circle cx="150" cy="150" r="145"/></clipPath>
+
+      <!-- night sky -->
+      <rect width="300" height="300" fill="url(#nightCov)" clip-path="url(#covClip)"/>
+      <rect width="300" height="300" fill="url(#starGlowCov)" clip-path="url(#covClip)"/>
+
+      <!-- many stars — Ibrahim the star gazer -->
+      <g clip-path="url(#covClip)">
+        <circle cx="50"  cy="35"  r="2.5" fill="#f0c040" opacity=".9"/>
+        <circle cx="90"  cy="22"  r="2"   fill="white"   opacity=".8"/>
+        <circle cx="130" cy="38"  r="1.5" fill="white"   opacity=".7"/>
+        <circle cx="170" cy="18"  r="2"   fill="#f0c040" opacity=".85"/>
+        <circle cx="210" cy="32"  r="2.5" fill="white"   opacity=".9"/>
+        <circle cx="248" cy="20"  r="1.5" fill="#f0c040" opacity=".8"/>
+        <circle cx="70"  cy="58"  r="1.5" fill="white"   opacity=".6"/>
+        <circle cx="112" cy="60"  r="1"   fill="white"   opacity=".5"/>
+        <circle cx="195" cy="55"  r="1.5" fill="white"   opacity=".7"/>
+        <circle cx="232" cy="62"  r="1"   fill="#f0c040" opacity=".6"/>
+        <circle cx="38"  cy="78"  r="1"   fill="white"   opacity=".5"/>
+        <circle cx="268" cy="70"  r="1.5" fill="white"   opacity=".6"/>
+        <!-- big bright star (the one Ibrahim followed) -->
+        <circle cx="150" cy="40"  r="8"   fill="#f0c040" opacity=".95"/>
+        <circle cx="150" cy="40"  r="14"  fill="#f0c040" opacity=".2"/>
+        <circle cx="150" cy="40"  r="20"  fill="#f0c040" opacity=".08"/>
+        <g opacity=".5">
+          <line x1="150" y1="24"  x2="150" y2="10"  stroke="#f0c040" stroke-width="2"/>
+          <line x1="162" y1="28"  x2="172" y2="18"  stroke="#f0c040" stroke-width="1.5"/>
+          <line x1="138" y1="28"  x2="128" y2="18"  stroke="#f0c040" stroke-width="1.5"/>
+          <line x1="166" y1="40"  x2="180" y2="40"  stroke="#f0c040" stroke-width="1.5"/>
+          <line x1="134" y1="40"  x2="120" y2="40"  stroke="#f0c040" stroke-width="1.5"/>
+        </g>
+      </g>
+
+      <!-- desert hills silhouette -->
+      <polygon points="0,220 55,165 120,200 185,158 250,188 300,162 300,300 0,300"
+               fill="#2a1808" opacity=".85" clip-path="url(#covClip)"/>
+      <rect x="0" y="245" width="300" height="60" fill="#3a2008"
+            clip-path="url(#covClip)"/>
+
+      <!-- IBRAHIM figure — standing, looking at stars, arms raised -->
+      <g transform="translate(150,198)" clip-path="url(#covClip)">
+        <!-- divine glow around him -->
+        <circle cx="0" cy="-20" r="55" fill="#f0c040" opacity=".07"/>
+        <!-- robe -->
+        <path d="M-24,10 Q-20,72 0,76 Q20,72 24,10 Z" fill="#1e6b3a"/>
+        <!-- arms raised wide to sky — questioning the stars -->
+        <line x1="-24" y1="16" x2="-65" y2="-15" stroke="#1e6b3a" stroke-width="9" stroke-linecap="round"/>
+        <line x1="24"  y1="16" x2="65"  y2="-15" stroke="#1e6b3a" stroke-width="9" stroke-linecap="round"/>
+        <!-- head -->
+        <circle cx="0" cy="-12" r="18" fill="#c8906a"/>
+        <path d="M-14,-26 Q0,-46 14,-26 L16,-8 Q0,-5 -16,-8 Z" fill="#1a0804"/>
+        <!-- light halo subtle -->
+        <circle cx="0" cy="-12" r="24" fill="none" stroke="#f0c040" stroke-width="1" opacity=".3"/>
+        <!-- beard -->
+        <ellipse cx="0" cy="2" rx="10" ry="8" fill="#c8a080" opacity=".7"/>
+        <!-- eyes looking UP at stars -->
+        <circle cx="-5.5" cy="-14" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5.5"  cy="-14" r="2.5" fill="#1a1a1a"/>
+        <!-- eyebrows raised in wonder -->
+        <path d="M-9,-20 Q-5.5,-22 -2,-20" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M2,-20 Q5.5,-22 9,-20"   stroke="#5c3010" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- fire glow at base — fire he was thrown into -->
+      <g clip-path="url(#covClip)">
+        <ellipse cx="150" cy="270" rx="120" ry="35" fill="url(#fireGlowCov)"/>
+        <path d="M60,275 Q90,250 110,265 Q130,245 150,260 Q170,240 190,255 Q210,242 240,268"
+              fill="#ff4400" opacity=".4"/>
+        <path d="M70,275 Q95,255 115,268 Q138,250 158,264 Q178,248 198,260 Q220,250 245,270"
+              fill="#ff8800" opacity=".3"/>
+      </g>
+
+      <!-- Islamic geometric motif at bottom arc -->
+      <g clip-path="url(#covClip)" opacity=".25">
+        <path d="M20,290 Q150,270 280,290" fill="none" stroke="#c9960c" stroke-width="1.5"/>
+      </g>
+    </svg>
+  </div>
+
+  <h1>Ibrahim<br>
+  <span style="font-size:.55em;letter-spacing:5px;opacity:.9">Le Père des Prophètes</span></h1>
+  <p class="subtitle-ar">إبراهيم عليه السلام</p>
+  <p class="subtitle">L'ami de Dieu — Khalilullah</p>
+
+  <div class="scroll-hint">
+    <span>Fais défiler pour lire</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+  <div class="cover-fade"></div>
+</div>
+
+
+<!-- ══ CH 1 : La Quête de la Vérité ══ -->
+<div class="chapter ch1">
+  <div class="ch-num">١</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="questSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#04080f"/>
+          <stop offset="60%"  stop-color="#0d1428"/>
+          <stop offset="100%" stop-color="#1a1808"/>
+        </linearGradient>
+        <radialGradient id="questGlow" cx="50%" cy="35%" r="55%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".2"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#questSky)"/>
+      <rect width="340" height="255" fill="url(#questGlow)"/>
+
+      <!-- Milky way -->
+      <ellipse cx="170" cy="70" rx="220" ry="25" fill="white" opacity=".03"/>
+
+      <!-- MANY stars — Ibrahim gazing -->
+      <circle cx="28"  cy="18"  r="2"   fill="#f0c040" opacity=".9"/>
+      <circle cx="65"  cy="32"  r="1.5" fill="white"   opacity=".75"/>
+      <circle cx="105" cy="14"  r="2.5" fill="#f0c040" opacity=".95"/>
+      <circle cx="145" cy="28"  r="1.5" fill="white"   opacity=".8"/>
+      <circle cx="185" cy="12"  r="2"   fill="white"   opacity=".7"/>
+      <circle cx="225" cy="25"  r="2.5" fill="#f0c040" opacity=".85"/>
+      <circle cx="270" cy="16"  r="1.5" fill="white"   opacity=".8"/>
+      <circle cx="312" cy="34"  r="2"   fill="#f0c040" opacity=".75"/>
+      <circle cx="48"  cy="55"  r="1.5" fill="white"   opacity=".6"/>
+      <circle cx="88"  cy="48"  r="1"   fill="white"   opacity=".5"/>
+      <circle cx="155" cy="50"  r="1.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="200" cy="55"  r="1"   fill="white"   opacity=".6"/>
+      <circle cx="248" cy="45"  r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="295" cy="58"  r="1"   fill="#f0c040" opacity=".6"/>
+
+      <!-- Venus / bright star he thinks is God first -->
+      <circle cx="105" cy="14"  r="5"   fill="#fffbe6" opacity=".95"/>
+      <circle cx="105" cy="14"  r="9"   fill="#f0c040" opacity=".25"/>
+      <g opacity=".4">
+        <line x1="105" y1="4"  x2="105" y2="-2" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="114" y1="7"  x2="120" y2="2"  stroke="#f0c040" stroke-width="1"/>
+        <line x1="96"  y1="7"  x2="90"  y2="2"  stroke="#f0c040" stroke-width="1"/>
+      </g>
+      <!-- Moon rising -->
+      <circle cx="260" cy="48"  r="22"  fill="#ffe8a0" opacity=".85"/>
+      <circle cx="270" cy="40"  r="18"  fill="#0d1428"/>
+      <!-- Sun on horizon — about to set -->
+      <circle cx="290" cy="175" r="36"  fill="#f0c040" opacity=".7"/>
+      <circle cx="290" cy="175" r="28"  fill="#ffe08a" opacity=".7"/>
+      <!-- sun rays through horizon -->
+      <g opacity=".2">
+        <line x1="254" y1="160" x2="238" y2="150" stroke="#f0c040" stroke-width="2"/>
+        <line x1="258" y1="148" x2="248" y2="136" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="270" y1="140" x2="265" y2="128" stroke="#f0c040" stroke-width="1.5"/>
+      </g>
+
+      <!-- Desert landscape -->
+      <polygon points="0,195 50,158 110,178 175,148 240,168 300,140 340,158 340,255 0,255"
+               fill="#2a1808" opacity=".9"/>
+      <rect x="0" y="220" width="340" height="35" fill="#3a2008"/>
+
+      <!-- Stone idol (false god) that Ibrahim questions -->
+      <g transform="translate(105,185)">
+        <!-- pedestal -->
+        <rect x="-18" y="20" width="36" height="12" fill="#4a3818" rx="2"/>
+        <!-- idol statue rough shape -->
+        <rect x="-10" y="-20" width="20" height="42" fill="#3a2a18" rx="3"/>
+        <!-- head rough -->
+        <ellipse cx="0" cy="-24" rx="12" ry="10" fill="#4a3820"/>
+        <!-- "eyes" painted on -->
+        <circle cx="-4" cy="-26" r="2" fill="#c8a04a" opacity=".6"/>
+        <circle cx="4"  cy="-26" r="2" fill="#c8a04a" opacity=".6"/>
+        <!-- X mark — Ibrahim questioning it -->
+        <line x1="-14" y1="-14" x2="14" y2="14"  stroke="#e74c3c" stroke-width="2.5" opacity=".6"/>
+        <line x1="14"  y1="-14" x2="-14" y2="14" stroke="#e74c3c" stroke-width="2.5" opacity=".6"/>
+      </g>
+
+      <!-- Ibrahim standing, arms open questioning — looking at star, moon, sun -->
+      <g transform="translate(205,178)">
+        <path d="M-18,8 Q-14,60 0,64 Q14,60 18,8 Z" fill="#1e6b3a"/>
+        <!-- arm pointing to star (Venus) -->
+        <line x1="-18" y1="12" x2="-42" y2="-22" stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- other arm gesturing questioning -->
+        <line x1="18"  y1="12" x2="42"  y2="5"   stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- head -->
+        <circle cx="0" cy="-10" r="16" fill="#c8906a"/>
+        <path d="M-13,-23 Q0,-42 13,-23 L15,-7 Q0,-4 -15,-7 Z" fill="#1a0804"/>
+        <!-- beard -->
+        <ellipse cx="0" cy="2" rx="9" ry="7" fill="#c8a080" opacity=".7"/>
+        <!-- thoughtful eyes looking up-left at star -->
+        <circle cx="-5" cy="-12" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5"  cy="-12" r="2.5" fill="#1a1a1a"/>
+        <!-- eyebrows furrowed thinking -->
+        <path d="M-9,-18 Q-5,-20 -1,-18" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M1,-18 Q5,-20 9,-18"    stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <!-- mouth open — thinking aloud -->
+        <path d="M-4,-3 Q0,-1 4,-3" stroke="#7a3a10" stroke-width="1.2" fill="none"/>
+      </g>
+
+      <!-- question marks trail (visual) -->
+      <g fill="#f0c040" opacity=".15" font-family="serif" font-size="20">
+        <text x="155" y="140">?</text>
+        <text x="178" y="118">?</text>
+        <text x="200" y="100">?</text>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">⭐ La Quête de la Vérité</h2>
+    <p>Il y a très longtemps, dans la ville d'<strong>Our</strong> en Mésopotamie, naquit un enfant curieux et réfléchi : <strong>Ibrahim</strong>. Dès tout petit, il se posait des questions importantes.</p>
+    <p>Il regardait les statues que son peuple adorait et se disait : <em>« Ces pierres ne parlent pas, n'entendent pas… Ce ne peut pas être Dieu ! »</em></p>
+    <p>Alors il leva les yeux vers le ciel et chercha la vérité dans les étoiles, la lune, le soleil… Mais chacun se couchait et disparaissait.</p>
+    <div class="quote">« Je n'aime pas ceux qui se couchent. Mon Dieu à moi ne disparaît jamais ! »</div>
+    <p>Ibrahim comprit : Dieu est <strong>Un, Unique, Éternel</strong> — ni étoile, ni lune, ni soleil. Il est le Créateur de tout cela. 🌟</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 2 : Le Feu ══ -->
+<div class="chapter ch2">
+  <div class="ch-num">٢</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="fireCenter" cx="50%" cy="60%" r="55%">
+          <stop offset="0%"   stop-color="#ffcc00" stop-opacity=".9"/>
+          <stop offset="40%"  stop-color="#ff6600" stop-opacity=".7"/>
+          <stop offset="100%" stop-color="#1a0400" stop-opacity=".9"/>
+        </radialGradient>
+        <radialGradient id="fireGlow2" cx="50%" cy="55%" r="60%">
+          <stop offset="0%"   stop-color="#ff4400" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="fireSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a0400"/>
+          <stop offset="100%" stop-color="#3a0800"/>
+        </linearGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#fireSky)"/>
+      <rect width="340" height="255" fill="url(#fireGlow2)"/>
+
+      <!-- Smoke clouds above -->
+      <ellipse cx="100" cy="30" rx="80" ry="30" fill="#1a0808" opacity=".8"/>
+      <ellipse cx="120" cy="15" rx="60" ry="22" fill="#250a08" opacity=".8"/>
+      <ellipse cx="240" cy="35" rx="85" ry="32" fill="#1a0808" opacity=".8"/>
+      <ellipse cx="255" cy="18" rx="65" ry="24" fill="#250a08" opacity=".8"/>
+      <!-- smoke wisps -->
+      <path d="M100,30 Q110,10 120,-5" stroke="#2a1010" stroke-width="12" fill="none" stroke-linecap="round" opacity=".7"/>
+      <path d="M240,35 Q250,15 260,-5" stroke="#2a1010" stroke-width="12" fill="none" stroke-linecap="round" opacity=".7"/>
+      <path d="M170,40 Q175,20 180,5"  stroke="#2a1010" stroke-width="10" fill="none" stroke-linecap="round" opacity=".6"/>
+
+      <!-- THE GREAT FIRE PIT -->
+      <!-- outer glow -->
+      <ellipse cx="170" cy="185" rx="155" ry="70" fill="#ff4400" opacity=".15"/>
+      <ellipse cx="170" cy="190" rx="130" ry="55" fill="#ff6600" opacity=".12"/>
+      <!-- fire base -->
+      <ellipse cx="170" cy="200" rx="130" ry="40" fill="#3a0800"/>
+      <ellipse cx="170" cy="195" rx="125" ry="35" fill="#ff2200" opacity=".3"/>
+
+      <!-- FLAMES — many layers -->
+      <!-- outer flames -->
+      <path d="M40,200 Q55,155 70,175 Q80,140 95,160 Q105,125 120,150 Q130,115 145,138 Q155,100 170,125 Q185,100 195,138 Q210,115 220,150 Q235,125 245,160 Q260,140 270,175 Q285,155 300,200 Z"
+            fill="#cc2200" opacity=".9"/>
+      <!-- middle flames -->
+      <path d="M60,200 Q72,160 84,178 Q94,145 108,165 Q120,130 135,155 Q148,118 163,142 Q175,110 187,142 Q202,118 215,155 Q230,130 245,165 Q259,145 273,178 Q285,160 298,200 Z"
+            fill="#ee4400" opacity=".9"/>
+      <!-- bright inner flames -->
+      <path d="M80,200 Q92,162 105,180 Q118,148 130,168 Q142,135 155,158 Q162,120 170,148 Q178,120 185,158 Q198,135 210,168 Q222,148 234,180 Q247,162 260,200 Z"
+            fill="#ff6600" opacity=".95"/>
+      <!-- brightest core flames -->
+      <path d="M110,200 Q120,168 132,185 Q142,155 153,172 Q160,138 170,162 Q180,138 187,172 Q198,155 208,185 Q220,168 230,200 Z"
+            fill="#ff9900" opacity=".95"/>
+      <!-- white hot core -->
+      <path d="M135,200 Q142,172 150,188 Q158,158 165,178 Q168,150 170,168 Q172,150 175,178 Q182,158 190,188 Q198,172 205,200 Z"
+            fill="#ffcc00" opacity=".9"/>
+      <path d="M148,200 Q154,178 160,192 Q164,165 168,182 Q170,160 172,182 Q176,165 180,192 Q186,178 192,200 Z"
+            fill="#fffbe6" opacity=".7"/>
+
+      <!-- IBRAHIM standing IN the fire — calm and unharmed, glowing green -->
+      <g transform="translate(170,165)">
+        <!-- divine protection aura (cooler blue-green light) -->
+        <ellipse cx="0" cy="10" rx="35" ry="55" fill="#1e6b3a" opacity=".15"/>
+        <ellipse cx="0" cy="10" rx="28" ry="46" fill="#88ffcc" opacity=".08"/>
+        <!-- robe untouched -->
+        <path d="M-20,8 Q-16,60 0,64 Q16,60 20,8 Z" fill="#1e6b3a"/>
+        <!-- arms relaxed — peaceful, no fear -->
+        <line x1="-20" y1="14" x2="-40" y2="8"  stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <line x1="20"  y1="14" x2="40"  y2="8"  stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- head serene -->
+        <circle cx="0" cy="-10" r="16" fill="#c8906a"/>
+        <path d="M-13,-23 Q0,-40 13,-23 L15,-7 Q0,-4 -15,-7 Z" fill="#1a0804"/>
+        <!-- beard -->
+        <ellipse cx="0" cy="2" rx="9" ry="7" fill="#c8a080" opacity=".7"/>
+        <!-- eyes CLOSED in total serenity / prayer -->
+        <path d="M-7,-12 Q-4,-9 -1,-12" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M1,-12 Q4,-9 7,-12"    stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <!-- peaceful smile -->
+        <path d="M-5,-3 Q0,2 5,-3" stroke="#7a3a10" stroke-width="1.8" fill="none"/>
+        <!-- divine green cool light lines around him -->
+        <line x1="-28" y1="-15" x2="-42" y2="-28" stroke="#88ffcc" stroke-width="1" opacity=".5"/>
+        <line x1="28"  y1="-15" x2="42"  y2="-28" stroke="#88ffcc" stroke-width="1" opacity=".5"/>
+        <line x1="0"   y1="-28" x2="0"   y2="-45" stroke="#88ffcc" stroke-width="1.5" opacity=".6"/>
+      </g>
+
+      <!-- Crowd watching in shock — tiny silhouettes -->
+      <g transform="translate(20,210)" opacity=".6">
+        <circle cx="0"  cy="-16" r="7"  fill="#1a0808"/>
+        <path d="M-7,-9 Q0,8 7,-9 Z" fill="#0a0404"/>
+        <circle cx="22" cy="-14" r="6"  fill="#1a0808"/>
+        <path d="M15,-8 Q22,7 29,-8 Z" fill="#0a0404"/>
+        <circle cx="42" cy="-16" r="7"  fill="#1a0808"/>
+        <!-- arms raised in shock -->
+        <line x1="7" y1="-9" x2="16" y2="-22" stroke="#0a0404" stroke-width="4"/>
+      </g>
+      <g transform="translate(260,208)" opacity=".6">
+        <circle cx="0"  cy="-16" r="7"  fill="#1a0808"/>
+        <path d="M-7,-9 Q0,8 7,-9 Z" fill="#0a0404"/>
+        <circle cx="22" cy="-14" r="6"  fill="#1a0808"/>
+        <path d="M15,-8 Q22,7 29,-8 Z" fill="#0a0404"/>
+        <line x1="-7" y1="-9" x2="-16" y2="-22" stroke="#0a0404" stroke-width="4"/>
+      </g>
+
+      <!-- Embers floating up -->
+      <g fill="#f0c040" opacity=".6">
+        <circle cx="90"  cy="100" r="2.5"/>
+        <circle cx="140" cy="80"  r="2"/>
+        <circle cx="200" cy="90"  r="2.5"/>
+        <circle cx="250" cy="105" r="2"/>
+        <circle cx="120" cy="60"  r="1.5"/>
+        <circle cx="220" cy="65"  r="1.5"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🔥 Le Feu qui ne Brûle Pas</h2>
+    <p>Ibrahim défit les idoles de son peuple et leur dit clairement : <em>« Ces statues ne peuvent rien faire pour vous ! »</em> Il brisa même les idoles du grand temple !</p>
+    <p>Le roi <strong>Nemrod</strong>, furieux, ordonna qu'on allume le plus grand feu jamais vu et qu'on y jette Ibrahim. Les flammes montaient si haut qu'on ne pouvait s'en approcher.</p>
+    <div class="quote">« Ô feu, sois fraîcheur et paix pour Ibrahim ! »</div>
+    <p>Et le miracle se produisit : Ibrahim se tenait debout au milieu des flammes, <strong>calme, souriant, indemne</strong>. Le feu ne lui fit aucun mal. Dieu l'avait protégé. 🌿</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 3 : Les Hôtes Mystérieux ══ -->
+<div class="chapter ch3">
+  <div class="ch-num">٣</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="guestSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#87ceeb"/>
+          <stop offset="100%" stop-color="#ffecd2"/>
+        </linearGradient>
+        <radialGradient id="tentGlow" cx="50%" cy="55%" r="45%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#guestSky)"/>
+      <rect width="340" height="255" fill="url(#tentGlow)"/>
+
+      <!-- Warm afternoon sun -->
+      <circle cx="290" cy="50" r="32" fill="#f0c040" opacity=".85"/>
+      <circle cx="290" cy="50" r="24" fill="#ffe08a" opacity=".8"/>
+
+      <!-- Clouds -->
+      <ellipse cx="70"  cy="42" rx="52" ry="22" fill="white" opacity=".7"/>
+      <ellipse cx="88"  cy="30" rx="38" ry="18" fill="white" opacity=".8"/>
+
+      <!-- Desert ground -->
+      <rect x="0" y="195" width="340" height="60" fill="#c8a04a"/>
+      <rect x="0" y="192" width="340" height="8"  fill="#d4b060" opacity=".5"/>
+      <!-- Sand dunes -->
+      <path d="M0,195 Q85,182 170,195 Q255,208 340,195" fill="#d4b060" opacity=".4"/>
+
+      <!-- Ibrahim's tent — hospitable open to guests -->
+      <!-- tent fabric -->
+      <path d="M40,195 Q60,140 170,132 Q280,140 300,195 Z" fill="#8b5e3c" opacity=".8"/>
+      <path d="M50,195 Q68,146 170,138 Q272,146 290,195 Z" fill="#a07050" opacity=".7"/>
+      <!-- tent poles -->
+      <line x1="170" y1="132" x2="170" y2="195" stroke="#6b4020" stroke-width="5"/>
+      <line x1="80"  y1="155" x2="80"  y2="195" stroke="#6b4020" stroke-width="4"/>
+      <line x1="260" y1="155" x2="260" y2="195" stroke="#6b4020" stroke-width="4"/>
+      <!-- tent opening decorative fringe -->
+      <path d="M100,195 Q115,188 130,195 Q145,188 160,195 Q175,188 190,195 Q205,188 220,195 Q235,188 240,195"
+            fill="none" stroke="#d4a017" stroke-width="2" opacity=".7"/>
+
+      <!-- 3 ANGELS (guests) — glowing white figures seated inside -->
+      <!-- Angel 1 -->
+      <g transform="translate(125,170)">
+        <path d="M-12,6 Q-8,28 0,30 Q8,28 12,6 Z" fill="white" opacity=".9"/>
+        <circle cx="0" cy="-5" r="11" fill="#f0e8d0"/>
+        <!-- subtle glow halo -->
+        <circle cx="0" cy="-5" r="15" fill="white" opacity=".15"/>
+        <circle cx="0" cy="-5" r="15" fill="none" stroke="#f0c040" stroke-width="1" opacity=".4"/>
+        <!-- wings hint -->
+        <path d="M-12,2 Q-22,-8 -20,-18 Q-12,-8 -12,2 Z" fill="white" opacity=".5"/>
+        <path d="M12,2 Q22,-8 20,-18 Q12,-8 12,2 Z"  fill="white" opacity=".5"/>
+        <circle cx="-3.5" cy="-6" r="2" fill="#1a1a1a" opacity=".4"/>
+        <circle cx="3.5"  cy="-6" r="2" fill="#1a1a1a" opacity=".4"/>
+      </g>
+      <!-- Angel 2 -->
+      <g transform="translate(170,165)">
+        <path d="M-11,5 Q-7,26 0,28 Q7,26 11,5 Z" fill="white" opacity=".9"/>
+        <circle cx="0" cy="-5" r="10" fill="#f0e8d0"/>
+        <circle cx="0" cy="-5" r="14" fill="white" opacity=".15"/>
+        <circle cx="0" cy="-5" r="14" fill="none" stroke="#f0c040" stroke-width="1" opacity=".35"/>
+        <path d="M-11,1 Q-20,-8 -18,-17 Q-11,-8 -11,1 Z" fill="white" opacity=".5"/>
+        <path d="M11,1 Q20,-8 18,-17 Q11,-8 11,1 Z"  fill="white" opacity=".5"/>
+        <circle cx="-3" cy="-6" r="1.8" fill="#1a1a1a" opacity=".4"/>
+        <circle cx="3"  cy="-6" r="1.8" fill="#1a1a1a" opacity=".4"/>
+      </g>
+      <!-- Angel 3 -->
+      <g transform="translate(215,170)">
+        <path d="M-12,6 Q-8,28 0,30 Q8,28 12,6 Z" fill="white" opacity=".9"/>
+        <circle cx="0" cy="-5" r="11" fill="#f0e8d0"/>
+        <circle cx="0" cy="-5" r="15" fill="white" opacity=".15"/>
+        <circle cx="0" cy="-5" r="15" fill="none" stroke="#f0c040" stroke-width="1" opacity=".4"/>
+        <path d="M-12,2 Q-22,-8 -20,-18 Q-12,-8 -12,2 Z" fill="white" opacity=".5"/>
+        <path d="M12,2 Q22,-8 20,-18 Q12,-8 12,2 Z"  fill="white" opacity=".5"/>
+        <circle cx="-3.5" cy="-6" r="2" fill="#1a1a1a" opacity=".4"/>
+        <circle cx="3.5"  cy="-6" r="2" fill="#1a1a1a" opacity=".4"/>
+      </g>
+
+      <!-- Ibrahim running to welcome — very hospitable -->
+      <g transform="translate(65,180)">
+        <path d="M-14,5 Q-10,42 0,44 Q10,42 14,5 Z" fill="#1e6b3a"/>
+        <!-- running arms -->
+        <line x1="-14" y1="8"  x2="-28" y2="-8"  stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="14"  y1="8"  x2="32"  y2="2"   stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- head -->
+        <circle cx="0" cy="-8" r="13" fill="#c8906a"/>
+        <path d="M-10,-18 Q0,-32 10,-18 L12,-6 Q0,-3 -12,-6 Z" fill="#1a0804"/>
+        <!-- beard -->
+        <ellipse cx="0" cy="2" rx="8" ry="6" fill="#c8a080" opacity=".7"/>
+        <!-- big welcoming smile -->
+        <path d="M-5,0 Q0,5 5,0" stroke="#7a3a10" stroke-width="2" fill="none"/>
+        <circle cx="-3.5" cy="-9" r="2" fill="#1a1a1a"/>
+        <circle cx="3.5"  cy="-9" r="2" fill="#1a1a1a"/>
+        <!-- running leg motion -->
+        <line x1="-8" y1="42" x2="-14" y2="58" stroke="#1e6b3a" stroke-width="6" stroke-linecap="round"/>
+        <line x1="8"  y1="42" x2="14"  y2="56" stroke="#1e6b3a" stroke-width="6" stroke-linecap="round"/>
+      </g>
+
+      <!-- Roasted calf on platter (his generous offering) -->
+      <g transform="translate(310,190)">
+        <ellipse cx="0" cy="5" rx="22" ry="8" fill="#8b5e3c" opacity=".7"/>
+        <ellipse cx="0" cy="0" rx="18" ry="9" fill="#c8845a" opacity=".8"/>
+        <path d="M-14,-2 Q0,4 14,-2 Q10,-8 0,-10 Q-10,-8 -14,-2 Z" fill="#d4a060" opacity=".7"/>
+        <!-- steam -->
+        <path d="M0,-10 Q-4,-18 0,-24" stroke="white" stroke-width="1.5" fill="none" opacity=".4" stroke-linecap="round"/>
+        <path d="M6,-10 Q10,-18 6,-24"  stroke="white" stroke-width="1.5" fill="none" opacity=".4" stroke-linecap="round"/>
+      </g>
+
+      <!-- Flowering plants around tent -->
+      <circle cx="35"  cy="196" r="4" fill="#ff9999" opacity=".7"/>
+      <circle cx="318" cy="196" r="4" fill="#ff9999" opacity=".7"/>
+      <circle cx="22"  cy="198" r="3" fill="#f0c040" opacity=".6"/>
+      <circle cx="328" cy="198" r="3" fill="#f0c040" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">👼 Les Mystérieux Visiteurs</h2>
+    <p>Ibrahim vivait dans le désert avec sa femme <strong>Sarah</strong>. Il était connu pour sa générosité sans égale — il courrait accueillir les voyageurs et leur offrait le meilleur.</p>
+    <p>Un jour, trois beaux étrangers s'approchèrent de sa tente. Ibrahim courut les accueillir avec joie, prépara un veau rôti et les servit avec le sourire.</p>
+    <div class="quote">« Soyez les bienvenus ! Reposez-vous, mangez, vous êtes chez vous. »</div>
+    <p>Mais les visiteurs ne mangeaient pas… Ibrahim comprit qu'il s'agissait d'<strong>anges</strong> ! Ils lui apportaient une grande nouvelle : Sarah, même âgée, allait avoir un fils. Elle s'appellerait <strong>Ishaq</strong>. 🌿✨</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 4 : L'Épreuve d'Ismaïl ══ -->
+<div class="chapter ch4">
+  <div class="ch-num">٤</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sacrificeSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#060a12"/>
+          <stop offset="50%"  stop-color="#1a2030"/>
+          <stop offset="100%" stop-color="#2a2a08"/>
+        </linearGradient>
+        <radialGradient id="sacrificeGlow" cx="50%" cy="40%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#sacrificeSky)"/>
+      <rect width="340" height="255" fill="url(#sacrificeGlow)"/>
+
+      <!-- Stars -->
+      <circle cx="30"  cy="20"  r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="80"  cy="35"  r="1"   fill="white"   opacity=".6"/>
+      <circle cx="260" cy="18"  r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="310" cy="38"  r="1"   fill="#f0c040" opacity=".7"/>
+      <circle cx="150" cy="12"  r="1"   fill="white"   opacity=".5"/>
+
+      <!-- Mount Moriah / rocky hilltop -->
+      <polygon points="0,230 60,170 130,205 200,162 270,188 340,158 340,255 0,255"
+               fill="#2a2808" opacity=".9"/>
+      <polygon points="80,230 130,185 180,215 240,175 300,200 340,185 340,255 80,255"
+               fill="#3a3010"/>
+      <rect x="0" y="240" width="340" height="15" fill="#2a2808"/>
+
+      <!-- Rocks on hilltop -->
+      <ellipse cx="90"  cy="226" rx="30" ry="12" fill="#1a1808" opacity=".7"/>
+      <ellipse cx="250" cy="230" rx="28" ry="11" fill="#1a1808" opacity=".7"/>
+
+      <!-- DIVINE LIGHT breaking through clouds from above -->
+      <g opacity=".3">
+        <path d="M170,0 L100,180" stroke="#f0c040" stroke-width="25" stroke-linecap="round" opacity=".05"/>
+        <path d="M170,0 L160,185" stroke="#f0c040" stroke-width="15" stroke-linecap="round" opacity=".12"/>
+        <path d="M170,0 L170,185" stroke="#f0c040" stroke-width="8"  stroke-linecap="round" opacity=".2"/>
+        <path d="M170,0 L180,185" stroke="#f0c040" stroke-width="15" stroke-linecap="round" opacity=".12"/>
+        <path d="M170,0 L240,180" stroke="#f0c040" stroke-width="25" stroke-linecap="round" opacity=".05"/>
+      </g>
+
+      <!-- IBRAHIM kneeling — the great test -->
+      <g transform="translate(145,178)">
+        <!-- kneeling body -->
+        <path d="M-16,5 Q-12,38 0,40 Q12,38 16,5 Z" fill="#1e6b3a"/>
+        <!-- kneeling legs -->
+        <path d="M-12,38 Q-16,52 -8,56"  stroke="#1e6b3a" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <path d="M12,38 Q16,52 20,54"    stroke="#1e6b3a" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <!-- arm raised to sky — surrendering to God -->
+        <line x1="-16" y1="8"  x2="-40" y2="-20" stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <line x1="16"  y1="8"  x2="30"  y2="5"   stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- head bowed -->
+        <circle cx="0" cy="-8" r="14" fill="#c8906a"/>
+        <path d="M-11,-18 Q0,-34 11,-18 L13,-6 Q0,-3 -13,-6 Z" fill="#1a0804"/>
+        <!-- beard -->
+        <ellipse cx="0" cy="2" rx="8" ry="6" fill="#c8a080" opacity=".7"/>
+        <!-- eyes closed in surrender to God -->
+        <path d="M-6,-10 Q-3,-7 0,-10" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M0,-10 Q3,-7 6,-10"   stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <!-- tears on cheek -->
+        <ellipse cx="-5" cy="-5" rx="1.5" ry="2.5" fill="#87ceeb" opacity=".7"/>
+      </g>
+
+      <!-- ISMAÏL — kneeling humbly, head bowed, trusting his father & God -->
+      <g transform="translate(210,188)">
+        <path d="M-13,5 Q-9,34 0,36 Q9,34 13,5 Z" fill="#c9960c" opacity=".9"/>
+        <path d="M-10,34 Q-14,46 -6,50"  stroke="#c9960c" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <path d="M10,34 Q14,46 18,48"    stroke="#c9960c" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <!-- arm resting -->
+        <line x1="-13" y1="8" x2="-26" y2="4" stroke="#c9960c" stroke-width="6" stroke-linecap="round"/>
+        <line x1="13"  y1="8" x2="26"  y2="4" stroke="#c9960c" stroke-width="6" stroke-linecap="round"/>
+        <!-- head bowed in submission -->
+        <circle cx="0" cy="-7" r="12" fill="#d4a57a"/>
+        <path d="M-9,-16 Q0,-30 9,-16 L11,-5 Q0,-2 -11,-5 Z" fill="#1a0804"/>
+        <!-- peaceful expression -->
+        <path d="M-4,-9 Q-1,-6 2,-9" stroke="#5c3010" stroke-width="1.2" fill="none"/>
+        <path d="M2,-9 Q5,-6 8,-9"   stroke="#5c3010" stroke-width="1.2" fill="none"/>
+        <path d="M-3,-2 Q0,2 3,-2" stroke="#7a3a10" stroke-width="1.2" fill="none"/>
+      </g>
+
+      <!-- THE RAM appearing from divine light — the ransom -->
+      <g transform="translate(80,200)">
+        <!-- glow of divine gift -->
+        <circle cx="0" cy="-10" r="30" fill="#f0c040" opacity=".12"/>
+        <!-- ram body -->
+        <ellipse cx="0" cy="0" rx="28" ry="18" fill="#e8d8b0"/>
+        <!-- fluffy wool texture -->
+        <ellipse cx="-10" cy="-8"  rx="10" ry="8"  fill="#f0e8c8"/>
+        <ellipse cx="10"  cy="-10" rx="10" ry="8"  fill="#f0e8c8"/>
+        <ellipse cx="-5"  cy="-14" rx="8"  ry="6"  fill="#f5f0e0"/>
+        <!-- head -->
+        <ellipse cx="-22" cy="-5" rx="12" ry="10"  fill="#d4c090"/>
+        <!-- horns curved -->
+        <path d="M-28,-12 Q-40,-20 -35,-30 Q-28,-22 -22,-14" fill="#8b6020" stroke="none"/>
+        <path d="M-16,-14 Q-8,-26 -12,-34 Q-18,-26 -22,-14"  fill="#8b6020" stroke="none"/>
+        <!-- eye -->
+        <circle cx="-25" cy="-6" r="2.5" fill="#1a1a1a" opacity=".7"/>
+        <!-- legs -->
+        <line x1="-16" y1="16" x2="-18" y2="32" stroke="#c8a070" stroke-width="4" stroke-linecap="round"/>
+        <line x1="-4"  y1="18" x2="-4"  y2="34" stroke="#c8a070" stroke-width="4" stroke-linecap="round"/>
+        <line x1="8"   y1="18" x2="10"  y2="34" stroke="#c8a070" stroke-width="4" stroke-linecap="round"/>
+        <line x1="20"  y1="16" x2="24"  y2="32" stroke="#c8a070" stroke-width="4" stroke-linecap="round"/>
+        <!-- golden shimmer on ram — divine gift -->
+        <circle cx="0" cy="0" r="30" fill="#f0c040" opacity=".06"/>
+      </g>
+
+      <!-- Gold sparkles of divine mercy -->
+      <circle cx="170" cy="140" r="3"   fill="#f0c040" opacity=".8"/>
+      <circle cx="145" cy="125" r="2"   fill="#f0c040" opacity=".6"/>
+      <circle cx="198" cy="135" r="2.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="165" cy="110" r="2"   fill="#f0c040" opacity=".6"/>
+      <circle cx="180" cy="112" r="1.5" fill="#f0c040" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🐏 La Plus Grande Épreuve</h2>
+    <p>Ibrahim eut un fils bien-aimé : <strong>Ismaïl</strong>. Mais Dieu voulut éprouver la foi d'Ibrahim d'une façon extraordinaire : il lui demanda en rêve de sacrifier son fils.</p>
+    <p>Ibrahim, le cœur brisé mais la foi entière, parla à Ismaïl. Et Ismaïl répondit avec une sérénité stupéfiante :</p>
+    <div class="quote">« Père, fais ce que Dieu t'ordonne. Tu me trouveras patient, si Dieu le veut. »</div>
+    <p>Au moment suprême, Dieu arrêta Ibrahim et envoya un <strong>magnifique bélier</strong> du paradis à la place. C'était le vrai test : Dieu voulait voir leur foi, pas leur sacrifice. 🌟</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 5 : La Kaaba et l'Héritage ══ -->
+<div class="chapter ch5">
+  <div class="ch-num">٥</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="kaabaSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a0e06"/>
+          <stop offset="40%"  stop-color="#2a1a08"/>
+          <stop offset="100%" stop-color="#c8a04a"/>
+        </linearGradient>
+        <radialGradient id="kaabaGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="moonGlow2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".9"/>
+          <stop offset="100%" stop-color="#c9960c" stop-opacity=".4"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#kaabaSky)"/>
+      <rect width="340" height="255" fill="url(#kaabaGlow)"/>
+
+      <!-- stars night sky -->
+      <circle cx="25"  cy="18"  r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="65"  cy="32"  r="1"   fill="white"   opacity=".7"/>
+      <circle cx="110" cy="14"  r="2"   fill="white"   opacity=".8"/>
+      <circle cx="300" cy="22"  r="1.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="335" cy="40"  r="1"   fill="white"   opacity=".6"/>
+      <circle cx="200" cy="10"  r="1"   fill="white"   opacity=".5"/>
+
+      <!-- Crescent moon and star (Islam symbol) -->
+      <circle cx="285" cy="48" r="24"  fill="url(#moonGlow2)" opacity=".85"/>
+      <circle cx="295" cy="40" r="19"  fill="#1a0e06"/>
+      <polygon points="318,28 321,38 331,38 323,44 326,54 318,48 310,54 313,44 305,38 315,38"
+               fill="#f0c040" opacity=".9" transform="scale(.7) translate(164,10)"/>
+
+      <!-- Desert ground Mecca -->
+      <polygon points="0,198 50,162 110,185 180,155 250,175 310,152 340,168 340,255 0,255"
+               fill="#3a2808" opacity=".9"/>
+      <rect x="0" y="222" width="340" height="33" fill="#4a3010"/>
+
+      <!-- THE KAABA — the sacred cube -->
+      <g transform="translate(170,170)">
+        <!-- divine light pulsing around Kaaba -->
+        <rect x="-52" y="-72" width="104" height="90" rx="2" fill="#f0c040" opacity=".08"/>
+        <rect x="-54" y="-74" width="108" height="94" rx="3" fill="none" stroke="#f0c040" stroke-width="1.5" opacity=".3"/>
+        <!-- main cube black -->
+        <rect x="-48" y="-68" width="96" height="86" fill="#0a0a0a" rx="2"/>
+        <!-- gold kiswa band (fabric strip) -->
+        <rect x="-50" y="-30" width="100" height="12" fill="#c9960c" opacity=".9"/>
+        <!-- calligraphy on gold band -->
+        <rect x="-44" y="-28" width="88" height="8" fill="#c9960c" opacity=".7"/>
+        <g fill="#0a0a0a" opacity=".8">
+          <rect x="-40" y="-27" width="6" height="6" rx="1"/>
+          <rect x="-28" y="-27" width="6" height="6" rx="1"/>
+          <rect x="-16" y="-27" width="6" height="6" rx="1"/>
+          <rect x="-4"  y="-27" width="6" height="6" rx="1"/>
+          <rect x="8"   y="-27" width="6" height="6" rx="1"/>
+          <rect x="20"  y="-27" width="6" height="6" rx="1"/>
+          <rect x="32"  y="-27" width="6" height="6" rx="1"/>
+        </g>
+        <!-- door of Kaaba gold -->
+        <rect x="-14" y="-10" width="28" height="40" fill="#c9960c" rx="2" opacity=".9"/>
+        <rect x="-10" y="-7"  width="20" height="32" fill="#a07020" rx="1" opacity=".8"/>
+        <!-- door ornament -->
+        <rect x="-10" y="-7"  width="20" height="4" fill="#c9960c" opacity=".8"/>
+        <!-- Black Stone corner (Hajar al-Aswad) -->
+        <ellipse cx="-48" cy="0" rx="8" ry="10" fill="#1a1010"/>
+        <ellipse cx="-48" cy="0" rx="5" ry="7"  fill="#0a0808"/>
+        <ellipse cx="-48" cy="0" rx="3" ry="4"  fill="#1a0808" opacity=".8"/>
+        <!-- corner glow -->
+        <circle cx="-48" cy="0" r="12" fill="#f0c040" opacity=".1"/>
+        <!-- top of kaaba flat roof edge -->
+        <rect x="-52" y="-72" width="104" height="6" fill="#1a1a1a" rx="1"/>
+        <!-- gold top trim -->
+        <rect x="-50" y="-72" width="100" height="4" fill="#c9960c" opacity=".6" rx="1"/>
+      </g>
+
+      <!-- IBRAHIM and ISMAÏL building the Kaaba together -->
+      <!-- Ibrahim raising stone -->
+      <g transform="translate(90,192)">
+        <path d="M-14,5 Q-10,42 0,44 Q10,42 14,5 Z" fill="#1e6b3a"/>
+        <!-- lifting a stone above head -->
+        <line x1="-14" y1="8"  x2="-28" y2="-15" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="14"  y1="8"  x2="30"  y2="-12" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- stone block -->
+        <rect x="24" y="-20" width="22" height="12" fill="#5a3a18" rx="2"/>
+        <!-- head -->
+        <circle cx="0" cy="-8" r="13" fill="#c8906a"/>
+        <path d="M-10,-18 Q0,-32 10,-18 L12,-6 Q0,-3 -12,-6 Z" fill="#1a0804"/>
+        <!-- beard -->
+        <ellipse cx="0" cy="2" rx="8" ry="6" fill="#c8a080" opacity=".7"/>
+        <!-- eyes focused on work -->
+        <circle cx="-3.5" cy="-9" r="2" fill="#1a1a1a"/>
+        <circle cx="3.5"  cy="-9" r="2" fill="#1a1a1a"/>
+        <path d="M-3,-2 Q0,2 3,-2" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- Ismaïl passing stones -->
+      <g transform="translate(255,198)">
+        <path d="M-12,5 Q-8,36 0,38 Q8,36 12,5 Z" fill="#c9960c" opacity=".9"/>
+        <line x1="-12" y1="8"  x2="-28" y2="4"  stroke="#c9960c" stroke-width="6" stroke-linecap="round"/>
+        <line x1="12"  y1="8"  x2="25"  y2="2"  stroke="#c9960c" stroke-width="6" stroke-linecap="round"/>
+        <!-- stone in hand -->
+        <rect x="-34" y="1" width="18" height="10" fill="#5a3a18" rx="2"/>
+        <circle cx="0" cy="-7" r="11" fill="#d4a57a"/>
+        <path d="M-8,-16 Q0,-30 8,-16 L10,-5 Q0,-2 -10,-5 Z" fill="#1a0804"/>
+        <circle cx="-3" cy="-8" r="1.8" fill="#1a1a1a"/>
+        <circle cx="3"  cy="-8" r="1.8" fill="#1a1a1a"/>
+        <path d="M-2,-1 Q0,3 2,-1" stroke="#7a3a10" stroke-width="1.2" fill="none"/>
+      </g>
+
+      <!-- People circling the Kaaba (Tawaf) — tiny figures -->
+      <g opacity=".55">
+        <ellipse cx="170" cy="195" rx="80" ry="20" fill="none" stroke="#f0c040" stroke-width="1" stroke-dasharray="3 3"/>
+        <circle cx="170" cy="175" r="3"  fill="#c8906a"/>
+        <circle cx="220" cy="182" r="3"  fill="#d4a57a"/>
+        <circle cx="238" cy="195" r="2.5" fill="#c8906a"/>
+        <circle cx="220" cy="208" r="3"  fill="#d4a57a"/>
+        <circle cx="170" cy="215" r="3"  fill="#c8906a"/>
+        <circle cx="120" cy="208" r="2.5" fill="#d4a57a"/>
+        <circle cx="102" cy="195" r="3"  fill="#c8906a"/>
+        <circle cx="120" cy="182" r="2.5" fill="#d4a57a"/>
+      </g>
+
+      <!-- Gold sparkles floating around Kaaba -->
+      <circle cx="168" cy="100" r="2.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="140" cy="115" r="2"   fill="#f0c040" opacity=".6"/>
+      <circle cx="200" cy="110" r="2"   fill="#f0c040" opacity=".7"/>
+      <circle cx="172" cy="88"  r="1.5" fill="#f0c040" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🕋 La Kaaba — Maison de Dieu</h2>
+    <p>Ibrahim et son fils Ismaïl reçurent de Dieu la mission la plus sacrée : construire la <strong>Kaaba</strong>, la première maison de Dieu sur Terre, à La Mecque.</p>
+    <p>Père et fils travaillèrent côte à côte, pierre par pierre, en priant à chaque geste. Quand les murs furent élevés, Ibrahim leva les mains et dit :</p>
+    <div class="quote">« Seigneur, accepte de nous ce travail. Tu es Celui qui entend, Celui qui sait. »</div>
+    <p>Jusqu'à aujourd'hui, des millions de personnes tournent autour de la Kaaba et suivent l'exemple d'Ibrahim — <strong>l'ami de Dieu</strong>, père de tous les prophètes. 🕋💛</p>
+  </div>
+</div>
+
+
+<!-- ══ ENDING ══ -->
+<div class="ending">
+  <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.06;pointer-events:none"
+       viewBox="0 0 400 300">
+    <defs>
+      <pattern id="geoPat" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+        <polygon points="30,2 38,22 58,22 42,34 48,54 30,42 12,54 18,34 2,22 22,22"
+                 fill="none" stroke="#f0c040" stroke-width=".8"/>
+        <circle cx="30" cy="30" r="8" fill="none" stroke="#f0c040" stroke-width=".4"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="300" fill="url(#geoPat)"/>
+  </svg>
+
+  <div style="font-size:2.5rem;margin-bottom:16px">🕋</div>
+  <h2>✨ Fin ✨</h2>
+  <p>Et voilà l'histoire d'Ibrahim,<br>
+  le père de tous les prophètes, l'ami de Dieu.<br><br>
+  Il nous apprend à chercher la vérité même quand tout le monde dit le contraire,<br>
+  à faire confiance à Dieu même dans les épreuves les plus difficiles,<br>
+  et à accueillir les autres avec un cœur généreux.<br><br>
+  <em>Chaque fois qu'on dit son nom dans une prière,<br>
+  on salue cet homme extraordinaire. 🌟</em></p>
+  <div class="end-star">✦</div>
+</div>
+
+<script>
+  // Stars on cover
+  const cover = document.getElementById('starsCover');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const sz = Math.random() * 2.5 + .5;
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*55}%;
+      width:${sz}px; height:${sz}px;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${1.5+Math.random()*2.5}s;
+    `;
+    cover.appendChild(s);
+  }
+
+  // Fire embers rising from bottom
+  const emberC = document.getElementById('emberContainer');
+  emberC.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;';
+
+  function makeEmber() {
+    const e = document.createElement('div');
+    e.className = 'ember';
+    const sz = Math.random() * 4 + 2;
+    const colors = ['#f0c040','#ff8800','#ff4400','#ffcc00'];
+    e.style.cssText = `
+      width:${sz}px; height:${sz}px;
+      left:${Math.random()*100}%;
+      bottom:${Math.random()*25}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${3+Math.random()*5}s;
+      animation-delay:${Math.random()*4}s;
+    `;
+    emberC.appendChild(e);
+    e.addEventListener('animationend', () => e.remove());
+  }
+  for(let i=0;i<25;i++) makeEmber();
+  setInterval(makeEmber, 350);
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold:.1 }
+  );
+  document.querySelectorAll('.chapter,.ending').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
