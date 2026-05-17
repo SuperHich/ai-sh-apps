@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>رحلةُ نُورٍ إِلَى كَهْفِ الحِكْمَةِ - قصةٌ مُشَكَّلَةٌ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0f2e1c 0%, #1e4a2f 100%);
+            font-family: 'Amiri', 'Tajawal', 'Cairo', 'Traditional Arabic', 'Segoe UI', serif;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Tajawal:wght@400;500;700;800&display=swap');
+
+        .story-container {
+            max-width: 950px;
+            width: 100%;
+            margin: 0 auto;
+            background: #fffef5;
+            background-image: radial-gradient(circle at 10% 20%, rgba(245, 235, 180, 0.2) 2%, transparent 2.5%);
+            background-size: 28px 28px;
+            border-radius: 56px 56px 64px 64px;
+            box-shadow: 0 30px 45px rgba(0, 0, 0, 0.3), 0 0 0 12px #e9c891, 0 0 0 16px #b97f3a;
+            overflow: hidden;
+        }
+
+        .story-header {
+            background: #d9a13b;
+            padding: 2rem 2rem 1.5rem;
+            text-align: center;
+            border-bottom: 6px solid #f7d98c;
+        }
+
+        .story-header h1 {
+            font-size: 2.7rem;
+            font-family: 'Amiri', 'Tajawal', serif;
+            font-weight: 800;
+            color: #2c221b;
+            text-shadow: 3px 3px 0 #ffdf99;
+            letter-spacing: -0.2px;
+            margin-bottom: 0.5rem;
+            word-spacing: 4px;
+        }
+
+        .story-header p {
+            font-size: 1.2rem;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 600;
+            color: #2d2b26;
+            background: #fdf0cf;
+            display: inline-block;
+            padding: 0.3rem 1.5rem;
+            border-radius: 50px;
+            box-shadow: inset 0 -1px 0 #ccaa6e, 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .magic-decoration {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px 0 10px;
+            background: #fef6e4;
+        }
+
+        .star {
+            font-size: 2rem;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+        }
+
+        .story-content {
+            padding: 2rem 2rem 2rem;
+            line-height: 2.1;
+            font-size: 1.22rem;
+            font-family: 'Amiri', 'Tajawal', serif;
+            color: #2a241e;
+            font-weight: 500;
+        }
+
+        .story-content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            font-kerning: normal;
+            letter-spacing: 0.2px;
+        }
+
+        .story-content strong {
+            color: #b45f1b;
+            font-size: 1.28rem;
+            font-weight: 800;
+            font-family: 'Amiri', serif;
+        }
+
+        .story-content em {
+            font-style: italic;
+            color: #7a582f;
+            font-weight: 600;
+            background: #fff1cf;
+            padding: 0 4px;
+            border-radius: 12px;
+        }
+
+        .insight-box {
+            background: #e9dbc3;
+            border-right: 12px solid #c9812e;
+            padding: 1rem 1.8rem;
+            margin: 2rem 0;
+            border-radius: 50px 20px 50px 20px;
+            font-style: normal;
+            font-weight: bold;
+            font-family: 'Tajawal', 'Amiri', sans-serif;
+            font-size: 1.18rem;
+            color: #3c2a1f;
+            box-shadow: 0 8px 14px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .insight-box span {
+            font-size: 1.8rem;
+            margin-left: 10px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .moral {
+            background: #2e5a3b;
+            margin: 2rem 0 1rem;
+            padding: 1.5rem;
+            border-radius: 48px 24px 48px 24px;
+            color: #fdf4dc;
+            text-align: center;
+            font-family: 'Amiri', 'Tajawal', serif;
+            box-shadow: inset 0 0 0 2px #ffefb0, 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .moral h3 {
+            font-size: 1.9rem;
+            font-family: 'Amiri', serif;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            letter-spacing: 1px;
+        }
+
+        .moral p {
+            font-size: 1.25rem;
+            line-height: 1.7;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .story-footer {
+            background: #f1e5cf;
+            text-align: center;
+            padding: 1rem;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.95rem;
+            color: #6b4c2c;
+            border-top: 1px dashed #c9aa7b;
+            font-weight: 500;
+        }
+
+        @media (max-width: 650px) {
+            .story-container {
+                border-radius: 32px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.3), 0 0 0 6px #e9c891, 0 0 0 10px #b97f3a;
+            }
+            .story-header h1 {
+                font-size: 1.8rem;
+            }
+            .story-content {
+                padding: 1.5rem;
+                font-size: 1rem;
+                line-height: 1.9;
+            }
+            .insight-box {
+                padding: 0.8rem 1rem;
+                font-size: 0.95rem;
+            }
+            .moral h3 {
+                font-size: 1.4rem;
+            }
+            .moral p {
+                font-size: 1rem;
+            }
+        }
+
+        .story-content p:first-child:first-letter {
+            font-size: 4rem;
+            font-weight: 900;
+            float: right;
+            line-height: 0.85;
+            margin-left: 12px;
+            margin-right: 4px;
+            color: #c97e2c;
+            text-shadow: 3px 3px 0 #ffe0a3;
+            font-family: 'Amiri', serif;
+            background: #fff0db;
+            padding: 6px 10px;
+            border-radius: 20px 8px 20px 8px;
+            box-shadow: inset 0 -1px 0 #e7bc7e;
+        }
+
+        button {
+            background: #d9a13b;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 60px;
+            font-family: 'Tajawal', 'Amiri', sans-serif;
+            font-weight: bold;
+            color: #2d241c;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            background: #c0842f;
+            transform: scale(0.97);
+        }
+
+        .story-content p::selection {
+            background: #f3cf93;
+            color: #2a2b1f;
+        }
+    </style>
+</head>
+<body>
+
+<a href="../arabe/index.html"
+   style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;background:rgba(30,107,58,0.15);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(30,107,58,0.3);color:#1e6b3a;text-decoration:none;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;transition:background 0.2s,transform 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.1);"
+   onmouseover="this.style.background='rgba(30,107,58,0.25)';this.style.transform='scale(1.05)'"
+   onmouseout="this.style.background='rgba(30,107,58,0.15)';this.style.transform='scale(1)'"
+   onfocus="this.style.background='rgba(30,107,58,0.25)';this.style.transform='scale(1.05)'"
+   onblur="this.style.background='rgba(30,107,58,0.15)';this.style.transform='scale(1)'">
+    Retour
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+</a>
+
+<div class="story-container">
+    <div class="story-header">
+        <h1>✨ رِحْلَةُ نُورٍ إِلَى كَهْفِ الحِكْمَةِ ✨</h1>
+        <p>مُغَامَرَةٌ فِي الغَابَةِ المَسْحُورَةِ</p>
+    </div>
+    <div class="magic-decoration">
+        <div class="star">⭐ 🌙 🧭 🌿 ⭐</div>
+    </div>
+    <div class="story-content">
+        <p>فِي قَدِيمِ الزَّمَانِ، وَفِي قَرْيَةٍ صَغِيرَةٍ مُحَاطَةٍ بِغَابَاتٍ كَثِيفَةٍ، عَاشَتْ
+            فَتَاةٌ ذَكِيَّةٌ تُدْعَى <strong>نُورٌ</strong>. كَانَتْ نُورٌ تَحْلَمُ دَائِماً
+            بِخَوْضِ مُغَامَرَةٍ عَظِيمَةٍ، تَبْحَثُ فِيهَا عَنْ <strong>كَهْفِ الحِكْمَةِ</strong>
+            الأُسْطُورِيِّ الَّذِي يُقَالُ إِنَّهُ يَمْنَحُ مَنْ يَدْخُلُهُ بَصِيرَةً وَقَلْباً
+            نَقِيَّاً. كَثِيرُونَ حَاوَلُوا الوُصُولَ إِلَيْهِ، لَكِنَّهُمْ عَادُوا خَائِبِينَ
+            بِسَبَبِ الأَهْوَالِ الَّتِي تُحِيطُ بِالطَّرِيقِ.</p>
+
+        <p>ذَاتَ صَبَاحٍ، وَجَدَتْ نُورٌ خَرِيطَةً قَدِيمَةً مَلْفُوفَةً دَاخِلَ جِذْعِ شَجَرَةِ
+            زَيْتُونٍ. كَانَتِ الخَرِيطَةُ مَرْسُومَةً بِحِبْرٍ ذَهَبِيٍّ، وَفِي زَاوِيَتِهَا
+            كُتِبَ: <em>"مَنْ سَارَ بِقَلْبٍ صَادِقٍ، وَلَمْ يَخُنْ رُفَقَاءَهُ، سَيَجِدُ الحِكْمَةَ
+                تَاجاً عَلَى رَأْسِهِ."</em> شَعَرَتْ نُورٌ بِالحَمَاسَةِ، وَقَرَّرَتْ أَنْ تَبْدَأَ
+            الرِّحْلَةَ فَوْراً. أَعَدَّتْ جِرَاباً مِنَ التَّمْرِ وَالمَاءِ، وَوَدَّعَتْ
+            أُسْرَتَهَا وَسَطَ دَعَوَاتِهِمْ بِالسَّلَامَةِ.</p>
+
+        <p>سَارَتْ نُورٌ عَبْرَ الغَابَةِ، ثُمَّ وَاجَهَتْ أَوَّلَ اخْتِبَارٍ: <strong>وَادٍ ضَيِّقٍ
+            تَسْكُنُهُ العَنَاكِبُ الخَادِعَةُ</strong>. ظَهَرَ أَمَامَهَا عَنْكَبُوتٌ ضَخْمٌ
+            بِعُيُونٍ لَامِعَةٍ، وَقَالَ بِمَكْرٍ: "لَنْ أَسْمَحَ لَكِ بِالعُبُورِ إِلَّا إِذَا
+            تَرَكْتِ جِرَابَ طَعَامِكِ هُنَا! الحِكْمَةُ تَحْتَاجُ لِقَلْبٍ فَارِغٍ". تَذَكَّرَتْ
+            نُورٌ وَصِيَّةَ الخَرِيطَةِ بِأَنَّ الصِّدْقَ هُوَ المِفْتَاحُ، فَأَجَابَتْ بِثِقَةٍ:
+            "لَنْ أَخُونَ رُفَقَائِي أَوْ حَتَّى نَفْسِي بِالكَذِبِ. هَذَا الطَّعَامُ سَأَحْتَاجُهُ
+            لِمَنْ سَأَلْقَاهُ فِي الطَّرِيقِ". فَجْأَةً، أَضَاءَتِ الغَابَةُ، وَتَلَاشَى
+            العَنْكَبُوتُ، وَانْفَتَحَ المَمَرُّ أَمَامَهَا.</p>
+
+        <div class="insight-box">
+            <span>🏹</span> المُغَامَرَةُ الأُولَى: الصِّدْقُ يُبَدِّدُ الوَهْمَ، وَالخَادِعُونَ
+            يَنْهَزِمُونَ أَمَامَ نَقَاءِ السَّرِيرَةِ.
+        </div>
+
+        <p>بَعْدَ يَوْمَيْنِ مِنَ السَّيْرِ، صَادَفَتْ نُورٌ ثَعْلَباً عَجُوزاً جَرِيحاً عَلَى
+            جَانِبِ الطَّرِيقِ، يَئِنُّ مِنَ الأَلَمِ. هَمَسَ الثَّعْلَبُ: "أَنْقِذِينِي أَيَّتُهَا
+            الفَتَاةُ، وَسَأَدُلُّكِ عَلَى مَدْخَلِ الكَهْفِ". تَرَدَّدَتْ نُورٌ لِلَحْظَةٍ،
+            فَكَانَتْ تَخْشَى أَنْ يَضِيعَ وَقْتُهَا، لَكِنَّهَا قَالَتْ فِي نَفْسِهَا: "الحِكْمَةُ
+            الحَقِيقِيَّةُ تَبْدَأُ بِالرَّحْمَةِ". دَاوَتْ جُرْحَ الثَّعْلَبِ بِوَرَقِ
+            النَّبَاتَاتِ، وَأَطْعَمَتْهُ بَعْضَ التَّمْرِ. نَهَضَ الثَّعْلَبُ شَاكِراً، وَأَشَارَ
+            إِلَى صَخْرَةٍ عَظِيمَةٍ وَقَالَ: "خَلْفَ هَذِهِ الصَّخْرَةِ يَبْدَأُ دَرْبُ النُّورِ
+            الحَقِيقِيِّ". ثُمَّ اخْتَفَى.</p>
+
+        <p>عِنْدَ مَدْخَلِ كَهْفِ الحِكْمَةِ، وَجَدَتْ نُورٌ <strong>بَاباً مِنَ البَلُّورِ</strong>،
+            وَفَوْقَهُ حِكَايَةٌ مَنْقُوشَةٌ: "لَنْ يَدْخُلَ هَذَا الكَهْفَ إِلَّا مَنْ حَمَلَ
+            هَدِيَّةً لِلْحِكْمَةِ". أَخْرَجَتْ نُورٌ آخِرَ قِطْعَةِ تَمْرٍ لَدَيْهَا، وَوَضَعَتْهَا
+            عَلَى عَتَبَةِ البَابِ قَائِلَةً: "أُقَدِّمُ مَا تَبَقَّى لَدَيَّ، لِأَنَّ العَطَاءَ
+            بَابُ الحِكْمَةِ". انْفَرَجَ البَابُ البَلُّورِيُّ، وَدَخَلَتْ فَرَأَتْ مِرْآةً ضَخْمَةً
+            أَظْهَرَتْ لَهَا كُلَّ مَوَاقِفِ حَيَاتِهَا: لَحَظَاتِ الشَّجَاعَةِ وَالجُبْنِ،
+            وَالصِّدْقِ وَالخِيَانَةِ. أَدْرَكَتْ نُورٌ حِينَئِذٍ أَنَّ <strong>الحِكْمَةَ لَيْسَتْ
+                كَنْزاً يُقْتَنَى، بَلْ هِيَ مِرْآةٌ نُصَفِّي بِهَا أَنْفُسَنَا</strong>.</p>
+
+        <div class="moral">
+            <h3>💎 العِبْرَةُ مِنَ المُغَامَرَةِ 💎</h3>
+            <p>❝ الحِكْمَةُ لَا تُمْنَحُ لِمَنْ يَبْحَثُ عَنْهَا بِأَنَانِيَّةٍ، بَلْ لِمَنْ يَسِيرُ
+                بِالصِّدْقِ وَالرَّحْمَةِ وَالعَطَاءِ. أَكْبَرُ مُغَامَرَةٍ فِي الحَيَاةِ هِيَ أَنْ
+                نَعِيشَ بِقَلْبٍ نَظِيفٍ، وَنُضِيءَ دُرُوبَ الآخَرِينَ قَبْلَ دُرُوبِنَا. ❞</p>
+        </div>
+
+        <p>عَادَتْ نُورٌ إِلَى قَرْيَتِهَا وَقَدْ تَغَيَّرَتْ. لَمْ تَعُدْ تَبْحَثُ عَنْ كُنُوزٍ
+            خَيَالِيَّةٍ، بَلْ أَصْبَحَتْ مُعَلِّمَةً لِلْأَطْفَالِ، تُعَلِّمُهُمْ كَيْفَ
+            يُوَاجِهُونَ مَخَاوِفَهُمْ بِالصِّدْقِ، وَكَيْفَ يَكُونُ العَطَاءُ أَقْوَى سِحْرٍ.
+            أَمَّا كَهْفُ الحِكْمَةِ فَبَقِيَ قَائِماً، لَكِنَّ نُوراً فَهِمَتْ أَنَّ الحِكْمَةَ
+            الحَقِيقِيَّةَ تَكْمُنُ فِي دَاخِلِ كُلِّ إِنْسَانٍ، وَعَلَى المَرْءِ أَنْ يُغَامِرَ
+            لِيُخْرِجَهَا إِلَى النُّورِ.</p>
+        <p style="text-align: center; margin-top: 20px;">🐫 * وَهَكَذَا تَنْتَهِي الرِّحْلَةُ،
+            وَتَبْدَأُ الحِكَايَةُ فِي قُلُوبِ مَنْ يَقْرَأُونَ * 🌟</p>
+    </div>
+    <div class="story-footer">
+        🌹 قِصَّةٌ مُشَكَّلَةٌ بِالحَرَكَاتِ وَالتَّنْوِينِ وَالهَمَزَاتِ 🌹
+        <br>
+        <button onclick="alert('رِحْلَةُ نُورٍ إِلَى كَهْفِ الحِكْمَةِ... دَعْوَةٌ لِتَكُونَ بَطَلاً فِي حَيَاتِكَ اليَوْمِيَّةِ 🧡')">
+            🌟 أَضِئْ دَرْبَكَ بِحِكْمَةٍ 🌟
+        </button>
+    </div>
+</div>
+
+</body>
+</html>

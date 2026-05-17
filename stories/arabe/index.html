@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Histoires des Prophètes ✦</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night:    #060e18;
+    --deep:     #0b1a28;
+    --card-bg:  #0f2235;
+    --gold:     #c9960c;
+    --gold-lt:  #f0c040;
+    --gold-dim: #8a6508;
+    --text:     #e8dcc8;
+    --muted:    rgba(232,220,200,.5);
+    --radius:   20px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--night);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── STARFIELD CANVAS ── */
+  #starfield {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── GEOMETRIC OVERLAY ── */
+  .geo-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .045;
+    background-image:
+      repeating-linear-gradient(60deg,  #f0c040 0, #f0c040 1px, transparent 0, transparent 50%),
+      repeating-linear-gradient(120deg, #f0c040 0, #f0c040 1px, transparent 0, transparent 50%),
+      repeating-linear-gradient(0deg,   #f0c040 0, #f0c040 1px, transparent 0, transparent 50%);
+    background-size: 60px 60px;
+  }
+
+  /* ── WRAPPER ── */
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── HERO HEADER ── */
+  .hero {
+    text-align: center;
+    padding: 80px 0 60px;
+    position: relative;
+  }
+
+  .hero-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    opacity: .7;
+  }
+  .hero-ornament span { color: var(--gold-lt); font-size: 1.2rem; letter-spacing: 6px; }
+  .ornament-line {
+    width: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-weight: 700;
+    color: var(--gold-lt);
+    line-height: 1.1;
+    text-shadow: 0 0 40px rgba(240,192,64,.25);
+    letter-spacing: 2px;
+  }
+
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    color: var(--muted);
+    margin-top: 14px;
+    font-style: italic;
+    letter-spacing: 1px;
+  }
+
+  .hero-arabic {
+    font-size: 1.5rem;
+    color: var(--gold-dim);
+    margin-top: 10px;
+    letter-spacing: 8px;
+    font-family: serif;
+  }
+
+  /* count badge */
+  .count-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
+    padding: 8px 20px;
+    border: 1px solid rgba(240,192,64,.25);
+    border-radius: 40px;
+    font-size: .85rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+  .count-badge strong { color: var(--gold-lt); font-size: 1.05rem; }
+
+  /* ── SECTION TITLE ── */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    margin-top: 20px;
+  }
+  .section-head h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--gold-lt);
+    white-space: nowrap;
+  }
+  .section-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+  }
+
+  /* ── GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 28px;
+  }
+
+  /* ── STORY CARD ── */
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid rgba(240,192,64,.12);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+    animation: fadeUp .6s ease both;
+  }
+  .card:hover {
+    transform: translateY(-8px) scale(1.015);
+    box-shadow: 0 24px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(240,192,64,.3);
+    border-color: rgba(240,192,64,.35);
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(30px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .card:nth-child(1) { animation-delay:.1s; }
+
+  /* card illustration area */
+  .card-art {
+    width: 100%;
+    aspect-ratio: 4/3;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .card-art svg { width:100%; height:100%; display:block; }
+
+  /* shimmer overlay on hover */
+  .card-art::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,.08) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .card:hover .card-art::after { opacity: 1; }
+
+  /* gold arc bottom of art */
+  .card-arc {
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 32px;
+  }
+
+  /* card body */
+  .card-body {
+    padding: 20px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .card-tag {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--gold-lt);
+    line-height: 1.15;
+    margin-bottom: 4px;
+  }
+
+  .card-arabic {
+    font-size: 1rem;
+    color: var(--gold-dim);
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+    font-family: serif;
+  }
+
+  .card-desc {
+    font-size: .92rem;
+    color: var(--muted);
+    line-height: 1.65;
+    flex: 1;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(240,192,64,.1);
+  }
+
+  .card-chapters {
+    font-size: .8rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .card-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--gold-lt);
+    letter-spacing: .5px;
+    transition: gap .2s;
+  }
+  .card:hover .card-btn { gap: 10px; }
+  .card-btn svg { transition: transform .2s; }
+  .card:hover .card-btn svg { transform: translateX(3px); }
+
+  /* ── "COMING SOON" CARD ── */
+  .card-soon {
+    border: 2px dashed rgba(240,192,64,.15);
+    background: rgba(15,34,53,.4);
+    cursor: default;
+    pointer-events: none;
+  }
+  .card-soon:hover { transform: none; box-shadow: none; border-color: rgba(240,192,64,.15); }
+
+  .soon-art {
+    width: 100%;
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(240,192,64,.04);
+    position: relative;
+    overflow: hidden;
+  }
+  .soon-art::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(240,192,64,.03) 0px,
+      rgba(240,192,64,.03) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+  }
+  .soon-icon {
+    font-size: 3rem;
+    opacity: .25;
+    z-index: 1;
+  }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    color: var(--muted);
+    font-size: .85rem;
+    border-top: 1px solid rgba(240,192,64,.08);
+    margin-top: 60px;
+  }
+  .page-footer span { color: var(--gold-dim); }
+
+</style>
+</head>
+<body>
+
+<a href="../../index.html" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;background:rgba(30,107,58,0.15);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(30,107,58,0.3);color:#1e6b3a;text-decoration:none;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;transition:background 0.2s,transform 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.1);" onmouseover="this.style.background='rgba(30,107,58,0.25)';this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(30,107,58,0.15)';this.style.transform='scale(1)'" onfocus="this.style.background='rgba(30,107,58,0.25)';this.style.transform='scale(1.05)'" onblur="this.style.background='rgba(30,107,58,0.15)';this.style.transform='scale(1)'">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  Accueil
+</a>
+
+<canvas id="starfield"></canvas>
+<div class="geo-overlay"></div>
+
+<div class="wrapper">
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="hero-ornament">
+      <div class="ornament-line"></div>
+      <span>✦ ✦ ✦</span>
+      <div class="ornament-line" style="transform:scaleX(-1)"></div>
+    </div>
+    <h1>Histoires en arabe</h1>
+    <p class="hero-arabic">قصص عربية</p>
+    <p class="hero-sub">Des récits merveilleux en arabe pour les petits cœurs curieux</p>
+    <div class="count-badge">
+      <span>✦</span>
+      <span><strong id="storyCount">1</strong> histoires disponibles</span>
+      <span>✦</span>
+    </div>
+  </header>
+
+  <!-- ── GRID ── -->
+  <div class="section-head">
+    <h2>Nos histoires</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="grid" id="storyGrid">
+
+    <!-- ══ AVENTURE DE NOUR ══ -->
+    <a class="card" href="aventure-nour.html">
+      <div class="card-art">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="nourBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#0f2e1c"/>
+              <stop offset="100%" stop-color="#1e4a2f"/>
+            </linearGradient>
+            <radialGradient id="nourGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#f0c040" stop-opacity=".25"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#nourBg)"/>
+          <rect width="400" height="300" fill="url(#nourGlow)"/>
+          <!-- stars -->
+          <circle cx="30"  cy="20"  r="2"   fill="#f0c040" opacity=".8"/>
+          <circle cx="100" cy="35"  r="1.5" fill="white"   opacity=".6"/>
+          <circle cx="170" cy="15"  r="2"   fill="#f0c040" opacity=".9"/>
+          <circle cx="280" cy="25"  r="1.5" fill="white"   opacity=".7"/>
+          <circle cx="350" cy="18"  r="2"   fill="#f0c040" opacity=".8"/>
+          <!-- crescent moon -->
+          <circle cx="340" cy="50" r="18" fill="#ffe8a0" opacity=".7"/>
+          <circle cx="348" cy="43" r="14" fill="#0f2e1c"/>
+          <!-- forest trees background -->
+          <polygon points="20,240 35,140 50,240" fill="#1a5a28" opacity=".7"/>
+          <polygon points="50,240 70,120 90,240" fill="#1a6b30" opacity=".8"/>
+          <polygon points="80,240 100,100 120,240" fill="#2a8040" opacity=".7"/>
+          <polygon points="300,240 320,110 340,240" fill="#1a6b30" opacity=".8"/>
+          <polygon points="330,240 350,130 370,240" fill="#1a5a28" opacity=".7"/>
+          <polygon points="360,240 375,150 390,240" fill="#2a8040" opacity=".6"/>
+          <!-- ground -->
+          <rect x="0" y="240" width="400" height="60" fill="#1a4a25"/>
+          <!-- path/trail -->
+          <path d="M120,280 Q160,250 200,255 Q240,260 280,240" stroke="#c9960c" stroke-width="3" fill="none" opacity=".4" stroke-dasharray="8,6"/>
+          <!-- cave entrance (center) -->
+          <ellipse cx="200" cy="215" rx="50" ry="55" fill="#0a1a0e"/>
+          <ellipse cx="200" cy="215" rx="45" ry="50" fill="#060e08"/>
+          <!-- golden glow from cave -->
+          <ellipse cx="200" cy="220" rx="25" ry="30" fill="#f0c040" opacity=".12"/>
+          <ellipse cx="200" cy="225" rx="12" ry="15" fill="#f0c040" opacity=".2"/>
+          <!-- crystal door hint -->
+          <rect x="188" y="185" width="24" height="40" rx="12" fill="#a0d8ef" opacity=".25"/>
+          <line x1="200" y1="185" x2="200" y2="225" stroke="#a0d8ef" stroke-width="1" opacity=".4"/>
+          <!-- Nour figure walking toward cave -->
+          <g transform="translate(145,210)">
+            <circle cx="0" cy="-14" r="12" fill="#c8845a"/>
+            <path d="M-5,-22 Q0,-32 5,-22 L7,-8 Q0,-5 -7,-8 Z" fill="#d9a13b"/>
+            <path d="M-12,2 Q-8,35 0,38 Q8,35 12,2 Z" fill="#d9a13b"/>
+            <line x1="-12" y1="6" x2="-24" y2="-2" stroke="#d9a13b" stroke-width="5" stroke-linecap="round"/>
+            <line x1="12" y1="6" x2="24" y2="14" stroke="#d9a13b" stroke-width="5" stroke-linecap="round"/>
+            <!-- lantern in hand -->
+            <circle cx="26" cy="14" r="5" fill="#f0c040" opacity=".6"/>
+            <circle cx="26" cy="14" r="3" fill="#ffe8a0" opacity=".8"/>
+          </g>
+          <!-- spider web hint (left) -->
+          <g transform="translate(60,180)" opacity=".3">
+            <line x1="0" y1="0" x2="20" y2="15" stroke="white" stroke-width=".5"/>
+            <line x1="0" y1="0" x2="-5" y2="20" stroke="white" stroke-width=".5"/>
+            <line x1="0" y1="0" x2="15" y2="-5" stroke="white" stroke-width=".5"/>
+          </g>
+          <!-- fox silhouette (right) -->
+          <g transform="translate(310,248)" opacity=".5">
+            <ellipse cx="0" cy="0" rx="12" ry="7" fill="#c97e2c"/>
+            <circle cx="-10" cy="-6" r="5" fill="#c97e2c"/>
+            <polygon points="-14,-10 -12,-16 -10,-10" fill="#c97e2c"/>
+            <polygon points="-7,-10 -5,-16 -3,-10" fill="#c97e2c"/>
+            <path d="M12,0 Q20,-3 22,0" stroke="#c97e2c" stroke-width="2" fill="none"/>
+          </g>
+          <!-- compass icon -->
+          <g transform="translate(200,265)" opacity=".4">
+            <circle cx="0" cy="0" r="8" fill="none" stroke="#f0c040" stroke-width="1"/>
+            <polygon points="0,-6 2,0 0,6 -2,0" fill="#f0c040"/>
+          </g>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">✦ مغامرة · حكمة</div>
+        <div class="card-title">رحلة نور 🧭</div>
+        <div class="card-arabic">رِحْلَةُ نُورٍ إِلَى كَهْفِ الحِكْمَةِ</div>
+        <p class="card-desc">Une fille courageuse part à la recherche du Cahf al-Hikma légendaire — entre araignées trompeuses, un renard blessé et une porte de cristal.</p>
+        <div class="card-footer">
+          <div class="card-chapters">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            1 histoire complète
+          </div>
+          <div class="card-btn">
+            Lire l'histoire
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- ══ COMING SOON cards ══ -->
+    <div class="card card-soon">
+      <div class="soon-art">
+        <div class="soon-icon">✦</div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag" style="color:rgba(240,192,64,.25)">✦ Bientôt disponible</div>
+        <div class="card-title" style="color:rgba(240,192,64,.2);font-size:1.4rem">Prochaine histoire</div>
+        <p class="card-desc" style="color:rgba(232,220,200,.2)">Une nouvelle aventure arrive bientôt dans cette bibliothèque…</p>
+        <div class="card-footer">
+          <div class="card-chapters" style="color:rgba(232,220,200,.18)">— chapitres</div>
+          <div class="card-btn" style="color:rgba(240,192,64,.2)">En préparation…</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- ── FOOTER ── -->
+  <footer class="page-footer">
+    <div style="font-size:1.5rem;color:var(--gold-dim);letter-spacing:10px;margin-bottom:12px">✦ ✦ ✦</div>
+    Une bibliothèque de contes arabe pour les petits — <span>avec amour ✦</span>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script>
+// ── Starfield canvas ──
+const canvas = document.getElementById('starfield');
+const ctx    = canvas.getContext('2d');
+let W, H, stars = [];
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function initStars() {
+  stars = Array.from({length: 180}, () => ({
+    x:    Math.random() * W,
+    y:    Math.random() * H,
+    r:    Math.random() * 1.5 + 0.3,
+    a:    Math.random(),
+    da:   (Math.random() * 0.008 + 0.002) * (Math.random()<.5?1:-1),
+    gold: Math.random() < 0.25
+  }));
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, W, H);
+  stars.forEach(s => {
+    s.a = Math.max(0.05, Math.min(1, s.a + s.da));
+    if (s.a <= 0.05 || s.a >= 1) s.da *= -1;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+    ctx.fillStyle = s.gold
+      ? `rgba(240,192,64,${s.a * 0.7})`
+      : `rgba(255,255,255,${s.a * 0.5})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+
+window.addEventListener('resize', () => { resize(); initStars(); });
+resize(); initStars(); drawStars();
+
+// ── Update story count from actual cards ──
+const realCards = document.querySelectorAll('.card:not(.card-soon)').length;
+document.getElementById('storyCount').textContent = realCards;
+</script>
+</body>
+</html>
