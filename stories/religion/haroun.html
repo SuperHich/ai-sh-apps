@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haroun – Le Prophète de la Parole</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --nile-blue:  #1a5a8a;
+    --egypt-gold: #c8a04a;
+    --sand:       #e8d090;
+    --deep-night: #060a12;
+    --gold:       #c9960c;
+    --gold-light: #f0c040;
+    --emerald:    #1a6b4a;
+    --terracotta: #b85a28;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--deep-night);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    color: #e8dcc8;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(160deg,#060a12 0%,#0a1828 40%,#1a2a10 70%,#c8a04a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px 80px;
+  }
+
+  .cover-stars { position:absolute; inset:0; pointer-events:none; }
+  .star-dot {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: tw 2.5s infinite alternate;
+  }
+  @keyframes tw {
+    from { opacity:.15; transform:scale(1); }
+    to   { opacity:.9;  transform:scale(1.7); }
+  }
+
+  /* floating sand dust particles */
+  .sand-dust {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--egypt-gold);
+    pointer-events: none;
+    animation: dustDrift linear infinite;
+    opacity: 0;
+  }
+  @keyframes dustDrift {
+    0%   { transform:translateY(0) translateX(0); opacity:0; }
+    15%  { opacity:.5; }
+    85%  { opacity:.3; }
+    100% { transform:translateY(-60px) translateX(30px); opacity:0; }
+  }
+
+  .cover-scene {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 28px;
+    animation: floatY 5s ease-in-out infinite;
+  }
+  @keyframes floatY {
+    0%,100%{transform:translateY(0);}
+    50%    {transform:translateY(-12px);}
+  }
+
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem,9vw,5rem);
+    color: var(--gold-light);
+    text-align: center;
+    letter-spacing: 3px;
+    line-height: 1.1;
+    text-shadow: 0 2px 30px rgba(200,160,74,.6);
+  }
+  .cover .subtitle-ar {
+    font-size: 1.4rem;
+    color: rgba(240,192,64,.45);
+    margin-top: 8px;
+    letter-spacing: 6px;
+    font-family: serif;
+  }
+  .cover .subtitle {
+    color: rgba(240,220,180,.45);
+    font-size: .95rem;
+    margin-top: 12px;
+    font-style: italic;
+    letter-spacing: 2px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    color: rgba(240,220,180,.35);
+    font-size: .8rem;
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);}
+  }
+
+  .cover-fade {
+    position:absolute; bottom:0; left:0; right:0;
+    height: 100px;
+    background: linear-gradient(transparent,#060a12);
+    pointer-events: none;
+  }
+
+  /* ── CHAPTERS ── */
+  .chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 24px 60px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .chapter.visible { opacity:1; transform:translateY(0); }
+
+  .ch1 { background: linear-gradient(155deg,#f5e6c0 0%,#e8d5a0 50%,#d4c080 100%); }
+  .ch2 { background: linear-gradient(155deg,#0a1220 0%,#1a2a40 55%,#2a3a60 100%); }
+  .ch3 { background: linear-gradient(155deg,#1a0800 0%,#3a1400 50%,#5a2000 100%); }
+  .ch4 { background: linear-gradient(155deg,#0a1808 0%,#1a3010 50%,#2a5020 100%); }
+  .ch5 { background: linear-gradient(155deg,#1a1008 0%,#2a1a08 50%,#c8a04a 100%); }
+
+  .ch-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9rem;
+    font-weight: 700;
+    position: absolute;
+    top: 0; right: 20px;
+    line-height: 1;
+    pointer-events: none;
+    opacity: .05;
+  }
+  .ch1 .ch-num { color:#5c3a1a; }
+  .ch2 .ch-num { color:#c8f0ff; }
+  .ch3 .ch-num { color:#f0c040; }
+  .ch4 .ch-num { color:#88ff88; }
+  .ch5 .ch-num { color:#f0c040; }
+
+  .illustration {
+    width: min(340px,92vw);
+    height: min(255px,69vw);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 60px rgba(0,0,0,.55);
+    margin-bottom: 36px;
+    flex-shrink: 0;
+    position: relative; z-index:1;
+    border: 3px solid rgba(200,160,74,.3);
+  }
+  .illustration svg { width:100%; height:100%; display:block; }
+
+  .chapter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem,5vw,2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative; z-index:1;
+  }
+  .story-text {
+    max-width: 490px;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    position: relative; z-index:1;
+  }
+  .story-text p { margin-bottom:14px; }
+  .quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    padding: 14px 22px;
+    border-radius: 14px;
+    margin: 18px 0;
+    display: inline-block;
+    border-left: 4px solid currentColor;
+  }
+
+  .ch1 .chapter-title { color:#5c3a1a; }
+  .ch1 .story-text    { color:#3a2010; }
+  .ch1 .quote         { background:rgba(92,58,26,.1); color:#5c3a1a; }
+
+  .ch2 .chapter-title { color:#c8f0ff; }
+  .ch2 .story-text    { color:#f0ead8; }
+  .ch2 .quote         { background:rgba(200,240,255,.08); color:#c8f0ff; }
+
+  .ch3 .chapter-title { color:#f0c040; }
+  .ch3 .story-text    { color:#f0ead8; }
+  .ch3 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+  .ch4 .chapter-title { color:#c8ff88; }
+  .ch4 .story-text    { color:#f0ead8; }
+  .ch4 .quote         { background:rgba(136,255,136,.08); color:#c8ff88; }
+
+  .ch5 .chapter-title { color:#f0c040; }
+  .ch5 .story-text    { color:#f0ead8; }
+  .ch5 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+  /* ── ENDING ── */
+  .ending {
+    background: linear-gradient(160deg,#060a12 0%,#0a1828 50%,#1a2a08 100%);
+    padding: 90px 24px;
+    text-align: center;
+    color: white;
+    position: relative; overflow:hidden;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .ending.visible { opacity:1; transform:translateY(0); }
+  .ending h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+    letter-spacing: 2px;
+  }
+  .ending p {
+    font-size:1.1rem; max-width:520px;
+    margin:0 auto; opacity:.85; line-height:1.9;
+  }
+  .end-star {
+    font-size:2.5rem; margin-top:36px;
+    display:inline-block;
+    animation: spinSlow 12s linear infinite;
+    color: var(--gold-light);
+  }
+  @keyframes spinSlow {
+    from{transform:rotate(0deg);} to{transform:rotate(360deg);}
+  }
+
+  @media(min-width:720px){
+    .chapter{flex-direction:row!important;gap:52px;padding:90px 64px;}
+    .illustration{margin-bottom:0;}
+    .story-text{text-align:left;}
+    .chapter-title{text-align:left;}
+    .chapter:nth-child(even){flex-direction:row-reverse!important;}
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html" style="position:fixed;top:16px;left:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;background:rgba(30,107,58,0.15);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(30,107,58,0.3);color:#1e6b3a;text-decoration:none;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;transition:background 0.2s,transform 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.1);" onmouseover="this.style.background='rgba(30,107,58,0.25)';this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(30,107,58,0.15)';this.style.transform='scale(1)'" onfocus="this.style.background='rgba(30,107,58,0.25)';this.style.transform='scale(1.05)'" onblur="this.style.background='rgba(30,107,58,0.15)';this.style.transform='scale(1)'">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  Retour
+</a>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-stars" id="starsCover"></div>
+  <div id="dustContainer"></div>
+
+  <div class="cover-scene">
+    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="covGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#4a9ede" stop-opacity=".25"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="covGold" cx="50%" cy="40%" r="40%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".2"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="nightCov" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#060a12"/>
+          <stop offset="60%"  stop-color="#0a1828"/>
+          <stop offset="100%" stop-color="#1a2a10"/>
+        </linearGradient>
+        <linearGradient id="nileCov" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a5a8a"/>
+          <stop offset="100%" stop-color="#0a2a4a"/>
+        </linearGradient>
+      </defs>
+
+      <!-- circle frame -->
+      <circle cx="150" cy="150" r="147" fill="#060a12" stroke="#c9960c" stroke-width="2"/>
+      <circle cx="150" cy="150" r="137" fill="none" stroke="#c9960c"
+              stroke-width=".5" stroke-dasharray="5 4" opacity=".4"/>
+      <clipPath id="covClip"><circle cx="150" cy="150" r="145"/></clipPath>
+
+      <!-- sky and ground -->
+      <rect width="300" height="300" fill="url(#nightCov)" clip-path="url(#covClip)"/>
+      <rect width="300" height="300" fill="url(#covGlow)"  clip-path="url(#covClip)"/>
+      <rect width="300" height="300" fill="url(#covGold)"  clip-path="url(#covClip)"/>
+
+      <!-- stars -->
+      <g clip-path="url(#covClip)">
+        <circle cx="45"  cy="28"  r="2"   fill="#f0c040" opacity=".85"/>
+        <circle cx="90"  cy="18"  r="1.5" fill="white"   opacity=".7"/>
+        <circle cx="140" cy="35"  r="1.5" fill="white"   opacity=".65"/>
+        <circle cx="200" cy="22"  r="2"   fill="#f0c040" opacity=".8"/>
+        <circle cx="248" cy="38"  r="1.5" fill="white"   opacity=".7"/>
+        <circle cx="70"  cy="55"  r="1"   fill="white"   opacity=".55"/>
+        <circle cx="220" cy="58"  r="1.5" fill="#f0c040" opacity=".65"/>
+        <circle cx="270" cy="28"  r="1"   fill="white"   opacity=".6"/>
+      </g>
+
+      <!-- Moon crescent -->
+      <g clip-path="url(#covClip)">
+        <circle cx="252" cy="48" r="20"  fill="#ffe8a0" opacity=".85"/>
+        <circle cx="260" cy="40" r="16"  fill="#0a1828"/>
+      </g>
+
+      <!-- Pyramids silhouette -->
+      <g clip-path="url(#covClip)" opacity=".7">
+        <polygon points="20,225  62,155  104,225" fill="#1a1208"/>
+        <polygon points="190,225 244,140 298,225" fill="#121008"/>
+      </g>
+
+      <!-- Nile river -->
+      <rect x="0" y="220" width="300" height="80" fill="url(#nileCov)"
+            opacity=".5" clip-path="url(#covClip)"/>
+      <path d="M0,220 Q75,210 150,220 Q225,230 300,220"
+            fill="none" stroke="#4a9ede" stroke-width="3" opacity=".4" clip-path="url(#covClip)"/>
+
+      <!-- HAROUN — tall figure, holding staff, mouth open in eloquent speech -->
+      <g transform="translate(150,185)" clip-path="url(#covClip)">
+        <!-- divine glow -->
+        <circle cx="0" cy="-15" r="55" fill="#f0c040" opacity=".07"/>
+        <!-- robe -->
+        <path d="M-24,10 Q-20,74 0,78 Q20,74 24,10 Z" fill="#1e6b3a"/>
+        <!-- cloak -->
+        <path d="M-38,6 Q-30,76 -10,80 Q-20,70 -24,10 Z" fill="#c8a04a" opacity=".7"/>
+        <path d="M38,6 Q30,76 10,80 Q20,70 24,10 Z"  fill="#c8a04a" opacity=".7"/>
+        <!-- staff — Aaron's rod -->
+        <line x1="28"  y1="16" x2="32"  y2="82" stroke="#8b5e3c" stroke-width="6" stroke-linecap="round"/>
+        <!-- arm on staff -->
+        <line x1="24"  y1="18" x2="30"  y2="32" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- other arm raised in eloquent speech -->
+        <line x1="-24" y1="14" x2="-52" y2="-8"  stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- hand open in speech gesture -->
+        <ellipse cx="-54" cy="-10" rx="7" ry="5" fill="#c8906a" transform="rotate(-30,-54,-10)"/>
+        <!-- golden light ripples from hand — words/speech -->
+        <g opacity=".35">
+          <path d="M-58,-12 Q-68,-18 -72,-8" stroke="#f0c040" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M-60,-16 Q-74,-24 -80,-14" stroke="#f0c040" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".7"/>
+          <path d="M-62,-20 Q-78,-30 -84,-20" stroke="#f0c040" stroke-width="1" fill="none" stroke-linecap="round" opacity=".5"/>
+        </g>
+        <!-- head -->
+        <circle cx="0" cy="-12" r="18" fill="#c8906a"/>
+        <!-- halo subtle -->
+        <circle cx="0" cy="-12" r="24" fill="none" stroke="#f0c040" stroke-width="1" opacity=".3"/>
+        <!-- headdress / turban -->
+        <path d="M-15,-26 Q0,-48 15,-26 L18,-8 Q0,-5 -18,-8 Z" fill="#c8a04a"/>
+        <path d="M15,-24 Q22,-14 20,-2" stroke="#c8a04a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- beard -->
+        <ellipse cx="0" cy="2" rx="10" ry="8" fill="#c8a080" opacity=".75"/>
+        <!-- MOUTH OPEN — speaking eloquently -->
+        <ellipse cx="0" cy="0" rx="4" ry="3" fill="#5c3010"/>
+        <!-- expressive eyes -->
+        <circle cx="-5.5" cy="-14" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5.5"  cy="-14" r="2.5" fill="#1a1a1a"/>
+        <!-- eyebrows confident -->
+        <path d="M-9,-20 Q-5.5,-22 -2,-20" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M2,-20 Q5.5,-22 9,-20"    stroke="#5c3010" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- flowers on Nile bank -->
+      <g clip-path="url(#covClip)" opacity=".5">
+        <circle cx="35"  cy="225" r="4" fill="#ff9999"/>
+        <circle cx="260" cy="225" r="4" fill="#ff9999"/>
+        <circle cx="20"  cy="228" r="3" fill="#f0c040"/>
+        <circle cx="278" cy="228" r="3" fill="#f0c040"/>
+      </g>
+    </svg>
+  </div>
+
+  <h1>Haroun<br>
+  <span style="font-size:.58em;letter-spacing:4px;opacity:.9">Le Prophète de la Parole</span></h1>
+  <p class="subtitle-ar">هارون عليه السلام</p>
+  <p class="subtitle">Le frère fidèle — la voix du peuple</p>
+
+  <div class="scroll-hint">
+    <span>Fais défiler pour lire</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+  <div class="cover-fade"></div>
+</div>
+
+
+<!-- ══ CH 1 : Le Don de la Parole ══ -->
+<div class="chapter ch1">
+  <div class="ch-num">١</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="nileDay" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#87ceeb"/>
+          <stop offset="100%" stop-color="#ffecd2"/>
+        </linearGradient>
+        <radialGradient id="sunNile" cx="75%" cy="20%" r="40%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".6"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#nileDay)"/>
+      <rect width="340" height="255" fill="url(#sunNile)"/>
+
+      <!-- Sun -->
+      <circle cx="290" cy="45" r="30" fill="#f0c040" opacity=".85"/>
+      <!-- Clouds -->
+      <ellipse cx="65"  cy="40" rx="48" ry="20" fill="white" opacity=".7"/>
+      <ellipse cx="82"  cy="28" rx="35" ry="16" fill="white" opacity=".8"/>
+
+      <!-- Nile river wide -->
+      <rect x="0" y="175" width="340" height="80" fill="#2a6b9a" opacity=".5"/>
+      <path d="M0,175 Q85,162 170,175 Q255,188 340,175"
+            fill="none" stroke="#4a9ede" stroke-width="3" opacity=".5"/>
+      <!-- lotus flowers on Nile -->
+      <circle cx="40"  cy="182" r="6"  fill="#ff9999" opacity=".7"/>
+      <circle cx="65"  cy="178" r="5"  fill="#ff88cc" opacity=".6"/>
+      <circle cx="280" cy="180" r="6"  fill="#ff9999" opacity=".7"/>
+      <circle cx="305" cy="184" r="5"  fill="#ff88cc" opacity=".6"/>
+      <!-- papyrus reeds -->
+      <g opacity=".7">
+        <line x1="20" y1="172" x2="18" y2="138" stroke="#5a8a20" stroke-width="3"/>
+        <ellipse cx="16" cy="134" rx="7" ry="12" fill="#4a7a18"/>
+        <line x1="32" y1="172" x2="30" y2="132" stroke="#5a8a20" stroke-width="3"/>
+        <ellipse cx="28" cy="128" rx="6" ry="10" fill="#5a8a28"/>
+        <line x1="318" y1="172" x2="320" y2="138" stroke="#5a8a20" stroke-width="3"/>
+        <ellipse cx="322" cy="134" rx="7" ry="12" fill="#4a7a18"/>
+      </g>
+
+      <!-- Desert ground Egypt -->
+      <rect x="0" y="200" width="340" height="55" fill="#c8a04a"/>
+      <rect x="0" y="198" width="340" height="7"  fill="#d4b060" opacity=".5"/>
+
+      <!-- Pyramids in distance -->
+      <polygon points="60,198  95,148 130,198" fill="#c8a04a" opacity=".45"/>
+      <polygon points="200,198 248,135 296,198" fill="#c8a04a" opacity=".4"/>
+
+      <!-- HAROUN speaking to a group — centre stage -->
+      <g transform="translate(170,168)">
+        <!-- robe and cloak -->
+        <path d="M-20,10 Q-16,58 0,62 Q16,58 20,10 Z" fill="#1e6b3a"/>
+        <path d="M-34,6 Q-26,60 -10,64 Q-18,55 -22,10 Z" fill="#c8a04a" opacity=".75"/>
+        <path d="M34,6 Q26,60 10,64 Q18,55 22,10 Z"  fill="#c8a04a" opacity=".75"/>
+        <!-- arm raised in speech — eloquent gesture -->
+        <line x1="-20" y1="14" x2="-48" y2="-10" stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- open hand — words flowing -->
+        <ellipse cx="-51" cy="-13" rx="7" ry="5" fill="#c8906a" transform="rotate(-20,-51,-13)"/>
+        <!-- speech ripples / sound waves -->
+        <g opacity=".4" stroke="#f0c040" fill="none" stroke-linecap="round">
+          <path d="M-58,-15 Q-68,-22 -65,-10" stroke-width="2"/>
+          <path d="M-62,-18 Q-76,-27 -73,-13" stroke-width="1.5" opacity=".7"/>
+          <path d="M-66,-21 Q-82,-32 -79,-18" stroke-width="1" opacity=".5"/>
+        </g>
+        <!-- staff right hand -->
+        <line x1="22" y1="14" x2="26" y2="70" stroke="#8b5e3c" stroke-width="5" stroke-linecap="round"/>
+        <line x1="20" y1="16" x2="25" y2="28" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- head -->
+        <circle cx="0" cy="-10" r="16" fill="#c8906a"/>
+        <!-- golden turban -->
+        <path d="M-13,-22 Q0,-42 13,-22 L15,-7 Q0,-4 -15,-7 Z" fill="#c8a04a"/>
+        <path d="M13,-20 Q20,-10 18,0" stroke="#c8a04a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- beard -->
+        <ellipse cx="0" cy="2" rx="9" ry="7" fill="#c8a080" opacity=".75"/>
+        <!-- mouth open speaking -->
+        <ellipse cx="0" cy="1" rx="4" ry="3" fill="#5c3010" opacity=".8"/>
+        <!-- bright confident eyes -->
+        <circle cx="-5" cy="-12" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5"  cy="-12" r="2.5" fill="#1a1a1a"/>
+        <path d="M-9,-17 Q-5,-19 -1,-17" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M1,-17 Q5,-19 9,-17"    stroke="#5c3010" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- People listening — diverse crowd seated -->
+      <g transform="translate(55,200)" opacity=".82">
+        <circle cx="0"  cy="-18" r="7"  fill="#d4a57a"/>
+        <rect x="-7"  y="-12" width="14" height="14" fill="#c0392b" rx="1"/>
+        <circle cx="24" cy="-16" r="6.5" fill="#c8906a"/>
+        <rect x="17"  y="-11" width="13" height="13" fill="#c9960c" rx="1"/>
+        <circle cx="46" cy="-18" r="7"  fill="#d4b080"/>
+        <rect x="39"  y="-12" width="14" height="14" fill="#8b4a10" rx="1"/>
+        <!-- all attentively looking at Haroun -->
+        <circle cx="-2" cy="-19" r="2" fill="#1a1a1a"/>
+        <circle cx="2"  cy="-19" r="2" fill="#1a1a1a"/>
+        <circle cx="22" cy="-17" r="2" fill="#1a1a1a"/>
+        <circle cx="26" cy="-17" r="2" fill="#1a1a1a"/>
+        <circle cx="44" cy="-19" r="2" fill="#1a1a1a"/>
+        <circle cx="48" cy="-19" r="2" fill="#1a1a1a"/>
+      </g>
+      <g transform="translate(235,203)" opacity=".78">
+        <circle cx="0"  cy="-16" r="6.5" fill="#d4a57a"/>
+        <rect x="-6"  y="-11" width="13" height="13" fill="#6b3fa0" rx="1"/>
+        <circle cx="22" cy="-17" r="7"  fill="#c8906a"/>
+        <rect x="15"  y="-11" width="14" height="13" fill="#1e6b3a" rx="1"/>
+        <circle cx="44" cy="-16" r="6.5" fill="#d4b080"/>
+        <rect x="37"  y="-11" width="13" height="13" fill="#c0392b" rx="1"/>
+      </g>
+
+      <!-- MUSA in background (smaller) — the two brothers together -->
+      <g transform="translate(245,178)" opacity=".6">
+        <path d="M-12,8 Q-8,46 0,48 Q8,46 12,8 Z" fill="#2d6b9e"/>
+        <line x1="14" y1="12" x2="20" y2="58" stroke="#8b5e3c" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="0" cy="-6" r="11" fill="#d4a57a"/>
+        <path d="M-8,-15 Q0,-28 8,-15 L10,-4 Q0,-2 -10,-4 Z" fill="#1a3a5c"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🗣️ Le Don de la Parole</h2>
+    <p>En Égypte, le long du grand fleuve <strong>Nil</strong>, vivait un homme du nom de <strong>Haroun</strong>. Il était le frère aîné du prophète Musa (Moïse).</p>
+    <p>Haroun possédait un don extraordinaire : il parlait avec une <strong>éloquence</strong> et une douceur qui touchaient tous les cœurs. Ses mots étaient clairs comme l'eau du Nil.</p>
+    <div class="quote">« Seigneur, donne-moi mon frère Haroun comme aide. Sa parole est bien plus fluide que la mienne ! »</div>
+    <p>C'est Musa lui-même qui demanda à Dieu d'associer Haroun à sa mission. Dieu accepta et fit de Haroun un <strong>prophète</strong>, aux côtés de son frère bien-aimé. 🌿</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 2 : Face au Pharaon ══ -->
+<div class="chapter ch2">
+  <div class="ch-num">٢</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="pharSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0a1220"/>
+          <stop offset="100%" stop-color="#1a2840"/>
+        </linearGradient>
+        <radialGradient id="throneGlow" cx="65%" cy="55%" r="45%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#pharSky)"/>
+      <rect width="340" height="255" fill="url(#throneGlow)"/>
+
+      <!-- Stars faint -->
+      <circle cx="30"  cy="22" r="1.5" fill="white"   opacity=".5"/>
+      <circle cx="80"  cy="38" r="1"   fill="#f0c040" opacity=".6"/>
+      <circle cx="290" cy="20" r="1.5" fill="white"   opacity=".5"/>
+
+      <!-- Egypt palace grand -->
+      <rect x="0"   y="80" width="340" height="175" fill="#1a1208" opacity=".7"/>
+      <!-- Columns Egyptian -->
+      <rect x="20"  y="80" width="22" height="145" fill="#c8a04a" opacity=".55" rx="2"/>
+      <rect x="55"  y="80" width="22" height="145" fill="#c8a04a" opacity=".45" rx="2"/>
+      <rect x="263" y="80" width="22" height="145" fill="#c8a04a" opacity=".55" rx="2"/>
+      <rect x="298" y="80" width="22" height="145" fill="#c8a04a" opacity=".45" rx="2"/>
+      <!-- column tops lotus capitals -->
+      <ellipse cx="31"  cy="80" rx="14" ry="7" fill="#d4b060" opacity=".6"/>
+      <ellipse cx="66"  cy="80" rx="14" ry="7" fill="#d4b060" opacity=".55"/>
+      <ellipse cx="274" cy="80" rx="14" ry="7" fill="#d4b060" opacity=".6"/>
+      <ellipse cx="309" cy="80" rx="14" ry="7" fill="#d4b060" opacity=".55"/>
+      <!-- ceiling beam -->
+      <rect x="0" y="75" width="340" height="10" fill="#1a1208" opacity=".8"/>
+      <!-- hieroglyphs on walls hint -->
+      <rect x="85"  y="95" width="8" height="100" fill="#f0c040" opacity=".05" rx="1"/>
+      <rect x="247" y="95" width="8" height="100" fill="#f0c040" opacity=".05" rx="1"/>
+      <!-- floor -->
+      <rect x="0" y="220" width="340" height="35" fill="#1a1808"/>
+      <rect x="0" y="218" width="340" height="6"  fill="#2a2808" opacity=".6"/>
+
+      <!-- PHARAON on throne right -->
+      <g transform="translate(250,162)">
+        <!-- throne ornate -->
+        <rect x="-35" y="-38" width="70" height="90" fill="#c8a04a" rx="5" opacity=".7"/>
+        <rect x="-30" y="-33" width="60" height="78" fill="#d4b060" rx="4" opacity=".6"/>
+        <!-- armrests -->
+        <rect x="-44" y="-12" width="16" height="9" fill="#c8a04a" rx="2" opacity=".7"/>
+        <rect x="28"  y="-12" width="16" height="9" fill="#c8a04a" rx="2" opacity=".7"/>
+        <!-- Pharaoh -->
+        <path d="M-20,10 Q-15,46 0,48 Q15,46 20,10 Z" fill="#c0392b"/>
+        <circle cx="0" cy="-12" r="14" fill="#d4a57a"/>
+        <!-- double crown of Egypt -->
+        <path d="M-10,-22 Q-8,-36 0,-40 Q8,-36 10,-22 L12,-10 Q0,-7 -12,-10 Z" fill="#f0c040"/>
+        <path d="M-4,-38 Q0,-52 4,-38 L6,-26 Q0,-23 -6,-26 Z" fill="#f5f5f5"/>
+        <!-- nemes headdress stripes -->
+        <path d="M10,-18 Q18,-6 16,10"  stroke="#f0c040" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M-10,-18 Q-18,-6 -16,10" stroke="#f0c040" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- kohl eyes -->
+        <line x1="-8" y1="-13" x2="-4" y2="-13" stroke="#1a1a1a" stroke-width="1.2"/>
+        <line x1="4"  y1="-13" x2="8"  y2="-13" stroke="#1a1a1a" stroke-width="1.2"/>
+        <circle cx="-4" cy="-13" r="2" fill="#1a1a1a"/>
+        <circle cx="4"  cy="-13" r="2" fill="#1a1a1a"/>
+        <!-- stern expression -->
+        <path d="M-4,-5 L4,-5" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <!-- crook and flail crossed -->
+        <line x1="16" y1="5"  x2="28" y2="-8"  stroke="#d4a017" stroke-width="3" stroke-linecap="round"/>
+        <line x1="-16" y1="5" x2="-26" y2="-6" stroke="#d4a017" stroke-width="3" stroke-linecap="round"/>
+      </g>
+
+      <!-- MUSA and HAROUN — facing Pharaoh with courage -->
+      <!-- Musa left (with staff) -->
+      <g transform="translate(90,172)">
+        <path d="M-18,8 Q-14,60 0,64 Q14,60 18,8 Z" fill="#2d6b9e"/>
+        <line x1="-18" y1="12" x2="-40" y2="8" stroke="#2d6b9e" stroke-width="7" stroke-linecap="round"/>
+        <!-- staff Moses raised -->
+        <line x1="22" y1="14" x2="26" y2="76" stroke="#8b5e3c" stroke-width="6" stroke-linecap="round"/>
+        <line x1="18" y1="16" x2="24" y2="30" stroke="#2d6b9e" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="0" cy="-8" r="14" fill="#d4a57a"/>
+        <path d="M-11,-18 Q0,-36 11,-18 L13,-6 Q0,-3 -13,-6 Z" fill="#1a3a5c"/>
+        <ellipse cx="0" cy="2" rx="8" ry="6" fill="#c0a08a" opacity=".7"/>
+        <circle cx="-4" cy="-9" r="2.5" fill="#1a1a1a"/>
+        <circle cx="4"  cy="-9" r="2.5" fill="#1a1a1a"/>
+        <!-- determined expression -->
+        <path d="M-8,-14 Q-4,-16 0,-14" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M0,-14 Q4,-16 8,-14"   stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M-4,-2 L4,-2" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- HAROUN right of Musa — speaking eloquently to Pharaoh -->
+      <g transform="translate(148,170)">
+        <path d="M-18,8 Q-14,62 0,66 Q14,62 18,8 Z" fill="#1e6b3a"/>
+        <!-- cloak -->
+        <path d="M-30,4 Q-24,64 -8,68 Q-16,58 -20,8 Z" fill="#c8a04a" opacity=".7"/>
+        <!-- arm open in speech toward Pharaoh -->
+        <line x1="18" y1="12" x2="48" y2="4" stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- open palm glowing with words -->
+        <ellipse cx="51" cy="3" rx="7" ry="5" fill="#c8906a" transform="rotate(15,51,3)"/>
+        <!-- speech waves -->
+        <g opacity=".4" stroke="#f0c040" fill="none" stroke-linecap="round">
+          <path d="M56,1 Q66,-6 63,6"  stroke-width="2"/>
+          <path d="M60,-2 Q73,-10 70,4" stroke-width="1.5" opacity=".7"/>
+          <path d="M64,-5 Q80,-14 77,2" stroke-width="1" opacity=".5"/>
+        </g>
+        <!-- other arm relaxed -->
+        <line x1="-18" y1="14" x2="-36" y2="10" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- head -->
+        <circle cx="0" cy="-8" r="15" fill="#c8906a"/>
+        <!-- golden turban -->
+        <path d="M-12,-20 Q0,-38 12,-20 L14,-7 Q0,-4 -14,-7 Z" fill="#c8a04a"/>
+        <path d="M12,-18 Q20,-8 18,2" stroke="#c8a04a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- beard -->
+        <ellipse cx="0" cy="2" rx="9" ry="7" fill="#c8a080" opacity=".75"/>
+        <!-- mouth OPEN delivering message -->
+        <ellipse cx="0" cy="1" rx="4" ry="3" fill="#5c3010" opacity=".85"/>
+        <!-- steady courageous eyes -->
+        <circle cx="-5" cy="-10" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5"  cy="-10" r="2.5" fill="#1a1a1a"/>
+        <path d="M-9,-15 Q-5,-17 -1,-15" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M1,-15 Q5,-17 9,-15"    stroke="#5c3010" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- Guards flanking Pharaoh -->
+      <g transform="translate(195,185)" opacity=".6">
+        <path d="M-10,6 Q-7,42 0,44 Q7,42 10,6 Z" fill="#8b4a10"/>
+        <circle cx="0" cy="-6" r="9" fill="#d4a57a"/>
+        <path d="M-8,-14 Q0,-26 8,-14 L10,-4 Q0,-2 -10,-4 Z" fill="#c8a04a" opacity=".6"/>
+        <line x1="12" y1="10" x2="14" y2="50" stroke="#5a3010" stroke-width="4" stroke-linecap="round"/>
+        <!-- spear top -->
+        <polygon points="14,50 11,62 17,62" fill="#c8a04a" opacity=".7"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">👑 Face au Grand Pharaon</h2>
+    <p>Musa et Haroun reçurent de Dieu une mission redoutable : aller voir le <strong>Pharaon</strong>, l'homme le plus puissant du monde, et lui dire la vérité.</p>
+    <p>Haroun, avec sa voix claire et ses mots bien choisis, parla au Pharaon avec courage et douceur à la fois. Il ne tremblait pas, car il savait que Dieu était avec eux.</p>
+    <div class="quote">« Sois doux en lui parlant. Peut-être réfléchira-t-il ou aura-t-il de la crainte. »</div>
+    <p>Haroun fut la voix de la vérité face au trône. Il accompagna Musa dans chaque épreuve, chaque signe, chaque prodige. Les deux frères formaient une équipe <strong>inséparable</strong>. 💪</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 3 : Le Veau d'Or ══ -->
+<div class="chapter ch3">
+  <div class="ch-num">٣</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="calfSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a0800"/>
+          <stop offset="60%"  stop-color="#2a1000"/>
+          <stop offset="100%" stop-color="#4a2000"/>
+        </linearGradient>
+        <radialGradient id="calfGlow" cx="55%" cy="45%" r="45%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="mountGlow" cx="50%" cy="20%" r="40%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#calfSky)"/>
+      <rect width="340" height="255" fill="url(#calfGlow)"/>
+      <rect width="340" height="255" fill="url(#mountGlow)"/>
+
+      <!-- Stars -->
+      <circle cx="30"  cy="18" r="1.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="70"  cy="32" r="1"   fill="white"   opacity=".6"/>
+      <circle cx="290" cy="22" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="320" cy="40" r="1"   fill="#f0c040" opacity=".6"/>
+
+      <!-- Mount Sinai in background with lightning / divine light -->
+      <polygon points="115,185 170,80 225,185" fill="#2a1808" opacity=".85"/>
+      <polygon points="128,185 170,100 212,185" fill="#3a2010" opacity=".7"/>
+      <!-- lightning from top of mountain -->
+      <path d="M170,80 L158,115 L165,115 L150,145" stroke="#f0c040" stroke-width="2.5" fill="none" opacity=".7"/>
+      <circle cx="170" cy="78" r="8"  fill="#f0c040" opacity=".6"/>
+      <circle cx="170" cy="78" r="14" fill="#f0c040" opacity=".15"/>
+      <!-- glow at mountain top (Musa receiving Torah) -->
+      <ellipse cx="170" cy="85" rx="30" ry="18" fill="#f0c040" opacity=".15"/>
+
+      <!-- Desert ground -->
+      <rect x="0" y="200" width="340" height="55" fill="#3a2808"/>
+      <rect x="0" y="197" width="340" height="8"  fill="#4a3010" opacity=".5"/>
+
+      <!-- THE GOLDEN CALF — idol the people made -->
+      <g transform="translate(230,185)">
+        <!-- pedestal golden -->
+        <rect x="-24" y="18" width="48" height="14" fill="#c8a04a" rx="3"/>
+        <!-- calf body -->
+        <ellipse cx="0" cy="0" rx="32" ry="22" fill="#d4a017"/>
+        <!-- calf head -->
+        <ellipse cx="-26" cy="-12" rx="18" ry="14" fill="#c8960c"/>
+        <!-- horns -->
+        <path d="M-36,-22 Q-46,-36 -38,-44 Q-32,-36 -26,-28" fill="#a07810"/>
+        <path d="M-18,-24 Q-10,-38 -14,-46 Q-20,-36 -26,-28" fill="#a07810"/>
+        <!-- golden gleam on calf -->
+        <ellipse cx="5" cy="-8" rx="15" ry="10" fill="#ffe08a" opacity=".4"/>
+        <!-- eye -->
+        <circle cx="-30" cy="-14" r="3" fill="#1a1a1a" opacity=".7"/>
+        <circle cx="-29" cy="-15" r="1.2" fill="white" opacity=".5"/>
+        <!-- legs -->
+        <line x1="-16" y1="20" x2="-18" y2="36" stroke="#c8960c" stroke-width="6" stroke-linecap="round"/>
+        <line x1="-4"  y1="22" x2="-4"  y2="38" stroke="#c8960c" stroke-width="6" stroke-linecap="round"/>
+        <line x1="10"  y1="22" x2="12"  y2="38" stroke="#c8960c" stroke-width="6" stroke-linecap="round"/>
+        <line x1="24"  y1="20" x2="26"  y2="36" stroke="#c8960c" stroke-width="6" stroke-linecap="round"/>
+        <!-- tail -->
+        <path d="M32,4 Q42,0 40,-10 Q35,-4 32,4 Z" fill="#c8960c"/>
+        <!-- glow of false idol -->
+        <ellipse cx="0" cy="0" rx="38" ry="28" fill="#f0c040" opacity=".1"/>
+        <!-- X cross mark -->
+        <line x1="-20" y1="-20" x2="20" y2="20" stroke="#e74c3c" stroke-width="3" opacity=".55"/>
+        <line x1="20"  y1="-20" x2="-20" y2="20" stroke="#e74c3c" stroke-width="3" opacity=".55"/>
+      </g>
+
+      <!-- Some people dancing around it — wayward -->
+      <g transform="translate(290,205)" opacity=".65">
+        <circle cx="0"  cy="-16" r="6"  fill="#d4a57a"/>
+        <rect x="-6"  y="-11" width="12" height="12" fill="#c0392b" rx="1"/>
+        <line x1="6"  y1="-6" x2="16"  y2="-16" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
+        <line x1="-6" y1="-6" x2="-15" y2="-16" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
+      </g>
+
+      <!-- HAROUN — trying to stop them, hand raised, distressed -->
+      <g transform="translate(100,175)">
+        <path d="M-18,8 Q-14,58 0,62 Q14,58 18,8 Z" fill="#1e6b3a"/>
+        <path d="M-30,4 Q-24,60 -8,64 Q-16,55 -20,8 Z" fill="#c8a04a" opacity=".7"/>
+        <!-- both arms raised to stop the people — distressed -->
+        <line x1="-18" y1="12" x2="-48" y2="-5"  stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <line x1="18"  y1="12" x2="48"  y2="-5"  stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- STOP gesture hands open -->
+        <ellipse cx="-51" cy="-7" rx="7" ry="5" fill="#c8906a" transform="rotate(-20,-51,-7)"/>
+        <ellipse cx="51"  cy="-7" rx="7" ry="5" fill="#c8906a" transform="rotate(20,51,-7)"/>
+        <!-- head -->
+        <circle cx="0" cy="-8" r="15" fill="#c8906a"/>
+        <path d="M-12,-20 Q0,-38 12,-20 L14,-7 Q0,-4 -14,-7 Z" fill="#c8a04a"/>
+        <path d="M12,-18 Q20,-8 18,2" stroke="#c8a04a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- beard -->
+        <ellipse cx="0" cy="2" rx="9" ry="7" fill="#c8a080" opacity=".75"/>
+        <!-- mouth open — calling out to people -->
+        <ellipse cx="0" cy="1" rx="4.5" ry="3.5" fill="#5c3010" opacity=".85"/>
+        <!-- anguished/concerned eyes -->
+        <circle cx="-5" cy="-10" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5"  cy="-10" r="2.5" fill="#1a1a1a"/>
+        <!-- eyebrows arched with worry -->
+        <path d="M-9,-15 Q-5,-18 -1,-15" stroke="#5c3010" stroke-width="2" fill="none"/>
+        <path d="M1,-15 Q5,-18 9,-15"    stroke="#5c3010" stroke-width="2" fill="none"/>
+        <!-- sweat drop worry -->
+        <ellipse cx="12" cy="-14" rx="1.5" ry="2" fill="#87ceeb" opacity=".6"/>
+      </g>
+
+      <!-- few people still listening to Haroun (faithful remnant) -->
+      <g transform="translate(40,205)" opacity=".75">
+        <circle cx="0"  cy="-16" r="6.5" fill="#c8906a"/>
+        <rect x="-6"  y="-11" width="13" height="13" fill="#1e6b3a" rx="1"/>
+        <circle cx="22" cy="-14" r="6"  fill="#d4a57a"/>
+        <rect x="16"  y="-9"  width="12" height="12" fill="#2d6b9e" rx="1"/>
+        <!-- looking at Haroun not the calf -->
+        <circle cx="-2" cy="-17" r="1.8" fill="#1a1a1a"/>
+        <circle cx="2"  cy="-17" r="1.8" fill="#1a1a1a"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🐂 L'Épreuve du Veau d'Or</h2>
+    <p>Musa monta sur le mont <strong>Sinaï</strong> pour recevoir les Tables de la Loi de Dieu. Il laissa Haroun veiller sur le peuple pendant son absence.</p>
+    <p>Mais un homme malveillant nommé <strong>Samiri</strong> persuada le peuple de fondre leurs bijoux en or pour fabriquer un veau et l'adorer !</p>
+    <div class="quote">« Ô mon peuple ! Vous avez été mis à l'épreuve. Votre Seigneur est le Tout Miséricordieux, suivez-moi ! »</div>
+    <p>Haroun cria, supplia, mit en garde… mais la plupart ne l'écoutèrent pas. Il resta fermement du côté de la vérité, attendant le retour de son frère avec patience et courage. 😔🙏</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 4 : La Patience et la Sagesse ══ -->
+<div class="chapter ch4">
+  <div class="ch-num">٤</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="patSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0a1808"/>
+          <stop offset="60%"  stop-color="#1a3010"/>
+          <stop offset="100%" stop-color="#2a5020"/>
+        </linearGradient>
+        <radialGradient id="patGlow" cx="50%" cy="45%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".25"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#patSky)"/>
+      <rect width="340" height="255" fill="url(#patGlow)"/>
+
+      <!-- Stars -->
+      <circle cx="25"  cy="18" r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="70"  cy="35" r="1"   fill="white"   opacity=".6"/>
+      <circle cx="270" cy="20" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="318" cy="42" r="1"   fill="#f0c040" opacity=".65"/>
+
+      <!-- Desert + fertile land -->
+      <polygon points="0,198 50,162 110,185 180,155 250,175 310,152 340,165 340,255 0,255"
+               fill="#1a3010" opacity=".9"/>
+      <rect x="0" y="222" width="340" height="33" fill="#2a4018"/>
+      <!-- green grass emerging -->
+      <g opacity=".6">
+        <line x1="40"  y1="222" x2="38"  y2="212" stroke="#3a6a18" stroke-width="2.5"/>
+        <line x1="48"  y1="222" x2="50"  y2="210" stroke="#3a6a18" stroke-width="2.5"/>
+        <line x1="120" y1="222" x2="118" y2="214" stroke="#3a6a18" stroke-width="2.5"/>
+        <line x1="280" y1="222" x2="282" y2="212" stroke="#3a6a18" stroke-width="2.5"/>
+      </g>
+
+      <!-- Musa returning from Sinai with tablets — reuniting with Haroun -->
+      <!-- Musa left — coming down mountain -->
+      <g transform="translate(95,175)">
+        <path d="M-18,8 Q-14,58 0,62 Q14,58 18,8 Z" fill="#2d6b9e"/>
+        <!-- tablets in hand -->
+        <g transform="translate(22,5)">
+          <rect x="-12" y="-32" width="22" height="30" rx="3" fill="#f5e6c8" stroke="#d4a017" stroke-width="2"/>
+          <rect x="12"  y="-32" width="22" height="30" rx="3" fill="#f5e6c8" stroke="#d4a017" stroke-width="2"/>
+          <line x1="-8"  y1="-24" x2="6"  y2="-24" stroke="#d4a017" stroke-width="1.5"/>
+          <line x1="-8"  y1="-16" x2="6"  y2="-16" stroke="#d4a017" stroke-width="1.5"/>
+          <line x1="16"  y1="-24" x2="30" y2="-24" stroke="#d4a017" stroke-width="1.5"/>
+          <line x1="16"  y1="-16" x2="30" y2="-16" stroke="#d4a017" stroke-width="1.5"/>
+          <line x1="11" y1="-32" x2="11" y2="-2" stroke="#d4a017" stroke-width="2"/>
+        </g>
+        <line x1="18" y1="12" x2="36" y2="2" stroke="#2d6b9e" stroke-width="7" stroke-linecap="round"/>
+        <!-- arm on tablets -->
+        <line x1="-18" y1="14" x2="-36" y2="8" stroke="#2d6b9e" stroke-width="7" stroke-linecap="round"/>
+        <!-- staff tucked -->
+        <line x1="-38" y1="10" x2="-40" y2="68" stroke="#8b5e3c" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="0" cy="-8" r="14" fill="#d4a57a"/>
+        <path d="M-11,-18 Q0,-34 11,-18 L13,-6 Q0,-3 -13,-6 Z" fill="#1a3a5c"/>
+        <ellipse cx="0" cy="2" rx="8" ry="6" fill="#c0a08a" opacity=".7"/>
+        <circle cx="-4" cy="-9" r="2.5" fill="#1a1a1a"/>
+        <circle cx="4"  cy="-9" r="2.5" fill="#1a1a1a"/>
+        <path d="M-4,-2 Q0,2 4,-2" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- HAROUN — the EMBRACE of two brothers reuniting -->
+      <g transform="translate(185,178)">
+        <path d="M-20,8 Q-16,60 0,64 Q16,60 20,8 Z" fill="#1e6b3a"/>
+        <path d="M-34,4 Q-28,62 -10,66 Q-18,57 -22,8 Z" fill="#c8a04a" opacity=".7"/>
+        <!-- arms open wide in embrace of brother -->
+        <line x1="-20" y1="14" x2="-55" y2="8"  stroke="#1e6b3a" stroke-width="9" stroke-linecap="round"/>
+        <line x1="20"  y1="14" x2="50"  y2="8"  stroke="#1e6b3a" stroke-width="9" stroke-linecap="round"/>
+        <!-- head -->
+        <circle cx="0" cy="-10" r="16" fill="#c8906a"/>
+        <path d="M-13,-22 Q0,-40 13,-22 L15,-8 Q0,-5 -15,-8 Z" fill="#c8a04a"/>
+        <path d="M13,-20 Q21,-10 19,0" stroke="#c8a04a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <ellipse cx="0" cy="2" rx="9" ry="7" fill="#c8a080" opacity=".75"/>
+        <!-- happy relieved eyes with tears -->
+        <circle cx="-5.5" cy="-12" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5.5"  cy="-12" r="2.5" fill="#1a1a1a"/>
+        <ellipse cx="-6"  cy="-7" rx="1.5" ry="2.5" fill="#87ceeb" opacity=".7"/>
+        <ellipse cx="4"   cy="-7" rx="1.5" ry="2.5" fill="#87ceeb" opacity=".7"/>
+        <!-- big warm smile -->
+        <path d="M-6,-2 Q0,4 6,-2" stroke="#7a3a10" stroke-width="2" fill="none"/>
+      </g>
+
+      <!-- Olive / cedar trees around — peaceful -->
+      <g opacity=".65">
+        <line x1="30"  y1="220" x2="28"  y2="168" stroke="#3a2808" stroke-width="5"/>
+        <ellipse cx="26" cy="162" rx="20" ry="28" fill="#2a5018"/>
+        <ellipse cx="36" cy="155" rx="16" ry="22" fill="#3a6a28"/>
+        <line x1="310" y1="220" x2="312" y2="168" stroke="#3a2808" stroke-width="5"/>
+        <ellipse cx="314" cy="162" rx="20" ry="28" fill="#2a5018"/>
+        <ellipse cx="304" cy="155" rx="16" ry="22" fill="#3a6a28"/>
+      </g>
+
+      <!-- flowers of reconciliation -->
+      <circle cx="145" cy="225" r="4" fill="#ff9999" opacity=".7"/>
+      <circle cx="165" cy="223" r="3" fill="#f0c040" opacity=".6"/>
+      <circle cx="185" cy="225" r="4" fill="#ff88cc" opacity=".7"/>
+
+      <!-- Divine light beam on brothers -->
+      <g opacity=".12">
+        <line x1="170" y1="0" x2="140" y2="175" stroke="#f0c040" stroke-width="30" stroke-linecap="round"/>
+        <line x1="170" y1="0" x2="170" y2="178" stroke="#f0c040" stroke-width="15" stroke-linecap="round"/>
+        <line x1="170" y1="0" x2="200" y2="175" stroke="#f0c040" stroke-width="30" stroke-linecap="round"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🤝 Le Frère Fidèle</h2>
+    <p>Quand Musa redescendit du mont Sinaï avec les Tables de la Loi, il trouva son peuple en train d'adorer le veau d'or. Il était furieux.</p>
+    <p>Il se tourna vers Haroun et lui demanda des comptes. Haroun lui expliqua avec calme et dignité qu'il avait tout essayé pour les retenir, qu'il n'avait jamais abandonné la foi.</p>
+    <div class="quote">« Ô fils de ma mère ! Ne me prends pas par la barbe. J'ai craint que tu ne dises que j'ai divisé le peuple. »</div>
+    <p>Musa comprit la sincérité de son frère et pria pour lui. Car <strong>Haroun</strong> avait tenu bon seul face à la tempête, avec patience et fidélité. C'est ça, un vrai frère. 💚</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 5 : L'Héritage d'Haroun ══ -->
+<div class="chapter ch5">
+  <div class="ch-num">٥</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="legacySky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a1008"/>
+          <stop offset="40%"  stop-color="#2a1a08"/>
+          <stop offset="100%" stop-color="#c8a04a"/>
+        </linearGradient>
+        <radialGradient id="legacyGlow" cx="50%" cy="50%" r="55%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="sunsetGlow" cx="50%" cy="80%" r="55%">
+          <stop offset="0%"   stop-color="#ff8800" stop-opacity=".3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#legacySky)"/>
+      <rect width="340" height="255" fill="url(#legacyGlow)"/>
+      <rect width="340" height="255" fill="url(#sunsetGlow)"/>
+
+      <!-- Sunset sky stars emerging -->
+      <circle cx="30"  cy="22" r="1.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="80"  cy="15" r="2"   fill="white"   opacity=".8"/>
+      <circle cx="165" cy="10" r="1.5" fill="#f0c040" opacity=".75"/>
+      <circle cx="265" cy="18" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="318" cy="30" r="1"   fill="#f0c040" opacity=".65"/>
+
+      <!-- Setting sun on horizon -->
+      <circle cx="170" cy="188" r="50"  fill="#f0c040" opacity=".25"/>
+      <circle cx="170" cy="192" r="40"  fill="#ff8800" opacity=".3"/>
+      <circle cx="170" cy="195" r="30"  fill="#f0c040" opacity=".4"/>
+      <!-- sun rays horizontal -->
+      <g opacity=".2">
+        <line x1="120" y1="190" x2="80"  y2="188" stroke="#f0c040" stroke-width="2"/>
+        <line x1="220" y1="190" x2="260" y2="188" stroke="#f0c040" stroke-width="2"/>
+        <line x1="110" y1="178" x2="75"  y2="170" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="230" y1="178" x2="265" y2="170" stroke="#f0c040" stroke-width="1.5"/>
+      </g>
+
+      <!-- Desert hills silhouette at golden hour -->
+      <polygon points="0,200 50,162 110,185 175,155 240,175 300,150 340,165 340,255 0,255"
+               fill="#3a2808" opacity=".85"/>
+      <rect x="0" y="228" width="340" height="27" fill="#4a3010"/>
+
+      <!-- Mount Sinai in background with divine light -->
+      <polygon points="130,200 170,130 210,200" fill="#1a1208" opacity=".8"/>
+      <polygon points="142,200 170,148 198,200" fill="#2a1a08" opacity=".7"/>
+      <ellipse cx="170" cy="132" rx="18" ry="10" fill="#f0c040" opacity=".25"/>
+
+      <!-- LARGE CROWD — the people of Israel gathered, listening to Haroun -->
+      <!-- many tiny figures arranged in an arc -->
+      <g transform="translate(170,218)" opacity=".75">
+        <!-- row 1 front -->
+        <circle cx="-80" cy="-15" r="6"  fill="#d4a57a"/>
+        <rect x="-86" y="-10" width="12" height="11" fill="#c0392b" rx="1"/>
+        <circle cx="-58" cy="-17" r="6.5" fill="#c8906a"/>
+        <rect x="-64" y="-11" width="13" height="12" fill="#c9960c" rx="1"/>
+        <circle cx="-34" cy="-15" r="6"  fill="#d4b080"/>
+        <rect x="-40" y="-10" width="12" height="11" fill="#8b4a10" rx="1"/>
+        <circle cx="-10" cy="-17" r="6.5" fill="#d4a57a"/>
+        <rect x="-16" y="-11" width="13" height="12" fill="#1e6b3a" rx="1"/>
+        <circle cx="14"  cy="-15" r="6"  fill="#c8906a"/>
+        <rect x="8"   y="-10" width="12" height="11" fill="#6b3fa0" rx="1"/>
+        <circle cx="38"  cy="-17" r="6.5" fill="#d4b080"/>
+        <rect x="32"  y="-11" width="13" height="12" fill="#2d6b9e" rx="1"/>
+        <circle cx="62"  cy="-15" r="6"  fill="#d4a57a"/>
+        <rect x="56"  y="-10" width="12" height="11" fill="#c0392b" rx="1"/>
+        <circle cx="84"  cy="-17" r="6.5" fill="#c8906a"/>
+        <rect x="78"  y="-11" width="13" height="12" fill="#8b4a10" rx="1"/>
+      </g>
+
+      <!-- HAROUN — elevated on a small rock/platform, addressing the crowd -->
+      <g transform="translate(170,160)">
+        <!-- platform rock -->
+        <ellipse cx="0" cy="35" rx="32" ry="12" fill="#5a3a18" opacity=".7"/>
+        <!-- robe and cloak -->
+        <path d="M-22,10 Q-18,65 0,70 Q18,65 22,10 Z" fill="#1e6b3a"/>
+        <path d="M-36,6 Q-28,68 -10,72 Q-20,60 -24,10 Z" fill="#c8a04a" opacity=".8"/>
+        <path d="M36,6 Q28,68 10,72 Q20,60 24,10 Z"  fill="#c8a04a" opacity=".8"/>
+        <!-- BOTH arms raised — final blessing over the people -->
+        <line x1="-22" y1="14" x2="-58" y2="-5"  stroke="#1e6b3a" stroke-width="9" stroke-linecap="round"/>
+        <line x1="22"  y1="14" x2="58"  y2="-5"  stroke="#1e6b3a" stroke-width="9" stroke-linecap="round"/>
+        <!-- open palms blessing -->
+        <ellipse cx="-61" cy="-7"  rx="8" ry="6" fill="#c8906a" transform="rotate(-15,-61,-7)"/>
+        <ellipse cx="61"  cy="-7"  rx="8" ry="6" fill="#c8906a" transform="rotate(15,61,-7)"/>
+        <!-- golden light from both hands -->
+        <circle cx="-62" cy="-8"  r="12" fill="#f0c040" opacity=".2"/>
+        <circle cx="62"  cy="-8"  r="12" fill="#f0c040" opacity=".2"/>
+        <!-- speech waves from both sides — eloquence -->
+        <g opacity=".35" stroke="#f0c040" fill="none" stroke-linecap="round">
+          <path d="M-66,-10 Q-78,-18 -74,-6"  stroke-width="2"/>
+          <path d="M-70,-14 Q-85,-24 -82,-10" stroke-width="1.5" opacity=".7"/>
+          <path d="M66,-10 Q78,-18 74,-6"     stroke-width="2"/>
+          <path d="M70,-14 Q85,-24 82,-10"    stroke-width="1.5" opacity=".7"/>
+        </g>
+        <!-- head serene wise -->
+        <circle cx="0" cy="-12" r="18" fill="#c8906a"/>
+        <!-- golden turban ornate -->
+        <path d="M-14,-24 Q0,-46 14,-24 L16,-8 Q0,-5 -16,-8 Z" fill="#c8a04a"/>
+        <path d="M14,-22 Q22,-12 20,-2" stroke="#c8a04a" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <!-- jewel on turban -->
+        <circle cx="0" cy="-38" r="4" fill="#f0c040" opacity=".8"/>
+        <!-- beard full and white — elder -->
+        <ellipse cx="0" cy="4" rx="12" ry="10" fill="#f0f0f0" opacity=".85"/>
+        <!-- wise elder eyes -->
+        <circle cx="-6" cy="-14" r="2.8" fill="#1a1a1a"/>
+        <circle cx="6"  cy="-14" r="2.8" fill="#1a1a1a"/>
+        <!-- wrinkles of wisdom -->
+        <path d="M-10,-18 Q-6,-20 -2,-18" stroke="#b8906a" stroke-width=".8" fill="none" opacity=".6"/>
+        <path d="M2,-18 Q6,-20 10,-18"    stroke="#b8906a" stroke-width=".8" fill="none" opacity=".6"/>
+        <!-- gentle smile of the wise -->
+        <path d="M-6,-4 Q0,2 6,-4" stroke="#7a3a10" stroke-width="1.8" fill="none"/>
+        <!-- divine halo subtle -->
+        <circle cx="0" cy="-12" r="26" fill="none" stroke="#f0c040" stroke-width="1" opacity=".3"/>
+        <!-- golden light beam from above -->
+        <line x1="0" y1="-40" x2="0" y2="-65" stroke="#f0c040" stroke-width="2" opacity=".4"/>
+      </g>
+
+      <!-- golden sparkles floating -->
+      <circle cx="100" cy="140" r="2.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="240" cy="135" r="2.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="170" cy="120" r="3"   fill="#f0c040" opacity=".8"/>
+      <circle cx="130" cy="125" r="2"   fill="#f0c040" opacity=".6"/>
+      <circle cx="210" cy="128" r="2"   fill="#f0c040" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌟 La Voix qui Traverse le Temps</h2>
+    <p>Pendant toute sa vie, Haroun fut la <strong>voix douce et courageuse</strong> qui guidait le peuple. Là où Musa apportait la force, Haroun apportait la douceur.</p>
+    <p>Ensemble, ils formèrent le plus beau duo de prophètes : l'un parlant à Dieu sur la montagne, l'autre parlant aux hommes dans la plaine.</p>
+    <div class="quote">« Fais de mon frère Haroun un prophète avec moi, pour que nous Te glorifions beaucoup. »</div>
+    <p>Haroun nous apprend que les mots choisis avec sagesse et amour peuvent <strong>changer les cœurs</strong>. Que la douceur n'est pas une faiblesse. Et qu'un frère fidèle est l'un des plus beaux cadeaux de la vie. 💛✨</p>
+  </div>
+</div>
+
+
+<!-- ══ ENDING ══ -->
+<div class="ending">
+  <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.06;pointer-events:none"
+       viewBox="0 0 400 300">
+    <defs>
+      <pattern id="nilePat" x="0" y="0" width="80" height="40" patternUnits="userSpaceOnUse">
+        <path d="M0,20 Q20,0 40,20 Q60,40 80,20" fill="none" stroke="#4a9ede" stroke-width="1"/>
+        <path d="M0,30 Q20,10 40,30 Q60,50 80,30" fill="none" stroke="#f0c040" stroke-width=".5"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="300" fill="url(#nilePat)"/>
+  </svg>
+
+  <div style="font-size:2.5rem;margin-bottom:16px">🗣️</div>
+  <h2>✨ Fin ✨</h2>
+  <p>Et voilà l'histoire d'Haroun,<br>
+  le prophète aux mots d'or, le frère fidèle.<br><br>
+  Il nous apprend que la douceur dans la parole<br>
+  peut ouvrir des portes que la force ne peut franchir,<br>
+  que la fidélité à la vérité — même seul — est la vraie force,<br>
+  et qu'un frère qui te soutient est un trésor inestimable.<br><br>
+  <em>Que la paix soit sur Haroun et son frère Musa. 🌿✨</em></p>
+  <div class="end-star">✦</div>
+</div>
+
+<script>
+  // Stars on cover
+  const cover = document.getElementById('starsCover');
+  for (let i = 0; i < 75; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const sz = Math.random() * 2.5 + .6;
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*55}%;
+      width:${sz}px; height:${sz}px;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${1.5+Math.random()*2.5}s;
+    `;
+    cover.appendChild(s);
+  }
+
+  // Sand dust particles
+  const dustC = document.getElementById('dustContainer');
+  dustC.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;';
+  function makeDust() {
+    const d = document.createElement('div');
+    d.className = 'sand-dust';
+    const sz = Math.random() * 3 + 1;
+    d.style.cssText = `
+      width:${sz}px; height:${sz}px;
+      left:${Math.random()*100}%;
+      bottom:${Math.random()*30}%;
+      animation-duration:${5+Math.random()*6}s;
+      animation-delay:${Math.random()*4}s;
+    `;
+    dustC.appendChild(d);
+    d.addEventListener('animationend', () => d.remove());
+  }
+  for(let i=0;i<20;i++) makeDust();
+  setInterval(makeDust, 400);
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold:.1 }
+  );
+  document.querySelectorAll('.chapter,.ending').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
