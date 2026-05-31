@@ -521,6 +521,105 @@
       </div>
     </a>
 
+    <!-- ══ LE POISSON DORÉ ══ -->
+    <a class="card" href="poisson_dore.html">
+      <div class="card-art">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fishBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#0c2d48"/>
+              <stop offset="100%" stop-color="#145374"/>
+            </linearGradient>
+            <radialGradient id="fishGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#f0c040" stop-opacity=".2"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#fishBg)"/>
+          <rect width="400" height="300" fill="url(#fishGlow)"/>
+          <!-- light rays from surface -->
+          <path d="M100,0 L120,120" stroke="#a0d8ef" stroke-width="1.5" opacity=".15"/>
+          <path d="M200,0 L210,130" stroke="#a0d8ef" stroke-width="1.5" opacity=".12"/>
+          <path d="M300,0 L290,110" stroke="#a0d8ef" stroke-width="1.5" opacity=".15"/>
+          <!-- bubbles -->
+          <circle cx="80"  cy="80"  r="4" fill="none" stroke="#a0d8ef" stroke-width=".8" opacity=".4"/>
+          <circle cx="90"  cy="60"  r="2.5" fill="none" stroke="#a0d8ef" stroke-width=".6" opacity=".3"/>
+          <circle cx="310" cy="100" r="3" fill="none" stroke="#a0d8ef" stroke-width=".7" opacity=".35"/>
+          <circle cx="320" cy="75"  r="2" fill="none" stroke="#a0d8ef" stroke-width=".6" opacity=".3"/>
+          <circle cx="180" cy="200" r="2.5" fill="none" stroke="#a0d8ef" stroke-width=".6" opacity=".3"/>
+          <!-- seaweed -->
+          <path d="M50,300 Q55,260 48,230 Q42,200 50,170" stroke="#2a8040" stroke-width="5" fill="none" opacity=".6"/>
+          <path d="M65,300 Q70,270 63,245 Q58,220 65,195" stroke="#1a6b30" stroke-width="4" fill="none" opacity=".5"/>
+          <path d="M340,300 Q345,265 338,235 Q332,210 340,185" stroke="#2a8040" stroke-width="5" fill="none" opacity=".6"/>
+          <path d="M355,300 Q360,275 353,250 Q348,225 355,205" stroke="#1a6b30" stroke-width="4" fill="none" opacity=".5"/>
+          <!-- sand bottom -->
+          <ellipse cx="200" cy="310" rx="220" ry="30" fill="#c9960c" opacity=".15"/>
+          <!-- goldfish body -->
+          <g transform="translate(200,145)">
+            <!-- tail fin -->
+            <path d="M40,0 Q65,-25 55,-40 Q50,-20 40,0 Q50,20 55,40 Q65,25 40,0" fill="#f0c040" opacity=".8"/>
+            <!-- body -->
+            <ellipse cx="0" cy="0" rx="40" ry="25" fill="#f0c040"/>
+            <!-- belly highlight -->
+            <ellipse cx="-5" cy="5" rx="25" ry="12" fill="#ffe8a0" opacity=".5"/>
+            <!-- dorsal fin -->
+            <path d="M-10,-25 Q0,-45 15,-25" fill="#e8a308" opacity=".8"/>
+            <!-- pectoral fin -->
+            <path d="M-10,15 Q-20,30 -5,28" fill="#e8a308" opacity=".7"/>
+            <!-- eye -->
+            <circle cx="-22" cy="-5" r="6" fill="white"/>
+            <circle cx="-23" cy="-5" r="3.5" fill="#1e293b"/>
+            <circle cx="-24" cy="-6" r="1.5" fill="white" opacity=".8"/>
+            <!-- mouth -->
+            <ellipse cx="-38" cy="2" rx="3" ry="2" fill="#e8a308"/>
+            <!-- scales hint -->
+            <path d="M-15,-10 Q-10,-15 -5,-10" stroke="#e8a308" stroke-width=".8" fill="none" opacity=".5"/>
+            <path d="M-5,-12 Q0,-17 5,-12" stroke="#e8a308" stroke-width=".8" fill="none" opacity=".5"/>
+            <path d="M5,-8 Q10,-13 15,-8" stroke="#e8a308" stroke-width=".8" fill="none" opacity=".5"/>
+            <path d="M-10,0 Q-5,-5 0,0" stroke="#e8a308" stroke-width=".8" fill="none" opacity=".5"/>
+            <path d="M0,-2 Q5,-7 10,-2" stroke="#e8a308" stroke-width=".8" fill="none" opacity=".5"/>
+            <!-- golden sparkle -->
+            <circle cx="-30" cy="-20" r="2" fill="#ffe8a0" opacity=".7"/>
+            <circle cx="20" cy="-18" r="1.5" fill="#ffe8a0" opacity=".6"/>
+          </g>
+          <!-- small fish companions -->
+          <g transform="translate(120,200)" opacity=".5">
+            <ellipse cx="0" cy="0" rx="8" ry="5" fill="#7dd3fc"/>
+            <polygon points="8,0 14,-4 14,4" fill="#7dd3fc"/>
+          </g>
+          <g transform="translate(280,210)" opacity=".5">
+            <ellipse cx="0" cy="0" rx="7" ry="4" fill="#7dd3fc"/>
+            <polygon points="7,0 12,-3 12,3" fill="#7dd3fc"/>
+          </g>
+          <!-- coral -->
+          <g transform="translate(130,270)" opacity=".6">
+            <path d="M0,30 Q-5,15 -8,5 Q-10,-5 -5,-8" stroke="#f97316" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M0,30 Q5,18 3,8 Q1,0 5,-5" stroke="#f97316" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </g>
+          <g transform="translate(270,275)" opacity=".6">
+            <path d="M0,25 Q-4,12 -2,2" stroke="#f97316" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M0,25 Q4,15 6,5" stroke="#f97316" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">✦ صداقة · أمانة</div>
+        <div class="card-title">السمكة الذهبية 🐠</div>
+        <div class="card-arabic">قِصَّةُ السَّمَكَةِ الذَّهَبِيَّةِ</div>
+        <p class="card-desc">Un petit poisson doré aux écailles lumineuses découvre la valeur de l'amitié sincère au fond de l'océan — entre récifs de corail et courants mystérieux.</p>
+        <div class="card-footer">
+          <div class="card-chapters">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            1 histoire complète
+          </div>
+          <div class="card-btn">
+            Lire l'histoire
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+    </a>
+
     <!-- ══ COMING SOON cards ══ -->
     <div class="card card-soon">
       <div class="soon-art">

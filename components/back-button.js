@@ -5,16 +5,18 @@
  *   <back-button href="../index.html"></back-button>
  *   <back-button href="../../index.html" label="Accueil"></back-button>
  *   <back-button href="../index.html" color="blue"></back-button>
+ *   <back-button href="../index.html" label="الرئيسية" rtl></back-button>
  *
  * Attributes:
  *   href  — (required) redirect path
  *   label — (optional) button text, default "Retour"
  *   color — (optional) preset name or custom rgb values, default "green"
  *           Presets: green, blue, gold, purple
+ *   rtl   — (optional) if present, places arrow after label and positions button on the right
  */
 class BackButton extends HTMLElement {
   static get observedAttributes() {
-    return ['href', 'label', 'color'];
+    return ['href', 'label', 'color', 'rtl'];
   }
 
   constructor() {
@@ -36,14 +38,16 @@ class BackButton extends HTMLElement {
       blue:   { r: 30,  g: 80,  b: 160 },
       gold:   { r: 160, g: 120, b: 20  },
       purple: { r: 100, g: 40,  b: 140 },
+      red:    { r: 200, g: 50,  b: 50  },
     };
-    return presets[color] || presets['green'];
+    return presets[color] || presets['gold'];
   }
 
   render() {
     const href = this.getAttribute('href') || '#';
     const label = this.getAttribute('label') || 'Retour';
-    const colorName = this.getAttribute('color') || 'green';
+    const colorName = this.getAttribute('color') || 'gold';
+    const isRtl = this.hasAttribute('rtl');
     const c = this.getColorValues(colorName);
 
     this.shadowRoot.innerHTML = `
@@ -78,12 +82,15 @@ class BackButton extends HTMLElement {
           transform: scale(1.05);
         }
       </style>
-      <a href="${href}">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      <a href="${href}"${isRtl ? ' style="direction:rtl"' : ''}>
+        ${isRtl ? label : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
-        ${label}
+        </svg>`}
+        ${isRtl ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>` : label}
       </a>
     `;
   }

@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soulayman – Le Roi des Rois</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --royal-gold:  #c9960c;
+    --gold-light:  #f0c040;
+    --royal-blue:  #1a2a6c;
+    --royal-green: #1a5a2a;
+    --deep-night:  #06080e;
+    --violet:      #4a1a7a;
+    --emerald:     #1a6b4a;
+    --sand:        #c8a04a;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--deep-night);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    color: #e8dcc8;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(160deg,#06080e 0%,#0e0a20 35%,#1a1430 65%,#4a2a80 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px 80px;
+  }
+
+  /* floating sparkles — djinn magic */
+  .sparkle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: sparkleFly linear infinite;
+    opacity: 0;
+  }
+  @keyframes sparkleFly {
+    0%   { transform:translateY(0) scale(1) rotate(0deg);   opacity:0; }
+    20%  { opacity:1; }
+    80%  { opacity:.6; }
+    100% { transform:translateY(-80px) scale(.4) rotate(180deg); opacity:0; }
+  }
+
+  .cover-stars { position:absolute; inset:0; pointer-events:none; }
+  .star-dot {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: tw 2.5s infinite alternate;
+  }
+  @keyframes tw {
+    from { opacity:.15; transform:scale(1); }
+    to   { opacity:.9;  transform:scale(1.7); }
+  }
+
+  .cover-scene {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 28px;
+    animation: floatY 5s ease-in-out infinite;
+  }
+  @keyframes floatY {
+    0%,100%{transform:translateY(0);}
+    50%    {transform:translateY(-14px);}
+  }
+
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem,9vw,5rem);
+    color: var(--gold-light);
+    text-align: center;
+    letter-spacing: 3px;
+    line-height: 1.1;
+    text-shadow: 0 2px 30px rgba(100,50,200,.6), 0 0 60px rgba(240,192,64,.25);
+  }
+  .cover .subtitle-ar {
+    font-size: 1.4rem;
+    color: rgba(200,180,255,.4);
+    margin-top: 8px;
+    letter-spacing: 6px;
+    font-family: serif;
+  }
+  .cover .subtitle {
+    color: rgba(220,200,255,.4);
+    font-size: .95rem;
+    margin-top: 12px;
+    font-style: italic;
+    letter-spacing: 2px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    color: rgba(200,180,255,.35);
+    font-size: .8rem;
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);}
+  }
+
+  .cover-fade {
+    position:absolute; bottom:0; left:0; right:0;
+    height: 100px;
+    background: linear-gradient(transparent,#06080e);
+    pointer-events: none;
+  }
+
+  /* ── CHAPTERS ── */
+  .chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 24px 60px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .chapter.visible { opacity:1; transform:translateY(0); }
+
+  .ch1 { background: linear-gradient(155deg,#0a0818 0%,#1a1030 55%,#2a1a50 100%); }
+  .ch2 { background: linear-gradient(155deg,#0a1808 0%,#1a3010 50%,#2a5020 100%); }
+  .ch3 { background: linear-gradient(155deg,#1a1008 0%,#2a1a08 50%,#4a3010 100%); }
+  .ch4 { background: linear-gradient(155deg,#08080e 0%,#1a1030 55%,#2a1850 100%); }
+  .ch5 { background: linear-gradient(155deg,#1a1008 0%,#2a1a08 50%,#c8a04a 100%); }
+
+  .ch-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9rem;
+    font-weight: 700;
+    position: absolute;
+    top: 0; right: 20px;
+    line-height: 1;
+    pointer-events: none;
+    opacity: .05;
+  }
+  .ch1 .ch-num { color:#d4a0ff; }
+  .ch2 .ch-num { color:#88ff88; }
+  .ch3 .ch-num { color:#f0c040; }
+  .ch4 .ch-num { color:#d4a0ff; }
+  .ch5 .ch-num { color:#f0c040; }
+
+  .illustration {
+    width: min(340px,92vw);
+    height: min(255px,69vw);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 60px rgba(0,0,0,.6);
+    margin-bottom: 36px;
+    flex-shrink: 0;
+    position: relative; z-index:1;
+    border: 3px solid rgba(160,100,240,.3);
+  }
+  .illustration svg { width:100%; height:100%; display:block; }
+
+  .chapter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem,5vw,2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative; z-index:1;
+  }
+  .story-text {
+    max-width: 490px;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    position: relative; z-index:1;
+  }
+  .story-text p { margin-bottom:14px; }
+  .quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    padding: 14px 22px;
+    border-radius: 14px;
+    margin: 18px 0;
+    display: inline-block;
+    border-left: 4px solid currentColor;
+  }
+
+  .ch1 .chapter-title { color:#d4a0ff; }
+  .ch1 .story-text    { color:#f0ead8; }
+  .ch1 .quote         { background:rgba(180,130,255,.1); color:#d4a0ff; }
+
+  .ch2 .chapter-title { color:#a0ff88; }
+  .ch2 .story-text    { color:#f0ead8; }
+  .ch2 .quote         { background:rgba(100,220,80,.08); color:#a0ff88; }
+
+  .ch3 .chapter-title { color:#f0c040; }
+  .ch3 .story-text    { color:#f0ead8; }
+  .ch3 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+  .ch4 .chapter-title { color:#d4a0ff; }
+  .ch4 .story-text    { color:#f0ead8; }
+  .ch4 .quote         { background:rgba(180,130,255,.1); color:#d4a0ff; }
+
+  .ch5 .chapter-title { color:#f0c040; }
+  .ch5 .story-text    { color:#f0ead8; }
+  .ch5 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+  /* ── ENDING ── */
+  .ending {
+    background: linear-gradient(160deg,#06080e 0%,#0e0a20 50%,#1a1430 100%);
+    padding: 90px 24px;
+    text-align: center;
+    color: white;
+    position: relative; overflow:hidden;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .ending.visible { opacity:1; transform:translateY(0); }
+  .ending h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+    letter-spacing: 2px;
+  }
+  .ending p {
+    font-size:1.1rem; max-width:520px;
+    margin:0 auto; opacity:.85; line-height:1.9;
+  }
+  .end-star {
+    font-size:2.5rem; margin-top:36px;
+    display:inline-block;
+    animation: spinSlow 12s linear infinite;
+    color: var(--gold-light);
+  }
+  @keyframes spinSlow {
+    from{transform:rotate(0deg);} to{transform:rotate(360deg);}
+  }
+
+  @media(min-width:720px){
+    .chapter{flex-direction:row!important;gap:52px;padding:90px 64px;}
+    .illustration{margin-bottom:0;}
+    .story-text{text-align:left;}
+    .chapter-title{text-align:left;}
+    .chapter:nth-child(even){flex-direction:row-reverse!important;}
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html" color="purple"></back-button>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-stars" id="starsCover"></div>
+  <div id="sparkleContainer"></div>
+
+  <div class="cover-scene">
+    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="royalGlow" cx="50%" cy="45%" r="55%">
+          <stop offset="0%"   stop-color="#a060ff" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="goldGlow" cx="50%" cy="40%" r="40%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="nightCov" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#06080e"/>
+          <stop offset="100%" stop-color="#1a1430"/>
+        </linearGradient>
+        <linearGradient id="throneGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#d4a017"/>
+          <stop offset="100%" stop-color="#8b6010"/>
+        </linearGradient>
+      </defs>
+
+      <!-- circle frame -->
+      <circle cx="150" cy="150" r="147" fill="#06080e" stroke="#c9960c" stroke-width="2"/>
+      <circle cx="150" cy="150" r="137" fill="none" stroke="#c9960c"
+              stroke-width=".5" stroke-dasharray="5 4" opacity=".4"/>
+      <clipPath id="covClip"><circle cx="150" cy="150" r="145"/></clipPath>
+
+      <rect width="300" height="300" fill="url(#nightCov)" clip-path="url(#covClip)"/>
+      <rect width="300" height="300" fill="url(#royalGlow)" clip-path="url(#covClip)"/>
+      <rect width="300" height="300" fill="url(#goldGlow)"  clip-path="url(#covClip)"/>
+
+      <!-- stars scattered -->
+      <g clip-path="url(#covClip)">
+        <circle cx="40"  cy="25"  r="2"   fill="#f0c040" opacity=".9"/>
+        <circle cx="85"  cy="18"  r="1.5" fill="white"   opacity=".75"/>
+        <circle cx="135" cy="32"  r="1.5" fill="white"   opacity=".7"/>
+        <circle cx="195" cy="20"  r="2"   fill="#d4a0ff" opacity=".85"/>
+        <circle cx="245" cy="35"  r="2"   fill="#f0c040" opacity=".8"/>
+        <circle cx="270" cy="18"  r="1.5" fill="white"   opacity=".7"/>
+        <circle cx="60"  cy="55"  r="1"   fill="#d4a0ff" opacity=".6"/>
+        <circle cx="220" cy="58"  r="1.5" fill="white"   opacity=".55"/>
+      </g>
+
+      <!-- FLYING CARPET — Soulayman's throne on the wind -->
+      <g transform="translate(150,190)" clip-path="url(#covClip)">
+        <!-- wind effect underneath carpet -->
+        <ellipse cx="0" cy="28" rx="90" ry="22" fill="#6030c0" opacity=".12"/>
+        <!-- carpet body ornate -->
+        <path d="M-80,10 Q-75,28 0,32 Q75,28 80,10 L78,0 Q0,-8 -78,0 Z" fill="#8b1a3a"/>
+        <!-- carpet pattern -->
+        <path d="M-75,3 Q0,-5 75,3 Q0,16 -75,3 Z" fill="#a02040" opacity=".7"/>
+        <!-- geometric pattern on carpet -->
+        <g opacity=".5">
+          <rect x="-60" y="2"  width="16" height="12" fill="#f0c040" rx="2" opacity=".4"/>
+          <rect x="-38" y="2"  width="16" height="12" fill="#f0c040" rx="2" opacity=".4"/>
+          <rect x="-16" y="2"  width="16" height="12" fill="#f0c040" rx="2" opacity=".4"/>
+          <rect x="6"   y="2"  width="16" height="12" fill="#f0c040" rx="2" opacity=".4"/>
+          <rect x="28"  y="2"  width="16" height="12" fill="#f0c040" rx="2" opacity=".4"/>
+          <rect x="50"  y="2"  width="16" height="12" fill="#f0c040" rx="2" opacity=".4"/>
+        </g>
+        <!-- carpet fringe left and right -->
+        <g stroke="#f0c040" stroke-width="2" opacity=".5">
+          <line x1="-80" y1="2"  x2="-86" y2="10"/>
+          <line x1="-80" y1="6"  x2="-86" y2="14"/>
+          <line x1="-80" y1="10" x2="-86" y2="18"/>
+          <line x1="80"  y1="2"  x2="86"  y2="10"/>
+          <line x1="80"  y1="6"  x2="86"  y2="14"/>
+          <line x1="80"  y1="10" x2="86"  y2="18"/>
+        </g>
+
+        <!-- SOULAYMAN on throne / carpet — seated, regal -->
+        <!-- ornate throne -->
+        <rect x="-22" y="-55" width="44" height="58" fill="url(#throneGrad)" rx="4" opacity=".9"/>
+        <rect x="-18" y="-50" width="36" height="48" fill="#c8a040" rx="3" opacity=".6"/>
+        <!-- armrests -->
+        <rect x="-30" y="-28" width="14" height="8" fill="#c8a040" rx="2" opacity=".7"/>
+        <rect x="16"  y="-28" width="14" height="8" fill="#c8a040" rx="2" opacity=".7"/>
+        <!-- throne back top arc -->
+        <path d="M-22,-55 Q0,-72 22,-55" fill="#d4a017" opacity=".8"/>
+        <!-- jewels on throne -->
+        <circle cx="-12" cy="-60" r="4" fill="#e74c3c" opacity=".8"/>
+        <circle cx="0"   cy="-64" r="4" fill="#f0c040" opacity=".9"/>
+        <circle cx="12"  cy="-60" r="4" fill="#3498db" opacity=".8"/>
+
+        <!-- Soulayman seated -->
+        <path d="M-16,-10 Q-12,22 0,24 Q12,22 16,-10 Z" fill="#1e6b3a"/>
+        <!-- robe royal green and gold -->
+        <path d="M-28,-14 Q-22,24 -8,26 Q-16,18 -18,-10 Z" fill="#c8a040" opacity=".8"/>
+        <path d="M28,-14 Q22,24 8,26 Q16,18 18,-10 Z"  fill="#c8a040" opacity=".8"/>
+        <!-- arms on armrests regal -->
+        <line x1="-16" y1="-8" x2="-28" y2="-18" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="16"  y1="-8" x2="28"  y2="-18" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- hands on armrests -->
+        <ellipse cx="-30" cy="-20" rx="6" ry="4" fill="#c8906a"/>
+        <ellipse cx="30"  cy="-20" rx="6" ry="4" fill="#c8906a"/>
+        <!-- ring of Solomon (Khatam) glow on right hand -->
+        <circle cx="33" cy="-20" r="4" fill="#f0c040" opacity=".7"/>
+        <!-- head -->
+        <circle cx="0" cy="-28" r="14" fill="#c8906a"/>
+        <!-- crown royal -->
+        <path d="M-12,-40 L-8,-54 L0,-46 L8,-54 L12,-40 Z" fill="#d4a017"/>
+        <rect x="-14" y="-43" width="28" height="5" fill="#c8a040" opacity=".8"/>
+        <!-- crown jewels -->
+        <circle cx="-8" cy="-53" r="3" fill="#e74c3c" opacity=".9"/>
+        <circle cx="0"  cy="-48" r="3" fill="#3498db" opacity=".9"/>
+        <circle cx="8"  cy="-53" r="3" fill="#2ecc71" opacity=".9"/>
+        <!-- halo of divine knowledge -->
+        <circle cx="0" cy="-28" r="20" fill="none" stroke="#f0c040" stroke-width="1.2" opacity=".4"/>
+        <!-- beard -->
+        <ellipse cx="0" cy="-18" rx="8" ry="6" fill="#c8a080" opacity=".7"/>
+        <!-- wise eyes -->
+        <circle cx="-4.5" cy="-29" r="2.5" fill="#1a1a1a"/>
+        <circle cx="4.5"  cy="-29" r="2.5" fill="#1a1a1a"/>
+        <path d="M-4,-22 Q0,-18 4,-22" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- BIRDS flying around (Hudhud and army) -->
+      <g clip-path="url(#covClip)" opacity=".8">
+        <!-- top left birds -->
+        <path d="M45,85  Q52,76 60,84  Q67,75 74,83"  fill="white" stroke="none"/>
+        <path d="M68,68  Q75,59 83,67  Q90,58 97,66"  fill="#f0c040" stroke="none" opacity=".8"/>
+        <!-- top right -->
+        <path d="M210,75 Q218,65 228,73 Q235,64 243,72" fill="white" stroke="none"/>
+        <path d="M230,55 Q238,46 248,54 Q255,45 263,53" fill="#f0c040" stroke="none" opacity=".8"/>
+        <!-- bottom -->
+        <path d="M50,225 Q58,215 66,223 Q73,214 80,222" fill="white" stroke="none" opacity=".5"/>
+        <path d="M230,228 Q238,219 248,227 Q255,218 263,226" fill="white" stroke="none" opacity=".5"/>
+      </g>
+
+      <!-- DJINN shape faint in background -->
+      <g clip-path="url(#covClip)" opacity=".2">
+        <ellipse cx="60"  cy="155" rx="20" ry="55" fill="#8030d0" transform="rotate(-20,60,155)"/>
+        <ellipse cx="240" cy="150" rx="20" ry="55" fill="#8030d0" transform="rotate(20,240,150)"/>
+      </g>
+
+      <!-- magic sparkles around the throne -->
+      <g clip-path="url(#covClip)">
+        <circle cx="80"  cy="185" r="3"   fill="#d4a0ff" opacity=".8"/>
+        <circle cx="220" cy="188" r="3"   fill="#f0c040" opacity=".8"/>
+        <circle cx="100" cy="165" r="2"   fill="#d4a0ff" opacity=".6"/>
+        <circle cx="200" cy="168" r="2"   fill="#f0c040" opacity=".6"/>
+        <circle cx="55"  cy="200" r="1.5" fill="#d4a0ff" opacity=".5"/>
+        <circle cx="245" cy="202" r="1.5" fill="#f0c040" opacity=".5"/>
+      </g>
+    </svg>
+  </div>
+
+  <h1>Soulayman<br>
+  <span style="font-size:.55em;letter-spacing:4px;opacity:.9">Le Roi des Rois</span></h1>
+  <p class="subtitle-ar">سليمان عليه السلام</p>
+  <p class="subtitle">Le prophète qui commandait les djinns et le vent</p>
+
+  <div class="scroll-hint">
+    <span>Fais défiler pour lire</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+  <div class="cover-fade"></div>
+</div>
+
+
+<!-- ══ CH 1 : Le Don des Dons ══ -->
+<div class="chapter ch1">
+  <div class="ch-num">١</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="giftSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#06080e"/>
+          <stop offset="55%"  stop-color="#1a1030"/>
+          <stop offset="100%" stop-color="#2a1a50"/>
+        </linearGradient>
+        <radialGradient id="giftGlow" cx="50%" cy="40%" r="50%">
+          <stop offset="0%"   stop-color="#d4a0ff" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#giftSky)"/>
+      <rect width="340" height="255" fill="url(#giftGlow)"/>
+
+      <!-- stars -->
+      <circle cx="28"  cy="18" r="2"   fill="#f0c040" opacity=".85"/>
+      <circle cx="75"  cy="32" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="130" cy="14" r="2"   fill="#d4a0ff" opacity=".8"/>
+      <circle cx="215" cy="25" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="275" cy="18" r="2"   fill="#f0c040" opacity=".8"/>
+      <circle cx="318" cy="38" r="1.5" fill="#d4a0ff" opacity=".65"/>
+      <circle cx="55"  cy="55" r="1"   fill="white"   opacity=".5"/>
+      <circle cx="290" cy="52" r="1"   fill="white"   opacity=".55"/>
+
+      <!-- Palace of Soulayman background -->
+      <!-- columns -->
+      <rect x="20"  y="100" width="18" height="120" fill="#c8a04a" opacity=".4" rx="2"/>
+      <rect x="50"  y="100" width="18" height="120" fill="#c8a04a" opacity=".35" rx="2"/>
+      <rect x="272" y="100" width="18" height="120" fill="#c8a04a" opacity=".4" rx="2"/>
+      <rect x="302" y="100" width="18" height="120" fill="#c8a04a" opacity=".35" rx="2"/>
+      <!-- arch top -->
+      <path d="M18,100 Q170,55 322,100" fill="none" stroke="#c8a04a" stroke-width="3" opacity=".3"/>
+      <!-- floor tiles -->
+      <rect x="0" y="215" width="340" height="40" fill="#1a1808" opacity=".6"/>
+      <g stroke="#c8a04a" stroke-width=".7" opacity=".15">
+        <line x1="40"  y1="215" x2="40"  y2="255"/>
+        <line x1="80"  y1="215" x2="80"  y2="255"/>
+        <line x1="120" y1="215" x2="120" y2="255"/>
+        <line x1="160" y1="215" x2="160" y2="255"/>
+        <line x1="200" y1="215" x2="200" y2="255"/>
+        <line x1="240" y1="215" x2="240" y2="255"/>
+        <line x1="280" y1="215" x2="280" y2="255"/>
+        <line x1="320" y1="215" x2="320" y2="255"/>
+      </g>
+      <!-- Ground -->
+      <rect x="0" y="220" width="340" height="35" fill="#1a1808" opacity=".8"/>
+
+      <!-- DAWUD (father of Soulayman) passing the crown -->
+      <g transform="translate(95,175)">
+        <path d="M-18,8 Q-14,60 0,64 Q14,60 18,8 Z" fill="#2d6b9e"/>
+        <line x1="18" y1="12" x2="45" y2="5" stroke="#2d6b9e" stroke-width="7" stroke-linecap="round"/>
+        <!-- crown being handed -->
+        <g transform="translate(48,2)">
+          <path d="M-10,-10 L-6,-22 L0,-16 L6,-22 L10,-10 Z" fill="#d4a017"/>
+          <rect x="-12" y="-12" width="24" height="5" fill="#c8a040" opacity=".8"/>
+          <circle cx="-6" cy="-21" r="3" fill="#e74c3c" opacity=".9"/>
+          <circle cx="0"  cy="-17" r="3" fill="#3498db" opacity=".9"/>
+          <circle cx="6"  cy="-21" r="3" fill="#2ecc71" opacity=".9"/>
+        </g>
+        <circle cx="0" cy="-8" r="14" fill="#c8906a"/>
+        <path d="M-11,-18 Q0,-34 11,-18 L13,-6 Q0,-3 -13,-6 Z" fill="#1a3a5c"/>
+        <!-- white beard (old) -->
+        <ellipse cx="0" cy="2" rx="9" ry="7" fill="#f0f0f0" opacity=".8"/>
+        <circle cx="-4" cy="-9" r="2.5" fill="#1a1a1a"/>
+        <circle cx="4"  cy="-9" r="2.5" fill="#1a1a1a"/>
+      </g>
+
+      <!-- YOUNG SOULAYMAN — receiving kingdom + gifts from God -->
+      <g transform="translate(200,170)">
+        <path d="M-20,10 Q-16,62 0,66 Q16,62 20,10 Z" fill="#1e6b3a"/>
+        <path d="M-34,6 Q-28,64 -10,68 Q-20,58 -24,10 Z" fill="#c8a040" opacity=".75"/>
+        <path d="M34,6 Q28,64 10,68 Q20,58 24,10 Z"  fill="#c8a040" opacity=".75"/>
+        <!-- arm receiving crown -->
+        <line x1="-20" y1="14" x2="-50" y2="2" stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- other arm raised in gratitude to God -->
+        <line x1="20"  y1="14" x2="45"  y2="-10" stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <ellipse cx="48" cy="-13" rx="7" ry="5" fill="#c8906a" transform="rotate(-20,48,-13)"/>
+        <!-- head -->
+        <circle cx="0" cy="-10" r="17" fill="#c8906a"/>
+        <!-- divine light crown being placed -->
+        <g transform="translate(0,-25)">
+          <path d="M-12,-12 L-8,-24 L0,-18 L8,-24 L12,-12 Z" fill="#d4a017"/>
+          <rect x="-14" y="-14" width="28" height="5" fill="#c8a040" opacity=".8"/>
+          <circle cx="-8" cy="-23" r="3" fill="#e74c3c" opacity=".9"/>
+          <circle cx="0"  cy="-19" r="3" fill="#f0c040" opacity=".95"/>
+          <circle cx="8"  cy="-23" r="3" fill="#3498db" opacity=".9"/>
+          <!-- glow around crown -->
+          <circle cx="0" cy="-18" r="20" fill="#f0c040" opacity=".12"/>
+        </g>
+        <!-- young beard just forming -->
+        <ellipse cx="0" cy="2" rx="8" ry="5" fill="#8b6020" opacity=".6"/>
+        <!-- eyes wide with gratitude -->
+        <circle cx="-5.5" cy="-12" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5.5"  cy="-12" r="2.5" fill="#1a1a1a"/>
+        <path d="M-5,-4 Q0,1 5,-4" stroke="#7a3a10" stroke-width="2" fill="none"/>
+        <!-- divine halo -->
+        <circle cx="0" cy="-10" r="25" fill="none" stroke="#f0c040" stroke-width="1" opacity=".3"/>
+      </g>
+
+      <!-- divine light from above — God bestowing gifts -->
+      <g opacity=".2">
+        <line x1="200" y1="0"   x2="180" y2="145" stroke="#f0c040" stroke-width="15" stroke-linecap="round" opacity=".06"/>
+        <line x1="200" y1="0"   x2="198" y2="148" stroke="#f0c040" stroke-width="8"  stroke-linecap="round" opacity=".12"/>
+        <line x1="200" y1="0"   x2="215" y2="145" stroke="#f0c040" stroke-width="15" stroke-linecap="round" opacity=".06"/>
+      </g>
+
+      <!-- sparkle dots — magic gifts -->
+      <circle cx="155" cy="130" r="3"   fill="#d4a0ff" opacity=".8"/>
+      <circle cx="240" cy="115" r="2.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="170" cy="100" r="2"   fill="#d4a0ff" opacity=".6"/>
+      <circle cx="228" cy="98"  r="2"   fill="#f0c040" opacity=".65"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">👑 Le Don des Dons</h2>
+    <p>Le prophète <strong>Soulayman</strong> (Salomon) était le fils du grand roi et prophète <strong>Dawud</strong>. Dieu lui accorda un royaume comme nul autre n'en avait jamais eu.</p>
+    <p>Soulayman reçut des dons extraordinaires : il pouvait commander aux <strong>djinns</strong>, au <strong>vent</strong>, et il comprenait la langue de tous les animaux !</p>
+    <div class="quote">« Seigneur, pardonne-moi et accorde-moi un royaume que nul après moi ne pourra avoir. Tu es le Grand Donateur. »</div>
+    <p>Mais Soulayman était humble. Il savait que tout cela venait de Dieu. Il utilisa son immense pouvoir non pour se vanter, mais pour <strong>servir la justice</strong> et répandre la foi. 🌟</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 2 : La Langue des Animaux ══ -->
+<div class="chapter ch2">
+  <div class="ch-num">٢</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="animalSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0a1808"/>
+          <stop offset="55%"  stop-color="#1a3010"/>
+          <stop offset="100%" stop-color="#2a5020"/>
+        </linearGradient>
+        <radialGradient id="animalGlow" cx="50%" cy="45%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".2"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#animalSky)"/>
+      <rect width="340" height="255" fill="url(#animalGlow)"/>
+
+      <!-- Stars -->
+      <circle cx="30"  cy="18" r="1.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="290" cy="22" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="155" cy="12" r="1"   fill="white"   opacity=".5"/>
+
+      <!-- Lush green garden -->
+      <polygon points="0,195 50,158 110,180 180,150 250,170 310,148 340,162 340,255 0,255"
+               fill="#1e5018" opacity=".9"/>
+      <rect x="0" y="218" width="340" height="37" fill="#2a6020"/>
+      <!-- grass -->
+      <g opacity=".6" stroke="#3a7028" stroke-width="2.5">
+        <line x1="15"  y1="218" x2="12"  y2="206"/>
+        <line x1="22"  y1="218" x2="25"  y2="204"/>
+        <line x1="60"  y1="218" x2="57"  y2="208"/>
+        <line x1="300" y1="218" x2="297" y2="207"/>
+        <line x1="320" y1="218" x2="323" y2="205"/>
+      </g>
+      <!-- flowers -->
+      <g>
+        <circle cx="45"  cy="220" r="4" fill="#ff9999" opacity=".7"/>
+        <circle cx="75"  cy="218" r="3" fill="#f0c040" opacity=".6"/>
+        <circle cx="280" cy="220" r="4" fill="#ff88cc" opacity=".7"/>
+        <circle cx="310" cy="218" r="3" fill="#88ddff" opacity=".6"/>
+      </g>
+
+      <!-- BIG TREE centre -->
+      <line x1="170" y1="218" x2="168" y2="140" stroke="#6b4020" stroke-width="10"/>
+      <ellipse cx="165" cy="128" rx="42" ry="52" fill="#2a7028"/>
+      <ellipse cx="178" cy="118" rx="34" ry="42" fill="#3a8a38"/>
+      <ellipse cx="155" cy="122" rx="30" ry="38" fill="#2a7028"/>
+      <!-- fruits on tree -->
+      <circle cx="160" cy="118" r="7" fill="#e74c3c" opacity=".8"/>
+      <circle cx="178" cy="112" r="6" fill="#f0c040" opacity=".8"/>
+      <circle cx="168" cy="130" r="6" fill="#e74c3c" opacity=".7"/>
+
+      <!-- BIRDS in tree and flying -->
+      <!-- Hudhud (hoopoe) — special messenger bird, crest visible -->
+      <g transform="translate(195,142)" opacity=".9">
+        <ellipse cx="0" cy="0"  rx="14" ry="8"  fill="#c8845a"/>
+        <circle  cx="-8" cy="-5" r="8"  fill="#d4956a"/>
+        <!-- distinctive crest of hoopoe -->
+        <g>
+          <line x1="-8" y1="-12" x2="-12" y2="-24" stroke="#e74c3c" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="-5" y1="-12" x2="-6"  y2="-24" stroke="#f0c040" stroke-width="2" stroke-linecap="round"/>
+          <line x1="-2" y1="-12" x2="-1"  y2="-23" stroke="#e74c3c" stroke-width="2" stroke-linecap="round"/>
+          <!-- crest tops circles -->
+          <circle cx="-12" cy="-25" r="3" fill="#e74c3c"/>
+          <circle cx="-6"  cy="-25" r="2.5" fill="#f0c040"/>
+          <circle cx="-1"  cy="-24" r="2.5" fill="#e74c3c"/>
+        </g>
+        <!-- beak long -->
+        <path d="M-15,-6 Q-24,-8 -22,-4" stroke="#8b6020" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- eye bright -->
+        <circle cx="-10" cy="-6" r="3" fill="#1a1a1a"/>
+        <circle cx="-9"  cy="-7" r="1.2" fill="white" opacity=".7"/>
+        <!-- wings folded -->
+        <path d="M0,-2 Q12,-10 18,0 Q12,6 0,-2 Z" fill="#b87040" opacity=".8"/>
+        <!-- tail feathers striped -->
+        <path d="M12,4 Q20,8 18,16 Q12,10 12,4 Z"   fill="#1a1a1a"/>
+        <path d="M14,4 Q22,6 22,14 Q16,10 14,4 Z"   fill="white" opacity=".6"/>
+      </g>
+
+      <!-- Other birds flying -->
+      <g opacity=".75">
+        <path d="M50,100 Q58,90 66,98  Q74,88 82,96"  fill="white" stroke="none"/>
+        <path d="M75,80  Q83,70 91,78  Q99,68 107,76" fill="#f0c040" stroke="none"/>
+        <path d="M248,95 Q256,85 264,93 Q272,83 280,91" fill="white" stroke="none"/>
+        <path d="M265,75 Q273,65 281,73 Q289,63 297,71" fill="white" stroke="none" opacity=".7"/>
+      </g>
+
+      <!-- ANT on the ground — Soulayman heard the ant speak! -->
+      <g transform="translate(130,218)">
+        <!-- ant body segments -->
+        <ellipse cx="0"  cy="0"  rx="6"  ry="4"  fill="#1a1a1a"/>
+        <ellipse cx="-8" cy="0"  rx="5"  ry="3"  fill="#2a2a2a"/>
+        <ellipse cx="-16" cy="1" rx="4"  ry="3"  fill="#1a1a1a"/>
+        <!-- head -->
+        <circle  cx="-20" cy="0" r="3.5" fill="#2a2a2a"/>
+        <!-- antennae -->
+        <line x1="-22" y1="-2"  x2="-28" y2="-8"  stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="-20" y1="-3"  x2="-24" y2="-10" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- legs -->
+        <line x1="-5"  y1="3"  x2="-8"  y2="9"  stroke="#1a1a1a" stroke-width="1.5"/>
+        <line x1="0"   y1="3"  x2="0"   y2="9"  stroke="#1a1a1a" stroke-width="1.5"/>
+        <line x1="4"   y1="2"  x2="6"   y2="8"  stroke="#1a1a1a" stroke-width="1.5"/>
+        <line x1="-5"  y1="-3" x2="-8"  y2="-9" stroke="#1a1a1a" stroke-width="1.5"/>
+        <line x1="0"   y1="-3" x2="0"   y2="-9" stroke="#1a1a1a" stroke-width="1.5"/>
+        <line x1="4"   y1="-2" x2="6"   y2="-8" stroke="#1a1a1a" stroke-width="1.5"/>
+        <!-- speech bubble from ant -->
+        <g transform="translate(15,-25)">
+          <ellipse cx="0" cy="0" rx="20" ry="12" fill="white" opacity=".85"/>
+          <path d="M-8,10 Q-5,15 0,10 Z" fill="white" opacity=".85"/>
+          <!-- tiny ant text -->
+          <line x1="-12" y1="-4" x2="12" y2="-4" stroke="#1a1a1a" stroke-width="1.5"/>
+          <line x1="-12" y1="2"  x2="8"  y2="2"  stroke="#1a1a1a" stroke-width="1.5"/>
+        </g>
+      </g>
+
+      <!-- SOULAYMAN listening to the ant, smiling -->
+      <g transform="translate(240,178)">
+        <path d="M-18,8 Q-14,58 0,62 Q14,58 18,8 Z" fill="#1e6b3a"/>
+        <path d="M-30,4 Q-24,60 -8,64 Q-16,55 -22,8 Z" fill="#c8a040" opacity=".75"/>
+        <!-- leaning forward to listen to ant -->
+        <line x1="-18" y1="12" x2="-42" y2="15" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="18"  y1="12" x2="28"  y2="5"  stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- staff -->
+        <line x1="30" y1="8" x2="34" y2="68" stroke="#8b5e3c" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="0" cy="-10" r="16" fill="#c8906a"/>
+        <!-- crown -->
+        <path d="M-12,-22 L-8,-34 L0,-28 L8,-34 L12,-22 Z" fill="#d4a017"/>
+        <rect x="-14" y="-24" width="28" height="5" fill="#c8a040" opacity=".8"/>
+        <circle cx="-8" cy="-33" r="3" fill="#e74c3c" opacity=".9"/>
+        <circle cx="0"  cy="-29" r="3" fill="#f0c040" opacity=".95"/>
+        <circle cx="8"  cy="-33" r="3" fill="#3498db" opacity=".9"/>
+        <ellipse cx="0" cy="2" rx="9" ry="7" fill="#8b6020" opacity=".65"/>
+        <!-- big warm smile — amused and touched by the ant -->
+        <path d="M-6,-2 Q0,4 6,-2" stroke="#7a3a10" stroke-width="2" fill="none"/>
+        <circle cx="-5" cy="-12" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5"  cy="-12" r="2.5" fill="#1a1a1a"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🐜 La Langue des Animaux</h2>
+    <p>Soulayman possédait un don unique au monde : il comprenait la langue de <strong>tous les animaux</strong> — les oiseaux, les insectes, les bêtes sauvages.</p>
+    <p>Un jour, alors que son immense armée marchait, il entendit une minuscule <strong>fourmi</strong> crier à ses compagnes :</p>
+    <div class="quote">« Ô fourmis ! Rentrez vite dans vos maisons, que Soulayman et ses armées ne vous écrasent pas ! »</div>
+    <p>Soulayman sourit, s'arrêta et remercia Dieu de lui avoir appris à entendre les plus petites créatures. Car pour lui, une fourmi avait autant de valeur qu'un roi. 🐜🌿</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 3 : Hudhud et la Reine de Saba ══ -->
+<div class="chapter ch3">
+  <div class="ch-num">٣</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hudSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a1008"/>
+          <stop offset="55%"  stop-color="#2a1a08"/>
+          <stop offset="100%" stop-color="#c8a04a"/>
+        </linearGradient>
+        <radialGradient id="hudGlow" cx="50%" cy="45%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="queenGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#8b1a3a"/>
+          <stop offset="100%" stop-color="#5a1020"/>
+        </linearGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#hudSky)"/>
+      <rect width="340" height="255" fill="url(#hudGlow)"/>
+
+      <!-- Warm desert sky stars -->
+      <circle cx="30"  cy="18" r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="85"  cy="30" r="1"   fill="white"   opacity=".65"/>
+      <circle cx="270" cy="22" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="318" cy="38" r="1"   fill="#f0c040" opacity=".65"/>
+
+      <!-- Desert landscape Yemen (Sheba) -->
+      <polygon points="0,195 55,152 120,175 195,145 270,168 340,142 340,255 0,255"
+               fill="#3a2808" opacity=".9"/>
+      <rect x="0" y="222" width="340" height="33" fill="#4a3010"/>
+      <!-- sand dunes -->
+      <path d="M0,222 Q85,210 170,222 Q255,234 340,222" fill="#5a3a18" opacity=".4"/>
+
+      <!-- HUDHUD the messenger hoopoe flying — large prominent -->
+      <g transform="translate(170,100)">
+        <!-- glow message carried -->
+        <circle cx="0" cy="0" r="35" fill="#f0c040" opacity=".1"/>
+        <!-- wings spread wide in flight -->
+        <path d="M0,-5 Q-35,-30 -55,-10 Q-42,8 0,-5 Z"  fill="#c8845a" opacity=".95"/>
+        <path d="M0,-5 Q35,-30 55,-10 Q42,8 0,-5 Z"     fill="#b87040" opacity=".9"/>
+        <!-- wing pattern stripes -->
+        <path d="M0,-5 Q-25,-25 -45,-8"  stroke="#1a1a1a" stroke-width="2" fill="none" opacity=".4"/>
+        <path d="M0,-5 Q25,-25 45,-8"    stroke="#1a1a1a" stroke-width="2" fill="none" opacity=".4"/>
+        <path d="M-20,-18 Q-35,-22 -42,-14" stroke="white" stroke-width="1.5" fill="none" opacity=".4"/>
+        <path d="M20,-18 Q35,-22 42,-14"    stroke="white" stroke-width="1.5" fill="none" opacity=".4"/>
+        <!-- body -->
+        <ellipse cx="0" cy="2" rx="16" ry="10" fill="#c8845a"/>
+        <!-- belly lighter -->
+        <ellipse cx="0" cy="4" rx="10" ry="6"  fill="#e8c090" opacity=".6"/>
+        <!-- head -->
+        <circle  cx="-8" cy="-8" r="10" fill="#d4956a"/>
+        <!-- magnificent crest -->
+        <g transform="translate(-8,-8)">
+          <line x1="-5" y1="-10" x2="-9"  y2="-26" stroke="#e74c3c" stroke-width="3" stroke-linecap="round"/>
+          <line x1="-1" y1="-10" x2="-2"  y2="-26" stroke="#f0c040" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="3"  y1="-10" x2="5"   y2="-25" stroke="#e74c3c" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="7"  y1="-10" x2="10"  y2="-24" stroke="#f0c040" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="-9"  cy="-27" r="4" fill="#e74c3c"/>
+          <circle cx="-2"  cy="-27" r="3.5" fill="#f0c040"/>
+          <circle cx="5"   cy="-26" r="3.5" fill="#e74c3c"/>
+          <circle cx="10"  cy="-25" r="3" fill="#f0c040"/>
+        </g>
+        <!-- long beak with LETTER -->
+        <path d="M-17,-9 Q-32,-12 -30,-6" stroke="#8b6020" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <!-- tiny scroll letter in beak -->
+        <g transform="translate(-34,-10)">
+          <rect x="-5" y="-5" width="10" height="8" fill="#f5e6c8" rx="1" opacity=".9"/>
+          <line x1="-3" y1="-2" x2="3"  y2="-2" stroke="#8b5e20" stroke-width="1"/>
+          <line x1="-3" y1="0"  x2="3"  y2="0"  stroke="#8b5e20" stroke-width="1"/>
+          <line x1="-3" y1="2"  x2="1"  y2="2"  stroke="#8b5e20" stroke-width="1"/>
+        </g>
+        <!-- bright eye -->
+        <circle cx="-10" cy="-9" r="3.5" fill="white"/>
+        <circle cx="-10" cy="-9" r="2"   fill="#1a1a1a"/>
+        <circle cx="-9"  cy="-10" r="1"  fill="white" opacity=".7"/>
+        <!-- tail feathers striped -->
+        <path d="M14,6 Q28,10 25,20 Q18,14 14,6 Z"   fill="#1a1a1a"/>
+        <path d="M16,5 Q30,8 29,18 Q22,12 16,5 Z"    fill="white" opacity=".6"/>
+        <path d="M18,4 Q32,6 33,16 Q24,10 18,4 Z"    fill="#1a1a1a" opacity=".7"/>
+      </g>
+
+      <!-- QUEEN OF SHEBA (Bilqis) palace in distance right -->
+      <g transform="translate(275,150)">
+        <!-- palace silhouette -->
+        <rect x="-32" y="-55" width="64" height="78" fill="#2a1808" opacity=".8" rx="3"/>
+        <!-- columns -->
+        <rect x="-22" y="-55" width="8"  height="70" fill="#c8a04a" opacity=".35" rx="1"/>
+        <rect x="14"  y="-55" width="8"  height="70" fill="#c8a04a" opacity=".35" rx="1"/>
+        <!-- dome top -->
+        <path d="M-32,-55 Q0,-80 32,-55 Z" fill="#3a1a08" opacity=".8"/>
+        <!-- window glowing -->
+        <rect x="-10" y="-30" width="20" height="16" fill="#c8a050" rx="2" opacity=".7"/>
+        <!-- flag/banner on top -->
+        <line x1="0" y1="-80" x2="0" y2="-58" stroke="#c8a04a" stroke-width="2"/>
+        <path d="M0,-80 Q12,-74 0,-68 Z" fill="#8b1a3a" opacity=".8"/>
+        <!-- BILQIS queen silhouette at window -->
+        <g transform="translate(0,-22)">
+          <circle cx="0" cy="-8" r="6"  fill="#d4a57a" opacity=".8"/>
+          <path d="M-5,0 Q0,10 5,0 Z" fill="#8b1a3a" opacity=".8"/>
+          <path d="M-7,-12 Q0,-22 7,-12 L9,-3 Q0,-1 -9,-3 Z" fill="#5a1020" opacity=".8"/>
+        </g>
+      </g>
+
+      <!-- SOULAYMAN reading the news from Hudhud — left side -->
+      <g transform="translate(80,182)">
+        <path d="M-18,8 Q-14,58 0,62 Q14,58 18,8 Z" fill="#1e6b3a"/>
+        <path d="M-30,4 Q-24,60 -8,64 Q-16,55 -22,8 Z" fill="#c8a040" opacity=".75"/>
+        <!-- arm raised reading letter -->
+        <line x1="18" y1="12" x2="46" y2="2" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- scroll of Hudhud's news in hand -->
+        <g transform="translate(50,-2)">
+          <rect x="-10" y="-12" width="22" height="18" fill="#f5e6c8" rx="2" opacity=".9"/>
+          <line x1="-6" y1="-6" x2="8"  y2="-6" stroke="#8b5e20" stroke-width="1.5"/>
+          <line x1="-6" y1="-2" x2="8"  y2="-2" stroke="#8b5e20" stroke-width="1.5"/>
+          <line x1="-6" y1="2"  x2="5"  y2="2"  stroke="#8b5e20" stroke-width="1.5"/>
+        </g>
+        <line x1="-18" y1="14" x2="-35" y2="8" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="0" cy="-10" r="16" fill="#c8906a"/>
+        <path d="M-12,-22 L-8,-34 L0,-28 L8,-34 L12,-22 Z" fill="#d4a017"/>
+        <rect x="-14" y="-24" width="28" height="5" fill="#c8a040" opacity=".8"/>
+        <circle cx="-8" cy="-33" r="3" fill="#e74c3c" opacity=".9"/>
+        <circle cx="0"  cy="-29" r="3" fill="#f0c040" opacity=".95"/>
+        <circle cx="8"  cy="-33" r="3" fill="#3498db" opacity=".9"/>
+        <ellipse cx="0" cy="2" rx="9" ry="7" fill="#8b6020" opacity=".65"/>
+        <!-- intrigued expression -->
+        <circle cx="-5" cy="-12" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5"  cy="-12" r="2.5" fill="#1a1a1a"/>
+        <path d="M-9,-17 Q-5,-19 -1,-17" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M1,-17 Q5,-19 9,-17"    stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M-3,-3 Q0,0 3,-3" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🦅 Hudhud et la Reine de Saba</h2>
+    <p>Un jour, Soulayman inspecta ses armées d'oiseaux et remarqua l'absence du <strong>Hudhud</strong> — la huppe fasciée, son messager ailé.</p>
+    <p>L'oiseau revint bientôt et rapporta une nouvelle extraordinaire : au loin, dans le royaume de <strong>Saba</strong>, régnait une puissante reine nommée <strong>Bilqis</strong>, qui adorait le soleil !</p>
+    <div class="quote">« Je viens d'apprendre une chose que tu ne sais pas… une reine possède un trône magnifique ! »</div>
+    <p>Soulayman fut intrigué. Il écrivit une lettre à la reine, invitant son peuple à abandonner l'adoration du soleil et à se tourner vers Dieu, le vrai Créateur. 📜🌟</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 4 : Le Trône de la Reine ══ -->
+<div class="chapter ch4">
+  <div class="ch-num">٤</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="throneSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#08080e"/>
+          <stop offset="55%"  stop-color="#1a1030"/>
+          <stop offset="100%" stop-color="#2a1850"/>
+        </linearGradient>
+        <radialGradient id="throneGlow2" cx="55%" cy="45%" r="50%">
+          <stop offset="0%"   stop-color="#d4a0ff" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="tpGlow" cx="60%" cy="55%" r="45%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#throneSky)"/>
+      <rect width="340" height="255" fill="url(#throneGlow2)"/>
+      <rect width="340" height="255" fill="url(#tpGlow)"/>
+
+      <!-- Stars -->
+      <circle cx="25"  cy="18" r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="70"  cy="30" r="1"   fill="white"   opacity=".65"/>
+      <circle cx="130" cy="14" r="1.5" fill="#d4a0ff" opacity=".75"/>
+      <circle cx="285" cy="20" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="318" cy="38" r="1"   fill="#f0c040" opacity=".65"/>
+
+      <!-- Palace floor crystal / glass (Bilqis thought it was water!) -->
+      <rect x="0" y="195" width="340" height="60" fill="#1a1a3a" opacity=".7"/>
+      <rect x="0" y="193" width="340" height="7"  fill="#3a3a6a" opacity=".5"/>
+      <!-- crystal reflection ripples -->
+      <path d="M0,200 Q85,192 170,200 Q255,208 340,200" fill="none" stroke="#6a6aaa" stroke-width="1.5" opacity=".4"/>
+      <path d="M0,210 Q85,202 170,210 Q255,218 340,210" fill="none" stroke="#4a4a8a" stroke-width="1" opacity=".3"/>
+      <!-- reflection of throne in crystal floor -->
+      <ellipse cx="230" cy="218" rx="55" ry="20" fill="#d4a017" opacity=".08"/>
+      <!-- tile pattern floor -->
+      <g stroke="#3a3a6a" stroke-width=".8" opacity=".25">
+        <line x1="40"  y1="195" x2="40"  y2="255"/>
+        <line x1="80"  y1="195" x2="80"  y2="255"/>
+        <line x1="120" y1="195" x2="120" y2="255"/>
+        <line x1="160" y1="195" x2="160" y2="255"/>
+        <line x1="200" y1="195" x2="200" y2="255"/>
+        <line x1="240" y1="195" x2="240" y2="255"/>
+        <line x1="280" y1="195" x2="280" y2="255"/>
+        <line x1="0"   y1="225" x2="340" y2="225"/>
+      </g>
+      <!-- background palace architecture -->
+      <rect x="0" y="80" width="340" height="118" fill="#0a0818" opacity=".5"/>
+      <!-- pillars -->
+      <rect x="30"  y="80" width="16" height="120" fill="#4a1a7a" opacity=".4" rx="2"/>
+      <rect x="60"  y="80" width="16" height="120" fill="#4a1a7a" opacity=".35" rx="2"/>
+      <rect x="264" y="80" width="16" height="120" fill="#4a1a7a" opacity=".4" rx="2"/>
+      <rect x="294" y="80" width="16" height="120" fill="#4a1a7a" opacity=".35" rx="2"/>
+
+      <!-- THE GREAT THRONE OF BILQIS — appearing by djinn magic -->
+      <!-- djinn magic flash around it -->
+      <ellipse cx="230" cy="150" rx="80" ry="55" fill="#d4a0ff" opacity=".08"/>
+      <ellipse cx="230" cy="155" rx="65" ry="40" fill="#f0c040" opacity=".08"/>
+      <!-- throne base -->
+      <rect x="168" y="162" width="124" height="20" fill="#8b1a3a" rx="4" opacity=".9"/>
+      <rect x="172" y="158" width="116" height="10" fill="#a02040" rx="3" opacity=".8"/>
+      <!-- throne seat -->
+      <rect x="175" y="118" width="110" height="46" fill="url(#throneGrad)" rx="4" opacity=".9"/>
+      <rect x="180" y="122" width="100" height="38" fill="#c8a040" rx="3" opacity=".5"/>
+      <!-- throne back elaborate -->
+      <rect x="172" y="78" width="116" height="44" fill="#8b1a3a" rx="4" opacity=".9"/>
+      <path d="M172,78 Q230,48 288,78 Z" fill="#a02040" opacity=".8"/>
+      <!-- throne jewels -->
+      <circle cx="195" cy="64" r="5" fill="#3498db" opacity=".9"/>
+      <circle cx="215" cy="55" r="5" fill="#e74c3c" opacity=".9"/>
+      <circle cx="230" cy="52" r="6" fill="#f0c040" opacity=".95"/>
+      <circle cx="245" cy="55" r="5" fill="#2ecc71" opacity=".9"/>
+      <circle cx="265" cy="64" r="5" fill="#9b59b6" opacity=".9"/>
+      <!-- throne armrests -->
+      <rect x="158" y="128" width="22" height="10" fill="#c8a040" rx="3" opacity=".8"/>
+      <rect x="280" y="128" width="22" height="10" fill="#c8a040" rx="3" opacity=".8"/>
+      <!-- lion heads on armrests -->
+      <circle cx="162" cy="128" r="8" fill="#d4a017" opacity=".7"/>
+      <circle cx="298" cy="128" r="8" fill="#d4a017" opacity=".7"/>
+      <!-- throne legs decorative -->
+      <line x1="188" y1="182" x2="186" y2="210" stroke="#8b1a3a" stroke-width="6" stroke-linecap="round"/>
+      <line x1="272" y1="182" x2="274" y2="210" stroke="#8b1a3a" stroke-width="6" stroke-linecap="round"/>
+
+      <!-- SOULAYMAN on his throne left — pointing at the teleported throne -->
+      <g transform="translate(85,168)">
+        <path d="M-18,8 Q-14,58 0,62 Q14,58 18,8 Z" fill="#1e6b3a"/>
+        <path d="M-30,4 Q-24,60 -8,64 Q-16,55 -22,8 Z" fill="#c8a040" opacity=".75"/>
+        <!-- arm pointing at throne — amazed -->
+        <line x1="18" y1="12" x2="55" y2="5"  stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <ellipse cx="58" cy="4" rx="7" ry="5" fill="#c8906a" transform="rotate(10,58,4)"/>
+        <line x1="-18" y1="14" x2="-36" y2="8" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- staff -->
+        <line x1="-38" y1="10" x2="-40" y2="70" stroke="#8b5e3c" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="0" cy="-10" r="16" fill="#c8906a"/>
+        <path d="M-12,-22 L-8,-34 L0,-28 L8,-34 L12,-22 Z" fill="#d4a017"/>
+        <rect x="-14" y="-24" width="28" height="5" fill="#c8a040" opacity=".8"/>
+        <circle cx="-8" cy="-33" r="3" fill="#e74c3c" opacity=".9"/>
+        <circle cx="0"  cy="-29" r="3" fill="#f0c040" opacity=".95"/>
+        <circle cx="8"  cy="-33" r="3" fill="#3498db" opacity=".9"/>
+        <ellipse cx="0" cy="2" rx="9" ry="7" fill="#8b6020" opacity=".65"/>
+        <circle cx="-5" cy="-12" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5"  cy="-12" r="2.5" fill="#1a1a1a"/>
+        <path d="M-5,-3 Q0,3 5,-3" stroke="#7a3a10" stroke-width="2" fill="none"/>
+      </g>
+
+      <!-- BILQIS arriving — surprised lifting her skirts -->
+      <g transform="translate(230,180)" opacity=".85">
+        <!-- robe queenly lifting -->
+        <path d="M-16,8 Q-12,48 0,52 Q12,48 16,8 Z" fill="#8b1a3a"/>
+        <path d="M-28,4 Q-22,50 -8,54 Q-16,46 -20,8 Z" fill="#5a0a28" opacity=".8"/>
+        <!-- hands raising skirt hesitantly — she thought it was water! -->
+        <line x1="-16" y1="12" x2="-38" y2="5"  stroke="#8b1a3a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="16"  y1="12" x2="38"  y2="5"  stroke="#8b1a3a" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="0" cy="-8" r="14" fill="#d4a57a"/>
+        <!-- queen crown / headdress -->
+        <path d="M-12,-20 Q0,-40 12,-20 L14,-7 Q0,-4 -14,-7 Z" fill="#8b1a3a"/>
+        <path d="M-8,-35 L-4,-48 L0,-42 L4,-48 L8,-35 Z" fill="#d4a017" opacity=".9"/>
+        <circle cx="-4" cy="-47" r="3" fill="#3498db" opacity=".9"/>
+        <circle cx="4"  cy="-47" r="3" fill="#e74c3c" opacity=".9"/>
+        <ellipse cx="0" cy="2" rx="7" ry="5" fill="#c08060" opacity=".6"/>
+        <!-- surprised wide eyes -->
+        <circle cx="-4.5" cy="-10" r="3" fill="white"/>
+        <circle cx="4.5"  cy="-10" r="3" fill="white"/>
+        <circle cx="-4.5" cy="-10" r="1.8" fill="#1a1a1a"/>
+        <circle cx="4.5"  cy="-10" r="1.8" fill="#1a1a1a"/>
+        <!-- open mouth surprised -->
+        <ellipse cx="0" cy="-1" rx="3.5" ry="2.5" fill="#5c3010"/>
+      </g>
+
+      <!-- djinn magic sparkles around throne teleportation -->
+      <circle cx="175" cy="130" r="3"   fill="#d4a0ff" opacity=".9"/>
+      <circle cx="285" cy="125" r="3"   fill="#d4a0ff" opacity=".9"/>
+      <circle cx="200" cy="115" r="2"   fill="#f0c040" opacity=".8"/>
+      <circle cx="265" cy="112" r="2"   fill="#f0c040" opacity=".8"/>
+      <circle cx="230" cy="105" r="2.5" fill="#d4a0ff" opacity=".75"/>
+      <circle cx="215" cy="92"  r="2"   fill="#f0c040" opacity=".7"/>
+      <circle cx="248" cy="90"  r="2"   fill="#d4a0ff" opacity=".7"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">✨ Le Trône Téléporté</h2>
+    <p>La reine <strong>Bilqis</strong> accepta l'invitation et vint visiter Soulayman. Avant son arrivée, Soulayman demanda à sa cour :</p>
+    <p><em>« Qui peut m'apporter son trône avant qu'elle arrive ? »</em> Un djinn puissant le proposa. Mais un savant qui connaissait les noms divins dit :</p>
+    <div class="quote">« Je te l'apporte avant que tu cligne des yeux ! »</div>
+    <p>Et en un battement de paupières, le trône gigantesque de la reine apparut devant Soulayman ! Quand Bilqis arriva et vit son propre trône, elle fut tellement stupéfaite qu'elle embrassa la foi en Dieu. 🌟👑</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 5 : La Sagesse Éternelle ══ -->
+<div class="chapter ch5">
+  <div class="ch-num">٥</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="wisdomSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a1008"/>
+          <stop offset="40%"  stop-color="#2a1a08"/>
+          <stop offset="100%" stop-color="#c8a04a"/>
+        </linearGradient>
+        <radialGradient id="wisdomGlow" cx="50%" cy="48%" r="55%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#wisdomSky)"/>
+      <rect width="340" height="255" fill="url(#wisdomGlow)"/>
+
+      <!-- stars fading — dawn -->
+      <circle cx="25"  cy="18" r="1.5" fill="#f0c040" opacity=".6"/>
+      <circle cx="80"  cy="15" r="1.5" fill="white"   opacity=".5"/>
+      <circle cx="165" cy="10" r="1"   fill="#f0c040" opacity=".55"/>
+      <circle cx="270" cy="20" r="1.5" fill="white"   opacity=".5"/>
+      <circle cx="315" cy="30" r="1"   fill="#f0c040" opacity=".55"/>
+
+      <!-- Sunrise golden over Jerusalem / holy city -->
+      <circle cx="170" cy="185" r="55"  fill="#f0c040" opacity=".2"/>
+      <circle cx="170" cy="190" r="42"  fill="#ff8800" opacity=".25"/>
+      <circle cx="170" cy="194" r="30"  fill="#f0c040" opacity=".35"/>
+      <!-- sun rays -->
+      <g opacity=".18">
+        <line x1="120" y1="188" x2="80"  y2="185" stroke="#f0c040" stroke-width="2"/>
+        <line x1="220" y1="188" x2="260" y2="185" stroke="#f0c040" stroke-width="2"/>
+        <line x1="118" y1="175" x2="82"  y2="168" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="222" y1="175" x2="258" y2="168" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="130" y1="162" x2="108" y2="148" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="210" y1="162" x2="232" y2="148" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="155" y1="155" x2="145" y2="138" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="185" y1="155" x2="195" y2="138" stroke="#f0c040" stroke-width="1.5"/>
+      </g>
+
+      <!-- The great Temple of Soulayman in silhouette -->
+      <g transform="translate(170,155)" opacity=".75">
+        <!-- main temple -->
+        <rect x="-75" y="-60" width="150" height="85" fill="#1a1208" rx="3"/>
+        <!-- portal entrance grand -->
+        <rect x="-20" y="-30" width="40" height="50" fill="#2a1a08" rx="2"/>
+        <path d="M-20,-30 Q0,-52 20,-30" fill="#1a1208" opacity=".9"/>
+        <!-- columns temple -->
+        <rect x="-60" y="-60" width="12" height="80" fill="#c8a04a" opacity=".5" rx="2"/>
+        <rect x="-35" y="-60" width="12" height="80" fill="#c8a04a" opacity=".45" rx="2"/>
+        <rect x="23"  y="-60" width="12" height="80" fill="#c8a04a" opacity=".45" rx="2"/>
+        <rect x="48"  y="-60" width="12" height="80" fill="#c8a04a" opacity=".5" rx="2"/>
+        <!-- roof top ornaments -->
+        <line x1="-75" y1="-60" x2="75"  y2="-60" stroke="#c8a04a" stroke-width="4" opacity=".5"/>
+        <!-- cherubim / wings on top -->
+        <path d="M-30,-62 Q-20,-78 0,-68 Q20,-78 30,-62" fill="none" stroke="#c8a04a" stroke-width="2" opacity=".4"/>
+      </g>
+
+      <!-- Hills of Israel green -->
+      <polygon points="0,200 50,165 110,188 180,158 250,178 310,155 340,168 340,255 0,255"
+               fill="#2a4010" opacity=".8"/>
+      <rect x="0" y="228" width="340" height="27" fill="#3a5018"/>
+
+      <!-- Soulayman on carpet / throne elevated — presiding over his realm -->
+      <g transform="translate(170,155)">
+        <!-- flying carpet platform -->
+        <path d="M-70,18 Q-60,34 0,38 Q60,34 70,18 L68,8 Q0,0 -68,8 Z" fill="#8b1a3a" opacity=".85"/>
+        <!-- carpet pattern -->
+        <path d="M-65,10 Q0,2 65,10" stroke="#f0c040" stroke-width="1" fill="none" opacity=".4"/>
+        <g fill="#f0c040" opacity=".3">
+          <rect x="-52" y="10" width="12" height="10" rx="1"/>
+          <rect x="-32" y="10" width="12" height="10" rx="1"/>
+          <rect x="-12" y="10" width="12" height="10" rx="1"/>
+          <rect x="8"   y="10" width="12" height="10" rx="1"/>
+          <rect x="28"  y="10" width="12" height="10" rx="1"/>
+          <rect x="48"  y="10" width="12" height="10" rx="1"/>
+        </g>
+        <!-- wind swirls under carpet -->
+        <g opacity=".2" stroke="#c8a04a" fill="none" stroke-linecap="round">
+          <path d="M-80,25 Q-65,18 -50,25" stroke-width="2"/>
+          <path d="M50,25 Q65,18 80,25"    stroke-width="2"/>
+          <path d="M-80,30 Q-55,22 -30,30" stroke-width="1.5"/>
+          <path d="M30,30 Q55,22 80,30"    stroke-width="1.5"/>
+        </g>
+        <!-- throne on carpet -->
+        <rect x="-22" y="-52" width="44" height="58" fill="#d4a017" rx="4" opacity=".9"/>
+        <rect x="-18" y="-48" width="36" height="48" fill="#c8a040" rx="3" opacity=".5"/>
+        <rect x="-28" y="-24" width="14" height="8" fill="#c8a040" rx="2" opacity=".7"/>
+        <rect x="14"  y="-24" width="14" height="8" fill="#c8a040" rx="2" opacity=".7"/>
+        <path d="M-22,-52 Q0,-68 22,-52" fill="#d4a017" opacity=".85"/>
+        <circle cx="-10" cy="-58" r="4" fill="#e74c3c" opacity=".9"/>
+        <circle cx="0"   cy="-62" r="4" fill="#f0c040" opacity=".95"/>
+        <circle cx="10"  cy="-58" r="4" fill="#3498db" opacity=".9"/>
+        <!-- Soulayman seated regal and at peace -->
+        <path d="M-16,-8 Q-12,22 0,24 Q12,22 16,-8 Z" fill="#1e6b3a"/>
+        <path d="M-26,-12 Q-20,24 -8,26 Q-16,18 -18,-8 Z" fill="#c8a040" opacity=".75"/>
+        <path d="M26,-12 Q20,24 8,26 Q16,18 18,-8 Z"  fill="#c8a040" opacity=".75"/>
+        <!-- hand on heart — gratitude pose -->
+        <line x1="-16" y1="-5" x2="-30" y2="-15" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <ellipse cx="-18" cy="-16" rx="7" ry="5" fill="#c8906a" transform="rotate(-20,-18,-16)"/>
+        <!-- staff sceptre -->
+        <line x1="18" y1="-5" x2="22" y2="28" stroke="#d4a017" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="22" cy="30" r="5" fill="#f0c040" opacity=".8"/>
+        <!-- head / crown -->
+        <circle cx="0" cy="-24" r="16" fill="#c8906a"/>
+        <path d="M-12,-36 L-8,-50 L0,-44 L8,-50 L12,-36 Z" fill="#d4a017"/>
+        <rect x="-14" y="-39" width="28" height="5" fill="#c8a040" opacity=".8"/>
+        <circle cx="-8" cy="-49" r="4" fill="#e74c3c" opacity=".9"/>
+        <circle cx="0"  cy="-46" r="4" fill="#f0c040" opacity=".95"/>
+        <circle cx="8"  cy="-49" r="4" fill="#3498db" opacity=".9"/>
+        <!-- divine glow around -->
+        <circle cx="0" cy="-24" r="24" fill="none" stroke="#f0c040" stroke-width="1.2" opacity=".4"/>
+        <ellipse cx="0" cy="-24" rx="9" ry="7" fill="#8b6020" opacity=".65"/>
+        <!-- serene wise expression -->
+        <circle cx="-5.5" cy="-26" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5.5"  cy="-26" r="2.5" fill="#1a1a1a"/>
+        <path d="M-5,-18 Q0,-14 5,-18" stroke="#7a3a10" stroke-width="1.8" fill="none"/>
+      </g>
+
+      <!-- Birds flying in V formation — army of birds -->
+      <g opacity=".65">
+        <path d="M40,75  Q48,65 57,73  Q65,63 73,71"  fill="white" stroke="none"/>
+        <path d="M65,58  Q73,48 82,56  Q90,46 98,54"  fill="white" stroke="none"/>
+        <path d="M260,72 Q268,62 277,70 Q285,60 293,68" fill="white" stroke="none"/>
+        <path d="M280,55 Q288,45 297,53 Q305,43 313,51" fill="#f0c040" stroke="none" opacity=".7"/>
+      </g>
+
+      <!-- djinn shapes far background serving -->
+      <g opacity=".15">
+        <ellipse cx="55"  cy="162" rx="18" ry="48" fill="#8030d0" transform="rotate(-15,55,162)"/>
+        <ellipse cx="285" cy="158" rx="18" ry="48" fill="#8030d0" transform="rotate(15,285,158)"/>
+      </g>
+
+      <!-- golden sparkles all around -->
+      <circle cx="100" cy="130" r="2.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="240" cy="125" r="2.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="170" cy="110" r="3"   fill="#d4a0ff" opacity=".75"/>
+      <circle cx="130" cy="118" r="2"   fill="#f0c040" opacity=".6"/>
+      <circle cx="210" cy="120" r="2"   fill="#d4a0ff" opacity=".6"/>
+      <circle cx="155" cy="100" r="1.5" fill="#f0c040" opacity=".55"/>
+      <circle cx="190" cy="98"  r="1.5" fill="#d4a0ff" opacity=".55"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌅 La Sagesse Éternelle</h2>
+    <p>Soulayman régnait sur un royaume fabuleux : les djinns construisaient ses palais, le vent portait son tapis volant aux quatre coins du monde, et les oiseaux marchaient en armée à ses côtés.</p>
+    <p>Mais Soulayman n'était jamais orgueilleux. À chaque don, il disait :</p>
+    <div class="quote">« C'est par la grâce de mon Seigneur, pour m'éprouver — serai-je reconnaissant ou ingrat ? »</div>
+    <p>Il nous apprend que le vrai pouvoir n'est pas dans les djinns ni dans le vent, mais dans la <strong>sagesse</strong>, la <strong>gratitude</strong> et la <strong>justice</strong>. Un roi qui remercie Dieu pour chaque don est le plus grand roi qui soit. 🕊️✨</p>
+  </div>
+</div>
+
+
+<!-- ══ ENDING ══ -->
+<div class="ending">
+  <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.07;pointer-events:none"
+       viewBox="0 0 400 300">
+    <defs>
+      <pattern id="royalPat" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+        <polygon points="30,2 36,20 54,20 40,30 46,48 30,38 14,48 20,30 6,20 24,20"
+                 fill="none" stroke="#f0c040" stroke-width=".8"/>
+        <circle cx="30" cy="30" r="8" fill="none" stroke="#d4a0ff" stroke-width=".4"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="300" fill="url(#royalPat)"/>
+  </svg>
+
+  <div style="font-size:2.5rem;margin-bottom:16px">🦅</div>
+  <h2>✨ Fin ✨</h2>
+  <p>Et voilà l'histoire de Soulayman,<br>
+  le roi des rois, le maître des djinns et du vent.<br><br>
+  Il pouvait entendre la plus petite fourmi,<br>
+  il pouvait déplacer un trône en un battement d'œil,<br>
+  il commandait aux oiseaux et aux djinns…<br><br>
+  Et pourtant, il restait humble et reconnaissant.<br>
+  <em>Car la vraie grandeur, c'est de savoir d'où vient ton pouvoir. 👑✨</em></p>
+  <div class="end-star">✦</div>
+</div>
+
+<script>
+  // Stars on cover
+  const cover = document.getElementById('starsCover');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const sz = Math.random() * 2.5 + .5;
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*55}%;
+      width:${sz}px; height:${sz}px;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${1.5+Math.random()*2.5}s;
+    `;
+    cover.appendChild(s);
+  }
+
+  // Djinn magic sparkles
+  const sparkC = document.getElementById('sparkleContainer');
+  sparkC.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;';
+
+  const sparkColors = ['#f0c040','#d4a0ff','#88ccff','#ff88cc','#88ffcc'];
+  function makeSparkle() {
+    const p = document.createElement('div');
+    p.className = 'sparkle';
+    const sz = Math.random() * 5 + 2;
+    p.style.cssText = `
+      width:${sz}px; height:${sz}px;
+      left:${Math.random()*100}%;
+      bottom:${Math.random()*50}%;
+      background:${sparkColors[Math.floor(Math.random()*sparkColors.length)]};
+      animation-duration:${3+Math.random()*5}s;
+      animation-delay:${Math.random()*4}s;
+      border-radius:${Math.random()<.5?'50%':'2px'};
+    `;
+    sparkC.appendChild(p);
+    p.addEventListener('animationend', () => p.remove());
+  }
+  for(let i=0;i<30;i++) makeSparkle();
+  setInterval(makeSparkle, 250);
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold:.1 }
+  );
+  document.querySelectorAll('.chapter,.ending').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
