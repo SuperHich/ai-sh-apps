@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dawud – Le Prophète au Cœur Vaillant</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --steel:      #4a6a8a;
+    --gold:       #c9960c;
+    --gold-light: #f0c040;
+    --deep-night: #060810;
+    --forest:     #1a4a1a;
+    --sky-dawn:   #c8a04a;
+    --violet:     #3a1a5c;
+    --emerald:    #1a6b4a;
+    --blood-red:  #8b1a1a;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--deep-night);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    color: #e8dcc8;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(160deg,#060810 0%,#0e0a18 35%,#1a1028 65%,#3a2808 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px 80px;
+  }
+
+  /* musical notes floating */
+  .note {
+    position: absolute;
+    color: var(--gold-light);
+    font-size: 1.5rem;
+    pointer-events: none;
+    animation: noteFloat linear infinite;
+    opacity: 0;
+  }
+  @keyframes noteFloat {
+    0%   { transform:translateY(0) rotate(-10deg) scale(1);  opacity:0; }
+    15%  { opacity:.8; }
+    80%  { opacity:.4; }
+    100% { transform:translateY(-90px) rotate(20deg) scale(.6); opacity:0; }
+  }
+
+  .cover-stars { position:absolute; inset:0; pointer-events:none; }
+  .star-dot {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: tw 2.5s infinite alternate;
+  }
+  @keyframes tw {
+    from { opacity:.15; transform:scale(1); }
+    to   { opacity:.9;  transform:scale(1.7); }
+  }
+
+  .cover-scene {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 28px;
+    animation: floatY 5s ease-in-out infinite;
+  }
+  @keyframes floatY {
+    0%,100%{transform:translateY(0);}
+    50%    {transform:translateY(-12px);}
+  }
+
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem,9vw,5rem);
+    color: var(--gold-light);
+    text-align: center;
+    letter-spacing: 3px;
+    line-height: 1.1;
+    text-shadow: 0 2px 30px rgba(200,160,74,.6);
+  }
+  .cover .subtitle-ar {
+    font-size: 1.4rem;
+    color: rgba(240,192,64,.45);
+    margin-top: 8px;
+    letter-spacing: 6px;
+    font-family: serif;
+  }
+  .cover .subtitle {
+    color: rgba(240,220,180,.45);
+    font-size: .95rem;
+    margin-top: 12px;
+    font-style: italic;
+    letter-spacing: 2px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    color: rgba(240,220,180,.35);
+    font-size: .8rem;
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);}
+  }
+
+  .cover-fade {
+    position:absolute; bottom:0; left:0; right:0;
+    height: 100px;
+    background: linear-gradient(transparent,#060810);
+    pointer-events: none;
+  }
+
+  /* ── CHAPTERS ── */
+  .chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 24px 60px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .chapter.visible { opacity:1; transform:translateY(0); }
+
+  .ch1 { background: linear-gradient(155deg,#0a1808 0%,#1a3010 50%,#2a5020 100%); }
+  .ch2 { background: linear-gradient(155deg,#1a0808 0%,#2a1010 50%,#4a1818 100%); }
+  .ch3 { background: linear-gradient(155deg,#060810 0%,#0e1428 50%,#1a2040 100%); }
+  .ch4 { background: linear-gradient(155deg,#0a0808 0%,#1a0e0e 50%,#2a1a10 100%); }
+  .ch5 { background: linear-gradient(155deg,#1a1008 0%,#2a1a08 50%,#c8a04a 100%); }
+
+  .ch-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9rem;
+    font-weight: 700;
+    position: absolute;
+    top: 0; right: 20px;
+    line-height: 1;
+    pointer-events: none;
+    opacity: .05;
+  }
+  .ch1 .ch-num { color:#88ff88; }
+  .ch2 .ch-num { color:#ff8888; }
+  .ch3 .ch-num { color:#f0c040; }
+  .ch4 .ch-num { color:#88ccff; }
+  .ch5 .ch-num { color:#f0c040; }
+
+  .illustration {
+    width: min(340px,92vw);
+    height: min(255px,69vw);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 60px rgba(0,0,0,.6);
+    margin-bottom: 36px;
+    flex-shrink: 0;
+    position: relative; z-index:1;
+    border: 3px solid rgba(200,160,74,.3);
+  }
+  .illustration svg { width:100%; height:100%; display:block; }
+
+  .chapter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem,5vw,2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative; z-index:1;
+  }
+  .story-text {
+    max-width: 490px;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    position: relative; z-index:1;
+  }
+  .story-text p { margin-bottom:14px; }
+  .quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    padding: 14px 22px;
+    border-radius: 14px;
+    margin: 18px 0;
+    display: inline-block;
+    border-left: 4px solid currentColor;
+  }
+
+  .ch1 .chapter-title { color:#a0ff88; }
+  .ch1 .story-text    { color:#f0ead8; }
+  .ch1 .quote         { background:rgba(100,220,80,.08); color:#a0ff88; }
+
+  .ch2 .chapter-title { color:#f0c040; }
+  .ch2 .story-text    { color:#f0ead8; }
+  .ch2 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+  .ch3 .chapter-title { color:#c8f0ff; }
+  .ch3 .story-text    { color:#f0ead8; }
+  .ch3 .quote         { background:rgba(200,240,255,.08); color:#c8f0ff; }
+
+  .ch4 .chapter-title { color:#f0c040; }
+  .ch4 .story-text    { color:#f0ead8; }
+  .ch4 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+  .ch5 .chapter-title { color:#f0c040; }
+  .ch5 .story-text    { color:#f0ead8; }
+  .ch5 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+  /* ── ENDING ── */
+  .ending {
+    background: linear-gradient(160deg,#060810 0%,#0e0a18 50%,#1a1028 100%);
+    padding: 90px 24px;
+    text-align: center;
+    color: white;
+    position: relative; overflow:hidden;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .ending.visible { opacity:1; transform:translateY(0); }
+  .ending h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+    letter-spacing: 2px;
+  }
+  .ending p {
+    font-size:1.1rem; max-width:520px;
+    margin:0 auto; opacity:.85; line-height:1.9;
+  }
+  .end-star {
+    font-size:2.5rem; margin-top:36px;
+    display:inline-block;
+    animation: spinSlow 12s linear infinite;
+    color: var(--gold-light);
+  }
+  @keyframes spinSlow {
+    from{transform:rotate(0deg);} to{transform:rotate(360deg);}
+  }
+
+  @media(min-width:720px){
+    .chapter{flex-direction:row!important;gap:52px;padding:90px 64px;}
+    .illustration{margin-bottom:0;}
+    .story-text{text-align:left;}
+    .chapter-title{text-align:left;}
+    .chapter:nth-child(even){flex-direction:row-reverse!important;}
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-stars" id="starsCover"></div>
+  <div id="noteContainer"></div>
+
+  <div class="cover-scene">
+    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="covGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".25"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="musicGlow" cx="50%" cy="40%" r="45%">
+          <stop offset="0%"   stop-color="#88ccff" stop-opacity=".2"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="nightCov" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#060810"/>
+          <stop offset="60%"  stop-color="#0e1020"/>
+          <stop offset="100%" stop-color="#1a1428"/>
+        </linearGradient>
+        <linearGradient id="hillsGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#2a4010"/>
+          <stop offset="100%" stop-color="#1a2808"/>
+        </linearGradient>
+      </defs>
+
+      <!-- circle frame -->
+      <circle cx="150" cy="150" r="147" fill="#060810" stroke="#c9960c" stroke-width="2"/>
+      <circle cx="150" cy="150" r="137" fill="none" stroke="#c9960c"
+              stroke-width=".5" stroke-dasharray="5 4" opacity=".4"/>
+      <clipPath id="covClip"><circle cx="150" cy="150" r="145"/></clipPath>
+
+      <rect width="300" height="300" fill="url(#nightCov)"  clip-path="url(#covClip)"/>
+      <rect width="300" height="300" fill="url(#covGlow)"   clip-path="url(#covClip)"/>
+      <rect width="300" height="300" fill="url(#musicGlow)" clip-path="url(#covClip)"/>
+
+      <!-- stars -->
+      <g clip-path="url(#covClip)">
+        <circle cx="40"  cy="28"  r="2"   fill="#f0c040" opacity=".9"/>
+        <circle cx="85"  cy="18"  r="1.5" fill="white"   opacity=".75"/>
+        <circle cx="135" cy="35"  r="1.5" fill="white"   opacity=".7"/>
+        <circle cx="195" cy="22"  r="2"   fill="#88ccff" opacity=".8"/>
+        <circle cx="248" cy="38"  r="2"   fill="#f0c040" opacity=".8"/>
+        <circle cx="268" cy="18"  r="1.5" fill="white"   opacity=".7"/>
+        <circle cx="58"  cy="58"  r="1"   fill="white"   opacity=".5"/>
+        <circle cx="218" cy="55"  r="1.5" fill="#88ccff" opacity=".55"/>
+      </g>
+
+      <!-- Moon half -->
+      <g clip-path="url(#covClip)">
+        <circle cx="255" cy="48" r="22" fill="#ffe8a0" opacity=".8"/>
+        <circle cx="264" cy="40" r="18" fill="#060810"/>
+      </g>
+
+      <!-- Hills of Israel -->
+      <g clip-path="url(#covClip)">
+        <polygon points="0,215 50,168 110,192 175,158 245,180 300,155 300,300 0,300"
+                 fill="url(#hillsGrad)" opacity=".85"/>
+        <rect x="0" y="242" width="300" height="60" fill="#1a2808" opacity=".8"/>
+      </g>
+
+      <!-- Sheep in distance (shepherd Dawud) -->
+      <g clip-path="url(#covClip)" opacity=".5">
+        <ellipse cx="55"  cy="238" rx="12" ry="7"  fill="white"/>
+        <circle  cx="46"  cy="232" r="7"  fill="white"/>
+        <ellipse cx="230" cy="240" rx="11" ry="7"  fill="white"/>
+        <circle  cx="221" cy="234" r="6"  fill="white"/>
+        <ellipse cx="265" cy="238" rx="10" ry="6"  fill="white"/>
+      </g>
+
+      <!-- DAWUD — young shepherd with sling and harp -->
+      <g transform="translate(150,195)" clip-path="url(#covClip)">
+        <!-- divine glow -->
+        <circle cx="0" cy="-15" r="55" fill="#f0c040" opacity=".07"/>
+        <!-- shepherd robe -->
+        <path d="M-22,10 Q-18,70 0,74 Q18,70 22,10 Z" fill="#1e6b3a"/>
+        <!-- cloak earthy -->
+        <path d="M-36,6 Q-28,72 -10,76 Q-18,66 -24,10 Z" fill="#8b5e3c" opacity=".7"/>
+        <!-- ARM LEFT — holding small harp/lyre -->
+        <line x1="-22" y1="14" x2="-55" y2="0"  stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- lyre instrument -->
+        <g transform="translate(-62,0)">
+          <path d="M-10,-12 Q-16,0 -10,12 L10,12 Q16,0 10,-12 Z" fill="#8b5e3c" opacity=".9"/>
+          <path d="M-10,-12 Q0,-18 10,-12" fill="none" stroke="#8b5e3c" stroke-width="3"/>
+          <!-- strings -->
+          <line x1="-6" y1="-10" x2="-6" y2="10" stroke="#f5e6c8" stroke-width="1" opacity=".8"/>
+          <line x1="-2" y1="-12" x2="-2" y2="12" stroke="#f5e6c8" stroke-width="1" opacity=".8"/>
+          <line x1="2"  y1="-12" x2="2"  y2="12" stroke="#f5e6c8" stroke-width="1" opacity=".8"/>
+          <line x1="6"  y1="-10" x2="6"  y2="10" stroke="#f5e6c8" stroke-width="1" opacity=".8"/>
+          <!-- golden glow on harp -->
+          <circle cx="0" cy="0" r="14" fill="#f0c040" opacity=".1"/>
+        </g>
+        <!-- ARM RIGHT — sling in hand -->
+        <line x1="22" y1="14" x2="58" y2="-5" stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- sling -->
+        <path d="M55,-6 Q65,-15 60,-22" stroke="#8b5e3c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <circle cx="60" cy="-23" r="4" fill="#5a3a18" opacity=".8"/>
+        <!-- HEAD young Dawud -->
+        <circle cx="0" cy="-12" r="17" fill="#c8906a"/>
+        <!-- no crown — shepherd headscarf -->
+        <path d="M-14,-24 Q0,-42 14,-24 L16,-8 Q0,-5 -16,-8 Z" fill="#8b5e3c"/>
+        <path d="M14,-22 Q20,-12 18,0" stroke="#8b5e3c" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- beard starting (young) -->
+        <path d="M-8,0 Q-4,8 0,10 Q4,8 8,0" stroke="#5c3010" stroke-width="2.5" fill="none" opacity=".6"/>
+        <!-- shining eyes — determined young man -->
+        <circle cx="-5.5" cy="-14" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5.5"  cy="-14" r="2.5" fill="#1a1a1a"/>
+        <circle cx="-4.5" cy="-15" r="1"   fill="white" opacity=".6"/>
+        <circle cx="6.5"  cy="-15" r="1"   fill="white" opacity=".6"/>
+        <!-- confident smile -->
+        <path d="M-5,-5 Q0,0 5,-5" stroke="#7a3a10" stroke-width="1.8" fill="none"/>
+      </g>
+
+      <!-- Musical notes floating around him -->
+      <g clip-path="url(#covClip)" fill="#f0c040" opacity=".5" font-size="16" font-family="serif">
+        <text x="62"  y="170">♪</text>
+        <text x="215" y="165">♫</text>
+        <text x="80"  y="148">♩</text>
+        <text x="195" y="142">♪</text>
+        <text x="145" y="135">♬</text>
+      </g>
+
+      <!-- Birds drawn to his voice -->
+      <g clip-path="url(#covClip)" opacity=".6">
+        <path d="M42,175 Q50,165 60,173 Q68,163 76,171" fill="white" stroke="none"/>
+        <path d="M230,170 Q238,160 248,168 Q256,158 264,166" fill="white" stroke="none"/>
+        <path d="M100,148 Q108,138 118,146" fill="white" stroke="none"/>
+        <path d="M192,145 Q200,135 210,143" fill="white" stroke="none"/>
+      </g>
+    </svg>
+  </div>
+
+  <h1>Dawud<br>
+  <span style="font-size:.55em;letter-spacing:4px;opacity:.9">Le Prophète au Cœur Vaillant</span></h1>
+  <p class="subtitle-ar">داود عليه السلام</p>
+  <p class="subtitle">Le berger, le guerrier, le roi, le chantre de Dieu</p>
+
+  <div class="scroll-hint">
+    <span>Fais défiler pour lire</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+  <div class="cover-fade"></div>
+</div>
+
+
+<!-- ══ CH 1 : Le Petit Berger ══ -->
+<div class="chapter ch1">
+  <div class="ch-num">١</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="pastSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#87ceeb"/>
+          <stop offset="100%" stop-color="#e8f8d0"/>
+        </linearGradient>
+        <radialGradient id="pastSun" cx="75%" cy="20%" r="40%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".6"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#pastSky)"/>
+      <rect width="340" height="255" fill="url(#pastSun)"/>
+
+      <!-- Sun -->
+      <circle cx="290" cy="45" r="28" fill="#f0c040" opacity=".85"/>
+      <!-- Clouds -->
+      <ellipse cx="65"  cy="40" rx="48" ry="20" fill="white" opacity=".7"/>
+      <ellipse cx="82"  cy="28" rx="35" ry="16" fill="white" opacity=".8"/>
+
+      <!-- Green hills of Israel -->
+      <polygon points="0,185 50,148 115,170 185,140 260,162 325,138 340,152 340,255 0,255"
+               fill="#3a6a18" opacity=".9"/>
+      <rect x="0" y="210" width="340" height="45" fill="#4a7a20"/>
+      <!-- wildflowers -->
+      <g>
+        <circle cx="30"  cy="212" r="4" fill="#ff9999" opacity=".7"/>
+        <circle cx="55"  cy="210" r="3" fill="#f0c040" opacity=".6"/>
+        <circle cx="285" cy="212" r="4" fill="#ff88cc" opacity=".7"/>
+        <circle cx="310" cy="210" r="3" fill="#88ddff" opacity=".6"/>
+        <circle cx="170" cy="213" r="3" fill="#ff9999" opacity=".6"/>
+      </g>
+
+      <!-- Sheep flock — Dawud's sheep -->
+      <g>
+        <!-- sheep 1 -->
+        <g transform="translate(60,208)">
+          <ellipse cx="0" cy="0" rx="20" ry="13" fill="white"/>
+          <circle  cx="-14" cy="-8" r="10" fill="white"/>
+          <line x1="-8"  y1="12" x2="-8"  y2="26" stroke="#8b7355" stroke-width="4" stroke-linecap="round"/>
+          <line x1="4"   y1="13" x2="4"   y2="27" stroke="#8b7355" stroke-width="4" stroke-linecap="round"/>
+          <line x1="14"  y1="12" x2="16"  y2="26" stroke="#8b7355" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="-20" cy="-12" r="4" fill="#f0f0f0"/>
+          <circle cx="-20" cy="-13" r="1.5" fill="#1a1a1a" opacity=".5"/>
+        </g>
+        <!-- sheep 2 -->
+        <g transform="translate(120,212)">
+          <ellipse cx="0" cy="0" rx="18" ry="11" fill="#f0f0f0"/>
+          <circle  cx="-12" cy="-7" r="9"  fill="#f0f0f0"/>
+          <line x1="-6"  y1="10" x2="-6"  y2="22" stroke="#8b7355" stroke-width="3" stroke-linecap="round"/>
+          <line x1="4"   y1="11" x2="4"   y2="23" stroke="#8b7355" stroke-width="3" stroke-linecap="round"/>
+          <line x1="12"  y1="10" x2="14"  y2="22" stroke="#8b7355" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="-17" cy="-11" r="3.5" fill="white"/>
+          <circle cx="-17" cy="-12" r="1.2" fill="#1a1a1a" opacity=".5"/>
+        </g>
+        <!-- sheep 3 -->
+        <g transform="translate(188,210)">
+          <ellipse cx="0" cy="0" rx="20" ry="13" fill="white"/>
+          <circle  cx="-14" cy="-8" r="10" fill="white"/>
+          <line x1="-8"  y1="12" x2="-8"  y2="26" stroke="#8b7355" stroke-width="4" stroke-linecap="round"/>
+          <line x1="4"   y1="13" x2="4"   y2="27" stroke="#8b7355" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="-20" cy="-12" r="4" fill="#f0f0f0"/>
+        </g>
+        <!-- sheep 4 small far -->
+        <g transform="translate(260,215)" opacity=".7">
+          <ellipse cx="0" cy="0" rx="14" ry="9"  fill="white"/>
+          <circle  cx="-10" cy="-6" r="7"  fill="white"/>
+          <line x1="-5"  y1="8"  x2="-5"  y2="18" stroke="#8b7355" stroke-width="3" stroke-linecap="round"/>
+          <line x1="4"   y1="9"  x2="4"   y2="19" stroke="#8b7355" stroke-width="3" stroke-linecap="round"/>
+        </g>
+      </g>
+
+      <!-- YOUNG DAWUD playing harp / lyre for his sheep -->
+      <g transform="translate(300,182)">
+        <!-- sitting on rock -->
+        <ellipse cx="0" cy="42" rx="20" ry="10" fill="#5a3a18" opacity=".6"/>
+        <!-- body sitting -->
+        <path d="M-14,5 Q-10,38 0,40 Q10,38 14,5 Z" fill="#1e6b3a"/>
+        <!-- sitting legs -->
+        <path d="M-14,38 Q-18,50 -12,54" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <path d="M14,38 Q18,50 22,52"   stroke="#1e6b3a" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <!-- LYRE held and played -->
+        <g transform="translate(-42,10)">
+          <path d="M-12,-14 Q-18,0 -12,14 L12,14 Q18,0 12,-14 Z" fill="#8b5e3c" opacity=".9"/>
+          <path d="M-12,-14 Q0,-20 12,-14" fill="none" stroke="#8b5e3c" stroke-width="3.5"/>
+          <line x1="-8" y1="-12" x2="-8" y2="12" stroke="#f5e6c8" stroke-width="1.2" opacity=".8"/>
+          <line x1="-3" y1="-14" x2="-3" y2="14" stroke="#f5e6c8" stroke-width="1.2" opacity=".8"/>
+          <line x1="2"  y1="-14" x2="2"  y2="14" stroke="#f5e6c8" stroke-width="1.2" opacity=".8"/>
+          <line x1="7"  y1="-12" x2="7"  y2="12" stroke="#f5e6c8" stroke-width="1.2" opacity=".8"/>
+          <circle cx="0" cy="0" r="16" fill="#f0c040" opacity=".12"/>
+        </g>
+        <!-- arm on lyre -->
+        <line x1="-14" y1="8" x2="-36" y2="12" stroke="#1e6b3a" stroke-width="6" stroke-linecap="round"/>
+        <!-- other arm plucking -->
+        <line x1="14" y1="8" x2="22" y2="4" stroke="#1e6b3a" stroke-width="6" stroke-linecap="round"/>
+        <!-- head young face -->
+        <circle cx="0" cy="-8" r="14" fill="#c8906a"/>
+        <path d="M-11,-18 Q0,-32 11,-18 L13,-6 Q0,-3 -13,-6 Z" fill="#8b5e3c"/>
+        <path d="M-5,-2 Q0,3 5,-2" stroke="#7a3a10" stroke-width="1.8" fill="none"/>
+        <circle cx="-4.5" cy="-10" r="2" fill="#1a1a1a"/>
+        <circle cx="4.5"  cy="-10" r="2" fill="#1a1a1a"/>
+        <!-- eyes closed in song -->
+        <path d="M-7,-11 Q-4.5,-9 -2,-11" stroke="#5c3010" stroke-width="1.2" fill="none"/>
+        <path d="M2,-11 Q4.5,-9 7,-11"    stroke="#5c3010" stroke-width="1.2" fill="none"/>
+      </g>
+
+      <!-- Musical notes drifting from him toward the sheep -->
+      <g fill="#f0c040" opacity=".5" font-size="14" font-family="serif">
+        <text x="250" y="178">♪</text>
+        <text x="220" y="165">♫</text>
+        <text x="185" y="158">♩</text>
+        <text x="155" y="165">♪</text>
+      </g>
+
+      <!-- Birds perching near him attracted by music -->
+      <g opacity=".7">
+        <g transform="translate(320,165)">
+          <ellipse cx="0" cy="0"  rx="8"  ry="5" fill="#c8845a"/>
+          <circle  cx="-5" cy="-3" r="5" fill="#d4956a"/>
+          <path d="M-9,-4 Q-13,-7 -11,-2" fill="#8b6020"/>
+          <circle cx="-6" cy="-3" r="1.2" fill="#1a1a1a" opacity=".6"/>
+        </g>
+        <g transform="translate(335,172)">
+          <ellipse cx="0" cy="0"  rx="7"  ry="4" fill="#8b6a3a"/>
+          <circle  cx="-5" cy="-3" r="4" fill="#a07848"/>
+          <path d="M-8,-4 Q-12,-6 -10,-2" fill="#6b5020"/>
+          <circle cx="-5" cy="-4" r="1" fill="#1a1a1a" opacity=".6"/>
+        </g>
+      </g>
+
+      <!-- Olive trees on hills -->
+      <g opacity=".6">
+        <line x1="25"  y1="210" x2="22"  y2="158" stroke="#3a2808" stroke-width="5"/>
+        <ellipse cx="20" cy="152" rx="18" ry="24" fill="#3a5a18"/>
+        <ellipse cx="30" cy="145" rx="14" ry="20" fill="#4a7a28"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🐑 Le Petit Berger Chantre</h2>
+    <p>Dans les vertes collines d'<strong>Israël</strong>, vivait un jeune garçon nommé <strong>Dawud</strong>. Il n'était ni grand ni fort — mais son cœur débordait de foi et sa voix était la plus belle du monde.</p>
+    <p>Chaque jour, il gardait les moutons de son père dans les pâturages. Et en gardant son troupeau, il chantait des louanges à Dieu avec une voix si pure et si belle que les oiseaux s'arrêtaient pour écouter.</p>
+    <div class="quote">« Les montagnes et les oiseaux chantaient avec lui, en glorifiant Dieu. »</div>
+    <p>Personne n'imaginait que ce petit berger deviendrait un jour le plus grand roi qu'Israël ait jamais connu. Dieu, Lui, le savait déjà. 🌿🎵</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 2 : Jalut le Géant ══ -->
+<div class="chapter ch2">
+  <div class="ch-num">٢</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="battleSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a0808"/>
+          <stop offset="60%"  stop-color="#2a1010"/>
+          <stop offset="100%" stop-color="#4a1818"/>
+        </linearGradient>
+        <radialGradient id="battleGlow" cx="50%" cy="45%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".2"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#battleSky)"/>
+      <rect width="340" height="255" fill="url(#battleGlow)"/>
+
+      <!-- storm clouds battle -->
+      <ellipse cx="80"  cy="35" rx="80" ry="32" fill="#1a0808" opacity=".85"/>
+      <ellipse cx="100" cy="20" rx="60" ry="24" fill="#250a08" opacity=".85"/>
+      <ellipse cx="240" cy="40" rx="85" ry="34" fill="#1a0808" opacity=".85"/>
+      <ellipse cx="260" cy="22" rx="65" ry="26" fill="#250a08" opacity=".85"/>
+
+      <!-- Battlefield ground -->
+      <rect x="0" y="205" width="340" height="50" fill="#3a1808" opacity=".9"/>
+      <rect x="0" y="202" width="340" height="8"  fill="#4a2010" opacity=".6"/>
+      <!-- dust on ground -->
+      <ellipse cx="80"  cy="208" rx="50" ry="10" fill="#5a3018" opacity=".4"/>
+      <ellipse cx="250" cy="208" rx="50" ry="10" fill="#5a3018" opacity=".4"/>
+
+      <!-- GOLIATH / JALUT — enormous terrifying warrior -->
+      <g transform="translate(220,145)">
+        <!-- massive body -->
+        <path d="M-38,10 Q-32,95 0,100 Q32,95 38,10 Z" fill="#4a2808" opacity=".95"/>
+        <!-- armor plate chest -->
+        <rect x="-30" y="-5" width="60" height="50" fill="#5a3818" rx="3" opacity=".9"/>
+        <!-- armor scales texture -->
+        <g fill="#4a2808" opacity=".5">
+          <ellipse cx="-20" cy="5"  rx="8" ry="5"/>
+          <ellipse cx="0"   cy="5"  rx="8" ry="5"/>
+          <ellipse cx="20"  cy="5"  rx="8" ry="5"/>
+          <ellipse cx="-20" cy="18" rx="8" ry="5"/>
+          <ellipse cx="0"   cy="18" rx="8" ry="5"/>
+          <ellipse cx="20"  cy="18" rx="8" ry="5"/>
+          <ellipse cx="-20" cy="31" rx="8" ry="5"/>
+          <ellipse cx="0"   cy="31" rx="8" ry="5"/>
+          <ellipse cx="20"  cy="31" rx="8" ry="5"/>
+        </g>
+        <!-- GIANT arms -->
+        <line x1="-38" y1="15" x2="-80" y2="40"  stroke="#4a2808" stroke-width="18" stroke-linecap="round"/>
+        <line x1="38"  y1="15" x2="80"  y2="-10" stroke="#4a2808" stroke-width="18" stroke-linecap="round"/>
+        <!-- GIANT spear raised -->
+        <line x1="80" y1="-10" x2="90"  y2="-90" stroke="#6b4020" stroke-width="8" stroke-linecap="round"/>
+        <polygon points="90,-90 84,-108 96,-90" fill="#8b8b8b" opacity=".9"/>
+        <!-- GIANT shield -->
+        <ellipse cx="-80" cy="44" rx="28" ry="32" fill="#3a2808" opacity=".9"/>
+        <ellipse cx="-80" cy="44" rx="22" ry="26" fill="#4a3010" opacity=".7"/>
+        <!-- boss in shield centre -->
+        <circle cx="-80" cy="44" r="8" fill="#8b6020" opacity=".8"/>
+        <!-- legs enormous -->
+        <line x1="-20" y1="98" x2="-24" y2="130" stroke="#4a2808" stroke-width="18" stroke-linecap="round"/>
+        <line x1="20"  y1="98" x2="26"  y2="130" stroke="#4a2808" stroke-width="18" stroke-linecap="round"/>
+        <!-- helmet head monstrous -->
+        <circle cx="0" cy="-16" r="28" fill="#3a1808" opacity=".9"/>
+        <!-- helmet -->
+        <path d="M-28,-16 Q-28,-50 0,-56 Q28,-50 28,-16 Z" fill="#5a3818" opacity=".95"/>
+        <!-- visor slit -->
+        <rect x="-18" y="-24" width="36" height="8" fill="#0a0404" rx="2"/>
+        <!-- gleaming red eyes through visor -->
+        <circle cx="-8" cy="-20" r="3" fill="#cc0000" opacity=".9"/>
+        <circle cx="8"  cy="-20" r="3" fill="#cc0000" opacity=".9"/>
+        <!-- shadow under giant -->
+        <ellipse cx="0" cy="130" rx="55" ry="16" fill="#1a0808" opacity=".6"/>
+      </g>
+
+      <!-- YOUNG DAWUD — small but brave, sling ready -->
+      <g transform="translate(100,190)">
+        <!-- small but confident stance -->
+        <path d="M-14,5 Q-10,45 0,48 Q10,45 14,5 Z" fill="#1e6b3a"/>
+        <!-- cloak -->
+        <path d="M-22,2 Q-18,46 -8,50 Q-14,42 -16,5 Z" fill="#8b5e3c" opacity=".7"/>
+        <!-- ARM whirling sling above head -->
+        <line x1="14" y1="8"  x2="40"  y2="-20" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- sling cord spinning -->
+        <path d="M40,-20 Q55,-35 50,-50 Q40,-38 35,-25" stroke="#8b5e3c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <circle cx="50" cy="-52" r="5" fill="#5a3a18" opacity=".9"/>
+        <!-- stone glow — Goliath-ending stone -->
+        <circle cx="50" cy="-52" r="8" fill="#f0c040" opacity=".2"/>
+        <!-- other arm steady -->
+        <line x1="-14" y1="8" x2="-28" y2="4" stroke="#1e6b3a" stroke-width="6" stroke-linecap="round"/>
+        <!-- head determined young face -->
+        <circle cx="0" cy="-7" r="13" fill="#c8906a"/>
+        <path d="M-10,-16 Q0,-30 10,-16 L12,-5 Q0,-2 -12,-5 Z" fill="#8b5e3c"/>
+        <!-- VERY determined expression — faith in eyes -->
+        <circle cx="-4" cy="-9" r="2.5" fill="#1a1a1a"/>
+        <circle cx="4"  cy="-9" r="2.5" fill="#1a1a1a"/>
+        <!-- fierce eyebrows -->
+        <path d="M-7,-13 Q-4,-15 -1,-13" stroke="#5c3010" stroke-width="1.8" fill="none"/>
+        <path d="M1,-13 Q4,-15 7,-13"    stroke="#5c3010" stroke-width="1.8" fill="none"/>
+        <!-- lips pressed determined -->
+        <path d="M-3,-3 L3,-3" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+        <!-- divine light on Dawud -->
+        <circle cx="0" cy="-7" r="20" fill="#f0c040" opacity=".08"/>
+      </g>
+
+      <!-- Israeli army watching behind Dawud — tiny figures -->
+      <g transform="translate(35,208)" opacity=".65">
+        <circle cx="0"  cy="-14" r="6"  fill="#d4a57a"/>
+        <rect x="-6"  y="-9"  width="12" height="12" fill="#2d6b9e" rx="1"/>
+        <circle cx="20" cy="-12" r="5.5" fill="#c8906a"/>
+        <rect x="14"  y="-8"  width="11" height="11" fill="#2d6b9e" rx="1"/>
+        <circle cx="38" cy="-14" r="6"  fill="#d4b080"/>
+        <rect x="32"  y="-9"  width="12" height="12" fill="#2d6b9e" rx="1"/>
+        <!-- arms in awe / fear -->
+        <line x1="6"  y1="-4" x2="14"  y2="-18" stroke="#2d6b9e" stroke-width="4" stroke-linecap="round"/>
+        <line x1="24" y1="-4" x2="30"  y2="-16" stroke="#2d6b9e" stroke-width="4" stroke-linecap="round"/>
+      </g>
+
+      <!-- stone trajectory arc -->
+      <path d="M148,138 Q190,80 217,115" fill="none" stroke="#f0c040"
+            stroke-width="2" stroke-dasharray="5 4" opacity=".5"/>
+
+      <!-- Battle dust and tension lines -->
+      <g opacity=".15" stroke="#8b4a18" stroke-width="1">
+        <line x1="150" y1="200" x2="200" y2="180"/>
+        <line x1="160" y1="205" x2="210" y2="190"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🪨 Le Petit Berger contre le Géant</h2>
+    <p>Un jour, l'armée d'Israël affronta l'ennemi mené par un géant terrifiant nommé <strong>Jalut</strong> (Goliath). Personne n'osait le défier — personne, sauf le jeune Dawud.</p>
+    <p>Les soldats riaient : <em>« Toi ? Un petit berger ? Contre ce colosse ? »</em> Mais Dawud répondit avec calme :</p>
+    <div class="quote">« J'ai tué des lions et des ours pour protéger mes moutons. Dieu me protégera contre lui ! »</div>
+    <p>Il prit sa fronde, fit tournoyer une pierre… et atteignit le géant en plein front ! Jalut tomba comme un arbre abattu. Le petit berger venait de changer l'histoire. 🪨✨</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 3 : La Voix qui Fait Chanter les Montagnes ══ -->
+<div class="chapter ch3">
+  <div class="ch-num">٣</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="musicSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#060810"/>
+          <stop offset="50%"  stop-color="#0e1428"/>
+          <stop offset="100%" stop-color="#1a2040"/>
+        </linearGradient>
+        <radialGradient id="musicGlow2" cx="50%" cy="45%" r="55%">
+          <stop offset="0%"   stop-color="#88ccff" stop-opacity=".3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="voiceLight" cx="40%" cy="50%" r="45%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#musicSky)"/>
+      <rect width="340" height="255" fill="url(#musicGlow2)"/>
+      <rect width="340" height="255" fill="url(#voiceLight)"/>
+
+      <!-- Stars / night sky -->
+      <circle cx="30"  cy="18" r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="80"  cy="30" r="1"   fill="white"   opacity=".7"/>
+      <circle cx="150" cy="15" r="2"   fill="#88ccff" opacity=".8"/>
+      <circle cx="225" cy="25" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="290" cy="18" r="2"   fill="#f0c040" opacity=".75"/>
+      <circle cx="320" cy="38" r="1"   fill="#88ccff" opacity=".65"/>
+
+      <!-- Mountains of Israel responding to Dawud's voice -->
+      <!-- big mountains -->
+      <polygon points="0,200 60,130 130,175 200,115 275,155 340,125 340,255 0,255"
+               fill="#1a2a08" opacity=".9"/>
+      <!-- glow on mountains responding to voice -->
+      <ellipse cx="65"  cy="140" rx="50" ry="30" fill="#f0c040" opacity=".08"/>
+      <ellipse cx="205" cy="125" rx="55" ry="32" fill="#f0c040" opacity=".08"/>
+      <!-- musical resonance lines on mountains -->
+      <g stroke="#f0c040" stroke-width="1" fill="none" opacity=".2">
+        <path d="M20,155 Q40,148 60,155 Q80,162 100,155"/>
+        <path d="M170,130 Q200,122 230,130 Q260,138 290,130"/>
+      </g>
+
+      <!-- Ground -->
+      <rect x="0" y="218" width="340" height="37" fill="#2a3810"/>
+
+      <!-- BIRDS gathered in a circle — listening to Dawud -->
+      <!-- large flock around him -->
+      <g opacity=".8">
+        <path d="M58,155 Q66,144 76,152 Q84,142 93,150"   fill="white"/>
+        <path d="M72,138 Q80,127 90,135 Q98,125 107,133"  fill="white" opacity=".8"/>
+        <path d="M248,148 Q257,137 267,145 Q275,135 284,143" fill="white"/>
+        <path d="M260,132 Q269,121 279,129 Q287,119 296,127" fill="white" opacity=".8"/>
+        <path d="M155,128 Q163,117 173,125 Q181,115 190,123" fill="#f0c040" opacity=".7"/>
+        <path d="M110,142 Q118,131 128,139" fill="white" opacity=".75"/>
+        <path d="M215,138 Q223,127 233,135" fill="white" opacity=".75"/>
+        <!-- birds perched on mountains -->
+        <g transform="translate(45,132)" opacity=".7">
+          <ellipse cx="0" cy="0"  rx="8" ry="5" fill="#c8845a"/>
+          <circle  cx="-5" cy="-3" r="5" fill="#d4956a"/>
+          <circle cx="-6" cy="-3" r="1.2" fill="#1a1a1a" opacity=".6"/>
+        </g>
+        <g transform="translate(290,128)" opacity=".7">
+          <ellipse cx="0" cy="0"  rx="7" ry="4" fill="#8b6a3a"/>
+          <circle  cx="-5" cy="-3" r="4" fill="#a07848"/>
+          <circle cx="-5" cy="-4" r="1" fill="#1a1a1a" opacity=".6"/>
+        </g>
+      </g>
+
+      <!-- DAWUD standing on hilltop — arms wide, singing the Zabur (Psalms) -->
+      <g transform="translate(170,178)">
+        <!-- divine light pillar from above -->
+        <line x1="0" y1="-90" x2="0" y2="-48" stroke="#f0c040" stroke-width="4" opacity=".3" stroke-linecap="round"/>
+        <ellipse cx="0" cy="-50" rx="25" ry="12" fill="#f0c040" opacity=".15"/>
+        <!-- halo large divine music glow -->
+        <circle cx="0" cy="-15" r="65" fill="#88ccff" opacity=".06"/>
+        <circle cx="0" cy="-15" r="50" fill="#f0c040" opacity=".06"/>
+        <!-- robe flowing in divine wind -->
+        <path d="M-24,10 Q-20,70 0,74 Q20,70 24,10 Z" fill="#1e6b3a"/>
+        <path d="M-40,6 Q-32,72 -12,78 Q-22,66 -26,10 Z" fill="#8b5e3c" opacity=".7"/>
+        <path d="M40,6 Q32,72 12,78 Q22,66 26,10 Z"  fill="#8b5e3c" opacity=".7"/>
+        <!-- BOTH ARMS RAISED TO THE SKY — singing praises -->
+        <line x1="-24" y1="14" x2="-65" y2="-15" stroke="#1e6b3a" stroke-width="9" stroke-linecap="round"/>
+        <line x1="24"  y1="14" x2="65"  y2="-15" stroke="#1e6b3a" stroke-width="9" stroke-linecap="round"/>
+        <!-- hands glowing with music -->
+        <circle cx="-67" cy="-17" r="8" fill="#f0c040" opacity=".4"/>
+        <circle cx="67"  cy="-17" r="8" fill="#f0c040" opacity=".4"/>
+        <!-- head -->
+        <circle cx="0" cy="-12" r="17" fill="#c8906a"/>
+        <path d="M-13,-24 Q0,-42 13,-24 L15,-8 Q0,-5 -15,-8 Z" fill="#8b5e3c"/>
+        <!-- beard (older now) -->
+        <ellipse cx="0" cy="2" rx="9" ry="7" fill="#8b6020" opacity=".7"/>
+        <!-- MOUTH WIDE OPEN in beautiful song -->
+        <ellipse cx="0" cy="0" rx="5" ry="4" fill="#5c3010" opacity=".9"/>
+        <!-- eyes closed in ecstasy of prayer-song -->
+        <path d="M-7,-14 Q-4,-11 -1,-14" stroke="#5c3010" stroke-width="1.8" fill="none"/>
+        <path d="M1,-14 Q4,-11 7,-14"    stroke="#5c3010" stroke-width="1.8" fill="none"/>
+        <!-- sound waves emanating from him in all directions -->
+        <g stroke="#f0c040" fill="none" stroke-linecap="round" opacity=".25">
+          <path d="M-25,-20 Q-45,-32 -50,-20" stroke-width="2.5"/>
+          <path d="M-30,-25 Q-55,-40 -62,-25" stroke-width="2" opacity=".7"/>
+          <path d="M-34,-30 Q-65,-46 -74,-30" stroke-width="1.5" opacity=".5"/>
+          <path d="M25,-20 Q45,-32 50,-20"    stroke-width="2.5"/>
+          <path d="M30,-25 Q55,-40 62,-25"    stroke-width="2" opacity=".7"/>
+          <path d="M34,-30 Q65,-46 74,-30"    stroke-width="1.5" opacity=".5"/>
+          <path d="M0,-34 Q0,-50 0,-60"       stroke-width="2.5"/>
+          <path d="M-8,-32 Q-15,-50 -18,-62"  stroke-width="2" opacity=".7"/>
+          <path d="M8,-32 Q15,-50 18,-62"     stroke-width="2" opacity=".7"/>
+        </g>
+        <!-- musical notes everywhere -->
+        <g fill="#f0c040" opacity=".45" font-size="16" font-family="serif">
+          <text x="-85" y="-40">♫</text>
+          <text x="65"  y="-45">♪</text>
+          <text x="-55" y="-65">♩</text>
+          <text x="45"  y="-68">♬</text>
+          <text x="-20" y="-82">♪</text>
+          <text x="15"  y="-85">♫</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🎵 La Voix qui fait chanter les Montagnes</h2>
+    <p>Dieu gratifia Dawud du don le plus extraordinaire : une voix d'une beauté surhumaine. Quand il chantait les louanges de Dieu — le <strong>Zabur</strong> — toute la création s'arrêtait.</p>
+    <p>Les oiseaux se posaient autour de lui. Les montagnes répétaient ses chants en écho. Même les pierres semblaient vibrer de joie.</p>
+    <div class="quote">« Ô montagnes, répétez avec lui les louanges de Dieu ! Et vous aussi, ô oiseaux ! »</div>
+    <p>Sa prière n'était pas seulement des mots — c'était toute son âme qui s'envolait vers Dieu. Il nous apprend que la plus belle musique est celle qui vient du cœur. 🎵💛</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 4 : Le Miracle du Fer ══ -->
+<div class="chapter ch4">
+  <div class="ch-num">٤</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="forgeSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0a0808"/>
+          <stop offset="60%"  stop-color="#1a0e0e"/>
+          <stop offset="100%" stop-color="#2a1a10"/>
+        </linearGradient>
+        <radialGradient id="forgeGlow" cx="55%" cy="55%" r="45%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="ironGlow" cx="50%" cy="50%" r="45%">
+          <stop offset="0%"   stop-color="#88ccff" stop-opacity=".2"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#forgeSky)"/>
+      <rect width="340" height="255" fill="url(#forgeGlow)"/>
+      <rect width="340" height="255" fill="url(#ironGlow)"/>
+
+      <!-- forge fire glow background -->
+      <ellipse cx="220" cy="170" rx="100" ry="75" fill="#ff4400" opacity=".1"/>
+
+      <!-- Stars faint -->
+      <circle cx="30"  cy="20" r="1.5" fill="#f0c040" opacity=".6"/>
+      <circle cx="80"  cy="35" r="1"   fill="white"   opacity=".5"/>
+      <circle cx="290" cy="22" r="1.5" fill="white"   opacity=".6"/>
+      <circle cx="318" cy="40" r="1"   fill="#f0c040" opacity=".55"/>
+
+      <!-- Stone workshop / forge -->
+      <rect x="0" y="195" width="340" height="60" fill="#1a0e08" opacity=".8"/>
+      <rect x="0" y="192" width="340" height="8"  fill="#2a1808" opacity=".6"/>
+
+      <!-- The FORGE / anvil setup -->
+      <g transform="translate(240,180)">
+        <!-- forge fire pit -->
+        <ellipse cx="0" cy="40" rx="40" ry="14" fill="#2a1808"/>
+        <ellipse cx="0" cy="38" rx="34" ry="10" fill="#3a1808"/>
+        <!-- fire in forge -->
+        <path d="M-28,38 Q-20,18 -8,28 Q-4,10 6,22 Q10,6 20,18 Q28,10 28,38 Z"
+              fill="#ff4400" opacity=".85"/>
+        <path d="M-22,38 Q-14,22 -4,30 Q0,14 8,24 Q12,10 22,22 Q24,16 24,38 Z"
+              fill="#ff8800" opacity=".8"/>
+        <path d="M-14,38 Q-8,26 2,32 Q6,18 14,28 Q16,20 18,38 Z"
+              fill="#ffcc00" opacity=".7"/>
+        <!-- IRON being softened — glowing red hot plate -->
+        <g transform="translate(0,20)">
+          <rect x="-35" y="-8" width="70" height="18" fill="#cc2200" rx="3" opacity=".9"/>
+          <rect x="-30" y="-5" width="60" height="12" fill="#ff4400" rx="2" opacity=".7"/>
+          <rect x="-25" y="-3" width="50" height="8"  fill="#ff8800" rx="2" opacity=".5"/>
+          <!-- glow -->
+          <rect x="-38" y="-12" width="76" height="26" fill="#ff4400" rx="4" opacity=".12"/>
+        </g>
+        <!-- anvil -->
+        <rect x="-22" y="52" width="44" height="18" fill="#3a3a3a" rx="3"/>
+        <rect x="-28" y="68" width="56" height="10" fill="#2a2a2a" rx="2"/>
+        <rect x="-16" y="78" width="32" height="20" fill="#1a1a1a" rx="2"/>
+        <!-- bellows / tools -->
+        <line x1="38" y1="42" x2="50" y2="30" stroke="#5a3010" stroke-width="5" stroke-linecap="round"/>
+        <rect x="48" y="22" width="16" height="10" fill="#4a2a08" rx="2"/>
+        <!-- ember sparks flying -->
+        <circle cx="-30" cy="10" r="2.5" fill="#f0c040" opacity=".8"/>
+        <circle cx="35"  cy="5"  r="2"   fill="#f0c040" opacity=".7"/>
+        <circle cx="10"  cy="-5" r="2"   fill="#ff8800" opacity=".8"/>
+        <circle cx="-15" cy="-8" r="1.5" fill="#f0c040" opacity=".7"/>
+        <circle cx="40"  cy="-10" r="1.5" fill="#ff8800" opacity=".65"/>
+      </g>
+
+      <!-- DAWUD working the iron with his HANDS (miracle — no hammer needed) -->
+      <g transform="translate(120,162)">
+        <!-- robe working man -->
+        <path d="M-18,8 Q-14,62 0,66 Q14,62 18,8 Z" fill="#1e6b3a"/>
+        <!-- sleeves rolled — working arms -->
+        <line x1="-18" y1="12" x2="-48" y2="30" stroke="#c8906a" stroke-width="10" stroke-linecap="round"/>
+        <line x1="18"  y1="12" x2="60"  y2="25" stroke="#c8906a" stroke-width="10" stroke-linecap="round"/>
+        <!-- HANDS working the iron — miracle: iron soft as clay -->
+        <ellipse cx="-52" cy="32" rx="12" ry="8" fill="#c8906a" transform="rotate(-15,-52,32)"/>
+        <ellipse cx="64"  cy="27" rx="12" ry="8" fill="#c8906a" transform="rotate(10,64,27)"/>
+        <!-- IRON BETWEEN HANDS glowing soft and pliable -->
+        <g transform="translate(8,26)">
+          <!-- chain mail / armor being shaped -->
+          <path d="M-28,-6 Q-20,-14 0,-10 Q20,-14 28,-6 Q22,6 0,10 Q-22,6 -28,-6 Z"
+                fill="#cc2200" opacity=".8"/>
+          <path d="M-22,-4 Q-14,-10 0,-7 Q14,-10 22,-4 Q16,4 0,7 Q-16,4 -22,-4 Z"
+                fill="#ff4400" opacity=".7"/>
+          <!-- chain links pattern -->
+          <g stroke="#ffcc00" stroke-width="1" fill="none" opacity=".5">
+            <ellipse cx="-12" cy="-4" rx="4" ry="3"/>
+            <ellipse cx="0"   cy="-6" rx="4" ry="3"/>
+            <ellipse cx="12"  cy="-4" rx="4" ry="3"/>
+            <ellipse cx="-6"  cy="4"  rx="4" ry="3"/>
+            <ellipse cx="6"   cy="4"  rx="4" ry="3"/>
+          </g>
+          <!-- glow of miracle -->
+          <ellipse cx="0" cy="0" rx="32" ry="18" fill="#f0c040" opacity=".12"/>
+          <ellipse cx="0" cy="0" rx="40" ry="24" fill="#88ccff" opacity=".08"/>
+        </g>
+        <!-- head crown (king now) -->
+        <circle cx="0" cy="-10" r="16" fill="#c8906a"/>
+        <path d="M-12,-22 L-8,-34 L0,-28 L8,-34 L12,-22 Z" fill="#d4a017"/>
+        <rect x="-14" y="-24" width="28" height="5" fill="#c8a040" opacity=".8"/>
+        <circle cx="-8" cy="-33" r="3" fill="#e74c3c" opacity=".9"/>
+        <circle cx="0"  cy="-29" r="3" fill="#f0c040" opacity=".95"/>
+        <circle cx="8"  cy="-33" r="3" fill="#3498db" opacity=".9"/>
+        <!-- beard growing (mature) -->
+        <ellipse cx="0" cy="2" rx="9" ry="7" fill="#8b6020" opacity=".7"/>
+        <!-- focused eyes working -->
+        <circle cx="-5" cy="-12" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5"  cy="-12" r="2.5" fill="#1a1a1a"/>
+        <path d="M-9,-17 Q-5,-19 -1,-17" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M1,-17 Q5,-19 9,-17"    stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M-3,-3 Q0,0 3,-3" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- Completed armor / chain mail hanging -->
+      <g transform="translate(55,188)">
+        <!-- finished armor displayed -->
+        <rect x="-20" y="-30" width="40" height="55" fill="#4a4a5a" rx="4" opacity=".8"/>
+        <!-- chain mail texture -->
+        <g stroke="#6a6a8a" stroke-width="1" fill="none" opacity=".5">
+          <ellipse cx="-10" cy="-18" rx="6" ry="4"/>
+          <ellipse cx="0"   cy="-18" rx="6" ry="4"/>
+          <ellipse cx="10"  cy="-18" rx="6" ry="4"/>
+          <ellipse cx="-10" cy="-8"  rx="6" ry="4"/>
+          <ellipse cx="0"   cy="-8"  rx="6" ry="4"/>
+          <ellipse cx="10"  cy="-8"  rx="6" ry="4"/>
+          <ellipse cx="-10" cy="2"   rx="6" ry="4"/>
+          <ellipse cx="0"   cy="2"   rx="6" ry="4"/>
+          <ellipse cx="10"  cy="2"   rx="6" ry="4"/>
+          <ellipse cx="-10" cy="12"  rx="6" ry="4"/>
+          <ellipse cx="0"   cy="12"  rx="6" ry="4"/>
+          <ellipse cx="10"  cy="12"  rx="6" ry="4"/>
+        </g>
+        <!-- glow of finished armor -->
+        <rect x="-22" y="-32" width="44" height="59" rx="4" fill="#88ccff" opacity=".06"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">⚔️ Le Miracle du Fer</h2>
+    <p>Dieu accorda à Dawud un autre don extraordinaire : il <strong>amollissait le fer avec ses mains</strong>, comme si c'était de l'argile ! Pas besoin de feu ni de marteau.</p>
+    <p>Dawud façonnait des cottes de mailles et des armures pour protéger les soldats au combat. Ses armures étaient les meilleures du monde.</p>
+    <div class="quote">« Nous avons amolli pour lui le fer : fabrique des cottes de mailles bien ajustées et travaille avec droiture. »</div>
+    <p>Dawud nous montre que le travail de ses mains était une forme de prière. Il ne vivait pas des richesses de son royaume — il <strong>fabriquait lui-même</strong> ce dont il avait besoin. 🔨💪</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 5 : Le Roi Juste ══ -->
+<div class="chapter ch5">
+  <div class="ch-num">٥</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="kingSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a1008"/>
+          <stop offset="40%"  stop-color="#2a1a08"/>
+          <stop offset="100%" stop-color="#c8a04a"/>
+        </linearGradient>
+        <radialGradient id="kingGlow" cx="50%" cy="50%" r="55%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="sunriseGlow" cx="50%" cy="85%" r="55%">
+          <stop offset="0%"   stop-color="#ff8800" stop-opacity=".3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#kingSky)"/>
+      <rect width="340" height="255" fill="url(#kingGlow)"/>
+      <rect width="340" height="255" fill="url(#sunriseGlow)"/>
+
+      <!-- dawn stars -->
+      <circle cx="28"  cy="18" r="1.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="80"  cy="14" r="1.5" fill="white"   opacity=".6"/>
+      <circle cx="175" cy="10" r="1"   fill="#f0c040" opacity=".65"/>
+      <circle cx="275" cy="18" r="1.5" fill="white"   opacity=".6"/>
+      <circle cx="320" cy="30" r="1"   fill="#f0c040" opacity=".6"/>
+
+      <!-- Sunrise beautiful over Jerusalem -->
+      <circle cx="170" cy="195" r="60"  fill="#f0c040" opacity=".18"/>
+      <circle cx="170" cy="200" r="45"  fill="#ff8800" opacity=".22"/>
+      <circle cx="170" cy="204" r="32"  fill="#f0c040" opacity=".32"/>
+      <!-- rays -->
+      <g opacity=".15">
+        <line x1="118" y1="192" x2="75"  y2="188" stroke="#f0c040" stroke-width="2.5"/>
+        <line x1="222" y1="192" x2="265" y2="188" stroke="#f0c040" stroke-width="2.5"/>
+        <line x1="115" y1="178" x2="76"  y2="170" stroke="#f0c040" stroke-width="2"/>
+        <line x1="225" y1="178" x2="264" y2="170" stroke="#f0c040" stroke-width="2"/>
+        <line x1="128" y1="165" x2="104" y2="152" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="212" y1="165" x2="236" y2="152" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="155" y1="158" x2="143" y2="142" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="185" y1="158" x2="197" y2="142" stroke="#f0c040" stroke-width="1.5"/>
+      </g>
+
+      <!-- Jerusalem hills / city -->
+      <polygon points="0,195 50,158 110,180 180,152 250,172 310,148 340,162 340,255 0,255"
+               fill="#2a2010" opacity=".9"/>
+      <rect x="0" y="225" width="340" height="30" fill="#3a2a18"/>
+
+      <!-- City walls and buildings of Jerusalem silhouette -->
+      <g transform="translate(170,158)" opacity=".7">
+        <!-- city wall -->
+        <rect x="-80" y="-5" width="160" height="38" fill="#1a1808" rx="2"/>
+        <!-- towers -->
+        <rect x="-75" y="-20" width="18" height="22" fill="#1a1808" rx="1"/>
+        <rect x="57"  y="-20" width="18" height="22" fill="#1a1808" rx="1"/>
+        <!-- gate -->
+        <rect x="-12" y="-2" width="24" height="30" fill="#2a1808" rx="2"/>
+        <path d="M-12,-2 Q0,-18 12,-2" fill="#1a1808"/>
+        <!-- minarets / spires -->
+        <line x1="-66" y1="-20" x2="-66" y2="-42" stroke="#c8a04a" stroke-width="4"/>
+        <polygon points="-66,-42 -70,-50 -62,-42" fill="#c8a04a" opacity=".7"/>
+        <line x1="66"  y1="-20" x2="66"  y2="-42" stroke="#c8a04a" stroke-width="4"/>
+        <polygon points="66,-42 62,-50 70,-42" fill="#c8a04a" opacity=".7"/>
+        <!-- windows glowing -->
+        <rect x="-50" y="-10" width="10" height="8" fill="#f0c040" rx="1" opacity=".5"/>
+        <rect x="40"  y="-10" width="10" height="8" fill="#f0c040" rx="1" opacity=".5"/>
+        <rect x="-8"  y="5"   width="16" height="12" fill="#f0c040" rx="1" opacity=".6"/>
+      </g>
+
+      <!-- DAWUD on his throne — king and judge -->
+      <g transform="translate(170,158)">
+        <!-- grand throne -->
+        <rect x="-32" y="-42" width="64" height="85" fill="#c8a04a" rx="5" opacity=".75"/>
+        <rect x="-27" y="-37" width="54" height="72" fill="#d4b060" rx="4" opacity=".5"/>
+        <!-- armrests lion carved -->
+        <rect x="-42" y="-14" width="16" height="9" fill="#c8a04a" rx="2" opacity=".7"/>
+        <rect x="26"  y="-14" width="16" height="9" fill="#c8a04a" rx="2" opacity=".7"/>
+        <circle cx="-42" cy="-14" r="7" fill="#d4a017" opacity=".6"/>
+        <circle cx="42"  cy="-14" r="7" fill="#d4a017" opacity=".6"/>
+        <!-- throne back -->
+        <path d="M-32,-42 Q0,-62 32,-42" fill="#c8a04a" opacity=".7"/>
+        <!-- jewels on throne -->
+        <circle cx="-16" cy="-50" r="4" fill="#e74c3c" opacity=".9"/>
+        <circle cx="0"   cy="-55" r="4" fill="#f0c040" opacity=".95"/>
+        <circle cx="16"  cy="-50" r="4" fill="#3498db" opacity=".9"/>
+        <!-- Dawud seated on throne -->
+        <path d="M-18,8 Q-14,42 0,44 Q14,42 18,8 Z" fill="#1e6b3a"/>
+        <path d="M-28,4 Q-22,44 -8,46 Q-16,38 -20,8 Z" fill="#8b5e3c" opacity=".75"/>
+        <path d="M28,4 Q22,44 8,46 Q16,38 20,8 Z"  fill="#8b5e3c" opacity=".75"/>
+        <!-- arm raised delivering judgment / justice -->
+        <line x1="-18" y1="12" x2="-45" y2="-2"  stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- sceptre in right hand -->
+        <line x1="18"  y1="12" x2="35"  y2="5"   stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <line x1="35"  y1="5"  x2="38"  y2="-25" stroke="#d4a017" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="38" cy="-27" r="5" fill="#f0c040" opacity=".9"/>
+        <!-- head with magnificent crown -->
+        <circle cx="0" cy="-10" r="17" fill="#c8906a"/>
+        <path d="M-12,-22 L-8,-36 L0,-30 L8,-36 L12,-22 Z" fill="#d4a017"/>
+        <rect x="-14" y="-24" width="28" height="5" fill="#c8a040" opacity=".85"/>
+        <circle cx="-8" cy="-35" r="4" fill="#e74c3c" opacity=".95"/>
+        <circle cx="0"  cy="-31" r="4" fill="#f0c040" opacity=".98"/>
+        <circle cx="8"  cy="-35" r="4" fill="#3498db" opacity=".95"/>
+        <!-- beard full wise -->
+        <ellipse cx="0" cy="2" rx="10" ry="8" fill="#8b6020" opacity=".75"/>
+        <!-- halo of divine wisdom -->
+        <circle cx="0" cy="-10" r="26" fill="none" stroke="#f0c040" stroke-width="1.2" opacity=".35"/>
+        <!-- wise just eyes -->
+        <circle cx="-5.5" cy="-12" r="2.8" fill="#1a1a1a"/>
+        <circle cx="5.5"  cy="-12" r="2.8" fill="#1a1a1a"/>
+        <path d="M-5,-3 Q0,3 5,-3" stroke="#7a3a10" stroke-width="1.8" fill="none"/>
+      </g>
+
+      <!-- People coming for justice — small figures -->
+      <g transform="translate(55,215)" opacity=".75">
+        <circle cx="0"  cy="-16" r="6.5" fill="#d4a57a"/>
+        <rect x="-6"  y="-11" width="13" height="13" fill="#c0392b" rx="1"/>
+        <line x1="-6" y1="-5" x2="-18" y2="-16" stroke="#c0392b" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="22" cy="-14" r="6"  fill="#c8906a"/>
+        <rect x="16"  y="-9"  width="12" height="12" fill="#c9960c" rx="1"/>
+        <circle cx="42" cy="-16" r="6.5" fill="#d4b080"/>
+        <rect x="36"  y="-11" width="13" height="13" fill="#1e6b3a" rx="1"/>
+      </g>
+      <g transform="translate(260,215)" opacity=".72">
+        <circle cx="0"  cy="-15" r="6"  fill="#d4a57a"/>
+        <rect x="-6"  y="-10" width="12" height="12" fill="#8b4a10" rx="1"/>
+        <circle cx="20" cy="-16" r="6.5" fill="#c8906a"/>
+        <rect x="14"  y="-11" width="13" height="13" fill="#6b3fa0" rx="1"/>
+        <circle cx="42" cy="-14" r="6"  fill="#d4b080"/>
+        <rect x="36"  y="-9"  width="12" height="12" fill="#2d6b9e" rx="1"/>
+      </g>
+
+      <!-- Birds around the throne — loyal to Dawud -->
+      <g opacity=".6">
+        <path d="M80,140  Q88,130  98,138  Q106,128 115,136" fill="white" stroke="none"/>
+        <path d="M235,136 Q243,126 253,134 Q261,124 270,132" fill="white" stroke="none"/>
+      </g>
+
+      <!-- golden sparkles of divine blessing -->
+      <circle cx="100" cy="135" r="2.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="240" cy="130" r="2.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="170" cy="118" r="3"   fill="#f0c040" opacity=".75"/>
+      <circle cx="140" cy="125" r="2"   fill="#f0c040" opacity=".6"/>
+      <circle cx="200" cy="122" r="2"   fill="#f0c040" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">⚖️ Le Roi le Plus Juste</h2>
+    <p>Dawud devint roi de tout Israël à <strong>Jérusalem</strong>. Mais il n'était pas un roi ordinaire — il était aussi prophète, juge et chantre de Dieu.</p>
+    <p>Il rendait la justice avec une sagesse incomparable. Il travaillait de ses propres mains pour ne rien devoir à personne. Le soir, il priait et chantait le Zabur.</p>
+    <div class="quote">« Ô Dawud ! Nous t'avons fait vicaire sur la Terre. Juge donc parmi les gens en toute équité. »</div>
+    <p>Dawud nous enseigne qu'un vrai grand homme est celui qui chante Dieu avec son cœur, travaille avec ses mains, et juge avec <strong>justice et amour</strong>. Son fils Soulayman continuera son œuvre. 🌅👑</p>
+  </div>
+</div>
+
+
+<!-- ══ ENDING ══ -->
+<div class="ending">
+  <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.06;pointer-events:none"
+       viewBox="0 0 400 300">
+    <defs>
+      <pattern id="musicPat" x="0" y="0" width="80" height="60" patternUnits="userSpaceOnUse">
+        <path d="M0,30 Q20,10 40,30 Q60,50 80,30" fill="none" stroke="#f0c040" stroke-width="1"/>
+        <circle cx="10" cy="22" r="4" fill="#f0c040" opacity=".5"/>
+        <line x1="14" y1="22" x2="14" y2="8" stroke="#f0c040" stroke-width="1"/>
+        <circle cx="50" cy="38" r="4" fill="#f0c040" opacity=".5"/>
+        <line x1="54" y1="38" x2="54" y2="24" stroke="#f0c040" stroke-width="1"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="300" fill="url(#musicPat)"/>
+  </svg>
+
+  <div style="font-size:2.5rem;margin-bottom:16px">🎵</div>
+  <h2>✨ Fin ✨</h2>
+  <p>Et voilà l'histoire de Dawud,<br>
+  le berger devenu roi, le guerrier devenu chantre de Dieu.<br><br>
+  Il nous apprend que la taille ne compte pas —<br>
+  c'est la <em>foi</em> qui donne la force de vaincre les géants.<br>
+  Que la plus belle prière est celle qui vient du cœur.<br>
+  Et que la justice est le plus beau des trônes.<br><br>
+  <em>Les oiseaux et les montagnes chantent encore avec lui. 🐦⭐</em></p>
+  <div class="end-star">✦</div>
+</div>
+
+<script>
+  // Stars on cover
+  const cover = document.getElementById('starsCover');
+  for (let i = 0; i < 75; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const sz = Math.random() * 2.5 + .5;
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*55}%;
+      width:${sz}px; height:${sz}px;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${1.5+Math.random()*2.5}s;
+    `;
+    cover.appendChild(s);
+  }
+
+  // Musical notes floating up
+  const noteC = document.getElementById('noteContainer');
+  noteC.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;';
+  const notes = ['♪','♫','♩','♬','♭','♮'];
+  function makeNote() {
+    const n = document.createElement('div');
+    n.className = 'note';
+    n.textContent = notes[Math.floor(Math.random()*notes.length)];
+    n.style.cssText = `
+      left:${Math.random()*90+5}%;
+      bottom:${Math.random()*30}%;
+      font-size:${1+Math.random()}rem;
+      animation-duration:${4+Math.random()*5}s;
+      animation-delay:${Math.random()*4}s;
+    `;
+    noteC.appendChild(n);
+    n.addEventListener('animationend', () => n.remove());
+  }
+  for(let i=0;i<15;i++) makeNote();
+  setInterval(makeNote, 500);
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold:.1 }
+  );
+  document.querySelectorAll('.chapter,.ending').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
