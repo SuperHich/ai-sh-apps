@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Calculatrice Financière | Investissement & Pouvoir d'achat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        /* Carte principale */
+        .finance-card {
+            max-width: 1300px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(0px);
+            border-radius: 3rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        /* En-tête élégant */
+        .hero {
+            background: #0b2b3b;
+            background-image: radial-gradient(circle at 10% 30%, #1a4a5f, #06212e);
+            padding: 2rem 2rem 1.8rem;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero h1 span {
+            background: rgba(255, 215, 120, 0.2);
+            padding: 0.2rem 0.8rem;
+            border-radius: 60px;
+            font-size: 1rem;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+        }
+
+        .hero p {
+            margin-top: 0.6rem;
+            opacity: 0.85;
+            font-weight: 400;
+            font-size: 0.95rem;
+        }
+
+        /* Grille double colonne */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: #f9fbfe;
+        }
+
+        /* chaque module */
+        .module {
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .module:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
+        }
+
+        .module-header {
+            background: #ffffff;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 2px solid #ecf3fa;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .module-header .icon {
+            font-size: 1.8rem;
+        }
+
+        .module-header h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e2f3e;
+        }
+
+        .module-content {
+            padding: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: #2c4b5e;
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .input-group label i {
+            font-style: normal;
+            font-weight: 400;
+        }
+
+        input, select {
+            background: #f4f8fe;
+            border: 1px solid #cbdde9;
+            border-radius: 1.2rem;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            outline: none;
+            color: #0f2b38;
+        }
+
+        input:focus, select:focus {
+            border-color: #2f86a6;
+            box-shadow: 0 0 0 3px rgba(47, 134, 166, 0.2);
+            background: white;
+        }
+
+        .result-box {
+            background: #eef3fc;
+            margin-top: 1.5rem;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            text-align: center;
+            border: 1px solid #dbeaf1;
+        }
+
+        .result-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #2c6e8f;
+            font-weight: 600;
+        }
+
+        .result-value {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #0e3b4b;
+            word-break: break-word;
+            line-height: 1.2;
+            margin: 0.25rem 0;
+        }
+
+        .result-note {
+            font-size: 0.7rem;
+            color: #547e93;
+            margin-top: 6px;
+        }
+
+        .highlight {
+            background: #e7f0fa;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, #cbdde9, transparent);
+        }
+
+        .badge {
+            background: #eef2f5;
+            padding: 0.2rem 0.7rem;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            color: #0f4c5f;
+        }
+
+        footer {
+            background: #f0f4f9;
+            padding: 1rem 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #4b6f82;
+            border-top: 1px solid #e2eaf1;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                gap: 1.8rem;
+                padding: 1.5rem;
+            }
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            .result-value {
+                font-size: 1.6rem;
+            }
+        }
+
+        button {
+            background: none;
+            border: none;
+        }
+
+        .inline-note {
+            font-size: 0.7rem;
+            margin-top: 8px;
+            color: #658097;
+        }
+
+        .btn-reset {
+            margin-top: 10px;
+            background: #e2ecf5;
+            border: none;
+            border-radius: 2rem;
+            padding: 0.4rem 1rem;
+            font-size: 0.7rem;
+            color: #1e5b74;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .btn-reset:hover {
+            background: #cbdde9;
+        }
+    </style>
+</head>
+<body>
+<script src="../components/back-button.js"></script>
+<back-button href="../index.html"></back-button>
+
+<div class="finance-card">
+    <div class="hero">
+        <h1>
+            📈 Bilan Financier
+            <span>investir & pouvoir d'achat</span>
+        </h1>
+        <p>Simulez la croissance de votre capital et l'impact de l'inflation sur votre épargne</p>
+    </div>
+
+    <div class="dashboard">
+        <!-- MODULE INVESTISSEMENT (Valeur future + rendement réel) -->
+        <div class="module">
+            <div class="module-header">
+                <div class="icon">📊</div>
+                <h2>Simulateur d'investissement</h2>
+            </div>
+            <div class="module-content">
+                <div class="input-group">
+                    <label>💰 Capital initial</label>
+                    <input type="number" id="investCapital" value="10000" step="500">
+                </div>
+                <div class="grid-2col">
+                    <div class="input-group">
+                        <label>📅 Durée (années)</label>
+                        <input type="number" id="investYears" value="10" step="1" min="1" max="50">
+                    </div>
+                    <div class="input-group">
+                        <label>📈 Rendement annuel (%)</label>
+                        <input type="number" id="investReturn" value="6" step="0.5">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>💸 Versement périodique annuel (optionnel)</label>
+                    <input type="number" id="investAnnualAdd" value="1000" step="200">
+                    <div class="inline-note">*Ajouté en fin d'année, sans réinvestissement intermédiaire (modèle simple).</div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-label">Valeur future totale</div>
+                    <div class="result-value" id="futureValueDisplay">0 €</div>
+                    <div class="result-note">Capital + versements + intérêts composés</div>
+                    <hr>
+                    <div class="result-label">🔍 Rendement réel (inflation déduite)</div>
+                    <div class="result-value" id="realValueDisplay">0 €</div>
+                    <div class="result-note" id="inflationUsedNote">Basé sur une inflation moyenne personnalisable ci-dessous</div>
+                </div>
+                <div class="input-group">
+                    <label>📉 Taux d'inflation annuel (%) <span style="font-weight:normal;">(pour calcul réel)</span></label>
+                    <input type="number" id="globalInflationRate" value="2.0" step="0.2">
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE PERTE POUVOIR D'ACHAT + inflation historique / évolution -->
+        <div class="module">
+            <div class="module-header">
+                <div class="icon">⚖️</div>
+                <h2>Perte de pouvoir d'achat</h2>
+            </div>
+            <div class="module-content">
+                <div class="input-group">
+                    <label>💶 Montant d'épargne / revenu fixe</label>
+                    <input type="number" id="purchaseAmount" value="50000" step="1000">
+                </div>
+                <div class="grid-2col">
+                    <div class="input-group">
+                        <label>⏳ Années d'érosion</label>
+                        <input type="number" id="inflationYears" value="8" step="1" min="1" max="40">
+                    </div>
+                    <div class="input-group">
+                        <label>📉 Inflation annuelle (%)</label>
+                        <input type="number" id="purchaseInflation" value="2.5" step="0.2">
+                    </div>
+                </div>
+                <div class="result-box">
+                    <div class="result-label">Pouvoir d'achat équivalent futur</div>
+                    <div class="result-value" id="purchasingPowerDisplay">0 €</div>
+                    <div class="result-note">Ce que vaudra votre somme dans <span id="yearsSpan">8</span> ans en euros d'aujourd'hui</div>
+                </div>
+                <div class="result-box highlight" style="margin-top: 0.8rem;">
+                    <div class="result-label">📉 Perte totale de valeur réelle</div>
+                    <div class="result-value" id="lossAmountDisplay">0 €</div>
+                    <div class="result-note">Équivalent en perte de pouvoir d'achat (en valeur actuelle)</div>
+                </div>
+                <div class="inline-note" style="text-align:center;">💡 Si l'inflation dépasse le rendement, votre épargne perd du pouvoir d'achat.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section supplémentaire croisée: comparateur inflation/rendement -->
+    <div style="padding: 0 2rem 1.5rem 2rem; background: #f9fbfe;">
+        <div style="background: #eef3fc; border-radius: 1.5rem; padding: 1rem 1.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;">
+            <div style="font-weight: 500; color: #165a6e;">📌 Ajustez l'inflation générale (impacte les deux modules)</div>
+            <div style="display: flex; gap: 20px; align-items: baseline;">
+                <div><span style="font-size: 0.7rem;">Inflation simulée:</span> <strong id="syncInflationLabel">2.0%</strong></div>
+                <button id="syncInflationBtn" class="btn-reset" style="background:#d5e3ef;">🔁 Synchroniser avec module investissement</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        ⚡ Simulation à titre indicatif — Les rendements passés ne préjugent pas des performances futures.  
+        Modèle intérêts composés annuels, versement en fin de période.
+    </footer>
+</div>
+
+<script>
+    // DOM elements - Investissement
+    const capitalInput = document.getElementById('investCapital');
+    const yearsInput = document.getElementById('investYears');
+    const returnInput = document.getElementById('investReturn');
+    const annualAddInput = document.getElementById('investAnnualAdd');
+    const inflationGlobalInput = document.getElementById('globalInflationRate');
+    const futureValueSpan = document.getElementById('futureValueDisplay');
+    const realValueSpan = document.getElementById('realValueDisplay');
+    const inflationUsedNote = document.getElementById('inflationUsedNote');
+
+    // Pouvoir d'achat
+    const purchaseAmountInput = document.getElementById('purchaseAmount');
+    const inflationYearsInput = document.getElementById('inflationYears');
+    const purchaseInflationInput = document.getElementById('purchaseInflation');
+    const purchasingPowerSpan = document.getElementById('purchasingPowerDisplay');
+    const lossAmountSpan = document.getElementById('lossAmountDisplay');
+    const yearsSpanSpan = document.getElementById('yearsSpan');
+
+    // Sync label
+    const syncInflationLabelSpan = document.getElementById('syncInflationLabel');
+    const syncBtn = document.getElementById('syncInflationBtn');
+
+    // Helper: format monétaire (euros)
+    function formatEuro(value) {
+        if (isNaN(value)) return '0 €';
+        return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(value);
+    }
+
+    function formatEuroDecimal(value) {
+        if (isNaN(value)) return '0 €';
+        return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(value);
+    }
+
+    // Calcul de la valeur future d'un investissement AVEC versements annuels (modèle simple: intérêts composés sur capital + chaque versement ajouté en fin d'année puis porte intérêts les années suivantes)
+    // Formule: pour chaque année, capital = capital * (1+ r) + versement (à la fin)
+    function computeInvestmentFutureValue(principal, years, annualReturnPercent, annualAddition) {
+        if (principal < 0) principal = 0;
+        let rate = annualReturnPercent / 100;
+        let capital = principal;
+        for (let i = 0; i < years; i++) {
+            capital = capital * (1 + rate);
+            if (annualAddition > 0) {
+                capital += annualAddition;
+            }
+        }
+        // si pas d'années, capital reste principal
+        return years <= 0 ? principal : capital;
+    }
+
+    // Valeur réelle après inflation : futureValue / (1 + inflation)^ans
+    function computeRealValue(futureVal, inflationPercent, years) {
+        let inflFactor = Math.pow(1 + (inflationPercent / 100), years);
+        if (inflFactor <= 0) return futureVal;
+        return futureVal / inflFactor;
+    }
+
+    // Calcul du pouvoir d'achat résiduel (somme présente -> valeur équivalente future)
+    // Pouvoir d'achat = montant / (1+inflation)^années
+    function computePurchasingPower(amount, inflationPercent, years) {
+        let inflFactor = Math.pow(1 + (inflationPercent / 100), years);
+        if (inflFactor === 0) return amount;
+        return amount / inflFactor;
+    }
+
+    // Mise à jour globale
+    function updateAllCalculations() {
+        // 1) Investissement
+        let capital = parseFloat(capitalInput.value);
+        let yearsInv = parseInt(yearsInput.value, 10);
+        let annualReturn = parseFloat(returnInput.value);
+        let annualAddition = parseFloat(annualAddInput.value);
+        let inflationRate = parseFloat(inflationGlobalInput.value);
+
+        if (isNaN(capital)) capital = 0;
+        if (isNaN(yearsInv)) yearsInv = 1;
+        if (isNaN(annualReturn)) annualReturn = 0;
+        if (isNaN(annualAddition)) annualAddition = 0;
+        if (isNaN(inflationRate)) inflationRate = 0;
+
+        let futureVal = computeInvestmentFutureValue(capital, yearsInv, annualReturn, annualAddition);
+        let realVal = computeRealValue(futureVal, inflationRate, yearsInv);
+
+        futureValueSpan.innerHTML = formatEuro(futureVal);
+        realValueSpan.innerHTML = formatEuro(realVal);
+        inflationUsedNote.innerHTML = `Basé sur inflation moyenne ${inflationRate.toFixed(1)}% sur ${yearsInv} an(s)`;
+
+        // 2) Module pouvoir d'achat
+        let baseAmount = parseFloat(purchaseAmountInput.value);
+        let inflYears = parseInt(inflationYearsInput.value, 10);
+        let purchaseInfl = parseFloat(purchaseInflationInput.value);
+
+        if (isNaN(baseAmount)) baseAmount = 0;
+        if (isNaN(inflYears)) inflYears = 1;
+        if (isNaN(purchaseInfl)) purchaseInfl = 0;
+
+        let powerEquivalent = computePurchasingPower(baseAmount, purchaseInfl, inflYears);
+        let lossValue = baseAmount - powerEquivalent;  // perte en valeur réelle (euros d'aujourd'hui)
+
+        purchasingPowerSpan.innerHTML = formatEuro(powerEquivalent);
+        lossAmountSpan.innerHTML = formatEuro(lossValue < 0 ? 0 : lossValue);
+        yearsSpanSpan.innerText = inflYears;
+
+        // Mise à jour du label dynamique inflation sync
+        syncInflationLabelSpan.innerText = inflationRate.toFixed(1) + '%';
+    }
+
+    // Fonction pour synchroniser l'inflation globale (depuis le module invest) vers le champ inflation du module pouvoir d'achat
+    function syncInflationToPurchasing() {
+        let globalInf = parseFloat(inflationGlobalInput.value);
+        if (!isNaN(globalInf)) {
+            purchaseInflationInput.value = globalInf.toFixed(2);
+            updateAllCalculations();
+        }
+    }
+
+    // Synchronisation inverse optionnelle mais on garde : on peut aussi forcer la cohérence visuelle.
+    // Mais le bouton "synchroniser" fait passer l'inflation du module investissement vers le module pouvoir d'achat.
+    // Ajoutons aussi que si l'utilisateur change l'inflation dans "purchaseInflation", ça reste indépendant ? Oui, par défaut on laisse modulable.
+    // Pour plus de confort : lorsqu'on clique sur le bouton, on aligne le champ "Perte pouvoir d'achat/inflation" sur l'inflation globale.
+    // Et on peut éventuellement proposer qu'à chaque changement de l'inflation globale, on mette à jour le libellé sans écraser purchaseInflationInput si l'utilisateur veut comparer.
+    // Mais pour une expérience "trop jolie et simple", on laisse un bouton sync, et l'inflation de perte de pouvoir d'achat est indépendante par défaut.
+    // Toutefois dans la partie "investissement" le calcul réel utilise sa propre inflation globale. Donc c'est cohérent.
+    // Rafraîchissement sur tous les events.
+    function bindEvents() {
+        const inputsInvest = [capitalInput, yearsInput, returnInput, annualAddInput, inflationGlobalInput];
+        const inputsPower = [purchaseAmountInput, inflationYearsInput, purchaseInflationInput];
+        [...inputsInvest, ...inputsPower].forEach(input => {
+            input.addEventListener('input', () => updateAllCalculations());
+        });
+        // gestion des changements de type number step etc
+        syncBtn.addEventListener('click', () => {
+            syncInflationToPurchasing();
+        });
+        // Ajout: Quand on change l'inflation globale on peut aussi rafraîchir le label.
+        inflationGlobalInput.addEventListener('input', () => {
+            updateAllCalculations();
+            syncInflationLabelSpan.innerText = parseFloat(inflationGlobalInput.value || 0).toFixed(1) + '%';
+        });
+        // petit raffraichissement au chargement + labels
+    }
+
+    // initialisation complète
+    function init() {
+        // Valeurs par défaut jolies
+        capitalInput.value = 10000;
+        yearsInput.value = 10;
+        returnInput.value = 6;
+        annualAddInput.value = 1000;
+        inflationGlobalInput.value = 2.0;
+        purchaseAmountInput.value = 50000;
+        inflationYearsInput.value = 8;
+        purchaseInflationInput.value = 2.5;
+        updateAllCalculations();
+        bindEvents();
+    }
+
+    init();
+
+    // Ajout d'un effet de validation automatique et amélioration des nombres décimaux
+    // Désactiver les caractères non numériques (permet juste une meilleure expérience)
+    const allNumberInputs = document.querySelectorAll('input[type="number"]');
+    allNumberInputs.forEach(inp => {
+        inp.addEventListener('change', function() {
+            let v = parseFloat(this.value);
+            if (isNaN(v)) this.value = 0;
+            if (this.id === 'investYears' || this.id === 'inflationYears') {
+                if (v < 1) this.value = 1;
+                if (v > 60) this.value = 60;
+            }
+            if (this.id === 'investReturn' && v > 30) this.value = 30;
+            if (this.id === 'purchaseInflation' && v > 30) this.value = 30;
+            if (this.id === 'globalInflationRate' && v > 30) this.value = 30;
+            updateAllCalculations();
+        });
+    });
+</script>
+</body>
+</html>

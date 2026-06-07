@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ilyès – Le Prophète de Feu</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fire-orange: #e06820;
+    --fire-gold:   #f0c040;
+    --deep-night:  #060810;
+    --storm-blue:  #1a2a4a;
+    --desert:      #c8a04a;
+    --emerald:     #1a6b4a;
+    --crimson:     #8b1a1a;
+    --sky-silver:  #c8d8e8;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--deep-night);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    color: #e8dcc8;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(160deg,#060810 0%,#1a0808 35%,#3a1005 65%,#c8601a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px 80px;
+  }
+
+  /* fire embers */
+  .ember {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: riseEmber linear infinite;
+    opacity: 0;
+  }
+  @keyframes riseEmber {
+    0%   { transform:translateY(0) scale(1);      opacity:.9; }
+    60%  { opacity:.5; }
+    100% { transform:translateY(-110vh) scale(.2); opacity:0; }
+  }
+
+  /* lightning flash on cover */
+  .lightning-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    animation: flashLightning 6s infinite;
+    opacity: 0;
+    background: rgba(200,220,255,.04);
+  }
+  @keyframes flashLightning {
+    0%,94%,96%,100% { opacity:0; }
+    95% { opacity:1; }
+  }
+
+  .cover-stars { position:absolute; inset:0; pointer-events:none; }
+  .star-dot {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: tw 2.5s infinite alternate;
+  }
+  @keyframes tw {
+    from { opacity:.15; transform:scale(1); }
+    to   { opacity:.9;  transform:scale(1.7); }
+  }
+
+  .cover-scene {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 28px;
+    animation: floatY 5s ease-in-out infinite;
+  }
+  @keyframes floatY {
+    0%,100%{transform:translateY(0);}
+    50%    {transform:translateY(-12px);}
+  }
+
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem,9vw,5rem);
+    color: var(--fire-gold);
+    text-align: center;
+    letter-spacing: 3px;
+    line-height: 1.1;
+    text-shadow: 0 2px 30px rgba(230,100,30,.7), 0 0 60px rgba(240,192,64,.25);
+  }
+  .cover .subtitle-ar {
+    font-size: 1.4rem;
+    color: rgba(240,192,64,.45);
+    margin-top: 8px;
+    letter-spacing: 6px;
+    font-family: serif;
+  }
+  .cover .subtitle {
+    color: rgba(240,200,160,.45);
+    font-size: .95rem;
+    margin-top: 12px;
+    font-style: italic;
+    letter-spacing: 2px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    color: rgba(240,200,160,.35);
+    font-size: .8rem;
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);}
+  }
+
+  .cover-fade {
+    position:absolute; bottom:0; left:0; right:0;
+    height: 100px;
+    background: linear-gradient(transparent,#060810);
+    pointer-events: none;
+  }
+
+  /* ── CHAPTERS ── */
+  .chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 24px 60px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .chapter.visible { opacity:1; transform:translateY(0); }
+
+  .ch1 { background: linear-gradient(155deg,#f5e6c0 0%,#e8d5a0 50%,#d4c080 100%); }
+  .ch2 { background: linear-gradient(155deg,#0a0410 0%,#180a20 55%,#280a30 100%); }
+  .ch3 { background: linear-gradient(155deg,#1a0400 0%,#3a0800 50%,#5a1200 100%); }
+  .ch4 { background: linear-gradient(155deg,#060c1a 0%,#0a1828 55%,#1a2a4a 100%); }
+  .ch5 { background: linear-gradient(155deg,#060810 0%,#0e0a20 50%,#1a1430 100%); }
+
+  .ch-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9rem;
+    font-weight: 700;
+    position: absolute;
+    top: 0; right: 20px;
+    line-height: 1;
+    pointer-events: none;
+    opacity: .05;
+  }
+  .ch1 .ch-num { color:#5c3a1a; }
+  .ch2 .ch-num { color:#d4a0ff; }
+  .ch3 .ch-num { color:#f0c040; }
+  .ch4 .ch-num { color:#88ccff; }
+  .ch5 .ch-num { color:#f0c040; }
+
+  .illustration {
+    width: min(340px,92vw);
+    height: min(255px,69vw);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 60px rgba(0,0,0,.6);
+    margin-bottom: 36px;
+    flex-shrink: 0;
+    position: relative; z-index:1;
+    border: 3px solid rgba(200,160,74,.3);
+  }
+  .illustration svg { width:100%; height:100%; display:block; }
+
+  .chapter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem,5vw,2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative; z-index:1;
+  }
+  .story-text {
+    max-width: 490px;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    position: relative; z-index:1;
+  }
+  .story-text p { margin-bottom:14px; }
+  .quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    padding: 14px 22px;
+    border-radius: 14px;
+    margin: 18px 0;
+    display: inline-block;
+    border-left: 4px solid currentColor;
+  }
+
+  .ch1 .chapter-title { color:#5c3a1a; }
+  .ch1 .story-text    { color:#3a2010; }
+  .ch1 .quote         { background:rgba(92,58,26,.1); color:#5c3a1a; }
+
+  .ch2 .chapter-title { color:#d4a0ff; }
+  .ch2 .story-text    { color:#f0ead8; }
+  .ch2 .quote         { background:rgba(180,130,255,.1); color:#d4a0ff; }
+
+  .ch3 .chapter-title { color:#f0c040; }
+  .ch3 .story-text    { color:#f0ead8; }
+  .ch3 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+  .ch4 .chapter-title { color:#88ccff; }
+  .ch4 .story-text    { color:#f0ead8; }
+  .ch4 .quote         { background:rgba(136,204,255,.1); color:#88ccff; }
+
+  .ch5 .chapter-title { color:#f0c040; }
+  .ch5 .story-text    { color:#f0ead8; }
+  .ch5 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+
+  /* ── ENDING ── */
+  .ending {
+    background: linear-gradient(160deg,#060810 0%,#1a0808 50%,#3a1005 100%);
+    padding: 90px 24px;
+    text-align: center;
+    color: white;
+    position: relative; overflow:hidden;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .ending.visible { opacity:1; transform:translateY(0); }
+  .ending h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    color: var(--fire-gold);
+    margin-bottom: 24px;
+    letter-spacing: 2px;
+  }
+  .ending p {
+    font-size:1.1rem; max-width:520px;
+    margin:0 auto; opacity:.85; line-height:1.9;
+  }
+  .end-star {
+    font-size:2.5rem; margin-top:36px;
+    display:inline-block;
+    animation: spinSlow 12s linear infinite;
+    color: var(--fire-gold);
+  }
+  @keyframes spinSlow {
+    from{transform:rotate(0deg);} to{transform:rotate(360deg);}
+  }
+
+  @media(min-width:720px){
+    .chapter{flex-direction:row!important;gap:52px;padding:90px 64px;}
+    .illustration{margin-bottom:0;}
+    .story-text{text-align:left;}
+    .chapter-title{text-align:left;}
+    .chapter:nth-child(even){flex-direction:row-reverse!important;}
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-stars" id="starsCover"></div>
+  <div class="lightning-bg"></div>
+  <div id="emberContainer"></div>
+
+  <div class="cover-scene">
+    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="fireGlowCov" cx="50%" cy="65%" r="55%">
+          <stop offset="0%"   stop-color="#ff6600" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="stormGlowCov" cx="50%" cy="30%" r="50%">
+          <stop offset="0%"   stop-color="#88aaff" stop-opacity=".2"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="nightCov" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#060810"/>
+          <stop offset="60%"  stop-color="#1a0808"/>
+          <stop offset="100%" stop-color="#3a1005"/>
+        </linearGradient>
+      </defs>
+
+      <!-- circle frame -->
+      <circle cx="150" cy="150" r="147" fill="#060810" stroke="#c9960c" stroke-width="2"/>
+      <circle cx="150" cy="150" r="137" fill="none" stroke="#c9960c"
+              stroke-width=".5" stroke-dasharray="5 4" opacity=".4"/>
+      <clipPath id="covClip"><circle cx="150" cy="150" r="145"/></clipPath>
+
+      <rect width="300" height="300" fill="url(#nightCov)"      clip-path="url(#covClip)"/>
+      <rect width="300" height="300" fill="url(#fireGlowCov)"   clip-path="url(#covClip)"/>
+      <rect width="300" height="300" fill="url(#stormGlowCov)"  clip-path="url(#covClip)"/>
+
+      <!-- storm clouds top -->
+      <g clip-path="url(#covClip)">
+        <ellipse cx="75"  cy="38"  rx="72" ry="30" fill="#0e1a2e" opacity=".9"/>
+        <ellipse cx="95"  cy="22"  rx="55" ry="22" fill="#1a243e" opacity=".9"/>
+        <ellipse cx="215" cy="45"  rx="78" ry="32" fill="#0e1a2e" opacity=".9"/>
+        <ellipse cx="232" cy="26"  rx="58" ry="24" fill="#1a243e" opacity=".9"/>
+        <ellipse cx="150" cy="58"  rx="65" ry="26" fill="#121e30" opacity=".85"/>
+        <!-- lightning from clouds -->
+        <path d="M88,38 L75,72 L84,72 L68,112"   stroke="#f0c040" stroke-width="2.5" fill="none" opacity=".85"/>
+        <path d="M218,45 L230,78 L222,78 L238,115" stroke="#f0c040" stroke-width="2" fill="none" opacity=".7"/>
+        <path d="M148,58 L140,90 L148,90 L136,125" stroke="#fffbe6" stroke-width="2" fill="none" opacity=".55"/>
+      </g>
+
+      <!-- stars in gaps -->
+      <g clip-path="url(#covClip)">
+        <circle cx="42"  cy="58"  r="1.5" fill="#f0c040" opacity=".7"/>
+        <circle cx="258" cy="62"  r="1.5" fill="white"   opacity=".65"/>
+        <circle cx="155" cy="70"  r="1"   fill="white"   opacity=".55"/>
+      </g>
+
+      <!-- Rocky hilltop — Mount Carmel -->
+      <g clip-path="url(#covClip)">
+        <polygon points="0,225 60,168 130,200 175,158 220,185 270,160 300,175 300,300 0,300"
+                 fill="#2a1808" opacity=".9"/>
+        <rect x="0" y="248" width="300" height="55" fill="#3a2008"/>
+      </g>
+
+      <!-- BIG FIRE on the altar — divine fire from heaven -->
+      <g transform="translate(150,195)" clip-path="url(#covClip)">
+        <!-- altar stones -->
+        <rect x="-40" y="20" width="80" height="20" fill="#4a3018" rx="3" opacity=".9"/>
+        <rect x="-32" y="14" width="64" height="10" fill="#5a3820" rx="2" opacity=".8"/>
+        <!-- divine fire consuming altar -->
+        <ellipse cx="0" cy="18" rx="50" ry="22" fill="#ff4400" opacity=".2"/>
+        <path d="M-42,18 Q-30,-10 -15,5 Q-8,-18 4,0 Q10,-22 22,-5 Q30,-20 42,18 Z"
+              fill="#cc2200" opacity=".9"/>
+        <path d="M-36,18 Q-24,-6 -10,8 Q-4,-16 8,2 Q14,-18 26,-2 Q34,-16 36,18 Z"
+              fill="#ee4400" opacity=".9"/>
+        <path d="M-28,18 Q-18,0 -6,10 Q0,-12 10,4 Q16,-14 26,0 Q30,-12 28,18 Z"
+              fill="#ff6600" opacity=".95"/>
+        <path d="M-18,18 Q-10,4 0,12 Q6,-8 14,6 Q18,-8 18,18 Z"
+              fill="#ff9900" opacity=".95"/>
+        <path d="M-10,18 Q-4,8 2,14 Q6,2 10,10 Q12,4 10,18 Z"
+              fill="#ffcc00" opacity=".9"/>
+        <path d="M-5,18 Q0,10 4,14 Q6,6 5,18 Z" fill="#fffbe6" opacity=".7"/>
+        <!-- white hot core -->
+        <circle cx="0" cy="10" r="8" fill="#fffbe6" opacity=".5"/>
+      </g>
+
+      <!-- ILYAS — tall lone prophet on hilltop, arms raised to heaven -->
+      <g transform="translate(85,188)" clip-path="url(#covClip)">
+        <!-- divine glow around him -->
+        <circle cx="0" cy="-18" r="50" fill="#f0c040" opacity=".08"/>
+        <!-- robe billowing in storm wind -->
+        <path d="M-22,10 Q-18,72 0,76 Q18,72 22,10 Z" fill="#1e6b3a"/>
+        <!-- cloak blown by wind -->
+        <path d="M-40,4 Q-50,20 -55,55" stroke="#8b5e3c" stroke-width="12" fill="none" stroke-linecap="round" opacity=".7"/>
+        <!-- BOTH ARMS raised high to heaven — calling divine fire -->
+        <line x1="-22" y1="14" x2="-55" y2="-22" stroke="#1e6b3a" stroke-width="9" stroke-linecap="round"/>
+        <line x1="22"  y1="14" x2="55"  y2="-22" stroke="#1e6b3a" stroke-width="9" stroke-linecap="round"/>
+        <!-- hands reaching to sky -->
+        <ellipse cx="-58" cy="-25" rx="8" ry="6" fill="#c8906a" transform="rotate(-30,-58,-25)"/>
+        <ellipse cx="58"  cy="-25" rx="8" ry="6" fill="#c8906a" transform="rotate(30,58,-25)"/>
+        <!-- golden fire/light from heaven meeting his hands -->
+        <line x1="-58" y1="-25" x2="-58" y2="-80" stroke="#f0c040" stroke-width="3" opacity=".4" stroke-linecap="round"/>
+        <line x1="58"  y1="-25" x2="58"  y2="-80" stroke="#f0c040" stroke-width="3" opacity=".4" stroke-linecap="round"/>
+        <circle cx="-58" cy="-82" r="7"  fill="#f0c040" opacity=".5"/>
+        <circle cx="58"  cy="-82" r="7"  fill="#f0c040" opacity=".5"/>
+        <!-- head with flowing white hair in wind -->
+        <circle cx="0" cy="-12" r="17" fill="#c8906a"/>
+        <!-- wild white hair blown left in storm -->
+        <path d="M-14,-24 Q-30,-18 -40,-8" stroke="#f0f0f0" stroke-width="8" fill="none" stroke-linecap="round" opacity=".85"/>
+        <path d="M-10,-28 Q-26,-22 -36,-14" stroke="#f0f0f0" stroke-width="6" fill="none" stroke-linecap="round" opacity=".7"/>
+        <path d="M-13,-23 Q0,-40 13,-23 L15,-7 Q0,-4 -15,-7 Z" fill="#c8a080" opacity=".4"/>
+        <!-- long wild beard -->
+        <ellipse cx="0" cy="2" rx="10" ry="9" fill="#f0f0f0" opacity=".85"/>
+        <path d="M-8,8 Q-6,22 0,26 Q6,22 8,8" stroke="#e0e0e0" stroke-width="3" fill="none" opacity=".7"/>
+        <!-- fierce determined eyes looking UP -->
+        <circle cx="-5.5" cy="-14" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5.5"  cy="-14" r="2.5" fill="#1a1a1a"/>
+        <circle cx="-4.5" cy="-15" r="1"   fill="white" opacity=".6"/>
+        <circle cx="6.5"  cy="-15" r="1"   fill="white" opacity=".6"/>
+        <!-- eyebrows fierce -->
+        <path d="M-9,-19 Q-5.5,-21 -2,-19" stroke="#5c3010" stroke-width="2" fill="none"/>
+        <path d="M2,-19 Q5.5,-21 9,-19"    stroke="#5c3010" stroke-width="2" fill="none"/>
+        <!-- mouth open calling to God -->
+        <ellipse cx="0" cy="-3" rx="4.5" ry="3.5" fill="#5c3010" opacity=".85"/>
+        <!-- divine halo -->
+        <circle cx="0" cy="-12" r="24" fill="none" stroke="#f0c040" stroke-width="1" opacity=".3"/>
+      </g>
+
+      <!-- rain starting to fall — answer to prayer -->
+      <g clip-path="url(#covClip)" stroke="#88aaff" stroke-width="1.5" opacity=".2">
+        <line x1="200" y1="0" x2="185" y2="80"/>
+        <line x1="230" y1="0" x2="215" y2="80"/>
+        <line x1="260" y1="0" x2="245" y2="80"/>
+        <line x1="290" y1="0" x2="275" y2="80"/>
+      </g>
+    </svg>
+  </div>
+
+  <h1>Ilyès<br>
+  <span style="font-size:.55em;letter-spacing:4px;opacity:.9">Le Prophète de Feu</span></h1>
+  <p class="subtitle-ar">إلياس عليه السلام</p>
+  <p class="subtitle">Celui qui défia les faux dieux avec courage</p>
+
+  <div class="scroll-hint">
+    <span>Fais défiler pour lire</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+  <div class="cover-fade"></div>
+</div>
+
+
+<!-- ══ CH 1 : Le Peuple qui adorait Baal ══ -->
+<div class="chapter ch1">
+  <div class="ch-num">١</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="baalSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#87ceeb"/>
+          <stop offset="100%" stop-color="#ffecd2"/>
+        </linearGradient>
+        <radialGradient id="sunBaal" cx="75%" cy="20%" r="40%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".6"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#baalSky)"/>
+      <rect width="340" height="255" fill="url(#sunBaal)"/>
+
+      <!-- Sun -->
+      <circle cx="285" cy="48" r="30" fill="#f0c040" opacity=".85"/>
+      <!-- Clouds -->
+      <ellipse cx="65"  cy="42" rx="50" ry="20" fill="white" opacity=".7"/>
+      <ellipse cx="82"  cy="30" rx="36" ry="16" fill="white" opacity=".8"/>
+
+      <!-- Fertile land of ancient Israel / Lebanon -->
+      <polygon points="0,190 50,155 115,175 185,145 255,165 320,140 340,155 340,255 0,255"
+               fill="#3a6018" opacity=".8"/>
+      <rect x="0" y="215" width="340" height="40" fill="#4a7020"/>
+
+      <!-- THE IDOL BAAL — imposing stone statue on pedestal -->
+      <g transform="translate(190,155)">
+        <!-- glow of false worship -->
+        <ellipse cx="0" cy="0" rx="55" ry="65" fill="#ff4400" opacity=".06"/>
+        <!-- pedestal -->
+        <rect x="-30" y="60" width="60" height="22" fill="#5a3a18" rx="3"/>
+        <rect x="-24" y="54" width="48" height="10" fill="#6b4a20" rx="2"/>
+        <!-- idol column / body -->
+        <rect x="-18" y="-25" width="36" height="80" fill="#3a2808" rx="4"/>
+        <!-- idol head enormous -->
+        <circle cx="0" cy="-38" r="22" fill="#4a3218"/>
+        <!-- horns of Baal -->
+        <path d="M-18,-54 Q-28,-72 -22,-82 Q-14,-70 -10,-58" fill="#5a3818"/>
+        <path d="M18,-54 Q28,-72 22,-82 Q14,-70 10,-58"  fill="#5a3818"/>
+        <!-- face menacing -->
+        <rect x="-14" y="-42" width="10" height="8" fill="#cc2200" rx="2" opacity=".8"/>
+        <rect x="4"   y="-42" width="10" height="8" fill="#cc2200" rx="2" opacity=".8"/>
+        <!-- grim mouth -->
+        <rect x="-12" y="-28" width="24" height="6" fill="#0a0404" rx="2"/>
+        <!-- arm raised menacing -->
+        <line x1="-18" y1="0" x2="-42" y2="-20" stroke="#3a2808" stroke-width="12" stroke-linecap="round"/>
+        <line x1="18"  y1="0" x2="42"  y2="-20" stroke="#3a2808" stroke-width="12" stroke-linecap="round"/>
+        <!-- fire burning at base (idol worship fire) -->
+        <path d="M-28,58 Q-20,38 -8,48 Q-4,30 6,42 Q10,26 22,38 Q28,24 28,58 Z"
+              fill="#ff4400" opacity=".7"/>
+        <path d="M-20,58 Q-12,42 -2,50 Q2,34 10,44 Q14,30 20,42 Q22,32 20,58 Z"
+              fill="#ff8800" opacity=".7"/>
+        <path d="M-10,58 Q-4,46 4,52 Q8,38 12,48 Q12,40 10,58 Z"
+              fill="#ffcc00" opacity=".6"/>
+        <!-- X mark — false -->
+        <line x1="-24" y1="-55" x2="24" y2="-15" stroke="#e74c3c" stroke-width="3" opacity=".5"/>
+        <line x1="24"  y1="-55" x2="-24" y2="-15" stroke="#e74c3c" stroke-width="3" opacity=".5"/>
+      </g>
+
+      <!-- People bowing/dancing around idol -->
+      <g transform="translate(240,210)" opacity=".75">
+        <circle cx="0"  cy="-16" r="6.5" fill="#d4a57a"/>
+        <rect x="-6"  y="-11" width="13" height="13" fill="#c0392b" rx="1"/>
+        <path d="M-6,-6 Q-15,2 -18,14" stroke="#c0392b" stroke-width="5" stroke-linecap="round" fill="none"/>
+        <circle cx="-2.5" cy="-17" r="1.8" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-17" r="1.8" fill="#1a1a1a"/>
+      </g>
+      <g transform="translate(265,215)" opacity=".7">
+        <circle cx="0" cy="-14" r="6"  fill="#c8906a"/>
+        <rect x="-6" y="-9" width="12" height="12" fill="#8b4a10" rx="1"/>
+        <path d="M-6,-4 Q-8,6 -10,16" stroke="#8b4a10" stroke-width="5" stroke-linecap="round" fill="none"/>
+        <circle cx="-2" cy="-15" r="1.5" fill="#1a1a1a"/>
+        <circle cx="2"  cy="-15" r="1.5" fill="#1a1a1a"/>
+      </g>
+      <g transform="translate(300,212)" opacity=".72">
+        <circle cx="0"  cy="-16" r="6.5" fill="#d4b080"/>
+        <rect x="-6"  y="-11" width="13" height="13" fill="#c9960c" rx="1"/>
+        <path d="M6,-6 Q14,2 16,14"   stroke="#c9960c" stroke-width="5" stroke-linecap="round" fill="none"/>
+      </g>
+
+      <!-- ILYAS — alone standing, watching with sadness -->
+      <g transform="translate(75,180)">
+        <path d="M-16,8 Q-12,58 0,62 Q12,58 16,8 Z" fill="#1e6b3a"/>
+        <path d="M-28,4 Q-22,60 -8,64 Q-16,55 -20,8 Z" fill="#8b5e3c" opacity=".7"/>
+        <!-- arms at sides — weary sadness -->
+        <line x1="-16" y1="14" x2="-30" y2="10" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="16"  y1="14" x2="30"  y2="10" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- head -->
+        <circle cx="0" cy="-8" r="15" fill="#c8906a"/>
+        <path d="M-12,-20 Q0,-36 12,-20 L14,-7 Q0,-4 -14,-7 Z" fill="#8b5e3c"/>
+        <!-- white flowing hair (older prophet) -->
+        <path d="M-12,-18 Q-20,-10 -18,2"  stroke="#e0e0e0" stroke-width="5" fill="none" stroke-linecap="round" opacity=".8"/>
+        <path d="M12,-18 Q20,-10 18,2"     stroke="#e0e0e0" stroke-width="5" fill="none" stroke-linecap="round" opacity=".8"/>
+        <!-- long white beard -->
+        <ellipse cx="0" cy="2" rx="10" ry="8" fill="#f0f0f0" opacity=".85"/>
+        <!-- sad eyes looking at idol -->
+        <circle cx="-5" cy="-10" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5"  cy="-10" r="2.5" fill="#1a1a1a"/>
+        <!-- sad eyebrows -->
+        <path d="M-9,-15 Q-5,-17 -1,-15" stroke="#5c3010" stroke-width="1.5" fill="none" opacity=".8"/>
+        <path d="M1,-15 Q5,-17 9,-15"    stroke="#5c3010" stroke-width="1.5" fill="none" opacity=".8"/>
+        <!-- downturned mouth -->
+        <path d="M-4,-2 Q0,-5 4,-2" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- Trees on hills -->
+      <g opacity=".6">
+        <line x1="25"  y1="215" x2="22"  y2="162" stroke="#3a2808" stroke-width="5"/>
+        <ellipse cx="20" cy="156" rx="18" ry="24" fill="#3a5a18"/>
+        <line x1="120" y1="212" x2="118" y2="162" stroke="#3a2808" stroke-width="5"/>
+        <ellipse cx="116" cy="156" rx="18" ry="24" fill="#3a5a18"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🪨 Le Peuple qui adorait Baal</h2>
+    <p>Il y a très longtemps, dans les terres de <strong>Canaan</strong>, vivait un peuple qui avait oublié Dieu. Ils avaient fabriqué une grande statue de pierre appelée <strong>Baal</strong> et l'adoraient avec des fêtes et des feux.</p>
+    <p>Dieu envoya le prophète <strong>Ilyès</strong> pour les guider. Ilyès était courageux et droit — il ne craignait pas les rois, ni les foules, ni les menaces.</p>
+    <div class="quote">« Adorez Dieu ! Abandonnez Baal, cette idole qui ne voit pas, n'entend pas et ne peut rien faire ! »</div>
+    <p>Mais les gens riaient, ou se mettaient en colère. Ils tenaient à leur idole. Ilyès n'abandonna pas. Il avait en lui une foi comme une flamme qui ne s'éteint jamais. 🔥</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 2 : La Grande Sécheresse ══ -->
+<div class="chapter ch2">
+  <div class="ch-num">٢</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="droughtSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0a0410"/>
+          <stop offset="60%"  stop-color="#1a0a20"/>
+          <stop offset="100%" stop-color="#280a30"/>
+        </linearGradient>
+        <radialGradient id="moonDrought" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".9"/>
+          <stop offset="100%" stop-color="#c9960c" stop-opacity=".4"/>
+        </radialGradient>
+        <radialGradient id="droughtGlow" cx="50%" cy="50%" r="45%">
+          <stop offset="0%"   stop-color="#d4a0ff" stop-opacity=".2"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#droughtSky)"/>
+      <rect width="340" height="255" fill="url(#droughtGlow)"/>
+
+      <!-- Stars -->
+      <circle cx="28"  cy="18" r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="75"  cy="30" r="1"   fill="white"   opacity=".7"/>
+      <circle cx="140" cy="14" r="1.5" fill="white"   opacity=".65"/>
+      <circle cx="250" cy="22" r="1.5" fill="#d4a0ff" opacity=".7"/>
+      <circle cx="305" cy="16" r="1"   fill="white"   opacity=".6"/>
+      <circle cx="330" cy="38" r="1.5" fill="#f0c040" opacity=".65"/>
+
+      <!-- Moon full -->
+      <circle cx="280" cy="52" r="28" fill="url(#moonDrought)" opacity=".85"/>
+      <circle cx="280" cy="52" r="22" fill="#fff8e0" opacity=".7"/>
+      <circle cx="275" cy="44" r="7"  fill="#fffbe6" opacity=".3"/>
+
+      <!-- DRY cracked earth — parched landscape -->
+      <polygon points="0,200 50,165 115,188 185,158 255,178 320,154 340,168 340,255 0,255"
+               fill="#3a2008" opacity=".9"/>
+      <rect x="0" y="225" width="340" height="30" fill="#2a1808"/>
+
+      <!-- Cracked earth texture -->
+      <g stroke="#1a0e08" stroke-width="1.5" opacity=".6">
+        <path d="M30,228 Q50,222 70,228 Q90,234 110,228"/>
+        <path d="M50,235 Q60,240 80,235 Q90,230 100,235"/>
+        <path d="M200,228 Q220,222 240,228 Q260,234 280,228"/>
+        <path d="M160,235 Q180,230 200,235"/>
+        <line x1="60"  y1="225" x2="55"  y2="240"/>
+        <line x1="90"  y1="225" x2="95"  y2="238"/>
+        <line x1="230" y1="225" x2="225" y2="238"/>
+        <line x1="260" y1="225" x2="265" y2="235"/>
+      </g>
+
+      <!-- Dead / dry trees -->
+      <g opacity=".7">
+        <!-- dead tree left -->
+        <line x1="45"  y1="225" x2="42"  y2="162" stroke="#2a1808" stroke-width="6"/>
+        <line x1="42"  y1="175" x2="22"  y2="155" stroke="#2a1808" stroke-width="4" stroke-linecap="round"/>
+        <line x1="42"  y1="168" x2="62"  y2="148" stroke="#2a1808" stroke-width="4" stroke-linecap="round"/>
+        <line x1="42"  y1="162" x2="30"  y2="145" stroke="#2a1808" stroke-width="3" stroke-linecap="round"/>
+        <line x1="42"  y1="162" x2="54"  y2="142" stroke="#2a1808" stroke-width="3" stroke-linecap="round"/>
+        <!-- dead tree right -->
+        <line x1="295" y1="225" x2="298" y2="162" stroke="#2a1808" stroke-width="6"/>
+        <line x1="298" y1="178" x2="278" y2="158" stroke="#2a1808" stroke-width="4" stroke-linecap="round"/>
+        <line x1="298" y1="170" x2="318" y2="150" stroke="#2a1808" stroke-width="4" stroke-linecap="round"/>
+        <line x1="298" y1="162" x2="285" y2="145" stroke="#2a1808" stroke-width="3" stroke-linecap="round"/>
+        <line x1="298" y1="162" x2="312" y2="148" stroke="#2a1808" stroke-width="3" stroke-linecap="round"/>
+      </g>
+
+      <!-- Empty river bed cracked -->
+      <path d="M0,215 Q85,205 170,215 Q255,225 340,215" fill="none"
+            stroke="#1a0e08" stroke-width="6" opacity=".5"/>
+      <path d="M0,218 Q85,210 170,218 Q255,226 340,218" fill="none"
+            stroke="#1a0e08" stroke-width="3" opacity=".3"/>
+
+      <!-- ILYAS in cave / by cliff — hidden from persecutors, fed by Raven -->
+      <g transform="translate(165,175)">
+        <!-- cave opening -->
+        <path d="M-35,55 Q-38,20 -30,-5 Q-15,-20 0,-18 Q15,-20 30,-5 Q38,20 35,55 Z"
+              fill="#0a0408" opacity=".9"/>
+        <!-- cave interior darker -->
+        <path d="M-28,55 Q-30,24 -22,2 Q-10,-10 0,-8 Q10,-10 22,2 Q30,24 28,55 Z"
+              fill="#06030a" opacity=".9"/>
+        <!-- cliff rock around cave -->
+        <path d="M-42,-8 Q-50,15 -42,55" stroke="#2a1808" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <path d="M42,-8 Q50,15 42,55"    stroke="#2a1808" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <!-- Ilyas resting in cave — alone but trusting God -->
+        <g transform="translate(0,35)">
+          <path d="M-12,4 Q-8,26 0,28 Q8,26 12,4 Z" fill="#1e6b3a" opacity=".9"/>
+          <!-- sitting legs -->
+          <path d="M-10,26 Q-14,38 -6,42"  stroke="#1e6b3a" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <path d="M10,26 Q14,38 18,40"    stroke="#1e6b3a" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <!-- head bowed in prayer -->
+          <circle cx="0" cy="-4" r="10" fill="#c8906a"/>
+          <path d="M-8,-12 Q0,-24 8,-12 L10,-3 Q0,-1 -10,-3 Z" fill="#8b5e3c"/>
+          <!-- white hair/beard -->
+          <path d="M-8,-10 Q-12,0 -10,10" stroke="#e0e0e0" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
+          <ellipse cx="0" cy="5" rx="7" ry="5" fill="#f0f0f0" opacity=".8"/>
+          <!-- eyes closed in prayer trust -->
+          <path d="M-4,-5 Q-2,-3 0,-5" stroke="#5c3010" stroke-width="1.2" fill="none"/>
+          <path d="M0,-5 Q2,-3 4,-5"   stroke="#5c3010" stroke-width="1.2" fill="none"/>
+          <!-- hands open in prayer -->
+          <line x1="-12" y1="6" x2="-22" y2="-4" stroke="#1e6b3a" stroke-width="5" stroke-linecap="round"/>
+          <line x1="12"  y1="6" x2="22"  y2="-4" stroke="#1e6b3a" stroke-width="5" stroke-linecap="round"/>
+          <ellipse cx="-24" cy="-6" rx="5" ry="3.5" fill="#c8906a" transform="rotate(-20,-24,-6)"/>
+          <ellipse cx="24"  cy="-6" rx="5" ry="3.5" fill="#c8906a" transform="rotate(20,24,-6)"/>
+        </g>
+      </g>
+
+      <!-- RAVEN bringing bread — divine provision -->
+      <g transform="translate(230,130)" opacity=".9">
+        <!-- raven body -->
+        <ellipse cx="0" cy="0"  rx="16" ry="10" fill="#1a1a2a"/>
+        <circle  cx="-10" cy="-6" r="9"  fill="#1a1a2a"/>
+        <!-- wings spread — flying toward cave -->
+        <path d="M0,-4 Q-25,-22 -38,-10 Q-28,4 0,-4 Z" fill="#0a0a1a" opacity=".95"/>
+        <path d="M0,-4 Q25,-22 38,-10 Q28,4 0,-4 Z"    fill="#0a0a1a" opacity=".95"/>
+        <!-- beak -->
+        <path d="M-17,-7 Q-25,-10 -22,-4" stroke="#1a1a2a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <!-- BREAD in beak — gift from God -->
+        <rect x="-28" y="-12" width="12" height="8" fill="#c8a050" rx="2" opacity=".9"/>
+        <!-- glow on bread = divine gift -->
+        <rect x="-30" y="-14" width="16" height="12" fill="#f0c040" rx="3" opacity=".2"/>
+        <!-- eye -->
+        <circle cx="-12" cy="-7" r="3"   fill="white" opacity=".8"/>
+        <circle cx="-12" cy="-7" r="1.8" fill="#1a1a1a"/>
+        <circle cx="-11" cy="-8" r=".8"  fill="white" opacity=".6"/>
+        <!-- tail -->
+        <path d="M14,4 Q22,10 20,18 Q14,12 14,4 Z"   fill="#0a0a1a"/>
+        <path d="M16,3 Q24,8 24,16 Q18,10 16,3 Z"    fill="#1a1a2a"/>
+      </g>
+
+      <!-- Night sparkles -->
+      <circle cx="90"  cy="130" r="1.5" fill="#d4a0ff" opacity=".5"/>
+      <circle cx="250" cy="145" r="1.5" fill="#d4a0ff" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌑 La Grande Sécheresse</h2>
+    <p>Ilyès annonça au roi impie : <em>« Il ne tombera ni pluie ni rosée sur ces terres, sauf si Dieu l'ordonne ! »</em> Et ainsi fut. La sécheresse s'installa — <strong>trois longues années</strong> sans une goutte d'eau.</p>
+    <p>Le roi, furieux, cherchait Ilyès pour le punir. Mais Dieu protégea Son prophète. Il se cacha dans une grotte au bord d'un torrent desséché.</p>
+    <div class="quote">« Et les corbeaux lui apportaient du pain et de la viande, matin et soir. »</div>
+    <p>Chaque jour, un <strong>corbeau noir</strong> lui apportait de la nourriture — envoyé par Dieu. Même seul et caché, Ilyès était nourri et protégé. 🐦‍⬛🙏</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 3 : Le Feu du Ciel ══ -->
+<div class="chapter ch3">
+  <div class="ch-num">٣</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="carmelSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a0400"/>
+          <stop offset="60%"  stop-color="#3a0800"/>
+          <stop offset="100%" stop-color="#5a1200"/>
+        </linearGradient>
+        <radialGradient id="divFire" cx="50%" cy="45%" r="55%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".7"/>
+          <stop offset="40%"  stop-color="#ff6600" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#carmelSky)"/>
+      <rect width="340" height="255" fill="url(#divFire)"/>
+
+      <!-- Storm clouds -->
+      <ellipse cx="80"  cy="30" rx="85" ry="32" fill="#0e0808" opacity=".9"/>
+      <ellipse cx="100" cy="15" rx="65" ry="24" fill="#1a0808" opacity=".9"/>
+      <ellipse cx="245" cy="38" rx="90" ry="36" fill="#0e0808" opacity=".9"/>
+      <ellipse cx="262" cy="20" rx="68" ry="26" fill="#1a0808" opacity=".9"/>
+
+      <!-- Mount Carmel rocky -->
+      <polygon points="0,215 60,168 130,195 200,162 275,185 340,158 340,255 0,255"
+               fill="#2a1808" opacity=".9"/>
+      <rect x="0" y="232" width="340" height="23" fill="#3a2008"/>
+
+      <!-- ALTAR of Ilyas — 12 stones, soaked with water -->
+      <g transform="translate(170,200)">
+        <!-- trench around altar with water -->
+        <ellipse cx="0" cy="15" rx="68" ry="22" fill="#1a3a5c" opacity=".5"/>
+        <!-- 12 stones base -->
+        <rect x="-55" y="-8"  width="110" height="28" fill="#4a3018" rx="3" opacity=".9"/>
+        <!-- individual stones visible -->
+        <g fill="#3a2808" opacity=".6">
+          <rect x="-50" y="-6"  width="14" height="12" rx="2"/>
+          <rect x="-33" y="-6"  width="14" height="12" rx="2"/>
+          <rect x="-16" y="-6"  width="14" height="12" rx="2"/>
+          <rect x="1"   y="-6"  width="14" height="12" rx="2"/>
+          <rect x="18"  y="-6"  width="14" height="12" rx="2"/>
+          <rect x="35"  y="-6"  width="14" height="12" rx="2"/>
+        </g>
+        <!-- wood and sacrifice on altar -->
+        <rect x="-40" y="-22" width="80" height="16" fill="#5a3010" rx="2" opacity=".8"/>
+        <!-- DIVINE FIRE COLUMN coming from sky — consuming the altar -->
+        <!-- outer glow massive -->
+        <ellipse cx="0" cy="-40" rx="80" ry="100" fill="#ff4400" opacity=".12"/>
+        <ellipse cx="0" cy="-40" rx="60" ry="80"  fill="#ff6600" opacity=".1"/>
+        <!-- main fire column from sky -->
+        <rect x="-35" y="-200" width="70" height="180" fill="#ff4400" opacity=".25" rx="5"/>
+        <rect x="-25" y="-200" width="50" height="180" fill="#ff6600" opacity=".2" rx="4"/>
+        <rect x="-15" y="-200" width="30" height="180" fill="#ffcc00" opacity=".18" rx="3"/>
+        <!-- fire at impact point on altar -->
+        <path d="M-50,-22 Q-38,-55 -22,-35 Q-16,-60 -4,-40 Q2,-65 14,-42 Q20,-68 32,-45 Q42,-58 50,-22 Z"
+              fill="#cc2200" opacity=".95"/>
+        <path d="M-42,-22 Q-30,-50 -16,-32 Q-10,-55 0,-36 Q8,-58 18,-38 Q26,-55 42,-22 Z"
+              fill="#ee4400" opacity=".95"/>
+        <path d="M-32,-22 Q-22,-46 -10,-30 Q-4,-50 6,-32 Q12,-50 30,-22 Z"
+              fill="#ff6600" opacity=".95"/>
+        <path d="M-22,-22 Q-14,-42 -4,-28 Q2,-44 10,-28 Q18,-42 22,-22 Z"
+              fill="#ff9900" opacity=".95"/>
+        <path d="M-14,-22 Q-8,-36 0,-24 Q6,-36 14,-22 Z"
+              fill="#ffcc00" opacity=".9"/>
+        <path d="M-8,-22 Q-2,-30 2,-22 Q4,-30 8,-22 Z"
+              fill="#fffbe6" opacity=".8"/>
+        <!-- white core -->
+        <ellipse cx="0" cy="-28" rx="10" ry="18" fill="#fffbe6" opacity=".5"/>
+        <!-- water boiling / evaporating around altar -->
+        <g stroke="#4a9ede" stroke-width="2" fill="none" opacity=".4">
+          <path d="M-60,5 Q-50,0 -40,5"/>
+          <path d="M40,5 Q50,0 60,5"/>
+          <path d="M-62,10 Q-52,5 -42,10"/>
+          <path d="M42,10 Q52,5 62,10"/>
+        </g>
+      </g>
+
+      <!-- ILYAS kneeling in prayer — brave and alone -->
+      <g transform="translate(80,190)">
+        <path d="M-14,5 Q-10,38 0,40 Q10,38 14,5 Z" fill="#1e6b3a"/>
+        <path d="M-22,2 Q-18,40 -8,43 Q-14,36 -16,5 Z" fill="#8b5e3c" opacity=".7"/>
+        <!-- kneeling prostration -->
+        <path d="M-10,38 Q-14,50 -6,54"  stroke="#1e6b3a" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <path d="M10,38 Q14,50 18,52"    stroke="#1e6b3a" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <!-- arms raised stretched to sky -->
+        <line x1="-14" y1="8"  x2="-40" y2="-20" stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <line x1="14"  y1="8"  x2="40"  y2="-20" stroke="#1e6b3a" stroke-width="8" stroke-linecap="round"/>
+        <ellipse cx="-43" cy="-23" rx="7" ry="5" fill="#c8906a" transform="rotate(-25,-43,-23)"/>
+        <ellipse cx="43"  cy="-23" rx="7" ry="5" fill="#c8906a" transform="rotate(25,43,-23)"/>
+        <!-- head -->
+        <circle cx="0" cy="-7" r="14" fill="#c8906a"/>
+        <path d="M-11,-17 Q0,-32 11,-17 L13,-6 Q0,-3 -13,-6 Z" fill="#8b5e3c"/>
+        <!-- white hair blown back by divine fire wind -->
+        <path d="M-11,-16 Q-20,-8 -18,4"  stroke="#f0f0f0" stroke-width="4.5" fill="none" stroke-linecap="round" opacity=".85"/>
+        <path d="M11,-16 Q20,-8 18,4"     stroke="#f0f0f0" stroke-width="4.5" fill="none" stroke-linecap="round" opacity=".85"/>
+        <ellipse cx="0" cy="3" rx="9" ry="7" fill="#f0f0f0" opacity=".85"/>
+        <!-- eyes closed in awe and prayer -->
+        <path d="M-6,-9 Q-3,-6 0,-9" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M0,-9 Q3,-6 6,-9"   stroke="#5c3010" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- Priests of Baal fleeing in terror (left background tiny) -->
+      <g transform="translate(260,215)" opacity=".6">
+        <circle cx="0"  cy="-14" r="6"  fill="#d4a57a"/>
+        <rect x="-6"  y="-9"  width="12" height="12" fill="#c0392b" rx="1"/>
+        <line x1="6"  y1="-4" x2="14"  y2="-16" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="22" cy="-12" r="5.5" fill="#c8906a"/>
+        <rect x="16"  y="-8"  width="11" height="11" fill="#8b4a10" rx="1"/>
+        <line x1="16" y1="-3" x2="8"   y2="-14" stroke="#8b4a10" stroke-width="4" stroke-linecap="round"/>
+      </g>
+
+      <!-- People watching in awe prostrating -->
+      <g transform="translate(30,218)" opacity=".75">
+        <circle cx="0"  cy="-12" r="6"  fill="#d4a57a"/>
+        <path d="M-8,-4 Q-18,4 -22,14"  stroke="#c0392b" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <rect x="-6"  y="-8"  width="12" height="12" fill="#c0392b" rx="1"/>
+      </g>
+
+      <!-- golden sparks from divine fire -->
+      <circle cx="150" cy="120" r="3.5" fill="#f0c040" opacity=".9"/>
+      <circle cx="130" cy="105" r="2.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="175" cy="110" r="3"   fill="#ff8800" opacity=".8"/>
+      <circle cx="110" cy="115" r="2"   fill="#f0c040" opacity=".7"/>
+      <circle cx="195" cy="118" r="2.5" fill="#ff8800" opacity=".75"/>
+      <circle cx="155" cy="95"  r="2"   fill="#f0c040" opacity=".7"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🔥 Le Feu qui Descend du Ciel</h2>
+    <p>Ilyès défia les <strong>450 prêtres de Baal</strong> sur le mont Carmel : <em>« Préparez un autel, appelez votre dieu — moi j'appellerai le mien. Celui qui répond par le feu, c'est Lui le vrai Dieu ! »</em></p>
+    <p>Les prêtres crièrent, dansèrent, se blessèrent… Baal resta muet. Ilyès prépara son autel, y versa de l'eau en abondance, puis leva les mains vers le ciel :</p>
+    <div class="quote">« Ô Dieu ! Réponds-moi, pour que ce peuple sache que Tu es le Vrai Seigneur ! »</div>
+    <p>Et soudain, une <strong>colonne de feu divine</strong> descendit du ciel, consuma l'autel, l'eau, les pierres — tout ! Le peuple tomba face contre terre en s'écriant : <em>« Dieu seul est Dieu ! »</em> 🔥✨</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 4 : La Voix dans le Silence ══ -->
+<div class="chapter ch4">
+  <div class="ch-num">٤</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="horebSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#060c1a"/>
+          <stop offset="55%"  stop-color="#0a1828"/>
+          <stop offset="100%" stop-color="#1a2a4a"/>
+        </linearGradient>
+        <radialGradient id="horebGlow" cx="50%" cy="40%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".25"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="windGlow" cx="50%" cy="55%" r="45%">
+          <stop offset="0%"   stop-color="#88aaff" stop-opacity=".2"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#horebSky)"/>
+      <rect width="340" height="255" fill="url(#horebGlow)"/>
+      <rect width="340" height="255" fill="url(#windGlow)"/>
+
+      <!-- Stars night -->
+      <circle cx="28"  cy="18" r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="75"  cy="30" r="1"   fill="white"   opacity=".7"/>
+      <circle cx="200" cy="15" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="290" cy="22" r="1.5" fill="#88aaff" opacity=".75"/>
+      <circle cx="320" cy="38" r="1"   fill="white"   opacity=".6"/>
+
+      <!-- Mount Horeb (Sinai) -->
+      <polygon points="0,215 60,165 130,195 195,155 265,180 340,155 340,255 0,255"
+               fill="#1a2028" opacity=".9"/>
+      <rect x="0" y="232" width="340" height="23" fill="#1a1828"/>
+
+      <!-- GREAT WIND — splitting the mountain -->
+      <!-- wind lines sweeping horizontal -->
+      <g stroke="#88aaff" stroke-width="2" fill="none" opacity=".2" stroke-linecap="round">
+        <path d="M0,80 Q85,72 170,80 Q255,88 340,80"/>
+        <path d="M0,95 Q85,86 170,95 Q255,104 340,95"/>
+        <path d="M0,110 Q85,100 170,110 Q255,120 340,110"/>
+        <path d="M0,65 Q85,58 170,65 Q255,72 340,65"/>
+      </g>
+      <!-- wind debris dots -->
+      <g fill="#88aaff" opacity=".3">
+        <circle cx="50"  cy="90"  r="2"/>
+        <circle cx="120" cy="85"  r="2.5"/>
+        <circle cx="200" cy="78"  r="2"/>
+        <circle cx="270" cy="92"  r="2.5"/>
+        <circle cx="310" cy="80"  r="2"/>
+      </g>
+
+      <!-- EARTHQUAKE lines from mountain cracking -->
+      <g stroke="#3a3a5a" stroke-width="1.5" opacity=".4">
+        <line x1="170" y1="155" x2="80"  y2="205"/>
+        <line x1="170" y1="155" x2="140" y2="210"/>
+        <line x1="170" y1="155" x2="200" y2="208"/>
+        <line x1="170" y1="155" x2="260" y2="200"/>
+      </g>
+
+      <!-- FIRE on the mountain (third sign) -->
+      <g transform="translate(170,155)" opacity=".7">
+        <path d="M-30,15 Q-20,-5 -8,8 Q-2,-10 8,4 Q14,-12 30,15 Z" fill="#ff4400" opacity=".5"/>
+        <path d="M-22,15 Q-14,0 -4,10 Q2,-8 12,6 Q18,-6 22,15 Z" fill="#ff8800" opacity=".5"/>
+        <path d="M-12,15 Q-6,4 2,10 Q6,-2 12,8 Q12,4 12,15 Z" fill="#ffcc00" opacity=".4"/>
+      </g>
+
+      <!-- SOFT DIVINE WHISPER — the still small voice — golden light glow -->
+      <ellipse cx="170" cy="165" rx="60" ry="35" fill="#f0c040" opacity=".12"/>
+      <ellipse cx="170" cy="165" rx="45" ry="25" fill="#fffbe6" opacity=".1"/>
+      <ellipse cx="170" cy="165" rx="28" ry="15" fill="#fffbe6" opacity=".12"/>
+      <!-- gentle light rays — the whisper -->
+      <g opacity=".15">
+        <line x1="170" y1="148" x2="170" y2="130" stroke="#f0c040" stroke-width="2.5"/>
+        <line x1="155" y1="152" x2="142" y2="138" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="185" y1="152" x2="198" y2="138" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="148" y1="162" x2="130" y2="158" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="192" y1="162" x2="210" y2="158" stroke="#f0c040" stroke-width="1.5"/>
+      </g>
+
+      <!-- ANGEL touching Ilyas — bringing food -->
+      <g transform="translate(255,175)" opacity=".85">
+        <!-- angel white figure with wings -->
+        <path d="M-12,5 Q-8,28 0,30 Q8,28 12,5 Z" fill="white" opacity=".9"/>
+        <!-- wings -->
+        <path d="M-12,2 Q-28,-14 -25,-24 Q-14,-10 -12,2 Z" fill="white" opacity=".8"/>
+        <path d="M12,2 Q28,-14 25,-24 Q14,-10 12,2 Z"  fill="white" opacity=".8"/>
+        <!-- halo -->
+        <circle cx="0" cy="-6" r="16" fill="#f0c040" opacity=".12"/>
+        <circle cx="0" cy="-6" r="12" fill="none" stroke="#f0c040" stroke-width="1" opacity=".4"/>
+        <circle cx="0" cy="-6" r="10" fill="#f0e8d0"/>
+        <!-- gentle eyes -->
+        <circle cx="-3.5" cy="-7" r="2" fill="#1a1a1a" opacity=".5"/>
+        <circle cx="3.5"  cy="-7" r="2" fill="#1a1a1a" opacity=".5"/>
+        <!-- arm touching Ilyas -->
+        <line x1="-12" y1="5" x2="-35" y2="15" stroke="white" stroke-width="6" stroke-linecap="round" opacity=".9"/>
+        <ellipse cx="-37" cy="16" rx="6" ry="4" fill="white" opacity=".8" transform="rotate(-10,-37,16)"/>
+        <!-- bread/water in other hand -->
+        <line x1="12" y1="5" x2="24" y2="8" stroke="white" stroke-width="6" stroke-linecap="round" opacity=".9"/>
+        <g transform="translate(26,7)">
+          <rect x="-6" y="-5" width="14" height="10" fill="#c8a050" rx="2" opacity=".9"/>
+          <circle cx="6" cy="-8" r="5" fill="#87ceeb" opacity=".7"/><!-- water jug -->
+        </g>
+      </g>
+
+      <!-- ILYAS lying exhausted on mountain — angel beside him -->
+      <g transform="translate(165,192)">
+        <!-- horizontal body -->
+        <path d="M-55,0 Q-20,-5 0,-3 Q20,-1 55,2 L54,12 Q20,8 0,6 Q-20,10 -54,12 Z"
+              fill="#1e6b3a"/>
+        <!-- head on arm -->
+        <circle cx="-46" cy="-1" r="13" fill="#c8906a"/>
+        <path d="M-52,-10 Q-46,-24 -40,-10" fill="#8b5e3c" opacity=".8"/>
+        <!-- white hair flowing on ground -->
+        <path d="M-56,-4 Q-65,-8 -68,0" stroke="#f0f0f0" stroke-width="5" fill="none" stroke-linecap="round" opacity=".8"/>
+        <!-- white beard -->
+        <ellipse cx="-46" cy="4" rx="9" ry="6" fill="#f0f0f0" opacity=".8"/>
+        <!-- eyes closed resting -->
+        <path d="M-50,-2 Q-46,0 -42,-2" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <!-- arm under head -->
+        <path d="M-56,-2 Q-62,4 -58,10" stroke="#c8906a" stroke-width="7" fill="none" stroke-linecap="round"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌬️ La Voix dans le Silence</h2>
+    <p>Malgré la victoire, Ilyès fut menacé de mort par la reine maléfique. Épuisé et seul, il s'allongea dans le désert et dit :</p>
+    <p><em>« C'est assez, Seigneur… Prends mon âme. »</em> Mais un <strong>ange</strong> le toucha doucement et dit : <em>« Lève-toi et mange, le voyage est trop long pour toi. »</em></p>
+    <div class="quote">« Ce n'est pas dans le vent violent, ni dans le tremblement de terre, ni dans le feu que j'étais — mais après le feu : une voix douce et légère. »</div>
+    <p>Sur le mont <strong>Horeb</strong>, Dieu lui parla — non dans la tempête ni le feu, mais dans un <strong>doux murmure silencieux</strong>. Les plus grandes paroles de Dieu arrivent parfois dans le plus grand silence. 🌟</p>
+  </div>
+</div>
+
+
+<!-- ══ CH 5 : L'Élévation ══ -->
+<div class="chapter ch5">
+  <div class="ch-num">٥</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ascSky2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#060810"/>
+          <stop offset="50%"  stop-color="#0e0a20"/>
+          <stop offset="100%" stop-color="#1a1430"/>
+        </linearGradient>
+        <radialGradient id="chariotGlow" cx="50%" cy="35%" r="55%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".6"/>
+          <stop offset="40%"  stop-color="#ff8800" stop-opacity=".3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="chariotGlow2" cx="50%" cy="35%" r="30%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".9"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#ascSky2)"/>
+      <rect width="340" height="255" fill="url(#chariotGlow)"/>
+      <rect width="340" height="255" fill="url(#chariotGlow2)"/>
+
+      <!-- Stars scattered -->
+      <circle cx="25"  cy="18" r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="65"  cy="32" r="1"   fill="white"   opacity=".7"/>
+      <circle cx="110" cy="14" r="2"   fill="#f0c040" opacity=".85"/>
+      <circle cx="250" cy="22" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="300" cy="16" r="2"   fill="#f0c040" opacity=".8"/>
+      <circle cx="330" cy="40" r="1.5" fill="white"   opacity=".6"/>
+      <circle cx="155" cy="10" r="1"   fill="white"   opacity=".55"/>
+      <circle cx="200" cy="28" r="1"   fill="#f0c040" opacity=".65"/>
+
+      <!-- Desert hills -->
+      <polygon points="0,210 50,172 115,195 185,165 260,185 325,162 340,175 340,255 0,255"
+               fill="#1a1028" opacity=".9"/>
+      <rect x="0" y="232" width="340" height="23" fill="#100e20"/>
+
+      <!-- ELISHA below — watching the ascension (small figure) -->
+      <g transform="translate(75,200)">
+        <path d="M-12,5 Q-8,40 0,42 Q8,40 12,5 Z" fill="#2d6b9e" opacity=".8"/>
+        <!-- arms reaching upward — receiving the mantle -->
+        <line x1="-12" y1="8"  x2="-30" y2="-10" stroke="#2d6b9e" stroke-width="7" stroke-linecap="round"/>
+        <line x1="12"  y1="8"  x2="30"  y2="-10" stroke="#2d6b9e" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="0" cy="-6" r="11" fill="#d4a57a"/>
+        <path d="M-8,-14 Q0,-26 8,-14 L10,-5 Q0,-2 -10,-5 Z" fill="#1a3a5c"/>
+        <!-- wide eyes looking up in awe -->
+        <circle cx="-3.5" cy="-8" r="2.5" fill="white"/>
+        <circle cx="3.5"  cy="-8" r="2.5" fill="white"/>
+        <circle cx="-3.5" cy="-8" r="1.5" fill="#1a1a1a"/>
+        <circle cx="3.5"  cy="-8" r="1.5" fill="#1a1a1a"/>
+        <!-- mouth open in awe -->
+        <ellipse cx="0" cy="-1" rx="3" ry="2" fill="#5c3010"/>
+      </g>
+
+      <!-- THE CLOAK / MANTLE falling from Ilyas -->
+      <g transform="translate(120,155)" opacity=".8">
+        <path d="M-15,-20 Q-5,10 0,30 Q5,10 15,-20 Q10,-5 0,0 Q-10,-5 -15,-20 Z"
+              fill="#8b5e3c" opacity=".7"/>
+        <path d="M-12,-15 Q-4,8 0,24 Q4,8 12,-15 Q8,-3 0,3 Q-8,-3 -12,-15 Z"
+              fill="#a07040" opacity=".6"/>
+        <!-- golden fringe -->
+        <g stroke="#f0c040" stroke-width="1.5" opacity=".5">
+          <line x1="-14" y1="25" x2="-16" y2="34"/>
+          <line x1="-7"  y1="28" x2="-8"  y2="37"/>
+          <line x1="0"   y1="28" x2="0"   y2="37"/>
+          <line x1="7"   y1="28" x2="8"   y2="37"/>
+          <line x1="14"  y1="25" x2="16"  y2="34"/>
+        </g>
+        <!-- glow on mantle — divine power -->
+        <ellipse cx="0" cy="5" rx="18" ry="28" fill="#f0c040" opacity=".1"/>
+      </g>
+
+      <!-- CHARIOT OF FIRE — Ilyas ascending -->
+      <g transform="translate(200,105)">
+        <!-- massive light burst -->
+        <circle cx="0" cy="0" r="80"  fill="#f0c040" opacity=".1"/>
+        <circle cx="0" cy="0" r="60"  fill="#f0c040" opacity=".12"/>
+        <circle cx="0" cy="0" r="42"  fill="#fffbe6"  opacity=".15"/>
+        <circle cx="0" cy="0" r="28"  fill="#fffbe6"  opacity=".25"/>
+        <!-- light column to heaven -->
+        <rect x="-20" y="-120" width="40" height="120" fill="#f0c040" opacity=".08" rx="4"/>
+        <rect x="-12" y="-120" width="24" height="120" fill="#f0c040" opacity=".12" rx="3"/>
+        <rect x="-6"  y="-120" width="12" height="120" fill="#fffbe6"  opacity=".15" rx="2"/>
+        <!-- CHARIOT body -->
+        <rect x="-30" y="-20" width="60" height="35" fill="#d4a017" rx="5" opacity=".9"/>
+        <rect x="-26" y="-16" width="52" height="27" fill="#e8b820" rx="4" opacity=".6"/>
+        <!-- chariot fire decoration -->
+        <path d="M-30,-20 Q-20,-36 -10,-20 Q0,-38 10,-20 Q20,-36 30,-20 Z"
+              fill="#ff6600" opacity=".8"/>
+        <path d="M-22,-20 Q-14,-32 -4,-20 Q4,-34 14,-20 Q22,-34 28,-20 Z"
+              fill="#ffcc00" opacity=".7"/>
+        <!-- chariot wheels fire -->
+        <circle cx="-24" cy="15" r="12" fill="none" stroke="#ff6600" stroke-width="4" opacity=".8"/>
+        <circle cx="24"  cy="15" r="12" fill="none" stroke="#ff6600" stroke-width="4" opacity=".8"/>
+        <circle cx="-24" cy="15" r="7"  fill="#ff8800" opacity=".6"/>
+        <circle cx="24"  cy="15" r="7"  fill="#ff8800" opacity=".6"/>
+        <!-- spokes -->
+        <line x1="-24" y1="3" x2="-24" y2="27"  stroke="#ff4400" stroke-width="2.5" opacity=".8"/>
+        <line x1="-12" y1="15" x2="-36" y2="15" stroke="#ff4400" stroke-width="2.5" opacity=".8"/>
+        <line x1="24"  y1="3" x2="24"  y2="27"  stroke="#ff4400" stroke-width="2.5" opacity=".8"/>
+        <line x1="12"  y1="15" x2="36"  y2="15" stroke="#ff4400" stroke-width="2.5" opacity=".8"/>
+        <!-- FIRE HORSES (2) -->
+        <!-- horse 1 left -->
+        <g transform="translate(-55,-15)">
+          <ellipse cx="0" cy="0" rx="22" ry="12" fill="#ff4400" opacity=".8"/>
+          <ellipse cx="-15" cy="-8" rx="12" ry="10" fill="#ff6600" opacity=".8"/>
+          <!-- mane fire -->
+          <path d="M-15,-16 Q-20,-26 -12,-28 Q-8,-18 -8,-10" fill="#ffcc00" opacity=".8"/>
+          <path d="M-10,-16 Q-14,-26 -6,-25 Q-4,-16 -2,-10" fill="#ff8800" opacity=".7"/>
+          <!-- legs fire -->
+          <line x1="-8"  y1="10" x2="-12" y2="28" stroke="#ff8800" stroke-width="5" stroke-linecap="round"/>
+          <line x1="0"   y1="11" x2="0"   y2="30" stroke="#ff6600" stroke-width="5" stroke-linecap="round"/>
+          <line x1="10"  y1="10" x2="14"  y2="28" stroke="#ff8800" stroke-width="5" stroke-linecap="round"/>
+          <!-- eye (fire) -->
+          <circle cx="-18" cy="-10" r="4" fill="#ffcc00" opacity=".8"/>
+        </g>
+        <!-- horse 2 right -->
+        <g transform="translate(55,-15)">
+          <ellipse cx="0" cy="0" rx="22" ry="12" fill="#ff6600" opacity=".8"/>
+          <ellipse cx="15" cy="-8" rx="12" ry="10" fill="#ff4400" opacity=".8"/>
+          <path d="M15,-16 Q20,-26 12,-28 Q8,-18 8,-10" fill="#ffcc00" opacity=".8"/>
+          <path d="M10,-16 Q14,-26 6,-25 Q4,-16 2,-10" fill="#ff8800" opacity=".7"/>
+          <line x1="-10" y1="10" x2="-14" y2="28" stroke="#ff8800" stroke-width="5" stroke-linecap="round"/>
+          <line x1="0"   y1="11" x2="0"   y2="30" stroke="#ff6600" stroke-width="5" stroke-linecap="round"/>
+          <line x1="10"  y1="10" x2="14"  y2="28" stroke="#ff8800" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="18" cy="-10" r="4" fill="#ffcc00" opacity=".8"/>
+        </g>
+        <!-- ILYAS in chariot — ascending -->
+        <g transform="translate(0,-10)">
+          <path d="M-14,5 Q-10,28 0,30 Q10,28 14,5 Z" fill="#1e6b3a"/>
+          <line x1="-14" y1="8" x2="-30" y2="-12" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+          <line x1="14"  y1="8" x2="30"  y2="-12" stroke="#1e6b3a" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="0" cy="-8" r="13" fill="#c8906a"/>
+          <!-- white hair blazing upward in ascent -->
+          <path d="M-10,-16 Q-16,-28 -8,-35" stroke="#f0f0f0" stroke-width="5" fill="none" stroke-linecap="round" opacity=".9"/>
+          <path d="M10,-16 Q16,-28 8,-35"   stroke="#f0f0f0" stroke-width="5" fill="none" stroke-linecap="round" opacity=".9"/>
+          <path d="M0,-20 Q0,-32 2,-38"     stroke="#f0f0f0" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/>
+          <!-- beard flowing up -->
+          <ellipse cx="0" cy="2" rx="8" ry="6" fill="#f0f0f0" opacity=".85"/>
+          <!-- serene face — peace in ascension -->
+          <circle cx="-4" cy="-9" r="2.2" fill="#1a1a1a"/>
+          <circle cx="4"  cy="-9" r="2.2" fill="#1a1a1a"/>
+          <path d="M-4,-2 Q0,2 4,-2" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+        </g>
+        <!-- golden light rays all around the chariot -->
+        <g opacity=".3">
+          <line x1="0"  y1="-40" x2="0"  y2="-75"  stroke="#f0c040" stroke-width="3"/>
+          <line x1="20" y1="-35" x2="35" y2="-68"  stroke="#f0c040" stroke-width="2"/>
+          <line x1="-20" y1="-35" x2="-35" y2="-68" stroke="#f0c040" stroke-width="2"/>
+          <line x1="35" y1="-20" x2="60" y2="-48"  stroke="#f0c040" stroke-width="1.5"/>
+          <line x1="-35" y1="-20" x2="-60" y2="-48" stroke="#f0c040" stroke-width="1.5"/>
+        </g>
+      </g>
+
+      <!-- golden sparks trail of the chariot -->
+      <circle cx="200" cy="65"  r="3.5" fill="#f0c040" opacity=".9"/>
+      <circle cx="180" cy="80"  r="3"   fill="#ff8800" opacity=".8"/>
+      <circle cx="220" cy="75"  r="2.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="195" cy="50"  r="2"   fill="#f0c040" opacity=".75"/>
+      <circle cx="215" cy="55"  r="2"   fill="#ff8800" opacity=".7"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌪️ Le Char de Feu</h2>
+    <p>La mission d'Ilyès était accomplie. Il forma son successeur <strong>Alyassa</strong> (Élisée) pour continuer son œuvre. Puis vint le moment que Dieu seul décide.</p>
+    <p>Alors qu'ils marchaient ensemble, un <strong>char de feu</strong> tiré par des chevaux de flammes descendit du ciel et s'interposa entre eux — et Ilyès fut emporté vers les hauteurs dans un tourbillon de lumière dorée !</p>
+    <div class="quote">« Ilyès est bien parmi les envoyés. Salutation de paix sur Ilyès ! »</div>
+    <p>Alyassa recueillit le manteau qui était tombé d'Ilyès — symbole de la mission qui lui était transmise. Et Ilyès fut élevé par Dieu, honoré, en paix. ✨🌟</p>
+  </div>
+</div>
+
+
+<!-- ══ ENDING ══ -->
+<div class="ending">
+  <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.06;pointer-events:none"
+       viewBox="0 0 400 300">
+    <defs>
+      <pattern id="firePat" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+        <path d="M30,2 Q22,18 30,12 Q38,18 30,2 Z" fill="none" stroke="#f0c040" stroke-width="1"/>
+        <path d="M30,14 Q24,26 30,22 Q36,26 30,14 Z" fill="none" stroke="#ff8800" stroke-width=".8"/>
+        <line x1="30" y1="28" x2="30" y2="40" stroke="#f0c040" stroke-width=".8"/>
+        <circle cx="30" cy="42" r="4" fill="none" stroke="#f0c040" stroke-width=".6"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="300" fill="url(#firePat)"/>
+  </svg>
+
+  <div style="font-size:2.5rem;margin-bottom:16px">🔥</div>
+  <h2>✨ Fin ✨</h2>
+  <p>Et voilà l'histoire d'Ilyès,<br>
+  le prophète de feu, le courageux solitaire.<br><br>
+  Seul contre des centaines, seul dans la grotte, seul sur la montagne —<br>
+  mais jamais vraiment seul, car Dieu était toujours avec lui.<br><br>
+  Il nous apprend que la vérité ne dépend pas du nombre,<br>
+  que la foi résiste même à la plus grande tempête,<br>
+  et que Dieu parle parfois dans le plus doux des silences.<br><br>
+  <em>Salutation de paix sur Ilyès ! 🌪️✨</em></p>
+  <div class="end-star">✦</div>
+</div>
+
+<script>
+  // Stars
+  const cover = document.getElementById('starsCover');
+  for (let i = 0; i < 75; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const sz = Math.random() * 2.5 + .5;
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*50}%;
+      width:${sz}px; height:${sz}px;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${1.5+Math.random()*2.5}s;
+    `;
+    cover.appendChild(s);
+  }
+
+  // Fire embers
+  const emberC = document.getElementById('emberContainer');
+  emberC.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;';
+  const emberColors = ['#f0c040','#ff8800','#ff4400','#ffcc00','#ff6600'];
+  function makeEmber() {
+    const e = document.createElement('div');
+    e.className = 'ember';
+    const sz = Math.random() * 5 + 2;
+    e.style.cssText = `
+      width:${sz}px; height:${sz}px;
+      left:${Math.random()*100}%;
+      bottom:${Math.random()*30}%;
+      background:${emberColors[Math.floor(Math.random()*emberColors.length)]};
+      animation-duration:${2.5+Math.random()*5}s;
+      animation-delay:${Math.random()*3}s;
+    `;
+    emberC.appendChild(e);
+    e.addEventListener('animationend', () => e.remove());
+  }
+  for(let i=0;i<25;i++) makeEmber();
+  setInterval(makeEmber, 300);
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold:.1 }
+  );
+  document.querySelectorAll('.chapter,.ending').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
