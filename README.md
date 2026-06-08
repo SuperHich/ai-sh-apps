@@ -1,4 +1,4 @@
-# 🌟 AI-SH Apps
+# 🌟 Le grenier des Apps
 
 A collection of interactive stories and mini-games for kids — built entirely with vanilla HTML, CSS & JavaScript. No frameworks, no build steps. Just open in a browser.
 
