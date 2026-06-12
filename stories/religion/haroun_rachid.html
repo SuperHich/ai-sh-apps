@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haroun al-Rachid – Le Calife Juste</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --baghdad-gold: #c9960c;
+    --gold-light:   #f0c040;
+    --lapis:        #1a3a6c;
+    --deep-night:   #060810;
+    --emerald:      #1a6b4a;
+    --bronze:       #8b5e1a;
+    --turquoise:    #0a8a8a;
+    --crimson:      #8b1a2a;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--deep-night);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    color: #e8dcc8;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(160deg,#060810 0%,#0e0a1a 30%,#1a1030 60%,#3a2808 85%,#c8a04a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px 80px;
+  }
+
+  /* arabesque geometric overlay */
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(45deg,  rgba(240,192,64,.03) 0, rgba(240,192,64,.03) 1px, transparent 0, transparent 40%),
+      repeating-linear-gradient(-45deg, rgba(240,192,64,.03) 0, rgba(240,192,64,.03) 1px, transparent 0, transparent 40%),
+      repeating-linear-gradient(0deg,   rgba(240,192,64,.02) 0, rgba(240,192,64,.02) 1px, transparent 0, transparent 40%);
+    background-size: 45px 45px;
+    pointer-events: none;
+  }
+
+  /* golden lantern glow pulses */
+  .lantern-glow {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(240,192,64,.2) 0%, transparent 70%);
+    pointer-events: none;
+    animation: lanternPulse 3s ease-in-out infinite alternate;
+  }
+  @keyframes lanternPulse {
+    from { transform:scale(1);   opacity:.6; }
+    to   { transform:scale(1.2); opacity:1; }
+  }
+
+  .cover-stars { position:absolute; inset:0; pointer-events:none; }
+  .star-dot {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: tw 2.5s infinite alternate;
+  }
+  @keyframes tw {
+    from { opacity:.15; transform:scale(1); }
+    to   { opacity:.9;  transform:scale(1.7); }
+  }
+
+  .cover-scene {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 28px;
+    animation: floatY 5s ease-in-out infinite;
+  }
+  @keyframes floatY {
+    0%,100%{transform:translateY(0);}
+    50%    {transform:translateY(-12px);}
+  }
+
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem,7vw,4.2rem);
+    color: var(--gold-light);
+    text-align: center;
+    letter-spacing: 3px;
+    line-height: 1.1;
+    text-shadow: 0 2px 30px rgba(200,160,74,.6);
+    width: 100%;
+  }
+  .cover .subtitle-ar {
+    font-size: 1.4rem;
+    color: rgba(240,192,64,.5);
+    margin-top: 8px;
+    letter-spacing: 6px;
+    font-family: serif;
+    text-align: center;
+    width: 100%;
+  }
+  .cover .subtitle {
+    color: rgba(240,220,180,.45);
+    font-size: .95rem;
+    margin-top: 12px;
+    font-style: italic;
+    letter-spacing: 2px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    color: rgba(240,220,180,.35);
+    font-size: .8rem;
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);}
+  }
+
+  .cover-fade {
+    position:absolute; bottom:0; left:0; right:0;
+    height:100px;
+    background:linear-gradient(transparent,#060810);
+    pointer-events:none;
+  }
+
+  /* ── CHAPTERS ── */
+  .chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 24px 60px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .chapter.visible { opacity:1; transform:translateY(0); }
+
+  .ch1 { background: linear-gradient(155deg,#1a0e06 0%,#2a1a08 50%,#4a3010 100%); }
+  .ch2 { background: linear-gradient(155deg,#060810 0%,#0e1020 55%,#1a1a38 100%); }
+  .ch3 { background: linear-gradient(155deg,#0a1808 0%,#1a3010 50%,#2a5020 100%); }
+  .ch4 { background: linear-gradient(155deg,#08080e 0%,#1a1030 55%,#2a1850 100%); }
+  .ch5 { background: linear-gradient(155deg,#1a1008 0%,#2a1a08 50%,#c8a04a 100%); }
+
+  .ch-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9rem;
+    font-weight: 700;
+    position: absolute;
+    top: 0; right: 20px;
+    line-height: 1;
+    pointer-events: none;
+    opacity: .05;
+  }
+  .ch1 .ch-num { color:#f0c040; }
+  .ch2 .ch-num { color:#88aaff; }
+  .ch3 .ch-num { color:#88ff88; }
+  .ch4 .ch-num { color:#d4a0ff; }
+  .ch5 .ch-num { color:#f0c040; }
+
+  .illustration {
+    width: min(340px,92vw);
+    height: min(255px,69vw);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 60px rgba(0,0,0,.55);
+    margin-bottom: 36px;
+    flex-shrink: 0;
+    position: relative; z-index:1;
+    border: 3px solid rgba(200,160,74,.3);
+  }
+  .illustration svg { width:100%; height:100%; display:block; }
+
+  .chapter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem,5vw,2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative; z-index:1;
+  }
+  .story-text {
+    max-width: 490px;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    position: relative; z-index:1;
+  }
+  .story-text p { margin-bottom:14px; }
+  .quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    padding: 14px 22px;
+    border-radius: 14px;
+    margin: 18px 0;
+    display: inline-block;
+    border-left: 4px solid currentColor;
+  }
+
+  /* lesson box */
+  .lesson {
+    margin-top: 18px;
+    padding: 14px 20px;
+    border-radius: 14px;
+    border: 1px solid rgba(240,192,64,.3);
+    display: inline-block;
+    font-size: .95rem;
+    font-style: italic;
+    position: relative; z-index:1;
+  }
+
+  .ch1 .chapter-title { color:#f0c040; }
+  .ch1 .story-text    { color:#f0ead8; }
+  .ch1 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+  .ch1 .lesson        { background:rgba(240,192,64,.08); color:#e0c890; }
+
+  .ch2 .chapter-title { color:#88aaff; }
+  .ch2 .story-text    { color:#f0ead8; }
+  .ch2 .quote         { background:rgba(136,170,255,.1); color:#88aaff; }
+  .ch2 .lesson        { background:rgba(136,170,255,.08); color:#b8c8f0; }
+
+  .ch3 .chapter-title { color:#a0ff88; }
+  .ch3 .story-text    { color:#f0ead8; }
+  .ch3 .quote         { background:rgba(100,220,80,.08); color:#a0ff88; }
+  .ch3 .lesson        { background:rgba(100,220,80,.06); color:#b8e8a8; }
+
+  .ch4 .chapter-title { color:#d4a0ff; }
+  .ch4 .story-text    { color:#f0ead8; }
+  .ch4 .quote         { background:rgba(180,130,255,.1); color:#d4a0ff; }
+  .ch4 .lesson        { background:rgba(180,130,255,.08); color:#c8b8e8; }
+
+  .ch5 .chapter-title { color:#f0c040; }
+  .ch5 .story-text    { color:#f0ead8; }
+  .ch5 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+  .ch5 .lesson        { background:rgba(240,192,64,.08); color:#e0c890; }
+
+  /* ── ENDING ── */
+  .ending {
+    background: linear-gradient(160deg,#060810 0%,#0e0a1a 50%,#1a1030 100%);
+    padding: 90px 24px;
+    text-align: center;
+    color: white;
+    position: relative; overflow:hidden;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .ending.visible { opacity:1; transform:translateY(0); }
+  .ending h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+    letter-spacing: 2px;
+  }
+  .ending p {
+    font-size:1.1rem; max-width:520px;
+    margin:0 auto; opacity:.85; line-height:1.9;
+  }
+  .lessons-box {
+    max-width: 480px;
+    margin: 36px auto 0;
+    padding: 28px 32px;
+    border: 1px solid rgba(240,192,64,.3);
+    border-radius: 20px;
+    background: rgba(240,192,64,.06);
+    text-align: left;
+  }
+  .lessons-box h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--gold-light);
+    margin-bottom: 18px;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+  .lessons-box ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .lessons-box li {
+    font-size: 1rem;
+    color: rgba(240,220,180,.85);
+    line-height: 1.6;
+    padding-left: 24px;
+    position: relative;
+  }
+  .lessons-box li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--gold-light);
+    font-size: .8rem;
+    top: 3px;
+  }
+  .end-star {
+    font-size:2.5rem; margin-top:36px;
+    display:inline-block;
+    animation: spinSlow 12s linear infinite;
+    color: var(--gold-light);
+  }
+  @keyframes spinSlow {
+    from{transform:rotate(0deg);} to{transform:rotate(360deg);}
+  }
+
+  @media(min-width:720px){
+    .chapter{flex-direction:row!important;gap:52px;padding:90px 64px;}
+    .illustration{margin-bottom:0;}
+    .story-text{text-align:left;}
+    .chapter-title{text-align:left;}
+    .chapter:nth-child(even){flex-direction:row-reverse!important;}
+    .lesson { text-align:left; }
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-stars" id="starsCover"></div>
+
+  <!-- lantern glows around scene -->
+  <div class="lantern-glow" style="width:200px;height:200px;top:15%;left:10%;"></div>
+  <div class="lantern-glow" style="width:180px;height:180px;top:20%;right:8%;animation-delay:1.5s;"></div>
+  <div class="lantern-glow" style="width:150px;height:150px;bottom:20%;left:15%;animation-delay:1s;"></div>
+
+  <div class="cover-scene">
+    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="covGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="nightCovG" cx="50%" cy="40%" r="50%">
+          <stop offset="0%"   stop-color="#1a1030" stop-opacity=".8"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="bgCov" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#060810"/>
+          <stop offset="55%"  stop-color="#0e0a1a"/>
+          <stop offset="100%" stop-color="#2a1808"/>
+        </linearGradient>
+        <linearGradient id="domeGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a5a8a"/>
+          <stop offset="100%" stop-color="#0a2a4a"/>
+        </linearGradient>
+      </defs>
+
+      <circle cx="150" cy="150" r="147" fill="#060810" stroke="#c9960c" stroke-width="2"/>
+      <circle cx="150" cy="150" r="137" fill="none" stroke="#c9960c"
+              stroke-width=".5" stroke-dasharray="5 4" opacity=".4"/>
+      <clipPath id="covClip"><circle cx="150" cy="150" r="145"/></clipPath>
+
+      <rect width="300" height="300" fill="url(#bgCov)"    clip-path="url(#covClip)"/>
+      <rect width="300" height="300" fill="url(#covGlow)"  clip-path="url(#covClip)"/>
+
+      <!-- night stars -->
+      <g clip-path="url(#covClip)">
+        <circle cx="40"  cy="25" r="2"   fill="#f0c040" opacity=".9"/>
+        <circle cx="88"  cy="18" r="1.5" fill="white"   opacity=".75"/>
+        <circle cx="138" cy="32" r="1.5" fill="white"   opacity=".7"/>
+        <circle cx="202" cy="20" r="2"   fill="#f0c040" opacity=".8"/>
+        <circle cx="252" cy="36" r="2"   fill="white"   opacity=".75"/>
+        <circle cx="270" cy="16" r="1.5" fill="#f0c040" opacity=".7"/>
+        <circle cx="58"  cy="56" r="1"   fill="white"   opacity=".55"/>
+        <circle cx="218" cy="53" r="1.5" fill="white"   opacity=".6"/>
+      </g>
+
+      <!-- crescent moon -->
+      <g clip-path="url(#covClip)">
+        <circle cx="250" cy="48" r="22" fill="#ffe8a0" opacity=".85"/>
+        <circle cx="260" cy="40" r="18" fill="#060810"/>
+        <!-- star next to moon -->
+        <polygon points="278,22 281,31 290,31 283,37 286,46 278,40 270,46 273,37 266,31 275,31"
+                 fill="#f0c040" opacity=".85" transform="scale(.7) translate(120,0)"/>
+      </g>
+
+      <!-- BAGHDAD SKYLINE — Round City silhouette (Madinat al-Salam) -->
+      <g clip-path="url(#covClip)">
+        <!-- outer city wall circular (Baghdad was a round city) -->
+        <circle cx="150" cy="200" r="100" fill="none" stroke="#c8a04a" stroke-width="2" opacity=".3"/>
+        <!-- city ground -->
+        <rect x="0" y="235" width="300" height="70" fill="#1a1208" opacity=".8"/>
+        <!-- buildings silhouette -->
+        <rect x="30"  y="205" width="20" height="32" fill="#1a1808" opacity=".8" rx="1"/>
+        <rect x="55"  y="195" width="18" height="42" fill="#1a1808" opacity=".8" rx="1"/>
+        <rect x="78"  y="210" width="22" height="27" fill="#1a1808" opacity=".7" rx="1"/>
+        <rect x="200" y="205" width="20" height="32" fill="#1a1808" opacity=".8" rx="1"/>
+        <rect x="225" y="195" width="18" height="42" fill="#1a1808" opacity=".8" rx="1"/>
+        <rect x="248" y="210" width="22" height="27" fill="#1a1808" opacity=".7" rx="1"/>
+        <!-- CENTRAL GRAND PALACE / DOME of Baghdad (Green Dome) -->
+        <rect x="108" y="170" width="84" height="68" fill="#0a1a2a" rx="3" opacity=".9"/>
+        <!-- green dome large -->
+        <path d="M108,170 Q150,128 192,170 Z" fill="#1a6b4a" opacity=".9"/>
+        <ellipse cx="150" cy="170" rx="42" ry="12" fill="#1a6b4a" opacity=".7"/>
+        <!-- dome finial -->
+        <line x1="150" y1="126" x2="150" y2="112" stroke="#c9960c" stroke-width="2.5"/>
+        <circle cx="150" cy="110" r="5" fill="#f0c040" opacity=".9"/>
+        <!-- crescent on dome -->
+        <circle cx="150" cy="103" r="8" fill="none" stroke="#f0c040" stroke-width="2" opacity=".8"/>
+        <circle cx="154" cy="100" r="6" fill="#0a1a2a"/>
+        <!-- minarets -->
+        <rect x="100" y="148" width="12" height="58" fill="#0e1a2a" rx="2" opacity=".9"/>
+        <path d="M100,148 Q106,136 112,148 Z" fill="#1a6b4a" opacity=".8"/>
+        <line x1="106" y1="134" x2="106" y2="122" stroke="#c9960c" stroke-width="2"/>
+        <circle cx="106" cy="120" r="4" fill="#f0c040" opacity=".85"/>
+        <rect x="188" y="148" width="12" height="58" fill="#0e1a2a" rx="2" opacity=".9"/>
+        <path d="M188,148 Q194,136 200,148 Z" fill="#1a6b4a" opacity=".8"/>
+        <line x1="194" y1="134" x2="194" y2="122" stroke="#c9960c" stroke-width="2"/>
+        <circle cx="194" cy="120" r="4" fill="#f0c040" opacity=".85"/>
+        <!-- palace windows glowing -->
+        <rect x="128" y="195" width="14" height="12" fill="#f0c040" rx="2" opacity=".5"/>
+        <rect x="148" y="195" width="14" height="12" fill="#f0c040" rx="2" opacity=".5"/>
+        <rect x="158" y="195" width="14" height="12" fill="#f0c040" rx="2" opacity=".5"/>
+        <!-- Tigris river reflection -->
+        <path d="M0,248 Q75,238 150,248 Q225,258 300,248"
+              fill="none" stroke="#4a9ede" stroke-width="3" opacity=".3" clip-path="url(#covClip)"/>
+        <ellipse cx="150" cy="255" rx="150" ry="20" fill="#0a2a4a" opacity=".35"/>
+      </g>
+
+      <!-- HAROUN AL-RACHID figure — regal caliph with cloak and turban -->
+      <g transform="translate(150,195)" clip-path="url(#covClip)">
+        <!-- glow of authority -->
+        <circle cx="0" cy="-15" r="55" fill="#f0c040" opacity=".07"/>
+        <!-- robe royal -->
+        <path d="M-24,10 Q-20,72 0,76 Q20,72 24,10 Z" fill="#1a5a8a"/>
+        <!-- royal abaya/cloak -->
+        <path d="M-40,6 Q-32,74 -10,80 Q-22,68 -26,10 Z" fill="#c8a04a" opacity=".8"/>
+        <path d="M40,6 Q32,74 10,80 Q22,68 26,10 Z"  fill="#c8a04a" opacity=".8"/>
+        <!-- arms open blessing / surveying his city -->
+        <line x1="-24" y1="14" x2="-62" y2="2"   stroke="#1a5a8a" stroke-width="9" stroke-linecap="round"/>
+        <line x1="24"  y1="14" x2="62"  y2="2"   stroke="#1a5a8a" stroke-width="9" stroke-linecap="round"/>
+        <!-- glowing hands — generosity -->
+        <circle cx="-64" cy="1"  r="8" fill="#f0c040" opacity=".4"/>
+        <circle cx="64"  cy="1"  r="8" fill="#f0c040" opacity=".4"/>
+        <!-- head -->
+        <circle cx="0" cy="-12" r="17" fill="#c8906a"/>
+        <!-- TURBAN ornate -->
+        <path d="M-16,-26 Q0,-48 16,-26" fill="#1a5a8a"/>
+        <path d="M-16,-26 Q-20,-18 -18,-6" stroke="#1a5a8a" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <!-- turban wrap -->
+        <ellipse cx="0" cy="-30" rx="18" ry="8" fill="#1a5a8a" opacity=".9"/>
+        <ellipse cx="0" cy="-32" rx="14" ry="5" fill="#2a6a9a" opacity=".8"/>
+        <!-- gold turban jewel -->
+        <circle cx="0" cy="-36" r="5" fill="#f0c040" opacity=".9"/>
+        <circle cx="0" cy="-36" r="3" fill="#e74c3c" opacity=".8"/>
+        <!-- beard distinguished -->
+        <ellipse cx="0" cy="2"  rx="10" ry="8" fill="#1a1a1a" opacity=".7"/>
+        <!-- wise regal eyes -->
+        <circle cx="-5.5" cy="-13" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5.5"  cy="-13" r="2.5" fill="#1a1a1a"/>
+        <circle cx="-4.5" cy="-14" r="1"   fill="white" opacity=".5"/>
+        <circle cx="6.5"  cy="-14" r="1"   fill="white" opacity=".5"/>
+        <!-- serene confident expression -->
+        <path d="M-5,-4 Q0,1 5,-4" stroke="#7a3a10" stroke-width="1.8" fill="none"/>
+        <!-- divine halo subtle -->
+        <circle cx="0" cy="-12" r="24" fill="none" stroke="#f0c040" stroke-width="1" opacity=".25"/>
+      </g>
+
+      <!-- Golden lanterns hanging in the scene -->
+      <g clip-path="url(#covClip)" opacity=".8">
+        <!-- lantern left -->
+        <line x1="45" y1="100" x2="45" y2="115" stroke="#c8a04a" stroke-width="1.5"/>
+        <polygon points="38,115 52,115 55,138 42,150 35,138" fill="#c8a04a" opacity=".6"/>
+        <ellipse cx="45" cy="150" rx="8" ry="5" fill="#c8a04a" opacity=".5"/>
+        <circle  cx="45" cy="132" r="6" fill="#f0c040" opacity=".6"/>
+        <!-- lantern right -->
+        <line x1="255" y1="100" x2="255" y2="115" stroke="#c8a04a" stroke-width="1.5"/>
+        <polygon points="248,115 262,115 265,138 252,150 245,138" fill="#c8a04a" opacity=".6"/>
+        <ellipse cx="255" cy="150" rx="8" ry="5" fill="#c8a04a" opacity=".5"/>
+        <circle  cx="255" cy="132" r="6" fill="#f0c040" opacity=".6"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- ornament -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:18px;opacity:.65;width:100%;">
+    <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,#f0c040,transparent);"></div>
+    <span style="color:#f0c040;font-size:1.1rem;letter-spacing:6px;">✦ ✦ ✦</span>
+    <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,#f0c040,transparent);"></div>
+  </div>
+
+  <h1>Haroun al-Rachid<br>
+  <span style="font-size:.52em;letter-spacing:4px;opacity:.9;">Le Calife Juste de Bagdad</span></h1>
+  <p class="subtitle-ar">هارون الرشيد</p>
+  <p class="subtitle">Calife abbasside — L'Âge d'Or de l'Islam</p>
+
+  <div class="scroll-hint">
+    <span>Fais défiler pour lire</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+  <div class="cover-fade"></div>
+</div>
+
+
+<!-- ══ CH 1 : La Ville Ronde de Bagdad ══ -->
+<div class="chapter ch1">
+  <div class="ch-num">١</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bagSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a0e06"/>
+          <stop offset="55%"  stop-color="#2a1a08"/>
+          <stop offset="100%" stop-color="#4a3010"/>
+        </linearGradient>
+        <radialGradient id="bagGlow" cx="50%" cy="55%" r="55%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#bagSky)"/>
+      <rect width="340" height="255" fill="url(#bagGlow)"/>
+
+      <!-- stars -->
+      <circle cx="25"  cy="18" r="1.5" fill="#f0c040" opacity=".85"/>
+      <circle cx="70"  cy="30" r="1"   fill="white"   opacity=".7"/>
+      <circle cx="275" cy="20" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="320" cy="38" r="1"   fill="#f0c040" opacity=".7"/>
+      <circle cx="155" cy="12" r="1"   fill="white"   opacity=".55"/>
+
+      <!-- Moon crescent -->
+      <circle cx="285" cy="48" r="22" fill="#ffe8a0" opacity=".8"/>
+      <circle cx="294" cy="40" r="18" fill="#2a1a08"/>
+
+      <!-- TIGRIS RIVER -->
+      <rect x="0" y="195" width="340" height="60" fill="#0a2a4a" opacity=".6"/>
+      <path d="M0,195 Q85,183 170,195 Q255,207 340,195"
+            fill="none" stroke="#4a9ede" stroke-width="2.5" opacity=".4"/>
+      <!-- river reflections of lights -->
+      <g opacity=".25">
+        <line x1="80"  y1="200" x2="80"  y2="245" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="170" y1="200" x2="170" y2="245" stroke="#f0c040" stroke-width="2"/>
+        <line x1="260" y1="200" x2="260" y2="245" stroke="#f0c040" stroke-width="1.5"/>
+      </g>
+
+      <!-- BAGHDAD CITYSCAPE — Round City illuminated at night -->
+      <!-- outer ring buildings -->
+      <g opacity=".85">
+        <!-- left buildings -->
+        <rect x="10"  y="155" width="22" height="42" fill="#1a1208" rx="2"/>
+        <rect x="35"  y="145" width="18" height="52" fill="#1a1208" rx="2"/>
+        <rect x="56"  y="158" width="20" height="39" fill="#1a1208" rx="2"/>
+        <!-- right buildings -->
+        <rect x="250" y="155" width="22" height="42" fill="#1a1208" rx="2"/>
+        <rect x="275" y="145" width="18" height="52" fill="#1a1208" rx="2"/>
+        <rect x="296" y="158" width="22" height="39" fill="#1a1208" rx="2"/>
+      </g>
+
+      <!-- CENTRAL PALACE — Qasr al-Dhahab (Golden Palace) -->
+      <g transform="translate(170,145)">
+        <!-- palace base -->
+        <rect x="-75" y="-10" width="150" height="65" fill="#0a1a2a" rx="3" opacity=".95"/>
+        <!-- grand columns -->
+        <rect x="-60" y="-10" width="10" height="60" fill="#c8a04a" opacity=".5" rx="1"/>
+        <rect x="-35" y="-10" width="10" height="60" fill="#c8a04a" opacity=".45" rx="1"/>
+        <rect x="25"  y="-10" width="10" height="60" fill="#c8a04a" opacity=".45" rx="1"/>
+        <rect x="50"  y="-10" width="10" height="60" fill="#c8a04a" opacity=".5" rx="1"/>
+        <!-- GREEN DOME (historic) -->
+        <path d="M-75,-10 Q0,-65 75,-10 Z" fill="#1a6b4a" opacity=".9"/>
+        <ellipse cx="0" cy="-10" rx="75" ry="18" fill="#1a6b4a" opacity=".6"/>
+        <!-- dome top finial -->
+        <line x1="0" y1="-65" x2="0" y2="-82" stroke="#c9960c" stroke-width="3"/>
+        <circle cx="0" cy="-85" r="6" fill="#f0c040" opacity=".95"/>
+        <!-- crescent on top -->
+        <circle cx="0"  cy="-92" r="9"  fill="none" stroke="#f0c040" stroke-width="2" opacity=".8"/>
+        <circle cx="3"  cy="-94" r="7"  fill="#0a1a2a"/>
+        <!-- minarets -->
+        <rect x="-85" y="-38" width="14" height="68" fill="#0e1a2a" rx="2" opacity=".9"/>
+        <path d="M-85,-38 Q-78,-54 -71,-38 Z" fill="#1a6b4a" opacity=".8"/>
+        <line x1="-78" y1="-56" x2="-78" y2="-70" stroke="#c9960c" stroke-width="2"/>
+        <circle cx="-78" cy="-72" r="5" fill="#f0c040" opacity=".9"/>
+        <rect x="71"  y="-38" width="14" height="68" fill="#0e1a2a" rx="2" opacity=".9"/>
+        <path d="M71,-38 Q78,-54 85,-38 Z" fill="#1a6b4a" opacity=".8"/>
+        <line x1="78"  y1="-56" x2="78"  y2="-70" stroke="#c9960c" stroke-width="2"/>
+        <circle cx="78"  cy="-72" r="5" fill="#f0c040" opacity=".9"/>
+        <!-- windows all glowing gold -->
+        <rect x="-55" y="10" width="16" height="12" fill="#f0c040" rx="2" opacity=".6"/>
+        <rect x="-28" y="10" width="16" height="12" fill="#f0c040" rx="2" opacity=".6"/>
+        <rect x="-2"  y="10" width="16" height="12" fill="#f0c040" rx="2" opacity=".6"/>
+        <rect x="24"  y="10" width="16" height="12" fill="#f0c040" rx="2" opacity=".6"/>
+        <!-- door grand -->
+        <rect x="-12" y="22" width="24" height="38" fill="#c8a040" rx="2" opacity=".7"/>
+        <path d="M-12,22 Q0,10 12,22" fill="#b89030" opacity=".8"/>
+      </g>
+
+      <!-- HAROUN surveying from palace balcony — tiny figure at top -->
+      <g transform="translate(170,88)" opacity=".8">
+        <!-- balcony railing -->
+        <rect x="-20" y="5" width="40" height="5" fill="#c8a04a" opacity=".6" rx="1"/>
+        <!-- Haroun tiny figure -->
+        <path d="M-6,2 Q-4,18 0,19 Q4,18 6,2 Z" fill="#1a5a8a"/>
+        <circle cx="0" cy="-4" r="6"  fill="#c8906a"/>
+        <path d="M-5,-8 Q0,-16 5,-8 L6,-2 Q0,-1 -6,-2 Z" fill="#1a5a8a"/>
+        <!-- looking out over city arms open -->
+        <line x1="-6" y1="4" x2="-16" y2="0"  stroke="#1a5a8a" stroke-width="4" stroke-linecap="round"/>
+        <line x1="6"  y1="4" x2="16"  y2="0"  stroke="#1a5a8a" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="-2.5" cy="-5" r="1.2" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-5" r="1.2" fill="#1a1a1a"/>
+      </g>
+
+      <!-- Golden lanterns lighting the streets -->
+      <g opacity=".7">
+        <!-- street lanterns -->
+        <line x1="88"  y1="160" x2="88"  y2="180" stroke="#c8a04a" stroke-width="1.5"/>
+        <polygon points="83,180 93,180 95,195 86,202 81,195" fill="#c8a04a" opacity=".6"/>
+        <circle  cx="88" cy="191" r="5"  fill="#f0c040" opacity=".7"/>
+        <line x1="252" y1="160" x2="252" y2="180" stroke="#c8a04a" stroke-width="1.5"/>
+        <polygon points="247,180 257,180 259,195 250,202 245,195" fill="#c8a04a" opacity=".6"/>
+        <circle  cx="252" cy="191" r="5"  fill="#f0c040" opacity=".7"/>
+        <line x1="170" y1="220" x2="170" y2="238" stroke="#c8a04a" stroke-width="1.5"/>
+        <polygon points="165,238 175,238 177,250 168,255 163,250" fill="#c8a04a" opacity=".5"/>
+        <circle  cx="170" cy="247" r="4"  fill="#f0c040" opacity=".6"/>
+      </g>
+
+      <!-- sparkles -->
+      <circle cx="120" cy="130" r="2" fill="#f0c040" opacity=".6"/>
+      <circle cx="220" cy="125" r="2" fill="#f0c040" opacity=".6"/>
+      <circle cx="170" cy="105" r="2.5" fill="#f0c040" opacity=".65"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🏙️ La Splendeur de Bagdad</h2>
+    <p>Il y a plus de mille ans, au cœur du monde arabe, brillait la plus grande ville du monde : <strong>Bagdad</strong>. Et sur son trône d'or siégeait le calife <strong>Haroun al-Rachid</strong>.</p>
+    <p>Bagdad était une merveille : le <strong>Dôme Vert</strong> du palais brillait de loin, le fleuve Tigre reflétait des milliers de lanternes, et des savants, des marchands et des poètes du monde entier s'y retrouvaient.</p>
+    <div class="quote">« Bagdad est le nombril du monde — que toutes les sciences, tous les arts et toutes les richesses y convergent ! »</div>
+    <p>Haroun régna de <strong>786 à 809</strong> après J.-C. Il fit de son empire le centre de l'<em>Âge d'Or de l'Islam</em>. Mais ce qui le rendait vraiment grand, ce n'était pas son palais — c'était son cœur. 🌙✨</p>
+    <div class="lesson">💡 <strong>Leçon :</strong> La vraie grandeur d'un leader se mesure à ce qu'il apporte à son peuple, pas à la taille de son palais.</div>
+  </div>
+</div>
+
+
+<!-- ══ CH 2 : Les Promenades Nocturnes ══ -->
+<div class="chapter ch2">
+  <div class="ch-num">٢</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="nightWalk" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#060810"/>
+          <stop offset="55%"  stop-color="#0e1020"/>
+          <stop offset="100%" stop-color="#1a1838"/>
+        </linearGradient>
+        <radialGradient id="lanternGl" cx="40%" cy="55%" r="45%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#nightWalk)"/>
+      <rect width="340" height="255" fill="url(#lanternGl)"/>
+
+      <!-- stars -->
+      <circle cx="28"  cy="18" r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="75"  cy="30" r="1"   fill="white"   opacity=".7"/>
+      <circle cx="250" cy="20" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="315" cy="38" r="1"   fill="#f0c040" opacity=".7"/>
+      <!-- Moon -->
+      <circle cx="280" cy="50" r="22" fill="#ffe8a0" opacity=".8"/>
+      <circle cx="290" cy="42" r="18" fill="#060810"/>
+
+      <!-- Baghdad alley at night — narrow street -->
+      <rect x="0" y="195" width="340" height="60" fill="#0a0808"/>
+      <!-- cobblestone hints -->
+      <g stroke="#1a1212" stroke-width=".8" opacity=".4">
+        <line x1="0" y1="205" x2="340" y2="205"/>
+        <line x1="0" y1="215" x2="340" y2="215"/>
+        <line x1="0" y1="225" x2="340" y2="225"/>
+        <line x1="40"  y1="195" x2="40"  y2="255"/>
+        <line x1="80"  y1="195" x2="80"  y2="255"/>
+        <line x1="120" y1="195" x2="120" y2="255"/>
+        <line x1="160" y1="195" x2="160" y2="255"/>
+        <line x1="200" y1="195" x2="200" y2="255"/>
+        <line x1="240" y1="195" x2="240" y2="255"/>
+        <line x1="280" y1="195" x2="280" y2="255"/>
+        <line x1="320" y1="195" x2="320" y2="255"/>
+      </g>
+
+      <!-- Buildings both sides of alley -->
+      <g opacity=".85">
+        <!-- left side buildings -->
+        <rect x="0"   y="100" width="95" height="100" fill="#0e0e18" opacity=".9" rx="2"/>
+        <rect x="0"   y="95"  width="98" height="12"  fill="#1a1a28" opacity=".7"/>
+        <!-- windows some lit -->
+        <rect x="12"  y="118" width="18" height="14" fill="#f0c040" rx="2" opacity=".5"/>
+        <rect x="38"  y="122" width="18" height="14" fill="#3a2a08" rx="2" opacity=".4"/>
+        <rect x="62"  y="118" width="18" height="14" fill="#f0c040" rx="2" opacity=".4"/>
+        <!-- arched doorway left -->
+        <rect x="18"  y="158" width="26" height="38" fill="#0a0808" rx="2" opacity=".9"/>
+        <path d="M18,158 Q31,144 44,158" fill="#0a0808" opacity=".9"/>
+        <!-- decorative arch top -->
+        <path d="M16,158 Q31,142 46,158" fill="none" stroke="#c8a04a" stroke-width="1.5" opacity=".4"/>
+        <!-- right side -->
+        <rect x="245" y="100" width="95" height="100" fill="#0e0e18" opacity=".9" rx="2"/>
+        <rect x="242" y="95"  width="98" height="12"  fill="#1a1a28" opacity=".7"/>
+        <rect x="258" y="118" width="18" height="14" fill="#3a2a08" rx="2" opacity=".4"/>
+        <rect x="282" y="118" width="18" height="14" fill="#f0c040" rx="2" opacity=".5"/>
+        <rect x="306" y="122" width="18" height="14" fill="#f0c040" rx="2" opacity=".4"/>
+        <rect x="296" y="158" width="26" height="38" fill="#0a0808" rx="2" opacity=".9"/>
+        <path d="M296,158 Q309,144 322,158" fill="#0a0808" opacity=".9"/>
+        <path d="M294,158 Q309,142 324,158" fill="none" stroke="#c8a04a" stroke-width="1.5" opacity=".4"/>
+      </g>
+
+      <!-- LANTERN carried — lighting the night -->
+      <g transform="translate(148,168)">
+        <!-- lantern string -->
+        <line x1="0" y1="-20" x2="0" y2="-5" stroke="#c8a04a" stroke-width="1.5"/>
+        <!-- lantern body brass -->
+        <polygon points="-8,-5 8,-5 11,22 4,30 -4,30 -11,22" fill="#c8a04a" opacity=".8"/>
+        <!-- glass panels -->
+        <polygon points="-6,-3 6,-3 9,20 3,28 -3,28 -9,20" fill="#f0c040" opacity=".7"/>
+        <circle cx="0" cy="13" r="6" fill="#fffbe6" opacity=".8"/>
+        <!-- light glow from lantern -->
+        <circle cx="0" cy="13" r="25" fill="#f0c040" opacity=".12"/>
+        <circle cx="0" cy="13" r="40" fill="#f0c040" opacity=".06"/>
+        <!-- light rays on ground -->
+        <line x1="0" y1="30" x2="0"   y2="82" stroke="#f0c040" stroke-width="2" opacity=".15" stroke-linecap="round"/>
+        <line x1="-15" y1="35" x2="-35" y2="75" stroke="#f0c040" stroke-width="1.5" opacity=".1"/>
+        <line x1="15"  y1="35" x2="35"  y2="75" stroke="#f0c040" stroke-width="1.5" opacity=".1"/>
+      </g>
+
+      <!-- HAROUN AL-RACHID disguised as a common man — walking incognito -->
+      <g transform="translate(130,182)">
+        <!-- simple cloak disguise — dark hooded -->
+        <path d="M-16,8 Q-12,60 0,64 Q12,60 16,8 Z" fill="#2a2a3a"/>
+        <!-- hood pulled down -->
+        <path d="M-20,4 Q-14,62 -8,66 Q-14,58 -18,8 Z" fill="#1a1a2a" opacity=".9"/>
+        <path d="M20,4 Q14,62 8,66 Q14,58 18,8 Z"  fill="#1a1a2a" opacity=".9"/>
+        <!-- hood covering head — incognito! -->
+        <path d="M-18,-5 Q0,-28 18,-5 L20,8 Q0,12 -20,8 Z" fill="#1a1a2a" opacity=".95"/>
+        <!-- face partially showing in lantern light -->
+        <circle cx="0" cy="-2" r="11" fill="#c8906a"/>
+        <!-- beard peeking from hood -->
+        <ellipse cx="0" cy="5" rx="8" ry="5" fill="#1a1a1a" opacity=".7"/>
+        <!-- eyes — sharp intelligent observing -->
+        <circle cx="-4" cy="-3" r="2.5" fill="#1a1a1a"/>
+        <circle cx="4"  cy="-3" r="2.5" fill="#1a1a1a"/>
+        <circle cx="-3" cy="-4" r="1"   fill="white" opacity=".5"/>
+        <!-- arm holding lantern (other figure holds it) -->
+        <line x1="16" y1="12" x2="32" y2="8"  stroke="#2a2a3a" stroke-width="7" stroke-linecap="round"/>
+        <!-- walking -->
+        <line x1="-8" y1="62" x2="-12" y2="78" stroke="#2a2a3a" stroke-width="6" stroke-linecap="round"/>
+        <line x1="8"  y1="62" x2="12"  y2="76" stroke="#2a2a3a" stroke-width="6" stroke-linecap="round"/>
+      </g>
+
+      <!-- Companion Masrur (bodyguard disguised) behind -->
+      <g transform="translate(195,188)" opacity=".75">
+        <path d="M-12,6 Q-8,48 0,50 Q8,48 12,6 Z" fill="#3a3a4a"/>
+        <path d="M-20,2 Q-16,50 -6,54 Q-12,46 -14,6 Z" fill="#2a2a3a" opacity=".9"/>
+        <path d="M-16,-4 Q0,-24 16,-4 L18,6 Q0,10 -18,6 Z" fill="#1a1a2a" opacity=".95"/>
+        <circle cx="0" cy="-2" r="10" fill="#c8906a" opacity=".8"/>
+        <circle cx="-3" cy="-3" r="2" fill="#1a1a1a"/>
+        <circle cx="3"  cy="-3" r="2" fill="#1a1a1a"/>
+        <line x1="-12" y1="8" x2="-24" y2="4"  stroke="#3a3a4a" stroke-width="6" stroke-linecap="round"/>
+      </g>
+
+      <!-- A poor man sleeping in alley — whom Haroun notices -->
+      <g transform="translate(55,208)" opacity=".8">
+        <!-- sleeping mat -->
+        <rect x="-20" y="0" width="50" height="10" fill="#3a2808" rx="2" opacity=".6"/>
+        <!-- person sleeping horizontal -->
+        <path d="M-18,2 Q10,-2 28,3 L27,9 Q10,4 -17,8 Z" fill="#5a3818" opacity=".8"/>
+        <circle cx="-20" cy="3" r="8" fill="#c8906a" opacity=".8"/>
+        <!-- ragged clothing hint -->
+        <path d="M-8,2 Q5,-3 20,2" fill="#4a2a10" opacity=".5"/>
+        <!-- worn sandals -->
+        <ellipse cx="25" cy="7" rx="8" ry="3" fill="#3a2010" opacity=".6"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌙 Le Calife dans les Ruelles</h2>
+    <p>Haroun al-Rachid faisait quelque chose d'extraordinaire : chaque nuit, il enfilait une simple cape sombre et parcourait <strong>incognito</strong> les ruelles de Bagdad, accompagné de son fidèle vizir Ja'far et son garde Masrour.</p>
+    <p>Il voulait voir la vraie vie de son peuple — les pauvres dormant dans les ruelles, les marchands lésés, les malades sans aide. Aucun serviteur ne pouvait lui mentir ou l'embellir.</p>
+    <div class="quote">« Un roi qui ne connaît pas la vie de ses sujets ne mérite pas de les gouverner. »</div>
+    <p>Grâce à ces promenades, il découvrit des injustices, des besoins cachés, des gens oubliés — et le lendemain matin, il agissait pour corriger chaque situation. 🏮</p>
+    <div class="lesson">💡 <strong>Leçon :</strong> Un bon leader écoute directement ceux qu'il gouverne — sans intermédiaires, sans filtres, sans fard.</div>
+  </div>
+</div>
+
+
+<!-- ══ CH 3 : La Générosité Sans Limites ══ -->
+<div class="chapter ch3">
+  <div class="ch-num">٣</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="genSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0a1808"/>
+          <stop offset="55%"  stop-color="#1a3010"/>
+          <stop offset="100%" stop-color="#2a5020"/>
+        </linearGradient>
+        <radialGradient id="genGlow" cx="50%" cy="45%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".3"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#genSky)"/>
+      <rect width="340" height="255" fill="url(#genGlow)"/>
+
+      <!-- stars -->
+      <circle cx="25"  cy="18" r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="295" cy="22" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="155" cy="12" r="1"   fill="white"   opacity=".55"/>
+      <!-- Moon -->
+      <circle cx="285" cy="50" r="22" fill="#ffe8a0" opacity=".8"/>
+      <circle cx="294" cy="42" r="18" fill="#0a1808"/>
+
+      <!-- Market / hospital scene day -->
+      <rect x="0" y="205" width="340" height="50" fill="#1a2808"/>
+      <!-- grass and gardens (Haroun built gardens and hospitals) -->
+      <path d="M0,207 Q85,197 170,207 Q255,217 340,207" fill="#2a4010" opacity=".5"/>
+      <!-- flowers -->
+      <circle cx="30"  cy="208" r="3" fill="#ff9999" opacity=".7"/>
+      <circle cx="55"  cy="206" r="3" fill="#f0c040" opacity=".6"/>
+      <circle cx="280" cy="208" r="3" fill="#ff88cc" opacity=".7"/>
+      <circle cx="305" cy="206" r="3" fill="#88ddff" opacity=".6"/>
+
+      <!-- HOSPITAL building (Haroun built one of the first public hospitals) -->
+      <g transform="translate(85,165)">
+        <!-- building -->
+        <rect x="-55" y="-50" width="110" height="90" fill="#0a1a0a" rx="3" opacity=".85"/>
+        <rect x="-50" y="-45" width="100" height="80" fill="#0e1e0e" rx="2" opacity=".7"/>
+        <!-- arch entrance -->
+        <rect x="-18" y="-15" width="36" height="55" fill="#0a0a0a" rx="2" opacity=".9"/>
+        <path d="M-18,-15 Q0,-36 18,-15" fill="#0a0a0a" opacity=".9"/>
+        <path d="M-20,-15 Q0,-38 20,-15" fill="none" stroke="#c8a04a" stroke-width="2" opacity=".5"/>
+        <!-- cross/crescent sign — hospital -->
+        <circle cx="0" cy="-38" r="8" fill="none" stroke="#f0c040" stroke-width="2" opacity=".5"/>
+        <!-- windows with patients visible -->
+        <rect x="-42" y="-35" width="14" height="12" fill="#f0c040" rx="1" opacity=".5"/>
+        <rect x="-42" y="-18" width="14" height="12" fill="#f0c040" rx="1" opacity=".5"/>
+        <rect x="28"  y="-35" width="14" height="12" fill="#f0c040" rx="1" opacity=".5"/>
+        <rect x="28"  y="-18" width="14" height="12" fill="#f0c040" rx="1" opacity=".5"/>
+        <!-- writing above hospital "Dar al-Shifa" -->
+        <text x="0" y="-52" text-anchor="middle" font-size="8" fill="#c8a04a" opacity=".5" font-family="serif">دار الشفاء</text>
+      </g>
+
+      <!-- HAROUN distributing gold coins to the poor -->
+      <g transform="translate(210,178)">
+        <!-- robe royal -->
+        <path d="M-18,8 Q-14,56 0,60 Q14,56 18,8 Z" fill="#1a5a8a"/>
+        <path d="M-30,4 Q-24,58 -8,62 Q-16,54 -22,8 Z" fill="#c8a04a" opacity=".8"/>
+        <path d="M30,4 Q24,58 8,62 Q16,54 22,8 Z"  fill="#c8a04a" opacity=".8"/>
+        <!-- arm pouring coins from pouch -->
+        <line x1="-18" y1="12" x2="-48" y2="5" stroke="#1a5a8a" stroke-width="8" stroke-linecap="round"/>
+        <!-- coin pouch -->
+        <ellipse cx="-52" cy="4" rx="12" ry="9" fill="#c8a04a" opacity=".8"/>
+        <!-- coins falling / raining gold -->
+        <g fill="#f0c040" opacity=".8">
+          <circle cx="-58" cy="20" r="4"/>
+          <circle cx="-65" cy="32" r="3.5"/>
+          <circle cx="-70" cy="46" r="4"/>
+          <circle cx="-60" cy="55" r="3"/>
+          <circle cx="-52" cy="44" r="3.5"/>
+          <!-- coin glow -->
+          <circle cx="-58" cy="20" r="6"  fill="#f0c040" opacity=".2"/>
+          <circle cx="-65" cy="32" r="5"  fill="#f0c040" opacity=".2"/>
+          <circle cx="-70" cy="46" r="6"  fill="#f0c040" opacity=".2"/>
+        </g>
+        <!-- other arm raised in blessing -->
+        <line x1="18"  y1="12" x2="38"  y2="4"  stroke="#1a5a8a" stroke-width="8" stroke-linecap="round"/>
+        <ellipse cx="41" cy="3" rx="7" ry="5" fill="#c8906a" transform="rotate(10,41,3)"/>
+        <!-- head turban -->
+        <circle cx="0" cy="-10" r="16" fill="#c8906a"/>
+        <ellipse cx="0" cy="-22" rx="17" ry="8" fill="#1a5a8a"/>
+        <ellipse cx="0" cy="-24" rx="13" ry="5" fill="#2a6a9a" opacity=".8"/>
+        <circle cx="0" cy="-28" r="5" fill="#f0c040" opacity=".9"/>
+        <circle cx="0" cy="-28" r="3" fill="#e74c3c" opacity=".8"/>
+        <!-- beard -->
+        <ellipse cx="0" cy="2" rx="9" ry="7" fill="#1a1a1a" opacity=".7"/>
+        <!-- generous warm eyes -->
+        <circle cx="-5.5" cy="-11" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5.5"  cy="-11" r="2.5" fill="#1a1a1a"/>
+        <path d="M-5,-3 Q0,2 5,-3" stroke="#7a3a10" stroke-width="2" fill="none"/>
+      </g>
+
+      <!-- Poor people receiving — various figures -->
+      <g transform="translate(45,205)" opacity=".82">
+        <!-- family — man, woman, child -->
+        <circle cx="0"  cy="-18" r="7"  fill="#d4a57a"/>
+        <rect x="-7"  y="-12" width="14" height="15" fill="#8b4a10" rx="1"/>
+        <!-- arms reaching gratefully -->
+        <line x1="7"  y1="-6" x2="18" y2="-15" stroke="#8b4a10" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="24" cy="-16" r="6" fill="#c8906a"/>
+        <rect x="17"  y="-11" width="12" height="13" fill="#c0392b" rx="1"/>
+        <!-- child -->
+        <circle cx="42" cy="-12" r="5" fill="#d4a57a"/>
+        <rect x="38"  y="-8"  width="10" height="10" fill="#ff9999" rx="1"/>
+        <circle cx="-2.5" cy="-19" r="2" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-19" r="2" fill="#1a1a1a"/>
+        <!-- happy grateful smiles -->
+        <path d="M-2,-12 Q0,-8 2,-12" stroke="#7a3a10" stroke-width="1" fill="none"/>
+        <path d="M22,-6 Q24,-3 26,-6"  stroke="#7a3a10" stroke-width="1" fill="none"/>
+      </g>
+
+      <!-- scholar receiving support (Haroun funded scholars) -->
+      <g transform="translate(290,202)" opacity=".75">
+        <circle cx="0"  cy="-16" r="6.5" fill="#d4a57a"/>
+        <rect x="-6"  y="-11" width="13" height="14" fill="#6b3fa0" rx="1"/>
+        <!-- books under arm (scholar) -->
+        <line x1="-6" y1="-4" x2="-20" y2="0" stroke="#6b3fa0" stroke-width="5" stroke-linecap="round"/>
+        <rect x="-26" y="-4" width="14" height="10" fill="#c8a04a" rx="1" opacity=".8"/>
+        <!-- receiving coins gratefully -->
+        <line x1="6"  y1="-4" x2="18"  y2="-12" stroke="#6b3fa0" stroke-width="5" stroke-linecap="round"/>
+        <ellipse cx="20" cy="-14" rx="6" ry="4" fill="#c8906a" transform="rotate(10,20,-14)"/>
+        <circle cx="-2.5" cy="-17" r="1.8" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-17" r="1.8" fill="#1a1a1a"/>
+        <path d="M-2,-10 Q0,-7 2,-10" stroke="#7a3a10" stroke-width="1" fill="none"/>
+      </g>
+
+      <!-- golden sparkles of generosity -->
+      <circle cx="155" cy="140" r="2.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="178" cy="128" r="2"   fill="#f0c040" opacity=".7"/>
+      <circle cx="200" cy="140" r="2.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="167" cy="118" r="2"   fill="#f0c040" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">💰 La Générosité Sans Mesure</h2>
+    <p>Haroun al-Rachid était connu pour une générosité que l'histoire n'avait jamais vue. Il distribuait chaque jour des <strong>bourses d'or</strong> aux pauvres, aux veuves et aux orphelins.</p>
+    <p>Il fit construire le premier grand <strong>hôpital public</strong> de l'Islam — le <em>Dar al-Shifa</em> — où riches et pauvres étaient soignés gratuitement. Il fiança les jeunes gens sans ressources et prit en charge les familles dans le besoin.</p>
+    <div class="quote">« L'or que je garde sans le dépenser pour mon peuple est un crime. »</div>
+    <p>On raconte qu'il faisait personnellement le pèlerinage à pied à La Mecque, portant son propre sac — pour ne jamais oublier ce qu'est l'humilité. 🕋💛</p>
+    <div class="lesson">💡 <strong>Leçon :</strong> La richesse a une valeur seulement quand elle circule — elle grandit celui qui donne et élève celui qui reçoit.</div>
+  </div>
+</div>
+
+
+<!-- ══ CH 4 : L'Âge d'Or du Savoir ══ -->
+<div class="chapter ch4">
+  <div class="ch-num">٤</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="libSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#08080e"/>
+          <stop offset="55%"  stop-color="#1a1030"/>
+          <stop offset="100%" stop-color="#2a1850"/>
+        </linearGradient>
+        <radialGradient id="libGlow" cx="55%" cy="45%" r="50%">
+          <stop offset="0%"   stop-color="#d4a0ff" stop-opacity=".25"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="candleGl" cx="50%" cy="55%" r="40%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#libSky)"/>
+      <rect width="340" height="255" fill="url(#libGlow)"/>
+      <rect width="340" height="255" fill="url(#candleGl)"/>
+
+      <!-- Stars -->
+      <circle cx="25"  cy="18" r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="78"  cy="28" r="1"   fill="white"   opacity=".7"/>
+      <circle cx="280" cy="20" r="1.5" fill="#d4a0ff" opacity=".8"/>
+      <circle cx="318" cy="38" r="1"   fill="white"   opacity=".65"/>
+
+      <!-- BAYT AL-HIKMA (House of Wisdom) library interior -->
+      <!-- floor ornate tiles -->
+      <rect x="0" y="200" width="340" height="55" fill="#0a0818"/>
+      <g stroke="#1a1030" stroke-width=".8" opacity=".4">
+        <line x1="40"  y1="200" x2="40"  y2="255"/>
+        <line x1="80"  y1="200" x2="80"  y2="255"/>
+        <line x1="120" y1="200" x2="120" y2="255"/>
+        <line x1="160" y1="200" x2="160" y2="255"/>
+        <line x1="200" y1="200" x2="200" y2="255"/>
+        <line x1="240" y1="200" x2="240" y2="255"/>
+        <line x1="280" y1="200" x2="280" y2="255"/>
+        <line x1="320" y1="200" x2="320" y2="255"/>
+        <line x1="0"   y1="228" x2="340" y2="228"/>
+      </g>
+
+      <!-- arched ceiling of library / hall -->
+      <path d="M0,100 Q170,30 340,100" fill="none" stroke="#c8a04a" stroke-width="1.5" opacity=".2"/>
+      <path d="M0,110 Q170,42 340,110" fill="none" stroke="#c8a04a" stroke-width="1" opacity=".15"/>
+
+      <!-- BOOKSHELVES lining the walls -->
+      <!-- left shelves -->
+      <g opacity=".7">
+        <rect x="0" y="100" width="55" height="105" fill="#1a0e08" opacity=".8"/>
+        <!-- shelves -->
+        <line x1="0" y1="120" x2="55" y2="120" stroke="#5a3a18" stroke-width="2"/>
+        <line x1="0" y1="142" x2="55" y2="142" stroke="#5a3a18" stroke-width="2"/>
+        <line x1="0" y1="164" x2="55" y2="164" stroke="#5a3a18" stroke-width="2"/>
+        <line x1="0" y1="186" x2="55" y2="186" stroke="#5a3a18" stroke-width="2"/>
+        <!-- books on shelves (coloured spines) -->
+        <g>
+          <rect x="2"  y="108" width="6"  height="12" fill="#c0392b" rx="1"/>
+          <rect x="10" y="106" width="6"  height="14" fill="#c8a04a" rx="1"/>
+          <rect x="18" y="109" width="5"  height="11" fill="#1a5a8a" rx="1"/>
+          <rect x="25" y="107" width="6"  height="13" fill="#1a6b4a" rx="1"/>
+          <rect x="33" y="108" width="5"  height="12" fill="#6b3fa0" rx="1"/>
+          <rect x="40" y="106" width="6"  height="14" fill="#c0392b" rx="1"/>
+          <rect x="2"  y="130" width="6"  height="12" fill="#1a5a8a" rx="1"/>
+          <rect x="10" y="128" width="6"  height="14" fill="#c8a04a" rx="1"/>
+          <rect x="18" y="131" width="5"  height="11" fill="#6b3fa0" rx="1"/>
+          <rect x="25" y="129" width="6"  height="13" fill="#c0392b" rx="1"/>
+          <rect x="33" y="130" width="5"  height="12" fill="#1a6b4a" rx="1"/>
+          <rect x="2"  y="152" width="6"  height="12" fill="#6b3fa0" rx="1"/>
+          <rect x="10" y="150" width="6"  height="14" fill="#1a6b4a" rx="1"/>
+          <rect x="18" y="153" width="5"  height="11" fill="#c8a04a" rx="1"/>
+          <rect x="25" y="151" width="6"  height="13" fill="#1a5a8a" rx="1"/>
+          <rect x="33" y="152" width="5"  height="12" fill="#c0392b" rx="1"/>
+          <rect x="40" y="150" width="6"  height="14" fill="#6b3fa0" rx="1"/>
+          <rect x="2"  y="172" width="6"  height="14" fill="#c8a04a" rx="1"/>
+          <rect x="10" y="174" width="6"  height="12" fill="#c0392b" rx="1"/>
+          <rect x="18" y="173" width="5"  height="13" fill="#1a6b4a" rx="1"/>
+          <rect x="25" y="172" width="6"  height="14" fill="#6b3fa0" rx="1"/>
+        </g>
+      </g>
+      <!-- right shelves -->
+      <g opacity=".7">
+        <rect x="285" y="100" width="55" height="105" fill="#1a0e08" opacity=".8"/>
+        <line x1="285" y1="120" x2="340" y2="120" stroke="#5a3a18" stroke-width="2"/>
+        <line x1="285" y1="142" x2="340" y2="142" stroke="#5a3a18" stroke-width="2"/>
+        <line x1="285" y1="164" x2="340" y2="164" stroke="#5a3a18" stroke-width="2"/>
+        <line x1="285" y1="186" x2="340" y2="186" stroke="#5a3a18" stroke-width="2"/>
+        <g>
+          <rect x="286" y="108" width="6"  height="12" fill="#1a5a8a" rx="1"/>
+          <rect x="294" y="106" width="6"  height="14" fill="#c0392b" rx="1"/>
+          <rect x="302" y="109" width="5"  height="11" fill="#c8a04a" rx="1"/>
+          <rect x="309" y="107" width="6"  height="13" fill="#6b3fa0" rx="1"/>
+          <rect x="317" y="108" width="5"  height="12" fill="#1a6b4a" rx="1"/>
+          <rect x="286" y="130" width="6"  height="12" fill="#6b3fa0" rx="1"/>
+          <rect x="294" y="128" width="6"  height="14" fill="#1a6b4a" rx="1"/>
+          <rect x="302" y="131" width="5"  height="11" fill="#c0392b" rx="1"/>
+          <rect x="309" y="129" width="6"  height="13" fill="#c8a04a" rx="1"/>
+          <rect x="317" y="130" width="5"  height="12" fill="#1a5a8a" rx="1"/>
+          <rect x="286" y="152" width="6"  height="12" fill="#c8a04a" rx="1"/>
+          <rect x="294" y="150" width="6"  height="14" fill="#6b3fa0" rx="1"/>
+          <rect x="302" y="153" width="5"  height="11" fill="#1a5a8a" rx="1"/>
+          <rect x="309" y="151" width="6"  height="13" fill="#c0392b" rx="1"/>
+          <rect x="286" y="174" width="6"  height="12" fill="#1a6b4a" rx="1"/>
+          <rect x="294" y="172" width="6"  height="14" fill="#c8a04a" rx="1"/>
+          <rect x="302" y="173" width="5"  height="13" fill="#6b3fa0" rx="1"/>
+        </g>
+      </g>
+
+      <!-- SCHOLARS gathered around HAROUN — discussing / teaching -->
+      <!-- Central candlelit table -->
+      <g transform="translate(170,195)">
+        <!-- table -->
+        <rect x="-60" y="-5" width="120" height="15" fill="#3a2808" rx="3" opacity=".8"/>
+        <rect x="-55" y="10" width="110" height="5"  fill="#2a1808" rx="2" opacity=".7"/>
+        <!-- candles and manuscripts on table -->
+        <!-- candle 1 -->
+        <line x1="-40" y1="-5" x2="-40" y2="-22" stroke="#f5e6c8" stroke-width="4" stroke-linecap="round"/>
+        <line x1="-40" y1="-22" x2="-40" y2="-30" stroke="#f0c040" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+        <circle cx="-40" cy="-32" r="4" fill="#f0c040" opacity=".7"/>
+        <circle cx="-40" cy="-32" r="10" fill="#f0c040" opacity=".12"/>
+        <!-- candle 2 -->
+        <line x1="40"  y1="-5" x2="40"  y2="-22" stroke="#f5e6c8" stroke-width="4" stroke-linecap="round"/>
+        <line x1="40"  y1="-22" x2="40"  y2="-30" stroke="#f0c040" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+        <circle cx="40"  cy="-32" r="4" fill="#f0c040" opacity=".7"/>
+        <circle cx="40"  cy="-32" r="10" fill="#f0c040" opacity=".12"/>
+        <!-- manuscripts on table -->
+        <rect x="-30" y="-7" width="28" height="10" fill="#f5e6c8" rx="1" opacity=".6"/>
+        <rect x="2"   y="-7" width="28" height="10" fill="#f5e6c8" rx="1" opacity=".6"/>
+        <!-- writing lines on manuscripts -->
+        <line x1="-28" y1="-3" x2="-4" y2="-3" stroke="#8b5e20" stroke-width="1" opacity=".5"/>
+        <line x1="-28" y1="0"  x2="-4" y2="0"  stroke="#8b5e20" stroke-width="1" opacity=".5"/>
+        <line x1="4"   y1="-3" x2="28" y2="-3" stroke="#8b5e20" stroke-width="1" opacity=".5"/>
+        <line x1="4"   y1="0"  x2="28" y2="0"  stroke="#8b5e20" stroke-width="1" opacity=".5"/>
+      </g>
+
+      <!-- HAROUN at center presiding over scholars -->
+      <g transform="translate(170,160)">
+        <path d="M-14,6 Q-10,38 0,40 Q10,38 14,6 Z" fill="#1a5a8a"/>
+        <path d="M-24,2 Q-18,40 -6,44 Q-12,36 -16,6 Z" fill="#c8a04a" opacity=".8"/>
+        <path d="M24,2 Q18,40 6,44 Q12,36 16,6 Z"  fill="#c8a04a" opacity=".8"/>
+        <line x1="-14" y1="8" x2="-32" y2="2" stroke="#1a5a8a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="14"  y1="8" x2="32"  y2="2" stroke="#1a5a8a" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="0" cy="-8" r="13" fill="#c8906a"/>
+        <ellipse cx="0" cy="-18" rx="13" ry="6" fill="#1a5a8a"/>
+        <ellipse cx="0" cy="-20" rx="10" ry="4" fill="#2a6a9a" opacity=".8"/>
+        <circle cx="0" cy="-23" r="4" fill="#f0c040" opacity=".9"/>
+        <circle cx="0" cy="-23" r="2.5" fill="#e74c3c" opacity=".8"/>
+        <ellipse cx="0" cy="2"  rx="8" ry="6" fill="#1a1a1a" opacity=".7"/>
+        <circle cx="-4.5" cy="-9" r="2.2" fill="#1a1a1a"/>
+        <circle cx="4.5"  cy="-9" r="2.2" fill="#1a1a1a"/>
+        <path d="M-4,-2 Q0,2 4,-2" stroke="#7a3a10" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- Scholars — diversity (Greek, Persian, Arab, Indian) -->
+      <g transform="translate(75,178)" opacity=".85">
+        <circle cx="0" cy="-14" r="6.5" fill="#d4a57a"/>
+        <rect x="-6" y="-9" width="13" height="13" fill="#1a5a8a" rx="1"/>
+        <path d="M-6,-14 Q0,-24 6,-14 L7,-8 Q0,-6 -7,-8 Z" fill="#1a5a8a" opacity=".9"/>
+        <!-- scroll in hand -->
+        <line x1="6" y1="-4" x2="18" y2="-8" stroke="#1a5a8a" stroke-width="5" stroke-linecap="round"/>
+        <rect x="18" y="-12" width="16" height="10" fill="#f5e6c8" rx="1" opacity=".8"/>
+        <circle cx="-2.5" cy="-15" r="1.8" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-15" r="1.8" fill="#1a1a1a"/>
+      </g>
+      <g transform="translate(255,178)" opacity=".85">
+        <circle cx="0" cy="-14" r="6.5" fill="#c8906a"/>
+        <rect x="-6" y="-9" width="13" height="13" fill="#6b3fa0" rx="1"/>
+        <path d="M-6,-14 Q0,-24 6,-14 L7,-8 Q0,-6 -7,-8 Z" fill="#6b3fa0" opacity=".9"/>
+        <line x1="-6" y1="-4" x2="-18" y2="-8" stroke="#6b3fa0" stroke-width="5" stroke-linecap="round"/>
+        <rect x="-34" y="-12" width="16" height="10" fill="#f5e6c8" rx="1" opacity=".8"/>
+        <circle cx="-2.5" cy="-15" r="1.8" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-15" r="1.8" fill="#1a1a1a"/>
+      </g>
+      <g transform="translate(118,185)" opacity=".8">
+        <circle cx="0" cy="-14" r="6"  fill="#d4b080"/>
+        <rect x="-6" y="-9" width="12" height="12" fill="#c0392b" rx="1"/>
+        <path d="M-6,-14 Q0,-22 6,-14 L7,-7 Q0,-5 -7,-7 Z" fill="#c0392b" opacity=".8"/>
+        <circle cx="-2" cy="-15" r="1.5" fill="#1a1a1a"/>
+        <circle cx="2"  cy="-15" r="1.5" fill="#1a1a1a"/>
+      </g>
+      <g transform="translate(222,185)" opacity=".8">
+        <circle cx="0" cy="-14" r="6"  fill="#d4a57a"/>
+        <rect x="-6" y="-9" width="12" height="12" fill="#1a6b4a" rx="1"/>
+        <path d="M-6,-14 Q0,-22 6,-14 L7,-7 Q0,-5 -7,-7 Z" fill="#1a6b4a" opacity=".8"/>
+        <circle cx="-2" cy="-15" r="1.5" fill="#1a1a1a"/>
+        <circle cx="2"  cy="-15" r="1.5" fill="#1a1a1a"/>
+      </g>
+
+      <!-- purple/golden sparkles of knowledge -->
+      <circle cx="100" cy="130" r="2.5" fill="#d4a0ff" opacity=".7"/>
+      <circle cx="240" cy="125" r="2.5" fill="#d4a0ff" opacity=".7"/>
+      <circle cx="170" cy="110" r="3"   fill="#f0c040" opacity=".75"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">📚 La Maison de la Sagesse</h2>
+    <p>Haroun al-Rachid fonda la légendaire <strong>Bayt al-Hikma</strong> — la <em>Maison de la Sagesse</em> — la plus grande bibliothèque et académie du monde. Des savants grecs, persans, indiens et arabes y travaillaient ensemble.</p>
+    <p>On y traduisit Aristote, Platon, Euclide. On y inventa l'algèbre, l'optique, la médecine moderne. Haroun payait personnellement les savants — certains recevaient leur poids en or !</p>
+    <div class="quote">« L'encre du savant est plus sacrée que le sang du martyr. »</div>
+    <p>Sous son règne, Bagdad devint la capitale mondiale de la science. Ce que l'Europe redécouvrira des siècles plus tard, l'Islam le vivait déjà. 🌍📜</p>
+    <div class="lesson">💡 <strong>Leçon :</strong> Investir dans le savoir, c'est investir dans l'avenir de toute l'humanité. La science n'a pas de frontières.</div>
+  </div>
+</div>
+
+
+<!-- ══ CH 5 : La Justice et l'Héritage ══ -->
+<div class="chapter ch5">
+  <div class="ch-num">٥</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="legSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a1008"/>
+          <stop offset="40%"  stop-color="#2a1a08"/>
+          <stop offset="100%" stop-color="#c8a04a"/>
+        </linearGradient>
+        <radialGradient id="legGlow" cx="50%" cy="50%" r="55%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#legSky)"/>
+      <rect width="340" height="255" fill="url(#legGlow)"/>
+
+      <!-- dawn stars -->
+      <circle cx="25"  cy="18" r="1.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="78"  cy="14" r="1.5" fill="white"   opacity=".6"/>
+      <circle cx="275" cy="18" r="1.5" fill="white"   opacity=".6"/>
+      <circle cx="320" cy="30" r="1"   fill="#f0c040" opacity=".6"/>
+
+      <!-- sunrise Baghdad -->
+      <circle cx="170" cy="195" r="58"  fill="#f0c040" opacity=".2"/>
+      <circle cx="170" cy="200" r="44"  fill="#ff8800" opacity=".22"/>
+      <circle cx="170" cy="205" r="32"  fill="#f0c040" opacity=".32"/>
+      <g opacity=".14">
+        <line x1="115" y1="192" x2="75"  y2="188" stroke="#f0c040" stroke-width="2"/>
+        <line x1="225" y1="192" x2="265" y2="188" stroke="#f0c040" stroke-width="2"/>
+        <line x1="112" y1="178" x2="76"  y2="170" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="228" y1="178" x2="264" y2="170" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="128" y1="164" x2="105" y2="150" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="212" y1="164" x2="235" y2="150" stroke="#f0c040" stroke-width="1.5"/>
+      </g>
+
+      <!-- Baghdad skyline golden hour -->
+      <polygon points="0,195 45,160 105,182 175,152 250,172 310,150 340,165 340,255 0,255"
+               fill="#2a1808" opacity=".9"/>
+      <rect x="0" y="225" width="340" height="30" fill="#3a2008"/>
+
+      <!-- Baghdad silhouette with domes and minarets -->
+      <g opacity=".75">
+        <!-- left area buildings -->
+        <rect x="15"  y="168" width="16" height="30" fill="#1a1008" rx="1"/>
+        <rect x="35"  y="162" width="14" height="36" fill="#1a1008" rx="1"/>
+        <!-- centre PALACE with green dome -->
+        <rect x="108" y="150" width="124" height="50" fill="#0a1a0a" rx="3" opacity=".9"/>
+        <path d="M108,150 Q170,108 232,150 Z" fill="#1a6b4a" opacity=".9"/>
+        <ellipse cx="170" cy="150" rx="62" ry="16" fill="#1a6b4a" opacity=".6"/>
+        <line x1="170" y1="106" x2="170" y2="92"  stroke="#c9960c" stroke-width="2.5"/>
+        <circle cx="170" cy="90"  r="6" fill="#f0c040" opacity=".9"/>
+        <!-- minarets main -->
+        <rect x="98"  y="128" width="14" height="52" fill="#0e1808" rx="2" opacity=".9"/>
+        <path d="M98,128 Q105,114 112,128 Z" fill="#1a6b4a" opacity=".8"/>
+        <line x1="105" y1="112" x2="105" y2="98" stroke="#c9960c" stroke-width="2"/>
+        <circle cx="105" cy="96" r="5" fill="#f0c040" opacity=".9"/>
+        <rect x="228" y="128" width="14" height="52" fill="#0e1808" rx="2" opacity=".9"/>
+        <path d="M228,128 Q235,114 242,128 Z" fill="#1a6b4a" opacity=".8"/>
+        <line x1="235" y1="112" x2="235" y2="98" stroke="#c9960c" stroke-width="2"/>
+        <circle cx="235" cy="96" r="5" fill="#f0c040" opacity=".9"/>
+        <!-- windows lit gold -->
+        <rect x="148" y="165" width="14" height="12" fill="#f0c040" rx="2" opacity=".6"/>
+        <rect x="168" y="165" width="14" height="12" fill="#f0c040" rx="2" opacity=".6"/>
+        <rect x="188" y="165" width="14" height="12" fill="#f0c040" rx="2" opacity=".6"/>
+        <!-- right buildings -->
+        <rect x="295" y="168" width="16" height="30" fill="#1a1008" rx="1"/>
+        <rect x="275" y="162" width="14" height="36" fill="#1a1008" rx="1"/>
+      </g>
+
+      <!-- HAROUN on throne — presiding over court of justice -->
+      <g transform="translate(170,168)">
+        <!-- throne ornate -->
+        <rect x="-28" y="-35" width="56" height="70" fill="#c8a04a" rx="5" opacity=".75"/>
+        <rect x="-24" y="-30" width="48" height="60" fill="#d4b060" rx="4" opacity=".5"/>
+        <rect x="-34" y="-12" width="12" height="8" fill="#c8a040" rx="2" opacity=".7"/>
+        <rect x="22"  y="-12" width="12" height="8" fill="#c8a040" rx="2" opacity=".7"/>
+        <path d="M-28,-35 Q0,-52 28,-35" fill="#c8a040" opacity=".75"/>
+        <circle cx="-12" cy="-45" r="4" fill="#e74c3c" opacity=".9"/>
+        <circle cx="0"   cy="-48" r="4" fill="#f0c040" opacity=".95"/>
+        <circle cx="12"  cy="-45" r="4" fill="#3498db" opacity=".9"/>
+        <!-- Haroun seated — calm wise -->
+        <path d="M-16,6 Q-12,32 0,34 Q12,32 16,6 Z" fill="#1a5a8a"/>
+        <path d="M-24,2 Q-18,34 -6,38 Q-14,30 -18,6 Z" fill="#c8a040" opacity=".8"/>
+        <path d="M24,2 Q18,34 6,38 Q14,30 18,6 Z"  fill="#c8a040" opacity=".8"/>
+        <line x1="-16" y1="8" x2="-38" y2="0" stroke="#1a5a8a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="16"  y1="8" x2="36"  y2="0" stroke="#1a5a8a" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="0" cy="-8" r="14" fill="#c8906a"/>
+        <ellipse cx="0" cy="-18" rx="14" ry="6" fill="#1a5a8a"/>
+        <ellipse cx="0" cy="-20" rx="10" ry="4" fill="#2a6a9a" opacity=".8"/>
+        <circle cx="0" cy="-24" r="5" fill="#f0c040" opacity=".9"/>
+        <circle cx="0" cy="-24" r="3" fill="#e74c3c" opacity=".8"/>
+        <ellipse cx="0" cy="2"  rx="8" ry="6" fill="#1a1a1a" opacity=".7"/>
+        <circle cx="-5" cy="-9" r="2.5" fill="#1a1a1a"/>
+        <circle cx="5"  cy="-9" r="2.5" fill="#1a1a1a"/>
+        <path d="M-5,-1 Q0,4 5,-1" stroke="#7a3a10" stroke-width="2" fill="none"/>
+        <!-- divine halo -->
+        <circle cx="0" cy="-8" r="22" fill="none" stroke="#f0c040" stroke-width="1" opacity=".3"/>
+      </g>
+
+      <!-- Diverse crowd — his legacy lives in all of them -->
+      <g transform="translate(55,215)" opacity=".78">
+        <circle cx="0"  cy="-16" r="6.5" fill="#d4a57a"/>
+        <rect x="-6"  y="-11" width="13" height="13" fill="#c0392b" rx="1"/>
+        <line x1="-6"  y1="-5" x2="-16" y2="-14" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
+        <line x1="6"   y1="-5" x2="16"  y2="-14" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="22" cy="-14" r="6"  fill="#c8906a"/>
+        <rect x="16"  y="-9"  width="12" height="12" fill="#6b3fa0" rx="1"/>
+        <circle cx="42" cy="-16" r="6.5" fill="#d4b080"/>
+        <rect x="36"  y="-11" width="13" height="13" fill="#1e6b3a" rx="1"/>
+      </g>
+      <g transform="translate(252,215)" opacity=".75">
+        <circle cx="0"  cy="-16" r="6.5" fill="#d4a57a"/>
+        <rect x="-6"  y="-11" width="13" height="13" fill="#1a5a8a" rx="1"/>
+        <circle cx="22" cy="-14" r="6"  fill="#c8906a"/>
+        <rect x="16"  y="-9"  width="12" height="12" fill="#c9960c" rx="1"/>
+        <circle cx="42" cy="-16" r="6.5" fill="#d4b080"/>
+        <rect x="36"  y="-11" width="13" height="13" fill="#c0392b" rx="1"/>
+      </g>
+
+      <!-- golden sparkles of legacy -->
+      <circle cx="100" cy="138" r="2.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="240" cy="132" r="2.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="170" cy="120" r="3"   fill="#f0c040" opacity=".85"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">⚖️ La Justice et l'Héritage</h2>
+    <p>Haroun al-Rachid rendait la justice personnellement. Il rejetait les privilèges des riches, écoutait les plus pauvres, et n'hésitait pas à punir ses propres proches quand ils commettaient l'injustice.</p>
+    <p>Son règne vit le commerce s'épanouir jusqu'en <strong>Chine</strong> et en <strong>Europe</strong> — il échangeait des ambassadeurs avec <strong>Charlemagne</strong>. Il accomplit le pèlerinage à La Mecque <strong>neuf fois</strong> à pied.</p>
+    <div class="quote">« Le meilleur des califes est celui après lequel son peuple pleure. »</div>
+    <p>Haroun mourut en 809, et son peuple pleura. Il laissa derrière lui des hôpitaux, des bibliothèques, des routes, des mosquées et une civilisation qui inspira le monde entier pendant des siècles. 🌙✨</p>
+    <div class="lesson">💡 <strong>Leçon :</strong> Un leader juste bâtit pour l'avenir. Ce que tu construis avec honnêteté et amour dure bien après toi.</div>
+  </div>
+</div>
+
+
+<!-- ══ ENDING ══ -->
+<div class="ending">
+  <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.07;pointer-events:none"
+       viewBox="0 0 400 300">
+    <defs>
+      <pattern id="arabPat" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+        <polygon points="30,2 38,22 58,22 42,34 48,54 30,42 12,54 18,34 2,22 22,22"
+                 fill="none" stroke="#f0c040" stroke-width=".8"/>
+        <circle cx="30" cy="30" r="10" fill="none" stroke="#c8a04a" stroke-width=".4"/>
+        <polygon points="30,18 34,26 42,26 36,31 38,39 30,34 22,39 24,31 18,26 26,26"
+                 fill="none" stroke="#f0c040" stroke-width=".4" opacity=".5"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="300" fill="url(#arabPat)"/>
+  </svg>
+
+  <div style="font-size:2.5rem;margin-bottom:16px">🌙</div>
+  <h2>✨ Fin ✨</h2>
+  <p>Et voilà l'histoire de Haroun al-Rachid,<br>
+  le calife qui marcha incognito dans ses ruelles,<br>
+  distribua son or aux pauvres,<br>
+  ouvrit les portes du savoir au monde entier.<br><br>
+  Il n'était pas un prophète —<br>
+  mais il appliquait les enseignements des prophètes<br>
+  dans chaque geste de sa vie.</p>
+
+  <div class="lessons-box">
+    <h3>✦ Les Leçons de Haroun ✦</h3>
+    <ul>
+      <li><strong>Connais ton peuple</strong> — Un bon leader descend de son piédestal pour voir la réalité.</li>
+      <li><strong>La générosité enrichit</strong> — Ce qu'on donne revient centuplé sous forme de bénédictions.</li>
+      <li><strong>Le savoir est une lumière</strong> — Investir dans l'éducation, c'est illuminer des générations entières.</li>
+      <li><strong>La justice pour tous</strong> — Personne n'est au-dessus de la loi, même les proches du pouvoir.</li>
+      <li><strong>L'humilité garde l'âme</strong> — Haroun faisait le hajj à pied, malgré tout son pouvoir.</li>
+    </ul>
+  </div>
+
+  <div class="end-star">✦</div>
+</div>
+
+<script>
+  // Stars on cover
+  const cover = document.getElementById('starsCover');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const sz = Math.random() * 2.5 + .5;
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*55}%;
+      width:${sz}px; height:${sz}px;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${1.5+Math.random()*2.5}s;
+    `;
+    cover.appendChild(s);
+  }
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold:.1 }
+  );
+  document.querySelectorAll('.chapter,.ending').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

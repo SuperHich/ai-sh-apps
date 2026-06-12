@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>سمسوم والجسر المكسور | قصة التعاون والعطاء</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a2f2a;
+            font-family: 'Amiri', 'Tajawal', 'Segoe UI', serif;
+            overflow-x: hidden;
+            color: #2c241a;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700;800&family=Tajawal:wght@300;400;500;700;800&display=swap');
+
+        /* HERO SECTION - comme la page d'Ilyès */
+        .hero {
+            min-height: 85vh;
+            background: linear-gradient(135deg, #1a5c44 0%, #0e382a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "🐰🌉";
+            font-size: 22rem;
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: "⭐";
+            font-size: 18rem;
+            position: absolute;
+            top: -80px;
+            right: -60px;
+            opacity: 0.07;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            z-index: 2;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4.2rem;
+            color: #ffefcf;
+            text-shadow: 5px 5px 0 #b45f1b;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            color: #f7e6c4;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: #ffe6b3;
+            font-size: 1.2rem;
+            background: rgba(0,0,0,0.3);
+            display: inline-block;
+            padding: 0.5rem 1.8rem;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffefcf;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.8;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Chapitres - chaque chapitre prend toute la largeur */
+        .chapter {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 3rem;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+
+        /* Alternance des couleurs de fond */
+        .bg-light {
+            background: linear-gradient(125deg, #dcefd0 0%, #c3dfb0 100%);
+        }
+        .bg-warm {
+            background: linear-gradient(125deg, #faf0db 0%, #f5e5c8 100%);
+        }
+        .bg-deep {
+            background: linear-gradient(125deg, #c9e0c2 0%, #b8d6a8 100%);
+        }
+        .bg-moral {
+            background: linear-gradient(125deg, #1f4d38 0%, #123e2c 100%);
+        }
+
+        /* Le texte à l'extérieur d'un cadre (sans bordure, simplement posé) */
+        .chapter-text {
+            flex: 1;
+            min-width: 280px;
+            max-width: 550px;
+        }
+
+        .chapter-number {
+            font-size: 1rem;
+            color: #e6892e;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+            background: rgba(255, 240, 219, 0.8);
+            padding: 0.2rem 1.2rem;
+            border-radius: 50px;
+        }
+
+        .chapter-text h3 {
+            font-size: 2.2rem;
+            color: #3b2a1f;
+            margin-bottom: 1.2rem;
+            font-weight: 800;
+        }
+
+        .chapter-text p {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            margin-bottom: 1.2rem;
+            text-align: justify;
+        }
+
+        .highlight {
+            background: #ffeaac;
+            padding: 0 6px;
+            border-radius: 18px;
+            font-weight: bold;
+            color: #bc6300;
+        }
+
+        .quote {
+            font-style: italic;
+            border-right: 4px solid #e6892e;
+            padding-right: 1rem;
+            margin: 1rem 0;
+            color: #5a4a38;
+            font-weight: 500;
+        }
+
+        /* Illustration à côté - design épuré, moderne */
+        .chapter-illustration {
+            flex: 1;
+            min-width: 280px;
+            max-width: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .illu-card {
+            background: rgba(255, 252, 240, 0.92);
+            backdrop-filter: blur(4px);
+            border-radius: 55px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 25px 40px -12px rgba(0,0,0,0.25);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255,215,150,0.5);
+        }
+
+        .illu-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .illu-emoji {
+            font-size: 6rem;
+            margin-bottom: 1rem;
+        }
+
+        .illu-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #b45f1b;
+            margin-bottom: 0.5rem;
+        }
+
+        .illu-desc {
+            font-size: 0.9rem;
+            color: #6b5a48;
+        }
+
+        /* Pour la dernière section (morale) on adapte les couleurs */
+        .bg-moral .chapter-text h3,
+        .bg-moral .chapter-text p {
+            color: #fff2cf;
+        }
+        .bg-moral .chapter-number {
+            background: rgba(255,242,207,0.2);
+            color: #ffde9c;
+        }
+        .bg-moral .highlight {
+            background: #ffde9c;
+            color: #2c5a41;
+        }
+        .bg-moral .illu-card {
+            background: rgba(255, 252, 240, 0.95);
+        }
+        .bg-moral .quote {
+            border-right-color: #ffde9c;
+            color: #fff0ce;
+        }
+
+        /* Footer */
+        .story-footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: #0e2a21;
+            color: #ffefcf;
+        }
+
+        .story-footer h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 850px) {
+            .hero h1 { font-size: 2.5rem; }
+            .chapter { flex-direction: column; text-align: center; gap: 2rem; padding: 3rem 1.5rem; }
+            .chapter-text p { text-align: center; }
+            .chapter-text h3 { text-align: center; }
+            .quote { text-align: center; }
+            .chapter-illustration { order: -1; }
+            .chapter:nth-child(even) .chapter-illustration { order: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-content">
+        <h1>🐇 سَمْسُوم 🌉</h1>
+        <h2>الجِسْرُ المَكْسُورُ</h2>
+        <p>قِصَّةُ التَّعَاوُنِ وَالعَطَاءِ الَّذِي يَبْنِي الجُسُورَ</p>
+    </div>
+    <div class="scroll-indicator" onclick="scrollToFirstChapter()">
+        <span>👇</span>
+        <span>فَاصْعَدْ لِتَقْرَأَ</span>
+    </div>
+</div>
+
+<!-- CHAPITRE 1 -->
+<div class="chapter bg-light" id="chapter1">
+    <div class="chapter-text">
+        <div class="chapter-number">١</div>
+        <h3>🐇 سَمْسُومُ وَالقَرْيَةُ النَّائِيَةُ</h3>
+        <p>فِي قَرْيَةِ <span class="highlight">"جُسُورِ العُشَّاقِ"</span> الخَضْرَاءِ، عَاشَ أَرْنَبٌ صَغِيرٌ لَطِيفٌ اسْمُهُ <strong>سَمْسُوم</strong>. كَانَ سَمْسُومُ سَرِيعَ القَفْزِ، جَمِيلَ العَيْنَيْنِ، لَكِنَّهُ كَانَ يَخَافُ مِنْ شَيْءٍ وَاحِدٍ: <strong>أَنْ يُسَاعِدَ الآخَرِينَ</strong>، خَوْفاً أَنْ يَضِيعَ وَقْتَهُ الثَّمِينَ فِي لَعِبِهِ وَقَطْفِ الجَزَرِ.</p>
+        <div class="quote">"قَلْبُهُ طَيِّبٌ، لَكِنَّهُ يَحْتَاجُ أَنْ يَفْهَمَ أَنَّ العَطَاءَ لَا يُضَيِّعُ الوَقْتَ"</div>
+        <p>كَانَ أَهْلُ القَرْيَةِ يُحِبُّونَ سَمْسُوماً رَغْمَ تَرَدُّدِهِ، وَكَانُوا يَأْمُلُونَ أَنْ يَكْتَشِفَ يَوْماً قِيمَةَ المُسَاعَدَةِ.</p>
+    </div>
+    <div class="chapter-illustration">
+        <div class="illu-card">
+            <div class="illu-emoji">🐰🥕</div>
+            <div class="illu-title">أَرْنَبٌ صَغِيرٌ</div>
+            <div class="illu-desc">سَمْسُومُ يُحِبُّ الجَزَرَ وَالقَفْزَ، وَلَكِنَّهُ يَتَفَادَى المُسَاعَدَةَ</div>
+        </div>
+    </div>
+</div>
+
+<!-- CHAPITRE 2 -->
+<div class="chapter bg-warm">
+    <div class="chapter-text">
+        <div class="chapter-number">٢</div>
+        <h3>🌧️ السُّيُولُ وَالجِسْرُ المُهَدَّدُ</h3>
+        <p>ذَاتَ يَوْمٍ، هَطَلَتْ أَمْطَارٌ غَزِيرَةٌ جِدّاً. اِنْهَارَ الجِسْرُ الخَشَبِيُّ الكَبِيرُ الَّذِي يَرْبُطُ القَرْيَةَ بِالمَدْرَسَةِ وَالحُقُولِ وَبَيْتِ الجَدَّةِ. صَاحَ الأَهَالِي بِقَلَقٍ: <em>"مَنْ سَيُسَاعِدُنَا فِي إِصْلَاحِ الجِسْرِ؟ الأَطْفَالُ لَنْ يَصِلُوا إِلَى دُرُوسِهِمْ!"</em></p>
+        <div class="quote">🌊 "لَا جِسْرَ بَعْدَ اليَوْمِ، وَالخَطَرُ يُحِيطُ بِالجَمِيعِ"</div>
+        <p>مَرَّ سَمْسُومُ بِجِوَارِ الجِسْرِ المَكْسُورِ، فَرَأَى مَشَاهِدَ الحُزْنِ، وَهَمْسَ فِي نَفْسِهِ: <span class="highlight">"أَنَا صَغِيرٌ، لَنْ أَسْتَطِيعَ شَيْئاً"</span>.</p>
+    </div>
+    <div class="chapter-illustration">
+        <div class="illu-card">
+            <div class="illu-emoji">🌊🌉💔</div>
+            <div class="illu-title">الجِسْرُ المَكْسُورُ</div>
+            <div class="illu-desc">بَعْدَ الأَمْطَارِ الغَزِيرَةِ، تَهَدَّمَ الجِسْرُ وَانْقَطَعَ الطَّرِيقُ</div>
+        </div>
+    </div>
+</div>
+
+<!-- CHAPITRE 3 -->
+<div class="chapter bg-deep">
+    <div class="chapter-text">
+        <div class="chapter-number">٣</div>
+        <h3>💔 دُمُوعُ فِرْفِرَ العُصْفُورِ</h3>
+        <p>سَمِعَ سَمْسُومُ بُكَاءً حَزِيناً. كَانَ صَدِيقُهُ <strong>فِرْفِرُ</strong> العُصْفُورُ يَبْكِي بِمَرَارَةٍ، لأنَّ عُشَّهُ تَدَمَّرَ فَوْقَ الجِسْرِ المُهَدَّدِ. قَالَ فِرْفِرُ بِحُزْنٍ: <span class="highlight">"الجِسْرُ المَكْسُورُ يَمْنَعُ الجَمِيعَ مِنَ العُبُورِ، وَالعُصْفُورَاتُ الصَّغِيرَةُ تَائِهَةٌ"</span>.</p>
+        <div class="quote">🐦 "أَنَا وَحِيدٌ لَا أَقْوَى عَلَى حَمْلِ الأَلْوَاحِ"</div>
+        <p>حِينَئِذٍ، شَعَرَ سَمْسُومُ بِأَلَمٍ فِي قَلْبِهِ، وَتَذَكَّرَ أَنَّ صَدِيقَتَهُ السُّلْحَفَاةَ لَنْ تَزُورَ جَدَّتَهَا، وَالفَأْرَ الصَّغِيرَ لَنْ يَجِدَ طَعَاماً.</p>
+    </div>
+    <div class="chapter-illustration">
+        <div class="illu-card">
+            <div class="illu-emoji">🐦💧🏚️</div>
+            <div class="illu-title">فِرْفِرُ يَبْكِي</div>
+            <div class="illu-desc">العُصْفُورُ الصَّغِيرُ حَزِينٌ لأنَّ عُشَّهُ تَدَمَّرَ</div>
+        </div>
+    </div>
+</div>
+
+<!-- CHAPITRE 4 -->
+<div class="chapter bg-warm">
+    <div class="chapter-text">
+        <div class="chapter-number">٤</div>
+        <h3>🤝 القَلْبُ الَّذِي تَغَيَّرَ</h3>
+        <div class="quote">💡 "تَرْكُ صَدِيقٍ يَبْكِي وَحِيداً .. لَيْسَ هَذَا مَا يُعَلِّمُنِي إِيَّاهُ قَلْبِي الطَّيِّبُ"</div>
+        <p>صَاحَ سَمْسُومُ بِشَجَاعَةٍ وَإِصْرَارٍ: <strong>"سَأُسَاعِدُ! سَنَبْنِي الجِسْرَ جَدِيداً مَعاً"</strong>. دَعَا جَمِيعَ الحَيَوَانَاتِ، وَنَظَّمَ العَمَلَ. بِسَبَبِ خِفَّتِهِ، وَصَلَ سَمْسُومُ إِلَى زَوَايَا ضَيِّقَةٍ لَا يَصِلُ إِلَيْهَا غَيْرُهُ، وَبِحُبِّهِ الْكَبِيرِ شَجَّعَ الآخَرِينَ.</p>
+        <p>تَعَاوَنُوا طُولَ النَّهَارِ حَتَّى بَدَأَ الجِسْرُ فِي العَوْدَةِ إِلَى الحَيَاةِ.</p>
+    </div>
+    <div class="chapter-illustration">
+        <div class="illu-card">
+            <div class="illu-emoji">🤝🔨🐇🐦🐢</div>
+            <div class="illu-title">فَرِيقُ العَمَلِ</div>
+            <div class="illu-desc">الجَمِيعُ يَتَعَاوَنُونَ لِبِنَاءِ الجِسْرِ مِنْ جَدِيدٍ</div>
+        </div>
+    </div>
+</div>
+
+<!-- CHAPITRE 5 : La morale -->
+<div class="chapter bg-moral">
+    <div class="chapter-text">
+        <div class="chapter-number">٥</div>
+        <h3>✨ العِبْرَةُ الَّتِي بَنَتْ قَلْباً ✨</h3>
+        <p>فِي صَبَاحِ اليَوْمِ التَّالِي، عَبَرَ الأَطْفَالُ وَالكِبَارُ الجِسْرَ الجَدِيدَ آمِنِينَ بِفَخْرٍ. شَكَرَ الجَمِيعُ سَمْسُوماً وَأَصْدِقَاءَهُ. وَمُنْذُ ذَلِكَ اليَوْمِ، تَغَيَّرَ سَمْسُومُ وَأَصْبَحَ أَرْنَباً مُحِبّاً لِلْعَمَلِ التَّطَوُّعِيِّ.</p>
+        <div class="quote">🍃 "لَا تَنْظُرُوا إِلَى صِغَرِ أَيْدِيكُمْ، فَالعَطَاءُ يُكَبِّرُ القُلُوبَ وَيَبْنِي الجُسُورَ"</div>
+        <p><strong>مَا نَتَعَلَّمُهُ مِنْ سَمْسُومَ:</strong> لَا تَسْتَصْغِرْ نَفْسَكَ أَبَداً، فَالعَطَاءُ لَا يَحْتَاجُ إِلَى قُوَّةٍ، بَلْ إِلَى قَلْبٍ كَبِيرٍ. المُسَاعَدَةُ لَا تُضَيِّعُ الوَقْتَ، بَلْ تَصْنَعُ السَّعَادَةَ وَتَبْنِي الجُسُورَ.</p>
+    </div>
+    <div class="chapter-illustration">
+        <div class="illu-card">
+            <div class="illu-emoji">🌟🌉💖</div>
+            <div class="illu-title">الجِسْرُ الجَدِيدُ</div>
+            <div class="illu-desc">رَمْزُ التَّعَاوُنِ وَالصَّدَاقَةِ وَالعَطَاءِ الَّذِي لَا يَنْضَبُ</div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<div class="story-footer">
+    <h3>🌟 وَعَاشُوا فِي سَعَادَةٍ 🌟</h3>
+    <p>وَأَصْبَحَ الجِسْرُ رَمْزاً لِلتَّعَاوُنِ وَالصَّدَاقَةِ فِي قَرْيَةِ "جُسُورِ العُشَّاقِ"</p>
+    <p style="margin-top: 1rem; font-size: 0.9rem;">قِصَّةُ "سَمْسُوم وَالجِسْرِ المَكْسُورِ" – دَرْسٌ فِي العَطَاءِ وَالشَّجَاعَةِ الصَّغِيرَةِ</p>
+    <p style="margin-top: 1rem;">✨ تَمَّتْ بِحَمْدِ اللهِ ✨</p>
+</div>
+
+<script>
+    function scrollToFirstChapter() {
+        document.getElementById('chapter1').scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+</body>
+</html>
