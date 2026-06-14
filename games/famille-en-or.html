@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏆 Famille en Or</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #0a0a2e;
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== ÉCRAN D'ACCUEIL ===== */
+  #screen-home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: radial-gradient(ellipse at center, #1a1a5e 0%, #0a0a2e 70%);
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .logo {
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #FFD700;
+    text-shadow: 0 0 30px rgba(255,215,0,0.5);
+    margin-bottom: 0.5rem;
+  }
+
+  .logo-sub {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: #FFA500;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+  }
+
+  .team-setup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+
+  .team-card {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,215,0,0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .team-card h3 {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    color: #FFD700;
+  }
+
+  .team-card input {
+    width: 100%;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,215,0,0.4);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.6rem 0.8rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .team-card input:focus { border-color: #FFD700; }
+  .team-card input::placeholder { color: rgba(255,255,255,0.4); }
+
+  .btn-start {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #0a0a2e;
+    border: none;
+    border-radius: 50px;
+    padding: 1rem 3rem;
+    font-size: 1.3rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 20px rgba(255,215,0,0.4);
+  }
+
+  .btn-start:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(255,215,0,0.6); }
+  .btn-start:active { transform: translateY(0); }
+
+  /* ===== ÉCRAN DE JEU ===== */
+  #screen-game {
+    display: none;
+    min-height: 100vh;
+    background: radial-gradient(ellipse at center, #1a1a5e 0%, #0a0a2e 70%);
+  }
+
+  .game-header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(0,0,0,0.4);
+    border-bottom: 2px solid rgba(255,215,0,0.3);
+  }
+
+  .team-score {
+    text-align: center;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+  }
+
+  .team-score.active { border-color: #FFD700; background: rgba(255,215,0,0.1); }
+  .team-score .name { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: #FFA500; }
+  .team-score .points { font-size: 2rem; font-weight: 900; color: #FFD700; line-height: 1; }
+
+  .team-score-1 { justify-self: start; }
+  .team-score-2 { justify-self: end; }
+
+  .center-info { text-align: center; }
+  .question-counter { font-size: 0.8rem; color: rgba(255,255,255,0.5); letter-spacing: 2px; margin-bottom: 0.3rem; }
+  .round-bank { font-size: 1.5rem; font-weight: 700; color: #FFD700; }
+  .round-bank-label { font-size: 0.7rem; color: rgba(255,255,255,0.4); letter-spacing: 1px; }
+
+  /* ===== TIMER ===== */
+  .timer-container {
+    display: flex;
+    justify-content: center;
+    padding: 0.8rem;
+  }
+
+  .timer-circle {
+    position: relative;
+    width: 80px;
+    height: 80px;
+  }
+
+  .timer-circle svg { transform: rotate(-90deg); }
+  .timer-circle .bg { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 5; }
+  .timer-circle .fg { fill: none; stroke: #FFD700; stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 1s linear, stroke 0.3s; }
+  .timer-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #FFD700;
+  }
+
+  /* ===== QUESTION ===== */
+  .question-box {
+    background: rgba(255,215,0,0.08);
+    border: 2px solid rgba(255,215,0,0.4);
+    border-radius: 16px;
+    padding: 1.2rem 2rem;
+    margin: 0.5rem 2rem 0.8rem;
+    text-align: center;
+  }
+
+  .question-label { font-size: 0.75rem; color: #FFA500; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .question-text { font-size: clamp(1rem, 2.5vw, 1.4rem); font-weight: 700; line-height: 1.4; }
+
+  /* ===== TABLEAU DES RÉPONSES ===== */
+  .answers-board {
+    display: grid;
+    gap: 0.6rem;
+    padding: 0.5rem 2rem 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .answer-row {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr 4rem;
+    align-items: center;
+    gap: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid rgba(255,215,0,0.25);
+    height: 52px;
+    perspective: 1000px;
+  }
+
+  .answer-num {
+    background: rgba(255,215,0,0.15);
+    color: #FFD700;
+    font-weight: 700;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    border-right: 1px solid rgba(255,215,0,0.2);
+  }
+
+  .answer-flip {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .answer-flip.revealed { transform: rotateY(180deg); }
+
+  .answer-front, .answer-back {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    padding: 0 1rem;
+  }
+
+  .answer-front {
+    background: #1a1a6e;
+  }
+
+  .answer-front-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .answer-front-dots span {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,215,0,0.3);
+    display: block;
+  }
+
+  .answer-back {
+    background: #1a6e2a;
+    transform: rotateY(180deg);
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  .answer-pts {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1rem;
+    color: #0a0a2e;
+    border-left: 1px solid rgba(255,215,0,0.2);
+  }
+
+  .answer-pts.hidden-pts { background: rgba(255,215,0,0.1); color: rgba(255,215,0,0.4); font-size: 0.7rem; }
+  .answer-pts.shown-pts { background: #FFD700; color: #0a0a2e; }
+
+  /* ===== CROIX D'ERREUR ===== */
+  .errors-display {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 0.3rem 0;
+  }
+
+  .error-x {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 900;
+    border: 3px solid transparent;
+    transition: all 0.3s;
+  }
+
+  .error-x.empty { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.15); }
+  .error-x.filled { border-color: #FF3333; color: #FF3333; background: rgba(255,0,0,0.15); animation: shake 0.5s ease; }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+
+  /* Grande croix flash */
+  #big-x {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 12rem;
+    font-weight: 900;
+    color: #FF3333;
+    text-shadow: 0 0 60px rgba(255,0,0,0.8);
+    pointer-events: none;
+    z-index: 1000;
+    transition: transform 0.15s, opacity 0.3s;
+    opacity: 0;
+  }
+
+  #big-x.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    animation: bigX 0.7s ease forwards;
+  }
+
+  @keyframes bigX {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    40% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+    70% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0; }
+  }
+
+  /* Flash correct */
+  #flash-correct {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,200,80,0.15);
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  #flash-correct.show { opacity: 1; animation: flashGreen 0.5s ease forwards; }
+
+  @keyframes flashGreen {
+    0% { opacity: 0; } 30% { opacity: 1; } 100% { opacity: 0; }
+  }
+
+  /* ===== ZONE DE SAISIE ===== */
+  .input-zone {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.8rem 2rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .input-zone input {
+    flex: 1;
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,215,0,0.4);
+    border-radius: 30px;
+    color: #fff;
+    font-size: 1.1rem;
+    padding: 0.7rem 1.2rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .input-zone input:focus { border-color: #FFD700; background: rgba(255,255,255,0.12); }
+  .input-zone input::placeholder { color: rgba(255,255,255,0.3); }
+  .input-zone input:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .btn-validate {
+    background: #FFD700;
+    color: #0a0a2e;
+    border: none;
+    border-radius: 30px;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+  }
+
+  .btn-validate:hover { background: #FFA500; }
+  .btn-validate:active { transform: scale(0.97); }
+  .btn-validate:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ===== CONTRÔLES ANIMATEUR ===== */
+  .host-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    padding: 0.5rem 2rem 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-host {
+    background: rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-host:hover { background: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.4); }
+
+  .btn-reveal-all {
+    background: rgba(255,100,0,0.15);
+    border-color: rgba(255,100,0,0.4);
+    color: #FFA500;
+  }
+
+  .btn-reveal-all:hover { background: rgba(255,100,0,0.3); }
+
+  /* ===== NOTIFICATION MANCHE ===== */
+  #round-notif {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.8);
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  #round-notif.show { opacity: 1; pointer-events: all; }
+
+  .notif-box {
+    background: linear-gradient(135deg, #1a1a6e, #0a2e5e);
+    border: 3px solid #FFD700;
+    border-radius: 20px;
+    padding: 2.5rem 4rem;
+    text-align: center;
+    box-shadow: 0 0 60px rgba(255,215,0,0.3);
+    animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .notif-box h2 { font-size: 1rem; letter-spacing: 4px; color: #FFA500; text-transform: uppercase; margin-bottom: 1rem; }
+  .notif-box .notif-winner { font-size: 2.5rem; font-weight: 900; color: #FFD700; margin-bottom: 0.5rem; }
+  .notif-box .notif-pts { font-size: 1.2rem; color: #fff; margin-bottom: 1.5rem; }
+  .notif-box .notif-sub { font-size: 0.9rem; color: rgba(255,255,255,0.5); margin-bottom: 1.5rem; }
+  .btn-next { background: #FFD700; color: #0a0a2e; border: none; border-radius: 30px; padding: 0.8rem 2.5rem; font-size: 1rem; font-weight: 800; cursor: pointer; transition: transform 0.15s; }
+  .btn-next:hover { transform: scale(1.05); }
+
+  /* ===== ÉCRAN FIN ===== */
+  #screen-end {
+    display: none;
+    min-height: 100vh;
+    background: radial-gradient(ellipse at center, #1a1a5e 0%, #0a0a2e 70%);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .trophy { font-size: 5rem; margin-bottom: 1rem; animation: bounce 1s ease infinite alternate; }
+  @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-15px); } }
+
+  .end-title { font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 900; color: #FFD700; margin-bottom: 0.5rem; }
+  .end-sub { font-size: 1rem; color: rgba(255,255,255,0.5); margin-bottom: 2rem; }
+
+  .end-scores {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .end-score-card {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,215,0,0.3);
+    border-radius: 16px;
+    padding: 1.5rem 2.5rem;
+    min-width: 180px;
+  }
+
+  .end-score-card.winner { border-color: #FFD700; background: rgba(255,215,0,0.1); }
+  .end-score-card .esc-name { font-size: 0.85rem; letter-spacing: 2px; color: #FFA500; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .end-score-card .esc-pts { font-size: 3rem; font-weight: 900; color: #FFD700; }
+  .end-score-card .esc-label { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+
+  .btn-replay { background: linear-gradient(135deg, #FFD700, #FFA500); color: #0a0a2e; border: none; border-radius: 50px; padding: 1rem 3rem; font-size: 1.2rem; font-weight: 800; cursor: pointer; margin-top: 1rem; transition: transform 0.15s; }
+  .btn-replay:hover { transform: scale(1.05); }
+
+  /* ===== CONFETTIS ===== */
+  .confetti-piece {
+    position: fixed;
+    width: 10px;
+    height: 12px;
+    top: -20px;
+    border-radius: 2px;
+    animation: confettiFall linear forwards;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  @keyframes confettiFall {
+    to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .game-header { padding: 0.6rem 0.8rem; }
+    .question-box { margin: 0.4rem 0.8rem; padding: 0.8rem 1rem; }
+    .answers-board { padding: 0.4rem 0.8rem; gap: 0.4rem; }
+    .input-zone { padding: 0.5rem 0.8rem; }
+    .host-controls { padding: 0.3rem 0.8rem 0.8rem; gap: 0.5rem; }
+    .answer-row { height: 46px; }
+    .answer-back { font-size: 0.9rem; }
+    .team-setup { grid-template-columns: 1fr; }
+    .end-scores { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<script src="../components/back-button.js"></script>
+<back-button href="../index.html" label="Accueil"></back-button>
+
+<!-- Flash effets -->
+<div id="big-x">✕</div>
+<div id="flash-correct"></div>
+
+<!-- Notification fin de manche -->
+<div id="round-notif">
+  <div class="notif-box">
+    <h2>Manche terminée !</h2>
+    <div class="notif-winner" id="notif-winner-name"></div>
+    <div class="notif-pts" id="notif-pts-text"></div>
+    <div class="notif-sub" id="notif-sub-text"></div>
+    <button class="btn-next" onclick="nextRound()">Manche suivante ➜</button>
+  </div>
+</div>
+
+<!-- ===== ÉCRAN ACCUEIL ===== -->
+<div id="screen-home">
+  <div class="logo">Famille en Or</div>
+  <div class="logo-sub">Le jeu de la famille</div>
+
+  <div class="team-setup">
+    <div class="team-card">
+      <h3>Équipe 1</h3>
+      <input type="text" id="team1-name" placeholder="Famille Dupont" maxlength="20">
+    </div>
+    <div class="team-card">
+      <h3>Équipe 2</h3>
+      <input type="text" id="team2-name" placeholder="Famille Martin" maxlength="20">
+    </div>
+  </div>
+
+  <button class="btn-start" onclick="startGame()">▶ Commencer le jeu</button>
+
+  <p style="margin-top:2rem;font-size:0.8rem;color:rgba(255,255,255,0.3);">5 questions · 60 secondes · 3 erreurs max par manche</p>
+</div>
+
+<!-- ===== ÉCRAN DE JEU ===== -->
+<div id="screen-game">
+
+  <div class="game-header">
+    <div class="team-score team-score-1" id="score-team1">
+      <div class="name" id="score-name1">Équipe 1</div>
+      <div class="points" id="score-pts1">0</div>
+    </div>
+
+    <div class="center-info">
+      <div class="question-counter" id="q-counter">QUESTION 1/5</div>
+      <div class="round-bank" id="round-bank">0</div>
+      <div class="round-bank-label">POINTS EN JEU</div>
+    </div>
+
+    <div class="team-score team-score-2" id="score-team2">
+      <div class="name" id="score-name2">Équipe 2</div>
+      <div class="points" id="score-pts2">0</div>
+    </div>
+  </div>
+
+  <div class="timer-container">
+    <div class="timer-circle">
+      <svg viewBox="0 0 80 80" width="80" height="80">
+        <circle class="bg" cx="40" cy="40" r="35"/>
+        <circle class="fg" id="timer-fg" cx="40" cy="40" r="35"/>
+      </svg>
+      <div class="timer-text" id="timer-text">60</div>
+    </div>
+  </div>
+
+  <div class="question-box">
+    <div class="question-label">🎙 La question</div>
+    <div class="question-text" id="question-text">Chargement...</div>
+  </div>
+
+  <div class="errors-display" id="errors-display">
+    <div class="error-x empty" id="err0">✕</div>
+    <div class="error-x empty" id="err1">✕</div>
+    <div class="error-x empty" id="err2">✕</div>
+  </div>
+
+  <div class="answers-board" id="answers-board"></div>
+
+  <div class="input-zone">
+    <input type="text" id="answer-input" placeholder="Tapez votre réponse..." maxlength="60" autocomplete="off">
+    <button class="btn-validate" id="btn-validate" onclick="submitAnswer()">✓ Valider</button>
+  </div>
+
+  <div class="host-controls">
+    <button class="btn-host" onclick="switchTeam()">⇄ Changer d'équipe</button>
+    <button class="btn-host btn-reveal-all" onclick="revealAll()">👁 Révéler tout</button>
+    <button class="btn-host" id="timer-btn" onclick="toggleTimer()">⏸ Pause timer</button>
+    <button class="btn-host" onclick="skipQuestion()">⏭ Passer la question</button>
+  </div>
+
+</div>
+
+<!-- ===== ÉCRAN FIN ===== -->
+<div id="screen-end" style="display:none;flex-direction:column;">
+  <div class="trophy">🏆</div>
+  <div class="end-title" id="end-title">Partie terminée !</div>
+  <div class="end-sub" id="end-sub"></div>
+
+  <div class="end-scores">
+    <div class="end-score-card" id="end-card1">
+      <div class="esc-name" id="end-name1">Équipe 1</div>
+      <div class="esc-pts" id="end-pts1">0</div>
+      <div class="esc-label">POINTS</div>
+    </div>
+    <div class="end-score-card" id="end-card2">
+      <div class="esc-name" id="end-name2">Équipe 2</div>
+      <div class="esc-pts" id="end-pts2">0</div>
+      <div class="esc-label">POINTS</div>
+    </div>
+  </div>
+
+  <button class="btn-replay" onclick="resetGame()">🔄 Rejouer</button>
+</div>
+
+<script>
+// ============================================================
+// BANQUE DE QUESTIONS
+// ============================================================
+const QUESTIONS = [
+  {
+    question: "Citez quelque chose que l'on fait toujours en retard le matin.",
+    answers: [
+      { text: "Se lever / sortir du lit", points: 35 },
+      { text: "Prendre son petit-déjeuner", points: 22 },
+      { text: "Se doucher", points: 17 },
+      { text: "Trouver ses clés", points: 13 },
+      { text: "S'habiller", points: 8 },
+      { text: "Brosser les dents", points: 5 }
+    ]
+  },
+  {
+    question: "Citez quelque chose que les gens oublient de faire avant de partir en vacances.",
+    answers: [
+      { text: "Couper l'eau / le gaz", points: 30 },
+      { text: "Nourrir les plantes ou animaux", points: 25 },
+      { text: "Fermer les volets / portes", points: 18 },
+      { text: "Vider le frigo", points: 14 },
+      { text: "Prévenir les voisins", points: 8 },
+      { text: "Éteindre les appareils", points: 5 }
+    ]
+  },
+  {
+    question: "Quel est selon vous le pire cadeau que l'on peut recevoir à Noël ?",
+    answers: [
+      { text: "Une paire de chaussettes", points: 32 },
+      { text: "Un parfum bon marché", points: 24 },
+      { text: "Un gadget inutile", points: 19 },
+      { text: "Un livre ennuyeux", points: 12 },
+      { text: "Des produits alimentaires", points: 8 },
+      { text: "Un cadeau re-offert / d'occasion", points: 5 }
+    ]
+  },
+  {
+    question: "Citez une chose que font les gens quand ils s'ennuient.",
+    answers: [
+      { text: "Regarder leur téléphone / les réseaux", points: 38 },
+      { text: "Manger / grignoter", points: 23 },
+      { text: "Regarder la télé / des vidéos", points: 17 },
+      { text: "Faire des jeux / jouer", points: 11 },
+      { text: "Dormir / faire la sieste", points: 7 },
+      { text: "Faire le ménage", points: 4 }
+    ]
+  },
+  {
+    question: "Citez quelque chose que l'on fait toujours quand on voit un chat.",
+    answers: [
+      { text: "Le caresser / le câliner", points: 36 },
+      { text: "Faire 'pspsps' / l'appeler", points: 26 },
+      { text: "Prendre une photo / vidéo", points: 18 },
+      { text: "Jouer avec lui", points: 11 },
+      { text: "Le nourrir / donner à manger", points: 6 },
+      { text: "Parler bébé / faire 'mignon'", points: 3 }
+    ]
+  }
+];
+
+// ============================================================
+// ÉTAT DU JEU
+// ============================================================
+let state = {
+  teams: ['Équipe 1', 'Équipe 2'],
+  scores: [0, 0],
+  currentTeam: 0,       // 0 ou 1
+  currentQuestion: 0,
+  errors: 0,
+  roundBank: 0,
+  revealed: [],         // bool[] pour chaque réponse de la question
+  timerValue: 60,
+  timerInterval: null,
+  timerRunning: false,
+  gameStarted: false,
+  roundOver: false,
+  shuffledQuestions: []
+};
+
+const TIMER_TOTAL = 60;
+const MAX_ERRORS = 3;
+const CIRCUMFERENCE = 2 * Math.PI * 35; // r=35
+
+// ============================================================
+// UTILITAIRES
+// ============================================================
+function normalizeStr(str) {
+  return str
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')  // supprime accents
+    .replace(/[^a-z0-9\s]/g, '')       // supprime ponctuation
+    .trim();
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function $(id) { return document.getElementById(id); }
+
+// ============================================================
+// DÉMARRAGE
+// ============================================================
+function startGame() {
+  const n1 = $('team1-name').value.trim() || 'Famille Dupont';
+  const n2 = $('team2-name').value.trim() || 'Famille Martin';
+  state.teams = [n1, n2];
+  state.scores = [0, 0];
+  state.currentTeam = 0;
+  state.currentQuestion = 0;
+  state.shuffledQuestions = shuffle(QUESTIONS);
+
+  $('screen-home').style.display = 'none';
+  $('screen-game').style.display = 'block';
+
+  updateScoreDisplay();
+  loadQuestion();
+}
+
+// ============================================================
+// CHARGEMENT D'UNE QUESTION
+// ============================================================
+function loadQuestion() {
+  state.roundOver = false;
+  state.errors = 0;
+  state.roundBank = 0;
+
+  const q = state.shuffledQuestions[state.currentQuestion];
+  state.revealed = new Array(q.answers.length).fill(false);
+
+  // Header
+  $('q-counter').textContent = `QUESTION ${state.currentQuestion + 1}/${state.shuffledQuestions.length}`;
+  $('round-bank').textContent = '0';
+  $('question-text').textContent = q.question;
+
+  // Erreurs
+  for (let i = 0; i < MAX_ERRORS; i++) {
+    const el = $('err' + i);
+    el.className = 'error-x empty';
+  }
+
+  // Tableau
+  renderBoard(q);
+
+  // Input
+  $('answer-input').value = '';
+  $('answer-input').disabled = false;
+  $('btn-validate').disabled = false;
+
+  // Timer
+  startTimer();
+
+  // Score équipe active
+  updateScoreDisplay();
+  $('answer-input').focus();
+}
+
+// ============================================================
+// TABLEAU DES RÉPONSES
+// ============================================================
+function renderBoard(q) {
+  const board = $('answers-board');
+  board.innerHTML = '';
+
+  q.answers.forEach((ans, i) => {
+    const row = document.createElement('div');
+    row.className = 'answer-row';
+    row.id = 'row-' + i;
+
+    const revealed = state.revealed[i];
+
+    row.innerHTML = `
+      <div class="answer-num">${i + 1}</div>
+      <div class="answer-flip${revealed ? ' revealed' : ''}" id="flip-${i}">
+        <div class="answer-front">
+          <div class="answer-front-dots">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="answer-back">${ans.text}</div>
+      </div>
+      <div class="answer-pts ${revealed ? 'shown-pts' : 'hidden-pts'}" id="pts-${i}">
+        ${revealed ? ans.points : '?'}
+      </div>
+    `;
+    board.appendChild(row);
+  });
+}
+
+function revealAnswer(index) {
+  const q = state.shuffledQuestions[state.currentQuestion];
+  state.revealed[index] = true;
+  const pts = q.answers[index].points;
+
+  // Flip
+  $('flip-' + index).classList.add('revealed');
+  // Points
+  const ptsEl = $('pts-' + index);
+  ptsEl.className = 'answer-pts shown-pts';
+  ptsEl.textContent = pts;
+
+  state.roundBank += pts;
+  $('round-bank').textContent = state.roundBank;
+
+  // Flash vert
+  const fc = $('flash-correct');
+  fc.classList.remove('show');
+  void fc.offsetWidth;
+  fc.classList.add('show');
+  setTimeout(() => fc.classList.remove('show'), 500);
+}
+
+// ============================================================
+// SAISIE ET VÉRIFICATION
+// ============================================================
+function submitAnswer() {
+  if (state.roundOver) return;
+  const input = $('answer-input');
+  const raw = input.value.trim();
+  if (!raw) return;
+
+  const norm = normalizeStr(raw);
+  const q = state.shuffledQuestions[state.currentQuestion];
+
+  let found = false;
+  for (let i = 0; i < q.answers.length; i++) {
+    if (state.revealed[i]) continue;
+    const ansNorm = normalizeStr(q.answers[i].text);
+    if (ansNorm.includes(norm) || norm.includes(ansNorm) || levenshteinClose(norm, ansNorm)) {
+      found = true;
+      revealAnswer(i);
+      input.value = '';
+
+      // Vérif si toutes révélées
+      if (state.revealed.every(Boolean)) {
+        setTimeout(endRound, 800);
+      }
+      break;
+    }
+  }
+
+  if (!found) {
+    addError();
+    input.value = '';
+  }
+
+  input.focus();
+}
+
+// Tolérance Levenshtein légère (±2 chars pour mots >5 chars)
+function levenshteinClose(a, b) {
+  if (Math.abs(a.length - b.length) > 3) return false;
+  const dp = Array.from({length: a.length+1}, (_, i) =>
+    Array.from({length: b.length+1}, (_, j) => i === 0 ? j : j === 0 ? i : 0)
+  );
+  for (let i = 1; i <= a.length; i++)
+    for (let j = 1; j <= b.length; j++)
+      dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1]
+        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+  const dist = dp[a.length][b.length];
+  const maxLen = Math.max(a.length, b.length);
+  return maxLen >= 6 ? dist <= 2 : dist <= 1;
+}
+
+// Enter key
+$('answer-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') submitAnswer();
+});
+
+// ============================================================
+// ERREURS
+// ============================================================
+function addError() {
+  if (state.errors >= MAX_ERRORS) return;
+
+  // Grande croix
+  const bx = $('big-x');
+  bx.classList.remove('show');
+  void bx.offsetWidth;
+  bx.classList.add('show');
+  setTimeout(() => bx.classList.remove('show'), 700);
+
+  // Petit indicateur
+  const el = $('err' + state.errors);
+  el.className = 'error-x filled';
+  state.errors++;
+
+  if (state.errors >= MAX_ERRORS) {
+    setTimeout(() => {
+      // Passer la main ou terminer la manche
+      endRound();
+    }, 700);
+  }
+}
+
+// ============================================================
+// TIMER
+// ============================================================
+function startTimer() {
+  stopTimer();
+  state.timerValue = TIMER_TOTAL;
+  state.timerRunning = true;
+  updateTimerDisplay();
+  $('timer-btn').textContent = '⏸ Pause timer';
+
+  state.timerInterval = setInterval(() => {
+    if (!state.timerRunning) return;
+    state.timerValue--;
+    updateTimerDisplay();
+    if (state.timerValue <= 0) {
+      stopTimer();
+      if (!state.roundOver) endRound();
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(state.timerInterval);
+  state.timerRunning = false;
+}
+
+function toggleTimer() {
+  state.timerRunning = !state.timerRunning;
+  $('timer-btn').textContent = state.timerRunning ? '⏸ Pause timer' : '▶ Reprendre';
+}
+
+function updateTimerDisplay() {
+  const t = Math.max(0, state.timerValue);
+  $('timer-text').textContent = t;
+
+  const fg = $('timer-fg');
+  const progress = t / TIMER_TOTAL;
+  fg.style.strokeDasharray = CIRCUMFERENCE;
+  fg.style.strokeDashoffset = CIRCUMFERENCE * (1 - progress);
+
+  if (t <= 10) {
+    fg.style.stroke = '#FF4444';
+    $('timer-text').style.color = '#FF4444';
+  } else if (t <= 20) {
+    fg.style.stroke = '#FFA500';
+    $('timer-text').style.color = '#FFA500';
+  } else {
+    fg.style.stroke = '#FFD700';
+    $('timer-text').style.color = '#FFD700';
+  }
+}
+
+// ============================================================
+// FIN DE MANCHE
+// ============================================================
+function endRound() {
+  if (state.roundOver) return;
+  state.roundOver = true;
+  stopTimer();
+
+  $('answer-input').disabled = true;
+  $('btn-validate').disabled = true;
+
+  const winnerIdx = state.currentTeam;
+  state.scores[winnerIdx] += state.roundBank;
+  updateScoreDisplay();
+
+  $('notif-winner-name').textContent = '🏅 ' + state.teams[winnerIdx] + ' remporte la manche !';
+  $('notif-pts-text').textContent = `+${state.roundBank} points (Total : ${state.scores[winnerIdx]})`;
+
+  const remaining = state.shuffledQuestions.length - state.currentQuestion - 1;
+  $('notif-sub-text').textContent = remaining > 0
+    ? `Il reste ${remaining} question(s) dans cette partie.`
+    : 'C\'est la dernière question !';
+
+  $('round-notif').classList.add('show');
+}
+
+function nextRound() {
+  $('round-notif').classList.remove('show');
+  state.currentQuestion++;
+
+  if (state.currentQuestion >= state.shuffledQuestions.length) {
+    showEndScreen();
+    return;
+  }
+
+  // Alterne les équipes
+  state.currentTeam = 1 - state.currentTeam;
+  loadQuestion();
+}
+
+// ============================================================
+// CONTRÔLES ANIMATEUR
+// ============================================================
+function switchTeam() {
+  state.currentTeam = 1 - state.currentTeam;
+  updateScoreDisplay();
+}
+
+function revealAll() {
+  const q = state.shuffledQuestions[state.currentQuestion];
+  q.answers.forEach((_, i) => {
+    if (!state.revealed[i]) revealAnswer(i);
+  });
+  setTimeout(endRound, 600);
+}
+
+function skipQuestion() {
+  if (confirm('Passer cette question ? Aucun point ne sera attribué.')) {
+    stopTimer();
+    state.currentQuestion++;
+    if (state.currentQuestion >= state.shuffledQuestions.length) {
+      showEndScreen();
+    } else {
+      state.currentTeam = 1 - state.currentTeam;
+      loadQuestion();
+    }
+  }
+}
+
+// ============================================================
+// AFFICHAGE SCORES
+// ============================================================
+function updateScoreDisplay() {
+  $('score-name1').textContent = state.teams[0];
+  $('score-name2').textContent = state.teams[1];
+  $('score-pts1').textContent = state.scores[0];
+  $('score-pts2').textContent = state.scores[1];
+
+  const t1 = $('score-team1');
+  const t2 = $('score-team2');
+  if (state.currentTeam === 0) {
+    t1.classList.add('active'); t2.classList.remove('active');
+  } else {
+    t2.classList.add('active'); t1.classList.remove('active');
+  }
+}
+
+// ============================================================
+// ÉCRAN DE FIN
+// ============================================================
+function showEndScreen() {
+  stopTimer();
+  $('screen-game').style.display = 'none';
+  const endScreen = $('screen-end');
+  endScreen.style.display = 'flex';
+
+  const s1 = state.scores[0], s2 = state.scores[1];
+  let title, sub;
+
+  if (s1 > s2) {
+    title = '🏆 ' + state.teams[0] + ' a gagné !';
+    sub = 'Félicitations à la meilleure équipe !';
+    $('end-card1').classList.add('winner');
+    $('end-card2').classList.remove('winner');
+  } else if (s2 > s1) {
+    title = '🏆 ' + state.teams[1] + ' a gagné !';
+    sub = 'Félicitations à la meilleure équipe !';
+    $('end-card2').classList.add('winner');
+    $('end-card1').classList.remove('winner');
+  } else {
+    title = '🤝 Égalité parfaite !';
+    sub = 'Les deux équipes sont à égalité — match revanche ?';
+  }
+
+  $('end-title').textContent = title;
+  $('end-sub').textContent = sub;
+  $('end-name1').textContent = state.teams[0];
+  $('end-name2').textContent = state.teams[1];
+  $('end-pts1').textContent = s1;
+  $('end-pts2').textContent = s2;
+
+  launchConfetti();
+}
+
+// ============================================================
+// CONFETTIS
+// ============================================================
+function launchConfetti() {
+  const colors = ['#FFD700','#FFA500','#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#FFEAA7'];
+  for (let i = 0; i < 80; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      el.style.animationDelay = '0s';
+      el.style.transform = `rotate(${Math.random()*360}deg)`;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 4000);
+    }, i * 50);
+  }
+}
+
+// ============================================================
+// REJOUER
+// ============================================================
+function resetGame() {
+  stopTimer();
+  $('screen-end').style.display = 'none';
+  $('screen-game').style.display = 'none';
+  $('screen-home').style.display = 'flex';
+  $('screen-home').style.flexDirection = 'column';
+  $('end-card1').classList.remove('winner');
+  $('end-card2').classList.remove('winner');
+  $('round-notif').classList.remove('show');
+}
+</script>
+</body>
+</html>

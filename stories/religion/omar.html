@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Omar ibn al-Khattab – Le Calife Juste</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold:       #c9960c;
+    --gold-light: #f0c040;
+    --deep-night: #060810;
+    --desert:     #c8a04a;
+    --emerald:    #1a6b4a;
+    --steel:      #3a4a5a;
+    --crimson:    #8b1a1a;
+    --sand:       #e8d090;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--deep-night);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    color: #e8dcc8;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(160deg,#060810 0%,#0e0a08 30%,#1a1208 60%,#3a2808 85%,#c8a04a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px 80px;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(45deg,  rgba(240,192,64,.025) 0, rgba(240,192,64,.025) 1px, transparent 0, transparent 40%),
+      repeating-linear-gradient(-45deg, rgba(240,192,64,.025) 0, rgba(240,192,64,.025) 1px, transparent 0, transparent 40%);
+    background-size: 50px 50px;
+    pointer-events: none;
+  }
+
+  .cover-stars { position:absolute; inset:0; pointer-events:none; }
+  .star-dot {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: tw 2.5s infinite alternate;
+  }
+  @keyframes tw {
+    from { opacity:.15; transform:scale(1); }
+    to   { opacity:.9;  transform:scale(1.7); }
+  }
+
+  /* whip/sword swipe particles */
+  .spark {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: var(--gold-light);
+    pointer-events: none;
+    animation: sparkFly linear infinite;
+    opacity: 0;
+  }
+  @keyframes sparkFly {
+    0%   { transform:translate(0,0) scale(1);      opacity:.8; }
+    100% { transform:translate(40px,-50px) scale(0); opacity:0; }
+  }
+
+  .cover-scene {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 28px;
+    animation: floatY 5s ease-in-out infinite;
+  }
+  @keyframes floatY {
+    0%,100%{transform:translateY(0);}
+    50%    {transform:translateY(-12px);}
+  }
+
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem,7vw,4rem);
+    color: var(--gold-light);
+    text-align: center;
+    letter-spacing: 3px;
+    line-height: 1.1;
+    text-shadow: 0 2px 30px rgba(200,160,74,.6);
+    width: 100%;
+  }
+  .cover .subtitle-ar {
+    font-size: 1.4rem;
+    color: rgba(240,192,64,.5);
+    margin-top: 8px;
+    letter-spacing: 6px;
+    font-family: serif;
+    text-align: center;
+    width: 100%;
+  }
+  .cover .subtitle {
+    color: rgba(240,220,180,.45);
+    font-size: .95rem;
+    margin-top: 12px;
+    font-style: italic;
+    letter-spacing: 2px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    color: rgba(240,220,180,.35);
+    font-size: .8rem;
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);}
+  }
+
+  .cover-fade {
+    position:absolute; bottom:0; left:0; right:0;
+    height:100px;
+    background:linear-gradient(transparent,#060810);
+    pointer-events:none;
+  }
+
+  /* ── CHAPTERS ── */
+  .chapter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 24px 60px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .chapter.visible { opacity:1; transform:translateY(0); }
+
+  .ch1 { background: linear-gradient(155deg,#1a0808 0%,#2a1010 50%,#4a1818 100%); }
+  .ch2 { background: linear-gradient(155deg,#0a1808 0%,#1a3010 50%,#2a5020 100%); }
+  .ch3 { background: linear-gradient(155deg,#f5e6c0 0%,#e8d5a0 50%,#d4c080 100%); }
+  .ch4 { background: linear-gradient(155deg,#060810 0%,#0e1020 55%,#1a1838 100%); }
+  .ch5 { background: linear-gradient(155deg,#1a1008 0%,#2a1a08 50%,#c8a04a 100%); }
+
+  .ch-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9rem;
+    font-weight: 700;
+    position: absolute;
+    top: 0; right: 20px;
+    line-height: 1;
+    pointer-events: none;
+    opacity: .05;
+  }
+  .ch1 .ch-num { color:#ff8888; }
+  .ch2 .ch-num { color:#88ff88; }
+  .ch3 .ch-num { color:#5c3a1a; }
+  .ch4 .ch-num { color:#88aaff; }
+  .ch5 .ch-num { color:#f0c040; }
+
+  .illustration {
+    width: min(340px,92vw);
+    height: min(255px,69vw);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 60px rgba(0,0,0,.55);
+    margin-bottom: 36px;
+    flex-shrink: 0;
+    position: relative; z-index:1;
+    border: 3px solid rgba(200,160,74,.3);
+  }
+  .illustration svg { width:100%; height:100%; display:block; }
+
+  .chapter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem,5vw,2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative; z-index:1;
+  }
+  .story-text {
+    max-width: 490px;
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    position: relative; z-index:1;
+  }
+  .story-text p { margin-bottom:14px; }
+  .quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    padding: 14px 22px;
+    border-radius: 14px;
+    margin: 18px 0;
+    display: inline-block;
+    border-left: 4px solid currentColor;
+  }
+  .lesson {
+    margin-top: 18px;
+    padding: 14px 20px;
+    border-radius: 14px;
+    border: 1px solid rgba(240,192,64,.3);
+    display: inline-block;
+    font-size: .95rem;
+    font-style: italic;
+    position: relative; z-index:1;
+  }
+
+  .ch1 .chapter-title { color:#f0c040; }
+  .ch1 .story-text    { color:#f0ead8; }
+  .ch1 .quote         { background:#3d2214; color:#f0c040; }
+  .ch1 .lesson        { background:#3d2214; color:#e0c890; }
+
+  .ch2 .chapter-title { color:#a0ff88; }
+  .ch2 .story-text    { color:#f0ead8; }
+  .ch2 .quote         { background:rgba(100,220,80,.08); color:#a0ff88; }
+  .ch2 .lesson        { background:rgba(100,220,80,.06); color:#b8e8a8; }
+
+  .ch3 .chapter-title { color:#5c3a1a; }
+  .ch3 .story-text    { color:#3a2010; }
+  .ch3 .quote         { background:rgba(92,58,26,.1); color:#5c3a1a; }
+  .ch3 .lesson        { background:rgba(92,58,26,.08); color:#5c3a1a; }
+
+  .ch4 .chapter-title { color:#88aaff; }
+  .ch4 .story-text    { color:#f0ead8; }
+  .ch4 .quote         { background:rgba(136,170,255,.1); color:#88aaff; }
+  .ch4 .lesson        { background:rgba(136,170,255,.08); color:#b8c8f0; }
+
+  .ch5 .chapter-title { color:#f0c040; }
+  .ch5 .story-text    { color:#f0ead8; }
+  .ch5 .quote         { background:rgba(240,192,64,.12); color:#f0c040; }
+  .ch5 .lesson        { background:rgba(240,192,64,.08); color:#e0c890; }
+
+  /* ── ENDING ── */
+  .ending {
+    background: linear-gradient(160deg,#060810 0%,#0e0a08 50%,#1a1208 100%);
+    padding: 90px 24px;
+    text-align: center;
+    color: white;
+    position: relative; overflow:hidden;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity .85s ease, transform .85s ease;
+  }
+  .ending.visible { opacity:1; transform:translateY(0); }
+  .ending h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+    letter-spacing: 2px;
+  }
+  .ending p {
+    font-size:1.1rem; max-width:520px;
+    margin:0 auto; opacity:.85; line-height:1.9;
+  }
+  .lessons-box {
+    max-width: 480px;
+    margin: 36px auto 0;
+    padding: 28px 32px;
+    border: 1px solid rgba(240,192,64,.3);
+    border-radius: 20px;
+    background: rgba(240,192,64,.06);
+    text-align: left;
+  }
+  .lessons-box h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--gold-light);
+    margin-bottom: 18px;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+  .lessons-box ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .lessons-box li {
+    font-size: 1rem;
+    color: rgba(240,220,180,.85);
+    line-height: 1.6;
+    padding-left: 24px;
+    position: relative;
+  }
+  .lessons-box li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--gold-light);
+    font-size: .8rem;
+    top: 3px;
+  }
+  .end-star {
+    font-size:2.5rem; margin-top:36px;
+    display:inline-block;
+    animation: spinSlow 12s linear infinite;
+    color: var(--gold-light);
+  }
+  @keyframes spinSlow {
+    from{transform:rotate(0deg);} to{transform:rotate(360deg);}
+  }
+
+  @media(min-width:720px){
+    .chapter{flex-direction:row!important;gap:52px;padding:90px 64px;}
+    .illustration{margin-bottom:0;}
+    .story-text{text-align:left;}
+    .chapter-title{text-align:left;}
+    .chapter:nth-child(even){flex-direction:row-reverse!important;}
+    .lesson{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-stars" id="starsCover"></div>
+  <div id="sparkContainer"></div>
+
+  <div class="cover-scene">
+    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="covGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".25"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <linearGradient id="bgCov" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#060810"/>
+          <stop offset="60%"  stop-color="#1a1208"/>
+          <stop offset="100%" stop-color="#3a2808"/>
+        </linearGradient>
+        <linearGradient id="desertGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#c8a04a"/>
+          <stop offset="100%" stop-color="#8b6020"/>
+        </linearGradient>
+      </defs>
+
+      <circle cx="150" cy="150" r="147" fill="#060810" stroke="#c9960c" stroke-width="2"/>
+      <circle cx="150" cy="150" r="137" fill="none" stroke="#c9960c"
+              stroke-width=".5" stroke-dasharray="5 4" opacity=".4"/>
+      <clipPath id="covClip"><circle cx="150" cy="150" r="145"/></clipPath>
+
+      <rect width="300" height="300" fill="url(#bgCov)"   clip-path="url(#covClip)"/>
+      <rect width="300" height="300" fill="url(#covGlow)" clip-path="url(#covClip)"/>
+
+      <!-- stars -->
+      <g clip-path="url(#covClip)">
+        <circle cx="38"  cy="25" r="2"   fill="#f0c040" opacity=".9"/>
+        <circle cx="85"  cy="18" r="1.5" fill="white"   opacity=".75"/>
+        <circle cx="135" cy="30" r="1.5" fill="white"   opacity=".7"/>
+        <circle cx="200" cy="20" r="2"   fill="#f0c040" opacity=".8"/>
+        <circle cx="252" cy="35" r="2"   fill="white"   opacity=".75"/>
+        <circle cx="268" cy="15" r="1.5" fill="#f0c040" opacity=".7"/>
+        <circle cx="55"  cy="55" r="1"   fill="white"   opacity=".55"/>
+        <circle cx="220" cy="52" r="1.5" fill="white"   opacity=".6"/>
+      </g>
+
+      <!-- Moon crescent -->
+      <g clip-path="url(#covClip)">
+        <circle cx="252" cy="50" r="22" fill="#ffe8a0" opacity=".85"/>
+        <circle cx="262" cy="42" r="18" fill="#060810"/>
+      </g>
+
+      <!-- Desert / Medina landscape -->
+      <g clip-path="url(#covClip)">
+        <polygon points="0,225 55,175 115,198 185,165 255,185 300,162 300,300 0,300"
+                 fill="#3a2808" opacity=".9"/>
+        <rect x="0" y="248" width="300" height="55" fill="url(#desertGrad)" opacity=".7"/>
+        <!-- sand dune subtle -->
+        <path d="M0,250 Q75,240 150,250 Q225,260 300,250" fill="#c8a040" opacity=".25"/>
+      </g>
+
+      <!-- Mosque of Medina silhouette -->
+      <g clip-path="url(#covClip)" opacity=".7">
+        <rect x="82"  y="195" width="136" height="55" fill="#0a0a1a" rx="2"/>
+        <!-- dome -->
+        <path d="M82,195 Q150,160 218,195 Z" fill="#1a6b4a" opacity=".9"/>
+        <ellipse cx="150" cy="195" rx="68" ry="16" fill="#1a6b4a" opacity=".6"/>
+        <line x1="150" y1="158" x2="150" y2="144" stroke="#c9960c" stroke-width="2.5"/>
+        <circle cx="150" cy="142" r="5" fill="#f0c040" opacity=".9"/>
+        <!-- minarets -->
+        <rect x="74"  y="175" width="12" height="52" fill="#0e0e1a" rx="2"/>
+        <path d="M74,175 Q80,162 86,175 Z" fill="#1a6b4a" opacity=".8"/>
+        <line x1="80" y1="160" x2="80" y2="148" stroke="#c9960c" stroke-width="1.5"/>
+        <circle cx="80" cy="146" r="4" fill="#f0c040" opacity=".85"/>
+        <rect x="214" y="175" width="12" height="52" fill="#0e0e1a" rx="2"/>
+        <path d="M214,175 Q220,162 226,175 Z" fill="#1a6b4a" opacity=".8"/>
+        <line x1="220" y1="160" x2="220" y2="148" stroke="#c9960c" stroke-width="1.5"/>
+        <circle cx="220" cy="146" r="4" fill="#f0c040" opacity=".85"/>
+      </g>
+
+      <!-- OMAR IBN AL-KHATTAB — tall powerful imposing figure -->
+      <g transform="translate(150,188)" clip-path="url(#covClip)">
+        <!-- divine glow -->
+        <circle cx="0" cy="-18" r="52" fill="#f0c040" opacity=".07"/>
+        <!-- simple robe — Omar was known for simplicity -->
+        <path d="M-26,12 Q-22,80 0,85 Q22,80 26,12 Z" fill="#3a3a3a"/>
+        <!-- patched cloak — Omar's famous patched garment -->
+        <path d="M-42,8 Q-34,82 -12,88 Q-24,76 -28,12 Z" fill="#5a3a1a" opacity=".75"/>
+        <path d="M42,8 Q34,82 12,88 Q24,76 28,12 Z"  fill="#5a3a1a" opacity=".75"/>
+        <!-- patches on cloak -->
+        <rect x="-38" y="20" width="16" height="14" fill="#4a2a10" rx="2" opacity=".6"/>
+        <rect x="-36" y="45" width="14" height="12" fill="#3a2008" rx="2" opacity=".6"/>
+        <rect x="22"  y="30" width="15" height="13" fill="#4a2a10" rx="2" opacity=".6"/>
+        <!-- WHIP of justice in right hand -->
+        <line x1="26"  y1="16" x2="62"  y2="-10" stroke="#3a3a3a" stroke-width="8" stroke-linecap="round"/>
+        <!-- whip cord -->
+        <path d="M62,-10 Q78,-22 72,-38 Q62,-28 58,-18 Q65,-5 62,-10"
+              stroke="#8b5e3c" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- other arm raised pointing/commanding -->
+        <line x1="-26" y1="16" x2="-60" y2="-5"  stroke="#3a3a3a" stroke-width="8" stroke-linecap="round"/>
+        <ellipse cx="-63" cy="-7" rx="8" ry="6" fill="#c8906a" transform="rotate(-20,-63,-7)"/>
+        <!-- massive tall head — Omar was very tall -->
+        <circle cx="0" cy="-18" r="20" fill="#c8906a"/>
+        <!-- simple turban — no jewels, very simple -->
+        <path d="M-18,-32 Q0,-52 18,-32 L20,-14 Q0,-10 -20,-14 Z" fill="#3a3a3a"/>
+        <path d="M18,-30 Q26,-18 24,-4" stroke="#3a3a3a" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <!-- FAMOUS long beard of Omar -->
+        <ellipse cx="0" cy="4"  rx="13" ry="12" fill="#1a1a1a" opacity=".9"/>
+        <path d="M-10,12 Q-8,24 0,28 Q8,24 10,12" stroke="#1a1a1a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- fierce yet kind eyes -->
+        <circle cx="-6.5" cy="-20" r="3"   fill="#1a1a1a"/>
+        <circle cx="6.5"  cy="-20" r="3"   fill="#1a1a1a"/>
+        <circle cx="-5.5" cy="-21" r="1.2" fill="white" opacity=".5"/>
+        <!-- strong eyebrows -->
+        <path d="M-11,-25 Q-6.5,-28 -2,-25" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+        <path d="M2,-25 Q6.5,-28 11,-25"    stroke="#1a1a1a" stroke-width="2" fill="none"/>
+        <!-- determined expression -->
+        <path d="M-5,-10 L5,-10" stroke="#7a3a10" stroke-width="1.8" fill="none"/>
+        <!-- divine halo subtle -->
+        <circle cx="0" cy="-18" r="26" fill="none" stroke="#f0c040" stroke-width="1" opacity=".25"/>
+      </g>
+
+      <!-- sparkles -->
+      <g clip-path="url(#covClip)">
+        <circle cx="82"  cy="185" r="2" fill="#f0c040" opacity=".6"/>
+        <circle cx="218" cy="188" r="2" fill="#f0c040" opacity=".6"/>
+        <circle cx="150" cy="170" r="2.5" fill="#f0c040" opacity=".65"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- ornament -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:18px;opacity:.65;width:100%;">
+    <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,#f0c040,transparent);"></div>
+    <span style="color:#f0c040;font-size:1.1rem;letter-spacing:6px;">✦ ✦ ✦</span>
+    <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,#f0c040,transparent);"></div>
+  </div>
+
+  <h1>Omar ibn al-Khattab<br>
+  <span style="font-size:.5em;letter-spacing:4px;opacity:.9;">Le Calife qui marchait avec les pauvres</span></h1>
+  <p class="subtitle-ar">عمر بن الخطاب رضي الله عنه</p>
+  <p class="subtitle">Al-Faruq — Celui qui sépare le vrai du faux</p>
+
+  <div class="scroll-hint">
+    <span>Fais défiler pour lire</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+  <div class="cover-fade"></div>
+</div>
+
+
+<!-- ══ CH 1 : De l'Ennemi au Croyant ══ -->
+<div class="chapter ch1">
+  <div class="ch-num">١</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="convSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a0808"/>
+          <stop offset="55%"  stop-color="#2a1010"/>
+          <stop offset="100%" stop-color="#4a1818"/>
+        </linearGradient>
+        <radialGradient id="convGlow" cx="50%" cy="45%" r="50%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#convSky)"/>
+      <rect width="340" height="255" fill="url(#convGlow)"/>
+
+      <!-- stars -->
+      <circle cx="30"  cy="18" r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="290" cy="22" r="1.5" fill="white"   opacity=".7"/>
+      <circle cx="155" cy="12" r="1"   fill="white"   opacity=".5"/>
+
+      <!-- Desert night Mecca -->
+      <polygon points="0,195 55,155 115,178 190,148 265,170 340,145 340,255 0,255"
+               fill="#2a1808" opacity=".9"/>
+      <rect x="0" y="222" width="340" height="33" fill="#3a2008"/>
+      <!-- sand dune -->
+      <path d="M0,224 Q85,212 170,224 Q255,236 340,224" fill="#4a3010" opacity=".4"/>
+
+      <!-- Divine light — the Quran verse Omar heard -->
+      <ellipse cx="170" cy="120" rx="80" ry="65" fill="#f0c040" opacity=".08"/>
+      <ellipse cx="170" cy="115" rx="55" ry="45" fill="#fffbe6" opacity=".1"/>
+      <!-- light rays from above -->
+      <g opacity=".2">
+        <line x1="170" y1="55" x2="145" y2="165" stroke="#f0c040" stroke-width="3"/>
+        <line x1="170" y1="55" x2="162" y2="168" stroke="#f0c040" stroke-width="2"/>
+        <line x1="170" y1="55" x2="170" y2="170" stroke="#f0c040" stroke-width="2.5"/>
+        <line x1="170" y1="55" x2="178" y2="168" stroke="#f0c040" stroke-width="2"/>
+        <line x1="170" y1="55" x2="195" y2="165" stroke="#f0c040" stroke-width="3"/>
+      </g>
+
+      <!-- Quran scroll / page with golden text -->
+      <g transform="translate(170,130)">
+        <rect x="-35" y="-40" width="70" height="80" fill="#f5e6c8" rx="5" opacity=".9"/>
+        <rect x="-30" y="-35" width="60" height="70" fill="#fff8e8" rx="4" opacity=".8"/>
+        <!-- Arabic text lines (decorative) -->
+        <g stroke="#8b5e20" stroke-width="1.2" opacity=".7">
+          <line x1="-24" y1="-22" x2="24"  y2="-22"/>
+          <line x1="-24" y1="-14" x2="20"  y2="-14"/>
+          <line x1="-24" y1="-6"  x2="24"  y2="-6"/>
+          <line x1="-24" y1="2"   x2="18"  y2="2"/>
+          <line x1="-24" y1="10"  x2="24"  y2="10"/>
+          <line x1="-24" y1="18"  x2="20"  y2="18"/>
+          <line x1="-24" y1="26"  x2="24"  y2="26"/>
+        </g>
+        <!-- golden decorative border -->
+        <rect x="-35" y="-40" width="70" height="80" fill="none" stroke="#c9960c" stroke-width="2" rx="5" opacity=".6"/>
+        <rect x="-32" y="-37" width="64" height="74" fill="none" stroke="#c9960c" stroke-width=".8" rx="4" opacity=".3"/>
+        <!-- glow on Quran -->
+        <rect x="-38" y="-44" width="76" height="88" fill="#f0c040" rx="6" opacity=".08"/>
+      </g>
+
+      <!-- YOUNG OMAR — before conversion, sword drawn, then dropping it -->
+      <!-- Omar with sword raised — fierce pre-Islam -->
+      <g transform="translate(90,178)">
+        <path d="M-18,8 Q-14,58 0,62 Q14,58 18,8 Z" fill="#4a2808"/>
+        <!-- sword held high pre-Islam -->
+        <line x1="18" y1="12" x2="48" y2="-20" stroke="#4a2808" stroke-width="8" stroke-linecap="round"/>
+        <!-- sword blade -->
+        <line x1="50"  y1="-22" x2="80" y2="-55" stroke="#8b8b8b" stroke-width="5" stroke-linecap="round" opacity=".85"/>
+        <path d="M46,-20 Q52,-26 50,-22 Q55,-18 46,-20 Z" fill="#8b8b8b"/>
+        <line x1="-18" y1="12" x2="-36" y2="6" stroke="#4a2808" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="0" cy="-8" r="15" fill="#c8906a"/>
+        <path d="M-12,-20 Q0,-36 12,-20 L14,-7 Q0,-4 -14,-7 Z" fill="#3a2808"/>
+        <!-- long dark beard (Omar) -->
+        <ellipse cx="0" cy="4" rx="10" ry="9" fill="#1a1a1a" opacity=".85"/>
+        <!-- fierce pre-islam eyes -->
+        <circle cx="-5" cy="-10" r="3" fill="#1a1a1a"/>
+        <circle cx="5"  cy="-10" r="3" fill="#1a1a1a"/>
+        <path d="M-8,-14 Q-5,-17 -2,-14" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+        <path d="M2,-14 Q5,-17 8,-14"    stroke="#1a1a1a" stroke-width="2" fill="none"/>
+        <!-- stern expression -->
+        <path d="M-4,-3 L4,-3" stroke="#7a3a10" stroke-width="2" fill="none"/>
+      </g>
+
+      <!-- AFTER: Omar kneeling in submission — conversion moment -->
+      <g transform="translate(250,185)">
+        <!-- kneeling body — completely changed -->
+        <path d="M-14,5 Q-10,32 0,34 Q10,32 14,5 Z" fill="#3a3a3a"/>
+        <path d="M-10,32 Q-14,44 -6,48"  stroke="#3a3a3a" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <path d="M10,32 Q14,44 18,46"    stroke="#3a3a3a" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <!-- sword dropped on ground -->
+        <line x1="18" y1="38" x2="40" y2="55" stroke="#8b8b8b" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+        <!-- arms open in submission / prayer -->
+        <line x1="-14" y1="8"  x2="-32" y2="-12" stroke="#3a3a3a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="14"  y1="8"  x2="30"  y2="-8"  stroke="#3a3a3a" stroke-width="7" stroke-linecap="round"/>
+        <ellipse cx="-34" cy="-14" rx="7" ry="5" fill="#c8906a" transform="rotate(-20,-34,-14)"/>
+        <circle cx="0" cy="-7" r="13" fill="#c8906a"/>
+        <path d="M-10,-16 Q0,-30 10,-16 L12,-5 Q0,-2 -12,-5 Z" fill="#3a3a3a"/>
+        <!-- beard same -->
+        <ellipse cx="0" cy="4" rx="9" ry="7" fill="#1a1a1a" opacity=".85"/>
+        <!-- eyes now soft — transformed -->
+        <path d="M-5,-9 Q-2,-6 1,-9" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M1,-9 Q4,-6 7,-9"   stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <!-- tears of transformation -->
+        <ellipse cx="-4" cy="-4" rx="1.5" ry="2.5" fill="#87ceeb" opacity=".8"/>
+        <!-- golden glow on him — new believer -->
+        <circle cx="0" cy="-7" r="22" fill="#f0c040" opacity=".1"/>
+      </g>
+
+      <!-- Arrow showing transformation -->
+      <path d="M145,190 Q185,175 210,188" fill="none" stroke="#f0c040" stroke-width="2"
+            stroke-dasharray="5 4" opacity=".5" marker-end="url(#arrow)"/>
+      <!-- before/after labels -->
+      <text x="90"  y="250" text-anchor="middle" font-size="10" fill="#f0c040" opacity=".5" font-family="serif">Avant</text>
+      <text x="252" y="250" text-anchor="middle" font-size="10" fill="#f0c040" opacity=".5" font-family="serif">Après</text>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">⚡ De l'Ennemi au Croyant</h2>
+    <p>Avant l'Islam, <strong>Omar ibn al-Khattab</strong> était l'un des hommes les plus puissants et les plus craints de La Mecque. Grand, fort, impétueux — il persécutait les premiers musulmans avec férocité.</p>
+    <p>Un jour, il sortit l'épée avec l'intention de tuer le Prophète Mohamed ﷺ. Sur le chemin, quelqu'un lui dit que sa propre sœur venait d'embrasser l'Islam. Furieux, il se rendit chez elle.</p>
+    <div class="quote">« Il la frappa, mais en voyant son sang, quelque chose se brisa en lui. Il demanda à lire ce qu'elle récitait. »</div>
+    <p>En lisant les premiers versets du Coran, Omar s'effondra. Ses larmes coulèrent, son épée tomba. Il se releva musulman. Le Prophète ﷺ s'exclama : <strong>« Dieu est Grand ! »</strong> 🌟</p>
+    <div class="lesson">💡 <strong>Leçon :</strong> Personne n'est trop loin de la vérité. Le cœur le plus endurci peut s'ouvrir en un instant.</div>
+  </div>
+</div>
+
+
+<!-- ══ CH 2 : La Nuit dans les Rues ══ -->
+<div class="chapter ch2">
+  <div class="ch-num">٢</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="nightOmar" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0a1808"/>
+          <stop offset="55%"  stop-color="#1a3010"/>
+          <stop offset="100%" stop-color="#2a5020"/>
+        </linearGradient>
+        <radialGradient id="fireGl" cx="35%" cy="60%" r="45%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#nightOmar)"/>
+      <rect width="340" height="255" fill="url(#fireGl)"/>
+
+      <!-- stars -->
+      <circle cx="28"  cy="18" r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="290" cy="22" r="1.5" fill="white"   opacity=".7"/>
+      <!-- Moon -->
+      <circle cx="280" cy="50" r="22" fill="#ffe8a0" opacity=".8"/>
+      <circle cx="290" cy="42" r="18" fill="#0a1808"/>
+
+      <!-- Desert night Medina street -->
+      <rect x="0" y="200" width="340" height="55" fill="#0a0808"/>
+      <g stroke="#0e0c0a" stroke-width=".8" opacity=".4">
+        <line x1="0" y1="215" x2="340" y2="215"/>
+        <line x1="0" y1="228" x2="340" y2="228"/>
+        <line x1="60"  y1="200" x2="60"  y2="255"/>
+        <line x1="120" y1="200" x2="120" y2="255"/>
+        <line x1="180" y1="200" x2="180" y2="255"/>
+        <line x1="240" y1="200" x2="240" y2="255"/>
+        <line x1="300" y1="200" x2="300" y2="255"/>
+      </g>
+
+      <!-- simple mud-brick Medina buildings -->
+      <g opacity=".85">
+        <rect x="0"   y="110" width="85" height="95" fill="#1a0e08" rx="2"/>
+        <rect x="90"  y="125" width="60" height="80" fill="#150c06" rx="2"/>
+        <!-- windows some lit, most dark -->
+        <rect x="12"  y="130" width="18" height="14" fill="#f0c040" rx="1" opacity=".4"/>
+        <rect x="38"  y="135" width="18" height="14" fill="#0a0808" rx="1" opacity=".4"/>
+        <!-- door left -->
+        <rect x="20"  y="165" width="22" height="38" fill="#0a0808" rx="2" opacity=".9"/>
+        <path d="M20,165 Q31,150 42,165" fill="#0a0808" opacity=".9"/>
+        <path d="M18,165 Q31,148 44,165" fill="none" stroke="#6b4020" stroke-width="1.5" opacity=".3"/>
+        <!-- right building -->
+        <rect x="195" y="115" width="145" height="90" fill="#1a0e08" rx="2"/>
+        <rect x="245" y="130" width="18" height="14" fill="#f0c040" rx="1" opacity=".3"/>
+        <rect x="205" y="135" width="18" height="14" fill="#f0c040" rx="1" opacity=".4"/>
+        <rect x="290" y="158" width="22" height="38" fill="#0a0808" rx="2" opacity=".9"/>
+        <path d="M290,158 Q301,143 312,158" fill="#0a0808" opacity=".9"/>
+      </g>
+
+      <!-- FIRE / COOKING POT — poor family with no food -->
+      <g transform="translate(155,192)">
+        <!-- fire small -->
+        <path d="M-12,18 Q-6,6 0,12 Q4,2 10,10 Q14,4 12,18 Z" fill="#ff4400" opacity=".7"/>
+        <path d="M-8,18 Q-3,8 2,14 Q6,6 8,16 Q10,8 8,18 Z" fill="#ff8800" opacity=".7"/>
+        <path d="M-4,18 Q0,12 4,14 Q6,8 4,18 Z" fill="#ffcc00" opacity=".6"/>
+        <!-- pot on fire (empty) -->
+        <ellipse cx="0" cy="6" rx="20" ry="8" fill="#3a2808" opacity=".8"/>
+        <rect x="-18" y="-4" width="36" height="12" fill="#2a1808" rx="2" opacity=".8"/>
+        <ellipse cx="0" cy="-4" rx="16" ry="5" fill="#1a1008" opacity=".7"/>
+        <!-- pot handle -->
+        <path d="M-18,-2 Q-26,4 -20,8" stroke="#2a1808" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M18,-2 Q26,4 20,8"   stroke="#2a1808" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- empty pot indicator -->
+        <line x1="-8" y1="-2" x2="8" y2="-2" stroke="#f0c040" stroke-width="1" opacity=".3"/>
+      </g>
+
+      <!-- HUNGRY FAMILY — woman and children -->
+      <g transform="translate(215,198)" opacity=".8">
+        <!-- mother -->
+        <circle cx="0"  cy="-18" r="7"  fill="#d4a57a"/>
+        <path d="M-7,-11 Q0,8 7,-11 Z" fill="#8b4a10"/>
+        <path d="M-7,-25 Q0,-38 7,-25 L9,-9 Q0,-7 -9,-9 Z" fill="#5a1a1a" opacity=".8"/>
+        <circle cx="-2.5" cy="-19" r="2" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-19" r="2" fill="#1a1a1a"/>
+        <!-- desperate expression -->
+        <path d="M-3,-12 Q0,-14 3,-12" stroke="#7a3a10" stroke-width="1.2" fill="none"/>
+        <!-- child 1 clinging -->
+        <circle cx="18"  cy="-14" r="5.5" fill="#d4a57a"/>
+        <rect x="12"  y="-9"  width="11" height="10" fill="#c0392b" rx="1" opacity=".7"/>
+        <!-- child 2 sitting -->
+        <circle cx="35"  cy="-10" r="5"  fill="#d4b080"/>
+        <rect x="30"  y="-6"  width="10" height="8"  fill="#8b4a10" rx="1" opacity=".7"/>
+      </g>
+
+      <!-- OMAR — disguised carrying sack of food on his back -->
+      <g transform="translate(78,182)">
+        <!-- simple dark robe — disguised -->
+        <path d="M-18,8 Q-14,60 0,64 Q14,60 18,8 Z" fill="#2a2a2a"/>
+        <path d="M-30,4 Q-24,62 -8,66 Q-16,56 -22,8 Z" fill="#1a1a1a" opacity=".8"/>
+        <!-- HUGE sack of flour on shoulders -->
+        <g transform="translate(-5,-20)">
+          <ellipse cx="0" cy="0" rx="32" ry="24" fill="#c8a04a" opacity=".8"/>
+          <ellipse cx="0" cy="-4" rx="26" ry="18" fill="#d4b060" opacity=".6"/>
+          <!-- sack rope ties -->
+          <line x1="-18" y1="-18" x2="18" y2="-18" stroke="#8b6020" stroke-width="2" opacity=".6"/>
+          <line x1="-20" y1="-12" x2="-24" y2="4" stroke="#8b6020" stroke-width="2" opacity=".5"/>
+          <line x1="20"  y1="-12" x2="24"  y2="4" stroke="#8b6020" stroke-width="2" opacity=".5"/>
+          <!-- "flour" label subtle -->
+          <text x="0" y="4" text-anchor="middle" font-size="8" fill="#8b6020" opacity=".4" font-family="serif">دقيق</text>
+        </g>
+        <!-- arms straining under weight -->
+        <line x1="-18" y1="12" x2="-36" y2="6" stroke="#2a2a2a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="18"  y1="12" x2="36"  y2="6" stroke="#2a2a2a" stroke-width="7" stroke-linecap="round"/>
+        <!-- head hooded -->
+        <circle cx="0" cy="-8" r="14" fill="#c8906a"/>
+        <path d="M-14,-18 Q0,-36 14,-18 L16,-6 Q0,-3 -16,-6 Z" fill="#1a1a1a" opacity=".95"/>
+        <!-- beard visible under hood -->
+        <ellipse cx="0" cy="2" rx="9" ry="7" fill="#1a1a1a" opacity=".8"/>
+        <!-- walking legs with effort -->
+        <line x1="-8" y1="62" x2="-12" y2="78" stroke="#2a2a2a" stroke-width="6" stroke-linecap="round"/>
+        <line x1="8"  y1="62" x2="12"  y2="76" stroke="#2a2a2a" stroke-width="6" stroke-linecap="round"/>
+        <!-- sweat — effort of carrying -->
+        <circle cx="18" cy="-12" r="2" fill="#87ceeb" opacity=".5"/>
+      </g>
+
+      <!-- golden sparkles path of generosity -->
+      <circle cx="115" cy="155" r="2" fill="#f0c040" opacity=".6"/>
+      <circle cx="130" cy="142" r="1.5" fill="#f0c040" opacity=".5"/>
+      <circle cx="145" cy="130" r="2" fill="#f0c040" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌙 Le Calife qui portait des sacs</h2>
+    <p>Omar devint le deuxième calife après Abu Bakr. Mais contrairement à ce qu'on imagine d'un calife, Omar vivait dans une extrême simplicité — son manteau était rapiécé, sa nourriture était celle des pauvres.</p>
+    <p>Chaque nuit, il parcourait <strong>incognito</strong> les rues de Médine, portant lui-même des sacs de farine et de la viande pour les familles dans le besoin. Un nuit, Abu Ubayda le vit et insista pour l'aider :</p>
+    <div class="quote">« Ô Commandeur des croyants, laisse-moi porter cela ! » — Omar répondit : « Seras-tu là pour porter le fardeau de ma responsabilité devant Dieu le Jour du Jugement ? »</div>
+    <p>Omar portait ses sacs jusqu'à l'épuisement. Il dit : <em>« Comment puis-je diriger un peuple sans connaître sa faim ? »</em> 🌾💛</p>
+    <div class="lesson">💡 <strong>Leçon :</strong> Un vrai leader partage les conditions de ceux qu'il gouverne. L'empathie n'est pas une faiblesse — c'est la plus grande force.</div>
+  </div>
+</div>
+
+
+<!-- ══ CH 3 : La Justice Absolue ══ -->
+<div class="chapter ch3">
+  <div class="ch-num">٣</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="justDay" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#87ceeb"/>
+          <stop offset="100%" stop-color="#ffecd2"/>
+        </linearGradient>
+        <radialGradient id="justSun" cx="75%" cy="20%" r="40%">
+          <stop offset="0%"   stop-color="#fffbe6" stop-opacity=".6"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#justDay)"/>
+      <rect width="340" height="255" fill="url(#justSun)"/>
+
+      <!-- Sun -->
+      <circle cx="285" cy="48" r="30" fill="#f0c040" opacity=".85"/>
+      <!-- Clouds -->
+      <ellipse cx="65"  cy="42" rx="48" ry="20" fill="white" opacity=".7"/>
+      <ellipse cx="82"  cy="30" rx="35" ry="16" fill="white" opacity=".8"/>
+
+      <!-- Medina market square -->
+      <rect x="0" y="195" width="340" height="60" fill="#c8a04a" opacity=".6"/>
+      <rect x="0" y="192" width="340" height="8"  fill="#d4b060" opacity=".5"/>
+      <!-- pebble texture -->
+      <circle cx="50"  cy="205" r="3" fill="#b89040" opacity=".4"/>
+      <circle cx="120" cy="210" r="2" fill="#b89040" opacity=".3"/>
+      <circle cx="200" cy="205" r="3" fill="#b89040" opacity=".4"/>
+      <circle cx="280" cy="210" r="2" fill="#b89040" opacity=".3"/>
+
+      <!-- Market stalls background -->
+      <g opacity=".5">
+        <path d="M10,180 L60,160 L110,180 Z" fill="#c0392b" opacity=".7"/>
+        <path d="M115,180 L165,160 L215,180 Z" fill="#1e6b3a" opacity=".7"/>
+        <path d="M220,180 L270,160 L320,180 Z" fill="#c9960c" opacity=".7"/>
+        <rect x="10"  y="180" width="100" height="20" fill="#e8d5a0" opacity=".5" rx="1"/>
+        <rect x="115" y="180" width="100" height="20" fill="#d8eac0" opacity=".5" rx="1"/>
+        <rect x="220" y="180" width="100" height="20" fill="#f5e6a0" opacity=".5" rx="1"/>
+      </g>
+
+      <!-- THE FAMOUS SCENE: Omar's own son caught stealing/wrongdoing -->
+      <!-- SON — head bowed, waiting judgment -->
+      <g transform="translate(138,192)">
+        <path d="M-12,5 Q-8,38 0,40 Q8,38 12,5 Z" fill="#1a5a8a" opacity=".8"/>
+        <path d="M-10,38 Q-14,50 -6,54" stroke="#1a5a8a" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <path d="M10,38 Q14,50 18,52"   stroke="#1a5a8a" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <line x1="-12" y1="8" x2="-24" y2="4" stroke="#1a5a8a" stroke-width="6" stroke-linecap="round"/>
+        <line x1="12"  y1="8" x2="24"  y2="4" stroke="#1a5a8a" stroke-width="6" stroke-linecap="round"/>
+        <!-- head bowed in shame -->
+        <circle cx="0" cy="-7" r="12" fill="#c8906a"/>
+        <path d="M-9,-15 Q0,-26 9,-15 L11,-5 Q0,-2 -11,-5 Z" fill="#1a5a8a" opacity=".8"/>
+        <ellipse cx="0" cy="2" rx="7" ry="5" fill="#8b6020" opacity=".5"/>
+        <!-- eyes downcast -->
+        <path d="M-5,-8 Q-2,-5 1,-8" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M1,-8 Q4,-5 7,-8"   stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M-3,-2 Q0,-4 3,-2" stroke="#7a3a10" stroke-width="1.2" fill="none"/>
+        <!-- shame tear -->
+        <ellipse cx="-3" cy="-4" rx="1.5" ry="2" fill="#87ceeb" opacity=".7"/>
+      </g>
+
+      <!-- OMAR judging — no exception even for his own son -->
+      <g transform="translate(220,180)">
+        <path d="M-18,8 Q-14,55 0,58 Q14,55 18,8 Z" fill="#3a3a3a"/>
+        <path d="M-30,4 Q-24,57 -8,60 Q-16,52 -22,8 Z" fill="#5a3a1a" opacity=".7"/>
+        <path d="M30,4 Q24,57 8,60 Q16,52 22,8 Z"  fill="#5a3a1a" opacity=".7"/>
+        <!-- patches on robe (Omar's famous patches) -->
+        <rect x="-28" y="18" width="14" height="12" fill="#4a2a10" rx="2" opacity=".6"/>
+        <!-- arm pointing — justice, firm decree -->
+        <line x1="-18" y1="12" x2="-48" y2="2"  stroke="#3a3a3a" stroke-width="8" stroke-linecap="round"/>
+        <line x1="18"  y1="12" x2="38"  y2="5"  stroke="#3a3a3a" stroke-width="8" stroke-linecap="round"/>
+        <ellipse cx="41" cy="4" rx="7" ry="5" fill="#c8906a" transform="rotate(10,41,4)"/>
+        <circle cx="0" cy="-10" r="16" fill="#c8906a"/>
+        <path d="M-13,-22 Q0,-38 13,-22 L15,-8 Q0,-5 -15,-8 Z" fill="#2a2a2a"/>
+        <path d="M13,-20 Q20,-10 18,0" stroke="#2a2a2a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- long black beard Omar -->
+        <ellipse cx="0" cy="2" rx="11" ry="9" fill="#1a1a1a" opacity=".9"/>
+        <path d="M-8,8 Q-6,20 0,24 Q6,20 8,8" stroke="#0a0a0a" stroke-width="3" fill="none" opacity=".7"/>
+        <!-- stern just eyes — pained but just -->
+        <circle cx="-5.5" cy="-12" r="2.8" fill="#1a1a1a"/>
+        <circle cx="5.5"  cy="-12" r="2.8" fill="#1a1a1a"/>
+        <path d="M-9,-17 Q-5.5,-19 -2,-17" stroke="#1a1a1a" stroke-width="1.8" fill="none"/>
+        <path d="M2,-17 Q5.5,-19 9,-17"    stroke="#1a1a1a" stroke-width="1.8" fill="none"/>
+        <!-- sad but firm expression — judging own son -->
+        <path d="M-5,-4 L5,-4" stroke="#7a3a10" stroke-width="1.8" fill="none"/>
+        <!-- tear on cheek — painful justice -->
+        <ellipse cx="-7" cy="-5" rx="1.5" ry="2.5" fill="#87ceeb" opacity=".6"/>
+      </g>
+
+      <!-- CROWD watching in awe — rich and poor equally -->
+      <g transform="translate(50,200)" opacity=".78">
+        <circle cx="0"  cy="-18" r="7"  fill="#d4a57a"/>
+        <rect x="-7"  y="-12" width="14" height="14" fill="#c0392b" rx="1"/>
+        <circle cx="24" cy="-16" r="6.5" fill="#c8906a"/>
+        <rect x="17"  y="-11" width="13" height="13" fill="#c9960c" rx="1"/>
+        <!-- pointing at scene in awe -->
+        <line x1="7"  y1="-6" x2="18"  y2="-14" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="-2.5" cy="-19" r="2" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-19" r="2" fill="#1a1a1a"/>
+      </g>
+      <!-- Rich man in crowd — also subject to same law -->
+      <g transform="translate(290,202)" opacity=".75">
+        <circle cx="0"  cy="-16" r="6.5" fill="#d4a57a"/>
+        <rect x="-6"  y="-11" width="13" height="13" fill="#6b3fa0" rx="1"/>
+        <!-- elaborate turban — rich man -->
+        <path d="M-6,-18 Q0,-28 6,-18 L8,-9 Q0,-7 -8,-9 Z" fill="#6b3fa0" opacity=".8"/>
+        <circle cx="0"  cy="-26" r="4" fill="#f0c040" opacity=".7"/>
+        <circle cx="-2.5" cy="-17" r="1.8" fill="#1a1a1a"/>
+        <circle cx="2.5"  cy="-17" r="1.8" fill="#1a1a1a"/>
+      </g>
+
+      <!-- scales of justice symbol -->
+      <g transform="translate(170,95)" opacity=".35">
+        <!-- balance beam -->
+        <line x1="-50" y1="0" x2="50" y2="0" stroke="#c8a04a" stroke-width="3"/>
+        <line x1="0" y1="-25" x2="0" y2="10" stroke="#c8a04a" stroke-width="3"/>
+        <circle cx="0" cy="-28" r="4" fill="#c8a04a"/>
+        <!-- two pans equal -->
+        <path d="M-50,0 Q-42,18 -34,0" fill="none" stroke="#c8a04a" stroke-width="2"/>
+        <path d="M50,0 Q42,18 34,0"   fill="none" stroke="#c8a04a" stroke-width="2"/>
+        <line x1="-50" y1="0" x2="-50" y2="-12" stroke="#c8a04a" stroke-width="1.5"/>
+        <line x1="50"  y1="0" x2="50"  y2="-12" stroke="#c8a04a" stroke-width="1.5"/>
+      </g>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">⚖️ La Justice Sans Exception</h2>
+    <p>Omar était célèbre pour une justice absolue — <strong>personne n'était au-dessus de la loi</strong>, même les puissants, même les gouverneurs, même sa propre famille.</p>
+    <p>Son propre fils commis une faute. Certains lui soufflèrent : <em>« C'est ton fils, Commandeur… »</em> Omar répondit les larmes aux yeux, mais la voix ferme :</p>
+    <div class="quote">« Si Mohamed ﷺ lui-même revenait et m'avait demandé d'exempter son propre proche, je n'aurais pas pu. La justice est pour tous ou pour personne. »</div>
+    <p>Il avait même écrit une lettre publique : <em>« Si quelqu'un parmi mes gouverneurs commet une injustice, qu'il me soit amené en personne »</em>. La justice d'Omar terrifiait les injustes et rassurait les faibles. ⚖️🌿</p>
+    <div class="lesson">💡 <strong>Leçon :</strong> La justice vraie n'a pas de faveurs. Elle protège les faibles des forts — y compris des forts au pouvoir.</div>
+  </div>
+</div>
+
+
+<!-- ══ CH 4 : La Lettre au Gouverneur ══ -->
+<div class="chapter ch4">
+  <div class="ch-num">٤</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="letSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#060810"/>
+          <stop offset="55%"  stop-color="#0e1020"/>
+          <stop offset="100%" stop-color="#1a1838"/>
+        </linearGradient>
+        <radialGradient id="letGlow" cx="55%" cy="45%" r="50%">
+          <stop offset="0%"   stop-color="#88aaff" stop-opacity=".25"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="letCandle" cx="50%" cy="55%" r="40%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#letSky)"/>
+      <rect width="340" height="255" fill="url(#letGlow)"/>
+      <rect width="340" height="255" fill="url(#letCandle)"/>
+
+      <!-- stars -->
+      <circle cx="25"  cy="18" r="1.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="75"  cy="30" r="1"   fill="white"   opacity=".7"/>
+      <circle cx="285" cy="20" r="1.5" fill="#88aaff" opacity=".75"/>
+      <circle cx="320" cy="38" r="1"   fill="white"   opacity=".6"/>
+      <!-- Moon -->
+      <circle cx="280" cy="52" r="22" fill="#ffe8a0" opacity=".8"/>
+      <circle cx="290" cy="44" r="18" fill="#060810"/>
+
+      <!-- simple room — Omar's bedroom / office -->
+      <rect x="0" y="185" width="340" height="70" fill="#0a0808"/>
+      <!-- simple floor -->
+      <rect x="0" y="210" width="340" height="45" fill="#0e0808"/>
+      <g stroke="#1a0e08" stroke-width=".8" opacity=".3">
+        <line x1="0" y1="220" x2="340" y2="220"/>
+        <line x1="0" y1="232" x2="340" y2="232"/>
+      </g>
+
+      <!-- WRITING TABLE — Omar writing to governors -->
+      <g transform="translate(170,195)">
+        <!-- simple wooden table -->
+        <rect x="-65" y="-5" width="130" height="18" fill="#3a2808" rx="3" opacity=".8"/>
+        <line x1="-55" y1="13" x2="-55" y2="35" stroke="#2a1808" stroke-width="5" stroke-linecap="round"/>
+        <line x1="55"  y1="13" x2="55"  y2="35" stroke="#2a1808" stroke-width="5" stroke-linecap="round"/>
+        <!-- CANDLE on table -->
+        <line x1="-45" y1="-5" x2="-45" y2="-22" stroke="#f5e6c8" stroke-width="4" stroke-linecap="round"/>
+        <line x1="-45" y1="-22" x2="-45" y2="-30" stroke="#f0c040" stroke-width="2" opacity=".8"/>
+        <circle cx="-45" cy="-32" r="5" fill="#f0c040" opacity=".7"/>
+        <circle cx="-45" cy="-32" r="12" fill="#f0c040" opacity=".1"/>
+        <!-- inkwell -->
+        <ellipse cx="35" cy="-3" rx="10" ry="8" fill="#1a1a1a" opacity=".7"/>
+        <ellipse cx="35" cy="-6" rx="7"  ry="4" fill="#0a0a0a" opacity=".8"/>
+        <!-- LETTERS / scrolls on table -->
+        <rect x="-28" y="-7" width="55" height="10" fill="#f5e6c8" rx="2" opacity=".9"/>
+        <!-- writing lines on letter -->
+        <g stroke="#8b5e20" stroke-width="1" opacity=".7">
+          <line x1="-24" y1="-3" x2="20"  y2="-3"/>
+          <line x1="-24" y1="0"  x2="18"  y2="0"/>
+          <line x1="-24" y1="3"  x2="22"  y2="3"/>
+        </g>
+        <!-- seal / stamp of Caliph -->
+        <circle cx="22" cy="-3" r="5" fill="#c8a04a" opacity=".6"/>
+        <!-- stack of letters to other governors -->
+        <g opacity=".5">
+          <rect x="-28" y="-18" width="55" height="10" fill="#f5e6c8" rx="2"/>
+          <rect x="-28" y="-29" width="55" height="10" fill="#f5e6c8" rx="2"/>
+        </g>
+      </g>
+
+      <!-- THE FAMOUS LETTER content illustrated -->
+      <!-- large scroll with famous words -->
+      <g transform="translate(290,155)">
+        <rect x="-30" y="-42" width="60" height="80" fill="#f5e6c8" rx="4" opacity=".8"/>
+        <!-- title ornament -->
+        <ellipse cx="0" cy="-36" rx="20" ry="5" fill="#c8a04a" opacity=".3"/>
+        <text x="0" y="-32" text-anchor="middle" font-size="6" fill="#8b5e20" opacity=".6" font-family="serif">بسم الله</text>
+        <!-- lines of text -->
+        <g stroke="#8b5e20" stroke-width="1" opacity=".5">
+          <line x1="-22" y1="-20" x2="22"  y2="-20"/>
+          <line x1="-22" y1="-12" x2="18"  y2="-12"/>
+          <line x1="-22" y1="-4"  x2="22"  y2="-4"/>
+          <line x1="-22" y1="4"   x2="16"  y2="4"/>
+          <line x1="-22" y1="12"  x2="22"  y2="12"/>
+          <line x1="-22" y1="20"  x2="18"  y2="20"/>
+          <line x1="-22" y1="28"  x2="22"  y2="28"/>
+        </g>
+        <!-- seal at bottom -->
+        <ellipse cx="0" cy="36" rx="15" ry="8" fill="#c8a04a" opacity=".4"/>
+        <rect x="-30" y="-42" width="60" height="80" fill="none" stroke="#c9960c" stroke-width="1.5" rx="4" opacity=".4"/>
+      </g>
+
+      <!-- OMAR writing — simple, seated on ground mat -->
+      <g transform="translate(130,175)">
+        <!-- sitting on simple mat — no throne -->
+        <ellipse cx="0" cy="45" rx="35" ry="10" fill="#3a2808" opacity=".5"/>
+        <!-- body sitting cross legged -->
+        <path d="M-16,5 Q-12,38 0,40 Q12,38 16,5 Z" fill="#2a2a2a"/>
+        <path d="M-24,2 Q-18,40 -6,44 Q-14,36 -18,5 Z" fill="#3a2808" opacity=".75"/>
+        <!-- sitting legs suggestion -->
+        <path d="M-16,38 Q-24,52 -8,56"  stroke="#2a2a2a" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <path d="M16,38 Q24,52 20,56"    stroke="#2a2a2a" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <!-- arm writing -->
+        <line x1="16"  y1="8" x2="42"  y2="12" stroke="#2a2a2a" stroke-width="7" stroke-linecap="round"/>
+        <!-- quill in hand -->
+        <line x1="42"  y1="12" x2="58" y2="-5" stroke="#f5e6c8" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+        <!-- other arm on paper -->
+        <line x1="-16" y1="8" x2="-35" y2="14" stroke="#2a2a2a" stroke-width="7" stroke-linecap="round"/>
+        <ellipse cx="-37" cy="15" rx="7" ry="5" fill="#c8906a" transform="rotate(-5,-37,15)"/>
+        <!-- head looking down at writing -->
+        <circle cx="0" cy="-8" r="14" fill="#c8906a"/>
+        <path d="M-11,-18 Q0,-32 11,-18 L13,-7 Q0,-4 -13,-7 Z" fill="#1a1a1a"/>
+        <path d="M11,-16 Q18,-8 16,2" stroke="#1a1a1a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- long black beard -->
+        <ellipse cx="0" cy="2" rx="10" ry="8" fill="#1a1a1a" opacity=".9"/>
+        <path d="M-7,8 Q-5,20 0,24 Q5,20 7,8" stroke="#0a0a0a" stroke-width="3" fill="none" opacity=".7"/>
+        <!-- eyes looking down at paper — concentrated -->
+        <path d="M-6,-10 Q-3,-7 0,-10" stroke="#5c3010" stroke-width="1.5" fill="none"/>
+        <path d="M0,-10 Q3,-7 6,-10"   stroke="#5c3010" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- golden sparkles of written justice -->
+      <circle cx="195" cy="140" r="2.5" fill="#88aaff" opacity=".7"/>
+      <circle cx="248" cy="128" r="2"   fill="#f0c040" opacity=".65"/>
+      <circle cx="225" cy="115" r="2"   fill="#88aaff" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">📜 La Lettre qui Changea l'Histoire</h2>
+    <p>Omar écrivit à ses gouverneurs des lettres qui restent parmi les plus belles pages de gouvernance de l'histoire. Il leur disait clairement leurs devoirs :</p>
+    <div class="quote">« Je t'envoie non pour que tu collectes les biens des gens, ni pour frapper leurs corps, mais pour qu'ils te fassent confiance et que tu leur montres la voie de Dieu. »</div>
+    <p>Il instaura le <strong>registre de l'État</strong>, les salaires réguliers pour les soldats et les pauvres, les premières <strong>polices de sécurité</strong> et des <strong>juges indépendants</strong> du pouvoir politique — des idées révolutionnaires pour l'époque.</p>
+    <p>Il écrivait lui-même, assis par terre sur une simple natte, à la lueur d'une bougie — refusant tout luxe inutile. On raconte qu'il avait <strong>10 pièces</strong> seulement dans sa maison. 📜✨</p>
+    <div class="lesson">💡 <strong>Leçon :</strong> Mettre des règles claires et les respecter soi-même — c'est la fondation d'une société juste.</div>
+  </div>
+</div>
+
+
+<!-- ══ CH 5 : L'Héritage du Faruq ══ -->
+<div class="chapter ch5">
+  <div class="ch-num">٥</div>
+  <div class="illustration">
+    <svg viewBox="0 0 340 255" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="legOmarSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1a1008"/>
+          <stop offset="40%"  stop-color="#2a1a08"/>
+          <stop offset="100%" stop-color="#c8a04a"/>
+        </linearGradient>
+        <radialGradient id="legOmarGlow" cx="50%" cy="50%" r="55%">
+          <stop offset="0%"   stop-color="#f0c040" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="340" height="255" fill="url(#legOmarSky)"/>
+      <rect width="340" height="255" fill="url(#legOmarGlow)"/>
+
+      <!-- dawn stars -->
+      <circle cx="25"  cy="18" r="1.5" fill="#f0c040" opacity=".7"/>
+      <circle cx="78"  cy="14" r="1.5" fill="white"   opacity=".6"/>
+      <circle cx="175" cy="10" r="1"   fill="#f0c040" opacity=".65"/>
+      <circle cx="280" cy="18" r="1.5" fill="white"   opacity=".6"/>
+
+      <!-- sunrise over Medina -->
+      <circle cx="170" cy="198" r="58"  fill="#f0c040" opacity=".2"/>
+      <circle cx="170" cy="202" r="44"  fill="#ff8800" opacity=".22"/>
+      <circle cx="170" cy="206" r="32"  fill="#f0c040" opacity=".32"/>
+      <g opacity=".14">
+        <line x1="115" y1="196" x2="78"  y2="192" stroke="#f0c040" stroke-width="2"/>
+        <line x1="225" y1="196" x2="262" y2="192" stroke="#f0c040" stroke-width="2"/>
+        <line x1="128" y1="168" x2="106" y2="154" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="212" y1="168" x2="234" y2="154" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="155" y1="160" x2="143" y2="144" stroke="#f0c040" stroke-width="1.5"/>
+        <line x1="185" y1="160" x2="197" y2="144" stroke="#f0c040" stroke-width="1.5"/>
+      </g>
+
+      <!-- Medina skyline -->
+      <polygon points="0,198 45,162 105,184 175,154 250,174 312,152 340,167 340,255 0,255"
+               fill="#2a1808" opacity=".9"/>
+      <rect x="0" y="228" width="340" height="27" fill="#3a2008"/>
+
+      <!-- Mosque silhouette -->
+      <g opacity=".75">
+        <rect x="110" y="155" width="120" height="50" fill="#0a1a0a" rx="3" opacity=".9"/>
+        <path d="M110,155 Q170,115 230,155 Z" fill="#1a6b4a" opacity=".9"/>
+        <ellipse cx="170" cy="155" rx="60" ry="15" fill="#1a6b4a" opacity=".6"/>
+        <line x1="170" y1="112" x2="170" y2="98" stroke="#c9960c" stroke-width="2.5"/>
+        <circle cx="170" cy="96" r="5" fill="#f0c040" opacity=".9"/>
+        <rect x="100" y="132" width="13" height="50" fill="#0e1808" rx="2" opacity=".9"/>
+        <path d="M100,132 Q107,118 113,132 Z" fill="#1a6b4a" opacity=".8"/>
+        <line x1="107" y1="116" x2="107" y2="104" stroke="#c9960c" stroke-width="2"/>
+        <circle cx="107" cy="102" r="4" fill="#f0c040" opacity=".9"/>
+        <rect x="227" y="132" width="13" height="50" fill="#0e1808" rx="2" opacity=".9"/>
+        <path d="M227,132 Q234,118 240,132 Z" fill="#1a6b4a" opacity=".8"/>
+        <line x1="234" y1="116" x2="234" y2="104" stroke="#c9960c" stroke-width="2"/>
+        <circle cx="234" cy="102" r="4" fill="#f0c040" opacity=".9"/>
+        <rect x="148" y="170" width="14" height="12" fill="#f0c040" rx="2" opacity=".6"/>
+        <rect x="168" y="170" width="14" height="12" fill="#f0c040" rx="2" opacity=".6"/>
+        <rect x="188" y="170" width="14" height="12" fill="#f0c040" rx="2" opacity=".6"/>
+      </g>
+
+      <!-- OMAR prostrated in mosque — his greatest moment daily -->
+      <g transform="translate(170,215)">
+        <!-- prostration mat -->
+        <ellipse cx="0" cy="8" rx="38" ry="12" fill="#3a2808" opacity=".6"/>
+        <!-- body in sujood (prostration) — fully flat face to ground -->
+        <path d="M-35,4 Q-10,-4 0,-2 Q10,0 35,4 L34,14 Q10,8 0,6 Q-10,8 -34,14 Z"
+              fill="#2a2a2a" opacity=".9"/>
+        <!-- head on ground -->
+        <circle cx="-32" cy="3" r="11" fill="#c8906a" opacity=".9"/>
+        <!-- hands flat on ground (sujood position) -->
+        <ellipse cx="-52" cy="6" rx="9" ry="5" fill="#c8906a" opacity=".8" transform="rotate(-10,-52,6)"/>
+        <ellipse cx="52"  cy="6" rx="9" ry="5" fill="#c8906a" opacity=".8" transform="rotate(10,52,6)"/>
+        <!-- forehead glow on prayer mat — light of prayer -->
+        <circle cx="-32" cy="4" r="15" fill="#f0c040" opacity=".1"/>
+        <!-- simple robe patches visible -->
+        <rect x="-10" y="-2" width="12" height="10" fill="#3a2808" rx="2" opacity=".5"/>
+        <rect x="10"  y="0"  width="10" height="8"  fill="#3a2808" rx="2" opacity=".5"/>
+        <!-- long beard touching ground -->
+        <path d="M-28,8 Q-22,18 -32,22" stroke="#1a1a1a" stroke-width="4" fill="none" stroke-linecap="round" opacity=".7"/>
+      </g>
+
+      <!-- diverse crowd paying respect -->
+      <g transform="translate(55,218)" opacity=".75">
+        <circle cx="0"  cy="-16" r="6.5" fill="#d4a57a"/>
+        <rect x="-6"  y="-11" width="13" height="13" fill="#c0392b" rx="1"/>
+        <circle cx="22" cy="-14" r="6"  fill="#c8906a"/>
+        <rect x="16"  y="-9"  width="12" height="12" fill="#c9960c" rx="1"/>
+        <circle cx="42" cy="-16" r="6.5" fill="#d4b080"/>
+        <rect x="36"  y="-11" width="13" height="13" fill="#1e6b3a" rx="1"/>
+        <!-- all bowing heads in respect -->
+        <line x1="-7"  y1="-11" x2="-18" y2="-20" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
+        <line x1="15"  y1="-9"  x2="8"   y2="-18" stroke="#c9960c" stroke-width="4" stroke-linecap="round"/>
+      </g>
+      <g transform="translate(255,218)" opacity=".72">
+        <circle cx="0"  cy="-16" r="6.5" fill="#d4a57a"/>
+        <rect x="-6"  y="-11" width="13" height="13" fill="#1a5a8a" rx="1"/>
+        <circle cx="22" cy="-14" r="6"  fill="#c8906a"/>
+        <rect x="16"  y="-9"  width="12" height="12" fill="#6b3fa0" rx="1"/>
+        <circle cx="42" cy="-16" r="6.5" fill="#d4b080"/>
+        <rect x="36"  y="-11" width="13" height="13" fill="#c0392b" rx="1"/>
+      </g>
+
+      <!-- golden sparkles of legacy -->
+      <circle cx="100" cy="138" r="2.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="240" cy="132" r="2.5" fill="#f0c040" opacity=".8"/>
+      <circle cx="170" cy="118" r="3"   fill="#f0c040" opacity=".85"/>
+      <circle cx="140" cy="126" r="2"   fill="#f0c040" opacity=".6"/>
+      <circle cx="200" cy="124" r="2"   fill="#f0c040" opacity=".6"/>
+    </svg>
+  </div>
+  <div class="story-text">
+    <h2 class="chapter-title">🌅 Al-Faruq — L'Héritage Éternel</h2>
+    <p>En dix ans de califat, Omar transforma une petite communauté en un empire s'étendant de la Perse à l'Égypte. Mais ce qui le rendait unique, c'était son humilité absolue.</p>
+    <p>À sa mort en 644, on trouva dans sa maison : une tunique rapiécée de <strong>seize pièces</strong>, une simple couverture, et rien d'autre. Lui, le maître d'un empire immense.</p>
+    <div class="quote">« Ô Dieu ! Je crains que si un mulet trébuche en Irak, Tu ne m'en demandes compte le Jour du Jugement. »</div>
+    <p>Le Prophète ﷺ avait dit : <em>« Si un prophète devait venir après moi, ce serait Omar. »</em> Omar nous laisse la plus belle leçon d'histoire : le pouvoir est une responsabilité, pas un privilège. 🌟</p>
+    <div class="lesson">💡 <strong>Leçon :</strong> La vraie grandeur est dans l'humilité. Plus on a de pouvoir, plus on a de responsabilité envers les autres.</div>
+  </div>
+</div>
+
+
+<!-- ══ ENDING ══ -->
+<div class="ending">
+  <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.06;pointer-events:none"
+       viewBox="0 0 400 300">
+    <defs>
+      <pattern id="omarPat" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+        <path d="M25,2 L25,48 M2,25 L48,25" stroke="#f0c040" stroke-width=".8" opacity=".5"/>
+        <circle cx="25" cy="25" r="10" fill="none" stroke="#c8a04a" stroke-width=".6"/>
+        <circle cx="25" cy="25" r="18" fill="none" stroke="#f0c040" stroke-width=".4" opacity=".4"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="300" fill="url(#omarPat)"/>
+  </svg>
+
+  <div style="font-size:2.5rem;margin-bottom:16px">⚖️</div>
+  <h2>✨ Fin ✨</h2>
+  <p>Et voilà l'histoire d'Omar ibn al-Khattab,<br>
+  <em>Al-Faruq</em> — celui qui sépare le vrai du faux.<br><br>
+  Il porta des sacs de farine pour des veuves inconnues.<br>
+  Il jugea son propre fils comme il jugerait n'importe qui.<br>
+  Il gouverna un empire immense depuis une natte par terre.<br><br>
+  Il n'était pas parfait — mais quand il se trompait, il corrigeait.<br>
+  <em>Et c'est peut-être sa plus grande leçon.</em></p>
+
+  <div class="lessons-box">
+    <h3>✦ Les Leçons d'Omar ✦</h3>
+    <ul>
+      <li><strong>Il n'est jamais trop tard</strong> — Omar était l'ennemi de l'Islam, puis son plus grand défenseur.</li>
+      <li><strong>Connais la réalité de ton peuple</strong> — Il portait lui-même de la nourriture aux pauvres la nuit.</li>
+      <li><strong>La justice ne fait pas de faveurs</strong> — Personne n'était exempt de la loi, même ses proches.</li>
+      <li><strong>Le pouvoir est une responsabilité</strong> — Il craignait de rendre des comptes pour chaque injustice.</li>
+      <li><strong>L'humilité protège</strong> — Plus il avait de pouvoir, plus il vivait simplement.</li>
+    </ul>
+  </div>
+
+  <div class="end-star">✦</div>
+</div>
+
+<script>
+  // Stars on cover
+  const cover = document.getElementById('starsCover');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const sz = Math.random() * 2.5 + .5;
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*55}%;
+      width:${sz}px; height:${sz}px;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${1.5+Math.random()*2.5}s;
+    `;
+    cover.appendChild(s);
+  }
+
+  // Spark particles
+  const sparkC = document.getElementById('sparkContainer');
+  sparkC.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;';
+  function makeSpark() {
+    const p = document.createElement('div');
+    p.className = 'spark';
+    const sz = Math.random() * 4 + 2;
+    p.style.cssText = `
+      width:${sz}px; height:${sz}px;
+      left:${Math.random()*100}%;
+      bottom:${Math.random()*40}%;
+      animation-duration:${2+Math.random()*3}s;
+      animation-delay:${Math.random()*3}s;
+    `;
+    sparkC.appendChild(p);
+    p.addEventListener('animationend', () => p.remove());
+  }
+  for(let i=0;i<15;i++) makeSpark();
+  setInterval(makeSpark, 500);
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold:.1 }
+  );
+  document.querySelectorAll('.chapter,.ending').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
