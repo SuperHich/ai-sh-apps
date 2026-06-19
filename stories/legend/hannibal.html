@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hannibal — Le Lion de Carthage</title>
+<style>
+  :root{
+    --bronze:#b5722f;
+    --ember:#c1440e;
+    --night:#1c1410;
+    --parchment:#f3e6cf;
+    --stone:#8a7c66;
+    --gold:#d9a441;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--night);
+    color:var(--parchment);
+    font-family:'Iowan Old Style','Palatino Linotype',Georgia,serif;
+    overflow-x:hidden;
+  }
+  .bg-texture{
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(193,68,14,0.08), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(217,164,65,0.08), transparent 45%);
+    pointer-events:none;
+    z-index:0;
+  }
+  .wrap{
+    position:relative;
+    z-index:1;
+    max-width:680px;
+    margin:0 auto;
+    padding:0 24px 80px;
+  }
+  header.cover{
+    min-height:88vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:60px 0;
+  }
+  .eyebrow{
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    font-size:0.7rem;
+    color:var(--gold);
+    margin-bottom:18px;
+    font-family:'Trajan Pro',Cambria,Georgia,serif;
+  }
+  h1.title{
+    font-size:clamp(2.6rem,9vw,4.2rem);
+    margin:0;
+    line-height:1.05;
+    color:var(--parchment);
+    text-shadow:0 0 30px rgba(193,68,14,0.35);
+    letter-spacing:0.01em;
+  }
+  .subtitle{
+    font-style:italic;
+    color:var(--stone);
+    margin-top:18px;
+    font-size:1.05rem;
+  }
+  .scroll-hint{
+    margin-top:60px;
+    font-size:0.8rem;
+    color:var(--stone);
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    animation:bob 2.2s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{transform:translateY(0); opacity:0.5;}
+    50%{transform:translateY(8px); opacity:1;}
+  }
+  .divider{
+    text-align:center;
+    color:var(--bronze);
+    font-size:1.4rem;
+    margin:70px 0 30px;
+    opacity:0.8;
+  }
+  .roman{
+    text-align:center;
+    font-family:'Trajan Pro',Cambria,Georgia,serif;
+    letter-spacing:0.25em;
+    color:var(--gold);
+    font-size:1rem;
+    margin-bottom:6px;
+  }
+  .chapter-image{
+    width:100%;
+    border-radius:6px;
+    margin:18px 0 30px;
+    box-shadow:0 12px 40px rgba(0,0,0,0.45);
+    display:block;
+  }
+  section.chapter{
+    margin-bottom:64px;
+  }
+  h2.chapter-title{
+    text-align:center;
+    font-size:clamp(1.5rem,5vw,2rem);
+    margin:0 0 28px;
+    color:var(--parchment);
+    font-weight:600;
+  }
+  p{
+    font-size:1.08rem;
+    line-height:1.85;
+    margin:0 0 20px;
+    color:#e9dcc3;
+  }
+  strong{
+    color:var(--gold);
+    font-weight:700;
+  }
+  em{
+    color:#d8c8a4;
+  }
+  blockquote{
+    margin:34px 0;
+    padding:20px 26px;
+    border-left:3px solid var(--ember);
+    background:rgba(193,68,14,0.06);
+    font-style:italic;
+    font-size:1.12rem;
+    color:#f1e3c4;
+    border-radius:2px;
+  }
+  blockquote::before{
+    content:"";
+  }
+  .emoji-mark{
+    text-align:center;
+    font-size:1.6rem;
+    margin:10px 0 0;
+  }
+  footer.ending{
+    text-align:center;
+    padding-top:30px;
+    border-top:1px solid rgba(217,164,65,0.25);
+  }
+  footer.ending h2{
+    font-size:1.8rem;
+    color:var(--gold);
+    margin-bottom:24px;
+  }
+  footer.ending p{
+    text-align:center;
+  }
+  .final-mark{
+    margin-top:40px;
+    font-size:1.8rem;
+    color:var(--bronze);
+  }
+  @media (max-width:480px){
+    p, blockquote{font-size:1rem;}
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+<div class="bg-texture"></div>
+
+<div class="wrap">
+
+  <header class="cover">
+    <div class="eyebrow">Carthage · IIIᵉ siècle avant notre ère</div>
+    <h1 class="title">Hannibal</h1>
+    <p class="subtitle">Le Lion de Carthage et l'art de la guerre intelligente</p>
+    <div class="scroll-hint">Fais défiler pour lire ⌄</div>
+  </header>
+
+  <div class="divider">⚔️</div>
+
+  <section class="chapter">
+    <div class="roman">I</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5MSIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjM2EyNDE4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTUlIiBzdG9wLWNvbG9yPSIjN2EzZjFmIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2Q5YTQ0MSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0ic3VuMSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZTZiMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkOWE0NDEiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JvdW5kMSIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjYjU3MjJmIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzVlM2ExZiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CgogIDxyZWN0IHdpZHRoPSI3MDAiIGhlaWdodD0iNDYwIiBmaWxsPSJ1cmwoI3NreTEpIi8+CiAgPGNpcmNsZSBjeD0iMzUwIiBjeT0iMTYwIiByPSIxMzAiIGZpbGw9InVybCgjc3VuMSkiLz4KICA8Y2lyY2xlIGN4PSIzNTAiIGN5PSIxNjAiIHI9IjQ2IiBmaWxsPSIjZmZlOWJkIiBvcGFjaXR5PSIwLjkiLz4KCiAgPCEtLSBkaXN0YW50IGNpdHkgb2YgQ2FydGhhZ2UgLS0+CiAgPGcgb3BhY2l0eT0iMC41NSIgZmlsbD0iIzJhMTYwZCI+CiAgICA8cmVjdCB4PSI2MCIgeT0iMjYwIiB3aWR0aD0iMjIiIGhlaWdodD0iNjAiLz4KICAgIDxyZWN0IHg9Ijk1IiB5PSIyNDAiIHdpZHRoPSIxOCIgaGVpZ2h0PSI4MCIvPgogICAgPHJlY3QgeD0iMTI1IiB5PSIyNzAiIHdpZHRoPSIyNiIgaGVpZ2h0PSI1MCIvPgogICAgPHBvbHlnb24gcG9pbnRzPSIxMDQsMjQwIDExMywyNDAgMTIyLDIyNSA5NSwyMjUiLz4KICAgIDxyZWN0IHg9IjU0MCIgeT0iMjU1IiB3aWR0aD0iMjAiIGhlaWdodD0iNjUiLz4KICAgIDxyZWN0IHg9IjU3NSIgeT0iMjM1IiB3aWR0aD0iMTYiIGhlaWdodD0iODUiLz4KICAgIDxyZWN0IHg9IjYwMCIgeT0iMjY1IiB3aWR0aD0iMjQiIGhlaWdodD0iNTUiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iNTgzLDIzNSA1OTEsMjM1IDU5OCwyMTggNTc1LDIxOCIvPgogIDwvZz4KCiAgPCEtLSBncm91bmQgLS0+CiAgPHBhdGggZD0iTTAsMzMwIFEzNTAsMzAwIDcwMCwzMzAgTDcwMCw0NjAgTDAsNDYwIFoiIGZpbGw9InVybCgjZ3JvdW5kMSkiLz4KCiAgPCEtLSBzdG9uZSBhbHRhciAtLT4KICA8Zz4KICAgIDxyZWN0IHg9IjMwMCIgeT0iMzAwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjIwIiByeD0iMyIgZmlsbD0iIzNhMjQxOCIvPgogICAgPHJlY3QgeD0iMzE1IiB5PSIyNDUiIHdpZHRoPSI3MCIgaGVpZ2h0PSI2MCIgZmlsbD0iIzRhMmMxOCIvPgogICAgPHJlY3QgeD0iMzA4IiB5PSIyMzgiIHdpZHRoPSI4NCIgaGVpZ2h0PSIxNCIgcng9IjIiIGZpbGw9IiM1ZTNhMWYiLz4KICAgIDwhLS0gc21hbGwgZmxhbWUgb24gYWx0YXIgLS0+CiAgICA8cGF0aCBkPSJNMzUwLDIwMCBDMzQ1LDIxNSAzMzUsMjIyIDM1MCwyMzggQzM2NSwyMjIgMzU1LDIxNSAzNTAsMjAwIFoiIGZpbGw9IiNmZjlkM2MiLz4KICAgIDxwYXRoIGQ9Ik0zNTAsMjEyIEMzNDcsMjIxIDM0MiwyMjYgMzUwLDIzNiBDMzU4LDIyNiAzNTMsMjIxIDM1MCwyMTIgWiIgZmlsbD0iI2ZmZTZiMCIvPgogIDwvZz4KCiAgPCEtLSBmYXRoZXIgZmlndXJlIChIYW1pbGNhcikgLS0+CiAgPGc+CiAgICA8cGF0aCBkPSJNMjU1LDMyMCBRMjUwLDI1MCAyNzAsMjI1IFEyODAsMjE1IDI5NSwyMjUgUTMxMCwyNTAgMzA1LDMyMCBaIiBmaWxsPSIjNmU0MzI2Ii8+CiAgICA8Y2lyY2xlIGN4PSIyODAiIGN5PSIyMDUiIHI9IjIwIiBmaWxsPSIjYzk4YTU1Ii8+CiAgICA8cGF0aCBkPSJNMjYwLDIwMCBRMjgwLDE4MCAzMDAsMjAwIFEzMDAsMTk1IDI4MCwxODggUTI2MCwxOTUgMjYwLDIwMCBaIiBmaWxsPSIjMmExNjBkIi8+CiAgICA8IS0tIGFybSBwb2ludGluZyB0byBhbHRhciAtLT4KICAgIDxwYXRoIGQ9Ik0yOTUsMjUwIFEzMjAsMjU1IDMzMiwyNzAiIHN0cm9rZT0iIzZlNDMyNiIgc3Ryb2tlLXdpZHRoPSIxNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgPC9nPgoKICA8IS0tIHlvdW5nIEhhbm5pYmFsIGtuZWVsaW5nIC0tPgogIDxnPgogICAgPHBhdGggZD0iTTM5NSwzMjAgUTM5MiwyODAgNDA4LDI2NSBRNDIwLDI1OCA0MzAsMjY4IFE0NDAsMjg1IDQzNiwzMjAgWiIgZmlsbD0iIzhhNGEyNiIvPgogICAgPGNpcmNsZSBjeD0iNDE0IiBjeT0iMjUyIiByPSIxNSIgZmlsbD0iI2Q5OWE2NiIvPgogICAgPHBhdGggZD0iTTQwMCwyNDggUTQxNCwyMzIgNDI4LDI0OCBRNDI2LDI0MyA0MTQsMjM4IFE0MDIsMjQzIDQwMCwyNDggWiIgZmlsbD0iIzJhMTYwZCIvPgogICAgPCEtLSBzbWFsbCBoYW5kIHJlYWNoaW5nIHRvd2FyZCBmbGFtZSAtLT4KICAgIDxwYXRoIGQ9Ik00MjgsMjY1IFEzNjAsMjUwIDM1MiwyMzUiIHN0cm9rZT0iIzhhNGEyNiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgPC9nPgoKICA8IS0tIGJpcmRzIC0tPgogIDxnIHN0cm9rZT0iIzJhMTYwZCIgc3Ryb2tlLXdpZHRoPSIyLjUiIGZpbGw9Im5vbmUiIG9wYWNpdHk9IjAuNyI+CiAgICA8cGF0aCBkPSJNMTIwLDEyMCBxMTAsLTEwIDIwLDAgcTEwLC0xMCAyMCwwIi8+CiAgICA8cGF0aCBkPSJNMTcwLDk1IHE4LC04IDE2LDAgcTgsLTggMTYsMCIvPgogIDwvZz4KPC9zdmc+Cg==" alt="Hannibal enfant prononce son serment devant Hamilcar à Carthage">
+    <h2 class="chapter-title">🦁 Le serment de l'enfant</h2>
+    <p>
+      Il y a plus de <strong>deux mille deux cents ans</strong>, dans la grande cité de
+      <strong>Carthage</strong>, sur les rives de la mer Méditerranée, vivait un jeune garçon
+      nommé <strong>Hannibal</strong>.
+    </p>
+    <p>
+      Son père, le général <strong>Hamilcar</strong>, l'emmena un jour devant un autel et lui
+      fit poser la main sur les offrandes sacrées.
+    </p>
+    <blockquote>
+      « Je jure de ne jamais être un ami de Rome, et de défendre Carthage de toutes mes forces. »
+    </blockquote>
+    <p>
+      Ce jour-là, l'enfant comprit que sa vie serait guidée par le courage et par
+      l'<strong>intelligence</strong> — car une petite cité ne peut affronter un empire
+      qu'avec des idées plus grandes que ses armées. 🔥
+    </p>
+  </section>
+
+  <div class="divider">🐘</div>
+
+  <section class="chapter">
+    <div class="roman">II</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5MiIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMWMyYTNhIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iNjAlIiBzdG9wLWNvbG9yPSIjNWE2YTgyIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2NkZDZlMCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic25vdzIiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2VlZjJmNiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhZWJjY2IiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InJvY2syIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM1YTRhNDAiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMmUyNDFlIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5MikiLz4KCiAgPCEtLSBmYXIgcGVha3MgLS0+CiAgPHBvbHlnb24gcG9pbnRzPSIwLDI2MCA5MCwxNDAgMTgwLDI2MCIgZmlsbD0iIzdkOGJhMCIgb3BhY2l0eT0iMC42Ii8+CiAgPHBvbHlnb24gcG9pbnRzPSI1MjAsMjYwIDYxMCwxMjAgNzAwLDI2MCIgZmlsbD0iIzdkOGJhMCIgb3BhY2l0eT0iMC42Ii8+CgogIDwhLS0gbWFpbiBtb3VudGFpbnMgLS0+CiAgPHBvbHlnb24gcG9pbnRzPSIwLDMwMCAxNjAsOTAgMzIwLDMwMCIgZmlsbD0idXJsKCNyb2NrMikiLz4KICA8cG9seWdvbiBwb2ludHM9IjYwLDMwMCAxNjAsMTMwIDI2MCwzMDAiIGZpbGw9InVybCgjc25vdzIpIi8+CgogIDxwb2x5Z29uIHBvaW50cz0iMzgwLDMwMCA1NDAsODAgNzAwLDMwMCIgZmlsbD0idXJsKCNyb2NrMikiLz4KICA8cG9seWdvbiBwb2ludHM9IjQ0MCwzMDAgNTQwLDEyMCA2NDAsMzAwIiBmaWxsPSJ1cmwoI3Nub3cyKSIvPgoKICA8IS0tIHBhc3MgLyBncm91bmQgcGF0aCAtLT4KICA8cGF0aCBkPSJNMCwzMzAgUTM1MCwyOTAgNzAwLDMzMCBMNzAwLDQ2MCBMMCw0NjAgWiIgZmlsbD0iI2NkZDZlMCIvPgogIDxwYXRoIGQ9Ik0wLDM2MCBRMzUwLDMzMCA3MDAsMzYwIiBzdHJva2U9IiM5YWE3YjgiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iMC42Ii8+CgogIDwhLS0gcHJvY2Vzc2lvbjogc29sZGllcnMgYW5kIGVsZXBoYW50IGNsaW1iaW5nIHRoZSBwYXNzIC0tPgogIDxnPgogICAgPCEtLSBlbGVwaGFudCAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMzMCwzMzApIj4KICAgICAgPHBhdGggZD0iTTAsNDAgUS0xMCwwIDMwLC0xMCBRNzAsLTIwIDkwLDEwIFExMDAsMzAgOTAsNTAgUTcwLDYwIDMwLDU4IFE1LDU4IDAsNDAgWiIgZmlsbD0iIzZiNWE0YSIvPgogICAgICA8cGF0aCBkPSJNLTUsMTUgUS0yNSwyMCAtMzAsNDUgUS0yOCw1NSAtMTgsNTIgUS0xMCw0NSAtNSwzMCBaIiBmaWxsPSIjNmI1YTRhIi8+CiAgICAgIDxjaXJjbGUgY3g9IjIwIiBjeT0iNSIgcj0iNCIgZmlsbD0iIzJhMTYwZCIvPgogICAgICA8cmVjdCB4PSIyMCIgeT0iLTIyIiB3aWR0aD0iNDAiIGhlaWdodD0iMTQiIHJ4PSI0IiBmaWxsPSIjYjU3MjJmIi8+CiAgICAgIDwhLS0gbGVncyAtLT4KICAgICAgPHJlY3QgeD0iNSIgeT0iNDgiIHdpZHRoPSIxMCIgaGVpZ2h0PSIyMiIgZmlsbD0iIzU2NDczOCIvPgogICAgICA8cmVjdCB4PSIzNSIgeT0iNTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIyMiIgZmlsbD0iIzU2NDczOCIvPgogICAgICA8cmVjdCB4PSI2MCIgeT0iNTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIyMiIgZmlsbD0iIzU2NDczOCIvPgogICAgICA8cmVjdCB4PSI3OCIgeT0iNDYiIHdpZHRoPSIxMCIgaGVpZ2h0PSIyMiIgZmlsbD0iIzU2NDczOCIvPgogICAgPC9nPgoKICAgIDwhLS0gc21hbGwgc29sZGllciBmaWd1cmVzIGFsb25nIHRoZSBwYXRoIC0tPgogICAgPGcgZmlsbD0iIzNhMmUyNCI+CiAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIyMCwzNDApIj4KICAgICAgICA8cmVjdCB4PSItMyIgeT0iLTIyIiB3aWR0aD0iNiIgaGVpZ2h0PSIyMiIgcng9IjIiLz4KICAgICAgICA8Y2lyY2xlIGN4PSIwIiBjeT0iLTI2IiByPSI1Ii8+CiAgICAgICAgPGxpbmUgeDE9IjYiIHkxPSItMTUiIHgyPSIxNiIgeTI9Ii0yNiIgc3Ryb2tlPSIjM2EyZTI0IiBzdHJva2Utd2lkdGg9IjMiLz4KICAgICAgPC9nPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0NjAsMzQwKSI+CiAgICAgICAgPHJlY3QgeD0iLTMiIHk9Ii0yMiIgd2lkdGg9IjYiIGhlaWdodD0iMjIiIHJ4PSIyIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iMCIgY3k9Ii0yNiIgcj0iNSIvPgogICAgICAgIDxsaW5lIHgxPSItNiIgeTE9Ii0xNSIgeDI9Ii0xNiIgeTI9Ii0yNiIgc3Ryb2tlPSIjM2EyZTI0IiBzdHJva2Utd2lkdGg9IjMiLz4KICAgICAgPC9nPgogICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1MDAsMzQ4KSI+CiAgICAgICAgPHJlY3QgeD0iLTMiIHk9Ii0yMCIgd2lkdGg9IjYiIGhlaWdodD0iMjAiIHJ4PSIyIi8+CiAgICAgICAgPGNpcmNsZSBjeD0iMCIgY3k9Ii0yNCIgcj0iNSIvPgogICAgICA8L2c+CiAgICA8L2c+CiAgPC9nPgoKICA8IS0tIGZhbGxpbmcgc25vdyAtLT4KICA8ZyBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjgiPgogICAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iNjAiIHI9IjIuNSIvPgogICAgPGNpcmNsZSBjeD0iMTgwIiBjeT0iMTEwIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIyNjAiIGN5PSI1MCIgcj0iMi41Ii8+CiAgICA8Y2lyY2xlIGN4PSI0MjAiIGN5PSI5MCIgcj0iMiIvPgogICAgPGNpcmNsZSBjeD0iNTAwIiBjeT0iNDAiIHI9IjIuNSIvPgogICAgPGNpcmNsZSBjeD0iNTkwIiBjeT0iMTAwIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSIzNDAiIGN5PSIxNjAiIHI9IjIiLz4KICA8L2c+Cjwvc3ZnPgo=" alt="Hannibal et ses éléphants traversant les Alpes enneigées">
+    <h2 class="chapter-title">⛰️ La traversée impossible</h2>
+    <p>
+      Devenu général à son tour, Hannibal décida de surprendre Rome d'une façon que
+      personne n'avait jamais imaginée. Plutôt que d'attaquer par la mer, là où les
+      Romains l'attendaient, il choisit le chemin que tous croyaient impossible :
+      les <strong>Alpes</strong>, ces montagnes immenses couvertes de neige.
+    </p>
+    <p>
+      Avec son armée et ses fameux <strong>éléphants de guerre</strong>, il gravit des
+      sentiers étroits, traversa des cols glacés et franchit des rivières déchaînées.
+    </p>
+    <blockquote>
+      « La victoire appartient à celui qui ose passer où l'ennemi n'imagine même pas qu'on puisse marcher. »
+    </blockquote>
+    <p>
+      Quand Hannibal redescendit en <strong>Italie</strong>, les Romains n'en crurent pas
+      leurs yeux : l'ennemi qu'ils guettaient au sud arrivait du nord, par-dessus les
+      montagnes. 🏔️
+    </p>
+  </section>
+
+  <div class="divider">🛡️</div>
+
+  <section class="chapter">
+    <div class="roman">III</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5MyIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjM2EzMjI4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTUlIiBzdG9wLWNvbG9yPSIjN2E3MDYwIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2M5YzBhYyIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ibGFrZTMiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzlhYTc5YSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM0YTU2NDgiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImZvZzMiIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNlOGU0ZDgiIHN0b3Atb3BhY2l0eT0iMC45Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U4ZTRkOCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5MykiLz4KCiAgPCEtLSBoaWxscyBoaWRpbmcgc29sZGllcnMgLS0+CiAgPHBvbHlnb24gcG9pbnRzPSIwLDI2MCAxNTAsMTcwIDMwMCwyNjAiIGZpbGw9IiM0YTNmMzAiIG9wYWNpdHk9IjAuODUiLz4KICA8cG9seWdvbiBwb2ludHM9IjQwMCwyNjAgNTYwLDE2MCA3MDAsMjYwIiBmaWxsPSIjNGEzZjMwIiBvcGFjaXR5PSIwLjg1Ii8+CgogIDwhLS0gbGFrZSAtLT4KICA8cGF0aCBkPSJNMCwzMDAgUTM1MCwyNzAgNzAwLDMwMCBMNzAwLDQ2MCBMMCw0NjAgWiIgZmlsbD0idXJsKCNsYWtlMykiLz4KCiAgPCEtLSBuYXJyb3cgcm9hZCBhbG9uZyB0aGUgbGFrZSB3aXRoIG1hcmNoaW5nIFJvbWFucyAtLT4KICA8cGF0aCBkPSJNMCwzMTAgUTM1MCwyODUgNzAwLDMxMCIgc3Ryb2tlPSIjYjlhYjhkIiBzdHJva2Utd2lkdGg9IjEwIiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjciLz4KICA8ZyBmaWxsPSIjNWE0YTM2Ij4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE4MCwzMDApIj48cmVjdCB4PSItMyIgeT0iLTE4IiB3aWR0aD0iNiIgaGVpZ2h0PSIxOCIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTIyIiByPSI0LjUiLz48L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMjAsMjk4KSI+PHJlY3QgeD0iLTMiIHk9Ii0xOCIgd2lkdGg9IjYiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PGNpcmNsZSBjeD0iMCIgY3k9Ii0yMiIgcj0iNC41Ii8+PC9nPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYwLDI5NykiPjxyZWN0IHg9Ii0zIiB5PSItMTgiIHdpZHRoPSI2IiBoZWlnaHQ9IjE4IiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjIiIHI9IjQuNSIvPjwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMwMCwyOTYpIj48cmVjdCB4PSItMyIgeT0iLTE4IiB3aWR0aD0iNiIgaGVpZ2h0PSIxOCIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTIyIiByPSI0LjUiLz48L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNDAsMjk1KSI+PHJlY3QgeD0iLTMiIHk9Ii0xOCIgd2lkdGg9IjYiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PGNpcmNsZSBjeD0iMCIgY3k9Ii0yMiIgcj0iNC41Ii8+PC9nPgogIDwvZz4KCiAgPCEtLSBoaWRkZW4gQ2FydGhhZ2luaWFuIHNvbGRpZXJzIHNpbGhvdWV0dGVzIG9uIHRoZSBoaWxsLCBwYXJ0bHkgdmVpbGVkIGJ5IGZvZyAtLT4KICA8ZyBmaWxsPSIjMmEyNDFjIiBvcGFjaXR5PSIwLjg1Ij4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyMCwyMDApIj48cmVjdCB4PSItMyIgeT0iLTIwIiB3aWR0aD0iNiIgaGVpZ2h0PSIyMCIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTI0IiByPSI1Ii8+PGxpbmUgeDE9IjYiIHkxPSItMTIiIHgyPSIxOCIgeTI9Ii0yNiIgc3Ryb2tlPSIjMmEyNDFjIiBzdHJva2Utd2lkdGg9IjMiLz48L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNjAsMTg1KSI+PHJlY3QgeD0iLTMiIHk9Ii0yMCIgd2lkdGg9IjYiIGhlaWdodD0iMjAiIHJ4PSIyIi8+PGNpcmNsZSBjeD0iMCIgY3k9Ii0yNCIgcj0iNSIvPjwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU2MCwxOTApIj48cmVjdCB4PSItMyIgeT0iLTIwIiB3aWR0aD0iNiIgaGVpZ2h0PSIyMCIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTI0IiByPSI1Ii8+PGxpbmUgeDE9Ii02IiB5MT0iLTEyIiB4Mj0iLTE4IiB5Mj0iLTI2IiBzdHJva2U9IiMyYTI0MWMiIHN0cm9rZS13aWR0aD0iMyIvPjwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwMCwyMDUpIj48cmVjdCB4PSItMyIgeT0iLTIwIiB3aWR0aD0iNiIgaGVpZ2h0PSIyMCIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTI0IiByPSI1Ii8+PC9nPgogIDwvZz4KCiAgPCEtLSByb2xsaW5nIGZvZyBiYW5rcyAtLT4KICA8ZWxsaXBzZSBjeD0iMzUwIiBjeT0iMjgwIiByeD0iMzgwIiByeT0iNzAiIGZpbGw9InVybCgjZm9nMykiLz4KICA8ZWxsaXBzZSBjeD0iMTgwIiBjeT0iMjUwIiByeD0iMjIwIiByeT0iNTAiIGZpbGw9InVybCgjZm9nMykiLz4KICA8ZWxsaXBzZSBjeD0iNTQwIiBjeT0iMjQ1IiByeD0iMjIwIiByeT0iNTAiIGZpbGw9InVybCgjZm9nMykiLz4KPC9zdmc+Cg==" alt="Le piège du brouillard au lac Trasimène">
+    <h2 class="chapter-title">🌫️ Le piège du brouillard</h2>
+    <p>
+      Près du lac <strong>Trasimène</strong>, Hannibal donna une leçon de patience et
+      d'astuce. Il cacha ses soldats dans les collines, derrière un épais brouillard
+      du matin, et laissa l'armée romaine s'avancer sur l'étroit chemin au bord de
+      l'eau, sans rien voir venir.
+    </p>
+    <p>
+      Puis, au moment voulu, ses troupes surgirent de toutes parts à la fois.
+    </p>
+    <blockquote>
+      « On ne gagne pas une bataille seulement avec des épées, mais avec les yeux de l'esprit. »
+    </blockquote>
+    <p>
+      Hannibal observait toujours le <strong>terrain</strong>, la météo, les habitudes de
+      l'ennemi, avant même de penser à combattre. Pour lui, la vraie force d'un chef
+      n'était pas dans ses bras, mais dans sa façon de <em>réfléchir avant d'agir</em>. 🌄
+    </p>
+  </section>
+
+  <div class="divider">🏛️</div>
+
+  <section class="chapter">
+    <div class="roman">IV</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5NCIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNGEyNDE0Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iNjAlIiBzdG9wLWNvbG9yPSIjYTg1YjI4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U4YjM1ZiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZmllbGQ0IiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNjOThhNDUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjN2E0YTI0Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5NCkiLz4KICA8Y2lyY2xlIGN4PSIzNTAiIGN5PSIxMjAiIHI9IjUwIiBmaWxsPSIjZmZlNmIwIiBvcGFjaXR5PSIwLjg1Ii8+CgogIDwhLS0gYmF0dGxlZmllbGQgLS0+CiAgPHBhdGggZD0iTTAsMjYwIFEzNTAsMjMwIDcwMCwyNjAgTDcwMCw0NjAgTDAsNDYwIFoiIGZpbGw9InVybCgjZmllbGQ0KSIvPgoKICA8IS0tIGNyZXNjZW50IHNoYXBlIGlsbHVzdHJhdGluZyB0aGUgZW5jaXJjbGVtZW50IC0tPgogIDxwYXRoIGQ9Ik0xMjAsMzEwIFEzNTAsNDIwIDU4MCwzMTAgUTM1MCwzODAgMTIwLDMxMCBaIiBmaWxsPSIjNWUzYTFmIiBvcGFjaXR5PSIwLjM1Ii8+CgogIDwhLS0gUm9tYW4gYmxvY2sgKGNlbnRlciwgcmVkKSwgYmVpbmcgZW52ZWxvcGVkIC0tPgogIDxnIGZpbGw9IiM3YTI0MTgiPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzEwLDMzMCkiPjxyZWN0IHg9Ii0zIiB5PSItMjAiIHdpZHRoPSI2IiBoZWlnaHQ9IjIwIiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjQiIHI9IjUiLz48L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMzAsMzMyKSI+PHJlY3QgeD0iLTMiIHk9Ii0yMCIgd2lkdGg9IjYiIGhlaWdodD0iMjAiIHJ4PSIyIi8+PGNpcmNsZSBjeD0iMCIgY3k9Ii0yNCIgcj0iNSIvPjwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM1MCwzMzApIj48cmVjdCB4PSItMyIgeT0iLTIwIiB3aWR0aD0iNiIgaGVpZ2h0PSIyMCIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTI0IiByPSI1Ii8+PC9nPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzcwLDMzMikiPjxyZWN0IHg9Ii0zIiB5PSItMjAiIHdpZHRoPSI2IiBoZWlnaHQ9IjIwIiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjQiIHI9IjUiLz48L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzOTAsMzMwKSI+PHJlY3QgeD0iLTMiIHk9Ii0yMCIgd2lkdGg9IjYiIGhlaWdodD0iMjAiIHJ4PSIyIi8+PGNpcmNsZSBjeD0iMCIgY3k9Ii0yNCIgcj0iNSIvPjwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMyMCwzMTApIj48cmVjdCB4PSItMyIgeT0iLTIwIiB3aWR0aD0iNiIgaGVpZ2h0PSIyMCIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTI0IiByPSI1Ii8+PC9nPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzQ1LDMwOCkiPjxyZWN0IHg9Ii0zIiB5PSItMjAiIHdpZHRoPSI2IiBoZWlnaHQ9IjIwIiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjQiIHI9IjUiLz48L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNzAsMzEwKSI+PHJlY3QgeD0iLTMiIHk9Ii0yMCIgd2lkdGg9IjYiIGhlaWdodD0iMjAiIHJ4PSIyIi8+PGNpcmNsZSBjeD0iMCIgY3k9Ii0yNCIgcj0iNSIvPjwvZz4KICA8L2c+CgogIDwhLS0gQ2FydGhhZ2luaWFuIGxlZnQgaG9ybiAtLT4KICA8ZyBmaWxsPSIjMmExNjBkIj4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE0MCwzMDApIj48cmVjdCB4PSItMyIgeT0iLTIwIiB3aWR0aD0iNiIgaGVpZ2h0PSIyMCIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTI0IiByPSI1Ii8+PGxpbmUgeDE9IjYiIHkxPSItMTIiIHgyPSIxOCIgeTI9Ii0yNCIgc3Ryb2tlPSIjMmExNjBkIiBzdHJva2Utd2lkdGg9IjMiLz48L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNzAsMjkwKSI+PHJlY3QgeD0iLTMiIHk9Ii0yMCIgd2lkdGg9IjYiIGhlaWdodD0iMjAiIHJ4PSIyIi8+PGNpcmNsZSBjeD0iMCIgY3k9Ii0yNCIgcj0iNSIvPjxsaW5lIHgxPSI2IiB5MT0iLTEyIiB4Mj0iMTgiIHkyPSItMjQiIHN0cm9rZT0iIzJhMTYwZCIgc3Ryb2tlLXdpZHRoPSIzIi8+PC9nPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjAwLDMwMCkiPjxyZWN0IHg9Ii0zIiB5PSItMjAiIHdpZHRoPSI2IiBoZWlnaHQ9IjIwIiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjQiIHI9IjUiLz48bGluZSB4MT0iNiIgeTE9Ii0xMiIgeDI9IjE4IiB5Mj0iLTI0IiBzdHJva2U9IiMyYTE2MGQiIHN0cm9rZS13aWR0aD0iMyIvPjwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIzMCwzMzApIj48cmVjdCB4PSItMyIgeT0iLTIwIiB3aWR0aD0iNiIgaGVpZ2h0PSIyMCIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTI0IiByPSI1Ii8+PGxpbmUgeDE9IjYiIHkxPSItMTIiIHgyPSIyMCIgeTI9Ii0yMiIgc3Ryb2tlPSIjMmExNjBkIiBzdHJva2Utd2lkdGg9IjMiLz48L2c+CiAgPC9nPgoKICA8IS0tIENhcnRoYWdpbmlhbiByaWdodCBob3JuIC0tPgogIDxnIGZpbGw9IiMyYTE2MGQiPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTYwLDMwMCkiPjxyZWN0IHg9Ii0zIiB5PSItMjAiIHdpZHRoPSI2IiBoZWlnaHQ9IjIwIiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjQiIHI9IjUiLz48bGluZSB4MT0iLTYiIHkxPSItMTIiIHgyPSItMTgiIHkyPSItMjQiIHN0cm9rZT0iIzJhMTYwZCIgc3Ryb2tlLXdpZHRoPSIzIi8+PC9nPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTMwLDI5MCkiPjxyZWN0IHg9Ii0zIiB5PSItMjAiIHdpZHRoPSI2IiBoZWlnaHQ9IjIwIiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjQiIHI9IjUiLz48bGluZSB4MT0iLTYiIHkxPSItMTIiIHgyPSItMTgiIHkyPSItMjQiIHN0cm9rZT0iIzJhMTYwZCIgc3Ryb2tlLXdpZHRoPSIzIi8+PC9nPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTAwLDMwMCkiPjxyZWN0IHg9Ii0zIiB5PSItMjAiIHdpZHRoPSI2IiBoZWlnaHQ9IjIwIiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjQiIHI9IjUiLz48bGluZSB4MT0iLTYiIHkxPSItMTIiIHgyPSItMTgiIHkyPSItMjQiIHN0cm9rZT0iIzJhMTYwZCIgc3Ryb2tlLXdpZHRoPSIzIi8+PC9nPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDcwLDMzMCkiPjxyZWN0IHg9Ii0zIiB5PSItMjAiIHdpZHRoPSI2IiBoZWlnaHQ9IjIwIiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjQiIHI9IjUiLz48bGluZSB4MT0iLTYiIHkxPSItMTIiIHgyPSItMjAiIHkyPSItMjIiIHN0cm9rZT0iIzJhMTYwZCIgc3Ryb2tlLXdpZHRoPSIzIi8+PC9nPgogIDwvZz4KCiAgPCEtLSBjdXJ2ZWQgYXJyb3dzIHNob3dpbmcgdGhlIHBpbmNlciBtb3ZlbWVudCAtLT4KICA8cGF0aCBkPSJNMTUwLDI4MCBRMjYwLDM2MCAzNDAsMzU1IiBzdHJva2U9IiNkOWE0NDEiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLWRhc2hhcnJheT0iNiw2IiBvcGFjaXR5PSIwLjgiLz4KICA8cGF0aCBkPSJNNTUwLDI4MCBRNDQwLDM2MCAzNjAsMzU1IiBzdHJva2U9IiNkOWE0NDEiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLWRhc2hhcnJheT0iNiw2IiBvcGFjaXR5PSIwLjgiLz4KPC9zdmc+Cg==" alt="La manoeuvre des cornes lors de la bataille de Cannes">
+    <h2 class="chapter-title">🌗 Les cornes de Cannes</h2>
+    <p>
+      À <strong>Cannes</strong>, Hannibal affronta une armée romaine bien plus nombreuse
+      que la sienne. Au lieu de placer ses meilleurs soldats au centre, comme tout le
+      monde le faisait, il fit l'inverse : il plaça les plus faibles au milieu et ses
+      meilleurs guerriers sur les côtés.
+    </p>
+    <p>
+      Le centre recula doucement, attirant les Romains vers l'intérieur, comme une
+      vague qui se creuse... jusqu'à ce que les ailes carthaginoises se referment
+      autour d'eux, comme deux <strong>cornes</strong> enveloppant leur ennemi.
+    </p>
+    <blockquote>
+      « Laisse ton adversaire croire qu'il avance, pendant que tu l'enveloppes. »
+    </blockquote>
+    <p>
+      Cette bataille resta dans l'histoire comme l'un des plus beaux exemples
+      d'<strong>intelligence militaire</strong> jamais imaginés — une leçon encore
+      étudiée, aujourd'hui, par celles et ceux qui apprennent à diriger. ♟️
+    </p>
+  </section>
+
+  <div class="divider">🌊</div>
+
+  <section class="chapter">
+    <div class="roman">V</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5NSIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMWMxNDEwIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjNWUzYTFmIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2Q5YTQ0MSIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iZ2xvdzUiIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmU2YjAiIHN0b3Atb3BhY2l0eT0iMC45Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmZTZiMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5NSkiLz4KICA8Y2lyY2xlIGN4PSIzNTAiIGN5PSIxNzAiIHI9IjE2MCIgZmlsbD0idXJsKCNnbG93NSkiLz4KCiAgPCEtLSBzdGFycyAtLT4KICA8ZyBmaWxsPSIjZjNlNmNmIj4KICAgIDxjaXJjbGUgY3g9IjkwIiBjeT0iNzAiIHI9IjIiLz4KICAgIDxjaXJjbGUgY3g9IjE1MCIgY3k9IjQwIiByPSIxLjYiLz4KICAgIDxjaXJjbGUgY3g9IjU2MCIgY3k9IjYwIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI2MTAiIGN5PSIxMDAiIHI9IjEuNiIvPgogICAgPGNpcmNsZSBjeD0iNTAwIiBjeT0iMzUiIHI9IjEuNCIvPgogICAgPGNpcmNsZSBjeD0iMjIwIiBjeT0iNTUiIHI9IjEuNCIvPgogIDwvZz4KCiAgPCEtLSBkaXN0YW50IENhcnRoYWdlIHNreWxpbmUgc2lsaG91ZXR0ZSAtLT4KICA8ZyBmaWxsPSIjMmExNjBkIiBvcGFjaXR5PSIwLjgiPgogICAgPHJlY3QgeD0iNjAiIHk9IjMzMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjYwIi8+CiAgICA8cmVjdCB4PSI5MCIgeT0iMzA1IiB3aWR0aD0iMTYiIGhlaWdodD0iODUiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iOTgsMzA1IDEwNSwzMDUgMTEzLDI4OCA5MCwyODgiLz4KICAgIDxyZWN0IHg9IjEyMCIgeT0iMzIwIiB3aWR0aD0iMjQiIGhlaWdodD0iNzAiLz4KICAgIDxyZWN0IHg9IjU2MCIgeT0iMzE1IiB3aWR0aD0iMTgiIGhlaWdodD0iNzUiLz4KICAgIDxyZWN0IHg9IjU5MCIgeT0iMjk1IiB3aWR0aD0iMTYiIGhlaWdodD0iOTUiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iNTk4LDI5NSA2MDUsMjk1IDYxMiwyODAgNTkwLDI4MCIvPgogICAgPHJlY3QgeD0iNjE1IiB5PSIzMjUiIHdpZHRoPSIyMiIgaGVpZ2h0PSI2NSIvPgogIDwvZz4KCiAgPCEtLSBncm91bmQgLS0+CiAgPHBhdGggZD0iTTAsMzkwIFEzNTAsMzY1IDcwMCwzOTAgTDcwMCw0NjAgTDAsNDYwIFoiIGZpbGw9IiMzYTI0MTgiLz4KCiAgPCEtLSBzdGFuZGluZyBmaWd1cmUgb2YgSGFubmliYWwsIGxvb2tpbmcgb3V0LCBjbG9hayBhbmQgZWxlcGhhbnQgZW1ibGVtIG9uIHNoaWVsZCAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNTAsMzMwKSI+CiAgICA8cGF0aCBkPSJNLTMwLDYwIFEtMzUsMCAtMTAsLTQwIFEwLC01NSAxMCwtNDAgUTM1LDAgMzAsNjAgWiIgZmlsbD0iIzZlNDMyNiIvPgogICAgPGNpcmNsZSBjeD0iMCIgY3k9Ii01NSIgcj0iMTgiIGZpbGw9IiNjOThhNTUiLz4KICAgIDxwYXRoIGQ9Ik0tMTYsLTU4IFEwLC03NSAxNiwtNTggUTE0LC02NCAwLC02OCBRLTE0LC02NCAtMTYsLTU4IFoiIGZpbGw9IiMyYTE2MGQiLz4KICAgIDwhLS0gY2xvYWsgLS0+CiAgICA8cGF0aCBkPSJNLTMwLDAgUS01NSwzMCAtNDUsNjAgTC0xNSw2MCBRLTIwLDIwIC0zMCwwIFoiIGZpbGw9IiNjMTQ0MGUiIG9wYWNpdHk9IjAuODUiLz4KICAgIDwhLS0gc2hpZWxkIHdpdGggc21hbGwgZWxlcGhhbnQgZW1ibGVtIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzQsMTApIj4KICAgICAgPHBhdGggZD0iTTAsLTIyIFExNiwtMTggMTYsMCBRMTYsMTggMCwyNiBRLTE2LDE4IC0xNiwwIFEtMTYsLTE4IDAsLTIyIFoiIGZpbGw9IiMzYTI0MTgiIHN0cm9rZT0iI2Q5YTQ0MSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgIDxwYXRoIGQ9Ik0tNiw0IFEtOSwtNCAwLC02IFE5LC00IDksNCBROSwxMCAwLDExIFEtNiwxMCAtNiw0IFoiIGZpbGw9IiNkOWE0NDEiLz4KICAgIDwvZz4KICA8L2c+CgogIDwhLS0gc21hbGwgZmxvY2sgb2YgYmlyZHMgdG93YXJkIHRoZSBob3Jpem9uLCBzeW1ib2wgb2YgdGhlIGpvdXJuZXkgY29udGludWluZyAtLT4KICA8ZyBzdHJva2U9IiNmM2U2Y2YiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iMC44Ij4KICAgIDxwYXRoIGQ9Ik00NTAsMTQwIHE5LC05IDE4LDAgcTksLTkgMTgsMCIvPgogICAgPHBhdGggZD0iTTQ5MCwxMjAgcTcsLTcgMTQsMCBxNywtNyAxNCwwIi8+CiAgICA8cGF0aCBkPSJNNTIwLDE1MCBxNiwtNiAxMiwwIHE2LC02IDEyLDAiLz4KICA8L2c+Cjwvc3ZnPgo=" alt="Hannibal contemplant Carthage au crépuscule, héritage du stratège">
+    <h2 class="chapter-title">⭐ L'héritage du stratège</h2>
+    <p>
+      Hannibal ne gagna pas la guerre tout entière. Mais il enseigna au monde que la
+      <strong>ruse</strong>, la <strong>patience</strong> et l'<strong>observation</strong>
+      valent parfois plus que la force brute. Même seul face à un empire gigantesque, il
+      tint Rome en respect pendant de longues années.
+    </p>
+    <blockquote>
+      « Je trouverai un chemin, ou j'en créerai un. »
+    </blockquote>
+    <p>
+      Aujourd'hui encore, son nom évoque le courage de ceux qui osent emprunter la
+      route que personne n'attend, et l'esprit de ceux qui réfléchissent avant de
+      foncer. 🦁
+    </p>
+  </section>
+
+  <footer class="ending">
+    <h2>✨ Fin ✨</h2>
+    <p>
+      Et voilà l'histoire d'Hannibal,<br>
+      le général qui transforma l'intelligence en arme.
+    </p>
+    <p>
+      Né dans une cité menacée, il grandit pour montrer<br>
+      que <em>l'esprit bien armé vaut plus que mille épées.</em>
+    </p>
+    <p>
+      Il nous apprend à observer, à patienter,<br>
+      à choisir le chemin que nul n'attend.
+    </p>
+    <p><em>Sa ruse traverse encore les siècles. ⚔️</em></p>
+    <div class="final-mark">🐘</div>
+  </footer>
+
+</div>
+
+</body>
+</html>

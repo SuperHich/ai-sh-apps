@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elissa — La Reine de Carthage</title>
+<style>
+  :root{
+    --bronze:#b5722f;
+    --ember:#c1440e;
+    --night:#1c1410;
+    --parchment:#f3e6cf;
+    --stone:#8a7c66;
+    --gold:#d9a441;
+    --purple:#5e3a5e;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--night);
+    color:var(--parchment);
+    font-family:'Iowan Old Style','Palatino Linotype',Georgia,serif;
+    overflow-x:hidden;
+  }
+  .bg-texture{
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(193,68,14,0.08), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(217,164,65,0.08), transparent 45%);
+    pointer-events:none;
+    z-index:0;
+  }
+  .wrap{
+    position:relative;
+    z-index:1;
+    max-width:680px;
+    margin:0 auto;
+    padding:0 24px 80px;
+  }
+  header.cover{
+    min-height:88vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:60px 0;
+  }
+  .eyebrow{
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    font-size:0.7rem;
+    color:var(--gold);
+    margin-bottom:18px;
+    font-family:'Trajan Pro',Cambria,Georgia,serif;
+  }
+  h1.title{
+    font-size:clamp(2.6rem,9vw,4.2rem);
+    margin:0;
+    line-height:1.05;
+    color:var(--parchment);
+    text-shadow:0 0 30px rgba(193,68,14,0.35);
+    letter-spacing:0.01em;
+  }
+  .subtitle{
+    font-style:italic;
+    color:var(--stone);
+    margin-top:18px;
+    font-size:1.05rem;
+  }
+  .scroll-hint{
+    margin-top:60px;
+    font-size:0.8rem;
+    color:var(--stone);
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    animation:bob 2.2s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{transform:translateY(0); opacity:0.5;}
+    50%{transform:translateY(8px); opacity:1;}
+  }
+  .divider{
+    text-align:center;
+    color:var(--bronze);
+    font-size:1.4rem;
+    margin:70px 0 30px;
+    opacity:0.8;
+  }
+  .roman{
+    text-align:center;
+    font-family:'Trajan Pro',Cambria,Georgia,serif;
+    letter-spacing:0.25em;
+    color:var(--gold);
+    font-size:1rem;
+    margin-bottom:6px;
+  }
+  .chapter-image{
+    width:100%;
+    border-radius:6px;
+    margin:18px 0 30px;
+    box-shadow:0 12px 40px rgba(0,0,0,0.45);
+    display:block;
+  }
+  section.chapter{
+    margin-bottom:64px;
+  }
+  h2.chapter-title{
+    text-align:center;
+    font-size:clamp(1.5rem,5vw,2rem);
+    margin:0 0 28px;
+    color:var(--parchment);
+    font-weight:600;
+  }
+  p{
+    font-size:1.08rem;
+    line-height:1.85;
+    margin:0 0 20px;
+    color:#e9dcc3;
+  }
+  strong{
+    color:var(--gold);
+    font-weight:700;
+  }
+  em{
+    color:#d8c8a4;
+  }
+  blockquote{
+    margin:34px 0;
+    padding:20px 26px;
+    border-left:3px solid var(--ember);
+    background:rgba(193,68,14,0.06);
+    font-style:italic;
+    font-size:1.12rem;
+    color:#f1e3c4;
+    border-radius:2px;
+  }
+  footer.ending{
+    text-align:center;
+    padding-top:30px;
+    border-top:1px solid rgba(217,164,65,0.25);
+  }
+  footer.ending h2{
+    font-size:1.8rem;
+    color:var(--gold);
+    margin-bottom:24px;
+  }
+  footer.ending p{
+    text-align:center;
+  }
+  .final-mark{
+    margin-top:40px;
+    font-size:1.8rem;
+    color:var(--bronze);
+  }
+  @media (max-width:480px){
+    p, blockquote{font-size:1rem;}
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+<div class="bg-texture"></div>
+
+<div class="wrap">
+
+  <header class="cover">
+    <div class="eyebrow">Tyr puis Carthage · IXᵉ siècle avant notre ère</div>
+    <h1 class="title">Elissa</h1>
+    <p class="subtitle">La reine qui fonda Carthage par la ruse et le courage</p>
+    <div class="scroll-hint">Fais défiler pour lire ⌄</div>
+  </header>
+
+  <div class="divider">👑</div>
+
+  <section class="chapter">
+    <div class="roman">I</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5MWUiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFjMTQzMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjU1JSIgc3RvcC1jb2xvcj0iIzNhMmE0YSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3YTVhNmUiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Im1vb24xZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2YzZTZjZiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkOWE0NDEiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2VhMWUiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzNhNGE1ZSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxYzI0MzQiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgoKICA8cmVjdCB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQ2MCIgZmlsbD0idXJsKCNza3kxZSkiLz4KICA8Y2lyY2xlIGN4PSI1NDAiIGN5PSIxMDAiIHI9IjkwIiBmaWxsPSJ1cmwoI21vb24xZSkiLz4KICA8Y2lyY2xlIGN4PSI1NDAiIGN5PSIxMDAiIHI9IjM0IiBmaWxsPSIjZjNlNmNmIiBvcGFjaXR5PSIwLjk1Ii8+CgogIDwhLS0gc3RhcnMgLS0+CiAgPGcgZmlsbD0iI2YzZTZjZiIgb3BhY2l0eT0iMC44Ij4KICAgIDxjaXJjbGUgY3g9IjgwIiBjeT0iNjAiIHI9IjEuNiIvPgogICAgPGNpcmNsZSBjeD0iMTQwIiBjeT0iOTAiIHI9IjEuNCIvPgogICAgPGNpcmNsZSBjeD0iMjIwIiBjeT0iNTAiIHI9IjEuNiIvPgogICAgPGNpcmNsZSBjeD0iMzUwIiBjeT0iNDAiIHI9IjEuNCIvPgogICAgPGNpcmNsZSBjeD0iNDMwIiBjeT0iNzAiIHI9IjEuNiIvPgogIDwvZz4KCiAgPCEtLSBjaXR5IG9mIFR5ciBzaWxob3VldHRlIG9uIGEgY2xpZmYsIGZhZGluZyBiZWhpbmQgLS0+CiAgPGcgZmlsbD0iIzJhMWYzYSIgb3BhY2l0eT0iMC43NSI+CiAgICA8cmVjdCB4PSI0MCIgeT0iMjcwIiB3aWR0aD0iMjAiIGhlaWdodD0iNTUiLz4KICAgIDxyZWN0IHg9IjcwIiB5PSIyNTAiIHdpZHRoPSIxNiIgaGVpZ2h0PSI3NSIvPgogICAgPHBvbHlnb24gcG9pbnRzPSI3OCwyNTAgODUsMjUwIDkyLDIzNiA3MCwyMzYiLz4KICAgIDxyZWN0IHg9IjEwMCIgeT0iMjgwIiB3aWR0aD0iMjQiIGhlaWdodD0iNDUiLz4KICAgIDxyZWN0IHg9IjEzNSIgeT0iMjYwIiB3aWR0aD0iMTgiIGhlaWdodD0iNjUiLz4KICA8L2c+CgogIDwhLS0gc2VhIC0tPgogIDxwYXRoIGQ9Ik0wLDMzMCBRMzUwLDMwMCA3MDAsMzMwIEw3MDAsNDYwIEwwLDQ2MCBaIiBmaWxsPSJ1cmwoI3NlYTFlKSIvPgogIDxnIHN0cm9rZT0iIzVhNmE3ZSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjUiPgogICAgPHBhdGggZD0iTTIwLDM2MCBxNDAsLTggODAsMCBxNDAsOCA4MCwwIi8+CiAgICA8cGF0aCBkPSJNMzAwLDM4MCBxNDAsLTggODAsMCBxNDAsOCA4MCwwIi8+CiAgICA8cGF0aCBkPSJNNDUwLDM1NSBxNDAsLTggODAsMCBxNDAsOCA4MCwwIi8+CiAgPC9nPgoKICA8IS0tIHNoaXAgd2l0aCBFbGlzc2EgYWJvYXJkLCBzYWlsaW5nIHRvd2FyZCB0aGUgcmlnaHQgLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzgwLDMwMCkiPgogICAgPHBhdGggZD0iTS02MCwzMCBRMCw1MCA3MCwzMCBMNTUsNTUgTC00NSw1NSBaIiBmaWxsPSIjNWUzYTFmIi8+CiAgICA8bGluZSB4MT0iMCIgeTE9IjMwIiB4Mj0iMCIgeTI9Ii02MCIgc3Ryb2tlPSIjM2EyNDE4IiBzdHJva2Utd2lkdGg9IjQiLz4KICAgIDxwYXRoIGQ9Ik0wLC01OCBRNDAsLTQwIDAsLTEwIFoiIGZpbGw9IiNlOWRjYzMiIG9wYWNpdHk9IjAuOTIiLz4KICAgIDwhLS0gRWxpc3NhIGZpZ3VyZSBvbiBkZWNrIC0tPgogICAgPHBhdGggZD0iTS0yMCwyOCBRLTIyLDUgLTEwLC04IFEtMywtMTMgNCwtOCBRMTQsNSAxMiwyOCBaIiBmaWxsPSIjN2E0YTZlIi8+CiAgICA8Y2lyY2xlIGN4PSItMyIgY3k9Ii0xNiIgcj0iOSIgZmlsbD0iI2Q5OWE2NiIvPgogICAgPHBhdGggZD0iTS0xMCwtMTggUS0zLC0zMCA2LC0xOCBRNCwtMjIgLTMsLTI0IFEtOSwtMjIgLTEwLC0xOCBaIiBmaWxsPSIjMmExZjNhIi8+CiAgPC9nPgoKICA8IS0tIHNtYWxsIGZvbGxvd2luZyBib2F0cyAtLT4KICA8ZyBmaWxsPSIjM2EyNDE4IiBvcGFjaXR5PSIwLjg1Ij4KICAgIDxwYXRoIGQ9Ik01MjAsMzM1IFE1NDUsMzQ1IDU3MCwzMzUgTDU2MiwzNDYgTDUyOCwzNDYgWiIvPgogICAgPHBhdGggZD0iTTEyMCwzNDUgUTE0NSwzNTUgMTcwLDM0NSBMMTYyLDM1NiBMMTI4LDM1NiBaIi8+CiAgPC9nPgo8L3N2Zz4K" alt="Elissa princesse de Tyr fuyant de nuit vers les navires, sous la lune">
+    <h2 class="chapter-title">🌙 La fuite de Tyr</h2>
+    <p>
+      Il y a près de <strong>trois mille ans</strong>, dans la riche cité de
+      <strong>Tyr</strong>, sur la côte du Liban, vivait une princesse nommée
+      <strong>Elissa</strong>. Son frère, devenu roi, était cruel et jaloux de sa
+      fortune et de son influence.
+    </p>
+    <p>
+      Une nuit, craignant pour sa vie, Elissa rassembla quelques fidèles, chargea
+      des navires de trésors et s'enfuit sur la mer, sans savoir où le destin la
+      mènerait.
+    </p>
+    <blockquote>
+      « Mieux vaut perdre sa terre que perdre sa liberté. »
+    </blockquote>
+    <p>
+      Elle navigua longtemps, de rivage en rivage, cherchant un lieu où bâtir une
+      vie nouvelle — loin de la peur, loin du trône volé. ⛵
+    </p>
+  </section>
+
+  <div class="divider">🐂</div>
+
+  <section class="chapter">
+    <div class="roman">II</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5MmUiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzNhMjQxOCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjU1JSIgc3RvcC1jb2xvcj0iI2E4NWIyOCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlOGIzNWYiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imdyb3VuZDJlIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNjOThhNDUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjNmU0MzI2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5MmUpIi8+CiAgPGNpcmNsZSBjeD0iMzUwIiBjeT0iMTEwIiByPSI1MCIgZmlsbD0iI2ZmZTZiMCIgb3BhY2l0eT0iMC44NSIvPgoKICA8IS0tIGRpc3RhbnQgc2VhIC0tPgogIDxyZWN0IHg9IjAiIHk9IjE4MCIgd2lkdGg9IjcwMCIgaGVpZ2h0PSI2MCIgZmlsbD0iIzVhNmE3ZSIgb3BhY2l0eT0iMC41Ii8+CgogIDwhLS0gaGlsbCAtLT4KICA8cGF0aCBkPSJNMCwzMDAgUTM1MCwyMTAgNzAwLDMwMCBMNzAwLDQ2MCBMMCw0NjAgWiIgZmlsbD0idXJsKCNncm91bmQyZSkiLz4KCiAgPCEtLSB0aGluIGxlYXRoZXIgc3RyaXBzIGVuY2lyY2xpbmcgdGhlIGhpbGwsIGRyYXduIGFzIGEgbG9vcGluZyBsaW5lIC0tPgogIDxwYXRoIGQ9Ik0xNzAsMzAwIFEyMDAsMjMwIDM1MCwyMjIgUTUwMCwyMzAgNTMwLDMwMCIKICAgICAgICBzdHJva2U9IiMzYTI0MTgiIHN0cm9rZS13aWR0aD0iNSIgZmlsbD0ibm9uZSIgc3Ryb2tlLWRhc2hhcnJheT0iMiwxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjg1Ii8+CiAgPHBhdGggZD0iTTE1MCwzMTAgUTIwMCwyNTAgMzUwLDI0MCBRNTAwLDI1MCA1NTAsMzEwIgogICAgICAgIHN0cm9rZT0iIzVlM2ExZiIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIiBzdHJva2UtZGFzaGFycmF5PSIyLDgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC43Ii8+CgogIDwhLS0gRWxpc3NhIGtuZWVsaW5nLCBjdXR0aW5nIHRoZSBveC1oaWRlIGludG8gc3RyaXBzIC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMyMCwzMDApIj4KICAgIDxwYXRoIGQ9Ik0tMjIsNDAgUS0yNSw1IC04LC0xMiBRMCwtMTggOCwtMTIgUTI1LDUgMjIsNDAgWiIgZmlsbD0iIzdhNGE2ZSIvPgogICAgPGNpcmNsZSBjeD0iMCIgY3k9Ii0yMiIgcj0iMTQiIGZpbGw9IiNkOTlhNjYiLz4KICAgIDxwYXRoIGQ9Ik0tMTIsLTI1IFEwLC0zOCAxMiwtMjUgUTEwLC0zMCAwLC0zMyBRLTEwLC0zMCAtMTIsLTI1IFoiIGZpbGw9IiMyYTFmM2EiLz4KICAgIDwhLS0gaGlkZSBzdHJldGNoZWQgaW4gZnJvbnQgb2YgaGVyIC0tPgogICAgPHBhdGggZD0iTTIwLDMwIFE2MCwxNSAxMDAsMzAgUTkwLDQ1IDYwLDQ4IFEzNSw0NiAyMCwzMCBaIiBmaWxsPSIjYTg3NjNmIi8+CiAgICA8IS0tIHNtYWxsIGtuaWZlIGluIGhhbmQgLS0+CiAgICA8bGluZSB4MT0iMTQiIHkxPSI1IiB4Mj0iMzQiIHkyPSIyMCIgc3Ryb2tlPSIjZTlkY2MzIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDwvZz4KCiAgPCEtLSBoZWxwZXJzIGNhcnJ5aW5nIHRoZSBsb25nIHN0cmlwcyBhd2F5IC0tPgogIDxnIGZpbGw9IiM1YTNhMjYiPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDUwLDMxMCkiPjxyZWN0IHg9Ii0zIiB5PSItMTgiIHdpZHRoPSI2IiBoZWlnaHQ9IjE4IiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjIiIHI9IjQuNSIvPjwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ5MCwzMDUpIj48cmVjdCB4PSItMyIgeT0iLTE4IiB3aWR0aD0iNiIgaGVpZ2h0PSIxOCIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTIyIiByPSI0LjUiLz48L2c+CiAgPC9nPgogIDxwYXRoIGQ9Ik00NTAsMjk1IFE0NzAsMjYwIDUwMCwyNTAiIHN0cm9rZT0iIzNhMjQxOCIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIiBzdHJva2UtZGFzaGFycmF5PSIyLDYiIG9wYWNpdHk9IjAuOCIvPgo8L3N2Zz4K" alt="Elissa découpant une peau de boeuf en fines lanières sur la côte d'Afrique du Nord">
+    <h2 class="chapter-title">🪢 La ruse de la peau de bœuf</h2>
+    <p>
+      Après bien des jours en mer, Elissa atteignit une côte d'<strong>Afrique du
+      Nord</strong>. Elle demanda au chef local, <strong>Iarbas</strong>, un simple
+      morceau de terre — seulement ce qu'une peau de bœuf pourrait couvrir.
+    </p>
+    <p>
+      Iarbas, amusé, accepta sans réfléchir. Mais Elissa fit découper la peau en
+      des centaines de <strong>lanières si fines</strong> qu'elles purent encercler
+      toute une colline.
+    </p>
+    <blockquote>
+      « On ne mesure pas l'intelligence à la taille du don, mais à la façon de s'en servir. »
+    </blockquote>
+    <p>
+      Ainsi naquit, sur cette colline entourée de fines lanières de cuir, le tout
+      premier sol de ce qui deviendrait <strong>Carthage</strong> — la « ville
+      nouvelle ». 🏞️
+    </p>
+  </section>
+
+  <div class="divider">🏗️</div>
+
+  <section class="chapter">
+    <div class="roman">III</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5M2UiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzJhM2E0YSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iIzdhOGE5YSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlOGQ5YjUiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InNlYTNlIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM3YTk2YTgiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjM2E1NDY4Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5M2UpIi8+CiAgPGNpcmNsZSBjeD0iMTIwIiBjeT0iMTAwIiByPSI0NCIgZmlsbD0iI2ZmZjZkZiIgb3BhY2l0eT0iMC44NSIvPgoKICA8IS0tIHNlYSBhbmQgYmF5IC0tPgogIDxwYXRoIGQ9Ik0wLDI1MCBRMjAwLDIyMCAzNTAsMjUwIFE1MDAsMjc1IDcwMCwyNDAgTDcwMCwzMzAgTDAsMzMwIFoiIGZpbGw9InVybCgjc2VhM2UpIi8+CgogIDwhLS0gaGFyYm9yIHdhbGwgLS0+CiAgPHBhdGggZD0iTTEyMCwzMDAgUTMwMCwyNzAgNTAwLDMwMCIgc3Ryb2tlPSIjNWUzYTFmIiBzdHJva2Utd2lkdGg9IjEwIiBmaWxsPSJub25lIi8+CgogIDwhLS0gc2hpcHMgZG9ja2VkIC0tPgogIDxnIGZpbGw9IiMzYTI0MTgiPgogICAgPHBhdGggZD0iTTE1MCwyOTAgUTE3NSwzMDAgMjAwLDI5MCBMMTkyLDMwMiBMMTU4LDMwMiBaIi8+CiAgICA8cGF0aCBkPSJNMzAwLDI3NSBRMzI1LDI4NSAzNTAsMjc1IEwzNDIsMjg3IEwzMDgsMjg3IFoiLz4KICAgIDxwYXRoIGQ9Ik00MjAsMjkwIFE0NDUsMzAwIDQ3MCwyOTAgTDQ2MiwzMDIgTDQyOCwzMDIgWiIvPgogIDwvZz4KCiAgPCEtLSBncm91bmQgLyBjaXR5IGhpbGwgLS0+CiAgPHBhdGggZD0iTTAsMzIwIFEzNTAsMjkwIDcwMCwzMjAgTDcwMCw0NjAgTDAsNDYwIFoiIGZpbGw9IiNiNTcyMmYiLz4KCiAgPCEtLSBjaXR5IHdhbGxzIHJpc2luZyAtLT4KICA8ZyBmaWxsPSIjNmU0MzI2Ij4KICAgIDxyZWN0IHg9IjE4MCIgeT0iMzMwIiB3aWR0aD0iMzQwIiBoZWlnaHQ9IjQwIi8+CiAgICA8cmVjdCB4PSIxODAiIHk9IjMxOCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIi8+CiAgICA8cmVjdCB4PSIyMjAiIHk9IjMxOCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIi8+CiAgICA8cmVjdCB4PSIyNjAiIHk9IjMxOCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIi8+CiAgICA8cmVjdCB4PSIzMDAiIHk9IjMxOCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIi8+CiAgICA8cmVjdCB4PSIzNDAiIHk9IjMxOCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIi8+CiAgICA8cmVjdCB4PSIzODAiIHk9IjMxOCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIi8+CiAgICA8cmVjdCB4PSI0MjAiIHk9IjMxOCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIi8+CiAgICA8cmVjdCB4PSI0NjAiIHk9IjMxOCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIi8+CiAgICA8cmVjdCB4PSI1MDAiIHk9IjMxOCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIi8+CiAgPC9nPgoKICA8IS0tIHRoZSBCeXJzYSBjaXRhZGVsIHJpc2luZyBiZWhpbmQgdGhlIHdhbGxzIC0tPgogIDxnIGZpbGw9IiM1ZTNhMWYiPgogICAgPHJlY3QgeD0iMzEwIiB5PSIyNjAiIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIvPgogICAgPHBvbHlnb24gcG9pbnRzPSIzMTAsMjYwIDM1MCwyMjUgMzkwLDI2MCIvPgogIDwvZz4KCiAgPCEtLSBzbWFsbCBmaWd1cmVzIGJ1aWxkaW5nIC0tPgogIDxnIGZpbGw9IiMzYTI0MTgiPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjMwLDM2MCkiPjxyZWN0IHg9Ii0zIiB5PSItMTgiIHdpZHRoPSI2IiBoZWlnaHQ9IjE4IiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjIiIHI9IjQuNSIvPjwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI3MCwzNTgpIj48cmVjdCB4PSItMyIgeT0iLTE4IiB3aWR0aD0iNiIgaGVpZ2h0PSIxOCIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTIyIiByPSI0LjUiLz48L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0NDAsMzYwKSI+PHJlY3QgeD0iLTMiIHk9Ii0xOCIgd2lkdGg9IjYiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PGNpcmNsZSBjeD0iMCIgY3k9Ii0yMiIgcj0iNC41Ii8+PC9nPgogIDwvZz4KCiAgPCEtLSBFbGlzc2Egb3Zlcmxvb2tpbmcgdGhlIGJ1aWxkIGZyb20gYSBzbWFsbCByaXNlIC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU2MCwzMzApIj4KICAgIDxwYXRoIGQ9Ik0tMTYsMzAgUS0xOCw1IC02LC0xMCBRMCwtMTUgNiwtMTAgUTE4LDUgMTYsMzAgWiIgZmlsbD0iIzdhNGE2ZSIvPgogICAgPGNpcmNsZSBjeD0iMCIgY3k9Ii0xOCIgcj0iMTEiIGZpbGw9IiNkOTlhNjYiLz4KICAgIDxwYXRoIGQ9Ik0tOSwtMjAgUTAsLTMwIDksLTIwIFE3LC0yNCAwLC0yNiBRLTcsLTI0IC05LC0yMCBaIiBmaWxsPSIjMmExZjNhIi8+CiAgPC9nPgo8L3N2Zz4K" alt="Construction de la ville de Carthage avec les premiers remparts et le port">
+    <h2 class="chapter-title">⚓ Une cité sortie de la mer</h2>
+    <p>
+      Sur cette terre durement gagnée, Elissa fit bâtir des <strong>remparts</strong>,
+      un <strong>port</strong> abrité pour les navires marchands, et une citadelle
+      qu'on appela plus tard la <strong>Byrsa</strong>.
+    </p>
+    <p>
+      Très vite, des marchands, des artisans et des marins venus de toute la
+      Méditerranée s'installèrent autour d'elle, attirés par sa sagesse et par la
+      promesse d'une cité libre.
+    </p>
+    <blockquote>
+      « Une reine bâtit moins avec des pierres qu'avec la confiance qu'elle inspire. »
+    </blockquote>
+    <p>
+      En quelques années seulement, Carthage devint un carrefour bourdonnant de
+      commerce, de richesse et d'idées — un miracle né d'une poignée de fugitifs. 🌊
+    </p>
+  </section>
+
+  <div class="divider">🔥</div>
+
+  <section class="chapter">
+    <div class="roman">IV</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5NGUiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzJhMTQxNCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjU1JSIgc3RvcC1jb2xvcj0iIzZlMzIyMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjMTQ0MGUiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imdyb3VuZDRlIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM4YTRhMjYiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjM2EyNDE4Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5NGUpIi8+CiAgPGNpcmNsZSBjeD0iMzUwIiBjeT0iMTIwIiByPSI2MCIgZmlsbD0iI2ZmOWQzYyIgb3BhY2l0eT0iMC4zNSIvPgoKICA8IS0tIHRocm9uZSBoYWxsIGNvbHVtbnMgLS0+CiAgPGcgZmlsbD0iIzNhMjQxOCIgb3BhY2l0eT0iMC43Ij4KICAgIDxyZWN0IHg9IjYwIiB5PSIxMjAiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyMjAiLz4KICAgIDxyZWN0IHg9IjYxNiIgeT0iMTIwIiB3aWR0aD0iMjQiIGhlaWdodD0iMjIwIi8+CiAgICA8cmVjdCB4PSIxNjAiIHk9IjE0MCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIwMCIvPgogICAgPHJlY3QgeD0iNTIyIiB5PSIxNDAiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyMDAiLz4KICA8L2c+CgogIDwhLS0gZmxvb3IgLS0+CiAgPHBhdGggZD0iTTAsMzQwIEw3MDAsMzQwIEw3MDAsNDYwIEwwLDQ2MCBaIiBmaWxsPSJ1cmwoI2dyb3VuZDRlKSIvPgoKICA8IS0tIEVsaXNzYSBzdGFuZGluZyB0YWxsLCBmaXJtIHN0YW5jZSwgYXQgY2VudGVyIC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMyMCwzMzApIj4KICAgIDxwYXRoIGQ9Ik0tMjYsNTAgUS0zMCw1IC0xMCwtMjUgUTAsLTMyIDEwLC0yNSBRMzAsNSAyNiw1MCBaIiBmaWxsPSIjN2E0YTZlIi8+CiAgICA8Y2lyY2xlIGN4PSIwIiBjeT0iLTM4IiByPSIxNiIgZmlsbD0iI2Q5OWE2NiIvPgogICAgPHBhdGggZD0iTS0xNCwtNDEgUTAsLTU2IDE0LC00MSBRMTIsLTQ2IDAsLTQ5IFEtMTIsLTQ2IC0xNCwtNDEgWiIgZmlsbD0iIzJhMWYzYSIvPgogICAgPCEtLSBzbWFsbCBjcm93biAtLT4KICAgIDxwb2x5Z29uIHBvaW50cz0iLTksLTUyIC05LC01OCAtNCwtNTIgMCwtNjAgNCwtNTIgOSwtNTggOSwtNTIiIGZpbGw9IiNkOWE0NDEiLz4KICAgIDwhLS0gYXJtIHJhaXNlZCwgcGFsbSBvdXQsIHJlZnVzaW5nIC0tPgogICAgPHBhdGggZD0iTTEwLC0xNSBRMzUsLTI1IDQyLC00NSIgc3Ryb2tlPSIjN2E0YTZlIiBzdHJva2Utd2lkdGg9IjEyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz4KICAgIDxjaXJjbGUgY3g9IjQ0IiBjeT0iLTQ4IiByPSI3IiBmaWxsPSIjZDk5YTY2Ii8+CiAgPC9nPgoKICA8IS0tIElhcmJhcydzIG1lc3NlbmdlcnMsIGtlcHQgYXQgYSBkaXN0YW5jZSwgb24gdGhlIHJpZ2h0IC0tPgogIDxnIGZpbGw9IiMyYTE2MGQiPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDcwLDMzNSkiPgogICAgICA8cGF0aCBkPSJNLTE0LDQwIFEtMTYsNSAtNCwtMTUgUTAsLTIwIDQsLTE1IFExNiw1IDE0LDQwIFoiIGZpbGw9IiMzYTJlMjQiLz4KICAgICAgPGNpcmNsZSBjeD0iMCIgY3k9Ii0yNCIgcj0iMTIiIGZpbGw9IiNjOThhNTUiLz4KICAgICAgPHBhdGggZD0iTS05LC0yNiBRMCwtMzYgOSwtMjYgUTcsLTMwIDAsLTMyIFEtNywtMzAgLTksLTI2IFoiIGZpbGw9IiMxYzE0MTAiLz4KICAgIDwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUzMCwzNDApIj4KICAgICAgPHBhdGggZD0iTS0xMiwzNSBRLTE0LDUgLTMsLTEyIFEwLC0xNiAzLC0xMiBRMTQsNSAxMiwzNSBaIiBmaWxsPSIjM2EyZTI0Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjAiIGN5PSItMjAiIHI9IjEwIiBmaWxsPSIjYzk4YTU1Ii8+CiAgICA8L2c+CiAgPC9nPgoKICA8IS0tIHNtYWxsIGFsdGFyIC8gc2FjcmlmaWNpYWwgZmxhbWUgaGludGluZyBhdCBoZXIgZmluYWwgY2hvaWNlLCBmYXIgbGVmdCwgc3VidGxlIC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE1MCwzNDApIiBvcGFjaXR5PSIwLjg1Ij4KICAgIDxyZWN0IHg9Ii0xOCIgeT0iMCIgd2lkdGg9IjM2IiBoZWlnaHQ9IjE0IiByeD0iMiIgZmlsbD0iIzNhMjQxOCIvPgogICAgPHBhdGggZD0iTTAsLTMwIEMtNSwtMTUgLTEyLC04IDAsOCBDMTIsLTggNSwtMTUgMCwtMzAgWiIgZmlsbD0iI2ZmOWQzYyIvPgogIDwvZz4KPC9zdmc+Cg==" alt="Elissa debout face à Iarbas et ses messagers, refusant le mariage forcé">
+    <h2 class="chapter-title">🛡️ Le choix d'une reine libre</h2>
+    <p>
+      Voyant Carthage prospérer, le roi <strong>Iarbas</strong> demanda Elissa en
+      mariage, menaçant de détruire la cité si elle refusait. Le peuple, terrifié,
+      la pressa d'accepter.
+    </p>
+    <p>
+      Mais Elissa, fidèle à son serment de rester libre, choisit une dernière fois
+      de décider de son propre destin plutôt que de se soumettre.
+    </p>
+    <blockquote>
+      « Je suis venue de la mer en reine, je ne céderai pas mon trône à la peur. »
+    </blockquote>
+    <p>
+      Son courage, même dans les moments les plus sombres, devint une légende que
+      les Carthaginois racontèrent à leurs enfants pendant des générations. 🕯️
+    </p>
+  </section>
+
+  <div class="divider">⭐</div>
+
+  <section class="chapter">
+    <div class="roman">V</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5NWUiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFjMTQxMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzZlM2E0YSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkOWE0NDEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Imdsb3c1ZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZTZiMCIgc3RvcC1vcGFjaXR5PSIwLjkiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZmZlNmIwIiBzdG9wLW9wYWNpdHk9IjAiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InNlYTVlIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM3YTZhNWUiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMmUyNDIwIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5NWUpIi8+CiAgPGNpcmNsZSBjeD0iMzUwIiBjeT0iMTcwIiByPSIxNjAiIGZpbGw9InVybCgjZ2xvdzVlKSIvPgoKICA8IS0tIHN0YXJzIC0tPgogIDxnIGZpbGw9IiNmM2U2Y2YiPgogICAgPGNpcmNsZSBjeD0iOTAiIGN5PSI3MCIgcj0iMiIvPgogICAgPGNpcmNsZSBjeD0iMTUwIiBjeT0iNDAiIHI9IjEuNiIvPgogICAgPGNpcmNsZSBjeD0iNTYwIiBjeT0iNjAiIHI9IjIiLz4KICAgIDxjaXJjbGUgY3g9IjYxMCIgY3k9IjEwMCIgcj0iMS42Ii8+CiAgPC9nPgoKICA8IS0tIHNlYSB3aXRoIHJldHVybmluZyBzaGlwcyAtLT4KICA8cGF0aCBkPSJNMCwyNTAgUTM1MCwyMjUgNzAwLDI1MCBMNzAwLDMzMCBMMCwzMzAgWiIgZmlsbD0idXJsKCNzZWE1ZSkiLz4KICA8ZyBmaWxsPSIjMmExNjBkIiBvcGFjaXR5PSIwLjg1Ij4KICAgIDxwYXRoIGQ9Ik0xMjAsMjc1IFExNDUsMjg1IDE3MCwyNzUgTDE2MiwyODcgTDEyOCwyODcgWiIvPgogICAgPHBhdGggZD0iTTU0MCwyNzAgUTU2NSwyODAgNTkwLDI3MCBMNTgyLDI4MiBMNTQ4LDI4MiBaIi8+CiAgPC9nPgoKICA8IS0tIENhcnRoYWdlIHNreWxpbmUsIGZ1bGwgYW5kIHByb3NwZXJvdXMgLS0+CiAgPGcgZmlsbD0iIzJhMTYwZCI+CiAgICA8cmVjdCB4PSIxNjAiIHk9IjI4MCIgd2lkdGg9IjI2IiBoZWlnaHQ9IjYwIi8+CiAgICA8cmVjdCB4PSIyMDAiIHk9IjI1NSIgd2lkdGg9IjIwIiBoZWlnaHQ9Ijg1Ii8+CiAgICA8cG9seWdvbiBwb2ludHM9IjIwOCwyNTUgMjE2LDI1NSAyMjQsMjM4IDIwMCwyMzgiLz4KICAgIDxyZWN0IHg9IjIzNSIgeT0iMjcwIiB3aWR0aD0iMzAiIGhlaWdodD0iNzAiLz4KICAgIDxyZWN0IHg9IjI4MCIgeT0iMjQ1IiB3aWR0aD0iMjIiIGhlaWdodD0iOTUiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iMjg5LDI0NSAyOTcsMjQ1IDMwNSwyMjggMjgwLDIyOCIvPgogICAgPCEtLSBCeXJzYSBjaXRhZGVsLCB0YWxsZXN0LCBjZW50cmFsIC0tPgogICAgPHJlY3QgeD0iMzMwIiB5PSIyMjAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIxMjAiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iMzMwLDIyMCAzNjAsMTkwIDM5MCwyMjAiLz4KICAgIDxyZWN0IHg9IjQxMCIgeT0iMjYwIiB3aWR0aD0iMjQiIGhlaWdodD0iODAiLz4KICAgIDxyZWN0IHg9IjQ1MCIgeT0iMjc1IiB3aWR0aD0iMjgiIGhlaWdodD0iNjUiLz4KICAgIDxyZWN0IHg9IjQ5MCIgeT0iMjUwIiB3aWR0aD0iMjAiIGhlaWdodD0iOTAiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iNDk4LDI1MCA1MDYsMjUwIDUxNCwyMzUgNDkwLDIzNSIvPgogICAgPHJlY3QgeD0iNTI1IiB5PSIyNzAiIHdpZHRoPSIyNiIgaGVpZ2h0PSI3MCIvPgogIDwvZz4KCiAgPCEtLSBncm91bmQgLS0+CiAgPHBhdGggZD0iTTAsMzM1IEw3MDAsMzM1IEw3MDAsNDYwIEwwLDQ2MCBaIiBmaWxsPSIjM2EyNDE4Ii8+CgogIDwhLS0gRWxpc3NhJ3Mgc3RhdHVlIC8gc2lsaG91ZXR0ZSBob25vcmVkIGF0IHRoZSBmb3JlZ3JvdW5kLCBjcm93biBjYXRjaGluZyB0aGUgbGlnaHQgLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzUwLDM2MCkiPgogICAgPHBhdGggZD0iTS0yNCw2MCBRLTI4LDEwIC04LC0zMCBRMCwtMzggOCwtMzAgUTI4LDEwIDI0LDYwIFoiIGZpbGw9IiM1ZTNhNWUiLz4KICAgIDxjaXJjbGUgY3g9IjAiIGN5PSItNDQiIHI9IjE3IiBmaWxsPSIjZDk5YTY2Ii8+CiAgICA8cGF0aCBkPSJNLTEyLC00NyBRMCwtNjAgMTIsLTQ3IFExMCwtNTIgMCwtNTUgUS0xMCwtNTIgLTEyLC00NyBaIiBmaWxsPSIjMmExZjNhIi8+CiAgICA8cG9seWdvbiBwb2ludHM9Ii0xMCwtNjAgLTEwLC02OCAtNCwtNjAgMCwtNzAgNCwtNjAgMTAsLTY4IDEwLC02MCIgZmlsbD0iI2Q5YTQ0MSIvPgogIDwvZz4KPC9zdmc+Cg==" alt="Vue finale de Carthage prospère au crépuscule, hommage à Elissa">
+    <h2 class="chapter-title">🌅 L'héritage de la fondatrice</h2>
+    <p>
+      Carthage qu'Elissa avait fondée grandit longtemps après elle, devenant l'une
+      des plus grandes puissances de la Méditerranée antique — une cité de
+      marchands, de navigateurs et, plus tard, de grands généraux comme
+      <strong>Hannibal</strong>.
+    </p>
+    <blockquote>
+      « Ce que la ruse fonde avec sagesse, le temps le transforme en grandeur. »
+    </blockquote>
+    <p>
+      Aujourd'hui encore, le nom d'Elissa rappelle qu'une cité peut naître d'une
+      idée audacieuse, et qu'une reine peut être grande non par la force de ses
+      armées, mais par l'intelligence de son cœur. 👑
+    </p>
+  </section>
+
+  <footer class="ending">
+    <h2>✨ Fin ✨</h2>
+    <p>
+      Et voilà l'histoire d'Elissa,<br>
+      la princesse devenue reine par la ruse et le courage.
+    </p>
+    <p>
+      Chassée de sa terre, elle en bâtit une nouvelle,<br>
+      sur une colline entourée d'un simple fil de cuir.
+    </p>
+    <p>
+      Elle nous apprend que la liberté se gagne par l'esprit,<br>
+      et qu'une grande cité commence parfois par une petite idée.
+    </p>
+    <p><em>Son nom traverse encore les siècles, gravé dans la pierre de Carthage. 🌊</em></p>
+    <div class="final-mark">🐂</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
