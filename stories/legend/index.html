@@ -171,6 +171,7 @@
   }
   .card:nth-child(1) { animation-delay:.1s; }
   .card:nth-child(2) { animation-delay:.2s; }
+  .card:nth-child(3) { animation-delay:.3s; }
 
   /* card illustration area */
   .card-art {
@@ -492,8 +493,93 @@
       </div>
     </a>
 
+    <!-- ══ NAPOLÉON ══ -->
+    <a class="card" href="napoleon.html">
+      <div class="card-art">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="napoBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#0d1420"/>
+              <stop offset="55%" stop-color="#1e3a5e"/>
+              <stop offset="100%" stop-color="#3a5a7a"/>
+            </linearGradient>
+            <radialGradient id="napoGlow" cx="50%" cy="40%" r="50%">
+              <stop offset="0%"   stop-color="#ffdca0" stop-opacity=".3"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#napoBg)"/>
+          <rect width="400" height="300" fill="url(#napoGlow)"/>
+          <!-- stars -->
+          <circle cx="40"  cy="25"  r="1.5" fill="#f0e4cc" opacity=".7"/>
+          <circle cx="120" cy="15"  r="1.2" fill="#f0c040" opacity=".8"/>
+          <circle cx="300" cy="20"  r="1.6" fill="#f0e4cc" opacity=".7"/>
+          <circle cx="360" cy="40"  r="1.2" fill="#f0c040" opacity=".6"/>
+          <!-- battlefield ground -->
+          <path d="M0,220 Q200,195 400,220 L400,300 L0,300 Z" fill="#3a2418"/>
+          <!-- smoke -->
+          <g fill="#cfc4b0" opacity=".25">
+            <circle cx="80"  cy="170" r="25"/>
+            <circle cx="110" cy="155" r="18"/>
+            <circle cx="320" cy="175" r="22"/>
+          </g>
+          <!-- cannons -->
+          <g transform="translate(100,225)">
+            <rect x="-12" y="-4" width="24" height="8" rx="2" fill="#2a1c10"/>
+            <circle cx="-12" cy="6" r="6" fill="#1e1410"/>
+            <circle cx="12"  cy="6" r="6" fill="#1e1410"/>
+          </g>
+          <g transform="translate(300,228)">
+            <rect x="-12" y="-4" width="24" height="8" rx="2" fill="#2a1c10"/>
+            <circle cx="-12" cy="6" r="6" fill="#1e1410"/>
+            <circle cx="12"  cy="6" r="6" fill="#1e1410"/>
+          </g>
+          <!-- Napoleon on horseback -->
+          <g transform="translate(200,185)">
+            <!-- horse body -->
+            <ellipse cx="0" cy="10" rx="30" ry="16" fill="#f0e4cc"/>
+            <circle cx="-24" cy="0" r="12" fill="#f0e4cc"/>
+            <rect x="-20" y="22" width="6" height="18" rx="2" fill="#d8cbb0"/>
+            <rect x="-8"  y="22" width="6" height="18" rx="2" fill="#d8cbb0"/>
+            <rect x="8"   y="22" width="6" height="18" rx="2" fill="#d8cbb0"/>
+            <rect x="20"  y="22" width="6" height="18" rx="2" fill="#d8cbb0"/>
+            <path d="M28,5 Q40,0 38,12" stroke="#d8cbb0" stroke-width="3" fill="none"/>
+            <!-- rider -->
+            <path d="M-8,-16 Q0,-32 8,-16 Z" fill="#1e3a5e"/>
+            <circle cx="0" cy="-22" r="8" fill="#d99a66"/>
+            <!-- bicorne hat -->
+            <path d="M-12,-28 Q0,-38 12,-28 L8,-26 Q0,-30 -8,-26 Z" fill="#14110f"/>
+            <!-- sword raised -->
+            <line x1="10" y1="-18" x2="24" y2="-34" stroke="#cf9b3f" stroke-width="2.5" stroke-linecap="round"/>
+          </g>
+          <!-- French flag hint -->
+          <g transform="translate(140,170)" opacity=".7">
+            <line x1="0" y1="0" x2="0" y2="-28" stroke="#5a3a20" stroke-width="2"/>
+            <rect x="1" y="-28" width="6" height="14" fill="#1e3a8e"/>
+            <rect x="7" y="-28" width="6" height="14" fill="#f0e4cc"/>
+            <rect x="13" y="-28" width="6" height="14" fill="#8b1e2b"/>
+          </g>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">✦ Légende · L’Aigle de Corse</div>
+        <div class="card-title">Napoléon 🦅</div>
+        <p class="card-desc">De l’île de Corse au trône de France — le génie militaire, le sacre de l’Empereur et la chute de l’aigle à Sainte-Hélène.</p>
+        <div class="card-footer">
+          <div class="card-chapters">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            5 chapitres
+          </div>
+          <div class="card-btn">
+            Lire l’histoire
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+    </a>
+
     <!-- ══ COMING SOON ══ -->
-    <div class="card card-soon" style="animation-delay:.3s">
+    <div class="card card-soon" style="animation-delay:.4s">
       <div class="soon-art">
         <div class="soon-icon">🏛️</div>
       </div>

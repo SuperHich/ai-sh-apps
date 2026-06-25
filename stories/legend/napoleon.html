@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Napoléon — L'Aigle de Corse</title>
+<style>
+  :root{
+    --bronze:#9a6a2f;
+    --ember:#8b1e2b;
+    --night:#14110f;
+    --parchment:#f0e4cc;
+    --stone:#8a7c66;
+    --gold:#cf9b3f;
+    --blue:#1e3a5e;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--night);
+    color:var(--parchment);
+    font-family:'Iowan Old Style','Palatino Linotype',Georgia,serif;
+    overflow-x:hidden;
+  }
+  .bg-texture{
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(139,30,43,0.08), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(207,155,63,0.08), transparent 45%);
+    pointer-events:none;
+    z-index:0;
+  }
+  .wrap{
+    position:relative;
+    z-index:1;
+    max-width:680px;
+    margin:0 auto;
+    padding:0 24px 80px;
+  }
+  header.cover{
+    min-height:88vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:60px 0;
+  }
+  .eyebrow{
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    font-size:0.7rem;
+    color:var(--gold);
+    margin-bottom:18px;
+    font-family:'Trajan Pro',Cambria,Georgia,serif;
+  }
+  h1.title{
+    font-size:clamp(2.6rem,9vw,4.2rem);
+    margin:0;
+    line-height:1.05;
+    color:var(--parchment);
+    text-shadow:0 0 30px rgba(139,30,43,0.35);
+    letter-spacing:0.01em;
+  }
+  .subtitle{
+    font-style:italic;
+    color:var(--stone);
+    margin-top:18px;
+    font-size:1.05rem;
+  }
+  .scroll-hint{
+    margin-top:60px;
+    font-size:0.8rem;
+    color:var(--stone);
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    animation:bob 2.2s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{transform:translateY(0); opacity:0.5;}
+    50%{transform:translateY(8px); opacity:1;}
+  }
+  .divider{
+    text-align:center;
+    color:var(--bronze);
+    font-size:1.4rem;
+    margin:70px 0 30px;
+    opacity:0.8;
+  }
+  .roman{
+    text-align:center;
+    font-family:'Trajan Pro',Cambria,Georgia,serif;
+    letter-spacing:0.25em;
+    color:var(--gold);
+    font-size:1rem;
+    margin-bottom:6px;
+  }
+  .chapter-image{
+    width:100%;
+    border-radius:6px;
+    margin:18px 0 30px;
+    box-shadow:0 12px 40px rgba(0,0,0,0.45);
+    display:block;
+  }
+  section.chapter{
+    margin-bottom:64px;
+  }
+  h2.chapter-title{
+    text-align:center;
+    font-size:clamp(1.5rem,5vw,2rem);
+    margin:0 0 28px;
+    color:var(--parchment);
+    font-weight:600;
+  }
+  p{
+    font-size:1.08rem;
+    line-height:1.85;
+    margin:0 0 20px;
+    color:#e4d8bd;
+  }
+  strong{
+    color:var(--gold);
+    font-weight:700;
+  }
+  em{
+    color:#d3c4a2;
+  }
+  blockquote{
+    margin:34px 0;
+    padding:20px 26px;
+    border-left:3px solid var(--ember);
+    background:rgba(139,30,43,0.06);
+    font-style:italic;
+    font-size:1.12rem;
+    color:#f1e3c4;
+    border-radius:2px;
+  }
+  footer.ending{
+    text-align:center;
+    padding-top:30px;
+    border-top:1px solid rgba(207,155,63,0.25);
+  }
+  footer.ending h2{
+    font-size:1.8rem;
+    color:var(--gold);
+    margin-bottom:24px;
+  }
+  footer.ending p{
+    text-align:center;
+  }
+  .final-mark{
+    margin-top:40px;
+    font-size:1.8rem;
+    color:var(--bronze);
+  }
+  @media (max-width:480px){
+    p, blockquote{font-size:1rem;}
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+<div class="bg-texture"></div>
+
+<div class="wrap">
+
+  <header class="cover">
+    <div class="eyebrow">Corse puis France · 1769–1821</div>
+    <h1 class="title">Napoléon</h1>
+    <p class="subtitle">L'aigle de Corse et l'art de conquérir l'impossible</p>
+    <div class="scroll-hint">Fais défiler pour lire ⌄</div>
+  </header>
+
+  <div class="divider">🦅</div>
+
+  <section class="chapter">
+    <div class="roman">I</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5MW4iIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzBkMTQyMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjU1JSIgc3RvcC1jb2xvcj0iIzFlM2E1ZSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMzYTVhN2EiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImNhbmRsZTFuIiBjeD0iNTAlIiBjeT0iNTAlIiByPSI1MCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmZkY2EwIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmZGNhMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5MW4pIi8+CgogIDwhLS0gd2luZG93IHdpdGggbmlnaHQgc2t5IGFuZCBzdGFycyAtLT4KICA8Zz4KICAgIDxyZWN0IHg9IjUwMCIgeT0iNDAiIHdpZHRoPSIxNjAiIGhlaWdodD0iMjIwIiByeD0iNCIgZmlsbD0iIzBhMTAxOCIgb3BhY2l0eT0iMC42Ii8+CiAgICA8bGluZSB4MT0iNTgwIiB5MT0iNDAiIHgyPSI1ODAiIHkyPSIyNjAiIHN0cm9rZT0iIzFlM2E1ZSIgc3Ryb2tlLXdpZHRoPSI0Ii8+CiAgICA8bGluZSB4MT0iNTAwIiB5MT0iMTUwIiB4Mj0iNjYwIiB5Mj0iMTUwIiBzdHJva2U9IiMxZTNhNWUiIHN0cm9rZS13aWR0aD0iNCIvPgogICAgPGNpcmNsZSBjeD0iNTQwIiBjeT0iODAiIHI9IjEuNiIgZmlsbD0iI2YwZTRjYyIvPgogICAgPGNpcmNsZSBjeD0iNjEwIiBjeT0iMTAwIiByPSIxLjQiIGZpbGw9IiNmMGU0Y2MiLz4KICAgIDxjaXJjbGUgY3g9IjYzMCIgY3k9IjIwMCIgcj0iMS42IiBmaWxsPSIjZjBlNGNjIi8+CiAgPC9nPgoKICA8IS0tIHN0b25lIHdhbGwgdGV4dHVyZSAtLT4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iNzAwIiBoZWlnaHQ9IjMyMCIgZmlsbD0iIzE0MTEwZiIgb3BhY2l0eT0iMC40Ii8+CgogIDwhLS0gZGVzayAtLT4KICA8cmVjdCB4PSIxMjAiIHk9IjI5MCIgd2lkdGg9IjMyMCIgaGVpZ2h0PSIyMCIgcng9IjIiIGZpbGw9IiMzYTI0MTgiLz4KICA8cmVjdCB4PSIxNDAiIHk9IjMxMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjkwIiBmaWxsPSIjMmExYzEwIi8+CiAgPHJlY3QgeD0iMzgwIiB5PSIzMTAiIHdpZHRoPSIyMCIgaGVpZ2h0PSI5MCIgZmlsbD0iIzJhMWMxMCIvPgoKICA8IS0tIGNhbmRsZSBnbG93IC0tPgogIDxjaXJjbGUgY3g9IjMzMCIgY3k9IjI2MCIgcj0iODAiIGZpbGw9InVybCgjY2FuZGxlMW4pIi8+CiAgPHJlY3QgeD0iMzI2IiB5PSIyNzAiIHdpZHRoPSI4IiBoZWlnaHQ9IjIyIiBmaWxsPSIjZTRkOGJkIi8+CiAgPHBhdGggZD0iTTMzMCwyNTAgQzMyNiwyNTggMzIyLDI2MiAzMzAsMjcyIEMzMzgsMjYyIDMzNCwyNTggMzMwLDI1MCBaIiBmaWxsPSIjZmY5ZDNjIi8+CgogIDwhLS0gYm9va3MgYW5kIG1hcHMgb24gdGhlIGRlc2sgLS0+CiAgPGcgZmlsbD0iIzZlNDMyNiI+CiAgICA8cmVjdCB4PSIxNjAiIHk9IjI3OCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjE0IiByeD0iMSIvPgogICAgPHJlY3QgeD0iMjAwIiB5PSIyODIiIHdpZHRoPSIzNiIgaGVpZ2h0PSIxMCIgcng9IjEiLz4KICA8L2c+CiAgPHJlY3QgeD0iMjUwIiB5PSIyNzYiIHdpZHRoPSI2MCIgaGVpZ2h0PSI0MCIgcng9IjIiIGZpbGw9IiNjZjliM2YiIG9wYWNpdHk9IjAuODUiLz4KICA8cGF0aCBkPSJNMjU1LDI5MCBMMzA1LDI5MCBNMjU1LDI5OCBMMzAwLDI5OCBNMjU1LDMwNiBMMjk1LDMwNiIgc3Ryb2tlPSIjM2EyNDE4IiBzdHJva2Utd2lkdGg9IjEuNSIvPgoKICA8IS0tIHlvdW5nIE5hcG9sZW9uIHN0dWR5aW5nLCBoZWFkIGJlbnQgb3ZlciB0aGUgZGVzayAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNTUsMjk1KSI+CiAgICA8cGF0aCBkPSJNLTI2LDMwIFEtMzAsLTUgLTgsLTIyIFEwLC0yOCA4LC0yMiBRMzAsLTUgMjYsMzAgWiIgZmlsbD0iIzFlM2E1ZSIvPgogICAgPGNpcmNsZSBjeD0iLTIiIGN5PSItMzAiIHI9IjE0IiBmaWxsPSIjYzk4YTU1Ii8+CiAgICA8cGF0aCBkPSJNLTE0LC0zMiBRLTIsLTQ0IDEyLC0zMiBRMTAsLTM3IC0yLC00MCBRLTEzLC0zNyAtMTQsLTMyIFoiIGZpbGw9IiMyYTFjMTAiLz4KICAgIDwhLS0gYXJtIHJlc3Rpbmcgb24gYSBib29rIC0tPgogICAgPHBhdGggZD0iTTEwLC01IFEyNSwyIDMwLDEyIiBzdHJva2U9IiMxZTNhNWUiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogIDwvZz4KPC9zdmc+Cg==" alt="Jeune Napoléon étudiant la nuit à l'école militaire de Brienne">
+    <h2 class="chapter-title">📖 L'enfant qui dévorait les livres</h2>
+    <p>
+      En <strong>1769</strong>, sur l'île de <strong>Corse</strong>, naquit un
+      garçon nommé <strong>Napoléon Bonaparte</strong>, dans une famille noble
+      mais sans grande fortune. Très jeune, on l'envoya en France, dans une école
+      militaire, où il se sentait souvent seul et différent des autres élèves.
+    </p>
+    <p>
+      Plutôt que de se plaindre, Napoléon passait ses nuits à lire : histoire,
+      mathématiques, stratégie militaire. Il dessinait des cartes, refaisait des
+      batailles anciennes sur le papier, et rêvait déjà de grandes choses.
+    </p>
+    <blockquote>
+      « Le génie, c'est de longues patiences. »
+    </blockquote>
+    <p>
+      Personne, à cette époque, n'aurait imaginé que ce jeune homme timide et
+      passionné de livres allait un jour changer le visage de l'<strong>Europe</strong>. 🕯️
+    </p>
+  </section>
+
+  <div class="divider">🎖️</div>
+
+  <section class="chapter">
+    <div class="roman">II</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5Mm4iIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzNhMjQxOCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjU1JSIgc3RvcC1jb2xvcj0iIzhiNGEyOCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjZjliM2YiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imdyb3VuZDJuIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM3YTVhM2EiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjM2EyNDE4Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5Mm4pIi8+CiAgPGNpcmNsZSBjeD0iNTQwIiBjeT0iMTEwIiByPSI1MCIgZmlsbD0iI2ZmZTZiMCIgb3BhY2l0eT0iMC42Ii8+CgogIDwhLS0gc21va2UgZnJvbSBjYW5ub25zIC0tPgogIDxnIGZpbGw9IiNjZmM0YjAiIG9wYWNpdHk9IjAuMzUiPgogICAgPGNpcmNsZSBjeD0iMTgwIiBjeT0iMTgwIiByPSI0MCIvPgogICAgPGNpcmNsZSBjeD0iMjIwIiBjeT0iMTYwIiByPSIzMCIvPgogICAgPGNpcmNsZSBjeD0iNTAwIiBjeT0iMTkwIiByPSIzNiIvPgogIDwvZz4KCiAgPCEtLSBmaWVsZCAtLT4KICA8cGF0aCBkPSJNMCwyOTAgUTM1MCwyNjAgNzAwLDI5MCBMNzAwLDQ2MCBMMCw0NjAgWiIgZmlsbD0idXJsKCNncm91bmQybikiLz4KCiAgPCEtLSBkaXN0YW50IGVuZW15IGxpbmVzLCBzbWFsbCBzaWxob3VldHRlcyAtLT4KICA8ZyBmaWxsPSIjMmExYzEwIiBvcGFjaXR5PSIwLjciPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTYwLDMwMCkiPjxyZWN0IHg9Ii0zIiB5PSItMTYiIHdpZHRoPSI2IiBoZWlnaHQ9IjE2IiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjAiIHI9IjQiLz48L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1OTAsMzAyKSI+PHJlY3QgeD0iLTMiIHk9Ii0xNiIgd2lkdGg9IjYiIGhlaWdodD0iMTYiIHJ4PSIyIi8+PGNpcmNsZSBjeD0iMCIgY3k9Ii0yMCIgcj0iNCIvPjwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYyMCwzMDApIj48cmVjdCB4PSItMyIgeT0iLTE2IiB3aWR0aD0iNiIgaGVpZ2h0PSIxNiIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTIwIiByPSI0Ii8+PC9nPgogIDwvZz4KCiAgPCEtLSBjYW5ub25zIGluIHRoZSBmb3JlZ3JvdW5kLCBiZWluZyBkaXJlY3RlZCAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNjAsMzMwKSI+CiAgICA8cmVjdCB4PSItMTAiIHk9Ii04IiB3aWR0aD0iNjAiIGhlaWdodD0iMTYiIHJ4PSI0IiBmaWxsPSIjMmExYzEwIi8+CiAgICA8Y2lyY2xlIGN4PSItMTAiIGN5PSI2IiByPSIxNCIgZmlsbD0iIzFjMTQxMCIvPgogICAgPGNpcmNsZSBjeD0iMjAiIGN5PSI2IiByPSIxNCIgZmlsbD0iIzFjMTQxMCIvPgogIDwvZz4KCiAgPCEtLSB5b3VuZyBOYXBvbGVvbiBvbiBob3JzZWJhY2ssIHBvaW50aW5nIGZvcndhcmQgLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzMwLDMxMCkiPgogICAgPCEtLSBob3JzZSBib2R5IC0tPgogICAgPHBhdGggZD0iTS01MCw0MCBRLTU1LDUgLTIwLC01IFEyMCwtMTUgNDUsNSBRNTUsMTUgNDUsMzUgUTIwLDQ4IC0yMCw0NiBRLTQwLDQ2IC01MCw0MCBaIiBmaWxsPSIjM2EyNDE4Ii8+CiAgICA8cGF0aCBkPSJNNDAsMCBRNTUsLTEwIDYyLDUgUTYwLDE1IDQ4LDE1IFoiIGZpbGw9IiMzYTI0MTgiLz4KICAgIDxyZWN0IHg9Ii00MCIgeT0iMzgiIHdpZHRoPSI4IiBoZWlnaHQ9IjIwIiBmaWxsPSIjMWMxNDEwIi8+CiAgICA8cmVjdCB4PSItMTAiIHk9IjQyIiB3aWR0aD0iOCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzFjMTQxMCIvPgogICAgPHJlY3QgeD0iMjAiIHk9IjQyIiB3aWR0aD0iOCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzFjMTQxMCIvPgogICAgPCEtLSByaWRlciAtLT4KICAgIDxwYXRoIGQ9Ik0tMTAsLTUgUS0xNCwtMzAgMCwtNDIgUTgsLTQ2IDE2LC00MiBRMjgsLTMwIDI0LC01IFoiIGZpbGw9IiMxZTNhNWUiLz4KICAgIDxjaXJjbGUgY3g9IjYiIGN5PSItNDgiIHI9IjEyIiBmaWxsPSIjYzk4YTU1Ii8+CiAgICA8cGF0aCBkPSJNLTQsLTUwIFE2LC02MCAxNiwtNTAgUTE0LC01NCA2LC01NiBRLTIsLTU0IC00LC01MCBaIiBmaWxsPSIjMmExYzEwIi8+CiAgICA8IS0tIGFybSBwb2ludGluZyBmb3J3YXJkIC0tPgogICAgPHBhdGggZD0iTTIyLC0zMCBRNTAsLTM4IDY1LC01MCIgc3Ryb2tlPSIjMWUzYTVlIiBzdHJva2Utd2lkdGg9IjkiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogIDwvZz4KPC9zdmc+Cg==" alt="Napoléon jeune général dirigeant l'artillerie lors d'une bataille">
+    <h2 class="chapter-title">⚡ L'ascension du jeune général</h2>
+    <p>
+      La France traversait alors une période de grands bouleversements : la
+      <strong>Révolution française</strong> venait de renverser le roi. Dans ce
+      chaos, un jeune officier d'artillerie sut se montrer rapide, précis et
+      audacieux lors d'un siège difficile.
+    </p>
+    <p>
+      Remarqué pour son intelligence tactique, Napoléon fut promu <strong>général
+      à seulement 24 ans</strong> — un exploit rarissime. Il enchaîna ensuite des
+      victoires éclatantes en Italie, surprenant des armées bien plus nombreuses
+      par la rapidité de ses mouvements.
+    </p>
+    <blockquote>
+      « On s'engage, et puis on voit. »
+    </blockquote>
+    <p>
+      Son secret n'était pas seulement le courage : c'était sa façon de toujours
+      <em>frapper vite, frapper fort, et frapper là où l'ennemi ne l'attend pas</em>. ⚔️
+    </p>
+  </section>
+
+  <div class="divider">👑</div>
+
+  <section class="chapter">
+    <div class="roman">III</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5M24iIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFjMTQxMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzVhMmEzMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4YjFlMmIiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImhhbG8zbiIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZTZiMCIgc3RvcC1vcGFjaXR5PSIwLjg1Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmZTZiMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5M24pIi8+CgogIDwhLS0gY2F0aGVkcmFsIGFyY2hlcyAtLT4KICA8ZyBmaWxsPSIjMTQxMTBmIiBvcGFjaXR5PSIwLjYiPgogICAgPHJlY3QgeD0iNDAiIHk9IjYwIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAwIi8+CiAgICA8cmVjdCB4PSI2MzAiIHk9IjYwIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAwIi8+CiAgICA8cGF0aCBkPSJNNDAsMTIwIFE3MCw3MCAxMDAsMTIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxNDExMGYiIHN0cm9rZS13aWR0aD0iMTQiLz4KICAgIDxwYXRoIGQ9Ik02MDAsMTIwIFE2MzAsNzAgNjYwLDEyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMTQxMTBmIiBzdHJva2Utd2lkdGg9IjE0Ii8+CiAgPC9nPgoKICA8IS0tIHN0YWluZWQgZ2xhc3MgZ2xvdyAtLT4KICA8Y2lyY2xlIGN4PSIzNTAiIGN5PSIxMjAiIHI9IjEwMCIgZmlsbD0idXJsKCNoYWxvM24pIi8+CgogIDwhLS0gZmxvb3IgLS0+CiAgPHBhdGggZD0iTTAsMzYwIEw3MDAsMzYwIEw3MDAsNDYwIEwwLDQ2MCBaIiBmaWxsPSIjM2EyNDE4Ii8+CgogIDwhLS0gY3Jvd2Qgc2lsaG91ZXR0ZXMsIHNtYWxsLCBhdCB0aGUgYmFjayAtLT4KICA8ZyBmaWxsPSIjMWMxNDEwIiBvcGFjaXR5PSIwLjc1Ij4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyMCwzNDUpIj48cmVjdCB4PSItMyIgeT0iLTE2IiB3aWR0aD0iNiIgaGVpZ2h0PSIxNiIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTIwIiByPSI0Ii8+PC9nPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTUwLDM0OCkiPjxyZWN0IHg9Ii0zIiB5PSItMTYiIHdpZHRoPSI2IiBoZWlnaHQ9IjE2IiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjAiIHI9IjQiLz48L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1NDAsMzQ2KSI+PHJlY3QgeD0iLTMiIHk9Ii0xNiIgd2lkdGg9IjYiIGhlaWdodD0iMTYiIHJ4PSIyIi8+PGNpcmNsZSBjeD0iMCIgY3k9Ii0yMCIgcj0iNCIvPjwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU3MCwzNDQpIj48cmVjdCB4PSItMyIgeT0iLTE2IiB3aWR0aD0iNiIgaGVpZ2h0PSIxNiIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTIwIiByPSI0Ii8+PC9nPgogIDwvZz4KCiAgPCEtLSBOYXBvbGVvbiBhdCBjZW50ZXIsIGhvbGRpbmcgdGhlIGNyb3duIGFib3ZlIGhpcyBvd24gaGVhZCAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNTAsMzM1KSI+CiAgICA8IS0tIGNlcmVtb25pYWwgY2xvYWsgLS0+CiAgICA8cGF0aCBkPSJNLTQyLDU1IFEtNTAsMCAtMTYsLTQwIFEwLC01MCAxNiwtNDAgUTUwLDAgNDIsNTUgWiIgZmlsbD0iIzhiMWUyYiIvPgogICAgPHBhdGggZD0iTS0zMCw1NSBMLTIwLDAgTDIwLDAgTDMwLDU1IFoiIGZpbGw9IiNjZjliM2YiIG9wYWNpdHk9IjAuNSIvPgogICAgPGNpcmNsZSBjeD0iMCIgY3k9Ii01MiIgcj0iMTciIGZpbGw9IiNjOThhNTUiLz4KICAgIDxwYXRoIGQ9Ik0tMTIsLTU1IFEwLC02NiAxMiwtNTUgUTEwLC02MCAwLC02MiBRLTEwLC02MCAtMTIsLTU1IFoiIGZpbGw9IiMxYzE0MTAiLz4KICAgIDwhLS0gYXJtcyByYWlzZWQgaG9sZGluZyB0aGUgY3Jvd24gLS0+CiAgICA8cGF0aCBkPSJNLTEyLC02NSBRLTE4LC05MCAwLC0xMDAiIHN0cm9rZT0iIzhiMWUyYiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICA8cGF0aCBkPSJNMTIsLTY1IFExOCwtOTAgMCwtMTAwIiBzdHJva2U9IiM4YjFlMmIiIHN0cm9rZS13aWR0aD0iMTAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgPCEtLSBjcm93biAtLT4KICAgIDxwb2x5Z29uIHBvaW50cz0iLTE2LC0xMDIgLTE2LC0xMTQgLTgsLTEwMiAwLC0xMTggOCwtMTAyIDE2LC0xMTQgMTYsLTEwMiIgZmlsbD0iI2NmOWIzZiIvPgogIDwvZz4KPC9zdmc+Cg==" alt="Le sacre de Napoléon, couronne dorée et foule à Notre-Dame">
+    <h2 class="chapter-title">✨ Le sacre de l'Empereur</h2>
+    <p>
+      En <strong>1804</strong>, dans la cathédrale de <strong>Notre-Dame de
+      Paris</strong>, devant une foule immense, Napoléon fit un geste resté
+      célèbre : plutôt que d'attendre la couronne des mains du pape, il la prit
+      lui-même et se couronna <strong>Empereur des Français</strong>.
+    </p>
+    <p>
+      Ce geste symbolisait toute sa vie : un homme parti de presque rien, qui
+      avait construit sa propre destinée par le travail, la stratégie et une
+      volonté de fer.
+    </p>
+    <blockquote>
+      « Le pouvoir ne se reçoit pas, il se prend. »
+    </blockquote>
+    <p>
+      Sous son règne, la France réforma ses lois avec le fameux <strong>Code
+      civil</strong>, modernisa ses routes, ses écoles, son administration —
+      un héritage qui dure encore aujourd'hui. 📜
+    </p>
+  </section>
+
+  <div class="divider">🐎</div>
+
+  <section class="chapter">
+    <div class="roman">IV</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5NG4iIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFjMjQzMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iIzVhNmE3ZSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjOWNjZDAiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InNub3c0biIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZThlYWVjIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2E4YWViYiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CgogIDxyZWN0IHdpZHRoPSI3MDAiIGhlaWdodD0iNDYwIiBmaWxsPSJ1cmwoI3NreTRuKSIvPgogIDxjaXJjbGUgY3g9IjM1MCIgY3k9IjEyMCIgcj0iNTAiIGZpbGw9IiNkZmU0ZTgiIG9wYWNpdHk9IjAuNSIvPgoKICA8IS0tIHNub3d5IHBsYWluIC0tPgogIDxwYXRoIGQ9Ik0wLDMwMCBRMzUwLDI3MCA3MDAsMzAwIEw3MDAsNDYwIEwwLDQ2MCBaIiBmaWxsPSJ1cmwoI3Nub3c0bikiLz4KCiAgPCEtLSBsb25nIGNvbHVtbiBvZiBzb2xkaWVycyB0cmFpbGluZyBpbnRvIHRoZSBkaXN0YW5jZSAtLT4KICA8ZyBmaWxsPSIjMmEzMDM4IiBvcGFjaXR5PSIwLjg1Ij4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU0MCwzMjApIj48cmVjdCB4PSItMiIgeT0iLTEyIiB3aWR0aD0iNCIgaGVpZ2h0PSIxMiIgcng9IjEiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTE1IiByPSIzIi8+PC9nPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTYwLDMyMikiPjxyZWN0IHg9Ii0yIiB5PSItMTIiIHdpZHRoPSI0IiBoZWlnaHQ9IjEyIiByeD0iMSIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMTUiIHI9IjMiLz48L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1ODAsMzI0KSI+PHJlY3QgeD0iLTIiIHk9Ii0xMiIgd2lkdGg9IjQiIGhlaWdodD0iMTIiIHJ4PSIxIi8+PGNpcmNsZSBjeD0iMCIgY3k9Ii0xNSIgcj0iMyIvPjwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwMCwzMjYpIj48cmVjdCB4PSItMiIgeT0iLTEyIiB3aWR0aD0iNCIgaGVpZ2h0PSIxMiIgcng9IjEiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTE1IiByPSIzIi8+PC9nPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTUwLDMyOCkiPjxyZWN0IHg9Ii0zIiB5PSItMTgiIHdpZHRoPSI2IiBoZWlnaHQ9IjE4IiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjIiIHI9IjQuNSIvPjwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5MCwzMzApIj48cmVjdCB4PSItMyIgeT0iLTE4IiB3aWR0aD0iNiIgaGVpZ2h0PSIxOCIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTIyIiByPSI0LjUiLz48L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMzAsMzMyKSI+PHJlY3QgeD0iLTMiIHk9Ii0xOCIgd2lkdGg9IjYiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PGNpcmNsZSBjeD0iMCIgY3k9Ii0yMiIgcj0iNC41Ii8+PC9nPgogIDwvZz4KCiAgPCEtLSBOYXBvbGVvbiBvbiBob3JzZWJhY2sgbGVhZGluZyB0aGUgY29sdW1uIC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM3MCwzMzUpIj4KICAgIDxwYXRoIGQ9Ik0tNTAsNDAgUS01NSw1IC0yMCwtNSBRMjAsLTE1IDQ1LDUgUTU1LDE1IDQ1LDM1IFEyMCw0OCAtMjAsNDYgUS00MCw0NiAtNTAsNDAgWiIgZmlsbD0iIzJhMmUzNCIvPgogICAgPHBhdGggZD0iTTQwLDAgUTU1LC0xMCA2Miw1IFE2MCwxNSA0OCwxNSBaIiBmaWxsPSIjMmEyZTM0Ii8+CiAgICA8cmVjdCB4PSItNDAiIHk9IjM4IiB3aWR0aD0iOCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzFjMTQxMCIvPgogICAgPHJlY3QgeD0iLTEwIiB5PSI0MiIgd2lkdGg9IjgiIGhlaWdodD0iMjAiIGZpbGw9IiMxYzE0MTAiLz4KICAgIDxyZWN0IHg9IjIwIiB5PSI0MiIgd2lkdGg9IjgiIGhlaWdodD0iMjAiIGZpbGw9IiMxYzE0MTAiLz4KICAgIDxwYXRoIGQ9Ik0tMTAsLTUgUS0xNCwtMzAgMCwtNDIgUTgsLTQ2IDE2LC00MiBRMjgsLTMwIDI0LC01IFoiIGZpbGw9IiMxZTNhNWUiLz4KICAgIDxjaXJjbGUgY3g9IjYiIGN5PSItNDgiIHI9IjEyIiBmaWxsPSIjYzk4YTU1Ii8+CiAgICA8cGF0aCBkPSJNLTQsLTUwIFE2LC02MCAxNiwtNTAgUTE0LC01NCA2LC01NiBRLTIsLTU0IC00LC01MCBaIiBmaWxsPSIjMmExYzEwIi8+CiAgICA8IS0tIGljb25pYyBiaWNvcm5lIGhhdCBzaWxob3VldHRlIC0tPgogICAgPHBhdGggZD0iTS02LC01OCBRNiwtNjYgMTgsLTU4IFExNCwtNjQgNiwtNjUgUS0yLC02NCAtNiwtNTggWiIgZmlsbD0iIzE0MTEwZiIvPgogIDwvZz4KCiAgPCEtLSBmYWxsaW5nIHNub3cgLS0+CiAgPGcgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iMC44NSI+CiAgICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSI2MCIgcj0iMi41Ii8+CiAgICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxMDAiIHI9IjIiLz4KICAgIDxjaXJjbGUgY3g9IjMwMCIgY3k9IjUwIiByPSIyLjUiLz4KICAgIDxjaXJjbGUgY3g9IjQ1MCIgY3k9IjkwIiByPSIyIi8+CiAgICA8Y2lyY2xlIGN4PSI1NjAiIGN5PSI0MCIgcj0iMi41Ii8+CiAgICA8Y2lyY2xlIGN4PSI2MjAiIGN5PSIxMTAiIHI9IjIiLz4KICA8L2c+Cjwvc3ZnPgo=" alt="Napoléon à cheval menant ses troupes à travers une plaine enneigée d'Europe">
+    <h2 class="chapter-title">🌍 Le maître de l'Europe</h2>
+    <p>
+      Pendant plus de dix ans, Napoléon mena ses armées à travers toute
+      l'<strong>Europe</strong> — l'Autriche, la Prusse, la Russie — remportant
+      des batailles devenues légendaires comme <strong>Austerlitz</strong>, où il
+      trompa ses ennemis en feignant la retraite avant de les encercler.
+    </p>
+    <p>
+      Mais cette soif de conquête finit par l'épuiser. La terrible campagne de
+      <strong>Russie</strong>, où son armée fut décimée par le froid glacial et les
+      distances immenses, marqua le début du déclin.
+    </p>
+    <blockquote>
+      « De la grandeur à la chute, il n'y a souvent qu'un pas de trop. »
+    </blockquote>
+    <p>
+      Napoléon avait conquis presque tout un continent — mais gouverner par la
+      seule force avait un prix que même son génie ne pouvait éviter longtemps. ❄️
+    </p>
+  </section>
+
+  <div class="divider">🌊</div>
+
+  <section class="chapter">
+    <div class="roman">V</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5NW4iIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzE0MTEwZiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzNhMmEzMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4YjZhNGEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InNlYTVuIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM2YTdhOGEiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMWMyNDMwIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJnbG93NW4iIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmU2YjAiIHN0b3Atb3BhY2l0eT0iMC41NSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmU2YjAiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICA8L2RlZnM+CgogIDxyZWN0IHdpZHRoPSI3MDAiIGhlaWdodD0iNDYwIiBmaWxsPSJ1cmwoI3NreTVuKSIvPgogIDxjaXJjbGUgY3g9IjU0MCIgY3k9IjExMCIgcj0iMTIwIiBmaWxsPSJ1cmwoI2dsb3c1bikiLz4KICA8Y2lyY2xlIGN4PSI1NDAiIGN5PSIxMTAiIHI9IjM4IiBmaWxsPSIjZjBlNGNjIiBvcGFjaXR5PSIwLjkiLz4KCiAgPCEtLSBzZWEgLS0+CiAgPHBhdGggZD0iTTAsMjYwIFEzNTAsMjM1IDcwMCwyNjAgTDcwMCwzNjAgTDAsMzYwIFoiIGZpbGw9InVybCgjc2VhNW4pIi8+CiAgPGcgc3Ryb2tlPSIjNGE1YTZhIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9IjAuNSI+CiAgICA8cGF0aCBkPSJNMjAsMjkwIHE0MCwtOCA4MCwwIHE0MCw4IDgwLDAiLz4KICAgIDxwYXRoIGQ9Ik0zMDAsMzEwIHE0MCwtOCA4MCwwIHE0MCw4IDgwLDAiLz4KICAgIDxwYXRoIGQ9Ik00NTAsMjg1IHE0MCwtOCA4MCwwIHE0MCw4IDgwLDAiLz4KICA8L2c+CgogIDwhLS0gcm9ja3kgY2xpZmYgb2YgdGhlIGlzbGFuZCAtLT4KICA8cGF0aCBkPSJNMCwzNjAgUTE1MCwyODAgMjgwLDMzMCBMMjgwLDQ2MCBMMCw0NjAgWiIgZmlsbD0iIzJhMjAxOCIvPgoKICA8IS0tIGdyb3VuZCB3aGVyZSBoZSBzdGFuZHMgLS0+CiAgPHBhdGggZD0iTTAsMzMwIFExNTAsMjYwIDI4MCwzMTAgTDI4MCwzNjAgUTE1MCwzMDAgMCwzNjAgWiIgZmlsbD0iIzNhMmMyMCIvPgoKICA8IS0tIE5hcG9sZW9uIHN0YW5kaW5nIGFsb25lLCBsb29raW5nIGF0IHRoZSBzZWEsIGhhbmQgYmVoaW5kIGJhY2ssIGljb25pYyBidXQgc2ltcGxpZmllZCBzaWxob3VldHRlIC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE2MCwzMzApIj4KICAgIDxwYXRoIGQ9Ik0tMjAsNTUgUS0yNCw1IC02LC0zMCBRMCwtMzggNiwtMzAgUTI0LDUgMjAsNTUgWiIgZmlsbD0iIzFjMTQxMCIvPgogICAgPGNpcmNsZSBjeD0iMCIgY3k9Ii00MCIgcj0iMTQiIGZpbGw9IiNjOThhNTUiLz4KICAgIDxwYXRoIGQ9Ik0tOSwtNDMgUTAsLTUyIDksLTQzIFE3LC00NyAwLC00OSBRLTcsLTQ3IC05LC00MyBaIiBmaWxsPSIjMmExYzEwIi8+CiAgICA8IS0tIGJpY29ybmUgaGF0IC0tPgogICAgPHBhdGggZD0iTS04LC01MCBRNCwtNTggMTYsLTUwIFExMiwtNTYgNCwtNTcgUS00LC01NiAtOCwtNTAgWiIgZmlsbD0iIzBhMDgwNiIvPgogICAgPCEtLSBhcm0gdHVja2VkIGJlaGluZCwgY2xhc3NpYyBzdGFuY2UgLS0+CiAgICA8cGF0aCBkPSJNNiwtMTAgUTE0LDUgNiwxOCIgc3Ryb2tlPSIjMWMxNDEwIiBzdHJva2Utd2lkdGg9IjkiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogIDwvZz4KCiAgPCEtLSBkaXN0YW50IGd1bGxzIC0tPgogIDxnIHN0cm9rZT0iI2U0ZDhiZCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjciPgogICAgPHBhdGggZD0iTTQwMCwxNTAgcTksLTkgMTgsMCBxOSwtOSAxOCwwIi8+CiAgICA8cGF0aCBkPSJNNDUwLDEzMCBxNywtNyAxNCwwIHE3LC03IDE0LDAiLz4KICA8L2c+Cjwvc3ZnPgo=" alt="Napoléon seul, contemplant l'océan depuis l'île de Sainte-Hélène">
+    <h2 class="chapter-title">🏝️ L'aigle exilé</h2>
+    <p>
+      Après la défaite finale à <strong>Waterloo</strong> en 1815, Napoléon fut
+      envoyé en exil sur la lointaine île de <strong>Sainte-Hélène</strong>, au
+      milieu de l'océan Atlantique, où il passa ses dernières années à écrire ses
+      mémoires et à repenser sa vie.
+    </p>
+    <blockquote>
+      « Quel roman que ma vie ! »
+    </blockquote>
+    <p>
+      Il mourut en 1821, loin de la France qu'il avait tant transformée. Mais son
+      nom resta gravé dans l'histoire — celui d'un homme parti d'une petite île
+      pour devenir, le temps d'une vie, le maître d'un continent. 🦅
+    </p>
+  </section>
+
+  <footer class="ending">
+    <h2>✨ Fin ✨</h2>
+    <p>
+      Et voilà l'histoire de Napoléon,<br>
+      l'enfant studieux devenu empereur d'un empire immense.
+    </p>
+    <p>
+      Il nous apprend que la rapidité d'esprit et la volonté<br>
+      peuvent porter très haut — mais que nulle gloire n'est éternelle.
+    </p>
+    <p>
+      De Brienne à Sainte-Hélène, en passant par Notre-Dame,<br>
+      son vol fut aussi fulgurant que sa chute fut profonde.
+    </p>
+    <p><em>Son ombre plane encore sur l'histoire de l'Europe. 🦅</em></p>
+    <div class="final-mark">⚔️</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
