@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les Dinosaures — Les Maîtres du Monde Disparu</title>
+<style>
+  :root{
+    --bronze:#a87a3f;
+    --ember:#c1601e;
+    --night:#101810;
+    --parchment:#eee8d0;
+    --stone:#7c8a6e;
+    --gold:#d4b04a;
+    --green:#3a5a3a;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--night);
+    color:var(--parchment);
+    font-family:'Iowan Old Style','Palatino Linotype',Georgia,serif;
+    overflow-x:hidden;
+  }
+  .bg-texture{
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(193,96,30,0.08), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(212,176,74,0.08), transparent 45%);
+    pointer-events:none;
+    z-index:0;
+  }
+  .wrap{
+    position:relative;
+    z-index:1;
+    max-width:680px;
+    margin:0 auto;
+    padding:0 24px 80px;
+  }
+  header.cover{
+    min-height:88vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:60px 0;
+  }
+  .eyebrow{
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    font-size:0.7rem;
+    color:var(--gold);
+    margin-bottom:18px;
+    font-family:'Trajan Pro',Cambria,Georgia,serif;
+  }
+  h1.title{
+    font-size:clamp(2.6rem,9vw,4.2rem);
+    margin:0;
+    line-height:1.05;
+    color:var(--parchment);
+    text-shadow:0 0 30px rgba(193,96,30,0.35);
+    letter-spacing:0.01em;
+  }
+  .subtitle{
+    font-style:italic;
+    color:var(--stone);
+    margin-top:18px;
+    font-size:1.05rem;
+  }
+  .scroll-hint{
+    margin-top:60px;
+    font-size:0.8rem;
+    color:var(--stone);
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    animation:bob 2.2s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{transform:translateY(0); opacity:0.5;}
+    50%{transform:translateY(8px); opacity:1;}
+  }
+  .divider{
+    text-align:center;
+    color:var(--bronze);
+    font-size:1.4rem;
+    margin:70px 0 30px;
+    opacity:0.8;
+  }
+  .roman{
+    text-align:center;
+    font-family:'Trajan Pro',Cambria,Georgia,serif;
+    letter-spacing:0.25em;
+    color:var(--gold);
+    font-size:1rem;
+    margin-bottom:6px;
+  }
+  .chapter-image{
+    width:100%;
+    border-radius:6px;
+    margin:18px 0 30px;
+    box-shadow:0 12px 40px rgba(0,0,0,0.45);
+    display:block;
+  }
+  section.chapter{
+    margin-bottom:64px;
+  }
+  h2.chapter-title{
+    text-align:center;
+    font-size:clamp(1.5rem,5vw,2rem);
+    margin:0 0 28px;
+    color:var(--parchment);
+    font-weight:600;
+  }
+  p{
+    font-size:1.08rem;
+    line-height:1.85;
+    margin:0 0 20px;
+    color:#e2dcc0;
+  }
+  strong{
+    color:var(--gold);
+    font-weight:700;
+  }
+  em{
+    color:#d0c8a4;
+  }
+  blockquote{
+    margin:34px 0;
+    padding:20px 26px;
+    border-left:3px solid var(--ember);
+    background:rgba(193,96,30,0.06);
+    font-style:italic;
+    font-size:1.12rem;
+    color:#f1e8c4;
+    border-radius:2px;
+  }
+  footer.ending{
+    text-align:center;
+    padding-top:30px;
+    border-top:1px solid rgba(212,176,74,0.25);
+  }
+  footer.ending h2{
+    font-size:1.8rem;
+    color:var(--gold);
+    margin-bottom:24px;
+  }
+  footer.ending p{
+    text-align:center;
+  }
+  .final-mark{
+    margin-top:40px;
+    font-size:1.8rem;
+    color:var(--bronze);
+  }
+  @media (max-width:480px){
+    p, blockquote{font-size:1rem;}
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+<div class="bg-texture"></div>
+
+<div class="wrap">
+
+  <header class="cover">
+    <div class="eyebrow">Il y a 245 à 66 millions d'années</div>
+    <h1 class="title">Les Dinosaures</h1>
+    <p class="subtitle">L'épopée des géants qui régnèrent sur la Terre</p>
+    <div class="scroll-hint">Fais défiler pour lire ⌄</div>
+  </header>
+
+  <div class="divider">🦎</div>
+
+  <section class="chapter">
+    <div class="roman">I</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5MWQiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzNhMjQxOCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjU1JSIgc3RvcC1jb2xvcj0iI2E4NjIyYSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkNGIwNGEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imdyb3VuZDFkIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNiNTgwM2YiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjNWUzYTFmIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5MWQpIi8+CiAgPGNpcmNsZSBjeD0iNTQwIiBjeT0iMTEwIiByPSI1MCIgZmlsbD0iI2ZmZTZiMCIgb3BhY2l0eT0iMC43NSIvPgoKICA8IS0tIGRpc3RhbnQgdm9sY2FubyAtLT4KICA8cG9seWdvbiBwb2ludHM9IjgwLDMwMCAxNjAsMTQwIDI0MCwzMDAiIGZpbGw9IiMzYTI0MTgiIG9wYWNpdHk9IjAuOCIvPgogIDxwYXRoIGQ9Ik0xNTUsMTUwIHE1LC0yMCAxMCwwIiBzdHJva2U9IiNjMTYwMWUiIHN0cm9rZS13aWR0aD0iNiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iMC44Ii8+CiAgPGNpcmNsZSBjeD0iMTYwIiBjeT0iMTM1IiByPSIxMCIgZmlsbD0iI2ZmOWQzYyIgb3BhY2l0eT0iMC43Ii8+CgogIDwhLS0gZGVzZXJ0IGdyb3VuZCAtLT4KICA8cGF0aCBkPSJNMCwzMTAgUTM1MCwyODAgNzAwLDMxMCBMNzAwLDQ2MCBMMCw0NjAgWiIgZmlsbD0idXJsKCNncm91bmQxZCkiLz4KCiAgPCEtLSBzcGFyc2UgZHJ5IHBsYW50cyAtLT4KICA8ZyBzdHJva2U9IiM1ZTNhMWYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iMC43Ij4KICAgIDxwYXRoIGQ9Ik01MDAsMzMwIHE1LC0yNSAtNSwtNDAiLz4KICAgIDxwYXRoIGQ9Ik01MDAsMzMwIHEtNSwtMjAgOCwtMzUiLz4KICAgIDxwYXRoIGQ9Ik02MDAsMzQwIHE1LC0yMCAtMywtMzIiLz4KICA8L2c+CgogIDwhLS0gc21hbGwgZWFybHkgZGlub3NhdXJzIHJ1bm5pbmcsIHR3by1sZWdnZWQsIGFnaWxlIC0tPgogIDxnIGZpbGw9IiM3YThhNWEiPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjgwLDMzNSkiPgogICAgICA8cGF0aCBkPSJNLTE4LDE1IFEtMjIsLTEwIC01LC0yMiBROCwtMjggMTYsLTE4IFEyMiwtNSAxNiw4IEwzMCwxMiBMMjAsMTggWiIgLz4KICAgICAgPGNpcmNsZSBjeD0iLTEyIiBjeT0iLTIyIiByPSI3IiBmaWxsPSIjN2E4YTVhIi8+CiAgICAgIDxyZWN0IHg9Ii02IiB5PSIxNCIgd2lkdGg9IjYiIGhlaWdodD0iMTQiIGZpbGw9IiM1YTZhNDIiLz4KICAgICAgPHJlY3QgeD0iNiIgeT0iMTQiIHdpZHRoPSI2IiBoZWlnaHQ9IjE0IiBmaWxsPSIjNWE2YTQyIi8+CiAgICA8L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNTAsMzQwKSBzY2FsZSgwLjgpIj4KICAgICAgPHBhdGggZD0iTS0xOCwxNSBRLTIyLC0xMCAtNSwtMjIgUTgsLTI4IDE2LC0xOCBRMjIsLTUgMTYsOCBMMzAsMTIgTDIwLDE4IFoiIGZpbGw9IiM4YTlhNmEiLz4KICAgICAgPGNpcmNsZSBjeD0iLTEyIiBjeT0iLTIyIiByPSI3IiBmaWxsPSIjOGE5YTZhIi8+CiAgICAgIDxyZWN0IHg9Ii02IiB5PSIxNCIgd2lkdGg9IjYiIGhlaWdodD0iMTQiIGZpbGw9IiM1YTZhNDIiLz4KICAgICAgPHJlY3QgeD0iNiIgeT0iMTQiIHdpZHRoPSI2IiBoZWlnaHQ9IjE0IiBmaWxsPSIjNWE2YTQyIi8+CiAgICA8L2c+CiAgPC9nPgoKICA8IS0tIGxhcmdlciBhbmNpZW50IHJlcHRpbGUgaW4gYmFja2dyb3VuZCwgbGVzcyBkaW5vc2F1ci1saWtlIC0tPgogIDxnIGZpbGw9IiM1YTRhM2EiIG9wYWNpdHk9IjAuNiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTMwLDM0NSkiPgogICAgPHBhdGggZD0iTS0zMCwxMCBRLTEwLC0xNSAzMCwtMTAgUTQ1LC01IDQwLDEwIFEyMCwxOCAtMTAsMTYgUS0yNSwxNiAtMzAsMTAgWiIvPgogICAgPHJlY3QgeD0iLTIwIiB5PSI4IiB3aWR0aD0iNiIgaGVpZ2h0PSIxNiIvPgogICAgPHJlY3QgeD0iMTAiIHk9IjgiIHdpZHRoPSI2IiBoZWlnaHQ9IjE2Ii8+CiAgPC9nPgo8L3N2Zz4K" alt="Premiers petits dinosaures apparaissant dans un paysage désertique du Trias">
+    <h2 class="chapter-title">🌋 Les premiers pas d'une dynastie</h2>
+    <p>
+      Il y a environ <strong>245 millions d'années</strong>, bien avant l'apparition
+      de l'être humain, la Terre ressemblait à un immense désert chaud, secoué par
+      des volcans. C'est dans ce monde rude, appelé le <strong>Trias</strong>, que
+      naquirent les tout premiers <strong>dinosaures</strong>.
+    </p>
+    <p>
+      Ces ancêtres n'étaient pas des géants : de petites créatures rapides, à peine
+      plus grandes qu'un chien, couraient déjà sur deux pattes parmi des reptiles
+      plus anciens qu'eux.
+    </p>
+    <blockquote>
+      « Les plus grands règnes commencent souvent par les plus petits pas. »
+    </blockquote>
+    <p>
+      Personne, à cette époque, n'aurait pu imaginer que cette petite famille de
+      reptiles allait bientôt devenir les <strong>maîtres incontestés</strong> de
+      toute la planète. 🌅
+    </p>
+  </section>
+
+  <div class="divider">🌿</div>
+
+  <section class="chapter">
+    <div class="roman">II</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5MmQiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFjMzAyNCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iIzNhNWEzYSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM5YWMwNmEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imdyb3VuZDJkIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM1YTdhNDAiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMjQzYTFlIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5MmQpIi8+CiAgPGNpcmNsZSBjeD0iMTUwIiBjeT0iMTAwIiByPSI0OCIgZmlsbD0iI2ZmZTZiMCIgb3BhY2l0eT0iMC41Ii8+CgogIDwhLS0gZGlzdGFudCBmZXJucyBhbmQgdHJlZSBzaWxob3VldHRlcyAtLT4KICA8ZyBmaWxsPSIjMWMzMDI0IiBvcGFjaXR5PSIwLjciPgogICAgPGVsbGlwc2UgY3g9IjYwMCIgY3k9IjE4MCIgcng9IjYwIiByeT0iOTAiLz4KICAgIDxlbGxpcHNlIGN4PSI2NjAiIGN5PSIyMDAiIHJ4PSI0MCIgcnk9IjcwIi8+CiAgPC9nPgoKICA8IS0tIGdyb3VuZCAtLT4KICA8cGF0aCBkPSJNMCwzMjAgUTM1MCwyOTAgNzAwLDMyMCBMNzAwLDQ2MCBMMCw0NjAgWiIgZmlsbD0idXJsKCNncm91bmQyZCkiLz4KCiAgPCEtLSBmZXJucyBmb3JlZ3JvdW5kIC0tPgogIDxnIGZpbGw9IiMyZTRhMjYiPgogICAgPHBhdGggZD0iTTQwLDM2MCBRMjAsMzMwIDQwLDMwMCBRNjAsMzMwIDQwLDM2MCBaIi8+CiAgICA8cGF0aCBkPSJNNzAsMzY1IFE1NSwzMzUgNzUsMzEwIFE5MCwzMzUgNzAsMzY1IFoiLz4KICA8L2c+CgogIDwhLS0gbG9uZy1uZWNrZWQgZ2lhbnQgaGVyYml2b3JlLCBzaWduYXR1cmUgc2lsaG91ZXR0ZSAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzODAsMjUwKSIgZmlsbD0iIzZhOGE0YSI+CiAgICA8cGF0aCBkPSJNLTgwLDkwIFEtMTAwLDQwIC02MCwxMCBRLTIwLC0xMCAyMCwxMCBRNjAsMzAgNzAsODAgUTQwLDEwMCAtMTAsMTAwIFEtNjAsMTAwIC04MCw5MCBaIi8+CiAgICA8cGF0aCBkPSJNLTYwLDEwIFEtMTEwLC00MCAtMTQwLC05MCBRLTE1MCwtMTAwIC0xNDAsLTExMCBRLTEzMCwtMTAwIC0xMDAsLTUwIFEtNzUsLTEwIC02MCwxMCBaIi8+CiAgICA8Y2lyY2xlIGN4PSItMTQwIiBjeT0iLTEwOCIgcj0iMTAiIGZpbGw9IiM2YThhNGEiLz4KICAgIDxyZWN0IHg9Ii0zMCIgeT0iODUiIHdpZHRoPSIxNCIgaGVpZ2h0PSIzNSIgZmlsbD0iIzRhNmEzMiIvPgogICAgPHJlY3QgeD0iMTAiIHk9Ijg4IiB3aWR0aD0iMTQiIGhlaWdodD0iMzUiIGZpbGw9IiM0YTZhMzIiLz4KICAgIDxyZWN0IHg9IjQwIiB5PSI4NSIgd2lkdGg9IjE0IiBoZWlnaHQ9IjMyIiBmaWxsPSIjNGE2YTMyIi8+CiAgICA8IS0tIHRhaWwgLS0+CiAgICA8cGF0aCBkPSJNNzAsNzUgUTEyMCw2MCAxNTAsNDAiIHN0cm9rZT0iIzZhOGE0YSIgc3Ryb2tlLXdpZHRoPSIxNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgPC9nPgoKICA8IS0tIHNtYWxsIGZseWluZyByZXB0aWxlIGluIHRoZSBza3kgLS0+CiAgPGcgZmlsbD0iIzNhMjQxOCIgb3BhY2l0eT0iMC44NSI+CiAgICA8cGF0aCBkPSJNNTIwLDEwMCBRNTQwLDgwIDU2MCw5NSBRNTQwLDg1IDUyMCwxMDAgWiIvPgogICAgPHBhdGggZD0iTTU2MCw5NSBRNTgwLDgwIDYwMCwxMDAgUTU4MCw4OCA1NjAsOTUgWiIvPgogIDwvZz4KICA8ZyBmaWxsPSIjM2EyNDE4IiBvcGFjaXR5PSIwLjciPgogICAgPHBhdGggZD0iTTQyMCw3MCBRNDM1LDU1IDQ1MCw2OCBRNDM1LDYwIDQyMCw3MCBaIi8+CiAgICA8cGF0aCBkPSJNNDUwLDY4IFE0NjUsNTUgNDgwLDcwIFE0NjUsNjIgNDUwLDY4IFoiLz4KICA8L2c+Cjwvc3ZnPgo=" alt="Géants du Jurassique parmi une forêt luxuriante, long cou et petits dinosaures volants">
+    <h2 class="chapter-title">🦕 L'âge des géants</h2>
+    <p>
+      Des millions d'années passèrent, et la Terre se couvrit de forêts immenses et
+      humides. Ce fut l'époque du <strong>Jurassique</strong>, durant laquelle les
+      dinosaures grandirent de façon spectaculaire.
+    </p>
+    <p>
+      D'énormes herbivores au <strong>long cou</strong> se mirent à brouter le
+      sommet des arbres les plus hauts, tandis que dans les airs, d'étranges
+      créatures à ailes membraneuses apprenaient à voler.
+    </p>
+    <blockquote>
+      « La Terre entière était devenue leur jardin. »
+    </blockquote>
+    <p>
+      Dans les mers aussi, des reptiles immenses nageaient en chassant des poissons
+      géants. Sur terre, dans l'eau et dans le ciel, les dinosaures et leurs
+      cousins régnaient désormais partout. 🌊
+    </p>
+  </section>
+
+  <div class="divider">🦖</div>
+
+  <section class="chapter">
+    <div class="roman">III</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5M2QiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzNhMjgxOCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjU1JSIgc3RvcC1jb2xvcj0iI2E4NzIyYSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlOGM0NjgiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imdyb3VuZDNkIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM3YThhNGEiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjM2E0YTI0Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5M2QpIi8+CiAgPGNpcmNsZSBjeD0iMzUwIiBjeT0iMTEwIiByPSI1MCIgZmlsbD0iI2ZmZTZiMCIgb3BhY2l0eT0iMC43Ii8+CgogIDwhLS0gZmxvd2VyaW5nIHBsYWluIC0tPgogIDxwYXRoIGQ9Ik0wLDMxMCBRMzUwLDI4MCA3MDAsMzEwIEw3MDAsNDYwIEwwLDQ2MCBaIiBmaWxsPSJ1cmwoI2dyb3VuZDNkKSIvPgoKICA8IS0tIHNtYWxsIGZsb3dlcnMgc2NhdHRlcmVkIC0tPgogIDxnIGZpbGw9IiNlOGM0NjgiPgogICAgPGNpcmNsZSBjeD0iMTIwIiBjeT0iMzQwIiByPSI0Ii8+CiAgICA8Y2lyY2xlIGN4PSIxNjAiIGN5PSIzNjAiIHI9IjQiLz4KICAgIDxjaXJjbGUgY3g9IjU0MCIgY3k9IjM1MCIgcj0iNCIvPgogICAgPGNpcmNsZSBjeD0iNTgwIiBjeT0iMzMwIiByPSI0Ii8+CiAgICA8Y2lyY2xlIGN4PSI2MTAiIGN5PSIzNzAiIHI9IjQiLz4KICA8L2c+CgogIDwhLS0gbGFyZ2UgcHJlZGF0b3IsIGNsYXNzaWMgYmlwZWRhbCBzaWxob3VldHRlLCBvbiB0aGUgbGVmdCAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMzAsMzMwKSIgZmlsbD0iIzhhNGEyYSI+CiAgICA8cGF0aCBkPSJNLTIwLDYwIFEtMzAsMTAgMCwtMzAgUTIwLC01MCA0NSwtMzUgUTcwLC0xNSA2NSwyMCBRNjAsNDUgMzAsNTUgWiIvPgogICAgPHBhdGggZD0iTTQ1LC0zNSBRNzUsLTQ1IDk1LC0zMCBRODUsLTIwIDYwLC0yMiBaIi8+CiAgICA8cG9seWdvbiBwb2ludHM9IjgwLC0zMiA5NSwtMzAgODIsLTIyIiBmaWxsPSIjZTlkY2MzIi8+CiAgICA8cmVjdCB4PSItMTAiIHk9IjUwIiB3aWR0aD0iMTQiIGhlaWdodD0iMzQiIGZpbGw9IiM1ZTMwMTgiLz4KICAgIDxyZWN0IHg9IjI1IiB5PSI1MiIgd2lkdGg9IjE0IiBoZWlnaHQ9IjMyIiBmaWxsPSIjNWUzMDE4Ii8+CiAgICA8cGF0aCBkPSJNLTIwLDMwIFEtNTUsNDAgLTc1LDMwIiBzdHJva2U9IiM4YTRhMmEiIHN0cm9rZS13aWR0aD0iMTQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogIDwvZz4KCiAgPCEtLSBob3JuZWQgaGVyYml2b3JlIGZhY2luZyBpdCwgb24gdGhlIHJpZ2h0IC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ4MCwzMzUpIiBmaWxsPSIjNWE2YTNhIj4KICAgIDxwYXRoIGQ9Ik0tNDAsNTAgUS01MCwxMCAtMjAsLTE1IFExMCwtMzUgNDUsLTE1IFE2MCwwIDUwLDMwIFEzNSw1MCAwLDUyIFoiLz4KICAgIDxwYXRoIGQ9Ik0tNDAsLTEwIFEtNTUsLTE1IC02NSwtMzAiIHN0cm9rZT0iIzVhNmEzYSIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICA8cG9seWdvbiBwb2ludHM9Ii01MCwtMjUgLTYyLC00MiAtNTIsLTI4IiBmaWxsPSIjY2ZjNGEwIi8+CiAgICA8cG9seWdvbiBwb2ludHM9Ii0zOCwtMjIgLTM0LC00NCAtMjgsLTI0IiBmaWxsPSIjY2ZjNGEwIi8+CiAgICA8cmVjdCB4PSItMjUiIHk9IjQ1IiB3aWR0aD0iMTQiIGhlaWdodD0iMzAiIGZpbGw9IiMzYTRhMjIiLz4KICAgIDxyZWN0IHg9IjE1IiB5PSI0NiIgd2lkdGg9IjE0IiBoZWlnaHQ9IjMwIiBmaWxsPSIjM2E0YTIyIi8+CiAgICA8IS0tIGZyaWxsIC0tPgogICAgPHBhdGggZD0iTS00NSwtMTUgUS02NSwtNSAtNjUsMTUgUS01MCwxMCAtNDIsLTUgWiIgZmlsbD0iIzRhNWEyZSIvPgogIDwvZz4KPC9zdmc+Cg==" alt="Grand prédateur du Crétacé face à un dinosaure à cornes, dans une plaine fleurie">
+    <h2 class="chapter-title">👑 L'apogée du Crétacé</h2>
+    <p>
+      Vint ensuite le <strong>Crétacé</strong>, la dernière et la plus riche période
+      des dinosaures. Les premières <strong>fleurs</strong> apparurent sur Terre,
+      colorant les paysages pour la toute première fois.
+    </p>
+    <p>
+      C'est à cette époque que vécurent les dinosaures les plus célèbres :
+      d'immenses prédateurs aux dents tranchantes comme des couteaux, et des
+      herbivores impressionnants, protégés par des cornes, des plaques osseuses ou
+      d'épaisses armures.
+    </p>
+    <blockquote>
+      « Chaque créature avait trouvé sa propre arme pour survivre. »
+    </blockquote>
+    <p>
+      Pendant des millions d'années, un équilibre fragile mais durable régnait
+      entre chasseurs et chassés — un monde qui semblait fait pour durer toujours. 🌸
+    </p>
+  </section>
+
+  <div class="divider">☄️</div>
+
+  <section class="chapter">
+    <div class="roman">IV</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5NGQiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFjMTQxMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjQ1JSIgc3RvcC1jb2xvcj0iIzZlMmExYSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjMTYwMWUiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImltcGFjdDRkIiBjeD0iNTAlIiBjeT0iNTAlIiByPSI1MCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmZlNmIwIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iNjAlIiBzdG9wLWNvbG9yPSIjZmY5ZDNjIiBzdG9wLW9wYWNpdHk9IjAuNiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZjlkM2MiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICA8L2RlZnM+CgogIDxyZWN0IHdpZHRoPSI3MDAiIGhlaWdodD0iNDYwIiBmaWxsPSJ1cmwoI3NreTRkKSIvPgoKICA8IS0tIHRoZSBtZXRlb3Igc3RyZWFraW5nIGRvd24gLS0+CiAgPGc+CiAgICA8bGluZSB4MT0iNTQwIiB5MT0iMjAiIHgyPSI0MjAiIHkyPSIxNzAiIHN0cm9rZT0iI2ZmZTZiMCIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuODUiLz4KICAgIDxjaXJjbGUgY3g9IjQyMCIgY3k9IjE3MCIgcj0iMjIiIGZpbGw9IiNmZmU2YjAiLz4KICA8L2c+CgogIDwhLS0gaW1wYWN0IGdsb3cgLS0+CiAgPGNpcmNsZSBjeD0iNDIwIiBjeT0iMTcwIiByPSIxNjAiIGZpbGw9InVybCgjaW1wYWN0NGQpIi8+CgogIDwhLS0gZGlzdGFudCBncm91bmQgc2lsaG91ZXR0ZSBjcmFja2luZyAtLT4KICA8cGF0aCBkPSJNMCwzMDAgUTM1MCwyNzAgNzAwLDMwMCBMNzAwLDQ2MCBMMCw0NjAgWiIgZmlsbD0iIzJhMWMxMCIvPgoKICA8IS0tIHNob2Nrd2F2ZSByaW5ncyAtLT4KICA8ZyBzdHJva2U9IiNmZjlkM2MiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iMC41Ij4KICAgIDxjaXJjbGUgY3g9IjQyMCIgY3k9IjE3MCIgcj0iMTAwIi8+CiAgICA8Y2lyY2xlIGN4PSI0MjAiIGN5PSIxNzAiIHI9IjE1MCIvPgogIDwvZz4KCiAgPCEtLSBmbGVlaW5nIGRpbm9zYXVyIHNpbGhvdWV0dGVzLCBzbWFsbCwgcnVubmluZyBhd2F5IC0tPgogIDxnIGZpbGw9IiMxNDExMGYiPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTMwLDMzMCkiPgogICAgICA8cGF0aCBkPSJNLTIwLDE4IFEtMjUsLTUgLTUsLTE4IFExMCwtMjUgMTgsLTEyIFEyNSwwIDE4LDEyIEwzMiwxNiBMMjIsMjIgWiIvPgogICAgICA8cmVjdCB4PSItOCIgeT0iMTYiIHdpZHRoPSI3IiBoZWlnaHQ9IjE4IiAvPgogICAgICA8cmVjdCB4PSI2IiB5PSIxNiIgd2lkdGg9IjciIGhlaWdodD0iMTgiLz4KICAgIDwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5MCwzNDApIHNjYWxlKDAuODUpIj4KICAgICAgPHBhdGggZD0iTS0yMCwxOCBRLTI1LC01IC01LC0xOCBRMTAsLTI1IDE4LC0xMiBRMjUsMCAxOCwxMiBMMzIsMTYgTDIyLDIyIFoiIGZpbGw9IiMxYzE0MTAiLz4KICAgICAgPHJlY3QgeD0iLTgiIHk9IjE2IiB3aWR0aD0iNyIgaGVpZ2h0PSIxOCIgZmlsbD0iIzFjMTQxMCIvPgogICAgICA8cmVjdCB4PSI2IiB5PSIxNiIgd2lkdGg9IjciIGhlaWdodD0iMTgiIGZpbGw9IiMxYzE0MTAiLz4KICAgIDwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU2MCwzNDUpIHNjYWxlKDAuOSkiPgogICAgICA8cGF0aCBkPSJNLTIwLDE4IFEtMjUsLTUgLTUsLTE4IFExMCwtMjUgMTgsLTEyIFEyNSwwIDE4LDEyIEwzMiwxNiBMMjIsMjIgWiIgZmlsbD0iIzFjMTQxMCIvPgogICAgICA8cmVjdCB4PSItOCIgeT0iMTYiIHdpZHRoPSI3IiBoZWlnaHQ9IjE4IiBmaWxsPSIjMWMxNDEwIi8+CiAgICAgIDxyZWN0IHg9IjYiIHk9IjE2IiB3aWR0aD0iNyIgaGVpZ2h0PSIxOCIgZmlsbD0iIzFjMTQxMCIvPgogICAgPC9nPgogIDwvZz4KCiAgPCEtLSBhc2gvZGVicmlzIGZhbGxpbmcgLS0+CiAgPGcgZmlsbD0iIzVhNGEzYSIgb3BhY2l0eT0iMC42Ij4KICAgIDxjaXJjbGUgY3g9IjgwIiBjeT0iMTAwIiByPSIzIi8+CiAgICA8Y2lyY2xlIGN4PSIxNjAiIGN5PSI2MCIgcj0iMi41Ii8+CiAgICA8Y2lyY2xlIGN4PSIyNTAiIGN5PSIxMjAiIHI9IjMiLz4KICAgIDxjaXJjbGUgY3g9IjYwMCIgY3k9IjI1MCIgcj0iMyIvPgogICAgPGNpcmNsZSBjeD0iNjUwIiBjeT0iMTkwIiByPSIyLjUiLz4KICA8L2c+Cjwvc3ZnPgo=" alt="Météorite géante s'écrasant sur la Terre, ciel embrasé, dinosaures fuyant">
+    <h2 class="chapter-title">💥 Le jour qui changea tout</h2>
+    <p>
+      Il y a environ <strong>66 millions d'années</strong>, le ciel s'embrasa
+      soudainement. Une <strong>météorite géante</strong>, large comme une ville,
+      s'écrasa sur la Terre avec une force inimaginable.
+    </p>
+    <p>
+      L'impact souleva des nuages de poussière qui couvrirent le ciel pendant des
+      mois, voire des années, plongeant la planète dans le froid et l'obscurité.
+      Les plantes ne purent plus pousser, et la chaîne de la vie se brisa peu à peu.
+    </p>
+    <blockquote>
+      « En un seul jour, des millions d'années de règne s'effacèrent. »
+    </blockquote>
+    <p>
+      La grande majorité des dinosaures, incapables de s'adapter à ce monde devenu
+      soudain hostile, disparurent à jamais. Ce fut l'une des plus grandes
+      tragédies de l'histoire de la vie sur Terre. 🌑
+    </p>
+  </section>
+
+  <div class="divider">🪶</div>
+
+  <section class="chapter">
+    <div class="roman">V</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5NWQiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzEwMTgxMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzRhNWEzMiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkNGIwNGEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Imdsb3c1ZCIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZTZiMCIgc3RvcC1vcGFjaXR5PSIwLjg1Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmZTZiMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5NWQpIi8+CiAgPGNpcmNsZSBjeD0iMzgwIiBjeT0iMTYwIiByPSIxNTAiIGZpbGw9InVybCgjZ2xvdzVkKSIvPgogIDxjaXJjbGUgY3g9IjM4MCIgY3k9IjE2MCIgcj0iNDIiIGZpbGw9IiNmZmU2YjAiIG9wYWNpdHk9IjAuOSIvPgoKICA8IS0tIHJvY2sgbGF5ZXJzIGluIGZvcmVncm91bmQgc2hvd2luZyBmb3NzaWxzIC0tPgogIDxwYXRoIGQ9Ik0wLDMyMCBMNzAwLDMyMCBMNzAwLDQ2MCBMMCw0NjAgWiIgZmlsbD0iIzVhNGEzNiIvPgogIDxwYXRoIGQ9Ik0wLDM0MCBMNzAwLDM0MCIgc3Ryb2tlPSIjM2EyYzFlIiBzdHJva2Utd2lkdGg9IjQiIG9wYWNpdHk9IjAuNiIvPgogIDxwYXRoIGQ9Ik0wLDM3NSBMNzAwLDM3NSIgc3Ryb2tlPSIjM2EyYzFlIiBzdHJva2Utd2lkdGg9IjQiIG9wYWNpdHk9IjAuNiIvPgogIDxwYXRoIGQ9Ik0wLDQxMCBMNzAwLDQxMCIgc3Ryb2tlPSIjM2EyYzFlIiBzdHJva2Utd2lkdGg9IjQiIG9wYWNpdHk9IjAuNSIvPgoKICA8IS0tIGZvc3NpbCBib25lIHNoYXBlcyBlbWJlZGRlZCBpbiB0aGUgcm9jayAtLT4KICA8ZyBmaWxsPSIjY2ZjNGEwIiBvcGFjaXR5PSIwLjg1Ij4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE1MCwzNTUpIHJvdGF0ZSgtMTApIj4KICAgICAgPHJlY3QgeD0iLTMwIiB5PSItNSIgd2lkdGg9IjYwIiBoZWlnaHQ9IjEwIiByeD0iNSIvPgogICAgICA8Y2lyY2xlIGN4PSItMzAiIGN5PSIwIiByPSI5Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjMwIiBjeT0iMCIgcj0iOSIvPgogICAgPC9nPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIwLDM5MCkgcm90YXRlKDgpIj4KICAgICAgPHJlY3QgeD0iLTIyIiB5PSItNCIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjgiIHJ4PSI0Ii8+CiAgICAgIDxjaXJjbGUgY3g9Ii0yMiIgY3k9IjAiIHI9IjciLz4KICAgICAgPGNpcmNsZSBjeD0iMjIiIGN5PSIwIiByPSI3Ii8+CiAgICA8L2c+CiAgICA8cGF0aCBkPSJNNTQwLDM2MCBRNTYwLDM0MCA1ODAsMzYwIFE1NzUsMzcwIDU2NSwzNjggUTU1NSwzNzIgNTQwLDM2MCBaIi8+CiAgPC9nPgoKICA8IS0tIGEgc2luZ2xlIGJpcmQgdGFraW5nIGZsaWdodCBhdCBzdW5yaXNlLCB0aGUgbGl2aW5nIGxlZ2FjeSAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzODAsMjMwKSIgZmlsbD0iIzFjMTQxMCI+CiAgICA8cGF0aCBkPSJNMCwwIFEtMjUsLTE1IC00NSwtNSBRLTI1LC0zIC0xMCw1IFEtMjUsOCAtNDAsMTggUS0xNSwxNSAwLDUgUTE1LDE1IDQwLDE4IFEyNSw4IDEwLDUgUTI1LC0zIDQ1LC01IFEyNSwtMTUgMCwwIFoiLz4KICA8L2c+CgogIDwhLS0gc21hbGwgcGxhbnRzIGdyb3dpbmcgYW1vbmcgdGhlIHJvY2tzLCBsaWZlIGNvbnRpbnVpbmcgLS0+CiAgPGcgc3Ryb2tlPSIjNmE4YTRhIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiPgogICAgPHBhdGggZD0iTTYyMCwzMjAgcTMsLTIwIC0zLC0zMiIvPgogICAgPHBhdGggZD0iTTY0MCwzMjAgcS0zLC0xNiA1LC0yNiIvPgogIDwvZz4KPC9zdmc+Cg==" alt="Fossiles dans la roche et oiseau s'envolant au lever du soleil, héritage des dinosaures">
+    <h2 class="chapter-title">🐦 Ce qu'il reste d'eux</h2>
+    <p>
+      Mais tout n'a pas disparu. Un petit groupe de dinosaures, plus légers et
+      couverts de plumes, survécurent à la catastrophe. Au fil de millions
+      d'années, ils se transformèrent peu à peu en ce que nous appelons aujourd'hui
+      les <strong>oiseaux</strong>.
+    </p>
+    <blockquote>
+      « Le moineau sur la branche porte encore en lui l'écho du tonnerre des géants. »
+    </blockquote>
+    <p>
+      Quant aux autres, ils nous ont laissé leurs <strong>os pétrifiés</strong>,
+      cachés dans la roche pendant des millions d'années, que les scientifiques
+      déterrent aujourd'hui pour reconstituer leur incroyable histoire.
+    </p>
+    <p>
+      Ainsi, même disparus, les dinosaures continuent de nous fasciner — et de
+      voler, chaque matin, au-dessus de nos têtes. 🌄
+    </p>
+  </section>
+
+  <footer class="ending">
+    <h2>✨ Fin ✨</h2>
+    <p>
+      Et voilà l'histoire des dinosaures,<br>
+      nés petits, devenus géants, puis effacés en un instant.
+    </p>
+    <p>
+      Ils nous apprennent que rien n'est éternel,<br>
+      pas même les plus grands règnes de la Terre.
+    </p>
+    <p>
+      Mais leur souffle continue dans chaque envol d'oiseau,<br>
+      et leur mémoire dort encore dans la pierre.
+    </p>
+    <p><em>Leur règne s'est achevé, mais leur histoire ne finit jamais vraiment. 🦴</em></p>
+    <div class="final-mark">🦕</div>
+  </footer>
+
+</div>
+
+</body>
+</html>

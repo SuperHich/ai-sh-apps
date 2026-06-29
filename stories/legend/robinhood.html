@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robin des Bois — Le Prince de Sherwood</title>
+<style>
+  :root{
+    --bronze:#5a7a3f;
+    --ember:#7a3a1e;
+    --night:#10160e;
+    --parchment:#eef0d8;
+    --stone:#7c8a6e;
+    --gold:#c9a84a;
+    --green:#2e4a26;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--night);
+    color:var(--parchment);
+    font-family:'Iowan Old Style','Palatino Linotype',Georgia,serif;
+    overflow-x:hidden;
+  }
+  .bg-texture{
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(90,122,63,0.1), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(201,168,74,0.08), transparent 45%);
+    pointer-events:none;
+    z-index:0;
+  }
+  .wrap{
+    position:relative;
+    z-index:1;
+    max-width:680px;
+    margin:0 auto;
+    padding:0 24px 80px;
+  }
+  header.cover{
+    min-height:88vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:60px 0;
+  }
+  .eyebrow{
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    font-size:0.7rem;
+    color:var(--gold);
+    margin-bottom:18px;
+    font-family:'Trajan Pro',Cambria,Georgia,serif;
+  }
+  h1.title{
+    font-size:clamp(2.6rem,9vw,4.2rem);
+    margin:0;
+    line-height:1.05;
+    color:var(--parchment);
+    text-shadow:0 0 30px rgba(90,122,63,0.4);
+    letter-spacing:0.01em;
+  }
+  .subtitle{
+    font-style:italic;
+    color:var(--stone);
+    margin-top:18px;
+    font-size:1.05rem;
+  }
+  .scroll-hint{
+    margin-top:60px;
+    font-size:0.8rem;
+    color:var(--stone);
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    animation:bob 2.2s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{transform:translateY(0); opacity:0.5;}
+    50%{transform:translateY(8px); opacity:1;}
+  }
+  .divider{
+    text-align:center;
+    color:var(--bronze);
+    font-size:1.4rem;
+    margin:70px 0 30px;
+    opacity:0.8;
+  }
+  .roman{
+    text-align:center;
+    font-family:'Trajan Pro',Cambria,Georgia,serif;
+    letter-spacing:0.25em;
+    color:var(--gold);
+    font-size:1rem;
+    margin-bottom:6px;
+  }
+  .chapter-image{
+    width:100%;
+    border-radius:6px;
+    margin:18px 0 30px;
+    box-shadow:0 12px 40px rgba(0,0,0,0.45);
+    display:block;
+  }
+  section.chapter{
+    margin-bottom:64px;
+  }
+  h2.chapter-title{
+    text-align:center;
+    font-size:clamp(1.5rem,5vw,2rem);
+    margin:0 0 28px;
+    color:var(--parchment);
+    font-weight:600;
+  }
+  p{
+    font-size:1.08rem;
+    line-height:1.85;
+    margin:0 0 20px;
+    color:#e4e8cc;
+  }
+  strong{
+    color:var(--gold);
+    font-weight:700;
+  }
+  em{
+    color:#d0d4ac;
+  }
+  blockquote{
+    margin:34px 0;
+    padding:20px 26px;
+    border-left:3px solid var(--ember);
+    background:rgba(122,58,30,0.08);
+    font-style:italic;
+    font-size:1.12rem;
+    color:#f1f0c4;
+    border-radius:2px;
+  }
+  footer.ending{
+    text-align:center;
+    padding-top:30px;
+    border-top:1px solid rgba(201,168,74,0.25);
+  }
+  footer.ending h2{
+    font-size:1.8rem;
+    color:var(--gold);
+    margin-bottom:24px;
+  }
+  footer.ending p{
+    text-align:center;
+  }
+  .final-mark{
+    margin-top:40px;
+    font-size:1.8rem;
+    color:var(--bronze);
+  }
+  @media (max-width:480px){
+    p, blockquote{font-size:1rem;}
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+<div class="bg-texture"></div>
+
+<div class="wrap">
+
+  <header class="cover">
+    <div class="eyebrow">Forêt de Sherwood, Angleterre · XIIᵉ siècle</div>
+    <h1 class="title">Robin des Bois</h1>
+    <p class="subtitle">Le hors-la-loi qui vola aux riches pour rendre aux pauvres</p>
+    <div class="scroll-hint">Fais défiler pour lire ⌄</div>
+  </header>
+
+  <div class="divider">🏹</div>
+
+  <section class="chapter">
+    <div class="roman">I</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5MXIiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzEwMTYwZSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjU1JSIgc3RvcC1jb2xvcj0iIzJlNGEyNiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM2YThhNGEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InN1bjFyIiBjeD0iNTAlIiBjeT0iNTAlIiByPSI1MCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZWVmMGQ4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2M5YTg0YSIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5MXIpIi8+CiAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTIwIiByPSIxMDAiIGZpbGw9InVybCgjc3VuMXIpIi8+CgogIDwhLS0gZGlzdGFudCB0cmVlIHRydW5rcywgdGFsbCBhbmQgbGF5ZXJlZCBmb3IgZGVwdGggLS0+CiAgPGcgZmlsbD0iIzFjMjgxNCIgb3BhY2l0eT0iMC42Ij4KICAgIDxyZWN0IHg9IjQwIiB5PSI2MCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjM0MCIvPgogICAgPHJlY3QgeD0iNjAwIiB5PSI0MCIgd2lkdGg9IjI2IiBoZWlnaHQ9IjM2MCIvPgogICAgPHJlY3QgeD0iNjUwIiB5PSI4MCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjMyMCIvPgogIDwvZz4KICA8ZyBmaWxsPSIjMjQzYTFlIiBvcGFjaXR5PSIwLjUiPgogICAgPHJlY3QgeD0iMTIwIiB5PSIxMDAiIHdpZHRoPSIxOCIgaGVpZ2h0PSIzMDAiLz4KICAgIDxyZWN0IHg9IjU0MCIgeT0iOTAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIzMTAiLz4KICA8L2c+CgogIDwhLS0gZ3JvdW5kIC0tPgogIDxwYXRoIGQ9Ik0wLDM2MCBRMzUwLDMzMCA3MDAsMzYwIEw3MDAsNDYwIEwwLDQ2MCBaIiBmaWxsPSIjMWMyODE0Ii8+CgogIDwhLS0gZm9yZWdyb3VuZCB0cmVlIHRydW5rIGZyYW1lIC0tPgogIDxyZWN0IHg9Ii0xMCIgeT0iMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjQ2MCIgZmlsbD0iIzE0MjAwZSIvPgoKICA8IS0tIFJvYmluIHN0YW5kaW5nLCBib3cgZHJhd24sIGhvb2QgdXAgLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzYwLDMzMCkiPgogICAgPHBhdGggZD0iTS0yMiw1NSBRLTI2LDUgLTYsLTMwIFEwLC0zOCA2LC0zMCBRMjYsNSAyMiw1NSBaIiBmaWxsPSIjM2E1YTJlIi8+CiAgICA8Y2lyY2xlIGN4PSIwIiBjeT0iLTQwIiByPSIxNSIgZmlsbD0iI2M5OGE1NSIvPgogICAgPHBhdGggZD0iTS0xOCwtNDQgUTAsLTY2IDE4LC00NCBRMTQsLTMwIDAsLTI4IFEtMTQsLTMwIC0xOCwtNDQgWiIgZmlsbD0iIzFjMjgxNCIvPgogICAgPCEtLSBib3cgaGVsZCB1cCwgZHJhd24gLS0+CiAgICA8cGF0aCBkPSJNMzAsLTUwIFE0NSwtMjAgMzAsMTUiIHN0cm9rZT0iIzVlM2ExZiIgc3Ryb2tlLXdpZHRoPSI1IiBmaWxsPSJub25lIi8+CiAgICA8bGluZSB4MT0iMzAiIHkxPSItNTAiIHgyPSItNSIgeTI9Ii0yMCIgc3Ryb2tlPSIjZWVmMGQ4IiBzdHJva2Utd2lkdGg9IjEuNSIvPgogICAgPGxpbmUgeDE9IjMwIiB5MT0iMTUiIHgyPSItNSIgeTI9Ii0yMCIgc3Ryb2tlPSIjZWVmMGQ4IiBzdHJva2Utd2lkdGg9IjEuNSIvPgogICAgPCEtLSBhcm0gcHVsbGluZyB0aGUgc3RyaW5nIC0tPgogICAgPHBhdGggZD0iTS0yLC0yNSBRLTE1LC0yMiAtMjIsLTE1IiBzdHJva2U9IiMzYTVhMmUiIHN0cm9rZS13aWR0aD0iOSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICA8IS0tIHF1aXZlciBvbiB0aGUgYmFjayAtLT4KICAgIDxyZWN0IHg9IjE0IiB5PSItMTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSI0MCIgcng9IjMiIGZpbGw9IiM1ZTNhMWYiIHRyYW5zZm9ybT0icm90YXRlKDE1LDE5LDEwKSIvPgogIDwvZz4KCiAgPCEtLSBhIGZldyBmYWxsaW5nIGxlYXZlcyAtLT4KICA8ZyBmaWxsPSIjOWFjMDZhIiBvcGFjaXR5PSIwLjciPgogICAgPGVsbGlwc2UgY3g9IjE4MCIgY3k9IjIwMCIgcng9IjYiIHJ5PSIzIiB0cmFuc2Zvcm09InJvdGF0ZSgzMCwxODAsMjAwKSIvPgogICAgPGVsbGlwc2UgY3g9IjUwMCIgY3k9IjE1MCIgcng9IjYiIHJ5PSIzIiB0cmFuc2Zvcm09InJvdGF0ZSgtMjAsNTAwLDE1MCkiLz4KICAgIDxlbGxpcHNlIGN4PSI0MzAiIGN5PSIyNjAiIHJ4PSI2IiByeT0iMyIgdHJhbnNmb3JtPSJyb3RhdGUoMTAsNDMwLDI2MCkiLz4KICA8L2c+Cjwvc3ZnPgo=" alt="Robin des Bois seul dans la forêt de Sherwood, arc à la main">
+    <h2 class="chapter-title">🌲 L'archer de la forêt</h2>
+    <p>
+      Il y a bien longtemps, en <strong>Angleterre</strong>, dans la grande forêt
+      de <strong>Sherwood</strong>, vivait un homme que tous connaissaient sous le
+      nom de <strong>Robin des Bois</strong>. On disait qu'il avait perdu ses
+      terres, injustement confisquées par des seigneurs cruels, et qu'il avait dû
+      se réfugier parmi les arbres.
+    </p>
+    <p>
+      Mais Robin n'était pas un simple fugitif : il était devenu le meilleur archer
+      du royaume, capable de fendre une flèche déjà plantée dans une cible, à plus
+      de cent pas de distance.
+    </p>
+    <blockquote>
+      « La forêt ne m'a pas pris ma liberté, elle me l'a rendue. »
+    </blockquote>
+    <p>
+      Peu à peu, d'autres âmes blessées par l'injustice vinrent le rejoindre sous
+      le couvert des grands chênes. 🌳
+    </p>
+  </section>
+
+  <div class="divider">🤝</div>
+
+  <section class="chapter">
+    <div class="roman">II</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5MnIiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzBlMTgxMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjU1JSIgc3RvcC1jb2xvcj0iIzFjMzAxOCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMzYTVhMmUiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImZpcmUyciIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZGNhMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZjlkM2MiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICA8L2RlZnM+CgogIDxyZWN0IHdpZHRoPSI3MDAiIGhlaWdodD0iNDYwIiBmaWxsPSJ1cmwoI3NreTJyKSIvPgoKICA8IS0tIHRyZWUgY2Fub3B5IHNpbGhvdWV0dGUgYXQgdG9wIC0tPgogIDxnIGZpbGw9IiMwZTE4MTAiIG9wYWNpdHk9IjAuOCI+CiAgICA8ZWxsaXBzZSBjeD0iMTAwIiBjeT0iNDAiIHJ4PSIxNjAiIHJ5PSI2MCIvPgogICAgPGVsbGlwc2UgY3g9IjUwMCIgY3k9IjMwIiByeD0iMjAwIiByeT0iNzAiLz4KICAgIDxlbGxpcHNlIGN4PSI2NTAiIGN5PSI2MCIgcng9IjEyMCIgcnk9IjUwIi8+CiAgPC9nPgoKICA8IS0tIGdyb3VuZCAtLT4KICA8cGF0aCBkPSJNMCwzMzAgUTM1MCwzMDAgNzAwLDMzMCBMNzAwLDQ2MCBMMCw0NjAgWiIgZmlsbD0iIzFjMmExNCIvPgoKICA8IS0tIGNhbXBmaXJlIGdsb3cgLS0+CiAgPGNpcmNsZSBjeD0iMzUwIiBjeT0iMzIwIiByPSIxNjAiIGZpbGw9InVybCgjZmlyZTJyKSIvPgogIDxwYXRoIGQ9Ik0zNTAsMjkwIEMzNDIsMzA4IDMzMiwzMTggMzUwLDMzOCBDMzY4LDMxOCAzNTgsMzA4IDM1MCwyOTAgWiIgZmlsbD0iI2ZmOWQzYyIvPgogIDxwYXRoIGQ9Ik0zNTAsMzA0IEMzNDYsMzE0IDM0MCwzMjAgMzUwLDMzMiBDMzYwLDMyMCAzNTQsMzE0IDM1MCwzMDQgWiIgZmlsbD0iI2ZmZTZiMCIvPgogIDxnIHN0cm9rZT0iIzVlM2ExZiIgc3Ryb2tlLXdpZHRoPSI2Ij4KICAgIDxsaW5lIHgxPSIzMzAiIHkxPSIzNDAiIHgyPSIzNzAiIHkyPSIzMzAiLz4KICAgIDxsaW5lIHgxPSIzMjgiIHkxPSIzMzIiIHgyPSIzNzIiIHkyPSIzNDAiLz4KICA8L2c+CgogIDwhLS0gY29tcGFuaW9ucyBzZWF0ZWQgYXJvdW5kIHRoZSBmaXJlLCBzaW1wbGUgc2lsaG91ZXR0ZXMgLS0+CiAgPGcgZmlsbD0iIzFjMjgxNCI+CiAgICA8IS0tIExpdHRsZSBKb2huLCBicm9hZCBhbmQgdGFsbCAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIyMCwzMzUpIj4KICAgICAgPHBhdGggZD0iTS0yNiw0MCBRLTMwLDUgLTEwLC0yMCBRMCwtMjYgMTAsLTIwIFEzMCw1IDI2LDQwIFoiIHRyYW5zZm9ybT0ic2NhbGUoMS4yLDEpIi8+CiAgICAgIDxjaXJjbGUgY3g9IjAiIGN5PSItMjQiIHI9IjE0Ii8+CiAgICA8L2c+CiAgICA8IS0tIEZyaWFyLCByb3VuZCBhbmQgc3RvdXQgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0ODAsMzM4KSI+CiAgICAgIDxlbGxpcHNlIGN4PSIwIiBjeT0iMTAiIHJ4PSIyOCIgcnk9IjMyIi8+CiAgICAgIDxjaXJjbGUgY3g9IjAiIGN5PSItMjYiIHI9IjEzIi8+CiAgICA8L2c+CiAgICA8IS0tIFJvYmluIHN0YW5kaW5nIHNsaWdodGx5IGFwYXJ0LCBob29kZWQgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNTAsMjYwKSI+CiAgICAgIDxwYXRoIGQ9Ik0tMTYsNDAgUS0xOSw1IC01LC0yMiBRMCwtMjggNSwtMjIgUTE5LDUgMTYsNDAgWiIvPgogICAgICA8cGF0aCBkPSJNLTEzLC0yNiBRMCwtNDQgMTMsLTI2IFExMCwtMTYgMCwtMTQgUS0xMCwtMTYgLTEzLC0yNiBaIi8+CiAgICA8L2c+CiAgICA8IS0tIGEgdGhpcmQgc21hbGxlciBjb21wYW5pb24gLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNTAsMzQ1KSI+CiAgICAgIDxwYXRoIGQ9Ik0tMTQsMzIgUS0xNiw1IC00LC0xNiBRMCwtMjAgNCwtMTYgUTE2LDUgMTQsMzIgWiIvPgogICAgICA8Y2lyY2xlIGN4PSIwIiBjeT0iLTIwIiByPSIxMCIvPgogICAgPC9nPgogIDwvZz4KCiAgPCEtLSBzcGFya3MgcmlzaW5nIC0tPgogIDxnIGZpbGw9IiNmZmIzNWEiIG9wYWNpdHk9IjAuOCI+CiAgICA8Y2lyY2xlIGN4PSIzNDUiIGN5PSIyNzAiIHI9IjIiLz4KICAgIDxjaXJjbGUgY3g9IjM2MCIgY3k9IjI1MCIgcj0iMS42Ii8+CiAgICA8Y2lyY2xlIGN4PSIzNTUiIGN5PSIyMzAiIHI9IjEuNCIvPgogIDwvZz4KPC9zdmc+Cg==" alt="Robin des Bois et ses compagnons réunis autour d'un feu dans la forêt">
+    <h2 class="chapter-title">🛡️ Les compagnons de Sherwood</h2>
+    <p>
+      Autour de Robin se forma bientôt une bande fidèle : <strong>Petit Jean</strong>,
+      un géant débonnaire dont la force impressionnait tous les soldats du
+      shérif ; <strong>Frère Tuck</strong>, un moine joyeux qui préférait la bonne
+      compagnie aux longues prières ; et beaucoup d'autres, tous chassés de leurs
+      foyers par la misère ou l'injustice.
+    </p>
+    <p>
+      Ensemble, ils vivaient simplement, partageant tout ce qu'ils possédaient,
+      et observant un code que Robin avait fixé dès le premier jour.
+    </p>
+    <blockquote>
+      « Ce que nous prenons aux puissants, nous le rendons toujours aux humbles. »
+    </blockquote>
+    <p>
+      Cette petite communauté de la forêt devint, sans le vouloir, un symbole
+      d'espoir pour tous les villages alentour. 🔥
+    </p>
+  </section>
+
+  <div class="divider">⚔️</div>
+
+  <section class="chapter">
+    <div class="roman">III</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5M3IiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFjMTYwZSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjU1JSIgc3RvcC1jb2xvcj0iIzVhNGEyNiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhODkyM2YiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imdyb3VuZDNyIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM1YTZhM2EiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMWMyODE0Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPHJlY3Qgd2lkdGg9IjcwMCIgaGVpZ2h0PSI0NjAiIGZpbGw9InVybCgjc2t5M3IpIi8+CgogIDwhLS0gZm9yZXN0IGVkZ2UgLS0+CiAgPGcgZmlsbD0iIzE0MjAwZSIgb3BhY2l0eT0iMC44NSI+CiAgICA8ZWxsaXBzZSBjeD0iODAiIGN5PSIxMDAiIHJ4PSIxMjAiIHJ5PSI4MCIvPgogICAgPGVsbGlwc2UgY3g9IjYyMCIgY3k9IjkwIiByeD0iMTMwIiByeT0iODUiLz4KICA8L2c+CgogIDwhLS0gcm9hZCAtLT4KICA8cGF0aCBkPSJNMCwzMjAgUTM1MCwyOTAgNzAwLDMyMCBMNzAwLDQ2MCBMMCw0NjAgWiIgZmlsbD0idXJsKCNncm91bmQzcikiLz4KICA8cGF0aCBkPSJNMCwzNDAgUTM1MCwzMTUgNzAwLDM0MCIgc3Ryb2tlPSIjYTg5MjNmIiBzdHJva2Utd2lkdGg9IjEwIiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjUiLz4KCiAgPCEtLSBzaGVyaWZmJ3MgZ3VhcmRzIG9uIHRoZSByb2FkLCBpbiBmb3JtYWwgYXJtb3IgY29sb3JzIC0tPgogIDxnIGZpbGw9IiMzYTI0MTgiPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDUwLDM0MCkiPjxyZWN0IHg9Ii00IiB5PSItMjIiIHdpZHRoPSI4IiBoZWlnaHQ9IjIyIiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjYiIHI9IjYiLz48L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0OTAsMzQ1KSI+PHJlY3QgeD0iLTQiIHk9Ii0yMiIgd2lkdGg9IjgiIGhlaWdodD0iMjIiIHJ4PSIyIi8+PGNpcmNsZSBjeD0iMCIgY3k9Ii0yNiIgcj0iNiIvPjwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUzMCwzNDIpIj48cmVjdCB4PSItNCIgeT0iLTIyIiB3aWR0aD0iOCIgaGVpZ2h0PSIyMiIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTI2IiByPSI2Ii8+PC9nPgogIDwvZz4KCiAgPCEtLSBzaGVyaWZmIGZpZ3VyZSwgZGlzdGluZ3Vpc2hlZCBieSBhIHNtYWxsIGNhcGUgLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTYwLDMzNSkiPgogICAgPHBhdGggZD0iTS0xNCwzNSBRLTE2LDUgLTQsLTE2IFEwLC0yMCA0LC0xNiBRMTYsNSAxNCwzNSBaIiBmaWxsPSIjN2EzYTFlIi8+CiAgICA8Y2lyY2xlIGN4PSIwIiBjeT0iLTIwIiByPSIxMCIgZmlsbD0iI2M5OGE1NSIvPgogICAgPHBhdGggZD0iTS0xMCw4IFEtMjAsMjAgLTE2LDM1IEwwLDM1IFEtNCwxOCAtMTAsOCBaIiBmaWxsPSIjOGIxZTJiIi8+CiAgPC9nPgoKICA8IS0tIFJvYmluIGFuZCBjb21wYW5pb25zIGVtZXJnaW5nIGZyb20gdGhlIHRyZWVzLCBkcmF3aW5nIGJvd3MgLS0+CiAgPGcgZmlsbD0iIzFjMjgxNCI+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNTAsMzEwKSI+CiAgICAgIDxwYXRoIGQ9Ik0tMTYsNDAgUS0xOSw1IC01LC0yMiBRMCwtMjggNSwtMjIgUTE5LDUgMTYsNDAgWiIvPgogICAgICA8cGF0aCBkPSJNLTEzLC0yNiBRMCwtNDQgMTMsLTI2IFExMCwtMTYgMCwtMTQgUS0xMCwtMTYgLTEzLC0yNiBaIi8+CiAgICAgIDxwYXRoIGQ9Ik0xNCwtMTUgUTI4LDUgMTQsMzAiIHN0cm9rZT0iIzVlM2ExZiIgc3Ryb2tlLXdpZHRoPSI0IiBmaWxsPSJub25lIi8+CiAgICAgIDxsaW5lIHgxPSIxNCIgeTE9Ii0xNSIgeDI9Ii01IiB5Mj0iNSIgc3Ryb2tlPSIjZWVmMGQ4IiBzdHJva2Utd2lkdGg9IjEuMiIvPgogICAgICA8bGluZSB4MT0iMTQiIHkxPSIzMCIgeDI9Ii01IiB5Mj0iNSIgc3Ryb2tlPSIjZWVmMGQ4IiBzdHJva2Utd2lkdGg9IjEuMiIvPgogICAgPC9nPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjAwLDMzMCkgc2NhbGUoMC45KSI+CiAgICAgIDxwYXRoIGQ9Ik0tMTYsNDAgUS0xOSw1IC01LC0yMiBRMCwtMjggNSwtMjIgUTE5LDUgMTYsNDAgWiIvPgogICAgICA8Y2lyY2xlIGN4PSIwIiBjeT0iLTI2IiByPSIxMyIvPgogICAgPC9nPgogIDwvZz4KCiAgPCEtLSBhIHNpbmdsZSBhcnJvdyBmbHlpbmcgYWNyb3NzIC0tPgogIDxsaW5lIHgxPSIxODAiIHkxPSIyOTAiIHgyPSI0MjAiIHkyPSIzMDUiIHN0cm9rZT0iI2VlZjBkOCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHBvbHlnb24gcG9pbnRzPSI0MjAsMzA1IDQxMiwzMDAgNDEyLDMxMCIgZmlsbD0iI2VlZjBkOCIvPgo8L3N2Zz4K" alt="Robin des Bois affrontant le shérif de Nottingham et ses gardes sur la route">
+    <h2 class="chapter-title">👮 Le shérif de Nottingham</h2>
+    <p>
+      Mais Robin avait un ennemi acharné : le <strong>shérif de Nottingham</strong>,
+      chargé de collecter de lourds impôts auprès des paysans pour le compte de
+      seigneurs déjà très riches. Chaque fois qu'un convoi d'or traversait
+      Sherwood, Robin et ses hommes surgissaient des fourrés.
+    </p>
+    <p>
+      Avec ruse plus qu'avec violence, ils détournaient les richesses
+      injustement collectées, déguisant parfois Robin en mendiant ou en marchand
+      pour tromper les gardes les plus méfiants.
+    </p>
+    <blockquote>
+      « On n'a pas besoin d'une armée pour vaincre l'injustice, juste d'un peu de malice. »
+    </blockquote>
+    <p>
+      Le shérif, furieux, organisa concours de tir et embuscades pour capturer
+      Robin — mais l'archer de Sherwood échappait toujours à ses pièges. 🏰
+    </p>
+  </section>
+
+  <div class="divider">💚</div>
+
+  <section class="chapter">
+    <div class="roman">IV</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5NHIiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFjMTgzMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjU1JSIgc3RvcC1jb2xvcj0iIzNhM2E1ZSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3YThhNmEiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Im1vb240ciIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2VlZjBkOCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjOWE4NGEiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICA8L2RlZnM+CgogIDxyZWN0IHdpZHRoPSI3MDAiIGhlaWdodD0iNDYwIiBmaWxsPSJ1cmwoI3NreTRyKSIvPgogIDxjaXJjbGUgY3g9IjU0MCIgY3k9IjEwMCIgcj0iOTAiIGZpbGw9InVybCgjbW9vbjRyKSIvPgogIDxjaXJjbGUgY3g9IjU0MCIgY3k9IjEwMCIgcj0iMzIiIGZpbGw9IiNlZWYwZDgiIG9wYWNpdHk9IjAuOTIiLz4KCiAgPCEtLSBmb3Jlc3Qgc2lsaG91ZXR0ZSBvbiB0aGUgbGVmdCAtLT4KICA8ZyBmaWxsPSIjMTAxODBlIiBvcGFjaXR5PSIwLjg1Ij4KICAgIDxlbGxpcHNlIGN4PSI4MCIgY3k9IjIwMCIgcng9IjE0MCIgcnk9IjE3MCIvPgogICAgPGVsbGlwc2UgY3g9IjE4MCIgY3k9IjI0MCIgcng9IjEwMCIgcnk9IjEzMCIvPgogIDwvZz4KCiAgPCEtLSBjYXN0bGUgc2lsaG91ZXR0ZSBmYXIgcmlnaHQsIGRpc3RhbnQgLS0+CiAgPGcgZmlsbD0iIzFjMTgzMCIgb3BhY2l0eT0iMC43Ij4KICAgIDxyZWN0IHg9IjU2MCIgeT0iMjYwIiB3aWR0aD0iMjAiIGhlaWdodD0iNjAiLz4KICAgIDxyZWN0IHg9IjU5MCIgeT0iMjQwIiB3aWR0aD0iMTYiIGhlaWdodD0iODAiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iNTk4LDI0MCA2MDYsMjQwIDYwMiwyMjUiLz4KICAgIDxyZWN0IHg9IjYxNSIgeT0iMjcwIiB3aWR0aD0iMjIiIGhlaWdodD0iNTAiLz4KICA8L2c+CgogIDwhLS0gbWVhZG93IC0tPgogIDxwYXRoIGQ9Ik0wLDMyMCBRMzUwLDI5NSA3MDAsMzIwIEw3MDAsNDYwIEwwLDQ2MCBaIiBmaWxsPSIjMmUzYTI2Ii8+CgogIDwhLS0gUm9iaW4sIGhvb2RlZCwgb24gdGhlIGxlZnQgc2lkZSAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMDAsMzMwKSI+CiAgICA8cGF0aCBkPSJNLTE4LDQ1IFEtMjEsNSAtNSwtMjQgUTAsLTMwIDUsLTI0IFEyMSw1IDE4LDQ1IFoiIGZpbGw9IiMxYzI4MTQiLz4KICAgIDxwYXRoIGQ9Ik0tMTQsLTI4IFEwLC00OCAxNCwtMjggUTExLC0xOCAwLC0xNiBRLTExLC0xOCAtMTQsLTI4IFoiIGZpbGw9IiMxMDE4MGUiLz4KICA8L2c+CgogIDwhLS0gTGFkeSBNYXJpYW5uZSwgaW4gYSBmbG93aW5nIGdvd24sIG9uIHRoZSByaWdodCAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MDAsMzMyKSI+CiAgICA8cGF0aCBkPSJNLTIyLDQ2IFEtMjYsMCAtNiwtMjYgUTAsLTMyIDYsLTI2IFEyNiwwIDIyLDQ2IFoiIGZpbGw9IiM1YTdhM2YiLz4KICAgIDxjaXJjbGUgY3g9IjAiIGN5PSItMzYiIHI9IjEzIiBmaWxsPSIjZDk5YTY2Ii8+CiAgICA8cGF0aCBkPSJNLTExLC00MiBRMCwtNTIgMTEsLTQyIFE5LC00NiAwLC00OCBRLTksLTQ2IC0xMSwtNDIgWiIgZmlsbD0iIzNhMjQxOCIvPgogICAgPCEtLSBzbWFsbCBoZWFkc2NhcmYgZGV0YWlsIC0tPgogICAgPHBhdGggZD0iTS0xMywtNDAgUTAsLTUwIDEzLC00MCBMMTAsLTMyIEwtMTAsLTMyIFoiIGZpbGw9IiNjOWE4NGEiIG9wYWNpdHk9IjAuODUiLz4KICA8L2c+CgogIDwhLS0gc21hbGwgYmFza2V0IHNoZSBjYXJyaWVzIC0tPgogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQyMCwzNTUpIj4KICAgIDxwYXRoIGQ9Ik0tMTIsMCBRLTEyLDEyIDAsMTQgUTEyLDEyIDEyLDAgWiIgZmlsbD0iIzVlM2ExZiIvPgogIDwvZz4KCiAgPCEtLSBmaXJlZmxpZXMgLyBzdGFycyBiZXR3ZWVuIHRoZW0gLS0+CiAgPGcgZmlsbD0iI2VlZjBkOCIgb3BhY2l0eT0iMC44Ij4KICAgIDxjaXJjbGUgY3g9IjM0MCIgY3k9IjI3MCIgcj0iMS42Ii8+CiAgICA8Y2lyY2xlIGN4PSIzNjAiIGN5PSIyNTAiIHI9IjEuNCIvPgogICAgPGNpcmNsZSBjeD0iMzgwIiBjeT0iMjgwIiByPSIxLjYiLz4KICA8L2c+Cjwvc3ZnPgo=" alt="Robin des Bois et Lady Marianne se retrouvant à la lisière de la forêt">
+    <h2 class="chapter-title">🌹 Lady Marianne</h2>
+    <p>
+      Dans cette histoire vivait aussi <strong>Lady Marianne</strong>, une noble
+      au cœur généreux, qui désapprouvait les méthodes cruelles du shérif. Elle
+      retrouvait parfois Robin en secret, à la lisière de la forêt, lui apportant
+      des nouvelles de la cour et parfois même des vivres pour ses compagnons.
+    </p>
+    <p>
+      Leur amitié, puis leur amour, grandit malgré le danger : elle risquait gros
+      à aider un hors-la-loi, et lui risquait tout simplement de se faire prendre
+      à chaque rencontre.
+    </p>
+    <blockquote>
+      « Le courage ne porte pas toujours une épée ; parfois, il porte une robe de noble. »
+    </blockquote>
+    <p>
+      Ensemble, ils formaient une alliance discrète entre la forêt et le château
+      — entre les hors-la-loi et les âmes justes restées au pouvoir. 🕊️
+    </p>
+  </section>
+
+  <div class="divider">👑</div>
+
+  <section class="chapter">
+    <div class="roman">V</div>
+    <img class="chapter-image" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNzAwIDQ2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2t5NXIiIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzEwMTYwZSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzVhN2EzYSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlOGQ4NzgiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9Imdsb3c1ciIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZTZiMCIgc3RvcC1vcGFjaXR5PSIwLjkiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZmZlNmIwIiBzdG9wLW9wYWNpdHk9IjAiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgoKICA8cmVjdCB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQ2MCIgZmlsbD0idXJsKCNza3k1cikiLz4KICA8Y2lyY2xlIGN4PSIzNTAiIGN5PSIxNjAiIHI9IjE2MCIgZmlsbD0idXJsKCNnbG93NXIpIi8+CiAgPGNpcmNsZSBjeD0iMzUwIiBjeT0iMTYwIiByPSI0NCIgZmlsbD0iI2ZmZjZkZiIgb3BhY2l0eT0iMC45MiIvPgoKICA8IS0tIGZvcmVzdCBjYW5vcHkgb3BlbmluZyB1cCB0byBsaWdodCAtLT4KICA8ZyBmaWxsPSIjMTAxODBlIiBvcGFjaXR5PSIwLjYiPgogICAgPGVsbGlwc2UgY3g9IjgwIiBjeT0iODAiIHJ4PSIxNTAiIHJ5PSI5MCIvPgogICAgPGVsbGlwc2UgY3g9IjY0MCIgY3k9IjcwIiByeD0iMTYwIiByeT0iOTUiLz4KICA8L2c+CgogIDwhLS0gZ3JvdW5kLCBzdW5saXQgY2xlYXJpbmcgLS0+CiAgPHBhdGggZD0iTTAsMzMwIFEzNTAsMzAwIDcwMCwzMzAgTDcwMCw0NjAgTDAsNDYwIFoiIGZpbGw9IiMzYTVhMmUiLz4KCiAgPCEtLSByb3lhbCBiYW5uZXIgLyBwZW5uYW50cyBvbiBwb2xlcywgc3ltYm9saXppbmcgdGhlIGtpbmcncyByZXR1cm4gLS0+CiAgPGc+CiAgICA8bGluZSB4MT0iMTgwIiB5MT0iMjYwIiB4Mj0iMTgwIiB5Mj0iMzQwIiBzdHJva2U9IiM1ZTNhMWYiIHN0cm9rZS13aWR0aD0iNSIvPgogICAgPHBvbHlnb24gcG9pbnRzPSIxODAsMjYwIDIzMCwyNzUgMTgwLDI5MCIgZmlsbD0iIzhiMWUyYiIvPgogICAgPGxpbmUgeDE9IjU2MCIgeTE9IjI1NSIgeDI9IjU2MCIgeTI9IjM0MCIgc3Ryb2tlPSIjNWUzYTFmIiBzdHJva2Utd2lkdGg9IjUiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iNTYwLDI1NSA1MTAsMjcwIDU2MCwyODUiIGZpbGw9IiM4YjFlMmIiLz4KICA8L2c+CgogIDwhLS0gY3Jvd2Qgb2YgdmlsbGFnZXJzIGFuZCBjb21wYW5pb25zIGdhdGhlcmVkLCBzbWFsbCBzaWxob3VldHRlcyAtLT4KICA8ZyBmaWxsPSIjMWMyODE0Ij4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI2MCwzNDUpIj48cmVjdCB4PSItMyIgeT0iLTE4IiB3aWR0aD0iNiIgaGVpZ2h0PSIxOCIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTIyIiByPSI0LjUiLz48L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMDAsMzQ4KSI+PHJlY3QgeD0iLTMiIHk9Ii0xOCIgd2lkdGg9IjYiIGhlaWdodD0iMTgiIHJ4PSIyIi8+PGNpcmNsZSBjeD0iMCIgY3k9Ii0yMiIgcj0iNC41Ii8+PC9nPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIwLDM0NikiPjxyZWN0IHg9Ii0zIiB5PSItMTgiIHdpZHRoPSI2IiBoZWlnaHQ9IjE4IiByeD0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSItMjIiIHI9IjQuNSIvPjwvZz4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ2MCwzNDQpIj48cmVjdCB4PSItMyIgeT0iLTE4IiB3aWR0aD0iNiIgaGVpZ2h0PSIxOCIgcng9IjIiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTIyIiByPSI0LjUiLz48L2c+CiAgPC9nPgoKICA8IS0tIFJvYmluIGtuZWVsaW5nIGJlZm9yZSB0aGUgcmV0dXJuaW5nIGtpbmcsIGNlbnRyYWwgLS0+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzUwLDMzNSkiPgogICAgPCEtLSBraW5nIGZpZ3VyZSwgc3RhbmRpbmcsIHNtYWxsIGNyb3duIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDAsLTEwKSI+CiAgICAgIDxwYXRoIGQ9Ik0tMTYsNDAgUS0xOSw1IC01LC0yNCBRMCwtMzAgNSwtMjQgUTE5LDUgMTYsNDAgWiIgZmlsbD0iIzhiMWUyYiIvPgogICAgICA8Y2lyY2xlIGN4PSIwIiBjeT0iLTI4IiByPSIxMiIgZmlsbD0iI2M5OGE1NSIvPgogICAgICA8cG9seWdvbiBwb2ludHM9Ii04LC00MCAtOCwtNDYgLTMsLTQwIDAsLTUwIDMsLTQwIDgsLTQ2IDgsLTQwIiBmaWxsPSIjYzlhODRhIi8+CiAgICA8L2c+CiAgICA8IS0tIFJvYmluIGtuZWVsaW5nIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTMwLDEwKSI+CiAgICAgIDxwYXRoIGQ9Ik0tMTYsMzAgUS0xOCw1IC02LC0xNCBRMCwtMTggNiwtMTQgUTE4LDUgMTYsMzAgWiIgZmlsbD0iIzFjMjgxNCIvPgogICAgICA8Y2lyY2xlIGN4PSIwIiBjeT0iLTE4IiByPSIxMSIgZmlsbD0iI2Q5OWE2NiIvPgogICAgICA8cGF0aCBkPSJNLTksLTIxIFEwLC0zMiA5LC0yMSBRNywtMjYgMCwtMjggUS03LC0yNiAtOSwtMjEgWiIgZmlsbD0iIzEwMTgwZSIvPgogICAgPC9nPgogIDwvZz4KCiAgPCEtLSBzdW5iZWFtcyB0aHJvdWdoIHRoZSB0cmVlcyAtLT4KICA8ZyBzdHJva2U9IiNmZmY2ZGYiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC4zIj4KICAgIDxsaW5lIHgxPSIyMDAiIHkxPSIwIiB4Mj0iMjYwIiB5Mj0iMjAwIi8+CiAgICA8bGluZSB4MT0iNTAwIiB5MT0iMCIgeDI9IjQ0MCIgeTI9IjIwMCIvPgogIDwvZz4KPC9zdmc+Cg==" alt="Retour du roi Richard et fin de l'exil de Robin des Bois, forêt illuminée">
+    <h2 class="chapter-title">☀️ Le retour du roi</h2>
+    <p>
+      Pendant des années, le royaume avait été mal gouverné en l'absence du vrai
+      roi, <strong>Richard</strong>, parti loin au combat. Quand celui-ci revint
+      enfin sur ses terres, il entendit parler des actes de Robin et de sa bande,
+      et comprit qu'ils avaient protégé le peuple pendant son absence.
+    </p>
+    <p>
+      Le roi pardonna à Robin, lui rendit ses terres, et chassa les seigneurs
+      corrompus qui avaient profité du désordre pour s'enrichir.
+    </p>
+    <blockquote>
+      « Un vrai hors-la-loi n'est parfois que le dernier gardien d'une justice oubliée. »
+    </blockquote>
+    <p>
+      Robin quitta la forêt en héros, mais Sherwood garda pour toujours le
+      souvenir de l'archer qui avait choisi le bien plutôt que la facilité. 🏹
+    </p>
+  </section>
+
+  <footer class="ending">
+    <h2>✨ Fin ✨</h2>
+    <p>
+      Et voilà l'histoire de Robin des Bois,<br>
+      l'archer qui transforma l'injustice en légende.
+    </p>
+    <p>
+      Chassé de ses terres, il en fit un refuge pour les oubliés,<br>
+      armé seulement de son arc et de son sens du juste.
+    </p>
+    <p>
+      Il nous apprend que la vraie richesse se partage,<br>
+      et que la forêt peut parfois rendre plus libre qu'un trône.
+    </p>
+    <p><em>Son écho résonne encore parmi les arbres de Sherwood. 🌳</em></p>
+    <div class="final-mark">🏹</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
