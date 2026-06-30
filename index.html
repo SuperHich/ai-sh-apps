@@ -126,6 +126,7 @@
   .section-icon.story { background: rgba(200,146,42,0.15); border: 1px solid rgba(200,146,42,0.3); }
   .section-icon.game  { background: rgba(74,103,65,0.2);  border: 1px solid rgba(74,103,65,0.4); }
   .section-icon.tool  { background: rgba(56,130,176,0.15); border: 1px solid rgba(56,130,176,0.3); }
+  .section-icon.fun   { background: rgba(226,97,79,0.15); border: 1px solid rgba(226,97,79,0.3); }
   .section-icon.more  { background: rgba(100,100,160,0.15); border: 1px solid rgba(100,100,160,0.3); }
 
   .section-title {
@@ -205,6 +206,15 @@
   .tool .card-glow { box-shadow: inset 0 0 40px rgba(56,130,176,0.1); }
   .tool .card-accent { background: rgba(56,130,176,0.2); color: #7ec8e8; }
   .tool .card-icon-bg { background: rgba(56,130,176,0.2); }
+
+  /* Fun cards */
+  .fun .card-bg {
+    background: linear-gradient(160deg, #2a1a10 0%, #1c1008 100%);
+    border: 1px solid rgba(226,97,79,0.2);
+  }
+  .fun .card-glow { box-shadow: inset 0 0 40px rgba(226,97,79,0.08); }
+  .fun .card-accent { background: rgba(226,97,79,0.15); color: #f0a090; }
+  .fun .card-icon-bg { background: rgba(226,97,79,0.15); }
 
   /* Placeholder card */
   .placeholder .card-bg {
@@ -379,7 +389,7 @@
     <div class="section-header">
       <div class="section-icon story">📖</div>
       <span class="section-title">Histoires</span>
-      <span class="section-count">3 thèmes</span>
+      <span class="section-count">4 thèmes</span>
     </div>
 
     <div class="cards-grid">
@@ -431,6 +441,43 @@
         <div class="placeholder-inner">
           <div class="placeholder-plus">+</div>
           <div class="placeholder-text">Prochaine histoire</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       SECTION : BLAGUES & HUMOUR
+  ══════════════════════════════════ -->
+  <section class="section">
+    <div class="section-header" style="animation-delay:0.12s">
+      <div class="section-icon fun">😂</div>
+      <span class="section-title">Blagues & Humour</span>
+      <span class="section-count">1 recueil</span>
+    </div>
+
+    <div class="cards-grid">
+
+      <!-- Carte : Blagues de Tonton -->
+      <a href="stories/fun/index.html" class="app-card fun" style="animation-delay:0.14s">
+        <div class="card-bg">
+          <div class="card-glow"></div>
+          <div class="card-top">
+            <div class="card-icon card-icon-bg">🎭</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <span class="card-badge card-accent">Nouveau</span>
+          <div class="card-name">Blagues & Humour</div>
+          <div class="card-desc">Les meilleures blagues pour rire en famille — jeux de mots, animaux, célébrités et absurde garanti.</div>
+        </div>
+      </a>
+
+      <!-- Placeholder -->
+      <div class="app-card placeholder" style="animation-delay:0.22s">
+        <div class="placeholder-inner">
+          <div class="placeholder-plus">+</div>
+          <div class="placeholder-text">Prochain recueil</div>
         </div>
       </div>
 

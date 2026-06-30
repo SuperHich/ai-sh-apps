@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Recueil Ultime des Blagues de Tonton</title>
+<style>
+  :root{
+    --ink:#fdf6e9;
+    --paper:#1c1410;
+    --paper2:#241a14;
+    --gold:#e8a33d;
+    --rose:#e2614f;
+    --sage:#7fae8a;
+    --muted:#caa97e;
+    --serif:'Georgia','Iowan Old Style','Palatino Linotype',serif;
+    --hand:'Bradley Hand','Comic Sans MS','Segoe Print',cursive;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    scroll-snap-type:y proximity;
+    overflow-y:scroll;
+    height:100vh;
+  }
+  ::selection{background:var(--gold);color:#1c1410;}
+
+  section{
+    min-height:100vh;
+    scroll-snap-align:start;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:70px 20px;
+    position:relative;
+    background:
+      radial-gradient(circle at 20% 15%, rgba(232,163,61,0.08), transparent 45%),
+      radial-gradient(circle at 80% 85%, rgba(226,97,79,0.07), transparent 45%),
+      var(--paper);
+  }
+  section.alt{ background-color: var(--paper2); }
+
+  .eyebrow{
+    font-family:var(--hand);
+    color:var(--gold);
+    letter-spacing:1px;
+    font-size:1.1em;
+    margin-bottom:6px;
+    opacity:.9;
+  }
+
+  /* HERO */
+  .hero{
+    text-align:center;
+    gap:18px;
+  }
+  .hero .stamp{
+    width:84px;height:84px;
+    border:2px solid var(--gold);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:2.2em;
+    margin-bottom:10px;
+    transform:rotate(-6deg);
+    color:var(--gold);
+  }
+  h1{
+    font-size:clamp(2.1em,6vw,3.6em);
+    margin:0;
+    text-transform:uppercase;
+    letter-spacing:3px;
+    line-height:1.15;
+    background:linear-gradient(120deg,var(--gold),var(--rose));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .subtitle{
+    font-family:var(--hand);
+    font-size:1.3em;
+    color:var(--muted);
+    max-width:520px;
+  }
+  .scroll-hint{
+    margin-top:40px;
+    font-size:.85em;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--muted);
+    animation:bob 2.2s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{transform:translateY(0);opacity:.6;}
+    50%{transform:translateY(8px);opacity:1;}
+  }
+
+  /* CATEGORY SECTIONS */
+  .cat-head{
+    text-align:center;
+    margin-bottom:46px;
+    max-width:680px;
+  }
+  .cat-icon{ font-size:2.6em; margin-bottom:8px; display:block; }
+  h2{
+    font-size:clamp(1.6em,4vw,2.4em);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    margin:0 0 8px 0;
+    color:var(--gold);
+  }
+  .cat-desc{
+    font-family:var(--hand);
+    color:var(--muted);
+    font-size:1.15em;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:24px;
+    max-width:1000px;
+    width:100%;
+  }
+  .joke{
+    background:rgba(253,246,233,0.04);
+    border:1px solid rgba(232,163,61,0.25);
+    border-radius:6px;
+    padding:24px 22px;
+    position:relative;
+    transition:transform .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .joke:hover{
+    transform:translateY(-4px);
+    border-color:var(--gold);
+    background:rgba(253,246,233,0.07);
+  }
+  .joke::before{
+    content:"“";
+    position:absolute;
+    top:6px; left:14px;
+    font-size:2.6em;
+    color:var(--gold);
+    opacity:.25;
+    font-family:Georgia,serif;
+  }
+  .q{
+    font-weight:bold;
+    color:var(--ink);
+    font-size:1.08em;
+    margin-bottom:10px;
+    padding-left:8px;
+  }
+  .a{
+    font-family:var(--hand);
+    color:var(--sage);
+    font-size:1.2em;
+    padding-left:8px;
+  }
+  .a::before{ content:"→ "; color:var(--rose); }
+
+  /* FOOTER */
+  .end{
+    text-align:center;
+    gap:14px;
+  }
+  .end .mark{
+    font-size:2.6em;
+    color:var(--gold);
+  }
+  .end p{
+    font-family:var(--hand);
+    font-size:1.3em;
+    color:var(--muted);
+    max-width:480px;
+  }
+
+  @media (max-width:600px){
+    .grid{grid-template-columns:1fr;}
+    section{padding:50px 16px;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .scroll-hint{animation:none;}
+    .joke{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+<section class="hero">
+  <div class="stamp">😂</div>
+  <div class="eyebrow">Édition spéciale — Saison 7</div>
+  <h1>Le Recueil Ultime<br>des Blagues de Tonton</h1>
+  <p class="subtitle">Celles qu'on raconte trois fois par repas de famille, et qu'on rit quand même.</p>
+  <div class="scroll-hint">Fais défiler ↓</div>
+</section>
+
+<section>
+  <div class="cat-head">
+    <span class="cat-icon">🔤</span>
+    <h2>Jeux de mots &amp; langage</h2>
+    <p class="cat-desc">Le terrain de jeu favori de Tonton</p>
+  </div>
+  <div class="grid">
+    <div class="joke">
+      <div class="q">Pourquoi les Japonais sont-ils stressés ?</div>
+      <div class="a">Parce qu'ils se font trop de soucis (sushis).</div>
+    </div>
+    <div class="joke">
+      <div class="q">Quelle est la monnaie de la mer ?</div>
+      <div class="a">Le sous-marin.</div>
+    </div>
+    <div class="joke">
+      <div class="q">Qu'est-ce qu'un citron qui court très vite ?</div>
+      <div class="a">Un citron pressé.</div>
+    </div>
+    <div class="joke">
+      <div class="q">Comment font les muets pour se dire des secrets ?</div>
+      <div class="a">Ils mettent des moufles.</div>
+    </div>
+    <div class="joke">
+      <div class="q">Pourquoi les policiers n'ont-ils pas de rides ?</div>
+      <div class="a">Parce qu'ils ont la « peau lisse ».</div>
+    </div>
+    <div class="joke">
+      <div class="q">Qu'est-ce qu'un rat avec la queue coupée ?</div>
+      <div class="a">Un raccourci.</div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="cat-head">
+    <span class="cat-icon">🐾</span>
+    <h2>Animaux &amp; nature</h2>
+    <p class="cat-desc">La basse-cour version stand-up</p>
+  </div>
+  <div class="grid">
+    <div class="joke">
+      <div class="q">Qu'est-ce qu'un yaourt dans la forêt ?</div>
+      <div class="a">Un yaourt nature.</div>
+    </div>
+    <div class="joke">
+      <div class="q">Daffy Duck et Donald Duck se bagarrent, qu'est-ce que ça fait ?</div>
+      <div class="a">Un conflit de canards.</div>
+    </div>
+    <div class="joke">
+      <div class="q">Qu'est-ce qui est bleu et dans un pré ?</div>
+      <div class="a">Une vache en survêtement.</div>
+    </div>
+    <div class="joke">
+      <div class="q">Que dit un coq à une poule pour la séduire ?</div>
+      <div class="a">« Tu as de beaux œufs, tu sais. »</div>
+    </div>
+    <div class="joke">
+      <div class="q">Comment appelle-t-on un lapin sourd ?</div>
+      <div class="a">LAPIIIIIN ! (en criant)</div>
+    </div>
+    <div class="joke">
+      <div class="q">Quel est le cri d'un gros canard ?</div>
+      <div class="a">QUOIIII !</div>
+    </div>
+    <div class="joke">
+      <div class="q">L'histoire du pingouin qui respire par les fesses…</div>
+      <div class="a">Un jour il s'assoit et il meurt.</div>
+    </div>
+    <div class="joke">
+      <div class="q">Comment les abeilles communiquent entre elles ?</div>
+      <div class="a">Par des i-miels</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="cat-head">
+    <span class="cat-icon">🎩</span>
+    <h2>Insolite &amp; absurde</h2>
+    <p class="cat-desc">Logique imparable, résultat douteux</p>
+  </div>
+  <div class="grid">
+    <div class="joke">
+      <div class="q">Quelle est la différence entre un fou et une enveloppe ?</div>
+      <div class="a">Aucune, ils sont tous les deux timbrés.</div>
+    </div>
+    <div class="joke">
+      <div class="q">Pourquoi faut-il fermer un œil quand on vise ?</div>
+      <div class="a">Parce que si on ferme les deux on ne voit plus rien.</div>
+    </div>
+    <div class="joke">
+      <div class="q">Qu'est-ce qu'un squelette dans une armoire ?</div>
+      <div class="a">Un Belge qui a gagné au cache-cache.</div>
+    </div>
+    <div class="joke">
+      <div class="q">Pourquoi la petite fille tombe-t-elle de la balançoire ?</div>
+      <div class="a">Parce qu'elle n'a pas de bras.</div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="cat-head">
+    <span class="cat-icon">⭐</span>
+    <h2>Célébrités &amp; marques</h2>
+    <p class="cat-desc">Quand Tonton flatte les stars</p>
+  </div>
+  <div class="grid">
+    <div class="joke">
+      <div class="q">Quelle est la boisson préférée de Teddy Riner ?</div>
+      <div class="a">Le jus d'eau (judo).</div>
+    </div>
+    <div class="joke">
+      <div class="q">Quelle star demande toujours deux glaçons dans son verre ?</div>
+      <div class="a">Michael Douglas (deux glaçons).</div>
+    </div>
+    <div class="joke">
+      <div class="q">J'ai fait une blague sur Auchan…</div>
+      <div class="a">Mais elle n'a pas supermarché.</div>
+    </div>
+  </div>
+</section>
+
+<section class="end">
+  <div class="mark">✦</div>
+  <h2>Fin… provisoire</h2>
+  <p>Tonton en a encore une bonne centaine en réserve. À suivre au prochain repas de famille. 🥂</p>
+</section>
+
+</body>
+</html>

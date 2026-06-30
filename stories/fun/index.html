@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blagues & Humour ✦</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night:    #1c1410;
+    --deep:     #241a14;
+    --card-bg:  #2a1e16;
+    --gold:     #e8a33d;
+    --gold-lt:  #f0c040;
+    --gold-dim: #b5782a;
+    --rose:     #e2614f;
+    --sage:     #7fae8a;
+    --text:     #fdf6e9;
+    --muted:    rgba(253,246,233,.5);
+    --radius:   20px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--night);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── STARFIELD CANVAS ── */
+  #starfield {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── GEOMETRIC OVERLAY ── */
+  .geo-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .045;
+    background-image:
+      repeating-linear-gradient(60deg,  #f0c040 0, #f0c040 1px, transparent 0, transparent 50%),
+      repeating-linear-gradient(120deg, #f0c040 0, #f0c040 1px, transparent 0, transparent 50%),
+      repeating-linear-gradient(0deg,   #f0c040 0, #f0c040 1px, transparent 0, transparent 50%);
+    background-size: 60px 60px;
+  }
+
+  /* ── WRAPPER ── */
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── HERO HEADER ── */
+  .hero {
+    text-align: center;
+    padding: 80px 0 60px;
+    position: relative;
+  }
+
+  .hero-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    opacity: .7;
+  }
+  .hero-ornament span { color: var(--gold-lt); font-size: 1.2rem; letter-spacing: 6px; }
+  .ornament-line {
+    width: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-weight: 700;
+    color: var(--gold-lt);
+    line-height: 1.1;
+    text-shadow: 0 0 40px rgba(240,192,64,.25);
+    letter-spacing: 2px;
+  }
+
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    color: var(--muted);
+    margin-top: 14px;
+    font-style: italic;
+    letter-spacing: 1px;
+  }
+
+  /* count badge */
+  .count-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
+    padding: 8px 20px;
+    border: 1px solid rgba(240,192,64,.25);
+    border-radius: 40px;
+    font-size: .85rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+  .count-badge strong { color: var(--gold-lt); font-size: 1.05rem; }
+
+  /* ── SECTION TITLE ── */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    margin-top: 20px;
+  }
+  .section-head h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--gold-lt);
+    white-space: nowrap;
+  }
+  .section-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+  }
+
+  /* ── GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 28px;
+  }
+
+  /* ── STORY CARD ── */
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid rgba(240,192,64,.12);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+    animation: fadeUp .6s ease both;
+  }
+  .card:hover {
+    transform: translateY(-8px) scale(1.015);
+    box-shadow: 0 24px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(240,192,64,.3);
+    border-color: rgba(240,192,64,.35);
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(30px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .card:nth-child(1) { animation-delay:.1s; }
+  .card:nth-child(2) { animation-delay:.2s; }
+  .card:nth-child(3) { animation-delay:.3s; }
+
+  /* card illustration area */
+  .card-art {
+    width: 100%;
+    aspect-ratio: 4/3;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .card-art svg { width:100%; height:100%; display:block; }
+
+  /* shimmer overlay on hover */
+  .card-art::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,.08) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .card:hover .card-art::after { opacity: 1; }
+
+  /* gold arc bottom of art */
+  .card-arc {
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 32px;
+  }
+
+  /* card body */
+  .card-body {
+    padding: 20px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .card-tag {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--gold-lt);
+    line-height: 1.15;
+    margin-bottom: 4px;
+  }
+
+  .card-desc {
+    font-size: .92rem;
+    color: var(--muted);
+    line-height: 1.65;
+    flex: 1;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(240,192,64,.1);
+  }
+
+  .card-chapters {
+    font-size: .8rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .card-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--gold-lt);
+    letter-spacing: .5px;
+    transition: gap .2s;
+  }
+  .card:hover .card-btn { gap: 10px; }
+  .card-btn svg { transition: transform .2s; }
+  .card:hover .card-btn svg { transform: translateX(3px); }
+
+  /* ── "COMING SOON" CARD ── */
+  .card-soon {
+    border: 2px dashed rgba(240,192,64,.15);
+    background: rgba(15,34,53,.4);
+    cursor: default;
+    pointer-events: none;
+  }
+  .card-soon:hover { transform: none; box-shadow: none; border-color: rgba(240,192,64,.15); }
+
+  .soon-art {
+    width: 100%;
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(240,192,64,.04);
+    position: relative;
+    overflow: hidden;
+  }
+  .soon-art::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(240,192,64,.03) 0px,
+      rgba(240,192,64,.03) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+  }
+  .soon-icon {
+    font-size: 3rem;
+    opacity: .25;
+    z-index: 1;
+  }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    color: var(--muted);
+    font-size: .85rem;
+    border-top: 1px solid rgba(240,192,64,.08);
+    margin-top: 60px;
+  }
+  .page-footer span { color: var(--gold-dim); }
+
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="../../index.html" label="Accueil"></back-button>
+
+<canvas id="starfield"></canvas>
+<div class="geo-overlay"></div>
+
+<div class="wrapper">
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="hero-ornament">
+      <div class="ornament-line"></div>
+      <span>✦ ✦ ✦</span>
+      <div class="ornament-line" style="transform:scaleX(-1)"></div>
+    </div>
+    <h1>Blagues & Humour</h1>
+    <p class="hero-sub">Les meilleures blagues pour rire en famille — garanties sans modération</p>
+    <div class="count-badge">
+      <span>✦</span>
+      <span><strong id="storyCount">1</strong> recueils disponibles</span>
+      <span>✦</span>
+    </div>
+  </header>
+
+  <!-- ── GRID ── -->
+  <div class="section-head">
+    <h2>Nos recueils</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="grid" id="storyGrid">
+
+    <!-- ══ BLAGUES DE TONTON ══ -->
+    <a class="card" href="blagues1.html">
+      <div class="card-art">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="blagueBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#1c1410"/>
+              <stop offset="100%" stop-color="#2a1e16"/>
+            </linearGradient>
+            <radialGradient id="blagueGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#e8a33d" stop-opacity=".25"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#blagueBg)"/>
+          <rect width="400" height="300" fill="url(#blagueGlow)"/>
+          <!-- stage curtains -->
+          <path d="M0,0 Q30,120 0,300" fill="#8b1e2b" opacity=".6"/>
+          <path d="M400,0 Q370,120 400,300" fill="#8b1e2b" opacity=".6"/>
+          <path d="M0,0 L160,0 Q130,40 140,80 Q100,60 0,80 Z" fill="#a0222e" opacity=".5"/>
+          <path d="M400,0 L240,0 Q270,40 260,80 Q300,60 400,80 Z" fill="#a0222e" opacity=".5"/>
+          <!-- stage floor -->
+          <rect x="40" y="220" width="320" height="80" fill="#3a2010" opacity=".6"/>
+          <rect x="40" y="220" width="320" height="4" fill="#e8a33d" opacity=".3"/>
+          <!-- spotlight -->
+          <ellipse cx="200" cy="240" rx="80" ry="20" fill="#f0c040" opacity=".12"/>
+          <!-- microphone stand -->
+          <line x1="200" y1="140" x2="200" y2="230" stroke="#888" stroke-width="3"/>
+          <circle cx="200" cy="230" r="12" fill="#555" opacity=".4"/>
+          <!-- microphone head -->
+          <ellipse cx="200" cy="132" rx="12" ry="16" fill="#444"/>
+          <ellipse cx="200" cy="132" rx="10" ry="14" fill="#555"/>
+          <!-- grid pattern on mic -->
+          <line x1="192" y1="124" x2="192" y2="140" stroke="#666" stroke-width=".5" opacity=".6"/>
+          <line x1="196" y1="120" x2="196" y2="144" stroke="#666" stroke-width=".5" opacity=".6"/>
+          <line x1="200" y1="118" x2="200" y2="146" stroke="#666" stroke-width=".5" opacity=".6"/>
+          <line x1="204" y1="120" x2="204" y2="144" stroke="#666" stroke-width=".5" opacity=".6"/>
+          <line x1="208" y1="124" x2="208" y2="140" stroke="#666" stroke-width=".5" opacity=".6"/>
+          <!-- laughing emojis floating -->
+          <text x="80" y="100" font-size="32" opacity=".7">😂</text>
+          <text x="290" y="80" font-size="28" opacity=".6">🤣</text>
+          <text x="130" y="180" font-size="24" opacity=".5">😆</text>
+          <text x="260" y="170" font-size="26" opacity=".5">😄</text>
+          <!-- stars/sparkles -->
+          <circle cx="60"  cy="40"  r="2"   fill="#f0c040" opacity=".8"/>
+          <circle cx="150" cy="30"  r="1.5" fill="white"   opacity=".6"/>
+          <circle cx="250" cy="25"  r="2"   fill="#f0c040" opacity=".7"/>
+          <circle cx="340" cy="45"  r="1.5" fill="white"   opacity=".6"/>
+          <!-- "HA HA" text hints -->
+          <text x="100" y="260" font-family="Georgia,serif" font-size="14" fill="#e8a33d" opacity=".3" transform="rotate(-8,100,260)">HA HA</text>
+          <text x="260" y="255" font-family="Georgia,serif" font-size="12" fill="#e8a33d" opacity=".25" transform="rotate(5,260,255)">HI HI</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">✦ Blagues · Jeux de mots</div>
+        <div class="card-title">Les Blagues de Tonton 😂</div>
+        <p class="card-desc">Le recueil ultime des blagues qu'on raconte trois fois par repas de famille — jeux de mots, animaux, célébrités et absurde garanti.</p>
+        <div class="card-footer">
+          <div class="card-chapters">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            4 catégories
+          </div>
+          <div class="card-btn">
+            Lire les blagues
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- ══ COMING SOON ══ -->
+    <div class="card card-soon" style="animation-delay:.2s">
+      <div class="soon-art">
+        <div class="soon-icon">🎭</div>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">✦ Prochainement</div>
+        <div class="card-title">À venir…</div>
+        <p class="card-desc">Un nouveau recueil de blagues sera bientôt disponible ici.</p>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- ── FOOTER ── -->
+  <footer class="page-footer">
+    <div style="font-size:1.5rem;color:var(--gold-dim);letter-spacing:10px;margin-bottom:12px">✦ ✦ ✦</div>
+    Les meilleures blagues pour toute la famille — <span>avec amour ✦</span>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script>
+// ── Starfield canvas ──
+const canvas = document.getElementById('starfield');
+const ctx    = canvas.getContext('2d');
+let W, H, stars = [];
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function initStars() {
+  stars = Array.from({length: 180}, () => ({
+    x:    Math.random() * W,
+    y:    Math.random() * H,
+    r:    Math.random() * 1.5 + 0.3,
+    a:    Math.random(),
+    da:   (Math.random() * 0.008 + 0.002) * (Math.random()<.5?1:-1),
+    gold: Math.random() < 0.25
+  }));
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, W, H);
+  stars.forEach(s => {
+    s.a = Math.max(0.05, Math.min(1, s.a + s.da));
+    if (s.a <= 0.05 || s.a >= 1) s.da *= -1;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+    ctx.fillStyle = s.gold
+      ? `rgba(240,192,64,${s.a * 0.7})`
+      : `rgba(255,255,255,${s.a * 0.5})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+
+window.addEventListener('resize', () => { resize(); initStars(); });
+resize(); initStars(); drawStars();
+
+// ── Update story count from actual cards ──
+const realCards = document.querySelectorAll('.card:not(.card-soon)').length;
+document.getElementById('storyCount').textContent = realCards;
+</script>
+</body>
+</html>
