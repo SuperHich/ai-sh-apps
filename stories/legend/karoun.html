@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kâroun – Le Roi qui s'est cru plus grand que Dieu</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+  :root {
+    --sand:#f5e6c8; --dust:#c9a96e; --bronze:#a0622a; --ember:#c0392b;
+    --deep:#0e0a05; --dark:#160f07; --dark2:#1e1509;
+    --serif:'EB Garamond','Georgia',serif;
+    --display:'Cinzel','Trajan Pro',serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--deep);color:var(--sand);
+    font-family:var(--serif);font-size:1.15em;line-height:1.8;
+    scroll-snap-type:y proximity;overflow-y:scroll;height:100vh;
+  }
+  ::selection{background:var(--bronze);color:var(--sand);}
+
+  section{
+    min-height:100vh;scroll-snap-align:start;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:80px 24px;position:relative;overflow:hidden;
+  }
+  section.dark{background:var(--dark);}
+  section.dark2{background:var(--dark2);}
+  section.fire{
+    background:
+      radial-gradient(ellipse at 50% 110%,rgba(192,57,43,.35) 0%,transparent 65%),
+      radial-gradient(ellipse at 20% 80%,rgba(160,98,42,.2) 0%,transparent 50%),
+      var(--deep);
+  }
+  section.gold{
+    background:
+      radial-gradient(ellipse at 80% 20%,rgba(201,169,110,.15) 0%,transparent 55%),
+      radial-gradient(ellipse at 10% 90%,rgba(160,98,42,.1) 0%,transparent 50%),
+      var(--dark);
+  }
+  section.collapse{
+    background:
+      radial-gradient(ellipse at 50% 60%,rgba(192,57,43,.45) 0%,transparent 60%),
+      var(--deep);
+  }
+
+  .divider{width:120px;height:1px;background:linear-gradient(to right,transparent,var(--dust),transparent);margin:28px auto;}
+
+  /* HERO */
+  .hero{text-align:center;}
+  .roman-num{font-family:var(--display);font-size:.9em;letter-spacing:6px;color:var(--dust);text-transform:uppercase;margin-bottom:20px;display:block;}
+  h1{
+    font-family:var(--display);font-size:clamp(2.4em,7vw,5em);font-weight:800;
+    line-height:1.1;text-transform:uppercase;letter-spacing:2px;
+    background:linear-gradient(160deg,var(--sand) 30%,var(--dust) 70%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px;
+  }
+  .sub{font-family:var(--display);font-size:clamp(.85em,2vw,1.05em);color:var(--dust);letter-spacing:3px;text-transform:uppercase;margin-bottom:24px;}
+  .tagline{font-style:italic;color:rgba(245,230,200,.6);font-size:1.2em;max-width:480px;margin:0 auto 40px;}
+  .scroll-cue{
+    display:inline-block;font-family:var(--display);font-size:.78em;
+    letter-spacing:4px;text-transform:uppercase;color:var(--dust);opacity:.7;
+    animation:pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:.4;transform:translateY(0);}50%{opacity:.9;transform:translateY(7px);}}
+
+  /* CHAPTER */
+  .chapter{max-width:680px;width:100%;text-align:center;}
+  .chapter-num{font-family:var(--display);font-size:.78em;letter-spacing:5px;color:var(--bronze);text-transform:uppercase;margin-bottom:12px;display:block;}
+  h2{font-family:var(--display);font-size:clamp(1.5em,4vw,2.3em);font-weight:600;color:var(--dust);text-transform:uppercase;letter-spacing:2px;margin-bottom:28px;}
+  p{text-align:justify;color:rgba(245,230,200,.85);font-size:1.05em;margin-bottom:14px;}
+  blockquote{border-left:3px solid var(--bronze);margin:28px 0;padding:14px 24px;text-align:left;background:rgba(160,98,42,.08);border-radius:0 4px 4px 0;}
+  blockquote p{font-style:italic;color:var(--sand);font-size:1.15em;margin:0;}
+  blockquote cite{display:block;margin-top:8px;font-size:.76em;letter-spacing:2px;text-transform:uppercase;color:var(--dust);font-style:normal;}
+  strong{color:var(--sand);font-weight:600;}
+  em{color:var(--dust);font-style:italic;}
+
+  /* ILLUSTRATION */
+  .illus{width:100%;max-width:640px;margin:0 auto 36px;border-radius:8px;overflow:hidden;}
+  .illus svg{display:block;width:100%;}
+
+  /* ENDING */
+  .ending{text-align:center;}
+  .ending .ornament{font-size:2.2em;color:var(--dust);display:block;margin-bottom:24px;letter-spacing:12px;}
+  .ending .moral{font-style:italic;font-size:1.2em;color:rgba(245,230,200,.75);max-width:560px;margin:0 auto 26px;text-align:center;}
+  .ending .ref{font-family:var(--display);font-size:.75em;letter-spacing:3px;color:var(--bronze);text-transform:uppercase;}
+
+  @keyframes shimmer{0%,100%{opacity:.6;}50%{opacity:1;}}
+  @keyframes crack{0%{stroke-dashoffset:200;}100%{stroke-dashoffset:0;}}
+  @keyframes sink{0%{transform:translateY(0);}100%{transform:translateY(60px);opacity:0;}}
+  @keyframes starshine{0%,100%{opacity:.3;}50%{opacity:.9;}}
+  @keyframes flamedance{0%,100%{transform:scaleY(1);}50%{transform:scaleY(1.12);}}
+
+  @media(max-width:600px){section{padding:50px 16px;}h1{font-size:2.3em;}}
+  @media(prefers-reduced-motion:reduce){.scroll-cue{animation:none;}}
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+<!-- ══ HERO ══ -->
+<section class="fire hero">
+  <span class="roman-num">Sourate Al-Qasas · Versets 76–82</span>
+  <h1>Kâroun</h1>
+  <p class="sub">قارون — Coré des Écritures</p>
+  <div class="divider"></div>
+  <p class="tagline">L'homme le plus riche du monde, englouti par la terre qu'il croyait lui appartenir.</p>
+  <span class="scroll-cue">Fais défiler ↓</span>
+</section>
+
+<!-- ══ I — LES TRÉSORS ══ -->
+<section class="gold">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre I</span>
+    <h2>L'homme aux mille coffres</h2>
+    <div class="divider"></div>
+
+    <!-- ILLUSTRATION : coffres d'or empilés, clés immenses -->
+    <div class="illus">
+      <svg viewBox="0 0 640 320" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Les coffres de Kâroun</title>
+        <!-- Ciel nocturne désertique -->
+        <rect x="0" y="0" width="640" height="320" fill="#0a0702"/>
+        <!-- Étoiles -->
+        <circle cx="60" cy="30" r="1.2" fill="#f5e6c8" opacity=".7" style="animation:starshine 2.1s ease-in-out infinite"/>
+        <circle cx="150" cy="18" r="1" fill="#f5e6c8" opacity=".5" style="animation:starshine 3s ease-in-out infinite .4s"/>
+        <circle cx="300" cy="12" r="1.5" fill="#f5e6c8" opacity=".8" style="animation:starshine 2.6s ease-in-out infinite .8s"/>
+        <circle cx="480" cy="22" r="1" fill="#f5e6c8" opacity=".6" style="animation:starshine 1.9s ease-in-out infinite 1.2s"/>
+        <circle cx="580" cy="40" r="1.3" fill="#f5e6c8" opacity=".4" style="animation:starshine 2.8s ease-in-out infinite .2s"/>
+        <circle cx="540" cy="14" r="0.9" fill="#f5e6c8" opacity=".6"/>
+        <circle cx="90" cy="55" r="0.8" fill="#f5e6c8" opacity=".4"/>
+        <circle cx="220" cy="35" r="1" fill="#f5e6c8" opacity=".5"/>
+        <!-- Sol désertique -->
+        <rect x="0" y="240" width="640" height="80" fill="#1e1208"/>
+        <ellipse cx="320" cy="242" rx="320" ry="14" fill="#160e06"/>
+        <!-- Coffre arrière-plan gauche -->
+        <rect x="60" y="168" width="110" height="72" rx="6" fill="#5a3010"/>
+        <rect x="60" y="168" width="110" height="16" rx="4" fill="#7a4518"/>
+        <rect x="100" y="168" width="32" height="16" rx="3" fill="#c9a96e" opacity=".5"/>
+        <rect x="110" y="172" width="12" height="8" rx="2" fill="#e8a33d" style="animation:shimmer 2s ease-in-out infinite"/>
+        <!-- bandes métalliques -->
+        <rect x="60" y="196" width="110" height="4" rx="1" fill="#c9a96e" opacity=".35"/>
+        <rect x="60" y="220" width="110" height="4" rx="1" fill="#c9a96e" opacity=".35"/>
+        <rect x="100" y="168" width="4" height="72" rx="1" fill="#c9a96e" opacity=".35"/>
+        <rect x="166" y="168" width="4" height="72" rx="1" fill="#c9a96e" opacity=".35"/>
+        <!-- Pièces qui débordent -->
+        <ellipse cx="88" cy="240" rx="12" ry="5" fill="#e8a33d" opacity=".9"/>
+        <ellipse cx="100" cy="237" rx="10" ry="4" fill="#d4912a" opacity=".9"/>
+        <ellipse cx="148" cy="238" rx="11" ry="4.5" fill="#e8a33d" opacity=".8"/>
+
+        <!-- Coffre arrière-plan droit -->
+        <rect x="470" y="158" width="110" height="82" rx="6" fill="#4a2808"/>
+        <rect x="470" y="158" width="110" height="18" rx="4" fill="#6a3a12"/>
+        <rect x="510" y="158" width="32" height="18" rx="3" fill="#c9a96e" opacity=".4"/>
+        <rect x="520" y="163" width="12" height="8" rx="2" fill="#e8a33d" style="animation:shimmer 2.4s ease-in-out infinite .5s"/>
+        <rect x="470" y="190" width="110" height="4" rx="1" fill="#c9a96e" opacity=".3"/>
+        <rect x="470" y="218" width="110" height="4" rx="1" fill="#c9a96e" opacity=".3"/>
+        <ellipse cx="498" cy="240" rx="11" ry="4.5" fill="#e8a33d" opacity=".75"/>
+        <ellipse cx="560" cy="238" rx="13" ry="5" fill="#d4912a" opacity=".8"/>
+
+        <!-- Grand coffre central, ouvert, débordant d'or -->
+        <rect x="230" y="150" width="180" height="92" rx="8" fill="#6b3814"/>
+        <rect x="230" y="150" width="180" height="22" rx="8" fill="#8a4c1c" style="transform-origin:230px 150px;transform:rotateX(-30deg)"/>
+        <!-- couvercle ouvert -->
+        <rect x="230" y="128" width="180" height="22" rx="6" fill="#7a4018" transform="rotate(-25,320,150)"/>
+        <rect x="230" y="150" width="180" height="22" rx="6" fill="#9a5824"/>
+        <!-- intérieur d'or -->
+        <rect x="234" y="172" width="172" height="66" rx="4" fill="#2a1500"/>
+        <!-- tas de pièces -->
+        <ellipse cx="320" cy="220" rx="78" ry="22" fill="#c9841e"/>
+        <ellipse cx="320" cy="214" rx="68" ry="18" fill="#e8a33d"/>
+        <ellipse cx="305" cy="208" rx="50" ry="12" fill="#f0bb55"/>
+        <ellipse cx="330" cy="204" rx="40" ry="10" fill="#f5cc66"/>
+        <!-- pièces individuelles visibles -->
+        <circle cx="270" cy="218" r="7" fill="#e8a33d" stroke="#c9841e" stroke-width="1"/>
+        <circle cx="285" cy="212" r="6" fill="#f0bb55" stroke="#c9841e" stroke-width="1"/>
+        <circle cx="360" cy="216" r="7" fill="#e8a33d" stroke="#c9841e" stroke-width="1"/>
+        <circle cx="348" cy="210" r="5" fill="#f0bb55" stroke="#c9841e" stroke-width="1"/>
+        <!-- bandes du grand coffre -->
+        <rect x="230" y="186" width="180" height="5" rx="1" fill="#c9a96e" opacity=".4"/>
+        <rect x="230" y="220" width="180" height="5" rx="1" fill="#c9a96e" opacity=".4"/>
+        <rect x="316" y="150" width="8" height="92" rx="2" fill="#c9a96e" opacity=".4"/>
+        <!-- serrure dorée -->
+        <rect x="308" y="150" width="24" height="22" rx="4" fill="#c9a96e" opacity=".6"/>
+        <circle cx="320" cy="159" r="5" fill="#e8a33d" style="animation:shimmer 1.8s ease-in-out infinite"/>
+        <!-- pièces tombant devant -->
+        <ellipse cx="280" cy="240" rx="9" ry="3.5" fill="#e8a33d" opacity=".9"/>
+        <ellipse cx="355" cy="238" rx="10" ry="4" fill="#d4912a" opacity=".9"/>
+        <ellipse cx="320" cy="244" rx="14" ry="5" fill="#c9841e"/>
+
+        <!-- Clés géantes à gauche -->
+        <g opacity=".85">
+          <rect x="155" y="100" width="8" height="100" rx="4" fill="#c9a96e" transform="rotate(-20,160,150)"/>
+          <circle cx="148" cy="104" r="14" fill="none" stroke="#c9a96e" stroke-width="5" transform="rotate(-20,160,150)"/>
+          <circle cx="148" cy="104" r="7" fill="none" stroke="#c9a96e" stroke-width="3" transform="rotate(-20,160,150)"/>
+          <rect x="158" y="178" width="8" height="12" rx="2" fill="#c9a96e" transform="rotate(-20,160,150)"/>
+          <rect x="158" y="196" width="8" height="12" rx="2" fill="#c9a96e" transform="rotate(-20,160,150)"/>
+        </g>
+        <g opacity=".65">
+          <rect x="175" y="110" width="6" height="85" rx="3" fill="#a08040" transform="rotate(-10,178,155)"/>
+          <circle cx="171" cy="114" r="11" fill="none" stroke="#a08040" stroke-width="4" transform="rotate(-10,178,155)"/>
+          <rect x="173" y="175" width="6" height="10" rx="2" fill="#a08040" transform="rotate(-10,178,155)"/>
+        </g>
+
+        <!-- Clés à droite -->
+        <g opacity=".7">
+          <rect x="468" y="105" width="8" height="95" rx="4" fill="#c9a96e" transform="rotate(18,472,152)"/>
+          <circle cx="475" cy="109" r="13" fill="none" stroke="#c9a96e" stroke-width="5" transform="rotate(18,472,152)"/>
+          <circle cx="475" cy="109" r="6" fill="none" stroke="#c9a96e" stroke-width="3" transform="rotate(18,472,152)"/>
+          <rect x="468" y="178" width="8" height="10" rx="2" fill="#c9a96e" transform="rotate(18,472,152)"/>
+        </g>
+
+        <!-- Lueur dorée sous les coffres -->
+        <ellipse cx="320" cy="244" rx="200" ry="16" fill="#e8a33d" opacity=".12"/>
+        <ellipse cx="115" cy="244" rx="80" ry="8" fill="#e8a33d" opacity=".1"/>
+        <ellipse cx="525" cy="244" rx="80" ry="8" fill="#e8a33d" opacity=".1"/>
+      </svg>
+    </div>
+
+    <p>Il était du peuple de <strong>Moïse</strong> — de la même tribu, du même sang. Mais Kâroun avait reçu de Dieu une richesse sans égale : ses coffres d'or et de pierreries étaient si nombreux, si lourds, qu'il fallait plusieurs hommes robustes rien que pour en porter les clés.</p>
+    <p>Des palais ornés de colonnes, des jardins en fleur, des serviteurs par centaines. Partout où il posait le regard, c'était à lui.</p>
+    <blockquote>
+      <p>« Nous lui avions donné des trésors dont les clés auraient été trop lourdes à porter pour une troupe de vaillants. »</p>
+      <cite>Al-Qasas 28 : 76</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ══ II — L'ORGUEIL ══ -->
+<section class="dark2">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre II</span>
+    <h2>L'orgueil du savant</h2>
+    <div class="divider"></div>
+
+    <!-- ILLUSTRATION : deux silhouettes (les sages) face à Kâroun assis sur un trône -->
+    <div class="illus">
+      <svg viewBox="0 0 640 280" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Kâroun face aux sages</title>
+        <rect x="0" y="0" width="640" height="280" fill="#110d06"/>
+        <!-- colonne architecture -->
+        <rect x="70" y="40" width="18" height="200" rx="4" fill="#2a1e0e" opacity=".7"/>
+        <rect x="60" y="40" width="38" height="12" rx="2" fill="#2a1e0e" opacity=".7"/>
+        <rect x="60" y="228" width="38" height="12" rx="2" fill="#2a1e0e" opacity=".7"/>
+        <rect x="560" y="40" width="18" height="200" rx="4" fill="#2a1e0e" opacity=".5"/>
+        <rect x="550" y="40" width="38" height="12" rx="2" fill="#2a1e0e" opacity=".5"/>
+        <!-- Sol -->
+        <rect x="0" y="240" width="640" height="40" fill="#160e06"/>
+        <!-- Trône de Kâroun (droite) -->
+        <rect x="450" y="120" width="110" height="120" rx="8" fill="#3a1e08"/>
+        <rect x="450" y="100" width="110" height="30" rx="6" fill="#4a2810"/>
+        <!-- dossier -->
+        <rect x="460" y="60" width="90" height="60" rx="6" fill="#3a1e08"/>
+        <!-- ornements trône -->
+        <rect x="450" y="100" width="110" height="6" rx="2" fill="#c9a96e" opacity=".5"/>
+        <rect x="450" y="230" width="110" height="6" rx="2" fill="#c9a96e" opacity=".4"/>
+        <circle cx="460" cy="65" r="6" fill="#c9a96e" opacity=".7" style="animation:shimmer 2s ease-in-out infinite"/>
+        <circle cx="550" cy="65" r="6" fill="#c9a96e" opacity=".7" style="animation:shimmer 2s ease-in-out infinite .4s"/>
+        <!-- Kâroun silhouette assise -->
+        <ellipse cx="505" cy="122" rx="22" ry="22" fill="#c9a96e"/>
+        <!-- robe -->
+        <path d="M483,144 Q485,210 505,215 Q525,210 527,144 Q515,155 505,155 Q495,155 483,144Z" fill="#8b6020"/>
+        <!-- couronne -->
+        <rect x="490" y="100" width="30" height="10" rx="2" fill="#e8a33d"/>
+        <polygon points="490,100 497,88 504,100" fill="#e8a33d"/>
+        <polygon points="504,100 511,86 518,100" fill="#e8a33d"/>
+        <polygon points="518,100 525,88 532,100" fill="#e8a33d"/>
+        <circle cx="504" cy="91" r="3" fill="#c0392b" opacity=".9"/>
+        <circle cx="518" cy="91" r="3" fill="#c0392b" opacity=".9"/>
+        <!-- bras croisés arrogants -->
+        <line x1="483" y1="155" x2="527" y2="155" stroke="#c9a96e" stroke-width="8" stroke-linecap="round"/>
+        <!-- Lueur dorée autour de Kâroun -->
+        <ellipse cx="505" cy="160" rx="55" ry="70" fill="#e8a33d" opacity=".06"/>
+
+        <!-- Sage 1 (gauche avant) -->
+        <ellipse cx="190" cy="118" rx="18" ry="18" fill="#d4b896"/>
+        <path d="M172,136 Q172,220 190,225 Q208,220 208,136 Q200,148 190,148 Q180,148 172,136Z" fill="#4a3a28"/>
+        <!-- barbe -->
+        <path d="M178,128 Q180,145 190,148 Q200,145 202,128" fill="none" stroke="#d4b896" stroke-width="5" stroke-linecap="round"/>
+        <!-- bras tendu vers Kâroun (doigt pointé/main ouverte) -->
+        <line x1="208" y1="155" x2="280" y2="150" stroke="#d4b896" stroke-width="7" stroke-linecap="round"/>
+        <ellipse cx="285" cy="150" rx="9" ry="7" fill="#d4b896"/>
+        <!-- turban -->
+        <path d="M172,116 Q180,98 190,96 Q200,98 208,116" fill="#5a4530" stroke="#8a7050" stroke-width="1.5"/>
+        <rect x="182" y="96" width="16" height="4" rx="2" fill="#c9a96e" opacity=".6"/>
+
+        <!-- Sage 2 (gauche arrière) -->
+        <ellipse cx="260" cy="130" rx="15" ry="15" fill="#c4a880"/>
+        <path d="M245,145 Q245,222 260,227 Q275,222 275,145 Q268,155 260,155 Q252,155 245,145Z" fill="#3a2a18"/>
+        <path d="M248,138 Q250,153 260,155 Q270,153 272,138" fill="none" stroke="#c4a880" stroke-width="4" stroke-linecap="round"/>
+        <!-- bras levé (geste de désaccord) -->
+        <line x1="245" y1="158" x2="210" y2="130" stroke="#c4a880" stroke-width="6" stroke-linecap="round"/>
+        <ellipse cx="206" cy="127" rx="7" ry="6" fill="#c4a880"/>
+        <!-- turban 2 -->
+        <path d="M245,128 Q252,115 260,113 Q268,115 275,128" fill="#483830" stroke="#7a6845" stroke-width="1.5"/>
+
+        <!-- Bulle de pensée / orgueil de Kâroun -->
+        <ellipse cx="430" cy="78" rx="68" ry="28" fill="#1e1208" stroke="#c9a96e" stroke-width="1" opacity=".9"/>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="12" fill="#c9a96e" text-anchor="middle" x="430" y="82" font-style="italic">« C'est mon mérite… »</text>
+        <!-- queue de bulle -->
+        <path d="M480,104 Q492,92 500,106" fill="#1e1208" stroke="#c9a96e" stroke-width="1"/>
+
+        <!-- ligne de sol -->
+        <line x1="0" y1="240" x2="640" y2="240" stroke="#c9a96e" stroke-width=".5" opacity=".2"/>
+      </svg>
+    </div>
+
+    <p>Les sages de son peuple vinrent le trouver avec douceur : <em>« Ne te réjouis pas de ta fortune au point d'oublier ta part dans l'au-delà. Sois bon comme Dieu a été bon envers toi. »</em></p>
+    <p>Kâroun les écouta. Puis il sourit — de ce sourire de celui qui croit qu'on lui parle d'une chose qu'il connaît mieux que quiconque.</p>
+    <blockquote>
+      <p>« Cette richesse, je l'ai obtenue grâce à un savoir qui est en moi. »</p>
+      <cite>Kâroun — Al-Qasas 28 : 78</cite>
+    </blockquote>
+    <p>Il ne voyait pas un don. Il voyait un <strong>mérite</strong>. Il n'entendait pas un avertissement. Il entendait une jalousie.</p>
+  </div>
+</section>
+
+<!-- ══ III — LA PARADE ══ -->
+<section class="dark">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre III</span>
+    <h2>Le jour de la parade</h2>
+    <div class="divider"></div>
+
+    <!-- ILLUSTRATION : Kâroun en cortège royal, foule qui admire -->
+    <div class="illus">
+      <svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>La parade de Kâroun</title>
+        <!-- Ciel chaud de jour -->
+        <rect x="0" y="0" width="640" height="300" fill="#1a0f04"/>
+        <ellipse cx="320" cy="-10" rx="220" ry="80" fill="#3a1a04" opacity=".4"/>
+        <!-- Architecture en arrière-plan : palais -->
+        <rect x="220" y="40" width="200" height="160" rx="4" fill="#1e1208" opacity=".8"/>
+        <rect x="240" y="20" width="30" height="180" rx="3" fill="#281808" opacity=".8"/>
+        <rect x="370" y="28" width="30" height="172" rx="3" fill="#281808" opacity=".8"/>
+        <rect x="270" y="10" width="100" height="30" rx="4" fill="#1e1208" opacity=".9"/>
+        <!-- Étoile de palais -->
+        <polygon points="320,8 323,17 333,17 325,23 328,32 320,26 312,32 315,23 307,17 317,17" fill="#c9a96e" opacity=".6"/>
+        <!-- Sol -->
+        <rect x="0" y="240" width="640" height="60" fill="#130b04"/>
+
+        <!-- Foule à gauche (silhouettes) -->
+        <ellipse cx="40" cy="192" rx="12" ry="12" fill="#5a4030"/>
+        <rect x="28" y="204" width="24" height="36" rx="5" fill="#3a2818"/>
+        <ellipse cx="75" cy="196" rx="11" ry="11" fill="#6a4838"/>
+        <rect x="64" y="207" width="22" height="33" rx="5" fill="#4a3020"/>
+        <ellipse cx="108" cy="190" rx="13" ry="13" fill="#4a3428"/>
+        <rect x="95" y="203" width="26" height="37" rx="5" fill="#2a1a10"/>
+        <!-- bras levés d'admiration -->
+        <line x1="40" y1="210" x2="25" y2="195" stroke="#5a4030" stroke-width="5" stroke-linecap="round"/>
+        <line x1="75" y1="213" x2="62" y2="198" stroke="#6a4838" stroke-width="4" stroke-linecap="round"/>
+        <line x1="108" y1="208" x2="120" y2="193" stroke="#4a3428" stroke-width="5" stroke-linecap="round"/>
+        <!-- gestes d'admiration arrière gauche -->
+        <ellipse cx="25" cy="210" rx="8" ry="8" fill="#4a3028" opacity=".7"/>
+        <rect x="17" y="218" width="16" height="22" rx="4" fill="#3a2018" opacity=".7"/>
+        <ellipse cx="145" cy="200" rx="9" ry="9" fill="#5a3a28" opacity=".6"/>
+        <rect x="136" y="209" width="18" height="26" rx="4" fill="#3a2818" opacity=".6"/>
+
+        <!-- Foule à droite -->
+        <ellipse cx="600" cy="194" rx="12" ry="12" fill="#5a4030"/>
+        <rect x="588" y="206" width="24" height="34" rx="5" fill="#3a2818"/>
+        <ellipse cx="565" cy="198" rx="11" ry="11" fill="#6a4838"/>
+        <rect x="554" y="209" width="22" height="31" rx="5" fill="#4a3020"/>
+        <ellipse cx="530" cy="192" rx="13" ry="13" fill="#4a3428"/>
+        <rect x="517" y="205" width="26" height="35" rx="5" fill="#2a1a10"/>
+        <!-- bras levés droite -->
+        <line x1="600" y1="210" x2="615" y2="195" stroke="#5a4030" stroke-width="5" stroke-linecap="round"/>
+        <line x1="565" y1="213" x2="578" y2="197" stroke="#6a4838" stroke-width="4" stroke-linecap="round"/>
+        <line x1="530" y1="208" x2="518" y2="193" stroke="#4a3428" stroke-width="5" stroke-linecap="round"/>
+        <ellipse cx="615" cy="208" rx="8" ry="8" fill="#4a3028" opacity=".7"/>
+        <rect x="607" y="216" width="16" height="22" rx="4" fill="#3a2018" opacity=".7"/>
+
+        <!-- Cheval de Kâroun -->
+        <ellipse cx="325" cy="210" rx="60" ry="28" fill="#3a2010"/>
+        <ellipse cx="270" cy="196" rx="24" ry="18" fill="#3a2010"/>
+        <!-- tête -->
+        <ellipse cx="248" cy="188" rx="18" ry="14" fill="#3a2010"/>
+        <!-- museau -->
+        <ellipse cx="233" cy="192" rx="10" ry="8" fill="#2a1608"/>
+        <!-- oreilles -->
+        <polygon points="238,178 244,165 250,178" fill="#3a2010"/>
+        <polygon points="248,176 254,163 260,176" fill="#3a2010"/>
+        <!-- crinière -->
+        <path d="M250,175 Q280,160 290,170 Q310,158 330,168" fill="none" stroke="#1a0c04" stroke-width="7" stroke-linecap="round"/>
+        <!-- jambes -->
+        <rect x="275" y="236" width="14" height="28" rx="6" fill="#2a1608"/>
+        <rect x="305" y="238" width="14" height="26" rx="6" fill="#2a1608"/>
+        <rect x="335" y="236" width="14" height="28" rx="6" fill="#2a1608"/>
+        <rect x="365" y="238" width="14" height="26" rx="6" fill="#2a1608"/>
+        <!-- queue -->
+        <path d="M384,210 Q410,195 400,228" fill="none" stroke="#1a0c04" stroke-width="8" stroke-linecap="round"/>
+        <!-- harnachement doré -->
+        <path d="M248,192 Q280,175 370,186" fill="none" stroke="#c9a96e" stroke-width="2.5" opacity=".7"/>
+        <circle cx="290" cy="178" r="4" fill="#e8a33d" opacity=".8" style="animation:shimmer 1.8s ease-in-out infinite"/>
+        <circle cx="330" cy="174" r="4" fill="#e8a33d" opacity=".8" style="animation:shimmer 2.2s ease-in-out infinite .3s"/>
+
+        <!-- Kâroun sur le cheval -->
+        <ellipse cx="318" cy="162" rx="22" ry="22" fill="#c9a96e"/>
+        <!-- robe somptueuse -->
+        <path d="M296,184 Q300,215 318,218 Q336,215 340,184 Q328,196 318,196 Q308,196 296,184Z" fill="#8b4010"/>
+        <!-- broderies or sur robe -->
+        <path d="M298,192 Q310,200 318,202 Q326,200 338,192" fill="none" stroke="#e8a33d" stroke-width="1.5" opacity=".7"/>
+        <path d="M300,204 Q310,210 318,212 Q326,210 336,204" fill="none" stroke="#e8a33d" stroke-width="1.5" opacity=".5"/>
+        <!-- couronne rayonnante -->
+        <rect x="303" y="140" width="30" height="12" rx="2" fill="#e8a33d"/>
+        <polygon points="303,140 310,126 317,140" fill="#e8a33d"/>
+        <polygon points="317,140 324,124 331,140" fill="#e8a33d"/>
+        <polygon points="331,140 338,126 345,140" fill="#e8a33d"/>
+        <circle cx="317" cy="128" r="3.5" fill="#c0392b"/>
+        <circle cx="331" cy="128" r="3.5" fill="#c0392b"/>
+        <!-- lueur glorieuse autour de Kâroun -->
+        <ellipse cx="318" cy="180" rx="55" ry="65" fill="#e8a33d" opacity=".07" style="animation:shimmer 3s ease-in-out infinite"/>
+
+        <!-- Serviteurs à pied de chaque côté -->
+        <ellipse cx="190" cy="186" rx="12" ry="12" fill="#b0946a"/>
+        <rect x="178" y="198" width="24" height="42" rx="5" fill="#5a3818"/>
+        <!-- éventail -->
+        <ellipse cx="174" cy="180" rx="16" ry="10" fill="#c9a96e" opacity=".4" transform="rotate(-20,174,180)"/>
+        <line x1="178" y1="198" x2="174" y2="180" stroke="#b0946a" stroke-width="4" stroke-linecap="round"/>
+
+        <ellipse cx="445" cy="186" rx="12" ry="12" fill="#b0946a"/>
+        <rect x="433" y="198" width="24" height="42" rx="5" fill="#5a3818"/>
+        <!-- parasol -->
+        <ellipse cx="460" cy="175" rx="18" ry="10" fill="#8b4010" opacity=".7" transform="rotate(15,460,175)"/>
+        <line x1="445" y1="198" x2="458" y2="176" stroke="#b0946a" stroke-width="4" stroke-linecap="round"/>
+
+        <!-- Confettis / pièces lancées en l'air -->
+        <circle cx="200" cy="140" r="4" fill="#e8a33d" opacity=".8"/>
+        <circle cx="215" cy="125" r="3" fill="#e8a33d" opacity=".6"/>
+        <circle cx="430" cy="135" r="4" fill="#e8a33d" opacity=".8"/>
+        <circle cx="415" cy="148" r="3" fill="#e8a33d" opacity=".6"/>
+        <circle cx="350" cy="120" r="5" fill="#e8a33d" opacity=".5"/>
+      </svg>
+    </div>
+
+    <p>Un matin, Kâroun sortit devant son peuple dans toute sa splendeur. Vêtements brodés d'or, montures superbes, cortège imposant — un spectacle calculé pour provoquer l'admiration et l'envie.</p>
+    <p>Et l'effet fut immédiat. Ceux qui aimaient la vie d'ici-bas s'écrièrent :</p>
+    <blockquote>
+      <p>« Ah, si seulement nous avions ce qu'a reçu Kâroun ! Il est vraiment comblé. »</p>
+      <cite>Al-Qasas 28 : 79</cite>
+    </blockquote>
+    <p>Mais ceux à qui Dieu avait accordé la sagesse répondirent avec calme : <em>« Malheur à vous ! La récompense de Dieu est bien supérieure pour celui qui croit et fait le bien. »</em></p>
+  </div>
+</section>
+
+<!-- ══ IV — LA CHUTE ══ -->
+<section class="collapse">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre IV</span>
+    <h2>La terre s'ouvre</h2>
+    <div class="divider"></div>
+
+    <!-- ILLUSTRATION : palais et Kâroun s'enfonçant sous terre, fissures -->
+    <div class="illus">
+      <svg viewBox="0 0 640 320" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>L'engloutissement de Kâroun</title>
+        <!-- Ciel crépusculaire rouge sang -->
+        <rect x="0" y="0" width="640" height="320" fill="#150404"/>
+        <ellipse cx="320" cy="0" rx="320" ry="120" fill="#3a0a04" opacity=".6"/>
+        <ellipse cx="160" cy="40" rx="130" ry="60" fill="#5a1208" opacity=".25"/>
+        <ellipse cx="500" cy="30" rx="110" ry="55" fill="#5a1208" opacity=".2"/>
+        <!-- Nuages de fumée/poussière -->
+        <ellipse cx="200" cy="80" rx="90" ry="35" fill="#2a0e06" opacity=".5"/>
+        <ellipse cx="440" cy="70" rx="80" ry="30" fill="#2a0e06" opacity=".4"/>
+        <ellipse cx="320" cy="60" rx="120" ry="40" fill="#200806" opacity=".6"/>
+
+        <!-- Ligne de sol qui se fissure -->
+        <rect x="0" y="200" width="640" height="120" fill="#0e0604"/>
+
+        <!-- FISSURES dans la terre -->
+        <!-- Fissure centrale principale -->
+        <path d="M290,198 L310,230 L295,260 L315,285 L310,310" fill="none" stroke="#c0392b" stroke-width="3" opacity=".9" stroke-linecap="round"
+          style="stroke-dasharray:200;stroke-dashoffset:200;animation:crack 1.5s ease-out forwards .2s"/>
+        <path d="M350,198 L330,228 L345,258 L328,282 L332,310" fill="none" stroke="#c0392b" stroke-width="2" opacity=".7" stroke-linecap="round"
+          style="stroke-dasharray:200;stroke-dashoffset:200;animation:crack 1.5s ease-out forwards .4s"/>
+        <!-- Fissures secondaires -->
+        <path d="M310,230 L260,240 L220,230" fill="none" stroke="#8b1a10" stroke-width="1.5" opacity=".6" stroke-linecap="round"/>
+        <path d="M330,228 L380,238 L420,228" fill="none" stroke="#8b1a10" stroke-width="1.5" opacity=".6" stroke-linecap="round"/>
+        <path d="M295,260 L240,268" fill="none" stroke="#8b1a10" stroke-width="1" opacity=".5"/>
+        <path d="M345,258 L400,265" fill="none" stroke="#8b1a10" stroke-width="1" opacity=".5"/>
+        <!-- Lueur rouge des profondeurs -->
+        <ellipse cx="320" cy="260" rx="70" ry="30" fill="#c0392b" opacity=".18"/>
+        <ellipse cx="320" cy="270" rx="40" ry="18" fill="#e0391b" opacity=".22"/>
+
+        <!-- Palais qui s'enfonce (tilté, en train de disparaître) -->
+        <g transform="translate(320,160) rotate(-8) translate(-320,-160)" style="animation:sink 3s ease-in forwards 0.5s">
+          <!-- Base du palais -->
+          <rect x="200" y="150" width="240" height="80" rx="4" fill="#1e1008" opacity=".95"/>
+          <!-- colonnes -->
+          <rect x="220" y="90" width="18" height="62" rx="3" fill="#261608"/>
+          <rect x="258" y="90" width="18" height="62" rx="3" fill="#261608"/>
+          <rect x="296" y="90" width="18" height="62" rx="3" fill="#261608"/>
+          <rect x="334" y="90" width="18" height="62" rx="3" fill="#261608"/>
+          <rect x="372" y="90" width="18" height="62" rx="3" fill="#261608"/>
+          <!-- fronton -->
+          <polygon points="185,92 320,40 455,92" fill="#1a0e06"/>
+          <polygon points="200,92 320,48 440,92" fill="#221408"/>
+          <!-- ornement fronton -->
+          <polygon points="320,46 325,58 330,46" fill="#c9a96e" opacity=".5"/>
+          <!-- chapiteaux dorés -->
+          <rect x="216" y="88" width="26" height="8" rx="2" fill="#c9a96e" opacity=".4"/>
+          <rect x="254" y="88" width="26" height="8" rx="2" fill="#c9a96e" opacity=".4"/>
+          <rect x="292" y="88" width="26" height="8" rx="2" fill="#c9a96e" opacity=".4"/>
+          <rect x="330" y="88" width="26" height="8" rx="2" fill="#c9a96e" opacity=".4"/>
+          <rect x="368" y="88" width="26" height="8" rx="2" fill="#c9a96e" opacity=".4"/>
+          <!-- fenêtres et portes -->
+          <rect x="290" y="158" width="60" height="72" rx="3" fill="#0e0604"/>
+          <rect x="230" y="162" width="36" height="40" rx="3" fill="#0e0604"/>
+          <rect x="370" y="162" width="36" height="40" rx="3" fill="#0e0604"/>
+          <!-- lueurs dans le palais -->
+          <rect x="230" y="162" width="36" height="40" rx="3" fill="#e8a33d" opacity=".12"/>
+          <rect x="370" y="162" width="36" height="40" rx="3" fill="#e8a33d" opacity=".1"/>
+        </g>
+
+        <!-- Silhouette de Kâroun tombant (bras levés en désespoir) -->
+        <g transform="translate(0,40)" style="animation:sink 2.5s ease-in forwards .8s">
+          <ellipse cx="320" cy="132" rx="15" ry="15" fill="#c9a96e"/>
+          <path d="M305,147 Q305,190 320,194 Q335,190 335,147 Q328,158 320,158 Q312,158 305,147Z" fill="#8b4010"/>
+          <!-- bras tendus vers le ciel -->
+          <line x1="305" y1="155" x2="282" y2="130" stroke="#c9a96e" stroke-width="7" stroke-linecap="round"/>
+          <line x1="335" y1="155" x2="358" y2="130" stroke="#c9a96e" stroke-width="7" stroke-linecap="round"/>
+          <ellipse cx="279" cy="127" rx="8" ry="7" fill="#c9a96e"/>
+          <ellipse cx="361" cy="127" rx="8" ry="7" fill="#c9a96e"/>
+          <!-- couronne qui tombe -->
+          <g transform="rotate(30,320,120)">
+            <rect x="310" y="114" width="22" height="8" rx="1" fill="#e8a33d" opacity=".8"/>
+            <polygon points="310,114 315,106 320,114" fill="#e8a33d" opacity=".8"/>
+            <polygon points="320,114 325,104 330,114" fill="#e8a33d" opacity=".8"/>
+          </g>
+        </g>
+
+        <!-- Foule qui observe, pétrifiée (silhouettes en bas côtés) -->
+        <g opacity=".6">
+          <ellipse cx="60" cy="198" rx="12" ry="12" fill="#4a3028"/>
+          <rect x="48" y="210" width="24" height="40" rx="5" fill="#2a1a10"/>
+          <ellipse cx="95" cy="200" rx="11" ry="11" fill="#5a3a28"/>
+          <rect x="84" y="211" width="22" height="38" rx="5" fill="#3a2018"/>
+          <!-- mains devant le visage -->
+          <line x1="60" y1="208" x2="52" y2="196" stroke="#4a3028" stroke-width="4" stroke-linecap="round"/>
+          <line x1="60" y1="208" x2="68" y2="196" stroke="#4a3028" stroke-width="4" stroke-linecap="round"/>
+        </g>
+        <g opacity=".6">
+          <ellipse cx="580" cy="198" rx="12" ry="12" fill="#4a3028"/>
+          <rect x="568" y="210" width="24" height="40" rx="5" fill="#2a1a10"/>
+          <ellipse cx="545" cy="200" rx="11" ry="11" fill="#5a3a28"/>
+          <rect x="534" y="211" width="22" height="38" rx="5" fill="#3a2018"/>
+          <line x1="580" y1="208" x2="572" y2="196" stroke="#4a3028" stroke-width="4" stroke-linecap="round"/>
+          <line x1="580" y1="208" x2="588" y2="196" stroke="#4a3028" stroke-width="4" stroke-linecap="round"/>
+        </g>
+
+        <!-- Poussière / débris -->
+        <ellipse cx="250" cy="196" rx="30" ry="8" fill="#3a1a08" opacity=".5"/>
+        <ellipse cx="390" cy="196" rx="25" ry="7" fill="#3a1a08" opacity=".5"/>
+        <circle cx="180" cy="170" r="4" fill="#3a1a08" opacity=".6"/>
+        <circle cx="460" cy="165" r="5" fill="#3a1a08" opacity=".5"/>
+        <circle cx="220" cy="155" r="3" fill="#3a1a08" opacity=".4"/>
+        <circle cx="430" cy="158" r="3" fill="#3a1a08" opacity=".4"/>
+      </svg>
+    </div>
+
+    <p>Puis vint le moment que personne n'attendait. Sans tremblement annoncé. Sans cri de guerre. Sans armée ni catastrophe visible. <strong>La terre s'ouvrit.</strong></p>
+    <blockquote>
+      <p>« Nous fîmes s'enfoncer sous terre Kâroun et sa demeure. Il ne trouva aucun clan pour le secourir contre Dieu, et il ne put se secourir lui-même. »</p>
+      <cite>Al-Qasas 28 : 81</cite>
+    </blockquote>
+    <p>Les palais, les coffres, les clés, les serviteurs — tout disparut dans le sol comme si cela n'avait jamais existé.</p>
+    <p>Ceux qui, le matin encore, l'enviaient baissèrent les yeux : <em>« Ah ! C'est bien Dieu qui donne largement ou avec mesure à qui Il veut. »</em></p>
+  </div>
+</section>
+
+<!-- ══ FIN ══ -->
+<section class="dark2 ending">
+  <span class="ornament">✦ ✦ ✦</span>
+  <h2>Ce que l'histoire nous dit</h2>
+  <div class="divider"></div>
+  <p class="moral">La richesse n'est pas une récompense, et la pauvreté n'est pas une punition. Ce que tu possèdes t'a été confié — pas donné à garder pour toujours.</p>
+  <p class="moral">L'orgueil ne survit pas à la vérité. Et la terre se souvient de tout.</p>
+  <p class="moral">Kâroun pensait tenir le monde. C'est le monde qui l'a tenu — et avalé.</p>
+  <div class="divider"></div>
+  <span class="ref">Coran · Sourate Al-Qasas · 28:76–82</span>
+</section>
+
+</body>
+</html>
