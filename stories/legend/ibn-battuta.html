@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ibn Battuta – L'homme qui ne pouvait pas s'arrêter</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+  :root {
+    --terracotta:#c4622d; --sable:#f0e2c0; --turquoise:#2a7a7a;
+    --violet:#3a2060; --or:#d4a030; --encre:#0a0608;
+    --dark:#100810; --dark2:#160c10; --dark3:#0e1018;
+    --serif:'EB Garamond','Georgia',serif;
+    --display:'Cinzel','Trajan Pro',serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--encre);color:var(--sable);
+    font-family:var(--serif);font-size:1.15em;line-height:1.8;
+    scroll-snap-type:y proximity;overflow-y:scroll;height:100vh;
+  }
+  ::selection{background:var(--terracotta);color:var(--sable);}
+
+  section{
+    min-height:100vh;scroll-snap-align:start;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:80px 24px;position:relative;overflow:hidden;
+  }
+  section.dark {background:var(--dark);}
+  section.dark2{background:var(--dark2);}
+  section.dark3{background:var(--dark3);}
+
+  section.desert{
+    background:
+      radial-gradient(ellipse at 60% 100%,rgba(196,98,45,.28) 0%,transparent 60%),
+      radial-gradient(ellipse at 20% 10%, rgba(212,160,48,.12) 0%,transparent 50%),
+      var(--dark);
+  }
+  section.mer{
+    background:
+      radial-gradient(ellipse at 50% 0%,  rgba(42,122,122,.22) 0%,transparent 60%),
+      radial-gradient(ellipse at 80% 100%,rgba(10,6,8,.9) 0%,transparent 50%),
+      var(--dark3);
+  }
+  section.orient{
+    background:
+      radial-gradient(ellipse at 30% 50%,rgba(58,32,96,.4) 0%,transparent 55%),
+      radial-gradient(ellipse at 80% 20%,rgba(212,160,48,.1) 0%,transparent 50%),
+      var(--dark2);
+  }
+  section.afrique{
+    background:
+      radial-gradient(ellipse at 50% 80%,rgba(196,98,45,.3) 0%,transparent 60%),
+      radial-gradient(ellipse at 20% 0%,  rgba(212,160,48,.1) 0%,transparent 50%),
+      var(--dark);
+  }
+
+  .divider{width:120px;height:1px;background:linear-gradient(to right,transparent,rgba(212,160,48,.7),transparent);margin:26px auto;}
+
+  .hero{text-align:center;}
+  .roman-num{font-family:var(--display);font-size:.87em;letter-spacing:6px;color:rgba(212,160,48,.65);text-transform:uppercase;margin-bottom:18px;display:block;}
+  h1{
+    font-family:var(--display);font-size:clamp(2.2em,6.5vw,4.8em);font-weight:800;
+    line-height:1.1;text-transform:uppercase;letter-spacing:2px;
+    background:linear-gradient(155deg,var(--sable) 20%,var(--or) 55%,var(--terracotta) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px;
+  }
+  .sub{font-family:var(--display);font-size:clamp(.82em,2vw,.98em);color:rgba(212,160,48,.7);letter-spacing:3px;text-transform:uppercase;margin-bottom:22px;}
+  .tagline{font-style:italic;color:rgba(240,226,192,.52);font-size:1.18em;max-width:520px;margin:0 auto 38px;}
+  .scroll-cue{
+    display:inline-block;font-family:var(--display);font-size:.75em;
+    letter-spacing:4px;text-transform:uppercase;color:rgba(212,160,48,.6);
+    animation:pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:.35;transform:translateY(0);}50%{opacity:.85;transform:translateY(7px);}}
+
+  .chapter{max-width:680px;width:100%;text-align:center;}
+  .chapter-num{font-family:var(--display);font-size:.75em;letter-spacing:5px;color:rgba(196,98,45,.9);text-transform:uppercase;margin-bottom:12px;display:block;}
+  h2{font-family:var(--display);font-size:clamp(1.4em,3.8vw,2.2em);font-weight:600;color:var(--or);text-transform:uppercase;letter-spacing:2px;margin-bottom:26px;}
+  p{text-align:justify;color:rgba(240,226,192,.82);font-size:1.04em;margin-bottom:14px;}
+  blockquote{border-left:3px solid rgba(212,160,48,.55);margin:26px 0;padding:14px 24px;text-align:left;background:rgba(212,160,48,.05);border-radius:0 4px 4px 0;}
+  blockquote p{font-style:italic;color:var(--sable);font-size:1.14em;margin:0;}
+  blockquote cite{display:block;margin-top:8px;font-size:.74em;letter-spacing:2px;text-transform:uppercase;color:rgba(212,160,48,.65);font-style:normal;}
+  strong{color:var(--sable);font-weight:600;}
+  em{color:rgba(212,160,48,.88);font-style:italic;}
+
+  .illus{width:100%;max-width:640px;margin:0 auto 34px;border-radius:6px;overflow:hidden;}
+  .illus svg{display:block;width:100%;}
+
+  .ending{text-align:center;}
+  .ending .ornament{font-size:2em;color:rgba(212,160,48,.7);display:block;margin-bottom:22px;letter-spacing:12px;}
+  .ending .moral{font-style:italic;font-size:1.18em;color:rgba(240,226,192,.72);max-width:560px;margin:0 auto 24px;text-align:center;}
+  .ending .ref{font-family:var(--display);font-size:.72em;letter-spacing:3px;color:rgba(196,98,45,.8);text-transform:uppercase;}
+
+  @keyframes shimmer{0%,100%{opacity:.5;}50%{opacity:1;}}
+  @keyframes twinkle{0%,100%{opacity:.2;}50%{opacity:.9;}}
+  @keyframes sway{0%,100%{transform:rotate(-2deg);}50%{transform:rotate(2deg);}}
+  @keyframes drift{0%,100%{transform:translateX(0);}50%{transform:translateX(6px);}}
+  @keyframes wave{0%,100%{transform:translateX(0);}50%{transform:translateX(-14px);}}
+  @keyframes sandflow{0%{stroke-dashoffset:300;}100%{stroke-dashoffset:0;}}
+
+  @media(max-width:600px){section{padding:50px 16px;}h1{font-size:2.1em;}}
+  @media(prefers-reduced-motion:reduce){.scroll-cue{animation:none;}}
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+<!-- ══ HERO ══ -->
+<section class="desert hero">
+
+  <!-- Illustration hero : carte du monde médiévale stylisée -->
+  <div style="width:100%;max-width:580px;margin:0 auto 32px;">
+    <svg viewBox="0 0 580 220" xmlns="http://www.w3.org/2000/svg">
+      <!-- fond parchemin -->
+      <rect x="0" y="0" width="580" height="220" fill="#0e0a06"/>
+      <rect x="8" y="8" width="564" height="204" rx="4" fill="#120c08" stroke="#d4a030" stroke-width=".6" opacity=".4"/>
+      <!-- continents stylisés façon carte arabe médiévale -->
+      <!-- Europe/Afrique/Asie en masse -->
+      <path d="M60,60 Q90,45 130,50 Q170,45 200,55 Q240,48 280,52 Q330,44 370,50 Q420,44 460,55 Q500,52 530,60 Q535,80 520,100 Q505,120 480,130 Q450,140 420,145 Q390,152 360,148 Q330,155 300,150 Q270,158 240,152 Q210,145 185,155 Q160,162 140,155 Q110,148 90,138 Q65,125 55,105 Q48,82 60,60Z" fill="#1a1408" opacity=".9"/>
+      <!-- détails géographiques -->
+      <path d="M200,55 Q210,70 205,90 Q200,108 190,118 Q180,128 170,122 Q158,112 162,95 Q166,78 178,68 Q190,58 200,55Z" fill="#221a0c" opacity=".7"/>
+      <!-- péninsule arabique -->
+      <path d="M310,90 Q325,85 335,95 Q345,108 340,125 Q333,138 322,140 Q310,138 305,125 Q300,110 305,96 Q307,91 310,90Z" fill="#221a0c" opacity=".8"/>
+      <!-- Inde -->
+      <path d="M380,80 Q398,75 408,88 Q418,102 415,122 Q410,138 398,142 Q385,140 378,126 Q372,110 374,94 Q376,83 380,80Z" fill="#221a0c" opacity=".7"/>
+      <!-- île / archipel (Maldives / Extrême-Orient) -->
+      <ellipse cx="470" cy="120" rx="20" ry="12" fill="#221a0c" opacity=".6"/>
+      <ellipse cx="500" cy="108" rx="14" ry="8"  fill="#221a0c" opacity=".5"/>
+      <!-- Afrique subsaharienne -->
+      <path d="M130,138 Q150,145 160,162 Q165,178 155,188 Q140,195 125,188 Q110,178 112,162 Q115,148 130,138Z" fill="#221a0c" opacity=".7"/>
+
+      <!-- ROUTE D'IBN BATTUTA en pointillés dorés -->
+      <!-- Tanger → Alexandrie → La Mecque -->
+      <path d="M80,95 Q120,80 170,78 Q220,76 265,82 Q295,86 310,92" fill="none" stroke="#d4a030" stroke-width="1.6" stroke-dasharray="5 4" opacity=".8" style="animation:sandflow 4s ease-out forwards"/>
+      <!-- La Mecque → Perse → Inde -->
+      <path d="M310,92 Q340,88 370,90 Q400,85 415,95 Q435,105 445,118" fill="none" stroke="#d4a030" stroke-width="1.6" stroke-dasharray="5 4" opacity=".8"/>
+      <!-- Inde → Maldives → Chine -->
+      <path d="M415,115 Q440,118 468,122 Q492,118 510,112" fill="none" stroke="#d4a030" stroke-width="1.4" stroke-dasharray="5 4" opacity=".7"/>
+      <!-- retour → Mali → Tanger -->
+      <path d="M310,92 Q270,100 230,112 Q190,128 158,138 Q140,148 128,160" fill="none" stroke="#c4622d" stroke-width="1.4" stroke-dasharray="4 5" opacity=".7"/>
+
+      <!-- Points clés de la route -->
+      <circle cx="80"  cy="95"  r="4" fill="#d4a030" opacity=".9" style="animation:shimmer 2s ease-in-out infinite"/>
+      <circle cx="265" cy="82"  r="3" fill="#d4a030" opacity=".8"/>
+      <circle cx="310" cy="92"  r="4" fill="#c4622d" opacity=".9" style="animation:shimmer 2.4s ease-in-out infinite .3s"/>
+      <circle cx="415" cy="100" r="3" fill="#d4a030" opacity=".8"/>
+      <circle cx="468" cy="122" r="3" fill="#d4a030" opacity=".7"/>
+      <circle cx="510" cy="112" r="3" fill="#d4a030" opacity=".7"/>
+      <circle cx="128" cy="160" r="3" fill="#c4622d" opacity=".8"/>
+
+      <!-- Étiquettes -->
+      <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#d4a030" x="58" y="90" opacity=".8">Tanger</text>
+      <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#d4a030" x="296" y="88" opacity=".8">La Mecque</text>
+      <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#d4a030" x="400" y="97" opacity=".7">Inde</text>
+      <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#d4a030" x="455" y="135" opacity=".7">Chine</text>
+      <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#c4622d" x="106" y="172" opacity=".7">Mali</text>
+
+      <!-- Rose des vents -->
+      <g transform="translate(40,170)">
+        <circle cx="0" cy="0" r="16" fill="none" stroke="#d4a030" stroke-width=".6" opacity=".4"/>
+        <line x1="0" y1="-14" x2="0"   y2="14"  stroke="#d4a030" stroke-width=".8" opacity=".5"/>
+        <line x1="-14" y1="0" x2="14"  y2="0"   stroke="#d4a030" stroke-width=".8" opacity=".5"/>
+        <line x1="-10" y1="-10" x2="10" y2="10" stroke="#d4a030" stroke-width=".5" opacity=".3"/>
+        <line x1="10" y1="-10" x2="-10" y2="10"  stroke="#d4a030" stroke-width=".5" opacity=".3"/>
+        <polygon points="0,-8 2,-3 0,0 -2,-3" fill="#d4a030" opacity=".7"/>
+        <text font-family="'Cinzel',serif" font-size="7" fill="#d4a030" text-anchor="middle" x="0" y="-18" opacity=".6">N</text>
+      </g>
+
+      <!-- légende -->
+      <line x1="420" y1="185" x2="445" y2="185" stroke="#d4a030" stroke-width="1.5" stroke-dasharray="4 3" opacity=".7"/>
+      <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#d4a030" x="450" y="189" opacity=".7">Route principale</text>
+      <line x1="420" y1="200" x2="445" y2="200" stroke="#c4622d" stroke-width="1.5" stroke-dasharray="4 3" opacity=".7"/>
+      <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#c4622d" x="450" y="204" opacity=".7">Voyages annexes</text>
+    </svg>
+  </div>
+
+  <span class="roman-num">1304 – 1368 · Tanger, Maroc</span>
+  <h1>Ibn Battuta</h1>
+  <p class="sub">ابن بطوطة · Shams ad-Dîn</p>
+  <div class="divider"></div>
+  <p class="tagline">120 000 kilomètres. 29 ans. 44 pays. Un seul homme qui ne savait pas rester en place.</p>
+  <span class="scroll-cue">Fais défiler ↓</span>
+</section>
+
+<!-- ══ I — LE DÉPART ══ -->
+<section class="desert">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre I</span>
+    <h2>Un pèlerinage… qui ne finit pas</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 290" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Ibn Battuta quittant Tanger à dos de mulet</title>
+        <!-- Aube marocaine -->
+        <rect x="0" y="0" width="640" height="290" fill="#0c0806"/>
+        <ellipse cx="320" cy="-20" rx="320" ry="110" fill="#2a1408" opacity=".5"/>
+        <ellipse cx="320" cy="-30" rx="200" ry="80"  fill="#3a2010" opacity=".3"/>
+        <!-- quelques étoiles -->
+        <circle cx="100" cy="28"  r="1.2" fill="#f0e2c0" style="animation:twinkle 2.3s ease-in-out infinite"/>
+        <circle cx="220" cy="18"  r="1"   fill="#f0e2c0" style="animation:twinkle 3s ease-in-out infinite .5s"/>
+        <circle cx="460" cy="22"  r="1.3" fill="#f0e2c0" style="animation:twinkle 2.7s ease-in-out infinite .8s"/>
+        <circle cx="560" cy="14"  r="1"   fill="#f0e2c0" style="animation:twinkle 2s ease-in-out infinite .2s"/>
+
+        <!-- Médina de Tanger en silhouette -->
+        <!-- remparts -->
+        <rect x="0" y="110" width="640" height="140" fill="#0e0a06"/>
+        <rect x="0" y="100" width="640" height="14"  fill="#141008"/>
+        <!-- créneaux -->
+        <rect x="20"  y="90"  width="18" height="12" rx="1" fill="#141008"/>
+        <rect x="52"  y="90"  width="18" height="12" rx="1" fill="#141008"/>
+        <rect x="84"  y="90"  width="18" height="12" rx="1" fill="#141008"/>
+        <rect x="116" y="90"  width="18" height="12" rx="1" fill="#141008"/>
+        <rect x="560" y="90"  width="18" height="12" rx="1" fill="#141008"/>
+        <rect x="592" y="90"  width="18" height="12" rx="1" fill="#141008"/>
+        <!-- minaret -->
+        <rect x="160" y="38"  width="30" height="70" rx="2" fill="#181008"/>
+        <rect x="155" y="35"  width="40" height="8"  rx="2" fill="#181008"/>
+        <polygon points="175,20 155,35 195,35" fill="#181008"/>
+        <rect x="172" y="10"  width="6"  height="12" rx="1" fill="#c4622d" opacity=".6"/>
+        <!-- fenêtre minaret allumée -->
+        <rect x="170" y="50"  width="10" height="14" rx="2" fill="#d4a030" opacity=".3" style="animation:shimmer 3s ease-in-out infinite"/>
+        <!-- second minaret lointain -->
+        <rect x="480" y="54"  width="22" height="50" rx="2" fill="#130e06" opacity=".8"/>
+        <rect x="476" y="51"  width="30" height="6"  rx="1" fill="#130e06" opacity=".8"/>
+        <polygon points="491,40 476,51 506,51" fill="#130e06" opacity=".8"/>
+        <!-- maisons arabes silhouettes -->
+        <rect x="200" y="98"  width="40" height="16" rx="1" fill="#120e08"/>
+        <rect x="250" y="94"  width="35" height="20" rx="1" fill="#120e08"/>
+        <rect x="380" y="96"  width="45" height="18" rx="1" fill="#120e08"/>
+        <rect x="435" y="92"  width="38" height="22" rx="1" fill="#120e08"/>
+
+        <!-- Route qui s'éloigne vers l'horizon -->
+        <path d="M280,245 Q310,210 320,180 Q325,155 322,130" fill="none" stroke="#c4622d" stroke-width="1.5" stroke-dasharray="5 4" opacity=".4"/>
+
+        <!-- IBN BATTUTA jeune, à dos de mulet, son bagage -->
+        <!-- mulet -->
+        <ellipse cx="340" cy="210" rx="62" ry="28" fill="#2a1c0e"/>
+        <ellipse cx="285" cy="198" rx="22" ry="18" fill="#2a1c0e"/>
+        <!-- tête mulet -->
+        <ellipse cx="264" cy="194" rx="16" ry="13" fill="#2a1c0e"/>
+        <!-- museau -->
+        <ellipse cx="250" cy="198" rx="9"  ry="7"  fill="#201408"/>
+        <!-- oreilles -->
+        <polygon points="260,184 265,170 270,183" fill="#2a1c0e"/>
+        <polygon points="270,182 276,168 281,181" fill="#2a1c0e"/>
+        <!-- jambes mulet -->
+        <rect x="290" y="235" width="12" height="28" rx="5" fill="#1e1408"/>
+        <rect x="315" y="237" width="12" height="26" rx="5" fill="#1e1408"/>
+        <rect x="348" y="235" width="12" height="28" rx="5" fill="#1e1408"/>
+        <rect x="372" y="237" width="12" height="26" rx="5" fill="#1e1408"/>
+        <!-- queue -->
+        <path d="M400,208 Q418,200 410,228" fill="none" stroke="#1e1408" stroke-width="7" stroke-linecap="round"/>
+        <!-- selle et bagages -->
+        <ellipse cx="340" cy="182" rx="40" ry="12" fill="#3a2810"/>
+        <!-- sacs de voyage -->
+        <rect x="360" y="174" width="32" height="22" rx="4" fill="#2a1e0e"/>
+        <rect x="300" y="175" width="28" height="20" rx="4" fill="#2a1e0e"/>
+        <!-- courroies -->
+        <path d="M300,178 Q330,172 360,178" fill="none" stroke="#c4622d" stroke-width="1.5" opacity=".5"/>
+
+        <!-- IBN BATTUTA (jeune, 21 ans) -->
+        <ellipse cx="330" cy="162" rx="16" ry="16" fill="#c8a870"/>
+        <!-- turban blanc -->
+        <path d="M314,158 Q318,142 330,140 Q342,142 346,158" fill="#e8e0d0" stroke="#d4c8a0" stroke-width="1"/>
+        <ellipse cx="330" cy="152" rx="18" ry="6" fill="#e8e0d0"/>
+        <!-- robe djellaba -->
+        <path d="M314,178 Q312,200 316,210 L330,212 L344,210 Q348,200 346,178 Q338,186 330,186 Q322,186 314,178Z" fill="#2a3830"/>
+        <!-- cape de voyage -->
+        <path d="M314,180 Q302,200 306,214 L314,208 L314,178Z" fill="#223028" opacity=".9"/>
+        <path d="M346,180 Q358,200 354,214 L346,208 L346,178Z" fill="#223028" opacity=".9"/>
+        <!-- il tient les rênes, regarde devant lui -->
+        <line x1="314" y1="185" x2="290" y2="198" stroke="#c8a870" stroke-width="6" stroke-linecap="round"/>
+        <line x1="314" y1="185" x2="295" y2="204" stroke="#2a1c0e" stroke-width="1.5" opacity=".6"/>
+        <!-- visage — regard vers l'horizon -->
+        <ellipse cx="334" cy="158" rx="5"  ry="4"  fill="#1a0e06" opacity=".6"/>
+
+        <!-- compagnon de route derrière -->
+        <ellipse cx="430" cy="222" rx="48" ry="22" fill="#241808"/>
+        <ellipse cx="395" cy="214" rx="18" ry="14" fill="#241808"/>
+        <ellipse cx="380" cy="210" rx="13" ry="11" fill="#1e1408"/>
+        <rect x="400" y="236" width="10" height="22" rx="4" fill="#1a1008"/>
+        <rect x="420" y="238" width="10" height="20" rx="4" fill="#1a1008"/>
+        <rect x="445" y="236" width="10" height="22" rx="4" fill="#1a1008"/>
+        <rect x="462" y="238" width="10" height="20" rx="4" fill="#1a1008"/>
+        <ellipse cx="418" cy="200" rx="13" ry="13" fill="#b09060"/>
+        <path d="M405,200 Q404,218 418,222 Q432,218 432,200 Q426,208 418,208 Q410,208 405,200Z" fill="#283828"/>
+        <!-- turban compagnon -->
+        <ellipse cx="418" cy="190" rx="15" ry="5" fill="#d8d0b8"/>
+        <rect x="410" y="180" width="16" height="12" rx="3" fill="#d8d0b8"/>
+
+        <!-- Palmiers sur la colline -->
+        <line x1="550" y1="105" x2="552" y2="72" stroke="#1a1408" stroke-width="3"/>
+        <ellipse cx="550" cy="68" rx="20" ry="10" fill="#1a1c08"/>
+        <line x1="572" y1="108" x2="574" y2="82" stroke="#1a1408" stroke-width="2.5"/>
+        <ellipse cx="572" cy="79" rx="16" ry="8"  fill="#1a1c08"/>
+
+        <!-- Poussière du chemin -->
+        <ellipse cx="340" cy="262" rx="90" ry="8" fill="#2a1c08" opacity=".4"/>
+        <ellipse cx="420" cy="264" rx="60" ry="6" fill="#2a1c08" opacity=".3"/>
+      </svg>
+    </div>
+
+    <p>En <strong>juin 1325</strong>, un jeune juriste de 21 ans enfourche son mulet à Tanger. Il part accomplir le <em>hajj</em> — le pèlerinage à La Mecque, obligation de tout musulman. Il prévoit d'être rentré dans l'année.</p>
+    <p>Il traversera l'Afrique du Nord, l'Égypte, la Syrie. Partout, il s'arrête, observe, note. Il rencontre des sultans, des saints, des marchands. La route le dévore — et lui, il se laisse dévorer avec délice.</p>
+    <blockquote>
+      <p>« Je partis seul, sans compagnon dont la société me fût agréable, ni caravane dont je pusse suivre la trace. »</p>
+      <cite>Ibn Battuta · La Rihla, 1325</cite>
+    </blockquote>
+    <p>Il ne rentrera à Tanger que <strong>vingt-neuf ans plus tard</strong>.</p>
+  </div>
+</section>
+
+<!-- ══ II — LA MECQUE ══ -->
+<section class="orient">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre II</span>
+    <h2>La Mecque — et le monde derrière</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 290" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>La Kaaba à La Mecque, foule de pèlerins</title>
+        <!-- Nuit à La Mecque, ciel violet profond -->
+        <rect x="0" y="0" width="640" height="290" fill="#08060e"/>
+        <ellipse cx="320" cy="0" rx="320" ry="100" fill="#16102a" opacity=".7"/>
+        <!-- Étoiles abondantes -->
+        <circle cx="50"  cy="20"  r="1.3" fill="#f0e2c0" style="animation:twinkle 2.1s ease-in-out infinite"/>
+        <circle cx="140" cy="12"  r="1"   fill="#f0e2c0" style="animation:twinkle 2.8s ease-in-out infinite .3s"/>
+        <circle cx="230" cy="25"  r="1.5" fill="#f0e2c0" style="animation:twinkle 3.2s ease-in-out infinite .7s"/>
+        <circle cx="320" cy="8"   r="1.2" fill="#f0e2c0" style="animation:twinkle 2.5s ease-in-out infinite .1s"/>
+        <circle cx="410" cy="18"  r="1"   fill="#f0e2c0" style="animation:twinkle 2s ease-in-out infinite .9s"/>
+        <circle cx="500" cy="28"  r="1.4" fill="#f0e2c0" style="animation:twinkle 3s ease-in-out infinite .4s"/>
+        <circle cx="590" cy="15"  r="1"   fill="#f0e2c0" style="animation:twinkle 2.6s ease-in-out infinite .6s"/>
+        <circle cx="80"  cy="45"  r=".9"  fill="#f0e2c0" style="animation:twinkle 2.3s ease-in-out infinite .2s"/>
+        <circle cx="380" cy="40"  r="1.1" fill="#f0e2c0" style="animation:twinkle 2.9s ease-in-out infinite .8s"/>
+        <circle cx="560" cy="42"  r=".8"  fill="#f0e2c0" opacity=".5"/>
+        <circle cx="460" cy="52"  r="1"   fill="#f0e2c0" opacity=".5"/>
+        <circle cx="170" cy="48"  r=".9"  fill="#f0e2c0" opacity=".4"/>
+        <!-- Croissant de lune -->
+        <circle cx="520" cy="50" r="22" fill="#16102a"/>
+        <circle cx="510" cy="46" r="19" fill="#08060e"/>
+        <!-- éclat du croissant -->
+        <path d="M532,36 Q548,50 532,64 Q545,50 535,38Z" fill="#f0e2c0" opacity=".25"/>
+
+        <!-- Sol / esplanade -->
+        <rect x="0" y="190" width="640" height="100" fill="#0c0a10"/>
+        <!-- dalles de l'esplanade -->
+        <line x1="0" y1="200" x2="640" y2="200" stroke="#1a1428" stroke-width="1"/>
+        <line x1="0" y1="215" x2="640" y2="215" stroke="#1a1428" stroke-width=".8"/>
+        <line x1="0" y1="230" x2="640" y2="230" stroke="#1a1428" stroke-width=".6"/>
+        <line x1="160" y1="190" x2="160" y2="290" stroke="#1a1428" stroke-width=".8"/>
+        <line x1="320" y1="190" x2="320" y2="290" stroke="#1a1428" stroke-width=".8"/>
+        <line x1="480" y1="190" x2="480" y2="290" stroke="#1a1428" stroke-width=".8"/>
+
+        <!-- Minarets de la mosquée -->
+        <rect x="80"  y="70"  width="16" height="130" rx="3" fill="#1a1428"/>
+        <rect x="74"  y="66"  width="28" height="8"   rx="2" fill="#1a1428"/>
+        <ellipse cx="88" cy="64" rx="12" ry="7" fill="#221c38"/>
+        <rect x="85"  y="52"  width="6"  height="14" rx="2" fill="#1a1428"/>
+        <rect x="84"  y="50"  width="8"  height="4"  rx="1" fill="#d4a030" opacity=".5"/>
+        <!-- fenêtres minaret allumées -->
+        <rect x="84"  y="80"  width="8"  height="12" rx="2" fill="#d4a030" opacity=".3" style="animation:shimmer 3s ease-in-out infinite"/>
+        <rect x="84"  y="110" width="8"  height="12" rx="2" fill="#d4a030" opacity=".2"/>
+
+        <rect x="545" y="72"  width="16" height="128" rx="3" fill="#1a1428"/>
+        <rect x="539" y="68"  width="28" height="8"   rx="2" fill="#1a1428"/>
+        <ellipse cx="553" cy="66" rx="12" ry="7" fill="#221c38"/>
+        <rect x="550" y="54"  width="6"  height="14" rx="2" fill="#1a1428"/>
+        <rect x="549" y="52"  width="8"  height="4"  rx="1" fill="#d4a030" opacity=".5"/>
+        <rect x="549" y="82"  width="8"  height="12" rx="2" fill="#d4a030" opacity=".28" style="animation:shimmer 2.5s ease-in-out infinite .4s"/>
+
+        <!-- Minarets secondaires -->
+        <rect x="180" y="100" width="12" height="95"  rx="2" fill="#161224" opacity=".9"/>
+        <rect x="175" y="97"  width="22" height="6"   rx="1" fill="#161224" opacity=".9"/>
+        <rect x="450" y="98"  width="12" height="97"  rx="2" fill="#161224" opacity=".9"/>
+        <rect x="445" y="95"  width="22" height="6"   rx="1" fill="#161224" opacity=".9"/>
+
+        <!-- KAABA centrale — cube noir drapé de soie -->
+        <rect x="264" y="115" width="112" height="80" rx="2" fill="#0a0810"/>
+        <rect x="264" y="115" width="112" height="80" rx="2" fill="none" stroke="#d4a030" stroke-width="1.5" opacity=".6"/>
+        <!-- bande de tissu brodée (la Kiswa) -->
+        <rect x="264" y="145" width="112" height="18" rx="0" fill="#1a1428"/>
+        <!-- calligraphie en or sur la bande -->
+        <line x1="274" y1="152" x2="368" y2="152" stroke="#d4a030" stroke-width="1.2" opacity=".6"/>
+        <line x1="274" y1="158" x2="368" y2="158" stroke="#d4a030" stroke-width=".8" opacity=".4"/>
+        <!-- porte de la Kaaba (en or) -->
+        <rect x="308" y="155" width="24" height="38" rx="2" fill="#0e0c14"/>
+        <rect x="308" y="155" width="24" height="38" rx="2" fill="none" stroke="#d4a030" stroke-width="2" opacity=".8"/>
+        <ellipse cx="316" cy="170" rx="4" ry="4" fill="#d4a030" opacity=".7" style="animation:shimmer 2s ease-in-out infinite"/>
+        <!-- halo lumineux autour de la Kaaba -->
+        <ellipse cx="320" cy="155" rx="90" ry="60" fill="#d4a030" opacity=".04"/>
+        <ellipse cx="320" cy="155" rx="60" ry="40" fill="#d4a030" opacity=".05"/>
+
+        <!-- Foule de pèlerins en blanc faisant le tawaf (circumambulation) -->
+        <!-- cercle de pèlerins -->
+        <g opacity=".8">
+          <!-- pèlerins (silhouettes blanches en cercle autour de la Kaaba) -->
+          <ellipse cx="235" cy="170" rx="9"  ry="9"  fill="#e8e0d0"/>
+          <rect x="226" y="179" width="18" height="26" rx="4" fill="#e8e0d0"/>
+          <ellipse cx="210" cy="155" rx="8"  ry="8"  fill="#e0d8c8"/>
+          <rect x="202" y="163" width="16" height="23" rx="4" fill="#e0d8c8"/>
+          <ellipse cx="222" cy="138" rx="8"  ry="8"  fill="#e8e0d0" opacity=".9"/>
+          <rect x="214" y="146" width="16" height="22" rx="4" fill="#e8e0d0" opacity=".9"/>
+          <ellipse cx="246" cy="128" rx="7"  ry="7"  fill="#e0d8c8" opacity=".9"/>
+          <rect x="239" y="135" width="14" height="20" rx="4" fill="#e0d8c8" opacity=".9"/>
+
+          <ellipse cx="405" cy="130" rx="8"  ry="8"  fill="#e8e0d0"/>
+          <rect x="397" y="138" width="16" height="22" rx="4" fill="#e8e0d0"/>
+          <ellipse cx="420" cy="148" rx="8"  ry="8"  fill="#e0d8c8"/>
+          <rect x="412" y="156" width="16" height="23" rx="4" fill="#e0d8c8"/>
+          <ellipse cx="412" cy="170" rx="9"  ry="9"  fill="#e8e0d0"/>
+          <rect x="403" y="179" width="18" height="26" rx="4" fill="#e8e0d0"/>
+          <ellipse cx="390" cy="188" rx="8"  ry="8"  fill="#e0d8c8" opacity=".9"/>
+          <rect x="382" y="196" width="16" height="22" rx="4" fill="#e0d8c8" opacity=".9"/>
+
+          <!-- pèlerins devant -->
+          <ellipse cx="280" cy="196" rx="10" ry="10" fill="#e8e0d0"/>
+          <rect x="270" y="206" width="20" height="30" rx="5" fill="#e8e0d0"/>
+          <ellipse cx="320" cy="202" rx="10" ry="10" fill="#e0d8c8"/>
+          <rect x="310" y="212" width="20" height="28" rx="5" fill="#e0d8c8"/>
+          <ellipse cx="360" cy="196" rx="10" ry="10" fill="#e8e0d0"/>
+          <rect x="350" y="206" width="20" height="28" rx="5" fill="#e8e0d0"/>
+        </g>
+
+        <!-- IBN BATTUTA parmi la foule, légèrement mis en avant -->
+        <ellipse cx="320" cy="152" rx="11" ry="11" fill="#c8a870"/>
+        <rect x="310" y="163" width="20" height="26" rx="5" fill="#2a3a28"/>
+        <!-- son turban blanc de hajji -->
+        <ellipse cx="320" cy="143" rx="13" ry="5"  fill="#f0ece0"/>
+        <rect x="312" y="132" width="16" height="13" rx="3" fill="#f0ece0"/>
+        <!-- mains en prière levées -->
+        <line x1="310" y1="168" x2="294" y2="154" stroke="#c8a870" stroke-width="6" stroke-linecap="round"/>
+        <line x1="330" y1="168" x2="346" y2="154" stroke="#c8a870" stroke-width="6" stroke-linecap="round"/>
+        <ellipse cx="291" cy="151" rx="7" ry="6" fill="#c8a870"/>
+        <ellipse cx="349" cy="151" rx="7" ry="6" fill="#c8a870"/>
+      </svg>
+    </div>
+
+    <p>Il atteint <strong>La Mecque</strong> en 1326 après seize mois de voyage. C'est le premier d'au moins <em>quatre pèlerinages</em> qu'il accomplira dans sa vie — car il reviendra plusieurs fois à La Mecque, toujours par des routes différentes.</p>
+    <p>Là, quelque chose se produit. Plutôt que de rentrer au Maroc, il décide de continuer vers l'Iraq, la Perse, le Yémen, l'Afrique de l'Est. La curiosité l'a mordu, et la morsure ne guérira jamais.</p>
+    <blockquote>
+      <p>« J'ai parcouru la Terre entière, à l'Orient et à l'Occident, et nulle part je n'ai trouvé de peuple plus hospitalier que les habitants de cette ville. »</p>
+      <cite>Ibn Battuta à propos de La Mecque · La Rihla</cite>
+    </blockquote>
+    <p>Il voyage comme les érudits voyagent à son époque : se recommandant de sultan en sultan, de cadi en cadi, vivant de la générosité du <em>réseau savant islamique</em> qui s'étend de l'Atlantique à la Chine.</p>
+  </div>
+</section>
+
+<!-- ══ III — L'INDE ET LES MALDIVES ══ -->
+<section class="mer">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre III</span>
+    <h2>Juge aux Maldives, naufragé en Chine</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 280" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Ibn Battuta sur les mers de l'océan Indien, navire arabe</title>
+        <!-- Mer tropicale, ciel de chaleur -->
+        <rect x="0" y="0" width="640" height="280" fill="#060e14"/>
+        <!-- ciel chaud nocturne -->
+        <ellipse cx="320" cy="-20" rx="340" ry="100" fill="#0a1e2a" opacity=".7"/>
+        <ellipse cx="100" cy="30"  rx="120" ry="50"  fill="#081828" opacity=".5"/>
+        <!-- étoiles tropicales -->
+        <circle cx="60"  cy="22"  r="1.3" fill="#c8e8f0" style="animation:twinkle 2.1s ease-in-out infinite"/>
+        <circle cx="180" cy="14"  r="1"   fill="#c8e8f0" style="animation:twinkle 2.8s ease-in-out infinite .4s"/>
+        <circle cx="300" cy="10"  r="1.5" fill="#c8e8f0" style="animation:twinkle 2.4s ease-in-out infinite .7s"/>
+        <circle cx="440" cy="18"  r="1.2" fill="#c8e8f0" style="animation:twinkle 3.1s ease-in-out infinite .2s"/>
+        <circle cx="560" cy="25"  r="1"   fill="#c8e8f0" style="animation:twinkle 2.7s ease-in-out infinite .9s"/>
+        <circle cx="380" cy="42"  r=".9"  fill="#c8e8f0" opacity=".5"/>
+        <circle cx="520" cy="38"  r="1"   fill="#c8e8f0" opacity=".5"/>
+        <circle cx="120" cy="44"  r=".8"  fill="#c8e8f0" opacity=".4"/>
+        <!-- Voie lactée suggérée -->
+        <path d="M0,50 Q160,30 320,40 Q480,50 640,28" fill="none" stroke="#c8e8f0" stroke-width=".5" opacity=".12"/>
+
+        <!-- Mer profonde en mouvement -->
+        <rect x="0" y="160" width="640" height="120" fill="#061018"/>
+        <path d="M0,162 Q80,152 160,162 Q240,172 320,162 Q400,152 480,162 Q560,172 640,162 L640,280 L0,280Z" fill="#071420" style="animation:wave 4s ease-in-out infinite"/>
+        <path d="M0,180 Q100,172 200,182 Q300,192 400,180 Q500,170 640,180 L640,280 L0,280Z" fill="#060e1a" style="animation:wave 5s ease-in-out infinite .6s"/>
+        <!-- phosphorescence de la mer -->
+        <path d="M100,168 Q140,163 180,168" fill="none" stroke="#2a7a7a" stroke-width="1.2" opacity=".3"/>
+        <path d="M400,165 Q440,160 480,165" fill="none" stroke="#2a7a7a" stroke-width="1.2" opacity=".25"/>
+
+        <!-- BOUTRE ARABE (dhow) au centre -->
+        <g style="animation:sway 5s ease-in-out infinite;transform-origin:320px 155px">
+          <!-- coque typique boutre arabe -->
+          <path d="M170,165 Q220,150 320,148 Q420,146 470,160 Q465,188 440,195 Q320,200 200,196 Q174,190 170,165Z" fill="#1a1008"/>
+          <!-- rehaut de coque (blanc) -->
+          <path d="M175,172 Q320,160 465,170" fill="none" stroke="#e8e0d0" stroke-width="1.5" opacity=".3"/>
+          <!-- étrave effilée du boutre -->
+          <path d="M170,165 Q155,165 140,178 Q148,182 170,178Z" fill="#1a1008"/>
+          <!-- poupe élevée -->
+          <rect x="432" y="140" width="42" height="58" rx="4" fill="#141008"/>
+          <rect x="440" y="132" width="30" height="12" rx="3" fill="#141008"/>
+          <!-- décorations poupe -->
+          <line x1="432" y1="155" x2="474" y2="155" stroke="#d4a030" stroke-width="1" opacity=".4"/>
+          <!-- mât central -->
+          <rect x="295" y="60"  width="7" height="90"  rx="2" fill="#120e08"/>
+          <!-- vergue oblique (caractéristique boutre) -->
+          <line x1="200" y1="110" x2="340" y2="65" stroke="#120e08" stroke-width="5" stroke-linecap="round"/>
+          <!-- grande voile triangulaire (voile latine arabe) -->
+          <path d="M204,112 Q240,85 335,68 Q320,105 298,148Z" fill="#d4c898" opacity=".8"/>
+          <!-- calligraphie sur la voile -->
+          <path d="M230,108 Q255,95 275,88" fill="none" stroke="#8a7040" stroke-width="1" opacity=".4"/>
+          <!-- mât avant -->
+          <rect x="390" y="88"  width="5" height="68"  rx="1" fill="#120e08"/>
+          <!-- petite voile avant -->
+          <path d="M390,92 Q415,100 418,150 L393,148Z" fill="#c8b878" opacity=".7"/>
+          <!-- drapeaux -->
+          <rect x="295" y="60"  width="20" height="12" rx="1" fill="#c4622d" opacity=".8"/>
+          <!-- cordes/haubans -->
+          <line x1="298" y1="62"  x2="200" y2="150" stroke="#120e08" stroke-width="1.2" opacity=".5"/>
+          <line x1="298" y1="62"  x2="432" y2="145" stroke="#120e08" stroke-width="1.2" opacity=".5"/>
+          <!-- marins silhouettes -->
+          <ellipse cx="240" cy="168" rx="8"  ry="8"  fill="#3a2a18"/>
+          <rect x="232" y="176" width="16" height="20" rx="4" fill="#2a1c10"/>
+          <ellipse cx="360" cy="166" rx="8"  ry="8"  fill="#3a2a18"/>
+          <rect x="352" y="174" width="16" height="22" rx="4" fill="#2a1c10"/>
+          <!-- IBN BATTUTA à la poupe, observant, avec un carnet -->
+          <ellipse cx="450" cy="150" rx="11" ry="11" fill="#c8a870"/>
+          <path d="M439,161 Q439,178 450,181 Q461,178 461,161 Q455,168 450,168 Q445,168 439,161Z" fill="#283a28"/>
+          <!-- turban -->
+          <ellipse cx="450" cy="141" rx="13" ry="5"  fill="#f0e8d0"/>
+          <rect x="443" y="130" width="14" height="13" rx="3" fill="#f0e8d0"/>
+          <!-- carnet de notes dans la main -->
+          <rect x="434" y="162" width="14" height="10" rx="2" fill="#e8d8a0" opacity=".8"/>
+          <line x1="437" y1="165" x2="445" y2="165" stroke="#8a7040" stroke-width=".8" opacity=".5"/>
+          <line x1="437" y1="168" x2="445" y2="168" stroke="#8a7040" stroke-width=".8" opacity=".4"/>
+        </g>
+
+        <!-- Île tropicale à l'horizon (Maldives) -->
+        <ellipse cx="560" cy="160" rx="55" ry="10" fill="#0c1c0a"/>
+        <!-- palmiers de l'île -->
+        <line x1="545" y1="160" x2="547" y2="140" stroke="#0c1c0a" stroke-width="2.5"/>
+        <ellipse cx="545" cy="137" rx="12" ry="6"  fill="#0e1e0c"/>
+        <line x1="560" y1="160" x2="562" y2="144" stroke="#0c1c0a" stroke-width="2"/>
+        <ellipse cx="561" cy="141" rx="10" ry="5"  fill="#0e1e0c"/>
+        <line x1="575" y1="161" x2="577" y2="148" stroke="#0c1c0a" stroke-width="2"/>
+        <ellipse cx="576" cy="145" rx="9"  ry="5"  fill="#0e1e0c"/>
+        <!-- reflet île sur l'eau -->
+        <ellipse cx="560" cy="170" rx="35" ry="5"  fill="#0a1808" opacity=".5"/>
+
+        <!-- Dauphin / poisson volant en premier plan -->
+        <path d="M80,175 Q100,165 118,175 Q112,180 80,180Z" fill="#1a3040" opacity=".6"/>
+        <path d="M96,165 Q104,158 108,168" fill="none" stroke="#1a3040" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+      </svg>
+    </div>
+
+    <p>En <strong>1334</strong>, Ibn Battuta atteint l'Inde. Le sultan de Delhi, impressionné par sa réputation d'érudit, le nomme <em>cadi</em> (juge islamique) — un rôle qu'il exercera aussi aux <strong>Maldives</strong>, dont il deviendra presque le gouverneur malgré lui, se mariant plusieurs fois, avant de fuir quand les obligations deviennent trop pesantes.</p>
+    <p>Il essaiera d'atteindre la <strong>Chine</strong> — son bateau sera détruit dans une tempête avant même qu'il ait pu embarquer. Il y parviendra finalement, visitant Hangzhou et Pékin, observant tout avec ses yeux de juriste-voyageur : les jonques géantes, le papier-monnaie, les feux d'artifice.</p>
+    <blockquote>
+      <p>« Les Chinois sont les meilleurs artisans du monde entier. »</p>
+      <cite>Ibn Battuta · La Rihla</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ══ IV — LE MALI ══ -->
+<section class="afrique">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre IV</span>
+    <h2>Le Mali — et l'or de Mansa Moussa</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 280" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Ibn Battuta à la cour de l'Empire du Mali, mosquée de Djenné</title>
+        <!-- Coucher de soleil sahélien, ciel orangé -->
+        <rect x="0" y="0" width="640" height="280" fill="#0e0804"/>
+        <ellipse cx="320" cy="-30" rx="330" ry="130" fill="#3a1808" opacity=".5"/>
+        <ellipse cx="160" cy="20"  rx="160" ry="70"  fill="#4a2010" opacity=".3"/>
+        <ellipse cx="500" cy="10"  rx="140" ry="60"  fill="#4a2010" opacity=".25"/>
+        <!-- soleil couchant -->
+        <circle cx="320" cy="60" r="38" fill="#d4a030" opacity=".12"/>
+        <circle cx="320" cy="60" r="26" fill="#d4a030" opacity=".1"/>
+        <circle cx="320" cy="60" r="16" fill="#d4a030" opacity=".08"/>
+
+        <!-- Mosquée de Djenné en silhouette (style soudano-sahélien) -->
+        <!-- corps principal -->
+        <rect x="220" y="100" width="200" height="120" rx="3" fill="#1e1008"/>
+        <!-- tours en pisé avec épis de bois -->
+        <!-- tour gauche -->
+        <rect x="200" y="72"  width="46" height="132" rx="3" fill="#1a0e06"/>
+        <ellipse cx="223" cy="70" rx="24" ry="10" fill="#221408"/>
+        <!-- épis de bois (troncs qui dépassent) -->
+        <line x1="210" y1="82"  x2="196" y2="82"  stroke="#1a0e06" stroke-width="5" stroke-linecap="round"/>
+        <line x1="210" y1="96"  x2="196" y2="96"  stroke="#1a0e06" stroke-width="5" stroke-linecap="round"/>
+        <line x1="210" y1="112" x2="196" y2="112" stroke="#1a0e06" stroke-width="5" stroke-linecap="round"/>
+        <line x1="210" y1="128" x2="196" y2="128" stroke="#1a0e06" stroke-width="5" stroke-linecap="round"/>
+        <line x1="236" y1="82"  x2="250" y2="82"  stroke="#1a0e06" stroke-width="5" stroke-linecap="round"/>
+        <line x1="236" y1="96"  x2="250" y2="96"  stroke="#1a0e06" stroke-width="5" stroke-linecap="round"/>
+        <line x1="236" y1="112" x2="250" y2="112" stroke="#1a0e06" stroke-width="5" stroke-linecap="round"/>
+        <!-- tour droite -->
+        <rect x="394" y="76"  width="46" height="128" rx="3" fill="#1a0e06"/>
+        <ellipse cx="417" cy="74" rx="24" ry="10" fill="#221408"/>
+        <line x1="404" y1="86"  x2="390" y2="86"  stroke="#1a0e06" stroke-width="5" stroke-linecap="round"/>
+        <line x1="404" y1="102" x2="390" y2="102" stroke="#1a0e06" stroke-width="5" stroke-linecap="round"/>
+        <line x1="404" y1="118" x2="390" y2="118" stroke="#1a0e06" stroke-width="5" stroke-linecap="round"/>
+        <line x1="430" y1="86"  x2="444" y2="86"  stroke="#1a0e06" stroke-width="5" stroke-linecap="round"/>
+        <line x1="430" y1="102" x2="444" y2="102" stroke="#1a0e06" stroke-width="5" stroke-linecap="round"/>
+        <!-- tour centrale / minaret -->
+        <rect x="293" y="56"  width="54" height="68"  rx="3" fill="#201208"/>
+        <ellipse cx="320" cy="54" rx="28" ry="11" fill="#2a1808"/>
+        <rect x="305" y="36"  width="30" height="22"  rx="2" fill="#1a0e06"/>
+        <ellipse cx="320" cy="34" rx="16" ry="7"  fill="#221408"/>
+        <rect x="313" y="20"  width="14" height="16"  rx="2" fill="#1a0e06"/>
+        <ellipse cx="320" cy="18" rx="8"  ry="5"  fill="#221408"/>
+        <rect x="317" y="6"   width="6"  height="14"  rx="1" fill="#c4622d" opacity=".7"/>
+        <!-- porte de la mosquée -->
+        <rect x="300" y="160" width="40" height="60"  rx="4" fill="#0e0804"/>
+        <!-- arche ogivale -->
+        <ellipse cx="320" cy="162" rx="20" ry="12" fill="#0e0804"/>
+        <!-- lumière de la porte -->
+        <ellipse cx="320" cy="175" rx="14" ry="20" fill="#d4a030" opacity=".08"/>
+
+        <!-- Sol / place de la mosquée -->
+        <rect x="0" y="200" width="640" height="80" fill="#0c0806"/>
+        <ellipse cx="320" cy="202" rx="320" ry="10" fill="#120e08"/>
+
+        <!-- COUR DU MALI : cortège du Mansa (roi) -->
+        <!-- Garde à cheval gauche -->
+        <ellipse cx="100" cy="192" rx="38" ry="18" fill="#2a1a0c"/>
+        <ellipse cx="74"  cy="184" rx="15" ry="12" fill="#2a1a0c"/>
+        <ellipse cx="61"  cy="182" rx="11" ry="9"  fill="#221408"/>
+        <rect x="72"  y="208" width="9"  height="20" rx="4" fill="#1e1408"/>
+        <rect x="88"  y="210" width="9"  height="18" rx="4" fill="#1e1408"/>
+        <rect x="108" y="208" width="9"  height="20" rx="4" fill="#1e1408"/>
+        <rect x="122" y="210" width="9"  height="18" rx="4" fill="#1e1408"/>
+        <ellipse cx="96"  cy="176" rx="12" ry="12" fill="#b09060"/>
+        <rect x="84"  y="188" width="24" height="26" rx="5" fill="#3a2810"/>
+        <!-- lance / épée du garde -->
+        <line x1="108" y1="176" x2="112" y2="148" stroke="#c4622d" stroke-width="3" stroke-linecap="round"/>
+
+        <!-- Mansa sur litière / porteurs -->
+        <!-- litière -->
+        <rect x="246" y="172" width="148" height="40" rx="6" fill="#2a1808"/>
+        <rect x="246" y="168" width="148" height="10" rx="3" fill="#3a2210"/>
+        <!-- tentures de la litière -->
+        <rect x="250" y="178" width="140" height="28" rx="3" fill="#3a1408"/>
+        <!-- broderies or -->
+        <path d="M255,183 Q320,178 385,183" fill="none" stroke="#d4a030" stroke-width="1.2" opacity=".6"/>
+        <path d="M255,192 Q320,188 385,192" fill="none" stroke="#d4a030" stroke-width=".8" opacity=".4"/>
+        <!-- barres de portage -->
+        <rect x="230" y="174" width="20" height="6"  rx="2" fill="#2a1808"/>
+        <rect x="390" y="174" width="20" height="6"  rx="2" fill="#2a1808"/>
+        <!-- porteurs -->
+        <ellipse cx="218" cy="198" rx="10" ry="10" fill="#6a4028"/>
+        <rect x="208" y="208" width="20" height="28" rx="5" fill="#4a2818"/>
+        <ellipse cx="402" cy="198" rx="10" ry="10" fill="#6a4028"/>
+        <rect x="392" y="208" width="20" height="28" rx="5" fill="#4a2818"/>
+        <!-- Mansa (roi du Mali) dans la litière -->
+        <ellipse cx="320" cy="170" rx="14" ry="14" fill="#8a5030"/>
+        <rect x="306" y="184" width="28" height="22" rx="5" fill="#4a1808"/>
+        <!-- couronne / bonnet royal -->
+        <ellipse cx="320" cy="157" rx="16" ry="6"  fill="#d4a030"/>
+        <rect x="312" y="146" width="16" height="13" rx="2" fill="#d4a030"/>
+        <circle cx="320" cy="147" r="4"  fill="#c4622d" style="animation:shimmer 2s ease-in-out infinite"/>
+
+        <!-- IBN BATTUTA à gauche de la procession, prenant des notes -->
+        <ellipse cx="168" cy="185" rx="11" ry="11" fill="#c8a870"/>
+        <rect x="157" y="196" width="22" height="26" rx="5" fill="#283828"/>
+        <path d="M157,200 Q148,215 151,222 L157,218 L157,196Z" fill="#1e2820" opacity=".9"/>
+        <!-- turban -->
+        <ellipse cx="168" cy="176" rx="13" ry="5"  fill="#f0e8d0"/>
+        <rect x="161" y="165" width="14" height="13" rx="3" fill="#f0e8d0"/>
+        <!-- carnet et plume -->
+        <line x1="168" y1="196" x2="152" y2="192" stroke="#c8a870" stroke-width="5" stroke-linecap="round"/>
+        <rect x="138" y="186" width="16" height="12" rx="2" fill="#e8d8a0" opacity=".8"/>
+        <line x1="138" y1="186" x2="133" y2="178" stroke="#c8a870" stroke-width="1.5" opacity=".7"/>
+        <!-- plume d'oie -->
+        <path d="M133,178 Q128,172 130,168 Q134,166 136,170 L133,178Z" fill="#e8e8d0" opacity=".7"/>
+
+        <!-- Nuage de poussière -->
+        <ellipse cx="500" cy="204" rx="70" ry="10" fill="#2a1808" opacity=".4"/>
+        <!-- garde droite -->
+        <ellipse cx="540" cy="194" rx="35" ry="16" fill="#2a1a0c" opacity=".8"/>
+        <ellipse cx="518" cy="186" rx="14" ry="11" fill="#221408" opacity=".8"/>
+        <ellipse cx="507" cy="184" rx="10" ry="8"  fill="#1e1408" opacity=".8"/>
+        <rect x="518" y="204" width="8"  height="18" rx="3" fill="#1e1408" opacity=".8"/>
+        <rect x="530" y="206" width="8"  height="16" rx="3" fill="#1e1408" opacity=".8"/>
+        <ellipse cx="530" cy="178" rx="11" ry="11" fill="#b09060" opacity=".8"/>
+        <rect x="519" y="189" width="22" height="22" rx="4" fill="#3a2810" opacity=".8"/>
+      </svg>
+    </div>
+
+    <p>Rentré au Maroc en 1349, Ibn Battuta ne tient pas en place. En <strong>1352</strong>, il repart vers l'<strong>Empire du Mali</strong> — le plus riche du monde à l'époque, célèbre depuis que Mansa Moussa avait traversé l'Égypte en 1324 avec des tonnes d'or, effondrant le cours du métal jaune pendant des années.</p>
+    <p>Il traverse le <strong>Sahara</strong>, atteint Tombouctou et les villes du Mali. Il observe tout — les rites de cour, le commerce du sel et de l'or, les femmes qui circulent le visage découvert (ce qui le choque profondément), la justice du roi.</p>
+    <blockquote>
+      <p>« Les Noirs sont les plus justes des peuples et les plus enclins à détester l'injustice. »</p>
+      <cite>Ibn Battuta à propos du Mali · La Rihla</cite>
+    </blockquote>
+    <p>C'est son dernier grand voyage. Il rentre définitivement au Maroc en <strong>1354</strong>, à l'âge de cinquante ans.</p>
+  </div>
+</section>
+
+<!-- ══ V — LA RIHLA ══ -->
+<section class="dark3">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre V</span>
+    <h2>La Rihla — écrire le monde</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 240" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Ibn Battuta dictant la Rihla à Ibn Juzayy</title>
+        <!-- Salle de scriptorium -->
+        <rect x="0" y="0" width="640" height="240" fill="#0a0c14"/>
+        <!-- voûte arabe, architecture intérieure -->
+        <path d="M0,0 Q320,-30 640,0 L640,60 Q320,30 0,60Z" fill="#0e1020" opacity=".6"/>
+        <!-- arche centrale -->
+        <path d="M220,0 Q320,-25 420,0 L420,80 Q320,55 220,80Z" fill="#0c0e1c" opacity=".5"/>
+        <!-- colonnes -->
+        <rect x="90"  y="30" width="12" height="180" rx="3" fill="#10121e" opacity=".8"/>
+        <rect x="84"  y="28" width="24" height="8"   rx="2" fill="#10121e" opacity=".8"/>
+        <rect x="540" y="30" width="12" height="180" rx="3" fill="#10121e" opacity=".8"/>
+        <rect x="534" y="28" width="24" height="8"   rx="2" fill="#10121e" opacity=".8"/>
+        <!-- lanternes à huile -->
+        <ellipse cx="90"  cy="26" rx="8"  ry="5"  fill="#d4a030" opacity=".25" style="animation:shimmer 3s ease-in-out infinite"/>
+        <ellipse cx="546" cy="26" rx="8"  ry="5"  fill="#d4a030" opacity=".25" style="animation:shimmer 2.6s ease-in-out infinite .4s"/>
+        <!-- lumière des lanternes -->
+        <ellipse cx="90"  cy="80" rx="40" ry="80" fill="#d4a030" opacity=".04"/>
+        <ellipse cx="546" cy="80" rx="40" ry="80" fill="#d4a030" opacity=".03"/>
+
+        <!-- Sol dallé -->
+        <rect x="0" y="200" width="640" height="40" fill="#080a12"/>
+        <line x1="0" y1="208" x2="640" y2="208" stroke="#10121e" stroke-width="1"/>
+        <line x1="160" y1="200" x2="160" y2="240" stroke="#10121e" stroke-width="1"/>
+        <line x1="320" y1="200" x2="320" y2="240" stroke="#10121e" stroke-width="1"/>
+        <line x1="480" y1="200" x2="480" y2="240" stroke="#10121e" stroke-width="1"/>
+
+        <!-- Grande table de travail -->
+        <rect x="140" y="155" width="360" height="55" rx="5" fill="#140e0a"/>
+        <rect x="140" y="152" width="360" height="8"  rx="2" fill="#1c1410"/>
+        <!-- pieds de table -->
+        <rect x="155" y="208" width="12" height="20" rx="2" fill="#120e0a"/>
+        <rect x="473" y="208" width="12" height="20" rx="2" fill="#120e0a"/>
+
+        <!-- PARCHEMINS et livres sur la table -->
+        <!-- grand parchemin ouvert -->
+        <rect x="195" y="140" width="180" height="80" rx="4" fill="#e8d8a0" opacity=".85"/>
+        <!-- lignes de texte arabe stylisées -->
+        <line x1="210" y1="155" x2="360" y2="155" stroke="#5a4020" stroke-width="1.2" opacity=".5"/>
+        <line x1="210" y1="163" x2="358" y2="163" stroke="#5a4020" stroke-width="1"   opacity=".4"/>
+        <line x1="210" y1="171" x2="360" y2="171" stroke="#5a4020" stroke-width="1.2" opacity=".45"/>
+        <line x1="210" y1="179" x2="355" y2="179" stroke="#5a4020" stroke-width="1"   opacity=".4"/>
+        <line x1="210" y1="187" x2="358" y2="187" stroke="#5a4020" stroke-width="1.2" opacity=".4"/>
+        <line x1="210" y1="195" x2="352" y2="195" stroke="#5a4020" stroke-width="1"   opacity=".35"/>
+        <!-- quelques mots arabes stylisés -->
+        <text font-family="'EB Garamond',Georgia,serif" font-size="10" fill="#5a4020" x="215" y="153" opacity=".5">رحلة ابن بطوطة</text>
+        <!-- encrier -->
+        <ellipse cx="182" cy="158" rx="10" ry="10" fill="#1a1410"/>
+        <ellipse cx="182" cy="156" rx="8"  ry="7"  fill="#0e0c08"/>
+        <!-- plume d'oie -->
+        <path d="M182,156 Q178,130 170,118 Q176,122 182,116 Q182,130 186,156Z" fill="#e8e0d0" opacity=".8"/>
+        <!-- livre fermé à gauche -->
+        <rect x="392" y="152" width="60" height="50" rx="3" fill="#3a2010"/>
+        <rect x="390" y="150" width="64" height="10" rx="2" fill="#4a2a18"/>
+        <line x1="390" y1="160" x2="454" y2="160" stroke="#d4a030" stroke-width=".8" opacity=".3"/>
+        <!-- fermeture dorée -->
+        <rect x="449" y="165" width="8"  height="25" rx="2" fill="#d4a030" opacity=".5"/>
+
+        <!-- IBN BATTUTA assis à gauche, vieux (50 ans), en posture de récit -->
+        <ellipse cx="175" cy="138" rx="16" ry="16" fill="#b09060"/>
+        <rect x="159" y="154" width="32" height="45" rx="6" fill="#283828"/>
+        <!-- barbe blanche de vieux voyageur -->
+        <path d="M163,148 Q166,162 175,165 Q184,162 187,148" fill="none" stroke="#e0d8c0" stroke-width="5" stroke-linecap="round"/>
+        <!-- turban -->
+        <ellipse cx="175" cy="126" rx="18" ry="6"  fill="#f0e8d0"/>
+        <rect x="166" y="115" width="18" height="13" rx="3" fill="#f0e8d0"/>
+        <!-- bras tendu, racontant, geste large -->
+        <line x1="159" y1="165" x2="135" y2="150" stroke="#b09060" stroke-width="7" stroke-linecap="round"/>
+        <ellipse cx="130" cy="147" rx="9"  ry="8"  fill="#b09060"/>
+        <!-- regard vif -->
+        <ellipse cx="179" cy="136" rx="4"  ry="3"  fill="#1a0e06" opacity=".7"/>
+
+        <!-- IBN JUZAYY (le scribe) à droite, plume à la main -->
+        <ellipse cx="465" cy="140" rx="14" ry="14" fill="#a08060"/>
+        <rect x="451" y="154" width="28" height="44" rx="6" fill="#1e2838"/>
+        <!-- barbe plus jeune -->
+        <path d="M455,150 Q458,162 465,164 Q472,162 475,150" fill="none" stroke="#8a7040" stroke-width="4" stroke-linecap="round"/>
+        <!-- turban bleu -->
+        <ellipse cx="465" cy="129" rx="16" ry="6"  fill="#2a3a58"/>
+        <rect x="457" y="118" width="16" height="13" rx="3" fill="#2a3a58"/>
+        <!-- bras sur la table, tenant la plume -->
+        <line x1="451" y1="162" x2="430" y2="172" stroke="#a08060" stroke-width="6" stroke-linecap="round"/>
+        <line x1="430" y1="172" x2="418" y2="158" stroke="#a08060" stroke-width="2" opacity=".7"/>
+        <path d="M418,158 Q414,148 416,143 Q420,141 422,146 L418,158Z" fill="#e8e0d0" opacity=".7"/>
+
+        <!-- Titre du livre flottant au dessus -->
+        <text font-family="'Cinzel',serif" font-size="14" font-weight="600" fill="#d4a030" text-anchor="middle" x="320" y="40" opacity=".75" letter-spacing="3">A  R R I Ḥ L A</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="11" fill="#f0e2c0" text-anchor="middle" x="320" y="58" opacity=".45" font-style="italic">« Cadeau à ceux qui scrutent les horizons »</text>
+        <line x1="220" y1="65" x2="420" y2="65" stroke="#d4a030" stroke-width=".6" opacity=".3"/>
+      </svg>
+    </div>
+
+    <p>De retour à Fès, le sultan Abu Inan du Maroc demande à Ibn Battuta de dicter ses souvenirs. Pendant deux ans, <strong>Ibn Juzayy</strong>, un lettré andalou, transcrit et embellit le récit. La <em>Rihla</em> — littéralement "Le Voyage" — voit le jour en 1355.</p>
+    <p>C'est une mine d'or pour l'histoire médiévale. <strong>44 pays, des centaines de villes</strong>, des sultans, des saints, des marchés, des tremblements de terre, des épidémies de peste, des fastes de cours. Aucun autre voyageur de l'époque n'a laissé un témoignage aussi étendu.</p>
+    <blockquote>
+      <p>« Il a surpassé en ce domaine tous ceux qui ont voyagé avant lui et on peut s'attendre à ce que personne ne l'égale à l'avenir. »</p>
+      <cite>Ibn Juzayy · Préface de la Rihla, 1355</cite>
+    </blockquote>
+    <p>Ibn Battuta mourra vers <strong>1368</strong> à Tanger, ou peut-être au Maroc profond. Là où il avait commencé — mais après avoir tout vu.</p>
+  </div>
+</section>
+
+<!-- ══ FIN ══ -->
+<section class="dark2 ending">
+  <span class="ornament">✦ ✦ ✦</span>
+  <h2>Ce que l'histoire nous dit</h2>
+  <div class="divider"></div>
+  <p class="moral">Ibn Battuta est parti pour trouver Dieu à La Mecque. Il a fini par trouver le monde entier.</p>
+  <p class="moral">À une époque sans passeport, sans GPS, sans avion — cet homme a parcouru plus de distance que n'importe quel être humain de son temps, armé seulement de sa curiosité et de sa foi.</p>
+  <p class="moral">Il nous rappelle que voyager, ce n'est pas fuir quelque chose. C'est choisir de ne jamais cesser d'apprendre.</p>
+  <div class="divider"></div>
+  <span class="ref">1304 – 1368 · Tanger · 120 000 km · La Rihla</span>
+</section>
+
+</body>
+</html>
