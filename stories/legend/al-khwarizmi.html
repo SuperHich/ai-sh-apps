@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al-Khwarizmi – Le père de l'algèbre</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+  :root {
+    --lapis:#1a2a5a;    /* bleu lapis-lazuli abbasside */
+    --turq:#2a8a7a;     /* turquoise */
+    --sable:#f0e4c0;    /* parchemin */
+    --or:#d4a020;       /* or */
+    --grenat:#8a2020;   /* grenat */
+    --encre:#080608;
+    --dark:#0a080e;
+    --dark2:#0c0a12;
+    --dark3:#080a0e;
+    --serif:'EB Garamond','Georgia',serif;
+    --display:'Cinzel','Trajan Pro',serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--encre);color:var(--sable);
+    font-family:var(--serif);font-size:1.15em;line-height:1.8;
+    scroll-snap-type:y proximity;overflow-y:scroll;height:100vh;
+  }
+  ::selection{background:#2a4a8a;color:var(--sable);}
+
+  section{
+    min-height:100vh;scroll-snap-align:start;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:80px 24px;position:relative;overflow:hidden;
+  }
+  section.dark {background:var(--dark);}
+  section.dark2{background:var(--dark2);}
+  section.dark3{background:var(--dark3);}
+
+  section.hero-bg{
+    background:
+      radial-gradient(ellipse at 50% 60%,rgba(26,42,90,.5)  0%,transparent 65%),
+      radial-gradient(ellipse at 80% 10%,rgba(212,160,32,.1) 0%,transparent 50%),
+      var(--dark);
+  }
+  section.maison-sagesse{
+    background:
+      radial-gradient(ellipse at 30% 70%,rgba(212,160,32,.14) 0%,transparent 55%),
+      radial-gradient(ellipse at 80% 20%,rgba(42,138,122,.1)  0%,transparent 50%),
+      var(--dark2);
+  }
+  section.algebra-bg{
+    background:
+      radial-gradient(ellipse at 50% 40%,rgba(26,42,90,.4)   0%,transparent 60%),
+      radial-gradient(ellipse at 20% 80%,rgba(212,160,32,.12) 0%,transparent 50%),
+      var(--dark3);
+  }
+  section.chiffres-bg{
+    background:
+      radial-gradient(ellipse at 60% 50%,rgba(42,138,122,.2)  0%,transparent 60%),
+      radial-gradient(ellipse at 10% 20%,rgba(212,160,32,.1)  0%,transparent 50%),
+      var(--dark);
+  }
+  section.heritage-bg{
+    background:
+      radial-gradient(ellipse at 40% 60%,rgba(138,32,32,.2)   0%,transparent 55%),
+      radial-gradient(ellipse at 80% 20%,rgba(212,160,32,.12) 0%,transparent 50%),
+      var(--dark2);
+  }
+
+  .divider{width:120px;height:1px;background:linear-gradient(to right,transparent,rgba(212,160,32,.7),transparent);margin:26px auto;}
+
+  .hero-sec{text-align:center;}
+  .roman-num{font-family:var(--display);font-size:.87em;letter-spacing:6px;color:rgba(212,160,32,.65);text-transform:uppercase;margin-bottom:18px;display:block;}
+  h1{
+    font-family:var(--display);font-size:clamp(2em,6vw,4.6em);font-weight:800;
+    line-height:1.1;text-transform:uppercase;letter-spacing:2px;
+    background:linear-gradient(155deg,var(--sable) 20%,var(--or) 55%,var(--turq) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px;
+  }
+  .sub{font-family:var(--display);font-size:clamp(.8em,2vw,.96em);color:rgba(212,160,32,.7);letter-spacing:3px;text-transform:uppercase;margin-bottom:22px;}
+  .tagline{font-style:italic;color:rgba(240,228,192,.52);font-size:1.18em;max-width:520px;margin:0 auto 38px;}
+  .scroll-cue{
+    display:inline-block;font-family:var(--display);font-size:.75em;
+    letter-spacing:4px;text-transform:uppercase;color:rgba(212,160,32,.6);
+    animation:pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:.35;transform:translateY(0);}50%{opacity:.85;transform:translateY(7px);}}
+
+  .chapter{max-width:680px;width:100%;text-align:center;}
+  .chapter-num{font-family:var(--display);font-size:.75em;letter-spacing:5px;color:rgba(138,32,32,.9);text-transform:uppercase;margin-bottom:12px;display:block;}
+  h2{font-family:var(--display);font-size:clamp(1.4em,3.8vw,2.2em);font-weight:600;color:var(--or);text-transform:uppercase;letter-spacing:2px;margin-bottom:26px;}
+  p{text-align:justify;color:rgba(240,228,192,.83);font-size:1.04em;margin-bottom:14px;}
+  blockquote{border-left:3px solid rgba(212,160,32,.55);margin:26px 0;padding:14px 24px;text-align:left;background:rgba(212,160,32,.05);border-radius:0 4px 4px 0;}
+  blockquote p{font-style:italic;color:var(--sable);font-size:1.14em;margin:0;}
+  blockquote cite{display:block;margin-top:8px;font-size:.74em;letter-spacing:2px;text-transform:uppercase;color:rgba(212,160,32,.65);font-style:normal;}
+  strong{color:var(--sable);font-weight:600;}
+  em{color:rgba(212,160,32,.9);font-style:italic;}
+
+  .illus{width:100%;max-width:640px;margin:0 auto 34px;border-radius:6px;overflow:hidden;}
+  .illus svg{display:block;width:100%;}
+
+  .ending{text-align:center;}
+  .ending .ornament{font-size:2em;color:rgba(212,160,32,.7);display:block;margin-bottom:22px;letter-spacing:12px;}
+  .ending .moral{font-style:italic;font-size:1.18em;color:rgba(240,228,192,.72);max-width:560px;margin:0 auto 24px;text-align:center;}
+  .ending .ref{font-family:var(--display);font-size:.72em;letter-spacing:3px;color:rgba(138,32,32,.8);text-transform:uppercase;}
+
+  @keyframes shimmer{0%,100%{opacity:.45;}50%{opacity:1;}}
+  @keyframes twinkle{0%,100%{opacity:.2;}50%{opacity:.95;}}
+  @keyframes flicker{0%,100%{opacity:.55;}50%{opacity:1;}}
+  @keyframes drift{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+  @keyframes writeon{0%{stroke-dashoffset:400;}100%{stroke-dashoffset:0;}}
+
+  @media(max-width:600px){section{padding:50px 16px;}h1{font-size:2em;}}
+  @media(prefers-reduced-motion:reduce){.scroll-cue{animation:none;}}
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+<!-- ══ HERO ══ -->
+<section class="hero-bg hero-sec">
+
+  <div style="width:100%;max-width:580px;margin:0 auto 32px;">
+    <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="580" height="200" fill="#06040c"/>
+      <!-- motif géométrique islamique en fond -->
+      <!-- étoiles à 8 branches -->
+      <g opacity=".12" stroke="#d4a020" stroke-width=".8" fill="none">
+        <!-- étoile centrale -->
+        <polygon points="290,40 302,68 332,68 310,86 318,116 290,98 262,116 270,86 248,68 278,68" transform="scale(1.2) translate(-52,-8)"/>
+        <!-- petites étoiles -->
+        <polygon points="80,80 88,100 110,100 93,113 99,133 80,120 61,133 67,113 50,100 72,100"/>
+        <polygon points="500,80 508,100 530,100 513,113 519,133 500,120 481,133 487,113 470,100 492,100"/>
+        <polygon points="80,150 88,170 110,170 93,183 99,203 80,190 61,203 67,183 50,170 72,170" opacity=".6"/>
+        <polygon points="500,150 508,170 530,170 513,183 519,203 500,190 481,203 487,183 470,170 492,170" opacity=".6"/>
+      </g>
+      <!-- lignes de grille géométrique -->
+      <line x1="0" y1="100" x2="580" y2="100" stroke="#1a2a5a" stroke-width=".8" opacity=".3"/>
+      <line x1="290" y1="0" x2="290" y2="200" stroke="#1a2a5a" stroke-width=".8" opacity=".3"/>
+      <line x1="0" y1="0" x2="580" y2="200" stroke="#1a2a5a" stroke-width=".5" opacity=".2"/>
+      <line x1="580" y1="0" x2="0" y2="200" stroke="#1a2a5a" stroke-width=".5" opacity=".2"/>
+      <!-- cercle géométrique central -->
+      <circle cx="290" cy="100" r="70" fill="none" stroke="#d4a020" stroke-width=".8" opacity=".3"/>
+      <circle cx="290" cy="100" r="50" fill="none" stroke="#d4a020" stroke-width=".6" opacity=".2"/>
+      <circle cx="290" cy="100" r="30" fill="none" stroke="#2a8a7a" stroke-width=".8" opacity=".3"/>
+      <!-- équations algébriques dans le cercle -->
+      <text font-family="'EB Garamond',Georgia,serif" font-size="15" fill="#f0e4c0" text-anchor="middle" x="290" y="95"  font-style="italic" opacity=".7">x² + 10x = 39</text>
+      <text font-family="'EB Garamond',Georgia,serif" font-size="11" fill="#d4a020" text-anchor="middle" x="290" y="114" font-style="italic" opacity=".55">الجبر والمقابلة</text>
+      <!-- étoiles -->
+      <circle cx="40"  cy="18" r="1.2" fill="#f0e4c0" style="animation:twinkle 2.3s ease-in-out infinite"/>
+      <circle cx="140" cy="10" r="1"   fill="#f0e4c0" style="animation:twinkle 3s ease-in-out infinite .4s"/>
+      <circle cx="430" cy="14" r="1.3" fill="#f0e4c0" style="animation:twinkle 2.7s ease-in-out infinite .7s"/>
+      <circle cx="540" cy="22" r="1"   fill="#f0e4c0" style="animation:twinkle 2s ease-in-out infinite .2s"/>
+      <circle cx="60"  cy="170" r=".9" fill="#f0e4c0" opacity=".4"/>
+      <circle cx="520" cy="175" r="1"  fill="#f0e4c0" opacity=".4"/>
+      <!-- calligraphie arabe en filigrane -->
+      <text font-family="serif" font-size="40" fill="#1a2a5a" text-anchor="middle" x="290" y="165" opacity=".2">الخوارزمي</text>
+    </svg>
+  </div>
+
+  <span class="roman-num">780 – 850 · Bagdad, Califat Abbasside</span>
+  <h1>Al-Khwarizmi</h1>
+  <p class="sub">محمد بن موسى الخوارزمي · Père de l'Algèbre</p>
+  <div class="divider"></div>
+  <p class="tagline">Il inventa l'algèbre, popularisa les chiffres arabes et donna son nom à l'algorithme. Sans lui, pas d'ordinateur, pas de GPS, pas de smartphone.</p>
+  <span class="scroll-cue">Fais défiler ↓</span>
+</section>
+
+<!-- ══ I — BAGDAD ══ -->
+<section class="maison-sagesse">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre I</span>
+    <h2>Bagdad — capitale du monde</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 290" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Bagdad abbasside au IXe siècle, la Maison de la Sagesse</title>
+        <rect x="0" y="0" width="640" height="290" fill="#06040a"/>
+        <!-- ciel nocturne de Bagdad -->
+        <ellipse cx="320" cy="-10" rx="340" ry="100" fill="#0e0820" opacity=".7"/>
+        <!-- étoiles -->
+        <circle cx="50"  cy="22" r="1.3" fill="#f0e4c0" style="animation:twinkle 2.2s ease-in-out infinite"/>
+        <circle cx="140" cy="12" r="1"   fill="#f0e4c0" style="animation:twinkle 3.1s ease-in-out infinite .4s"/>
+        <circle cx="240" cy="28" r="1.5" fill="#f0e4c0" style="animation:twinkle 2.7s ease-in-out infinite .8s"/>
+        <circle cx="350" cy="8"  r="1.2" fill="#f0e4c0" style="animation:twinkle 2.4s ease-in-out infinite .1s"/>
+        <circle cx="460" cy="20" r="1"   fill="#f0e4c0" style="animation:twinkle 2.9s ease-in-out infinite .6s"/>
+        <circle cx="570" cy="16" r="1.4" fill="#f0e4c0" style="animation:twinkle 3.3s ease-in-out infinite .3s"/>
+        <circle cx="100" cy="45" r=".9"  fill="#f0e4c0" opacity=".5"/>
+        <circle cx="400" cy="38" r="1"   fill="#f0e4c0" opacity=".5"/>
+        <circle cx="530" cy="42" r=".8"  fill="#f0e4c0" opacity=".4"/>
+        <!-- Croissant de lune -->
+        <circle cx="540" cy="52" r="24" fill="#0e0820"/>
+        <circle cx="534" cy="48" r="21" fill="#060410"/>
+        <path d="M552,42 Q568,52 552,62 Q565,52 556,44Z" fill="#f0e4c0" opacity=".2"/>
+
+        <!-- FLEUVE TIGRE (reflets dorés) -->
+        <path d="M0,220 Q160,210 320,218 Q480,226 640,216 L640,290 L0,290Z" fill="#0a1020"/>
+        <path d="M0,232 Q160,224 320,232 Q480,240 640,228 L640,290 L0,290Z" fill="#081018"/>
+        <!-- reflets sur le Tigre -->
+        <ellipse cx="200" cy="235" rx="60" ry="5" fill="#d4a020" opacity=".07"/>
+        <ellipse cx="450" cy="230" rx="50" ry="4" fill="#d4a020" opacity=".06"/>
+
+        <!-- Silhouette de Bagdad ronde (la Cité ronde d'Al-Mansour) -->
+        <!-- murailles circulaires en arrière-plan -->
+        <ellipse cx="320" cy="190" rx="260" ry="50" fill="none" stroke="#1a1428" stroke-width="2" opacity=".5"/>
+        <ellipse cx="320" cy="190" rx="200" ry="38" fill="none" stroke="#1a1428" stroke-width="1.5" opacity=".4"/>
+
+        <!-- Architecture abbasside : palais, minarets, coupoles -->
+        <!-- Grande coupole centrale (palais du calife) -->
+        <ellipse cx="320" cy="128" rx="55" ry="20" fill="#120e1a"/>
+        <path d="M265,128 Q265,85 320,72 Q375,85 375,128Z" fill="#160e20"/>
+        <!-- croissant sur la coupole -->
+        <circle cx="320" cy="68" r="8" fill="#160e20"/>
+        <circle cx="316" cy="65" r="7" fill="#08060e"/>
+        <path d="M326,62 Q334,68 326,74 Q333,68 329,64Z" fill="#d4a020" opacity=".5"/>
+        <!-- fenêtres coupole -->
+        <rect x="308" y="100" width="10" height="16" rx="3" fill="#d4a020" opacity=".2" style="animation:shimmer 3s ease-in-out infinite"/>
+        <rect x="322" y="98"  width="10" height="16" rx="3" fill="#d4a020" opacity=".18" style="animation:shimmer 2.6s ease-in-out infinite .3s"/>
+        <!-- liston doré coupole -->
+        <path d="M272,125 Q320,118 368,125" fill="none" stroke="#d4a020" stroke-width=".8" opacity=".3"/>
+
+        <!-- Minaret gauche -->
+        <rect x="188" y="88"  width="20" height="110" rx="3" fill="#0e0c18"/>
+        <rect x="184" y="84"  width="28" height="8"   rx="2" fill="#141020"/>
+        <ellipse cx="198" cy="82" rx="14" ry="6" fill="#181428"/>
+        <rect x="194" y="66"  width="8"  height="18"  rx="2" fill="#0e0c18"/>
+        <ellipse cx="198" cy="64" rx="6"  ry="4" fill="#1a1430"/>
+        <rect x="195" y="54"  width="6"  height="12"  rx="1" fill="#d4a020" opacity=".5"/>
+        <!-- balcon du minaret -->
+        <rect x="182" y="106" width="32" height="4"   rx="1" fill="#1e1830" opacity=".7"/>
+        <!-- fenêtres minaret -->
+        <rect x="193" y="92"  width="10" height="14"  rx="3" fill="#d4a020" opacity=".2" style="animation:shimmer 2.8s ease-in-out infinite"/>
+        <rect x="193" y="118" width="10" height="14"  rx="3" fill="#d4a020" opacity=".15"/>
+
+        <!-- Minaret droit -->
+        <rect x="432" y="92"  width="20" height="106" rx="3" fill="#0e0c18"/>
+        <rect x="428" y="88"  width="28" height="8"   rx="2" fill="#141020"/>
+        <ellipse cx="442" cy="86" rx="14" ry="6" fill="#181428"/>
+        <rect x="438" y="70"  width="8"  height="18"  rx="2" fill="#0e0c18"/>
+        <rect x="438" y="110" width="10" height="14"  rx="3" fill="#d4a020" opacity=".18" style="animation:shimmer 3.2s ease-in-out infinite .5s"/>
+
+        <!-- Minarets secondaires -->
+        <rect x="100" y="118" width="14" height="90"  rx="2" fill="#0c0a16" opacity=".9"/>
+        <ellipse cx="107" cy="116" rx="9"  ry="4" fill="#12102a" opacity=".9"/>
+        <rect x="526" y="120" width="14" height="88"  rx="2" fill="#0c0a16" opacity=".9"/>
+        <ellipse cx="533" cy="118" rx="9"  ry="4" fill="#12102a" opacity=".9"/>
+
+        <!-- Maison de la Sagesse (Bayt al-Hikma) au premier plan -->
+        <rect x="230" y="158" width="180" height="80" rx="4" fill="#0e0c1a"/>
+        <!-- arches en fer à cheval (style abbasside) -->
+        <path d="M248,238 Q248,210 268,205 Q288,200 288,238Z" fill="#0a0810"/>
+        <path d="M302,238 Q302,208 320,203 Q338,208 338,238Z" fill="#0a0810"/>
+        <path d="M352,238 Q352,210 372,205 Q392,200 392,238Z" fill="#0a0810"/>
+        <!-- lumières dans la Maison de la Sagesse -->
+        <rect x="250" y="168" width="28" height="22" rx="2" fill="#d4a020" opacity=".2" style="animation:shimmer 2.5s ease-in-out infinite"/>
+        <rect x="306" y="165" width="28" height="22" rx="2" fill="#d4a020" opacity=".25" style="animation:shimmer 3s ease-in-out infinite .3s"/>
+        <rect x="362" y="168" width="28" height="22" rx="2" fill="#d4a020" opacity=".2" style="animation:shimmer 2.8s ease-in-out infinite .6s"/>
+        <!-- inscription en arabe stylisée au fronton -->
+        <text font-family="serif" font-size="10" fill="#d4a020" text-anchor="middle" x="320" y="165" opacity=".4">بيت الحكمة</text>
+        <!-- escalier -->
+        <rect x="295" y="234" width="50" height="6"  rx="1" fill="#141020"/>
+        <rect x="300" y="240" width="40" height="5"  rx="1" fill="#12101e"/>
+        <!-- lueur dorée de la Maison de la Sagesse -->
+        <ellipse cx="320" cy="200" rx="100" ry="40" fill="#d4a020" opacity=".04"/>
+
+        <!-- Bateaux sur le Tigre -->
+        <path d="M80,228 Q110,222 140,226 Q136,236 84,236Z" fill="#0e0c18"/>
+        <rect x="108" y="210" width="3" height="18" rx="1" fill="#0e0c18"/>
+        <path d="M108,213 L124,220 L108,226Z" fill="#1a1428" opacity=".7"/>
+        <path d="M460,230 Q490,224 520,228 Q516,238 464,238Z" fill="#0e0c18" opacity=".8"/>
+
+        <!-- Marchands / caravane en bas -->
+        <ellipse cx="180" cy="222" rx="8" ry="8" fill="#5a3a20"/>
+        <rect x="172" y="230" width="16" height="24" rx="4" fill="#3a2818"/>
+        <ellipse cx="205" cy="225" rx="6" ry="6" fill="#5a3a20" opacity=".8"/>
+        <rect x="199" y="231" width="12" height="20" rx="3" fill="#3a2818" opacity=".8"/>
+      </svg>
+    </div>
+
+    <p>Nous sommes au <strong>IXe siècle</strong>. Bagdad est la ville la plus peuplée du monde — un million d'habitants, une bibliothèque qui rivalise avec Alexandrie, des marchés où s'échangent la soie de Chine, les épices de l'Inde, l'or d'Afrique et les idées de la Grèce antique.</p>
+    <p>Au cœur de cette métropole brûle la <em>Bayt al-Hikma</em> — la <strong>Maison de la Sagesse</strong>. Le calife Al-Ma'moun y a réuni les plus grands esprits du monde islamique pour traduire, commenter, et surtout <em>dépasser</em> tout ce que l'Antiquité a laissé : Platon, Aristote, Euclide, Ptolémée.</p>
+    <blockquote>
+      <p>« Bagdad est la capitale du monde, le rassemblement de toutes les nations, la demeure de la sagesse. »</p>
+      <cite>Al-Jahiz, écrivain abbasside · IXe siècle</cite>
+    </blockquote>
+    <p>C'est là qu'arrive un jeune savant du Khorezm — région correspondant à l'actuel Ouzbékistan. Il s'appelle <strong>Muhammad ibn Musa al-Khwarizmi</strong>. Il a une idée qui va changer les mathématiques pour toujours.</p>
+  </div>
+</section>
+
+<!-- ══ II — L'ALGÈBRE ══ -->
+<section class="algebra-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre II</span>
+    <h2>Al-Jabr — réduire et équilibrer</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Al-Khwarizmi résolvant une équation du second degré par la méthode géométrique</title>
+        <rect x="0" y="0" width="640" height="300" fill="#08060e"/>
+        <!-- salle de travail : tapis, coussins, lumière de lampe -->
+        <!-- sol avec tapis -->
+        <rect x="0" y="220" width="640" height="80" fill="#0c0a10"/>
+        <!-- motif de tapis -->
+        <rect x="0" y="222" width="640" height="2" fill="#1a1428" opacity=".6"/>
+        <rect x="0" y="230" width="640" height="2" fill="#1a1428" opacity=".4"/>
+        <!-- mur avec ornements géométriques -->
+        <rect x="0" y="0" width="640" height="222" fill="#0a0810"/>
+        <!-- frise géométrique en haut -->
+        <rect x="0" y="0" width="640" height="18" fill="#0e0c18"/>
+        <line x1="0" y1="18" x2="640" y2="18" stroke="#d4a020" stroke-width=".8" opacity=".3"/>
+        <!-- losanges décoratifs dans la frise -->
+        <polygon points="40,2  50,9  40,16 30,9"  fill="none" stroke="#d4a020" stroke-width=".6" opacity=".3"/>
+        <polygon points="80,2  90,9  80,16 70,9"  fill="none" stroke="#d4a020" stroke-width=".6" opacity=".3"/>
+        <polygon points="560,2 570,9 560,16 550,9" fill="none" stroke="#d4a020" stroke-width=".6" opacity=".3"/>
+        <polygon points="600,2 610,9 600,16 590,9" fill="none" stroke="#d4a020" stroke-width=".6" opacity=".3"/>
+
+        <!-- Grand parchemin déroulé sur le sol / table basse -->
+        <rect x="150" y="140" width="340" height="110" rx="6" fill="#e8dab0" opacity=".88"/>
+        <!-- rouleaux aux extrémités du parchemin -->
+        <ellipse cx="150" cy="195" rx="8"  ry="55" fill="#c8b880" opacity=".7"/>
+        <ellipse cx="490" cy="195" rx="8"  ry="55" fill="#c8b880" opacity=".7"/>
+
+        <!-- DÉMONSTRATION GÉOMÉTRIQUE DE x² + 10x = 39 -->
+        <!-- La méthode d'Al-Khwarizmi : complétion du carré -->
+        <!-- Grand carré x² -->
+        <rect x="230" y="158" width="80" height="80" fill="none" stroke="#1a2a5a" stroke-width="1.5" opacity=".7"/>
+        <rect x="232" y="160" width="76" height="76" fill="#1a2a5a" opacity=".12"/>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="14" fill="#1a2a5a" text-anchor="middle" x="270" y="202" font-style="italic" opacity=".8">x²</text>
+        <!-- rectangle 5x à droite -->
+        <rect x="310" y="158" width="40" height="80" fill="none" stroke="#2a8a7a" stroke-width="1.5" opacity=".7"/>
+        <rect x="312" y="160" width="36" height="76" fill="#2a8a7a" opacity=".1"/>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="11" fill="#2a8a7a" text-anchor="middle" x="330" y="202" font-style="italic" opacity=".7">5x</text>
+        <!-- rectangle 5x en dessous -->
+        <rect x="230" y="238" width="80" height="40" fill="none" stroke="#2a8a7a" stroke-width="1.5" opacity=".7"/>
+        <rect x="232" y="240" width="76" height="36" fill="#2a8a7a" opacity=".1"/>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="11" fill="#2a8a7a" text-anchor="middle" x="270" y="262" font-style="italic" opacity=".7">5x</text>
+        <!-- petit carré coin -->
+        <rect x="310" y="238" width="40" height="40" fill="none" stroke="#d4a020" stroke-width="1.5" opacity=".6"/>
+        <rect x="312" y="240" width="36" height="36" fill="#d4a020" opacity=".1"/>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="10" fill="#d4a020" text-anchor="middle" x="330" y="262" font-style="italic" opacity=".7">25</text>
+        <!-- flèche et annotation -->
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#8a7040" x="362" y="175" font-style="italic" opacity=".7">x² + 10x + 25</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#8a7040" x="362" y="188" font-style="italic" opacity=".7">= 39 + 25 = 64</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#d4a020" x="362" y="204" font-style="italic" opacity=".8">→ (x + 5)² = 64</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#d4a020" x="362" y="218" font-style="italic" opacity=".8">→ x + 5 = 8</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#2a8a7a" x="362" y="234" font-style="italic" opacity=".8">→ x = 3 ✓</text>
+        <!-- titre de l'équation -->
+        <text font-family="'EB Garamond',Georgia,serif" font-size="13" fill="#3a2810" text-anchor="middle" x="320" y="155" font-style="italic" opacity=".7">x² + 10x = 39</text>
+
+        <!-- Encrier et calame sur le parchemin -->
+        <ellipse cx="188" cy="192" rx="10" ry="10" fill="#1a1010"/>
+        <ellipse cx="188" cy="190" rx="8"  ry="7"  fill="#0e0808"/>
+        <!-- calame (roseau taillé) -->
+        <path d="M188,188 Q183,165 176,152 Q182,156 188,150 Q188,165 192,188Z" fill="#c8b060" opacity=".8"/>
+
+        <!-- AL-KHWARIZMI assis en tailleur, turban bleu, robe blanche, jeune savant -->
+        <!-- position assise sur le tapis -->
+        <path d="M62,220 Q80,215 120,218 Q140,215 150,220 Q145,248 105,250 Q75,248 62,220Z" fill="#e8e0d0" opacity=".7"/>
+        <!-- jambes croisées dessinées sous la robe -->
+        <ellipse cx="80"  cy="244" rx="18" ry="8" fill="#d8d0c0" opacity=".5"/>
+        <ellipse cx="128" cy="244" rx="18" ry="8" fill="#d8d0c0" opacity=".5"/>
+        <!-- robe longue blanche -->
+        <path d="M64,188 Q62,220 65,248 L106,252 L148,248 Q152,220 148,188 Q136,205 106,208 Q76,205 64,188Z" fill="#e8e4d8"/>
+        <!-- sur-robe bleue (qaba) -->
+        <path d="M68,192 Q60,220 64,248 L72,244 L72,192Z" fill="#1a2a5a" opacity=".8"/>
+        <path d="M144,192 Q152,220 148,248 L140,244 L140,192Z" fill="#1a2a5a" opacity=".8"/>
+        <!-- tête -->
+        <ellipse cx="106" cy="165" rx="22" ry="22" fill="#c0906a"/>
+        <!-- barbe soignée -->
+        <path d="M90,174 Q94,190 106,193 Q118,190 122,174" fill="none" stroke="#3a2010" stroke-width="4" stroke-linecap="round"/>
+        <!-- turban bleu lapis -->
+        <path d="M84,158 Q88,140 106,137 Q124,140 128,158" fill="#1a2a5a" stroke="#2a3a6a" stroke-width="1"/>
+        <ellipse cx="106" cy="150" rx="24" ry="8" fill="#2a3a6a"/>
+        <!-- pli du turban -->
+        <path d="M84,155 Q106,148 128,155" fill="none" stroke="#3a4a7a" stroke-width="1.5" opacity=".5"/>
+        <!-- regard concentré sur le parchemin -->
+        <ellipse cx="98"  cy="162" rx="4" ry="4" fill="#1a0e06"/>
+        <ellipse cx="114" cy="162" rx="4" ry="4" fill="#1a0e06"/>
+        <circle cx="99"  cy="161" r="1.5" fill="#2a7a6a" opacity=".8"/>
+        <circle cx="115" cy="161" r="1.5" fill="#2a7a6a" opacity=".8"/>
+        <!-- sourcils froncés de concentration -->
+        <path d="M94,156 Q98,153 102,156" fill="none" stroke="#3a2010" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M110,156 Q114,153 118,156" fill="none" stroke="#3a2010" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- bras : tient le calame, écriture -->
+        <line x1="140" y1="195" x2="170" y2="210" stroke="#c0906a" stroke-width="7" stroke-linecap="round"/>
+        <ellipse cx="174" cy="212" rx="9" ry="8" fill="#c0906a"/>
+        <!-- calame dans la main -->
+        <line x1="174" y1="208" x2="195" y2="185" stroke="#c8b060" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>
+        <!-- autre bras appuyé -->
+        <line x1="72"  y1="195" x2="55"  y2="210" stroke="#c0906a" stroke-width="7" stroke-linecap="round"/>
+        <ellipse cx="51" cy="212" rx="8" ry="7" fill="#c0906a"/>
+
+        <!-- Lampe à huile posée à côté -->
+        <ellipse cx="530" cy="215" rx="20" ry="8" fill="#1e1808"/>
+        <rect x="522" y="185" width="16" height="30" rx="3" fill="#2a2010"/>
+        <ellipse cx="530" cy="185" rx="10" ry="5" fill="#3a3018"/>
+        <!-- flamme -->
+        <ellipse cx="530" cy="178" rx="6" ry="10" fill="#d4901a" opacity=".6" style="animation:flicker 1.5s ease-in-out infinite"/>
+        <ellipse cx="530" cy="174" rx="4" ry="7"  fill="#f0c050" opacity=".5" style="animation:flicker 1.2s ease-in-out infinite .2s"/>
+        <!-- lueur -->
+        <ellipse cx="530" cy="210" rx="70" ry="55" fill="#d4901a" opacity=".05"/>
+
+        <!-- Pile de livres et parchemins à droite -->
+        <rect x="548" y="178" width="55" height="44" rx="3" fill="#2a1e0e"/>
+        <rect x="548" y="174" width="55" height="8"  rx="2" fill="#3a2a18"/>
+        <rect x="560" y="162" width="45" height="16" rx="3" fill="#241808"/>
+        <rect x="560" y="158" width="45" height="6"  rx="2" fill="#301e10"/>
+        <!-- titre du livre -->
+        <text font-family="serif" font-size="7" fill="#d4a020" text-anchor="middle" x="582" y="172" opacity=".4">الجبر</text>
+      </svg>
+    </div>
+
+    <p>Vers <strong>820</strong>, Al-Khwarizmi rédige le livre qui va tout changer : <em>Al-Kitāb al-mukhtaṣar fī ḥisāb al-jabr wa-l-muqābala</em> — "Le livre abrégé sur le calcul par la restauration et la compensation."</p>
+    <p>Le mot <em>al-jabr</em> (la restauration) donnera naissance au mot <strong>algèbre</strong>. Pour la première fois, quelqu'un propose une méthode générale pour résoudre n'importe quel problème du premier et du second degré — pas avec des nombres précis, mais avec des <strong>symboles</strong> représentant l'inconnu.</p>
+    <p>Sa technique est élégante : il visualise les équations comme des surfaces géométriques. Pour résoudre x² + 10x = 39, il construit littéralement un carré, ajoute des rectangles, complète la figure. La solution surgit de la géométrie.</p>
+    <blockquote>
+      <p>« J'ai observé que les nombres dont les hommes ont besoin dans les questions d'héritage, de legs, de partage, de jugement et de commerce sont de deux sortes. »</p>
+      <cite>Al-Khwarizmi · Kitāb al-mukhtaṣar, ~820</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ══ III — LES CHIFFRES ══ -->
+<section class="chiffres-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre III</span>
+    <h2>Les chiffres qui viennent de l'Est</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 280" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>La transmission des chiffres indiens à l'Occident via Al-Khwarizmi</title>
+        <rect x="0" y="0" width="640" height="280" fill="#06080c"/>
+        <!-- fond nuit étoilée -->
+        <circle cx="60"  cy="20" r="1.2" fill="#f0e4c0" style="animation:twinkle 2.3s ease-in-out infinite"/>
+        <circle cx="200" cy="14" r="1"   fill="#f0e4c0" style="animation:twinkle 2.9s ease-in-out infinite .4s"/>
+        <circle cx="380" cy="10" r="1.3" fill="#f0e4c0" style="animation:twinkle 2.6s ease-in-out infinite .7s"/>
+        <circle cx="520" cy="18" r="1"   fill="#f0e4c0" style="animation:twinkle 2.1s ease-in-out infinite .2s"/>
+        <circle cx="600" cy="30" r=".9"  fill="#f0e4c0" opacity=".5"/>
+
+        <!-- SOL : ligne de temps / route de la soie -->
+        <rect x="0" y="200" width="640" height="80" fill="#080a0e"/>
+        <line x1="0" y1="210" x2="640" y2="210" stroke="#1a2a3a" stroke-width="1.5" opacity=".5"/>
+        <!-- pointillés de la route -->
+        <line x1="0" y1="205" x2="640" y2="205" stroke="#d4a020" stroke-width="1" stroke-dasharray="8 6" opacity=".2"/>
+
+        <!-- Trois zones : Inde / Bagdad / Europe -->
+
+        <!-- INDE à gauche : temple et chiffres brahmi -->
+        <rect x="20"  y="95"  width="120" height="115" rx="4" fill="#0e0c08"/>
+        <!-- toit temple indien (shikhara) -->
+        <polygon points="80,38 20,97 140,97" fill="#0c0a06"/>
+        <rect x="48"  y="57"  width="64"  height="42"  fill="#0c0a06"/>
+        <polygon points="80,44 48,58 112,58" fill="#0e0c08"/>
+        <rect x="56"  y="57"  width="48"  height="12"  rx="2" fill="#140e08"/>
+        <rect x="68"  y="44"  width="24"  height="16"  rx="1" fill="#0c0a06"/>
+        <!-- colonnes -->
+        <rect x="32"  y="140" width="10"  height="70"  rx="2" fill="#0c0a08"/>
+        <rect x="118" y="140" width="10"  height="70"  rx="2" fill="#0c0a08"/>
+        <!-- lumière lampe -->
+        <rect x="70"  y="148" width="20"  height="28"  rx="2" fill="#d4a020" opacity=".12" style="animation:shimmer 3s ease-in-out infinite"/>
+
+        <!-- chiffres brahmi/indien sur parchemin à gauche -->
+        <rect x="22"  y="108" width="116" height="65" rx="3" fill="#e8d8a0" opacity=".7"/>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="18" fill="#3a2010" text-anchor="middle" x="80" y="130" font-weight="bold" opacity=".8">१ २ ३</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="18" fill="#3a2010" text-anchor="middle" x="80" y="155" font-weight="bold" opacity=".8">४ ५ ०</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9"  fill="#5a3a18" text-anchor="middle" x="80" y="170" font-style="italic" opacity=".6">chiffres brahmi/devanagari</text>
+        <text font-family="'Cinzel',serif" font-size="10" fill="#d4a020" text-anchor="middle" x="80" y="232" opacity=".6" letter-spacing="1">INDE</text>
+
+        <!-- BAGDAD au centre : mosquée / Maison de la Sagesse -->
+        <rect x="255" y="108" width="130" height="115" rx="4" fill="#0e0c1a"/>
+        <!-- coupole -->
+        <ellipse cx="320" cy="95" rx="40" ry="14" fill="#120e20"/>
+        <path d="M280,95 Q280,62 320,52 Q360,62 360,95Z" fill="#160c22"/>
+        <!-- croissant -->
+        <circle cx="320" cy="48" r="7" fill="#160c22"/>
+        <circle cx="316" cy="45" r="6" fill="#08060e"/>
+        <!-- fenêtres -->
+        <rect x="308" y="76"  width="10" height="14" rx="3" fill="#d4a020" opacity=".22" style="animation:shimmer 2.8s ease-in-out infinite .3s"/>
+        <rect x="322" y="74"  width="10" height="14" rx="3" fill="#d4a020" opacity=".2"  style="animation:shimmer 3.1s ease-in-out infinite"/>
+        <!-- parchemin d'Al-Khwarizmi au centre -->
+        <rect x="260" y="118" width="120" height="70" rx="3" fill="#e8d8a0" opacity=".8"/>
+        <!-- chiffres arabes (hindou-arabes) -->
+        <text font-family="serif" font-size="18" fill="#1a2a5a" text-anchor="middle" x="320" y="142" font-weight="bold" opacity=".85">١ ٢ ٣</text>
+        <text font-family="serif" font-size="18" fill="#1a2a5a" text-anchor="middle" x="320" y="165" font-weight="bold" opacity=".85">٤ ٥ ٠</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="8" fill="#3a2a10" text-anchor="middle" x="320" y="183" font-style="italic" opacity=".65">chiffres hindou-arabes</text>
+        <text font-family="'Cinzel',serif" font-size="10" fill="#d4a020" text-anchor="middle" x="320" y="232" opacity=".6" letter-spacing="1">BAGDAD</text>
+
+        <!-- EUROPE à droite : cathédrale gothique -->
+        <rect x="500" y="110" width="120" height="110" rx="4" fill="#0a0c10"/>
+        <!-- clocher cathédrale -->
+        <rect x="534" y="60"  width="52"  height="55"  rx="3" fill="#0a0c10"/>
+        <polygon points="560,32 534,62 586,62" fill="#0c0e12"/>
+        <rect x="554" y="18"  width="12"  height="16"  rx="1" fill="#0a0c10"/>
+        <!-- rosace -->
+        <circle cx="560" cy="76" r="12" fill="none" stroke="#1a1a28" stroke-width="1.5" opacity=".5"/>
+        <circle cx="560" cy="76" r="6"  fill="none" stroke="#1a1a28" stroke-width="1" opacity=".4"/>
+        <!-- vitrail allumé -->
+        <circle cx="560" cy="76" r="10" fill="#d4a020" opacity=".1" style="animation:shimmer 3s ease-in-out infinite"/>
+        <!-- parchemin à droite (traduction latine) -->
+        <rect x="502" y="120" width="116" height="68" rx="3" fill="#e0d0a0" opacity=".75"/>
+        <!-- chiffres indo-arabes occidentaux -->
+        <text font-family="'EB Garamond',Georgia,serif" font-size="20" fill="#2a1a08" text-anchor="middle" x="560" y="145" font-weight="bold" opacity=".85">1 2 3</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="20" fill="#2a1a08" text-anchor="middle" x="560" y="170" font-weight="bold" opacity=".85">4 5 0</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="8"  fill="#5a3a18" text-anchor="middle" x="560" y="183" font-style="italic" opacity=".6">chiffres latins (nos chiffres !)</text>
+        <text font-family="'Cinzel',serif" font-size="10" fill="#d4a020" text-anchor="middle" x="560" y="232" opacity=".6" letter-spacing="1">EUROPE</text>
+
+        <!-- FLÈCHES de transmission -->
+        <!-- Inde → Bagdad -->
+        <path d="M148,155 Q200,148 252,155" fill="none" stroke="#d4a020" stroke-width="2" stroke-dasharray="5 4" opacity=".6" marker-end="url(#arr1)"/>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#d4a020" text-anchor="middle" x="200" y="142" font-style="italic" opacity=".6">VIIIe s.</text>
+        <!-- Bagdad → Europe -->
+        <path d="M392,155 Q445,148 498,155" fill="none" stroke="#2a8a7a" stroke-width="2" stroke-dasharray="5 4" opacity=".6" marker-end="url(#arr2)"/>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#2a8a7a" text-anchor="middle" x="445" y="142" font-style="italic" opacity=".6">XIIe s.</text>
+        <defs>
+          <marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="#d4a020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+          <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="#2a8a7a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <!-- LE ZÉRO — mis en valeur au centre bas -->
+        <circle cx="320" cy="252" r="18" fill="#0a0c18" stroke="#d4a020" stroke-width="1" opacity=".7"/>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="22" fill="#d4a020" text-anchor="middle" x="320" y="260" font-weight="bold" opacity=".85">0</text>
+        <ellipse cx="320" cy="258" rx="40" ry="12" fill="#d4a020" opacity=".04"/>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#f0e4c0" text-anchor="middle" x="320" y="278" font-style="italic" opacity=".5">le zéro — invention qui change tout</text>
+      </svg>
+    </div>
+
+    <p>Al-Khwarizmi ne s'arrête pas à l'algèbre. Il rédige un second traité révolutionnaire : <em>Kitāb al-ḥisāb al-hindī</em> — "Le livre du calcul indien". Il y présente aux mathématiciens arabes un système venu de l'Inde : <strong>dix symboles — 1, 2, 3, 4, 5, 6, 7, 8, 9, et le zéro — pour représenter n'importe quel nombre.</strong></p>
+    <p>Ce système positionnel, où la valeur d'un chiffre dépend de sa place, est d'une puissance extraordinaire. Fini les chiffres romains impossibles à multiplier, les calculs sur les doigts, les abacus encombrants. Avec ces dix symboles, on peut tout calculer, tout écrire, tout transmettre.</p>
+    <blockquote>
+      <p>« Nous lui avons donné des chiffres pour qu'il calcule. Et il a donné au monde entier une façon de penser. »</p>
+      <cite>À propos d'Al-Khwarizmi · traduit d'une chronique abbasside</cite>
+    </blockquote>
+    <p>Au XIIe siècle, ces chiffres atteignent l'Europe via les traductions latines. On les appellera <em>chiffres arabes</em> — ils sont en fait indiens, mais c'est Al-Khwarizmi qui les a fait connaître au monde.</p>
+  </div>
+</section>
+
+<!-- ══ IV — L'ALGORITHME ══ -->
+<section class="heritage-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre IV</span>
+    <h2>Algorismus — son nom dans nos machines</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 280" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Du nom d'Al-Khwarizmi aux algorithmes modernes</title>
+        <rect x="0" y="0" width="640" height="280" fill="#04060c"/>
+        <!-- fond : code binaire en arrière-plan très discret -->
+        <text font-family="monospace" font-size="9" fill="#1a2a3a" x="10"  y="20"  opacity=".3">01001011 01101000 01110111 01100001</text>
+        <text font-family="monospace" font-size="9" fill="#1a2a3a" x="10"  y="35"  opacity=".25">01110010 01101001 01111010 01101101</text>
+        <text font-family="monospace" font-size="9" fill="#1a2a3a" x="10"  y="50"  opacity=".2">01101001 00100000 01000001 01101100</text>
+        <text font-family="monospace" font-size="9" fill="#1a2a3a" x="400" y="245" opacity=".25">00110000 00110001 00110000 00110001</text>
+        <text font-family="monospace" font-size="9" fill="#1a2a3a" x="400" y="260" opacity=".2">01000001 01001100 01000111 01001111</text>
+
+        <!-- COLONNE GAUCHE : Le livre et le nom -->
+        <!-- Parchemin médiéval avec le titre latin -->
+        <rect x="30"  y="50"  width="170" height="200" rx="6" fill="#e8d8a0" opacity=".82"/>
+        <ellipse cx="30"  cy="150" rx="10" ry="100" fill="#c8b870" opacity=".6"/>
+        <ellipse cx="200" cy="150" rx="10" ry="100" fill="#c8b870" opacity=".6"/>
+        <!-- titre latin du traité -->
+        <text font-family="'Cinzel',serif"    font-size="10" fill="#3a2010" text-anchor="middle" x="115" y="82"  opacity=".8" letter-spacing="1">ALGORITMI</text>
+        <text font-family="'Cinzel',serif"    font-size="10" fill="#3a2010" text-anchor="middle" x="115" y="97"  opacity=".8" letter-spacing="1">DE NUMERO</text>
+        <text font-family="'Cinzel',serif"    font-size="10" fill="#3a2010" text-anchor="middle" x="115" y="112" opacity=".8" letter-spacing="1">INDORUM</text>
+        <line x1="50" y1="120" x2="180" y2="120" stroke="#8a6030" stroke-width=".8" opacity=".4"/>
+        <!-- texte latin stylisé -->
+        <line x1="50" y1="132" x2="180" y2="132" stroke="#8a6030" stroke-width=".7" opacity=".35"/>
+        <line x1="50" y1="142" x2="178" y2="142" stroke="#8a6030" stroke-width=".7" opacity=".3"/>
+        <line x1="50" y1="152" x2="180" y2="152" stroke="#8a6030" stroke-width=".7" opacity=".3"/>
+        <line x1="50" y1="162" x2="175" y2="162" stroke="#8a6030" stroke-width=".7" opacity=".3"/>
+        <line x1="50" y1="172" x2="180" y2="172" stroke="#8a6030" stroke-width=".6" opacity=".25"/>
+        <line x1="50" y1="182" x2="176" y2="182" stroke="#8a6030" stroke-width=".6" opacity=".25"/>
+        <line x1="50" y1="192" x2="180" y2="192" stroke="#8a6030" stroke-width=".6" opacity=".2"/>
+        <!-- calligraphie arabe originale en bas -->
+        <text font-family="serif" font-size="14" fill="#1a2a5a" text-anchor="middle" x="115" y="225" opacity=".5">الخوارزمي</text>
+        <line x1="50" y1="210" x2="180" y2="210" stroke="#8a6030" stroke-width=".8" opacity=".3"/>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="8" fill="#5a3a18" text-anchor="middle" x="115" y="240" font-style="italic" opacity=".55">XIIe siècle, traduction latine</text>
+
+        <!-- FLÈCHE CENTRALE TEMPORELLE -->
+        <line x1="215" y1="150" x2="425" y2="150" stroke="#d4a020" stroke-width="1.5" stroke-dasharray="6 4" opacity=".5"/>
+        <!-- dates sur la flèche -->
+        <text font-family="'Cinzel',serif" font-size="9" fill="#d4a020" text-anchor="middle" x="260" y="142" opacity=".6">~820</text>
+        <text font-family="'Cinzel',serif" font-size="9" fill="#d4a020" text-anchor="middle" x="320" y="142" opacity=".6">XIIe s.</text>
+        <text font-family="'Cinzel',serif" font-size="9" fill="#d4a020" text-anchor="middle" x="385" y="142" opacity=".6">XXe s.</text>
+        <!-- points sur la timeline -->
+        <circle cx="260" cy="150" r="4" fill="#d4a020" opacity=".7"/>
+        <circle cx="320" cy="150" r="4" fill="#d4a020" opacity=".7"/>
+        <circle cx="385" cy="150" r="4" fill="#d4a020" opacity=".7"/>
+        <circle cx="425" cy="150" r="4" fill="#2a8a7a" opacity=".8"/>
+        <!-- tête de flèche -->
+        <polygon points="425,144 435,150 425,156" fill="#2a8a7a" opacity=".7"/>
+
+        <!-- Étapes -->
+        <!-- 820 -->
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#f0e4c0" text-anchor="middle" x="260" y="175" font-style="italic" opacity=".6">Al-Khwarizmi</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#f0e4c0" text-anchor="middle" x="260" y="187" font-style="italic" opacity=".5">écrit la Rihla</text>
+        <!-- XIIe -->
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#f0e4c0" text-anchor="middle" x="320" y="175" font-style="italic" opacity=".6">« Algoritmi »</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#f0e4c0" text-anchor="middle" x="320" y="187" font-style="italic" opacity=".5">en latin</text>
+        <!-- XXe -->
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#f0e4c0" text-anchor="middle" x="385" y="175" font-style="italic" opacity=".6">« algorithme »</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#f0e4c0" text-anchor="middle" x="385" y="187" font-style="italic" opacity=".5">en informatique</text>
+
+        <!-- COLONNE DROITE : ordinateur / algorithme moderne -->
+        <rect x="440" y="50"  width="180" height="200" rx="6" fill="#0c1020"/>
+        <rect x="440" y="50"  width="180" height="200" rx="6" fill="none" stroke="#2a8a7a" stroke-width="1" opacity=".5"/>
+        <!-- écran terminal -->
+        <rect x="452" y="62"  width="156" height="130" rx="3" fill="#04060a"/>
+        <!-- code sur l'écran -->
+        <text font-family="monospace" font-size="8.5" fill="#2a8a7a" x="462" y="80"  opacity=".8">def algorithme(x):</text>
+        <text font-family="monospace" font-size="8.5" fill="#4aaa7a" x="462" y="94"  opacity=".7">  if x == 0:</text>
+        <text font-family="monospace" font-size="8.5" fill="#d4a020" x="462" y="108" opacity=".6">    return 0</text>
+        <text font-family="monospace" font-size="8.5" fill="#4aaa7a" x="462" y="122" opacity=".7">  while x > 1:</text>
+        <text font-family="monospace" font-size="8.5" fill="#c8c0b0" x="462" y="136" opacity=".6">    x = x / 2</text>
+        <text font-family="monospace" font-size="8.5" fill="#4aaa7a" x="462" y="150" opacity=".7">  return résultat</text>
+        <!-- curseur clignotant -->
+        <rect x="462" y="160" width="6" height="10" fill="#2a8a7a" opacity=".7" style="animation:shimmer 1s ease-in-out infinite"/>
+        <!-- barre de statut -->
+        <rect x="452" y="194" width="156" height="14" rx="1" fill="#0e1a0e"/>
+        <text font-family="monospace" font-size="8" fill="#2a8a7a" x="460" y="204" opacity=".6">► algorithme en cours...</text>
+        <!-- clavier stylisé -->
+        <rect x="452" y="212" width="156" height="28" rx="3" fill="#0a1218"/>
+        <!-- touches clavier -->
+        <rect x="458" y="216" width="12" height="8" rx="1" fill="#141e28"/>
+        <rect x="474" y="216" width="12" height="8" rx="1" fill="#141e28"/>
+        <rect x="490" y="216" width="12" height="8" rx="1" fill="#141e28"/>
+        <rect x="506" y="216" width="12" height="8" rx="1" fill="#141e28"/>
+        <rect x="522" y="216" width="12" height="8" rx="1" fill="#141e28"/>
+        <rect x="538" y="216" width="12" height="8" rx="1" fill="#141e28"/>
+        <rect x="554" y="216" width="12" height="8" rx="1" fill="#141e28"/>
+        <rect x="570" y="216" width="14" height="8" rx="1" fill="#141e28"/>
+        <rect x="464" y="228" width="80" height="8" rx="1" fill="#141e28"/><!-- espace -->
+
+        <!-- mots-clés modernes issus d'Al-Khwarizmi -->
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#2a8a7a" text-anchor="middle" x="530" y="92"  font-style="italic" opacity=".5">algorithme</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#d4a020" text-anchor="middle" x="530" y="108" font-style="italic" opacity=".5">algèbre</text>
+        <text font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#f0e4c0" text-anchor="middle" x="530" y="124" font-style="italic" opacity=".5">chiffres 0–9</text>
+
+        <!-- étiquette moderne -->
+        <text font-family="'Cinzel',serif" font-size="9" fill="#2a8a7a" text-anchor="middle" x="530" y="265" opacity=".6" letter-spacing="1">AUJOURD'HUI</text>
+      </svg>
+    </div>
+
+    <p>Son nom latin, <em>Algoritmi</em>, devient un mot commun : <strong>algorithme</strong>. Une procédure étape par étape pour résoudre un problème. Le concept central de l'informatique moderne. Chaque fois que votre téléphone calcule un itinéraire, qu'un moteur de recherche trie des résultats, qu'une IA génère une réponse — c'est le fantôme d'Al-Khwarizmi qui travaille.</p>
+    <p>Il écrit également le premier traité de <strong>géographie mathématique</strong> du monde islamique, recalcule les coordonnées de 2 402 localités connues de Ptolémée, et contribue à l'astronomie et au calendrier.</p>
+    <blockquote>
+      <p>« Al-Khwarizmi a fait pour les mathématiques ce que Gutenberg a fait pour la littérature : il a rendu le savoir accessible à tous. »</p>
+      <cite>Roshdi Rashed, historien des sciences arabes</cite>
+    </blockquote>
+    <p>Il meurt vers <strong>850</strong> à Bagdad. Ses œuvres, traduites en latin au XIIe siècle par Adélard de Bath et Gérard de Crémone, déclenchent une révolution intellectuelle en Europe — la Renaissance des mathématiques.</p>
+  </div>
+</section>
+
+<!-- ══ FIN ══ -->
+<section class="dark2 ending">
+  <span class="ornament">✦ ✦ ✦</span>
+  <h2>Ce que l'histoire nous dit</h2>
+  <div class="divider"></div>
+  <p class="moral">Chaque fois que vous écrivez un chiffre, vous utilisez son héritage. Chaque fois qu'un programme s'exécute, son nom résonne dans le mot « algorithme ».</p>
+  <p class="moral">Al-Khwarizmi ne cherchait pas à changer le monde. Il cherchait à simplifier le calcul des héritages et des transactions commerciales. Et en simplifiant, il a tout transformé.</p>
+  <p class="moral">Les plus grandes révolutions ne s'annoncent pas toujours comme telles. Parfois, elles ressemblent à un fonctionnaire assis sur un tapis, à la lumière d'une lampe à huile, résolvant une équation du second degré.</p>
+  <div class="divider"></div>
+  <span class="ref">~780–850 · Bagdad · Bayt al-Hikma · الجبر والمقابلة</span>
+</section>
+
+</body>
+</html>
