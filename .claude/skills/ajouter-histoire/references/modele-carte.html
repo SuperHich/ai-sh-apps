@@ -1,0 +1,52 @@
+<!--
+  MODÈLE — carte à insérer dans stories/<categorie>/index.html
+  Emplacement : dans <div class="grid" id="storyGrid">, APRÈS la dernière carte
+  réelle et AVANT la carte « Prochainement » (<div class="card card-soon">).
+
+  Règles :
+  - href = "<slug>.html" (relatif à la catégorie)
+  - les id des <defs> SVG doivent être uniques dans la page → les préfixer par le
+    slug ({{slug}}Bg, {{slug}}Glow…), sinon les autres cartes changent de couleur
+  - card-tag : « ✦ {{Catégorie}} · {{Sous-titre court}} »
+  - le nombre de chapitres du card-footer doit correspondre à la page
+  - après insertion : incrémenter <strong id="storyCount">N</strong> (étape 4)
+    et, si la grille dépasse les règles existantes, ajouter
+    `.card:nth-child(N) { animation-delay:.Ns; }` dans le <style>
+-->
+
+<!-- ══ {{TITRE EN MAJUSCULES}} ══ -->
+<a class="card" href="{{slug}}.html">
+  <div class="card-art">
+    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="{{slug}}Bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="{{#02020a}}"/>
+          <stop offset="55%"  stop-color="{{#0c1030}}"/>
+          <stop offset="100%" stop-color="{{#1a3a7a}}"/>
+        </linearGradient>
+        <radialGradient id="{{slug}}Glow" cx="50%" cy="45%" r="55%">
+          <stop offset="0%"   stop-color="{{#1a8aaa}}" stop-opacity=".28"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="400" height="300" fill="url(#{{slug}}Bg)"/>
+      <rect width="400" height="300" fill="url(#{{slug}}Glow)"/>
+      <!-- éléments illustratifs de l'histoire (formes simples, pas d'image binaire) -->
+    </svg>
+  </div>
+  <div class="card-body">
+    <div class="card-tag">✦ {{Catégorie}} · {{Sous-titre court}}</div>
+    <div class="card-title">{{Titre}} {{emoji}}</div>
+    <p class="card-desc">{{Résumé en une ou deux phrases.}}</p>
+    <div class="card-footer">
+      <div class="card-chapters">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        {{N}} chapitres
+      </div>
+      <div class="card-btn">
+        Lire l'histoire
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+  </div>
+</a>

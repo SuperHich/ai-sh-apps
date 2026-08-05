@@ -66,6 +66,32 @@ Open `index.html` in any modern browser — no server required.
 
 The site is deployed to GitHub Pages via `.github/workflows/pages.yml`. The workflow uploads the static files at the repository root and deploys them on every push to `main`.
 
+## Adding a story (Claude Code routine)
+
+The repeatable procedure for adding a story lives in
+`.claude/skills/ajouter-histoire/`. In Claude Code, run:
+
+```
+/ajouter-histoire science "Marie Curie"
+```
+
+It walks the six steps: create `stories/<category>/<slug>.html`, add the
+`<back-button>` like its siblings, generate the card in the category index,
+bump the story counter, verify the result, then commit and push.
+
+The verification step is a standalone script — usable without Claude:
+
+```bash
+python3 .claude/skills/ajouter-histoire/scripts/verifier_histoire.py \
+  --categorie science --slug marie-curie
+```
+
+It runs static checks (file, back-button, card, counter, relative links,
+duplicate SVG ids) then loads both pages in headless Chromium over a local HTTP
+server to confirm the card renders, the counter matches, the story is reachable
+and no console/HTTP error occurs. Exit code 0 means the change is safe to push.
+Add `--sans-navigateur` to skip the browser checks.
+
 ## Reusable Components
 
 ### `<back-button>`
