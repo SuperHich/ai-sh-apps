@@ -44,6 +44,10 @@ class Rapport:
     def skip(self, msg):
         self.lignes.append(f"[{SKIP}] {msg}")
 
+    def detail(self, msg):
+        """Ligne d'explication rattachee au controle precedent (ne compte pas)."""
+        self.lignes.append(f"        {msg}")
+
     def afficher(self):
         print("\n".join(self.lignes))
         print()
@@ -370,10 +374,51 @@ def verifier_navigateur(racine: Path, categorie: str, slug: str, attendu: int, r
         shutil.rmtree(profil, ignore_errors=True)
 
 
+def normaliser(txt: str) -> str:
+    txt = txt.replace("’", "'").replace("–", "-").replace("—", "-")
+    txt = txt.replace("«", '"').replace("»", '"').replace("“", '"').replace("”", '"')
+    return re.sub(r"\s+", " ", re.sub(r"[^\w\s'-]", " ", txt, flags=re.UNICODE)).strip().lower()
+
+
+def verifier_fidelite(page: Path, source: Path, rap: Rapport):
+    """Chaque paragraphe de la piece jointe doit se retrouver dans la page."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    try:
+        from lire_piece_jointe import extraire, nettoyer, texte_de_html
+    except Exception as e:  # pragma: no cover
+        rap.warn(f"controle de fidelite impossible ({e})")
+        return
+
+    try:
+        paragraphes = [l for l in nettoyer(extraire(source)) if l]
+    except SystemExit as e:
+        rap.skip(f"fidelite au texte source : {e}")
+        return
+
+    rendu = normaliser(texte_de_html(page.read_text(encoding="utf-8", errors="replace")))
+    manquants = [
+        p for p in paragraphes
+        if len(p.split()) >= 4 and normaliser(p.lstrip("# ")) not in rendu
+    ]
+    total = sum(1 for p in paragraphes if len(p.split()) >= 4)
+    if not total:
+        rap.warn(f"texte source trop court pour un controle de fidelite ({source.name})")
+    elif manquants:
+        rap.ko(
+            f"{len(manquants)}/{total} paragraphe(s) de {source.name} absent(s) de la page "
+            f"— le texte joint doit etre repris, pas reecrit"
+        )
+        for m in manquants[:5]:
+            rap.detail(f"manquant : « {m[:80]}… »")
+    else:
+        rap.ok(f"fidelite au texte source : {total}/{total} paragraphes de {source.name} presents")
+
+
 def main():
     p = argparse.ArgumentParser(description="Verifie l'ajout d'une histoire (etape 5 de la routine).")
     p.add_argument("--categorie", required=True, help="religion | arabe | legend | fun | science | …")
     p.add_argument("--slug", required=True, help="nom du fichier sans .html, ex. marie-curie")
+    p.add_argument("--source", help="piece jointe d'origine : verifie que tout le texte a ete repris")
     p.add_argument("--sans-navigateur", action="store_true", help="controles statiques uniquement")
     args = p.parse_args()
 
@@ -387,6 +432,13 @@ def main():
     if page is None:
         rap.afficher()
         sys.exit(1)
+
+    if args.source:
+        src = Path(args.source).expanduser()
+        if src.is_file():
+            verifier_fidelite(page, src, rap)
+        else:
+            rap.ko(f"piece jointe introuvable : {src}")
 
     if args.sans_navigateur:
         rap.skip("controles navigateur desactives (--sans-navigateur)")
