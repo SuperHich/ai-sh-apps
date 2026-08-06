@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Phare des Marées Perdues</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night: #0a1826;
+    --night-deep: #050d16;
+    --night-mid: #10263a;
+    --fog: #eef1ec;
+    --fog-dim: #b9c6c8;
+    --gold: #f1b24a;
+    --gold-soft: #f1b24a55;
+    --gold-dim: #caa15f;
+    --teal: #3f8e88;
+    --teal-deep: #17393a;
+    --line: #ffffff1a;
+    --serif-display: "Fraunces", serif;
+    --serif-body: "Literata", serif;
+    --mono: "Space Mono", monospace;
+    --measure: 62ch;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--night);
+    color:var(--fog);
+    font-family:var(--serif-body);
+    font-size:18px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+  }
+
+  ::selection{background:var(--gold-soft); color:var(--night);}
+
+  a{color:var(--gold);}
+
+  /* ---------- signature beacon (persists across the whole page) ---------- */
+  .beacon{
+    position:fixed;
+    top:22px; right:22px;
+    width:46px; height:46px;
+    border-radius:50%;
+    z-index:40;
+    pointer-events:none;
+    background:radial-gradient(circle at center, var(--gold) 0%, var(--gold-dim) 45%, transparent 70%);
+    box-shadow:0 0 18px 4px var(--gold-soft);
+  }
+  .beacon::before{
+    content:"";
+    position:absolute; inset:-140px;
+    background:conic-gradient(from 0deg, transparent 0deg, var(--gold-soft) 8deg, transparent 30deg, transparent 360deg);
+    animation:beaconSweep 6s linear infinite;
+    border-radius:50%;
+  }
+  @keyframes beaconSweep{ to{ transform:rotate(360deg); } }
+
+  /* ---------- layout shells ---------- */
+  .wrap{max-width:1080px; margin:0 auto; padding:0 clamp(24px, 7vw, 96px);}
+  section{position:relative;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+    text-align:center;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse at 50% -10%, #16324a 0%, transparent 55%),
+      linear-gradient(180deg, var(--night-deep) 0%, var(--night) 55%, var(--night-mid) 100%);
+    padding-bottom:64px;
+  }
+  .stars{position:absolute; inset:0; z-index:0;}
+  .stars span{
+    position:absolute; width:2px; height:2px; background:var(--fog); border-radius:50%;
+    opacity:.6; animation:twinkle 4s ease-in-out infinite;
+  }
+  @keyframes twinkle{ 0%,100%{opacity:.15;} 50%{opacity:.9;} }
+
+  .hero-eyebrow{
+    font-family:var(--mono); letter-spacing:.28em; text-transform:uppercase;
+    font-size:12px; color:var(--fog-dim); z-index:2; margin-bottom:18px;
+  }
+  .hero h1{
+    font-family:var(--serif-display);
+    font-weight:600; font-optical-sizing:auto;
+    font-size:clamp(2.4rem, 6vw, 4.6rem);
+    line-height:1.05; margin:0 0 20px; z-index:2;
+    text-wrap:balance;
+  }
+  .hero p.tag{
+    font-style:italic; color:var(--fog-dim); font-size:1.05rem; max-width:36ch;
+    margin:0 0 46px; z-index:2;
+  }
+
+  .lighthouse-scene{ position:relative; width:100%; height:280px; z-index:1; }
+  .lighthouse-scene svg{ position:absolute; bottom:0; left:50%; transform:translateX(-50%); }
+
+  .beam-group{ transform-origin: 168px 96px; animation:beamRotate 5s linear infinite; }
+  @keyframes beamRotate{ to{ transform:rotate(360deg); } }
+
+  .waves-row{ position:absolute; bottom:0; left:0; width:100%; height:60px; overflow:hidden; z-index:1; }
+  .wave-path{ animation:waveDrift 9s linear infinite; }
+  .wave-path.slow{ animation-duration:14s; opacity:.5; }
+  @keyframes waveDrift{ from{ transform:translateX(0); } to{ transform:translateX(-320px); } }
+
+  .scroll-cue{
+    position:relative; z-index:2; margin-top:36px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--fog-dim); display:flex; flex-direction:column; align-items:center; gap:8px;
+  }
+  .scroll-cue span{
+    width:1px; height:34px; background:linear-gradient(var(--gold), transparent);
+    animation:cueMove 1.8s ease-in-out infinite;
+  }
+  @keyframes cueMove{ 0%{ opacity:0; transform:translateY(-6px);} 40%{opacity:1;} 100%{opacity:0; transform:translateY(20px);} }
+
+  /* ---------- chapters ---------- */
+  .chapters{ padding:100px 0 40px; }
+  .chapter{
+    display:flex; gap:56px; align-items:center;
+    padding:64px 0;
+    border-top:1px solid var(--line);
+    opacity:0; transform:translateY(28px);
+    transition:opacity .8s ease, transform .8s ease;
+  }
+  .chapter.in-view{ opacity:1; transform:translateY(0); }
+  .chapter:first-child{ border-top:none; }
+  .chapter--reverse{ flex-direction:row-reverse; }
+
+  .chapter-media, .chapter-text{ flex:1 1 0; min-width:0; }
+
+  .eyebrow{
+    display:flex; align-items:center; gap:12px;
+    font-family:var(--mono); font-size:12px; letter-spacing:.24em; text-transform:uppercase;
+    color:var(--gold-dim); margin-bottom:18px;
+  }
+  .eyebrow .badge{
+    width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--teal-deep); border:1px solid var(--gold-soft);
+    font-size:15px;
+  }
+
+  .chapter h2{
+    font-family:var(--serif-display); font-weight:600;
+    font-size:clamp(1.6rem, 3vw, 2.3rem); margin:0 0 20px; line-height:1.15;
+    text-wrap:balance;
+  }
+  .chapter p{ margin:0 0 16px; color:var(--fog); max-width:var(--measure); }
+  .chapter strong{ color:var(--gold); font-weight:600; }
+
+  blockquote{
+    margin:24px 0 0; padding:4px 0 4px 22px;
+    border-left:2px solid var(--gold);
+    font-family:var(--serif-display); font-style:italic;
+    font-size:1.15rem; color:var(--fog-dim);
+    max-width:var(--measure);
+  }
+
+  .illustration{
+    position:relative; height:300px; border-radius:18px; overflow:hidden;
+    background:linear-gradient(160deg, var(--night-mid), var(--night-deep));
+    border:1px solid var(--line);
+    box-shadow:0 26px 54px -28px #000c;
+  }
+  .illustration.tall{ height:330px; }
+  .illustration svg{ position:absolute; inset:0; width:100%; height:100%; }
+  .illustration::after{
+    content:"";
+    position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(ellipse at 50% 40%, transparent 45%, #050d16b3 100%);
+  }
+  .illustration.warm{
+    background:
+      radial-gradient(circle at 52% 52%, #f1b24a26 0%, transparent 58%),
+      linear-gradient(160deg, var(--night-mid), var(--night-deep));
+  }
+  .illustration.aurora{
+    background:
+      radial-gradient(circle at 26% 22%, #3f8e8859 0%, transparent 48%),
+      radial-gradient(circle at 74% 62%, #7c62c255 0%, transparent 52%),
+      radial-gradient(circle at 50% 94%, #f1b24a2e 0%, transparent 42%),
+      linear-gradient(160deg, var(--night-mid), var(--night-deep));
+    animation:auroraHue 15s ease-in-out infinite;
+  }
+  @keyframes auroraHue{ 0%,100%{ filter:hue-rotate(0deg);} 50%{ filter:hue-rotate(22deg);} }
+
+  .mote{ animation:floatUp 5s ease-in infinite; }
+  @keyframes floatUp{
+    0%{ transform:translateY(0) scale(1); opacity:0; }
+    12%{ opacity:.9; }
+    100%{ transform:translateY(-46px) scale(.6); opacity:0; }
+  }
+  .twinkle-star{ animation:twinkle 4s ease-in-out infinite; }
+
+  /* chapter I illustration reuse */
+  .il-lighthouse .beam-group{ transform-origin:150px 92px; animation:beamRotate 4.5s linear infinite; }
+
+  /* chapter II — trapdoor + compass */
+  .compass-needle{ transform-origin:150px 140px; animation:needleSway 5s ease-in-out infinite; }
+  @keyframes needleSway{ 0%,100%{ transform:rotate(-14deg);} 50%{ transform:rotate(14deg);} }
+  .trap-glow{ animation:glowPulse 2.6s ease-in-out infinite; }
+  @keyframes glowPulse{ 0%,100%{ opacity:.35;} 50%{ opacity:.9;} }
+
+  /* chapter III — path swallowed by fog */
+  .sand-path{ stroke-dasharray:6 8; animation:pathDraw 3.6s linear infinite; }
+  @keyframes pathDraw{ to{ stroke-dashoffset:-140; } }
+  .fog-bank{ animation:fogDrift 7s ease-in-out infinite; }
+  .fog-bank.b{ animation-duration:9s; animation-delay:-2s; }
+  .fog-bank.c{ animation-duration:11s; animation-delay:-4s; }
+  @keyframes fogDrift{ 0%,100%{ transform:translateX(-14px);} 50%{ transform:translateX(18px);} }
+
+  /* chapter IV — guardian & suspended clocks */
+  .guardian-glow{ animation:guardianPulse 4s ease-in-out infinite; }
+  @keyframes guardianPulse{ 0%,100%{ opacity:.55;} 50%{ opacity:.95;} }
+  .clock-hand{ transform-box:fill-box; transform-origin:center; }
+  .clock-hand.rev{ animation:clockReverse 8s linear infinite; }
+  .clock-hand.fwd{ animation:clockForward 6s linear infinite; }
+  @keyframes clockReverse{ from{ transform:rotate(360deg);} to{ transform:rotate(0deg);} }
+  @keyframes clockForward{ from{ transform:rotate(0deg);} to{ transform:rotate(360deg);} }
+
+  /* chapter V — dawn */
+  .dawn-sky{ animation:dawnShift 10s ease-in-out infinite alternate; }
+  @keyframes dawnShift{
+    0%{ stop-color:#0a1826; }
+    100%{ stop-color:#f1b24a; }
+  }
+  .gull{ animation:gullDrift 8s linear infinite; }
+  @keyframes gullDrift{ from{ transform:translateX(-30px);} to{ transform:translateX(300px);} }
+
+  /* ---------- fin ---------- */
+  .fin{
+    padding:110px 0 140px; text-align:center;
+    background:radial-gradient(ellipse at 50% 0%, #16324a55, transparent 60%);
+  }
+  .fin-seal{
+    width:74px; height:74px; margin:0 auto 28px; border-radius:50%;
+    border:1px solid var(--gold-soft);
+    display:flex; align-items:center; justify-content:center;
+    font-size:26px;
+    box-shadow:0 0 30px var(--gold-soft);
+  }
+  .fin-eyebrow{
+    font-family:var(--mono); letter-spacing:.3em; text-transform:uppercase; font-size:12px;
+    color:var(--gold-dim); margin-bottom:20px;
+  }
+  .fin h2{
+    font-family:var(--serif-display); font-size:clamp(1.8rem,4vw,2.6rem); margin:0 0 28px;
+  }
+  .fin p{ max-width:52ch; margin:0 auto 14px; color:var(--fog-dim); }
+  .fin .closing{
+    font-style:italic; color:var(--gold-dim); margin-top:26px; font-family:var(--serif-display);
+  }
+
+  footer{
+    text-align:center; padding:30px 0 50px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--fog-dim); opacity:.6;
+  }
+
+  @media (max-width: 760px){
+    .chapter, .chapter--reverse{ flex-direction:column; gap:26px; padding:46px 0; }
+    .illustration{ width:100%; height:220px; }
+    .beacon{ width:34px; height:34px; top:14px; right:14px; }
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+  <div class="beacon" aria-hidden="true"></div>
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="stars" id="stars" aria-hidden="true"></div>
+    <p class="hero-eyebrow">Bretagne, côte sauvage · aujourd'hui</p>
+    <h1>Le Phare des<br>Marées Perdues</h1>
+    <p class="tag">Une histoire d'aventure et de mystère, entre terre et mer.</p>
+
+    <div class="lighthouse-scene" aria-hidden="true">
+      <svg width="336" height="280" viewBox="0 0 336 280">
+        <!-- rock -->
+        <path d="M60 280 L120 210 L216 210 L276 280 Z" fill="#0d2033"/>
+        <!-- tower -->
+        <polygon points="150,96 186,96 196,210 140,210" fill="#1a3550"/>
+        <polygon points="150,96 186,96 182,120 154,120" fill="#e7ede8"/>
+        <polygon points="154,120 182,120 178,148 158,148" fill="#e7ede8" opacity="0.85"/>
+        <polygon points="158,148 178,148 174,176 162,176" fill="#e7ede8" opacity="0.7"/>
+        <rect x="152" y="176" width="32" height="34" fill="#12283d"/>
+        <!-- lantern room -->
+        <rect x="146" y="80" width="44" height="20" rx="2" fill="#0d2033" stroke="#f1b24a" stroke-width="1.5"/>
+        <circle cx="168" cy="90" r="5" fill="#f1b24a">
+          <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <polygon points="146,80 190,80 178,68 158,68" fill="#12283d"/>
+        <!-- rotating beam -->
+        <g class="beam-group">
+          <polygon points="168,90 340,60 340,120" fill="url(#beamGrad)"/>
+        </g>
+        <defs>
+          <linearGradient id="beamGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#f1b24a" stop-opacity="0.55"/>
+            <stop offset="1" stop-color="#f1b24a" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="waves-row" aria-hidden="true">
+      <svg width="700" height="40" viewBox="0 0 700 40" class="wave-path" preserveAspectRatio="none">
+        <path d="M0 20 Q 20 5, 40 20 T 80 20 T 120 20 T 160 20 T 200 20 T 240 20 T 280 20 T 320 20 T 360 20 T 400 20 T 440 20 T 480 20 T 520 20 T 560 20 T 600 20 T 640 20 T 680 20 T 720 20"
+          fill="none" stroke="#3f8e88" stroke-width="2" opacity="0.6"/>
+      </svg>
+      <svg width="700" height="40" viewBox="0 0 700 40" class="wave-path slow" preserveAspectRatio="none" style="margin-top:-10px;">
+        <path d="M0 25 Q 20 12, 40 25 T 80 25 T 120 25 T 160 25 T 200 25 T 240 25 T 280 25 T 320 25 T 360 25 T 400 25 T 440 25 T 480 25 T 520 25 T 560 25 T 600 25 T 640 25 T 680 25 T 720 25"
+          fill="none" stroke="#1f4e4b" stroke-width="2"/>
+      </svg>
+    </div>
+
+    <div class="scroll-cue"><span></span>Fais défiler pour lire</div>
+  </header>
+
+  <!-- ================= CHAPTERS ================= -->
+  <main class="wrap chapters">
+
+    <!-- Chapitre I -->
+    <article class="chapter">
+      <div class="chapter-media">
+        <div class="illustration il-lighthouse" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%" preserveAspectRatio="xMidYMax meet">
+            <defs>
+              <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#050d16"/>
+                <stop offset="1" stop-color="#16324a"/>
+              </linearGradient>
+              <linearGradient id="beam1" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#f1b24a" stop-opacity="0.55"/>
+                <stop offset="1" stop-color="#f1b24a" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="blur1a" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6"/></filter>
+              <filter id="blur1b" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="10"/></filter>
+            </defs>
+
+            <rect width="300" height="300" fill="url(#sky1)"/>
+
+            <!-- moon -->
+            <circle cx="248" cy="54" r="30" fill="#eef1ec" filter="url(#blur1b)" opacity="0.25"/>
+            <circle cx="248" cy="54" r="17" fill="#eef1ec" opacity="0.92"/>
+            <circle cx="243" cy="48" r="3" fill="#c9d3ce" opacity="0.5"/>
+            <circle cx="253" cy="60" r="2" fill="#c9d3ce" opacity="0.4"/>
+
+            <!-- stars -->
+            <circle class="twinkle-star" cx="40" cy="36" r="1.6" fill="#eef1ec"/>
+            <circle class="twinkle-star" cx="90" cy="70" r="1.2" fill="#eef1ec" style="animation-delay:-1s"/>
+            <circle class="twinkle-star" cx="180" cy="30" r="1.4" fill="#eef1ec" style="animation-delay:-2s"/>
+            <circle class="twinkle-star" cx="210" cy="110" r="1.1" fill="#eef1ec" style="animation-delay:-.5s"/>
+            <circle class="twinkle-star" cx="60" cy="110" r="1.3" fill="#eef1ec" style="animation-delay:-3s"/>
+
+            <!-- horizon reflection of the moon -->
+            <rect x="243" y="150" width="10" height="130" fill="#eef1ec" opacity="0.06"/>
+
+            <!-- sea -->
+            <rect x="0" y="230" width="300" height="70" fill="#0a1826"/>
+            <path d="M0 236 Q 20 228 40 236 T 80 236 T 120 236 T 160 236 T 200 236 T 240 236 T 280 236 T 320 236" fill="none" stroke="#3f8e88" stroke-width="1.6" opacity="0.45" class="wave-path"/>
+            <path d="M0 252 Q 20 244 40 252 T 80 252 T 120 252 T 160 252 T 200 252 T 240 252 T 280 252 T 320 252" fill="none" stroke="#1f4e4b" stroke-width="1.6" opacity="0.6" class="wave-path slow"/>
+
+            <!-- rocks -->
+            <polygon points="0,300 60,232 118,236 150,300" fill="#0a1c2c"/>
+            <polygon points="150,300 176,238 250,232 300,300" fill="#0d2033"/>
+
+            <!-- lighthouse -->
+            <polygon points="120,232 130,232 138,300 108,300" fill="#132a41"/>
+            <polygon points="132,92 168,92 178,232 122,232" fill="#1a3550"/>
+            <polygon points="132,92 168,92 164,118 136,118" fill="#e7ede8"/>
+            <polygon points="136,118 164,118 160,144 140,144" fill="#e7ede8" opacity="0.85"/>
+            <polygon points="140,144 160,144 157,170 143,170" fill="#e7ede8" opacity="0.7"/>
+            <rect x="141" y="170" width="18" height="62" fill="#0d2033"/>
+            <rect x="126" y="74" width="44" height="20" rx="2" fill="#0d2033" stroke="#f1b24a" stroke-width="1.4"/>
+            <line x1="138" y1="74" x2="138" y2="94" stroke="#0a1826" stroke-width="1"/>
+            <line x1="158" y1="74" x2="158" y2="94" stroke="#0a1826" stroke-width="1"/>
+            <polygon points="123,74 173,74 163,60 133,60" fill="#0d2033"/>
+
+            <!-- lamp glow + rotating beam with bloom -->
+            <circle cx="148" cy="84" r="14" fill="#f1b24a" filter="url(#blur1a)" opacity="0.55"/>
+            <circle cx="148" cy="84" r="5" fill="#f1b24a">
+              <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <g class="beam-group" style="transform-origin:148px 84px;">
+              <polygon points="148,84 300,58 300,112" fill="url(#beam1)" filter="url(#blur1a)"/>
+              <polygon points="148,84 300,66 300,102" fill="url(#beam1)"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">🕯️</span>Chapitre I</p>
+        <h2>Le phare silencieux</h2>
+        <p>Léna n'avait que douze ans quand elle posa le pied sur l'île de <strong>Kervénan</strong>, où son grand-père <strong>Erwan</strong> gardait le phare depuis quarante ans. Mais cette fois, personne ne l'attendait sur le quai.</p>
+        <p>On lui raconta une histoire étrange : trois nuits plus tôt, un <strong>brouillard couleur de perle</strong> s'était levé sans prévenir, avalant la mer, le ciel, et le vieux gardien avec. Depuis, la lanterne du phare restait éteinte pour la première fois depuis un siècle.</p>
+        <p>Léna monta les marches en colimaçon jusqu'en haut, le cœur serré, bien décidée à comprendre ce qui avait emporté son grand-père.</p>
+        <blockquote>« Un phare ne s'éteint jamais tout seul, » se dit-elle. « Il faut qu'on l'ait éteint. »</blockquote>
+      </div>
+    </article>
+
+    <!-- Chapitre II -->
+    <article class="chapter chapter--reverse">
+      <div class="chapter-media">
+        <div class="illustration warm" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <defs>
+              <filter id="blur2a" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="9"/></filter>
+              <filter id="blur2b" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="2"/></filter>
+            </defs>
+
+            <!-- wooden floor grain -->
+            <line x1="0" y1="46" x2="300" y2="44" stroke="#1a3550" stroke-width="2" opacity="0.7"/>
+            <line x1="0" y1="72" x2="300" y2="75" stroke="#1a3550" stroke-width="1.4" opacity="0.5"/>
+            <line x1="0" y1="205" x2="300" y2="203" stroke="#1a3550" stroke-width="1.6" opacity="0.6"/>
+            <line x1="0" y1="240" x2="300" y2="242" stroke="#1a3550" stroke-width="1.2" opacity="0.4"/>
+            <line x1="0" y1="270" x2="300" y2="268" stroke="#1a3550" stroke-width="1.8" opacity="0.55"/>
+
+            <!-- amber glow pooling from the trapdoor -->
+            <ellipse class="trap-glow" cx="140" cy="128" rx="90" ry="46" fill="#f1b24a" filter="url(#blur2a)" opacity="0.4"/>
+
+            <!-- trapdoor -->
+            <ellipse cx="140" cy="128" rx="66" ry="20" fill="#2a4258" stroke="#caa15f" stroke-width="1.2" opacity="0.9"/>
+            <ellipse cx="140" cy="128" rx="56" ry="15" fill="#050d16"/>
+            <ellipse class="trap-glow" cx="140" cy="128" rx="40" ry="9" fill="#f1b24a" opacity="0.65"/>
+
+            <!-- rising motes of light -->
+            <circle class="mote" cx="120" cy="118" r="2" fill="#f1b24a"/>
+            <circle class="mote" cx="150" cy="112" r="1.6" fill="#f1e3b8" style="animation-delay:-1s"/>
+            <circle class="mote" cx="135" cy="122" r="1.3" fill="#f1b24a" style="animation-delay:-2.4s"/>
+            <circle class="mote" cx="160" cy="120" r="1.8" fill="#f1e3b8" style="animation-delay:-3.2s"/>
+            <circle class="mote" cx="108" cy="124" r="1.4" fill="#f1b24a" style="animation-delay:-.6s"/>
+
+            <!-- old carnet resting on the floor -->
+            <g transform="translate(48,238) rotate(-8)">
+              <rect x="0" y="0" width="46" height="34" rx="2" fill="#17393a" stroke="#3f8e88" stroke-width="1"/>
+              <line x1="7" y1="9" x2="39" y2="9" stroke="#b9c6c8" stroke-width="1" opacity="0.6"/>
+              <line x1="7" y1="16" x2="39" y2="16" stroke="#b9c6c8" stroke-width="1" opacity="0.5"/>
+              <line x1="7" y1="23" x2="30" y2="23" stroke="#b9c6c8" stroke-width="1" opacity="0.4"/>
+            </g>
+
+            <!-- compass -->
+            <g transform="translate(224,214)">
+              <circle r="50" fill="#050d16" opacity="0.4" filter="url(#blur2b)"/>
+              <circle r="46" fill="none" stroke="#caa15f" stroke-width="1.4" opacity="0.75"/>
+              <circle r="38" fill="none" stroke="#caa15f" stroke-width="0.8" opacity="0.4"/>
+              <circle r="3.5" fill="#f1b24a"/>
+              <g stroke="#b9c6c8" stroke-width="1.3" opacity="0.7">
+                <line x1="0" y1="-46" x2="0" y2="-36"/>
+                <line x1="0" y1="46" x2="0" y2="36"/>
+                <line x1="-46" y1="0" x2="-36" y2="0"/>
+                <line x1="46" y1="0" x2="36" y2="0"/>
+              </g>
+              <text x="0" y="-52" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="#b9c6c8">N</text>
+              <text x="0" y="60" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="#b9c6c8">S</text>
+              <text x="-56" y="3" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="#b9c6c8">O</text>
+              <text x="56" y="3" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="#b9c6c8">E</text>
+              <g class="compass-needle">
+                <polygon points="0,-38 5,0 0,7 -5,0" fill="#f1b24a"/>
+                <polygon points="0,38 5,0 0,-7 -5,0" fill="#3f8e88"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">🗝️</span>Chapitre II</p>
+        <h2>La trappe sous le plancher</h2>
+        <p>En cherchant une lampe dans l'atelier de son grand-père, Léna fit tomber une vieille malle. Dessous, une latte du plancher sonnait creux. Elle la souleva et découvrit une <strong>trappe de pierre</strong>, gravée de vagues et d'étoiles.</p>
+        <p>À l'intérieur : un carnet à la reliure gonflée par l'humidité, et une <strong>boussole étrange</strong> dont l'aiguille ne pointait jamais le nord, mais tournait doucement vers la mer, comme attirée par quelque chose d'invisible.</p>
+        <p>Le carnet parlait d'un chemin qui n'apparaissait qu'une fois tous les cent ans, quand la marée descendait plus bas que jamais : le <strong>Sentier des Brumes</strong>. Cette nuit même, la mer devait se retirer comme jamais.</p>
+        <blockquote>« Ceux qui suivent le sentier doivent y croire avant de le voir, » disait la dernière page, de l'écriture de son grand-père.</blockquote>
+      </div>
+    </article>
+
+    <!-- Chapitre III -->
+    <article class="chapter">
+      <div class="chapter-media">
+        <div class="illustration" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <defs>
+              <filter id="blur3" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="14"/></filter>
+              <filter id="blur3b" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.2"/></filter>
+            </defs>
+
+            <!-- faint moon glow, top corner -->
+            <circle cx="250" cy="40" r="26" fill="#eef1ec" filter="url(#blur3)" opacity="0.18"/>
+
+            <!-- ghost of the lighthouse, almost swallowed by fog -->
+            <g opacity="0.22" filter="url(#blur3b)">
+              <polygon points="222,150 236,150 240,192 218,192" fill="#8fa3b3"/>
+              <rect x="216" y="140" width="26" height="12" fill="#8fa3b3"/>
+            </g>
+
+            <!-- sand path with pebbles -->
+            <path class="sand-path" d="M20 262 Q 90 232 100 198 T 160 138 T 200 96 T 258 54" fill="none" stroke="#caa15f" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="55" cy="248" r="2" fill="#8a9ba0" opacity="0.6"/>
+            <circle cx="120" cy="182" r="1.6" fill="#8a9ba0" opacity="0.55"/>
+            <circle cx="178" cy="118" r="1.8" fill="#8a9ba0" opacity="0.5"/>
+
+            <!-- footprints fading behind her -->
+            <g fill="#eef1ec">
+              <ellipse cx="34" cy="272" rx="3.4" ry="2" opacity="0.12" transform="rotate(-18 34 272)"/>
+              <ellipse cx="46" cy="262" rx="3.4" ry="2" opacity="0.16" transform="rotate(-18 46 262)"/>
+              <ellipse cx="66" cy="242" rx="3.2" ry="1.9" opacity="0.22" transform="rotate(-20 66 242)"/>
+              <ellipse cx="82" cy="222" rx="3" ry="1.8" opacity="0.28" transform="rotate(-24 82 222)"/>
+            </g>
+
+            <!-- cat silhouette guiding ahead, half in the fog -->
+            <g transform="translate(238,66)" opacity="0.7">
+              <path d="M0 10 Q -2 -2 8 -2 Q 18 -2 16 10 Q 16 16 8 16 Q 0 16 0 10 Z" fill="#b9c6c8"/>
+              <polygon points="0,-1 3,-7 5,0" fill="#b9c6c8"/>
+              <polygon points="16,-1 13,-7 11,0" fill="#b9c6c8"/>
+              <path d="M16 12 Q 26 8 24 -4" fill="none" stroke="#b9c6c8" stroke-width="1.6" stroke-linecap="round"/>
+              <circle cx="5" cy="7" r="0.8" fill="#0a1826"/>
+              <circle cx="11" cy="7" r="0.8" fill="#0a1826"/>
+            </g>
+
+            <!-- layered fog banks drifting inward -->
+            <ellipse class="fog-bank" cx="230" cy="110" rx="90" ry="56" fill="#eef1ec" filter="url(#blur3)" opacity="0.09"/>
+            <ellipse class="fog-bank b" cx="270" cy="170" rx="110" ry="66" fill="#eef1ec" filter="url(#blur3)" opacity="0.08"/>
+            <ellipse class="fog-bank c" cx="190" cy="60" rx="80" ry="46" fill="#eef1ec" filter="url(#blur3)" opacity="0.1"/>
+            <ellipse class="fog-bank" cx="60" cy="200" rx="70" ry="50" fill="#eef1ec" filter="url(#blur3)" opacity="0.07" style="animation-delay:-5s"/>
+          </svg>
+        </div>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">⛵</span>Chapitre III</p>
+        <h2>Le sentier qui n'existe pas</h2>
+        <p>À minuit, la mer se retira d'un coup, comme aspirée par le ciel. Un chemin de sable clair apparut entre les rochers, filant droit dans le brouillard. Léna serra la boussole dans sa poche et posa le premier pas.</p>
+        <p>Le chat gris trottait devant elle, sûr de lui, tandis que le brouillard se refermait derrière chacun de ses pas, effaçant le chemin déjà parcouru. Impossible de faire demi-tour désormais.</p>
+        <p>Au loin, elle entendit un bruit sourd, régulier, comme une respiration immense : la mer qui reviendrait bientôt engloutir le sentier — avec elle dessus, si elle n'avançait pas assez vite.</p>
+        <blockquote>« Ne cours pas après la peur, » murmura une voix dans le vent. « Cours vers ce que tu cherches. »</blockquote>
+      </div>
+    </article>
+
+    <!-- Chapitre IV -->
+    <article class="chapter chapter--reverse">
+      <div class="chapter-media">
+        <div class="illustration aurora tall" aria-hidden="true">
+          <svg viewBox="0 0 300 330" width="100%" height="100%">
+            <defs>
+              <filter id="blur4a" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="7"/></filter>
+              <filter id="blur4b" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3"/></filter>
+              <filter id="blur4c" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="10"/></filter>
+            </defs>
+
+            <!-- frozen grandfather, barely visible behind the veil -->
+            <g opacity="0.16" filter="url(#blur4c)" transform="translate(206,190)">
+              <ellipse cx="0" cy="46" rx="16" ry="34" fill="#eef1ec"/>
+              <circle cx="0" cy="4" r="12" fill="#eef1ec"/>
+            </g>
+
+            <!-- suspended clocks with chains -->
+            <g>
+              <line x1="66" y1="0" x2="66" y2="52" stroke="#caa15f" stroke-width="1" opacity="0.3" stroke-dasharray="2 3"/>
+              <circle cx="66" cy="70" r="20" fill="#0a1826" filter="url(#blur4b)" opacity="0.5"/>
+              <g transform="translate(66,70)">
+                <circle r="19" fill="none" stroke="#f1b24a" stroke-width="1.3" opacity="0.85"/>
+                <g stroke="#caa15f" stroke-width="1" opacity="0.6">
+                  <line x1="0" y1="-19" x2="0" y2="-15"/><line x1="0" y1="19" x2="0" y2="15"/>
+                  <line x1="-19" y1="0" x2="-15" y2="0"/><line x1="19" y1="0" x2="15" y2="0"/>
+                </g>
+                <line class="clock-hand rev" x1="0" y1="0" x2="0" y2="-13" stroke="#f1b24a" stroke-width="1.6" stroke-linecap="round"/>
+                <line class="clock-hand fwd" x1="0" y1="0" x2="9" y2="4" stroke="#caa15f" stroke-width="1.2" stroke-linecap="round"/>
+                <circle r="1.6" fill="#f1b24a"/>
+              </g>
+            </g>
+
+            <g>
+              <line x1="246" y1="0" x2="246" y2="44" stroke="#caa15f" stroke-width="1" opacity="0.3" stroke-dasharray="2 3"/>
+              <circle cx="246" cy="60" r="15" fill="#0a1826" filter="url(#blur4b)" opacity="0.5"/>
+              <g transform="translate(246,60)">
+                <circle r="14" fill="none" stroke="#f1b24a" stroke-width="1.2" opacity="0.8"/>
+                <line class="clock-hand rev" x1="0" y1="0" x2="0" y2="-9.5" stroke="#f1b24a" stroke-width="1.3" stroke-linecap="round"/>
+                <line class="clock-hand fwd" x1="0" y1="0" x2="6.5" y2="3" stroke="#caa15f" stroke-width="1" stroke-linecap="round"/>
+                <circle r="1.3" fill="#f1b24a"/>
+              </g>
+            </g>
+
+            <g>
+              <line x1="238" y1="150" x2="238" y2="188" stroke="#caa15f" stroke-width="1" opacity="0.25" stroke-dasharray="2 3"/>
+              <circle cx="238" cy="204" r="17" fill="#0a1826" filter="url(#blur4b)" opacity="0.5"/>
+              <g transform="translate(238,204)">
+                <circle r="16" fill="none" stroke="#f1b24a" stroke-width="1.2" opacity="0.8"/>
+                <line class="clock-hand rev" x1="0" y1="0" x2="0" y2="-10.5" stroke="#f1b24a" stroke-width="1.4" stroke-linecap="round"/>
+                <line class="clock-hand fwd" x1="0" y1="0" x2="7" y2="3.2" stroke="#caa15f" stroke-width="1.1" stroke-linecap="round"/>
+                <circle r="1.4" fill="#f1b24a"/>
+              </g>
+            </g>
+
+            <!-- the guardian: a robed silhouette of light and mist -->
+            <ellipse class="guardian-glow" cx="140" cy="150" rx="8" ry="8" fill="#f1e3b8" filter="url(#blur4a)"/>
+            <path d="M140 96 C 118 96 100 118 96 158 C 92 200 104 236 122 262 L 158 262 C 176 236 188 200 184 158 C 180 118 162 96 140 96 Z"
+                  fill="#eef1ec" opacity="0.22" filter="url(#blur4b)"/>
+            <ellipse cx="140" cy="118" rx="22" ry="26" fill="#eef1ec" opacity="0.3" filter="url(#blur4b)"/>
+            <ellipse class="guardian-glow" cx="140" cy="150" rx="10" ry="12" fill="#f1e3b8" opacity="0.85" filter="url(#blur4a)"/>
+
+            <!-- drifting sparkles -->
+            <circle class="mote" cx="108" cy="200" r="1.6" fill="#f1b24a"/>
+            <circle class="mote" cx="172" cy="180" r="1.4" fill="#3f8e88" style="animation-delay:-1.5s"/>
+            <circle class="mote" cx="150" cy="230" r="1.8" fill="#f1e3b8" style="animation-delay:-3s"/>
+            <circle class="mote" cx="120" cy="240" r="1.3" fill="#f1b24a" style="animation-delay:-2.2s"/>
+            <circle class="mote" cx="160" cy="120" r="1.5" fill="#f1e3b8" style="animation-delay:-.8s"/>
+          </svg>
+        </div>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">⏳</span>Chapitre IV</p>
+        <h2>La Gardienne des Brumes</h2>
+        <p>Au bout du sentier se tenait une silhouette faite de lumière et de vapeur, entourée d'<strong>horloges suspendues</strong> dont les aiguilles tournaient toutes à l'envers. C'était la <strong>Gardienne des Brumes</strong>, celle qui recueille ceux que le temps a oubliés.</p>
+        <p>« Ton grand-père a offert cent ans de veille à ce phare, » dit-elle d'une voix qui ressemblait au ressac. « La mer m'a demandé une chose en retour : quelqu'un doit choisir de rester à sa place, ou il restera ici pour toujours, hors du temps. »</p>
+        <p>Léna vit alors Erwan, immobile derrière un rideau de brume, comme figé entre deux battements de cœur. Elle aurait pu avoir peur. Elle aurait pu pleurer. Elle choisit autre chose.</p>
+        <blockquote>« Je ne veux pas prendre sa place, » dit Léna d'une voix ferme. « Je veux allumer le phare à sa place, chaque nuit, jusqu'à ce qu'il revienne. C'est ça, la vraie veille. »</blockquote>
+      </div>
+    </article>
+
+    <!-- Chapitre V -->
+    <article class="chapter">
+      <div class="chapter-media">
+        <div class="illustration" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <defs>
+              <linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1">
+                <stop class="dawn-sky" offset="0" stop-color="#0a1826"/>
+                <stop offset="0.55" stop-color="#3a3a52"/>
+                <stop offset="1" stop-color="#e8935a"/>
+              </linearGradient>
+              <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0" stop-color="#f7d38a" stop-opacity="0.9"/>
+                <stop offset="1" stop-color="#f1b24a" stop-opacity="0"/>
+              </radialGradient>
+              <filter id="blur5" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="10"/></filter>
+            </defs>
+
+            <rect width="300" height="300" fill="url(#dawn)"/>
+
+            <!-- rising sun, cropped by the horizon drawn later -->
+            <circle cx="150" cy="222" r="46" fill="url(#sunGlow)" filter="url(#blur5)"/>
+            <circle cx="150" cy="222" r="26" fill="#f7d38a" opacity="0.9"/>
+
+            <!-- calm sea + reflection -->
+            <rect x="0" y="236" width="300" height="64" fill="#0d1f30"/>
+            <rect x="126" y="236" width="48" height="64" fill="#f1b24a" opacity="0.18"/>
+            <path d="M0 244 Q 20 238 40 244 T 80 244 T 120 244 T 160 244 T 200 244 T 240 244 T 280 244 T 320 244" fill="none" stroke="#f1b24a" stroke-width="1.4" opacity="0.35" class="wave-path"/>
+
+            <!-- rocks -->
+            <polygon points="0,300 62,226 116,230 148,300" fill="#0a1c2c"/>
+            <polygon points="152,300 182,232 254,226 300,300" fill="#0d2033"/>
+
+            <!-- lighthouse, calm and steady -->
+            <polygon points="132,100 168,100 178,226 122,226" fill="#16324a"/>
+            <polygon points="132,100 168,100 164,124 136,124" fill="#e7ede8"/>
+            <polygon points="136,124 164,124 160,148 140,148" fill="#e7ede8" opacity="0.85"/>
+            <rect x="126" y="84" width="44" height="18" rx="2" fill="#0d2033" stroke="#f1b24a" stroke-width="1.4"/>
+            <circle cx="148" cy="93" r="14" fill="#f1b24a" filter="url(#blur5)" opacity="0.5"/>
+            <circle cx="148" cy="93" r="6" fill="#f1b24a">
+              <animate attributeName="opacity" values="0.75;1;0.75" dur="2.6s" repeatCount="indefinite"/>
+            </circle>
+
+            <!-- Léna and her grandfather, reunited on the shore -->
+            <g transform="translate(96,262)" fill="#0a1826" opacity="0.88">
+              <path d="M0 34 C -3 20 -2 6 0 0 C 2 6 3 20 0 34 Z"/>
+              <circle cx="0" cy="-6" r="6"/>
+            </g>
+            <g transform="translate(112,268)" fill="#0a1826" opacity="0.88">
+              <path d="M0 26 C -2.4 15 -1.6 5 0 0 C 1.6 5 2.4 15 0 26 Z"/>
+              <circle cx="0" cy="-4.5" r="4.5"/>
+            </g>
+
+            <!-- gulls -->
+            <path class="gull" d="M60 70 q6 -8 12 0 q6 -8 12 0" fill="none" stroke="#eef1ec" stroke-width="1.6" opacity="0.8"/>
+            <path class="gull" style="animation-delay:-3s" d="M60 50 q5 -6 10 0 q5 -6 10 0" fill="none" stroke="#eef1ec" stroke-width="1.4" opacity="0.6"/>
+          </svg>
+        </div>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">☀️</span>Chapitre V</p>
+        <h2>La lumière revenue</h2>
+        <p>Le brouillard se déchira comme un vieux rideau. Léna se retrouva sur la plage de Kervénan, son grand-père à ses côtés, aussi surpris qu'elle, comme réveillé d'un très long rêve.</p>
+        <p>Ils remontèrent ensemble jusqu'au phare, et cette nuit-là, ce fut Léna qui alluma la lanterne pour la première fois — pas parce qu'elle y était obligée, mais parce qu'elle l'avait promis.</p>
+        <p>Le chat gris disparut avec les dernières volutes de brume, mais on raconte, à Kervénan, qu'il revient chaque fois qu'un phare menace de s'éteindre pour de bon.</p>
+        <blockquote>« La vraie lumière, » disait désormais Erwan à qui voulait l'entendre, « ce n'est pas celle qui brille. C'est celle que quelqu'un choisit de rallumer. »</blockquote>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- ================= FIN ================= -->
+  <section class="fin wrap">
+    <div class="fin-seal" aria-hidden="true">🕯️</div>
+    <p class="fin-eyebrow">✦ Fin ✦</p>
+    <h2>Le Phare des Marées Perdues</h2>
+    <p>Et voilà l'histoire de la petite-fille qui refusa de perdre son grand-père. Elle n'avait ni épée, ni pouvoir magique — seulement le courage de faire un pas de plus dans le brouillard.</p>
+    <p>Elle nous apprend que le vrai courage ne rugit pas : il se contente d'avancer, une promesse à la fois.</p>
+    <p class="closing">Quelque part sur la côte, une lanterne brille encore. 🌊</p>
+  </section>
+
+  <footer>Généré avec Claude · Histoire originale</footer>
+
+<script>
+  // Champ d'étoiles généré une fois
+  (function(){
+    var field = document.getElementById('stars');
+    var count = 60;
+    for (var i = 0; i < count; i++){
+      var s = document.createElement('span');
+      s.style.left = (Math.random()*100) + '%';
+      s.style.top = (Math.random()*70) + '%';
+      s.style.animationDelay = (Math.random()*4) + 's';
+      field.appendChild(s);
+    }
+  })();
+
+  // Révélation des chapitres au défilement
+  (function(){
+    var items = document.querySelectorAll('.chapter');
+    if (!('IntersectionObserver' in window)){
+      items.forEach(function(el){ el.classList.add('in-view'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    items.forEach(function(el){ io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>

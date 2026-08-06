@@ -66,6 +66,45 @@ Open `index.html` in any modern browser — no server required.
 
 The site is deployed to GitHub Pages via `.github/workflows/pages.yml`. The workflow uploads the static files at the repository root and deploys them on every push to `main`.
 
+## Adding a story (Claude Code routine)
+
+The repeatable procedure for adding a story lives in
+`.claude/skills/ajouter-histoire/`. Attach the story file (`.txt`, `.md`,
+`.docx`, `.html`, `.pdf`…) and run:
+
+```
+/ajouter-histoire science
+```
+
+It walks the six steps: read the attachment (source of truth — the text is
+laid out, never rewritten), create `stories/<category>/<slug>.html`, add the
+`<back-button>` like its siblings, generate the card in the category index,
+bump the story counter, verify the result, then commit and push.
+
+Reading an attachment is a standalone script too — `.txt`, `.md`, `.html` and
+`.docx`, no dependencies; it reports the guessed title, an ASCII slug, the
+detected chapters and whether the text is RTL:
+
+```bash
+python3 .claude/skills/ajouter-histoire/scripts/lire_piece_jointe.py \
+  /mnt/attach/marie-curie.docx
+```
+
+The verification step is a standalone script — usable without Claude:
+
+```bash
+python3 .claude/skills/ajouter-histoire/scripts/verifier_histoire.py \
+  --categorie science --slug marie-curie --source /mnt/attach/marie-curie.docx
+```
+
+It runs static checks (file, back-button, card, counter, relative links,
+duplicate SVG ids) then loads both pages in headless Chromium over a local HTTP
+server to confirm the card renders, the counter matches, the story is reachable
+and no console/HTTP error occurs. With `--source`, it also checks every
+paragraph of the original attachment made it into the page — no rewriting, no
+silent trimming. Exit code 0 means the change is safe to push.
+Add `--sans-navigateur` to skip the browser checks.
+
 ## Reusable Components
 
 ### `<back-button>`
