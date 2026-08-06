@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Lumière qui Voyageait Depuis Mille Ans</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night: #0a0f20;
+    --night-deep: #05070f;
+    --night-mid: #141a37;
+    --fog: #eef0f5;
+    --fog-dim: #b7bdd8;
+    --gold: #f4c56a;
+    --gold-soft: #f4c56a55;
+    --gold-dim: #cba869;
+    --violet: #7c6fd1;
+    --violet-deep: #241e46;
+    --line: #ffffff1a;
+    --serif-display: "Fraunces", serif;
+    --serif-body: "Literata", serif;
+    --mono: "Space Mono", monospace;
+    --measure: 62ch;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--night);
+    color:var(--fog);
+    font-family:var(--serif-body);
+    font-size:18px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+  }
+
+  ::selection{background:var(--gold-soft); color:var(--night);}
+  a{color:var(--gold);}
+
+  /* ---------- signature: a distant star that keeps its own rhythm ---------- */
+  .starwatch{
+    position:fixed; top:24px; right:24px; width:12px; height:12px; border-radius:50%; z-index:40;
+    pointer-events:none;
+    background:radial-gradient(circle, #ffffff 0%, var(--gold) 45%, transparent 75%);
+    box-shadow:0 0 14px 3px var(--gold-soft);
+    animation:starPulse 3.6s ease-in-out infinite;
+  }
+  .starwatch::before{
+    content:""; position:absolute; inset:-10px; border-radius:50%;
+    border:1px solid var(--gold-soft);
+    animation:ringPulse 3.6s ease-out infinite;
+  }
+  @keyframes starPulse{
+    0%,100%{ transform:scale(1); opacity:.6; }
+    8%{ transform:scale(1.7); opacity:1; }
+    16%{ transform:scale(1); opacity:.6; }
+    26%{ transform:scale(1.5); opacity:.95; }
+    40%{ transform:scale(1); opacity:.55; }
+  }
+  @keyframes ringPulse{
+    0%{ transform:scale(.5); opacity:.7; }
+    100%{ transform:scale(2.4); opacity:0; }
+  }
+
+  .wrap{max-width:1080px; margin:0 auto; padding:0 clamp(24px, 7vw, 96px);}
+  section{position:relative;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+    text-align:center; overflow:hidden;
+    background:
+      radial-gradient(ellipse at 50% -10%, #1c2450 0%, transparent 55%),
+      linear-gradient(180deg, var(--night-deep) 0%, var(--night) 55%, var(--night-mid) 100%);
+    padding-bottom:60px;
+  }
+  .stars{position:absolute; inset:0; z-index:0;}
+  .stars span{
+    position:absolute; width:2px; height:2px; background:var(--fog); border-radius:50%;
+    opacity:.6; animation:twinkle 4s ease-in-out infinite;
+  }
+  @keyframes twinkle{ 0%,100%{opacity:.15;} 50%{opacity:.9;} }
+
+  .hero-eyebrow{
+    font-family:var(--mono); letter-spacing:.28em; text-transform:uppercase;
+    font-size:12px; color:var(--fog-dim); z-index:2; margin-bottom:18px;
+  }
+  .hero h1{
+    font-family:var(--serif-display); font-weight:600; font-optical-sizing:auto;
+    font-size:clamp(2.2rem, 5.6vw, 4.2rem); line-height:1.08; margin:0 0 20px; z-index:2;
+    text-wrap:balance;
+  }
+  .hero p.tag{
+    font-style:italic; color:var(--fog-dim); font-size:1.05rem; max-width:38ch;
+    margin:0 0 18px; z-index:2;
+  }
+  .hero-stats{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--gold-dim); z-index:2; margin:0 0 44px;
+  }
+
+  .observatory-scene{ position:relative; width:100%; height:280px; z-index:1; }
+  .observatory-scene svg{ position:absolute; bottom:0; left:50%; transform:translateX(-50%); }
+
+  .scroll-cue{
+    position:relative; z-index:2; margin-top:8px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--fog-dim); display:flex; flex-direction:column; align-items:center; gap:8px;
+  }
+  .scroll-cue span{
+    width:1px; height:34px; background:linear-gradient(var(--gold), transparent);
+    animation:cueMove 1.8s ease-in-out infinite;
+  }
+  @keyframes cueMove{ 0%{ opacity:0; transform:translateY(-6px);} 40%{opacity:1;} 100%{opacity:0; transform:translateY(20px);} }
+
+  /* ---------- chapters ---------- */
+  .chapters{ padding:100px 0 40px; }
+  .chapter{
+    display:flex; gap:56px; align-items:flex-start;
+    padding:64px 0;
+    border-top:1px solid var(--line);
+    opacity:0; transform:translateY(28px);
+    transition:opacity .8s ease, transform .8s ease;
+  }
+  .chapter.in-view{ opacity:1; transform:translateY(0); }
+  .chapter:first-child{ border-top:none; }
+  .chapter--reverse{ flex-direction:row-reverse; }
+  .chapter-media, .chapter-text{ flex:1 1 0; min-width:0; }
+
+  .eyebrow{
+    display:flex; align-items:center; gap:12px;
+    font-family:var(--mono); font-size:12px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--gold-dim); margin-bottom:18px;
+  }
+  .eyebrow .badge{
+    width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--violet-deep); border:1px solid var(--gold-soft);
+    font-size:15px; flex-shrink:0;
+  }
+
+  .chapter h2{
+    font-family:var(--serif-display); font-weight:600;
+    font-size:clamp(1.6rem, 3vw, 2.3rem); margin:0 0 20px; line-height:1.15;
+    text-wrap:balance;
+  }
+  .chapter p{ margin:0 0 16px; color:var(--fog); max-width:var(--measure); }
+  .chapter strong{ color:var(--gold); font-weight:600; }
+
+  blockquote{
+    margin:24px 0 0; padding:4px 0 4px 22px;
+    border-left:2px solid var(--gold);
+    font-family:var(--serif-display); font-style:italic;
+    font-size:1.15rem; color:var(--fog-dim);
+    max-width:var(--measure);
+  }
+
+  .illustration{
+    position:relative; height:300px; border-radius:18px; overflow:hidden;
+    background:linear-gradient(160deg, var(--night-mid), var(--night-deep));
+    border:1px solid var(--line);
+    box-shadow:0 26px 54px -28px #000c;
+  }
+  .illustration svg{ position:absolute; inset:0; width:100%; height:100%; }
+  .illustration::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(ellipse at 50% 40%, transparent 45%, #05070fb3 100%);
+  }
+  .illustration.warm{
+    background:
+      radial-gradient(circle at 50% 60%, #f4c56a22 0%, transparent 58%),
+      linear-gradient(160deg, var(--night-mid), var(--night-deep));
+  }
+
+  .fact-tag{
+    display:flex; align-items:center; gap:9px;
+    margin-top:16px; padding:9px 14px;
+    border-left:2px solid var(--gold);
+    background:#00000026; border-radius:0 8px 8px 0;
+    font-family:var(--mono); font-size:11.5px; line-height:1.5;
+    color:var(--fog-dim);
+  }
+
+  .mote{ animation:floatUp 5s ease-in infinite; }
+  @keyframes floatUp{
+    0%{ transform:translateY(0) scale(1); opacity:0; }
+    12%{ opacity:.9; }
+    100%{ transform:translateY(-46px) scale(.6); opacity:0; }
+  }
+  .twinkle-star{ animation:twinkle 4s ease-in-out infinite; }
+
+  /* chapter-specific motion */
+  .cloud-drift{ animation:cloudDrift 8s ease-in-out infinite; }
+  .cloud-drift.b{ animation-duration:11s; animation-delay:-3s; }
+  .cloud-drift.c{ animation-duration:9.5s; animation-delay:-1.5s; }
+  @keyframes cloudDrift{ 0%,100%{ transform:translateX(-10px);} 50%{ transform:translateX(14px);} }
+
+  .dial-hand{ transform-box:fill-box; transform-origin:center; animation:dialSweep 3.4s linear infinite; }
+  @keyframes dialSweep{ to{ transform:rotate(360deg); } }
+
+  .pulse-line{ stroke-dasharray:340; animation:pulseDraw 3.2s linear infinite; }
+  @keyframes pulseDraw{ to{ stroke-dashoffset:-680; } }
+
+  .dawn-sky{ }
+  .gull{ animation:gullDrift 8s linear infinite; }
+  @keyframes gullDrift{ from{ transform:translateX(-30px);} to{ transform:translateX(300px);} }
+
+  .future-dash{ stroke-dasharray:5 7; animation:dashCreep 2.4s linear infinite; }
+  @keyframes dashCreep{ to{ stroke-dashoffset:-24; } }
+
+  /* ---------- fin ---------- */
+  .fin{
+    padding:110px 0 140px; text-align:center;
+    background:radial-gradient(ellipse at 50% 0%, #1c245055, transparent 60%);
+  }
+  .fin-seal{
+    width:74px; height:74px; margin:0 auto 28px; border-radius:50%;
+    border:1px solid var(--gold-soft);
+    display:flex; align-items:center; justify-content:center; font-size:26px;
+    box-shadow:0 0 30px var(--gold-soft);
+  }
+  .fin-eyebrow{
+    font-family:var(--mono); letter-spacing:.3em; text-transform:uppercase; font-size:12px;
+    color:var(--gold-dim); margin-bottom:20px;
+  }
+  .fin h2{ font-family:var(--serif-display); font-size:clamp(1.8rem,4vw,2.6rem); margin:0 0 28px; }
+  .fin p{ max-width:52ch; margin:0 auto 14px; color:var(--fog-dim); }
+  .fin .closing{ font-style:italic; color:var(--gold-dim); margin-top:26px; font-family:var(--serif-display); }
+
+  footer{
+    text-align:center; padding:30px 0 50px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--fog-dim); opacity:.6;
+  }
+
+  @media (max-width: 760px){
+    .chapter, .chapter--reverse{ flex-direction:column; gap:22px; padding:46px 0; }
+    .illustration{ width:100%; height:230px; }
+    .starwatch{ width:9px; height:9px; top:16px; right:16px; }
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html"></back-button>
+
+  <div class="starwatch" aria-hidden="true"></div>
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="stars" id="stars" aria-hidden="true"></div>
+    <p class="hero-eyebrow">Un village de montagne · une nuit d'automne</p>
+    <h1>La Lumière qui<br>Voyageait Depuis<br>Mille Ans</h1>
+    <p class="tag">Une histoire d'aventure et de mystère, entre science et ciel étoilé.</p>
+    <p class="hero-stats">1000 années-lumière · une nuit par génération · un rythme jamais expliqué</p>
+
+    <div class="observatory-scene" aria-hidden="true">
+      <svg width="320" height="270" viewBox="0 0 320 270">
+        <defs>
+          <filter id="hb" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6"/></filter>
+        </defs>
+        <!-- hill -->
+        <path d="M0 270 Q 160 190 320 270 Z" fill="#0a0f22"/>
+        <!-- observatory base -->
+        <rect x="118" y="150" width="86" height="90" fill="#141a37"/>
+        <!-- dome -->
+        <path d="M112 150 A 50 50 0 0 1 212 150 Z" fill="#1b2348"/>
+        <!-- open slit revealing sky -->
+        <polygon points="150,150 178,150 190,60 158,72" fill="#05070f"/>
+        <circle class="twinkle-star" cx="172" cy="90" r="1.3" fill="#eef0f5"/>
+        <circle class="twinkle-star" cx="164" cy="110" r="1" fill="#eef0f5" style="animation-delay:-1.4s"/>
+        <!-- telescope barrel through the slit -->
+        <rect x="160" y="70" width="10" height="70" rx="3" fill="#0d2033" stroke="#cba869" stroke-width="1" transform="rotate(-14 165 105)"/>
+        <!-- glowing window -->
+        <rect x="128" y="196" width="20" height="24" fill="#f4c56a" opacity="0.5" filter="url(#hb)"/>
+        <rect x="130" y="198" width="16" height="20" fill="#f4c56a" opacity="0.8"/>
+        <!-- crescent moon -->
+        <circle cx="262" cy="46" r="16" fill="#eef0f5" opacity="0.9"/>
+        <circle cx="268" cy="42" r="14" fill="#0a0f20"/>
+      </svg>
+    </div>
+
+    <div class="scroll-cue"><span></span>Fais défiler pour lire</div>
+  </header>
+
+  <!-- ================= CHAPTERS ================= -->
+  <main class="wrap chapters">
+
+    <!-- Chapitre I -->
+    <article class="chapter">
+      <div class="chapter-media">
+        <div class="illustration" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <defs>
+              <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#05070f"/>
+                <stop offset="1" stop-color="#1c2450"/>
+              </linearGradient>
+              <filter id="b1" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6"/></filter>
+            </defs>
+            <rect width="300" height="300" fill="url(#sky1)"/>
+            <circle class="twinkle-star" cx="40" cy="40" r="1.4" fill="#eef0f5"/>
+            <circle class="twinkle-star" cx="230" cy="34" r="1.2" fill="#eef0f5" style="animation-delay:-1s"/>
+            <circle class="twinkle-star" cx="80" cy="90" r="1.1" fill="#eef0f5" style="animation-delay:-2s"/>
+            <circle class="twinkle-star" cx="260" cy="100" r="1.3" fill="#eef0f5" style="animation-delay:-.6s"/>
+            <circle class="twinkle-star" cx="190" cy="50" r="1" fill="#eef0f5" style="animation-delay:-3s"/>
+            <!-- crescent moon -->
+            <circle cx="255" cy="60" r="20" fill="#eef0f5" opacity="0.92"/>
+            <circle cx="263" cy="55" r="17" fill="#05070f"/>
+            <!-- hill -->
+            <path d="M0 300 Q 150 220 300 300 Z" fill="#0a0f22"/>
+            <!-- dome base + tower -->
+            <rect x="118" y="176" width="86" height="90" fill="#141a37"/>
+            <path d="M112 176 A 50 50 0 0 1 212 176 Z" fill="#1b2348"/>
+            <polygon points="150,176 178,176 190,90 158,102" fill="#05070f"/>
+            <rect x="160" y="98" width="10" height="76" rx="3" fill="#0d2033" stroke="#cba869" stroke-width="1" transform="rotate(-12 165 134)"/>
+            <circle cx="165" cy="98" r="4" fill="#f4c56a" filter="url(#b1)" opacity="0.6"/>
+            <!-- warm window -->
+            <rect x="128" y="222" width="20" height="24" fill="#f4c56a" opacity="0.85"/>
+            <!-- two small figures near the doorway -->
+            <g fill="#05070f" opacity="0.85">
+              <ellipse cx="112" cy="256" rx="4" ry="9"/>
+              <circle cx="112" cy="243" r="3.6"/>
+              <ellipse cx="122" cy="258" rx="3.4" ry="7.5"/>
+              <circle cx="122" cy="247" r="3"/>
+            </g>
+          </svg>
+        </div>
+        <p class="fact-tag">🔭 Par nuit claire, des milliers d'étoiles sont visibles à l'œil nu.</p>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">🌌</span>Chapitre I · Ce soir</p>
+        <h2>L'observatoire de Mémé Solange</h2>
+        <p>Nour avait onze ans quand sa grand-mère l'appela un soir, la voix pressée comme jamais : « Ce soir, il faut que tu viennes. Il n'y aura pas d'autre nuit comme celle-ci avant très, très longtemps. »</p>
+        <p><strong>Mémé Solange</strong> avait passé sa vie à observer le ciel depuis son petit <strong>observatoire</strong>, une coupole de bois posée sur la colline derrière la maison. Mais depuis quelques années, ses yeux ne distinguaient plus bien les étoiles les plus pâles, et elle avait besoin d'un regard neuf pour continuer ce qu'elle avait commencé bien avant la naissance de Nour.</p>
+        <p>Sur son grand bureau couvert de cartes du ciel, un vieux carnet de cuir attendait, ouvert à une page griffonnée de dizaines d'écritures différentes, comme si plusieurs générations y avaient noté la même chose, année après année.</p>
+        <blockquote>« Ce que je vais te montrer ce soir, » dit Mémé Solange, « personne d'autre au village ne le verra jamais. »</blockquote>
+      </div>
+    </article>
+
+    <!-- Chapitre II -->
+    <article class="chapter chapter--reverse">
+      <div class="chapter-media">
+        <div class="illustration warm" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <defs>
+              <filter id="b2" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="4"/></filter>
+              <path id="lightPath" d="M52,160 L248,160" fill="none"/>
+            </defs>
+
+            <!-- notebook lines -->
+            <line x1="20" y1="40" x2="280" y2="40" stroke="#2a2f55" stroke-width="1" opacity="0.5"/>
+            <line x1="20" y1="60" x2="280" y2="60" stroke="#2a2f55" stroke-width="1" opacity="0.4"/>
+            <line x1="20" y1="230" x2="280" y2="230" stroke="#2a2f55" stroke-width="1" opacity="0.4"/>
+            <line x1="20" y1="250" x2="280" y2="250" stroke="#2a2f55" stroke-width="1" opacity="0.3"/>
+
+            <!-- timeline: light travelling from star to Earth -->
+            <use href="#lightPath" stroke="#4a4f7a" stroke-width="1.4" stroke-dasharray="3 4"/>
+
+            <!-- star icon -->
+            <g transform="translate(52,160)">
+              <polygon points="0,-10 2.6,-2.6 10,0 2.6,2.6 0,10 -2.6,2.6 -10,0 -2.6,-2.6" fill="#f4c56a"/>
+            </g>
+            <text x="52" y="188" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="#b7bdd8">ÉTOILE</text>
+
+            <!-- earth icon -->
+            <g transform="translate(248,160)">
+              <circle r="9" fill="#3f5e9a"/>
+              <path d="M-9 -2 Q -3 -6 3 -2 T 9 -1" fill="none" stroke="#7fb37a" stroke-width="1.6" opacity="0.8"/>
+            </g>
+            <text x="248" y="188" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="#b7bdd8">TERRE</text>
+
+            <!-- travelling light with trailing glow -->
+            <circle r="5" fill="#f4c56a" filter="url(#b2)" opacity="0.6">
+              <animateMotion dur="4s" repeatCount="indefinite"><mpath xlink:href="#lightPath"/></animateMotion>
+            </circle>
+            <circle r="2.4" fill="#fff6df">
+              <animateMotion dur="4s" repeatCount="indefinite"><mpath xlink:href="#lightPath"/></animateMotion>
+            </circle>
+
+            <text x="150" y="140" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" letter-spacing="2" fill="#f4c56a">1000 ANS</text>
+
+            <!-- candle glow -->
+            <ellipse cx="150" cy="270" rx="70" ry="18" fill="#f4c56a" filter="url(#b2)" opacity="0.25"/>
+          </svg>
+        </div>
+        <p class="fact-tag">💫 La lumière voyage à ≈300 000 km/s — et met 1000 ans depuis cette étoile.</p>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">📖</span>Chapitre II · Il y a mille ans</p>
+        <h2>L'étoile du Veilleur</h2>
+        <p>Le carnet racontait l'histoire d'une étoile que la famille surveillait depuis quatre générations : ils l'appelaient <strong>l'Étoile du Veilleur</strong>. Elle brillait à peine, tout en haut du ciel, mais elle clignotait selon un rythme étrange, presque régulier, que personne n'avait jamais réussi à expliquer.</p>
+        <p>Mémé Solange expliqua alors la chose la plus vertigineuse que Nour ait jamais entendue : cette étoile se trouvait si loin que sa lumière mettait <strong>mille ans</strong> à voyager jusqu'à la Terre. Ce qu'elles allaient regarder ce soir n'était donc pas l'étoile <em>maintenant</em> — c'était sa lumière telle qu'elle avait quitté l'étoile il y a mille ans, bien avant que quiconque de leur famille soit né.</p>
+        <p>« Elle est peut-être encore là-haut à briller, » dit Mémé Solange, « ou peut-être qu'elle s'est déjà éteinte, et que sa dernière lumière est justement celle qui nous arrive cette nuit. On ne peut pas le savoir. On ne peut que regarder. »</p>
+        <blockquote>« Regarder une étoile, » murmura-t-elle, « c'est toujours regarder dans le passé. »</blockquote>
+      </div>
+    </article>
+
+    <!-- Chapitre III -->
+    <article class="chapter">
+      <div class="chapter-media">
+        <div class="illustration" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <defs>
+              <filter id="b3" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="12"/></filter>
+            </defs>
+            <!-- dome interior -->
+            <rect width="300" height="300" fill="#0a0f22"/>
+            <polygon points="120,300 150,60 180,300" fill="#0d1226" opacity="0.6"/>
+            <circle class="twinkle-star" cx="150" cy="60" r="1.3" fill="#eef0f5"/>
+            <circle class="twinkle-star" cx="160" cy="90" r="1" fill="#eef0f5" style="animation-delay:-1.2s"/>
+
+            <!-- telescope -->
+            <rect x="140" y="90" width="16" height="130" rx="4" fill="#141a37" stroke="#cba869" stroke-width="1" transform="rotate(-10 148 155)"/>
+            <line x1="70" y1="260" x2="150" y2="150" stroke="#141a37" stroke-width="6" opacity="0.8"/>
+
+            <!-- countdown dial -->
+            <g transform="translate(224,90)">
+              <circle r="34" fill="#05070f" opacity="0.7"/>
+              <circle r="30" fill="none" stroke="#cba869" stroke-width="1.3" opacity="0.7"/>
+              <g stroke="#b7bdd8" stroke-width="1" opacity="0.5">
+                <line x1="0" y1="-30" x2="0" y2="-25"/>
+                <line x1="0" y1="30" x2="0" y2="25"/>
+                <line x1="-30" y1="0" x2="-25" y2="0"/>
+                <line x1="30" y1="0" x2="25" y2="0"/>
+              </g>
+              <line class="dial-hand" x1="0" y1="0" x2="0" y2="-26" stroke="#f4c56a" stroke-width="1.8" stroke-linecap="round"/>
+              <circle r="2" fill="#f4c56a"/>
+            </g>
+            <text x="224" y="140" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" letter-spacing="1.5" fill="#cba869">COMPTE À REBOURS</text>
+
+            <!-- incoming clouds -->
+            <ellipse class="cloud-drift" cx="250" cy="230" rx="70" ry="34" fill="#eef0f5" filter="url(#b3)" opacity="0.14"/>
+            <ellipse class="cloud-drift b" cx="270" cy="180" rx="60" ry="30" fill="#eef0f5" filter="url(#b3)" opacity="0.1"/>
+            <ellipse class="cloud-drift c" cx="30" cy="200" rx="50" ry="28" fill="#eef0f5" filter="url(#b3)" opacity="0.08"/>
+
+            <!-- ladder -->
+            <g stroke="#3a5b73" stroke-width="2" opacity="0.7">
+              <line x1="90" y1="220" x2="70" y2="290"/>
+              <line x1="106" y1="220" x2="86" y2="290"/>
+              <line x1="82" y1="235" x2="98" y2="235"/>
+              <line x1="78" y1="255" x2="94" y2="255"/>
+              <line x1="74" y1="275" x2="90" y2="275"/>
+            </g>
+          </svg>
+        </div>
+        <p class="fact-tag">⏱️ Fenêtre d'observation ce soir : quelques minutes à peine.</p>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">🌙</span>Chapitre III · Compte à rebours</p>
+        <h2>La course contre les nuages</h2>
+        <p>Elles montèrent ensemble jusqu'à la coupole. Le vieux télescope de cuivre grinçait, et Nour dut grimper sur l'échelle pour ajuster le miroir pendant que sa grand-mère, en bas, lui donnait les coordonnées de mémoire, chiffre après chiffre.</p>
+        <p>Au loin, une bande de nuages avançait doucement depuis les montagnes. Il ne restait qu'une petite fenêtre de ciel dégagé — quelques minutes, pas plus — avant que l'Étoile du Veilleur ne disparaisse derrière la brume, cette fois pour des années.</p>
+        <p>Nour sentait son cœur battre aussi vite que le clic du chronomètre posé sur la table. Chaque seconde comptait : si elle ratait ce passage, elle ne pourrait plus recommencer avant d'être elle-même une grand-mère.</p>
+        <blockquote>« Ne regarde pas les nuages, » lui souffla Mémé Solange. « Regarde l'étoile. C'est toujours elle qui gagne, si on est patient. »</blockquote>
+      </div>
+    </article>
+
+    <!-- Chapitre IV -->
+    <article class="chapter chapter--reverse">
+      <div class="chapter-media">
+        <div class="illustration" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <defs>
+              <filter id="b4" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="2.5"/></filter>
+            </defs>
+            <rect width="300" height="300" fill="#0a0f22"/>
+            <!-- panel -->
+            <rect x="24" y="40" width="252" height="150" rx="8" fill="#05070f" stroke="#2a2f55" stroke-width="1.4"/>
+            <!-- grid -->
+            <g stroke="#1c2450" stroke-width="1">
+              <line x1="24" y1="75" x2="276" y2="75"/>
+              <line x1="24" y1="115" x2="276" y2="115"/>
+              <line x1="24" y1="155" x2="276" y2="155"/>
+            </g>
+            <!-- pulse waveform (heartbeat-like), looping -->
+            <path class="pulse-line" d="M24 115 L70 115 L82 70 L96 160 L108 115 L150 115 L162 90 L176 140 L188 115 L230 115 L242 78 L256 152 L268 115 L276 115"
+                  fill="none" stroke="#f4c56a" stroke-width="2" filter="url(#b4)" opacity="0.9"/>
+            <path d="M24 115 L70 115 L82 70 L96 160 L108 115 L150 115 L162 90 L176 140 L188 115 L230 115 L242 78 L256 152 L268 115 L276 115"
+                  fill="none" stroke="#f4c56a" stroke-width="1.2" opacity="0.8"/>
+
+            <!-- tally marks, notebook count -->
+            <g stroke="#b7bdd8" stroke-width="1.6" opacity="0.75">
+              <line x1="40" y1="222" x2="40" y2="240"/>
+              <line x1="48" y1="222" x2="48" y2="240"/>
+              <line x1="56" y1="222" x2="56" y2="240"/>
+              <line x1="64" y1="222" x2="64" y2="240"/>
+              <line x1="34" y1="248" x2="70" y2="214"/>
+              <line x1="82" y1="222" x2="82" y2="240"/>
+              <line x1="90" y1="222" x2="90" y2="240"/>
+              <line x1="98" y1="222" x2="98" y2="240"/>
+            </g>
+            <text x="150" y="270" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" letter-spacing="1.5" fill="#cba869">40 MINUTES D'ÉCOUTE</text>
+          </svg>
+        </div>
+        <p class="fact-tag">📈 40 minutes de clignotements notés, trait après trait.</p>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">📡</span>Chapitre IV · Le signal</p>
+        <h2>Le rythme dans la lumière</h2>
+        <p>Pendant que le compteur crépitait, Nour nota chaque clignotement sur le carnet, comme sa grand-mère le lui avait appris : un trait pour chaque éclat de lumière, un espace pour chaque silence. Minute après minute, une suite de traits se dessina sur la page.</p>
+        <p>Quand les nuages avalèrent enfin l'étoile, elles redescendirent relire ensemble ce que Nour avait noté. Le rythme n'était pas régulier comme une horloge, ni tout à fait aléatoire comme un scintillement ordinaire. Il ressemblait presque à un <strong>battement de cœur</strong>, avec ses pauses et ses reprises.</p>
+        <p>« Est-ce que quelqu'un a essayé de nous parler ? » demanda Nour, la gorge serrée. Mémé Solange sourit, doucement. « Peut-être que c'est juste la façon dont cette étoile respire en mourant lentement. Peut-être que c'est autre chose. En science, il arrive qu'on ne sache jamais vraiment — et ce n'est pas grave. »</p>
+        <blockquote>« Ce qui compte, » dit-elle, « ce n'est pas de connaître la réponse ce soir. C'est de continuer à regarder, nuit après nuit, génération après génération. »</blockquote>
+      </div>
+    </article>
+
+    <!-- Chapitre V -->
+    <article class="chapter">
+      <div class="chapter-media">
+        <div class="illustration" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <defs>
+              <linearGradient id="dawn2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#141a37"/>
+                <stop offset="0.6" stop-color="#4a4a72"/>
+                <stop offset="1" stop-color="#e8a97e"/>
+              </linearGradient>
+              <filter id="b5" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="9"/></filter>
+            </defs>
+            <rect width="300" height="300" fill="url(#dawn2)"/>
+            <circle cx="150" cy="228" r="34" fill="#f7d38a" filter="url(#b5)" opacity="0.7"/>
+
+            <!-- hill -->
+            <path d="M0 300 Q 150 220 300 300 Z" fill="#141a2c"/>
+            <!-- observatory, shutter closed -->
+            <rect x="118" y="176" width="86" height="90" fill="#1a2140"/>
+            <path d="M112 176 A 50 50 0 0 1 212 176 Z" fill="#232a52"/>
+
+            <!-- path down the hill with the two figures walking away -->
+            <path class="future-dash" d="M165 266 Q 200 275 250 296" fill="none" stroke="#f4c56a" stroke-width="1.4" opacity="0.5"/>
+            <g fill="#141a2c" opacity="0.9">
+              <ellipse cx="176" cy="272" rx="4" ry="9"/>
+              <circle cx="176" cy="259" r="3.6"/>
+              <ellipse cx="186" cy="276" rx="3.2" ry="7"/>
+              <circle cx="186" cy="266" r="3"/>
+            </g>
+
+            <!-- gulls / birds -->
+            <path class="gull" d="M50 70 q6 -8 12 0 q6 -8 12 0" fill="none" stroke="#eef0f5" stroke-width="1.6" opacity="0.8"/>
+            <path class="gull" style="animation-delay:-3s" d="M60 50 q5 -6 10 0 q5 -6 10 0" fill="none" stroke="#eef0f5" stroke-width="1.4" opacity="0.6"/>
+          </svg>
+        </div>
+        <p class="fact-tag">🌅 Cette lumière a quitté son étoile avant l'an 1100.</p>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">☀️</span>Chapitre V · À l'aube</p>
+        <h2>La veille continue</h2>
+        <p>L'aube se leva sur la colline, pâle et froide, pendant que Nour refermait le carnet, sa propre écriture ajoutée à celle de trois générations avant elle. Quelque part là-haut, la lumière de cette nuit continuait son voyage vers d'autres étoiles, d'autres yeux, peut-être dans mille ans encore.</p>
+        <p>Mémé Solange posa la main sur l'épaule de sa petite-fille. « Tu sais, la prochaine fois que l'alignement reviendra, je ne serai probablement plus là pour le voir. Mais toi, tu y seras. Et un jour, quelqu'un d'autre après toi. »</p>
+        <p>Nour regarda le carnet, puis le ciel qui pâlissait, et comprit que certaines choses ne se terminent jamais vraiment — elles se transmettent, comme une lumière qui voyage d'une génération à l'autre sans jamais s'éteindre tout à fait.</p>
+        <blockquote>« La lumière qu'on reçoit aujourd'hui, » dit Mémé Solange en fermant la coupole, « c'est toujours quelqu'un d'autrefois qui nous fait un dernier signe. À nous de continuer à regarder. »</blockquote>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- ================= FIN ================= -->
+  <section class="fin wrap">
+    <div class="fin-seal" aria-hidden="true">🔭</div>
+    <p class="fin-eyebrow">✦ Fin ✦</p>
+    <h2>La Lumière qui Voyageait Depuis Mille Ans</h2>
+    <p>Et voilà l'histoire de la petite-fille qui apprit à regarder le ciel comme on lit une lettre ancienne. Elle n'avait ni fusée, ni pouvoir magique — seulement la patience de veiller une nuit entière pour un instant qui ne reviendrait pas.</p>
+    <p>Elle nous apprend que chaque étoile qu'on regarde nous parle d'un instant déjà passé, et que c'est là toute sa beauté.</p>
+    <p class="closing">Quelque part au-dessus de nos têtes, une lumière très ancienne voyage encore vers nous. ✨</p>
+  </section>
+
+  <footer>Généré avec Claude · Histoire originale</footer>
+
+<script>
+  (function(){
+    var field = document.getElementById('stars');
+    var count = 60;
+    for (var i = 0; i < count; i++){
+      var s = document.createElement('span');
+      s.style.left = (Math.random()*100) + '%';
+      s.style.top = (Math.random()*70) + '%';
+      s.style.animationDelay = (Math.random()*4) + 's';
+      field.appendChild(s);
+    }
+  })();
+
+  (function(){
+    var items = document.querySelectorAll('.chapter');
+    if (!('IntersectionObserver' in window)){
+      items.forEach(function(el){ el.classList.add('in-view'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    items.forEach(function(el){ io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
