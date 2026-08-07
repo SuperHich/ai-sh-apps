@@ -76,10 +76,12 @@ The repeatable procedure for adding a story lives in
 /ajouter-histoire science
 ```
 
-It walks the six steps: read the attachment (source of truth — the text is
+It walks the seven steps: read the attachment (source of truth — the text is
 laid out, never rewritten), create `stories/<category>/<slug>.html`, add the
 `<back-button>` like its siblings, generate the card in the category index,
-bump the story counter, verify the result, then commit and push.
+bump the story counter, verify the result, commit and push, then make sure the
+Pages workflow actually deployed the new `main` (a merge has already gone out
+without triggering one) — dispatching or re-running it when it didn't.
 
 Reading an attachment is a standalone script too — `.txt`, `.md`, `.html` and
 `.docx`, no dependencies; it reports the guessed title, an ASCII slug, the
