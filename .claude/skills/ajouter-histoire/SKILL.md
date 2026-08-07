@@ -1,15 +1,16 @@
 ---
 name: ajouter-histoire
-description: Met en ligne une histoire fournie en pièce jointe (txt, md, docx, pdf, html…) dans une catégorie de ce projet (stories/religion, arabe, legend, fun, science) — convertit le texte en page HTML avec son bouton retour, génère la carte dans l'index de la catégorie, met à jour le compteur d'histoires, vérifie l'affichage et l'accès dans un navigateur, puis commit et push sur main. À utiliser dès qu'on joint un fichier d'histoire ou qu'on demande d'ajouter une histoire, un conte, un récit ou une légende au Grenier des Apps.
+description: Met en ligne une histoire fournie en pièce jointe (txt, md, docx, pdf, html…) dans une catégorie de ce projet (stories/religion, arabe, legend, fun, science) — convertit le texte en page HTML avec son bouton retour, génère la carte dans l'index de la catégorie, met à jour le compteur d'histoires, vérifie l'affichage et l'accès dans un navigateur, commit et push sur main, puis déclenche et vérifie la publication GitHub Pages. À utiliser dès qu'on joint un fichier d'histoire ou qu'on demande d'ajouter une histoire, un conte, un récit ou une légende au Grenier des Apps.
 ---
 
 # Ajouter une histoire au Grenier des Apps
 
 Routine complète et reproductible : d'une **pièce jointe** contenant le texte de
-l'histoire jusqu'au push sur `main`.
-Les 6 étapes ci-dessous sont **obligatoires et ordonnées**. Ne jamais passer à
+l'histoire jusqu'au site publié sur GitHub Pages.
+Les 7 étapes ci-dessous sont **obligatoires et ordonnées**. Ne jamais passer à
 l'étape suivante tant que la précédente n'est pas terminée, et ne jamais
-commiter (étape 6) avant que l'étape 5 soit verte.
+commiter (étape 6) avant que l'étape 5 soit verte. La routine n'est finie que
+lorsque le site déployé correspond à `main` (étape 7).
 
 ## Entrées attendues
 
@@ -168,13 +169,47 @@ git push -u origin main
   `Add "L'Infini" science story`.
 - Si le push échoue pour raison réseau, réessayer 4 fois (2s, 4s, 8s, 16s).
 - Si la session impose une branche de travail dédiée, pousser sur **cette**
-  branche et le signaler, plutôt que sur `main`.
-- Le déploiement GitHub Pages (`.github/workflows/pages.yml`) se déclenche seul
-  à chaque push sur `main` : indiquer à l'utilisateur que la page sera en ligne
-  après le workflow.
+  branche et le signaler, plutôt que sur `main`. Dans ce cas l'étape 7 n'a
+  lieu qu'une fois la branche fusionnée dans `main`.
+
+## Étape 7 — Publier sur GitHub Pages et le vérifier
+
+Le workflow `.github/workflows/pages.yml` se déclenche en principe seul à chaque
+push sur `main`. **En principe seulement** : l'événement `push` a déjà été perdu
+(fusion de la PR #2 → aucun run créé, site figé sur la version précédente), et un
+run a déjà échoué à sa première tentative. La routine ne s'arrête donc pas au
+push : elle vérifie que le site déployé correspond bien à `main`.
+
+Les outils GitHub sont différés : les charger d'abord avec
+`ToolSearch` → `select:mcp__github__actions_list,mcp__github__actions_run_trigger,mcp__github__get_job_logs`.
+
+1. Relever le SHA de `main` après fusion : `git rev-parse origin/main`.
+2. Lister les runs du workflow et chercher celui dont `head_sha` = ce SHA :
+   `actions_list` (`list_workflow_runs`, `resource_id: pages.yml`,
+   `workflow_runs_filter: {branch: main}`).
+3. **Aucun run pour ce SHA** → le déclencher soi-même :
+   `actions_run_trigger` (`run_workflow`, `workflow_id: pages.yml`, `ref: main`).
+4. **Run en échec** → `actions_run_trigger` (`rerun_failed_jobs`).
+5. Attendre la fin, puis confirmer avec `actions_list` (`list_workflow_jobs`) :
+   `conclusion: success` sur les 5 étapes. Les logs du job
+   (`get_job_logs`) doivent contenir `Reported success!` et
+   `Evaluated environment url: https://superhich.github.io/ai-sh-apps/`.
+6. Ne pas attendre entre deux appels avec `sleep` enchaînés : une boucle
+   `until` courte, puis re-interroger l'API.
+
+Hors session Claude, l'équivalent en ligne de commande est
+`gh workflow run pages.yml --ref main` puis `gh run watch`.
+
+**Honnêteté du rapport.** L'environnement d'exécution bloque la sortie réseau
+vers `superhich.github.io` : impossible de charger le site publié pour le
+vérifier. La preuve du déploiement vient des logs du workflow — le dire ainsi,
+ne jamais affirmer avoir vu la page en ligne. Rappeler aussi à l'utilisateur de
+faire un rechargement forcé (Ctrl/Cmd + Maj + R) : l'index est fortement mis en
+cache par le navigateur.
 
 ## Rapport final
 
 Terminer par : fichier source utilisé, chemin de la nouvelle page, catégorie,
 nombre de chapitres, ancien → nouveau compteur, corrections faites au texte
-(le cas échéant), résultat des tests, SHA du commit et branche poussée.
+(le cas échéant), résultat des tests, SHA du commit et branche poussée, et
+état du déploiement Pages (numéro de run, SHA déployé, URL).
