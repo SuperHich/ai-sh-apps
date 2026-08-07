@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Lumière de Hira</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night: #170e08;
+    --night-deep: #0c0603;
+    --night-mid: #2c1810;
+    --sand: #f0e3c4;
+    --sand-dim: #cdb98c;
+    --gold: #d9a94e;
+    --gold-soft: #d9a94e55;
+    --gold-dim: #b58a45;
+    --terra: #b1502f;
+    --terra-deep: #4a2216;
+    --line: #ffffff1a;
+    --serif-display: "Fraunces", serif;
+    --serif-body: "Literata", serif;
+    --mono: "Space Mono", monospace;
+    --measure: 62ch;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--night);
+    color:var(--sand);
+    font-family:var(--serif-body);
+    font-size:18px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+  }
+
+  ::selection{background:var(--gold-soft); color:var(--night);}
+  a{color:var(--gold);}
+
+  /* shared symbol defs, referenced via <use> across illustrations */
+  .defs-holder{ position:absolute; width:0; height:0; overflow:hidden; }
+
+  /* ---------- signature: a slowly turning eight-point star ---------- */
+  .signet{
+    position:fixed; top:20px; right:20px; width:38px; height:38px; z-index:40;
+    pointer-events:none; opacity:.85;
+    filter:drop-shadow(0 0 6px var(--gold-soft));
+  }
+  .signet svg{ width:100%; height:100%; color:var(--gold); animation:signetSpin 24s linear infinite; }
+  @keyframes signetSpin{ to{ transform:rotate(360deg); } }
+
+  .wrap{max-width:1080px; margin:0 auto; padding:0 clamp(24px, 7vw, 96px);}
+  section{position:relative;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+    text-align:center; overflow:hidden;
+    background:
+      radial-gradient(ellipse at 50% -10%, #3a1f12 0%, transparent 55%),
+      linear-gradient(180deg, var(--night-deep) 0%, var(--night) 55%, var(--night-mid) 100%);
+    padding-bottom:60px;
+  }
+  .stars{position:absolute; inset:0; z-index:0;}
+  .stars span{
+    position:absolute; width:2px; height:2px; background:var(--sand); border-radius:50%;
+    opacity:.6; animation:twinkle 4s ease-in-out infinite;
+  }
+  @keyframes twinkle{ 0%,100%{opacity:.15;} 50%{opacity:.9;} }
+
+  .hero-eyebrow{
+    font-family:var(--mono); letter-spacing:.28em; text-transform:uppercase;
+    font-size:12px; color:var(--sand-dim); z-index:2; margin-bottom:18px;
+  }
+  .hero h1{
+    font-family:var(--serif-display); font-weight:600; font-optical-sizing:auto;
+    font-size:clamp(2.2rem, 5.6vw, 4.2rem); line-height:1.08; margin:0 0 20px; z-index:2;
+    text-wrap:balance;
+  }
+  .hero p.tag{
+    font-style:italic; color:var(--sand-dim); font-size:1.05rem; max-width:38ch;
+    margin:0 0 18px; z-index:2;
+  }
+  .hero-stats{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--gold-dim); z-index:2; margin:0 0 44px;
+  }
+
+  .desert-scene{ position:relative; width:100%; height:270px; z-index:1; }
+  .desert-scene svg{ position:absolute; bottom:0; left:50%; transform:translateX(-50%); }
+
+  .scroll-cue{
+    position:relative; z-index:2; margin-top:8px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--sand-dim); display:flex; flex-direction:column; align-items:center; gap:8px;
+  }
+  .scroll-cue span{
+    width:1px; height:34px; background:linear-gradient(var(--gold), transparent);
+    animation:cueMove 1.8s ease-in-out infinite;
+  }
+  @keyframes cueMove{ 0%{ opacity:0; transform:translateY(-6px);} 40%{opacity:1;} 100%{opacity:0; transform:translateY(20px);} }
+
+  /* ---------- chapters ---------- */
+  .chapters{ padding:100px 0 40px; }
+  .chapter{
+    display:flex; gap:56px; align-items:flex-start;
+    padding:64px 0;
+    border-top:1px solid var(--line);
+    opacity:0; transform:translateY(28px);
+    transition:opacity .8s ease, transform .8s ease;
+  }
+  .chapter.in-view{ opacity:1; transform:translateY(0); }
+  .chapter:first-child{ border-top:none; }
+  .chapter--reverse{ flex-direction:row-reverse; }
+  .chapter-media, .chapter-text{ flex:1 1 0; min-width:0; }
+
+  .eyebrow{
+    display:flex; align-items:center; gap:12px;
+    font-family:var(--mono); font-size:12px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--gold-dim); margin-bottom:18px;
+  }
+  .eyebrow .badge{
+    width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--terra-deep); border:1px solid var(--gold-soft);
+    font-size:15px; flex-shrink:0;
+  }
+
+  .chapter h2{
+    font-family:var(--serif-display); font-weight:600;
+    font-size:clamp(1.6rem, 3vw, 2.3rem); margin:0 0 20px; line-height:1.15;
+    text-wrap:balance;
+  }
+  .chapter p{ margin:0 0 16px; color:var(--sand); max-width:var(--measure); }
+  .chapter strong{ color:var(--gold); font-weight:600; }
+
+  blockquote{
+    margin:24px 0 0; padding:4px 0 4px 22px;
+    border-left:2px solid var(--gold);
+    font-family:var(--serif-display); font-style:italic;
+    font-size:1.15rem; color:var(--sand-dim);
+    max-width:var(--measure);
+  }
+
+  .illustration{
+    position:relative; height:300px; border-radius:18px; overflow:hidden;
+    background:linear-gradient(160deg, var(--night-mid), var(--night-deep));
+    border:1px solid var(--line);
+    box-shadow:0 26px 54px -28px #000c;
+  }
+  .illustration svg{ position:absolute; inset:0; width:100%; height:100%; }
+  .illustration::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(ellipse at 50% 40%, transparent 45%, #0c0603b3 100%);
+  }
+
+  .fact-tag{
+    display:flex; align-items:center; gap:9px;
+    margin-top:16px; padding:9px 14px;
+    border-left:2px solid var(--gold);
+    background:#00000026; border-radius:0 8px 8px 0;
+    font-family:var(--mono); font-size:11.5px; line-height:1.5;
+    color:var(--sand-dim);
+  }
+
+  .mote{ animation:floatUp 5s ease-in infinite; }
+  @keyframes floatUp{
+    0%{ transform:translateY(0) scale(1); opacity:0; }
+    12%{ opacity:.9; }
+    100%{ transform:translateY(-46px) scale(.6); opacity:0; }
+  }
+  .twinkle-star{ animation:twinkle 4s ease-in-out infinite; }
+
+  /* caravan: two copies of the same strip, scrolled seamlessly */
+  .caravan{ animation:caravanDrift 11s linear infinite; }
+  @keyframes caravanDrift{ from{ transform:translateX(0); } to{ transform:translateX(-180px); } }
+
+  .glow-pulse{ animation:glowPulse 2.6s ease-in-out infinite; }
+  @keyframes glowPulse{ 0%,100%{ opacity:.4;} 50%{ opacity:.9;} }
+
+  .rays{ transform-box:fill-box; transform-origin:center; animation:raysSpin 18s linear infinite; }
+  @keyframes raysSpin{ to{ transform:rotate(360deg); } }
+
+  .hijra-path{ stroke-dasharray:5 6; animation:pathCreep 2.6s linear infinite; }
+  @keyframes pathCreep{ to{ stroke-dashoffset:-22; } }
+
+  .trench-line{ stroke-dasharray:220; animation:trenchDraw 4.5s ease-in-out infinite; }
+  @keyframes trenchDraw{ 0%,100%{ stroke-dashoffset:220; } 50%{ stroke-dashoffset:0; } }
+
+  .bar-grow{ transform-box:fill-box; transform-origin:bottom; animation:barGrow 3.4s ease-in-out infinite; }
+  @keyframes barGrow{ 0%,100%{ transform:scaleY(.15);} 50%{ transform:scaleY(1);} }
+
+  .astrolabe-ring{ transform-box:fill-box; transform-origin:center; animation:ringSpin 12s linear infinite; }
+  @keyframes ringSpin{ to{ transform:rotate(360deg); } }
+
+  .ink-draw{ stroke-dasharray:120; animation:inkDraw 4s ease-in-out infinite; }
+  @keyframes inkDraw{ 0%,100%{ stroke-dashoffset:120; } 50%{ stroke-dashoffset:0; } }
+
+  /* ---------- fin ---------- */
+  .fin{
+    padding:110px 0 140px; text-align:center;
+    background:radial-gradient(ellipse at 50% 0%, #3a1f1255, transparent 60%);
+  }
+  .fin-seal{
+    width:74px; height:74px; margin:0 auto 28px; border-radius:50%;
+    border:1px solid var(--gold-soft);
+    display:flex; align-items:center; justify-content:center; font-size:26px;
+    box-shadow:0 0 30px var(--gold-soft);
+  }
+  .fin-eyebrow{
+    font-family:var(--mono); letter-spacing:.3em; text-transform:uppercase; font-size:12px;
+    color:var(--gold-dim); margin-bottom:20px;
+  }
+  .fin h2{ font-family:var(--serif-display); font-size:clamp(1.8rem,4vw,2.6rem); margin:0 0 28px; }
+  .fin p{ max-width:52ch; margin:0 auto 14px; color:var(--sand-dim); }
+  .fin .closing{ font-style:italic; color:var(--gold-dim); margin-top:26px; font-family:var(--serif-display); }
+
+  footer{
+    text-align:center; padding:30px 0 50px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--sand-dim); opacity:.6;
+  }
+
+  @media (max-width: 760px){
+    .chapter, .chapter--reverse{ flex-direction:column; gap:22px; padding:46px 0; }
+    .illustration{ width:100%; height:230px; }
+    .signet{ width:30px; height:30px; top:16px; right:16px; }
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html" color="gold"></back-button>
+
+  <!-- reusable symbols, drawn via <use> — purely landscape / object motifs, no human figures -->
+  <svg class="defs-holder" aria-hidden="true">
+    <defs>
+      <symbol id="camel" viewBox="0 0 36 28">
+        <ellipse cx="16" cy="18" rx="11" ry="6" fill="currentColor"/>
+        <path d="M10 13 Q16 2 21 13 Z" fill="currentColor"/>
+        <path d="M25 16 Q31 6 35 9 Q36 10 35 11 Q32 10 29 17 Z" fill="currentColor"/>
+        <circle cx="34" cy="9" r="1.4" fill="currentColor"/>
+        <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="8" y1="24" x2="8" y2="17"/>
+          <line x1="13" y1="24" x2="13" y2="18"/>
+          <line x1="19" y1="24" x2="19" y2="18"/>
+          <line x1="24" y1="24" x2="24" y2="17"/>
+        </g>
+        <path d="M6 15 Q3 17 4 21" stroke="currentColor" stroke-width="1.4" fill="none"/>
+      </symbol>
+      <symbol id="kaaba" viewBox="0 0 40 40">
+        <rect x="4" y="10" width="32" height="28" fill="currentColor"/>
+        <polygon points="4,10 20,2 36,10" fill="currentColor" opacity="0.8"/>
+        <line x1="4" y1="24" x2="36" y2="24" stroke="#d9a94e" stroke-width="2.2"/>
+      </symbol>
+      <symbol id="mosque" viewBox="0 0 60 50">
+        <rect x="10" y="26" width="40" height="20" fill="currentColor"/>
+        <path d="M20 26 Q20 10 30 10 Q40 10 40 26 Z" fill="currentColor"/>
+        <circle cx="30" cy="8" r="2" fill="currentColor"/>
+        <rect x="2" y="14" width="5" height="32" fill="currentColor"/>
+        <path d="M2 14 Q4.5 8 7 14 Z" fill="currentColor"/>
+        <rect x="53" y="14" width="5" height="32" fill="currentColor"/>
+        <path d="M53 14 Q55.5 8 58 14 Z" fill="currentColor"/>
+      </symbol>
+      <symbol id="tent" viewBox="0 0 30 22">
+        <path d="M2 22 L15 2 L28 22 Z" fill="currentColor"/>
+        <line x1="15" y1="2" x2="15" y2="22" stroke="#00000040" stroke-width="1"/>
+      </symbol>
+      <symbol id="star8" viewBox="0 0 100 100">
+        <g fill="none" stroke="currentColor" stroke-width="3">
+          <rect x="20" y="20" width="60" height="60"/>
+          <rect x="20" y="20" width="60" height="60" transform="rotate(45 50 50)"/>
+        </g>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="signet" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#star8"/></svg></div>
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="stars" id="stars" aria-hidden="true"></div>
+    <p class="hero-eyebrow">Péninsule Arabique · VIe siècle – aujourd'hui</p>
+    <h1>La Lumière de Hira</h1>
+    <p class="tag">Une histoire de l'islam, de l'Arabie antique à nos jours.</p>
+    <p class="hero-stats">570–632 apr. J.-C. · La Mecque → Médine · ≈ 2 milliards de fidèles aujourd'hui</p>
+
+    <div class="desert-scene" aria-hidden="true">
+      <svg width="320" height="260" viewBox="0 0 320 260">
+        <defs>
+          <linearGradient id="hsky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0c0603"/>
+            <stop offset="1" stop-color="#2c1810"/>
+          </linearGradient>
+        </defs>
+        <rect width="320" height="260" fill="url(#hsky)"/>
+        <circle cx="270" cy="46" r="17" fill="#f0e3c4" opacity="0.92"/>
+        <circle cx="278" cy="41" r="14" fill="#0c0603"/>
+        <circle class="twinkle-star" cx="40" cy="40" r="1.3" fill="#f0e3c4"/>
+        <circle class="twinkle-star" cx="90" cy="70" r="1" fill="#f0e3c4" style="animation-delay:-1s"/>
+        <circle class="twinkle-star" cx="200" cy="30" r="1.2" fill="#f0e3c4" style="animation-delay:-2s"/>
+        <path d="M0 220 Q 80 180 160 210 T 320 200 L320 260 L0 260 Z" fill="#1c1108"/>
+        <path d="M0 240 Q 100 210 200 232 T 320 226 L320 260 L0 260 Z" fill="#130c06"/>
+        <g clip-path="none">
+          <g class="caravan" transform="translate(0,196)" color="#0c0603">
+            <use href="#camel" x="0" y="0" width="30" height="24"/>
+            <use href="#camel" x="42" y="2" width="26" height="21"/>
+            <use href="#camel" x="82" y="0" width="30" height="24"/>
+            <use href="#camel" x="126" y="2" width="26" height="21"/>
+            <use href="#camel" x="180" y="0" width="30" height="24"/>
+            <use href="#camel" x="222" y="2" width="26" height="21"/>
+            <use href="#camel" x="262" y="0" width="30" height="24"/>
+            <use href="#camel" x="306" y="2" width="26" height="21"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="scroll-cue"><span></span>Fais défiler pour lire</div>
+  </header>
+
+  <!-- ================= CHAPTERS ================= -->
+  <main class="wrap chapters">
+
+    <!-- Chapitre I -->
+    <article class="chapter">
+      <div class="chapter-media">
+        <div class="illustration" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <defs>
+              <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#0c0603"/>
+                <stop offset="1" stop-color="#2c1810"/>
+              </linearGradient>
+            </defs>
+            <rect width="300" height="300" fill="url(#sky1)"/>
+            <circle cx="250" cy="50" r="18" fill="#f0e3c4" opacity="0.92"/>
+            <circle cx="257" cy="45" r="15" fill="#0c0603"/>
+            <circle class="twinkle-star" cx="40" cy="40" r="1.3" fill="#f0e3c4"/>
+            <circle class="twinkle-star" cx="90" cy="70" r="1" fill="#f0e3c4" style="animation-delay:-1s"/>
+            <circle class="twinkle-star" cx="180" cy="35" r="1.2" fill="#f0e3c4" style="animation-delay:-2s"/>
+
+            <path d="M0 250 Q 80 210 160 240 T 300 230 L300 300 L0 300 Z" fill="#1c1108"/>
+            <path d="M0 268 Q 100 240 200 260 T 300 254 L300 300 L0 300 Z" fill="#130c06"/>
+
+            <!-- tents -->
+            <g color="#3a2416">
+              <use href="#tent" x="196" y="216" width="34" height="26"/>
+              <use href="#tent" x="228" y="220" width="28" height="22"/>
+            </g>
+
+            <!-- the Kaaba, at the heart of the city -->
+            <g color="#141414">
+              <use href="#kaaba" x="120" y="188" width="46" height="46"/>
+            </g>
+
+            <!-- caravan crossing the foreground dune -->
+            <g style="clip-path:inset(0);">
+              <g class="caravan" transform="translate(-10,246)" color="#0c0603">
+                <use href="#camel" x="0" y="0" width="28" height="22"/>
+                <use href="#camel" x="40" y="2" width="24" height="19"/>
+                <use href="#camel" x="76" y="0" width="28" height="22"/>
+                <use href="#camel" x="180" y="0" width="28" height="22"/>
+                <use href="#camel" x="220" y="2" width="24" height="19"/>
+                <use href="#camel" x="256" y="0" width="28" height="22"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <p class="fact-tag">🐫 La Mecque : carrefour des routes caravanières entre Yémen et Syrie.</p>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">🏜️</span>Chapitre I · Avant 610</p>
+        <h2>L'Arabie avant l'islam</h2>
+        <p>Bien avant le VIIe siècle, la péninsule Arabique est un monde de <strong>tribus nomades</strong>, de caravanes et de villes-marchés posées comme des îles au milieu du désert. Parmi elles, <strong>La Mecque</strong> occupe une place à part : elle abrite la <strong>Kaaba</strong>, un sanctuaire cubique où les tribus arabes viennent honorer des centaines de divinités, chacune protégée par un clan différent.</p>
+        <p>La Mecque prospère grâce au commerce des caravanes qui relient le Yémen à la Syrie, et grâce aux pèlerins qui affluent chaque année vers la Kaaba. C'est une société organisée autour de la loyauté tribale, de la poésie récitée de mémoire, et d'un code d'honneur strict — mais aussi marquée par de profondes inégalités et des guerres de vengeance entre clans.</p>
+        <p>C'est dans cette ville, au sein de la tribu des <strong>Quraysh</strong>, que naît vers 570 un enfant orphelin de père avant même sa naissance : <strong>Muhammad</strong>.</p>
+        <blockquote>Le désert arabe n'attendait pas un roi, ni une armée. Il attendait un mot.</blockquote>
+      </div>
+    </article>
+
+    <!-- Chapitre II -->
+    <article class="chapter chapter--reverse">
+      <div class="chapter-media">
+        <div class="illustration" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <defs>
+              <filter id="b2" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="8"/></filter>
+            </defs>
+            <rect width="300" height="300" fill="#170e08"/>
+            <circle class="twinkle-star" cx="50" cy="40" r="1.2" fill="#f0e3c4"/>
+            <circle class="twinkle-star" cx="230" cy="30" r="1" fill="#f0e3c4" style="animation-delay:-1.4s"/>
+            <circle cx="70" cy="56" r="14" fill="#f0e3c4" opacity="0.85"/>
+            <circle cx="76" cy="52" r="12" fill="#170e08"/>
+
+            <!-- mountain with the cave of Hira, softly lit -->
+            <polygon points="120,260 190,90 260,260" fill="#241408"/>
+            <polygon points="175,150 200,120 210,150" fill="#0c0603"/>
+            <ellipse class="glow-pulse" cx="196" cy="138" rx="14" ry="9" fill="#d9a94e" filter="url(#b2)" opacity="0.5"/>
+
+            <!-- merchant's scale, symbol of trust -->
+            <g transform="translate(70,190)" stroke="#cdb98c" stroke-width="1.6" fill="none">
+              <line x1="0" y1="0" x2="0" y2="-34"/>
+              <line x1="-20" y1="-34" x2="20" y2="-34"/>
+              <line x1="-20" y1="-34" x2="-20" y2="-22"/>
+              <line x1="20" y1="-34" x2="20" y2="-22"/>
+              <path d="M-28 -22 Q-20 -10 -12 -22" />
+              <path d="M12 -22 Q20 -10 28 -22" />
+              <line x1="-14" y1="0" x2="14" y2="0"/>
+            </g>
+
+            <!-- loaded camel resting near the tent -->
+            <g color="#0c0603">
+              <use href="#camel" x="150" y="228" width="40" height="30"/>
+              <use href="#tent" x="200" y="234" width="30" height="24"/>
+            </g>
+
+            <path d="M0 268 Q 100 240 200 258 T 300 252 L300 300 L0 300 Z" fill="#130c06"/>
+          </svg>
+        </div>
+        <p class="fact-tag">⚖️ Surnommé « Al-Amin » — le digne de confiance.</p>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">🕋</span>Chapitre II · 570–610</p>
+        <h2>Le jeune homme digne de confiance</h2>
+        <p>Orphelin très jeune — son père meurt avant sa naissance, sa mère quand il a six ans — Muhammad est élevé par son grand-père puis par son oncle <strong>Abu Talib</strong>. Il grandit dans le commerce des caravanes et devient si réputé pour son honnêteté que les Mecquois le surnomment <strong>Al-Amin</strong>, « le digne de confiance ».</p>
+        <p>Vers 595, il épouse <strong>Khadija</strong>, une riche marchande veuve de quinze ans son aînée, pour qui il travaillait. Elle deviendra sa plus proche confidente et la première personne à croire en sa mission.</p>
+        <p>Chaque année, Muhammad avait pris l'habitude de se retirer plusieurs jours dans une petite grotte du <strong>mont Hira</strong>, surplombant La Mecque, pour méditer loin du bruit de la ville. C'est là, une nuit de l'an 610, que tout bascule.</p>
+        <blockquote>Certains hommes cherchent le silence pour fuir le monde. Lui le cherchait pour mieux le comprendre.</blockquote>
+      </div>
+    </article>
+
+    <!-- Chapitre III -->
+    <article class="chapter">
+      <div class="chapter-media">
+        <div class="illustration" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <defs>
+              <filter id="b3a" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="10"/></filter>
+              <linearGradient id="ray3" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#f0e3c4" stop-opacity="0.55"/>
+                <stop offset="1" stop-color="#f0e3c4" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <rect width="300" height="300" fill="#170e08"/>
+            <circle class="twinkle-star" cx="60" cy="40" r="1.3" fill="#f0e3c4"/>
+            <circle class="twinkle-star" cx="240" cy="60" r="1" fill="#f0e3c4" style="animation-delay:-1.6s"/>
+            <circle cx="245" cy="48" r="15" fill="#f0e3c4" opacity="0.85"/>
+            <circle cx="251" cy="43" r="13" fill="#170e08"/>
+
+            <polygon points="90,280 170,80 250,280" fill="#241408"/>
+            <polygon points="150,150 172,118 184,150" fill="#0c0603"/>
+
+            <!-- radiant burst from the cave mouth -->
+            <g transform="translate(166,134)">
+              <circle r="22" fill="#f4d78a" filter="url(#b3a)" opacity="0.7"/>
+              <circle r="8" fill="#fff3d6"/>
+              <g class="rays">
+                <polygon points="0,-46 3,-16 -3,-16" fill="url(#ray3)"/>
+                <polygon points="46,0 16,3 16,-3" fill="url(#ray3)"/>
+                <polygon points="0,46 -3,16 3,16" fill="url(#ray3)"/>
+                <polygon points="-46,0 -16,-3 -16,3" fill="url(#ray3)"/>
+                <polygon points="32,-32 12,-9 6,-15" fill="url(#ray3)" opacity="0.7"/>
+                <polygon points="32,32 9,12 15,6" fill="url(#ray3)" opacity="0.7"/>
+                <polygon points="-32,32 -12,9 -6,15" fill="url(#ray3)" opacity="0.7"/>
+                <polygon points="-32,-32 -9,-12 -15,-6" fill="url(#ray3)" opacity="0.7"/>
+              </g>
+            </g>
+
+            <!-- rising sparkles of light -->
+            <circle class="mote" cx="150" cy="200" r="1.6" fill="#f4d78a"/>
+            <circle class="mote" cx="190" cy="220" r="1.4" fill="#f0e3c4" style="animation-delay:-1.5s"/>
+            <circle class="mote" cx="170" cy="240" r="1.8" fill="#f4d78a" style="animation-delay:-3s"/>
+
+            <path d="M0 280 Q 100 255 200 272 T 300 266 L300 300 L0 300 Z" fill="#130c06"/>
+          </svg>
+        </div>
+        <p class="fact-tag">🕯️ Premier mot révélé, selon la tradition : « Iqra » — Lis.</p>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">✨</span>Chapitre III · 610–613</p>
+        <h2>La première révélation</h2>
+        <p>Selon la tradition islamique, une nuit du mois de Ramadan, l'ange <strong>Jibril</strong> (Gabriel) serait apparu à Muhammad dans la grotte de Hira et lui aurait ordonné : « Iqra » — « Lis » ou « Récite ». Bouleversé, Muhammad redescend en courant vers La Mecque, tremblant, et c'est Khadija qui le rassure et devient sa première disciple.</p>
+        <p>Pendant trois ans, les révélations restent privées. Les premiers à croire en son message forment un cercle restreint : Khadija, son jeune cousin <strong>Ali</strong>, son ami <strong>Abu Bakr</strong>, et son fils adoptif <strong>Zayd</strong>. Puis, vers 613, Muhammad commence à prêcher publiquement un message simple mais radical pour l'époque : un dieu unique, <strong>Allah</strong>, l'égalité de tous devant lui, et la fin des injustices tribales.</p>
+        <p>Ce message dérange profondément les puissants de La Mecque, dont la prospérité repose en partie sur le pèlerinage polythéiste autour de la Kaaba.</p>
+        <blockquote>Une seule voix, dans une ville de mille dieux, suffit à faire trembler ceux qui vivent du silence des autres.</blockquote>
+      </div>
+    </article>
+
+    <!-- Chapitre IV -->
+    <article class="chapter chapter--reverse">
+      <div class="chapter-media">
+        <div class="illustration" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <defs>
+              <path id="hijraPath" d="M40,230 Q120,150 180,110 T 258,60" fill="none"/>
+            </defs>
+            <rect width="300" height="300" fill="#170e08"/>
+            <circle class="twinkle-star" cx="230" cy="200" r="1.3" fill="#f0e3c4"/>
+            <circle class="twinkle-star" cx="60" cy="60" r="1" fill="#f0e3c4" style="animation-delay:-1.2s"/>
+            <circle cx="70" cy="50" r="16" fill="#f0e3c4" opacity="0.9"/>
+            <circle cx="77" cy="45" r="14" fill="#170e08"/>
+
+            <!-- cave of Thawr, with a faint web and a resting dove -->
+            <g transform="translate(48,222)">
+              <ellipse rx="26" ry="18" fill="#0c0603"/>
+              <g stroke="#f0e3c4" stroke-width="0.6" opacity="0.35" fill="none">
+                <circle r="6"/><circle r="10"/><circle r="14"/>
+                <line x1="-14" y1="0" x2="14" y2="0"/>
+                <line x1="0" y1="-14" x2="0" y2="14"/>
+                <line x1="-10" y1="-10" x2="10" y2="10"/>
+                <line x1="-10" y1="10" x2="10" y2="-10"/>
+              </g>
+              <path d="M14 4 Q20 -2 26 2 Q24 6 18 6 Q20 9 16 10 Q12 9 14 4 Z" fill="#cdb98c" opacity="0.85"/>
+            </g>
+            <text x="48" y="256" text-anchor="middle" font-family="Space Mono, monospace" font-size="8" fill="#b58a45" letter-spacing="1">GROTTE DE THAWR</text>
+
+            <!-- the dashed road from Mecca to Medina -->
+            <use href="#hijraPath" class="hijra-path" stroke="#d9a94e" stroke-width="1.6"/>
+            <text x="40" y="248" text-anchor="middle" font-family="Space Mono, monospace" font-size="8" fill="#b58a45">LA MECQUE</text>
+            <text x="258" y="42" text-anchor="middle" font-family="Space Mono, monospace" font-size="8" fill="#b58a45">MÉDINE</text>
+
+            <!-- two camels travelling the path -->
+            <g color="#0c0603">
+              <g><animateMotion dur="5s" repeatCount="indefinite"><mpath xlink:href="#hijraPath"/></animateMotion>
+                <use href="#camel" x="-14" y="-24" width="28" height="22"/>
+              </g>
+              <g><animateMotion dur="5s" begin="-0.6s" repeatCount="indefinite"><mpath xlink:href="#hijraPath"/></animateMotion>
+                <use href="#camel" x="-14" y="-24" width="24" height="19"/>
+              </g>
+            </g>
+
+            <!-- small mosque silhouette awaiting at Medina -->
+            <g color="#241408" opacity="0.9">
+              <use href="#mosque" x="238" y="34" width="46" height="34"/>
+            </g>
+          </svg>
+        </div>
+        <p class="fact-tag">🗺️ Hijra : environ 450 km parcourus de La Mecque à Médine, en 622.</p>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">🌙</span>Chapitre IV · 613–622</p>
+        <h2>La persécution et l'Hijra</h2>
+        <p>Les années suivantes sont difficiles. Certains premiers convertis, comme l'ancien esclave <strong>Bilal</strong>, sont torturés publiquement. Un groupe de musulmans s'exile même vers l'Abyssinie chrétienne pour échapper aux persécutions. En 619, Muhammad perd coup sur coup Khadija et son oncle protecteur Abu Talib — une année si dure qu'elle est restée connue comme <strong>l'Année de la Tristesse</strong>.</p>
+        <p>Sans protection tribale, sa situation à La Mecque devient intenable. Mais des habitants de <strong>Yathrib</strong>, une oasis à environ 450 kilomètres au nord, l'invitent à s'y installer comme arbitre entre leurs tribus rivales. En septembre 622, prévenu d'un complot pour l'assassiner, Muhammad quitte La Mecque de nuit avec Abu Bakr. Les deux hommes se cachent trois jours dans la <strong>grotte de Thawr</strong> pendant que leurs poursuivants battent la campagne — la tradition raconte qu'une toile d'araignée tissée à l'entrée de la grotte les aurait fait passer inaperçus.</p>
+        <p>Ce voyage vers Yathrib, rebaptisée <strong>Médine</strong> (« la Ville »), est l'<strong>Hijra</strong>. Il marque un tournant si fondamental qu'il devient l'an 1 du calendrier musulman.</p>
+        <blockquote>On ne fuit pas toujours un danger. Parfois, on marche simplement vers l'endroit où l'on pourra enfin construire.</blockquote>
+      </div>
+    </article>
+
+    <!-- Chapitre V -->
+    <article class="chapter">
+      <div class="chapter-media">
+        <div class="illustration" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <rect width="300" height="300" fill="#170e08"/>
+
+            <!-- Badr : a simple comparison of forces -->
+            <text x="60" y="34" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="#cdb98c" letter-spacing="1">BADR · 624</text>
+            <g transform="translate(40,110)">
+              <rect class="bar-grow" x="0" y="-70" width="16" height="70" fill="#d9a94e"/>
+              <text x="8" y="16" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="#f0e3c4">≈300</text>
+            </g>
+            <g transform="translate(80,110)">
+              <rect class="bar-grow" x="0" y="-70" width="16" height="70" fill="#7a3b22" style="animation-delay:-1.2s"/>
+              <text x="8" y="16" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="#f0e3c4">≈1000</text>
+            </g>
+
+            <!-- crossed banners -->
+            <g transform="translate(200,70)">
+              <line x1="-24" y1="26" x2="14" y2="-24" stroke="#cdb98c" stroke-width="2"/>
+              <polygon points="-24,26 -24,-2 -4,10" fill="#d9a94e"/>
+              <line x1="24" y1="26" x2="-14" y2="-24" stroke="#cdb98c" stroke-width="2"/>
+              <polygon points="24,26 24,-2 4,10" fill="#b1502f"/>
+            </g>
+
+            <!-- Khandaq trench, guarding the city -->
+            <text x="220" y="196" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" fill="#cdb98c" letter-spacing="1">LE KHANDAQ · 627</text>
+            <g color="#241408" opacity="0.9">
+              <use href="#tent" x="196" y="212" width="24" height="18"/>
+              <use href="#tent" x="220" y="216" width="20" height="16"/>
+              <use href="#tent" x="240" y="212" width="24" height="18"/>
+            </g>
+            <path class="trench-line" d="M150 260 Q 200 275 260 250" fill="none" stroke="#d9a94e" stroke-width="2.4" stroke-linecap="round"/>
+
+            <path d="M0 280 Q 100 260 200 274 T 300 268 L300 300 L0 300 Z" fill="#130c06"/>
+          </svg>
+        </div>
+        <p class="fact-tag">⚔️ Badr, 624 : environ 300 combattants musulmans face à environ 1000.</p>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">⚔️</span>Chapitre V · 624–630</p>
+        <h2>Les batailles de Médine</h2>
+        <p>À Médine, la communauté musulmane grandit, mais le conflit avec La Mecque devient une guerre ouverte. En <strong>624</strong>, à <strong>Badr</strong>, une petite troupe d'environ 300 musulmans affronte une armée mecquoise trois fois plus nombreuse — et l'emporte, dans une victoire qui marque durablement les esprits.</p>
+        <p>L'année suivante, à <strong>Uhud</strong> (625), les musulmans prennent d'abord l'avantage, mais des archers postés sur une colline quittent leur position pour ramasser le butin. La cavalerie mecquoise, menée par <strong>Khalid ibn al-Walid</strong> — qui deviendra plus tard l'un des plus grands généraux musulmans — profite de la brèche pour contre-attaquer.</p>
+        <p>En 627, une coalition de tribus assiège Médine. Sur les conseils de <strong>Salman al-Farisi</strong>, un compagnon d'origine perse, les musulmans creusent une <strong>tranchée</strong> autour des points vulnérables de la ville — une tactique inédite en Arabie. Le siège du <strong>Khandaq</strong> échoue. En 630, après la rupture d'un traité par les Mecquois, Muhammad marche sur La Mecque ; la ville se rend presque sans combat, et il proclame une <strong>amnistie générale</strong>, y compris envers ceux qui l'avaient autrefois persécuté.</p>
+        <blockquote>La vraie victoire, disait-on de lui, n'est pas de vaincre une ville, mais de la vaincre sans lui faire perdre son âme.</blockquote>
+      </div>
+    </article>
+
+    <!-- Chapitre VI -->
+    <article class="chapter chapter--reverse">
+      <div class="chapter-media">
+        <div class="illustration" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <rect width="300" height="300" fill="#170e08"/>
+            <circle class="twinkle-star" cx="50" cy="34" r="1.2" fill="#f0e3c4"/>
+            <circle class="twinkle-star" cx="250" cy="50" r="1" fill="#f0e3c4" style="animation-delay:-1.5s"/>
+
+            <!-- Baghdad-style skyline -->
+            <g color="#241408" opacity="0.9">
+              <use href="#mosque" x="150" y="150" width="70" height="56"/>
+              <use href="#mosque" x="30" y="170" width="50" height="40"/>
+            </g>
+
+            <!-- open manuscript -->
+            <g transform="translate(60,60)">
+              <rect x="-40" y="-20" width="90" height="60" rx="3" fill="#0c0603" stroke="#b58a45" stroke-width="1"/>
+              <line class="ink-draw" x1="-30" y1="-6" x2="40" y2="-6" stroke="#f0e3c4" stroke-width="1.4" opacity="0.75"/>
+              <line class="ink-draw" x1="-30" y1="4" x2="40" y2="4" stroke="#f0e3c4" stroke-width="1.4" opacity="0.6" style="animation-delay:-1s"/>
+              <line class="ink-draw" x1="-30" y1="14" x2="20" y2="14" stroke="#f0e3c4" stroke-width="1.4" opacity="0.5" style="animation-delay:-2s"/>
+              <line class="ink-draw" x1="-30" y1="24" x2="30" y2="24" stroke="#f0e3c4" stroke-width="1.4" opacity="0.6" style="animation-delay:-2.6s"/>
+            </g>
+
+            <!-- astrolabe -->
+            <g transform="translate(232,110)">
+              <circle r="26" fill="none" stroke="#d9a94e" stroke-width="1.4" opacity="0.8"/>
+              <g class="astrolabe-ring">
+                <circle r="18" fill="none" stroke="#cdb98c" stroke-width="1" opacity="0.6"/>
+                <line x1="-18" y1="0" x2="18" y2="0" stroke="#cdb98c" stroke-width="1" opacity="0.6"/>
+                <line x1="0" y1="-18" x2="0" y2="18" stroke="#cdb98c" stroke-width="1" opacity="0.6"/>
+              </g>
+              <circle r="2" fill="#f0e3c4"/>
+            </g>
+
+            <path d="M0 260 Q 100 240 200 254 T 300 248 L300 300 L0 300 Z" fill="#130c06"/>
+          </svg>
+        </div>
+        <p class="fact-tag">📚 Bagdad, VIIIe–XIIIe s. : la Maison de la Sagesse traduit et invente.</p>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">🕌</span>Chapitre VI · 632 – Xe siècle</p>
+        <h2>Après le Prophète</h2>
+        <p>Muhammad meurt à Médine en 632, après un dernier pèlerinage à La Mecque marqué par un sermon d'adieu appelant à l'égalité entre tous les croyants. Sa succession divise déjà la jeune communauté : pour les musulmans <strong>sunnites</strong>, qui deviendront majoritaires, c'est son ami <strong>Abu Bakr</strong> qui lui succède comme premier calife. Pour les musulmans <strong>chiites</strong>, c'est son cousin et gendre <strong>Ali</strong> qui aurait dû lui succéder directement. Ce désaccord reste à l'origine de la principale division au sein de l'islam.</p>
+        <p>Sous les califes qui suivent, l'islam se répand à une vitesse stupéfiante, de la Perse à l'Égypte. Les dynasties <strong>omeyyade</strong> puis <strong>abbasside</strong> étendent encore ce territoire, de l'Espagne à l'Asie centrale. À Bagdad, la <strong>Maison de la Sagesse</strong> devient l'un des plus grands foyers scientifiques du monde médiéval : on y traduit, y invente et y perfectionne l'algèbre, l'astronomie et la médecine, avant que la ville ne soit ravagée par les invasions mongoles en 1258.</p>
+        <blockquote>Une civilisation ne se mesure pas seulement à ses conquêtes, mais à ce qu'elle choisit de préserver.</blockquote>
+      </div>
+    </article>
+
+    <!-- Chapitre VII -->
+    <article class="chapter">
+      <div class="chapter-media">
+        <div class="illustration" aria-hidden="true">
+          <svg viewBox="0 0 300 300" width="100%" height="100%">
+            <defs>
+              <ellipse id="tawafRing" cx="150" cy="200" rx="52" ry="18" fill="none"/>
+            </defs>
+            <rect width="300" height="300" fill="#170e08"/>
+            <circle class="twinkle-star" cx="50" cy="40" r="1.2" fill="#f0e3c4"/>
+            <circle class="twinkle-star" cx="250" cy="34" r="1" fill="#f0e3c4" style="animation-delay:-1.3s"/>
+            <circle cx="255" cy="52" r="15" fill="#f0e3c4" opacity="0.9"/>
+            <circle cx="261" cy="47" r="13" fill="#170e08"/>
+
+            <g color="#241408" opacity="0.85">
+              <use href="#mosque" x="90" y="120" width="120" height="90"/>
+            </g>
+
+            <!-- the Kaaba at the centre -->
+            <g color="#141414">
+              <use href="#kaaba" x="128" y="182" width="44" height="44"/>
+            </g>
+
+            <!-- pilgrims circling in tawaf, purely abstract points of light -->
+            <use href="#tawafRing" stroke="#3a2416" stroke-width="1"/>
+            <g fill="#d9a94e">
+              <circle r="2.4"><animateMotion dur="6s" repeatCount="indefinite"><mpath xlink:href="#tawafRing"/></animateMotion></circle>
+              <circle r="2"><animateMotion dur="6s" begin="-1s" repeatCount="indefinite"><mpath xlink:href="#tawafRing"/></animateMotion></circle>
+              <circle r="2.2"><animateMotion dur="6s" begin="-2s" repeatCount="indefinite"><mpath xlink:href="#tawafRing"/></animateMotion></circle>
+              <circle r="1.8"><animateMotion dur="6s" begin="-3s" repeatCount="indefinite"><mpath xlink:href="#tawafRing"/></animateMotion></circle>
+              <circle r="2.1"><animateMotion dur="6s" begin="-4s" repeatCount="indefinite"><mpath xlink:href="#tawafRing"/></animateMotion></circle>
+              <circle r="1.9"><animateMotion dur="6s" begin="-5s" repeatCount="indefinite"><mpath xlink:href="#tawafRing"/></animateMotion></circle>
+            </g>
+
+            <path d="M0 260 Q 100 244 200 256 T 300 250 L300 300 L0 300 Z" fill="#130c06"/>
+          </svg>
+        </div>
+        <p class="fact-tag">🌍 Aujourd'hui : environ 2 milliards de musulmans, toutes cultures confondues.</p>
+      </div>
+      <div class="chapter-text">
+        <p class="eyebrow"><span class="badge">🌍</span>Chapitre VII · Aujourd'hui</p>
+        <h2>L'islam aujourd'hui</h2>
+        <p>Après les Abbassides viennent d'autres grandes puissances musulmanes — l'Empire ottoman en Anatolie et en Europe, l'Empire moghol en Inde, l'Empire safavide en Perse — jusqu'à l'abolition du dernier califat ottoman en 1924. Mais l'islam ne s'est pas seulement répandu par les conquêtes : le commerce et les échanges culturels l'ont porté jusqu'en Afrique de l'Ouest et en Asie du Sud-Est, où vit aujourd'hui la plus grande population musulmane du monde, en Indonésie.</p>
+        <p>Aujourd'hui, l'islam compte environ <strong>deux milliards de fidèles</strong> à travers le monde, unis par des pratiques communes : les <strong>cinq piliers</strong> — l'attestation de foi, la prière, l'aumône, le jeûne du Ramadan, et le pèlerinage à La Mecque. Chaque année, des millions de pèlerins refont, d'une certaine façon, le chemin de cette petite grotte du mont Hira où tout a commencé.</p>
+        <blockquote>Quatorze siècles plus tard, la grotte est toujours là. Ce sont les chemins qui en partent qui n'ont cessé de s'allonger.</blockquote>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- ================= FIN ================= -->
+  <section class="fin wrap">
+    <div class="fin-seal" aria-hidden="true">🕌</div>
+    <p class="fin-eyebrow">✦ Fin ✦</p>
+    <h2>La Lumière de Hira</h2>
+    <p>Et voilà l'histoire de la Lumière de Hira, d'une grotte silencieuse au-dessus d'une ville de mille dieux jusqu'à un monde de deux milliards de voix.</p>
+    <p>Elle nous rappelle qu'un seul mot, prononcé au bon endroit, peut traverser quatorze siècles sans jamais s'éteindre.</p>
+    <p class="closing">Quelque part au-dessus de La Mecque, le mont Hira veille encore. 🌙</p>
+  </section>
+
+  <footer>Généré avec Claude · Récit historique — illustrations symboliques, sans représentation du Prophète</footer>
+
+<script>
+  (function(){
+    var field = document.getElementById('stars');
+    var count = 60;
+    for (var i = 0; i < count; i++){
+      var s = document.createElement('span');
+      s.style.left = (Math.random()*100) + '%';
+      s.style.top = (Math.random()*70) + '%';
+      s.style.animationDelay = (Math.random()*4) + 's';
+      field.appendChild(s);
+    }
+  })();
+
+  (function(){
+    var items = document.querySelectorAll('.chapter');
+    if (!('IntersectionObserver' in window)){
+      items.forEach(function(el){ el.classList.add('in-view'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    items.forEach(function(el){ io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
