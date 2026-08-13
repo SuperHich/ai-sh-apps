@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture — Le Grenier des Apps</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#08070f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<style>
+  .reader-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding: 22px 0 16px;
+  }
+  .reader-bar .emoji { font-size: 2rem; }
+  .reader-bar h1 {
+    margin: 0;
+    font-family: var(--gr-display);
+    font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+  }
+  .reader-bar small { display: block; color: var(--gr-text-faint); font-size: .8rem; }
+  .reader-bar .spacer { flex: 1; }
+
+  .reader-frame {
+    width: 100%;
+    height: calc(100vh - var(--gr-nav-h) - 130px);
+    min-height: 480px;
+    border: 1px solid var(--gr-line);
+    border-radius: var(--gr-r);
+    background: #0a0913;
+  }
+
+  .notice {
+    max-width: 520px;
+    margin: clamp(40px, 10vw, 90px) auto;
+    text-align: center;
+  }
+  .notice .emoji { font-size: 3.4rem; }
+  .notice h2 { font-family: var(--gr-display); font-size: 1.7rem; margin: 14px 0 10px; }
+  .notice p { color: var(--gr-text-soft); line-height: 1.65; margin: 0 0 22px; }
+</style>
+</head>
+<body class="gr-body">
+
+<div class="gr-page">
+  <section class="notice gr-panel" id="notice" hidden>
+    <div class="emoji" data-gr="emoji">🔐</div>
+    <h2 data-gr="title">Lecture réservée</h2>
+    <p data-gr="text"></p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap" data-gr="actions"></div>
+  </section>
+
+  <div id="reader" hidden>
+    <div class="reader-bar">
+      <span class="emoji" id="rEmoji" aria-hidden="true">✨</span>
+      <div>
+        <h1 id="rTitle">Sans titre</h1>
+        <small id="rMeta"></small>
+      </div>
+      <div class="spacer"></div>
+      <button class="gr-btn gr-btn-sm" type="button" id="rDownload">⬇ Télécharger</button>
+      <a class="gr-btn gr-btn-sm gr-btn-ghost" href="atelier.html">Atelier</a>
+    </div>
+    <iframe id="rFrame" class="reader-frame" title="Contenu créé dans l'Atelier" sandbox="allow-scripts"></iframe>
+  </div>
+</div>
+
+<footer class="gr-footer">
+  Généré avec <strong>Claude</strong> · Le Grenier des Apps · <a href="index.html">Bibliothèque</a>
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>window.GRENIER_SHELL = { active: 'atelier', search: false };</script>
+<script src="assets/js/shell.js"></script>
+<script>
+/* Lecteur des créations locales de l'Atelier. */
+(function () {
+  'use strict';
+  var GRENIER = window.GRENIER;
+  var auth = GRENIER.auth;
+
+  var notice = document.getElementById('notice');
+  var reader = document.getElementById('reader');
+
+  function showNotice(emoji, title, text, actions) {
+    notice.hidden = false;
+    reader.hidden = true;
+    notice.querySelector('[data-gr="emoji"]').textContent = emoji;
+    notice.querySelector('[data-gr="title"]').textContent = title;
+    notice.querySelector('[data-gr="text"]').textContent = text;
+    var box = notice.querySelector('[data-gr="actions"]');
+    box.innerHTML = '';
+    (actions || []).forEach(function (action) {
+      var node;
+      if (action.href) {
+        node = document.createElement('a');
+        node.href = action.href;
+      } else {
+        node = document.createElement('button');
+        node.type = 'button';
+        node.addEventListener('click', action.onClick);
+      }
+      node.className = 'gr-btn ' + (action.primary ? 'gr-btn-primary' : 'gr-btn-ghost');
+      node.textContent = action.label;
+      box.appendChild(node);
+    });
+  }
+
+  function creationById(id) {
+    var list = GRENIER.storage.read('grenier.creations', []);
+    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
+    return null;
+  }
+
+  function render() {
+    var id = new URLSearchParams(location.search).get('id');
+
+    if (!auth.isLoggedIn()) {
+      return showNotice('🔐', 'Lecture réservée aux membres',
+        'Vos créations sont rattachées à votre compte sur cet appareil. Connectez-vous pour les rouvrir.',
+        [
+          { label: 'Me connecter', primary: true, onClick: function () { auth.openModal({ mode: 'login' }); } },
+          { label: 'Retour à la bibliothèque', href: 'index.html' }
+        ]);
+    }
+
+    var creation = id && creationById(id);
+    if (!creation) {
+      return showNotice('🕯️', 'Contenu introuvable',
+        'Ce contenu n\'existe pas (ou plus) dans ce navigateur. Les créations de l\'Atelier ne quittent pas l\'appareil sur lequel elles ont été faites.',
+        [{ label: 'Ouvrir l\'Atelier', primary: true, href: 'atelier.html' },
+         { label: 'Bibliothèque', href: 'index.html' }]);
+    }
+
+    notice.hidden = true;
+    reader.hidden = false;
+    document.title = creation.title + ' — Le Grenier des Apps';
+    document.getElementById('rEmoji').textContent = creation.emoji || '✨';
+    document.getElementById('rTitle').textContent = creation.title;
+    document.getElementById('rMeta').textContent =
+      GRENIER.categoryOf(creation.cat).label + ' · créé le ' +
+      new Date(creation.createdAt).toLocaleDateString('fr-FR');
+    document.getElementById('rFrame').srcdoc = creation.html;
+
+    auth.markSeen(creation.id);
+
+    document.getElementById('rDownload').addEventListener('click', function () {
+      var blob = new Blob([creation.html], { type: 'text/html;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement('a');
+      link.href = url;
+      link.download = (creation.title || 'creation').replace(/[^\w\-]+/g, '-').toLowerCase() + '.html';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    }, { once: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', render);
+  } else {
+    render();
+  }
+  auth.onChange(render);
+})();
+</script>
+</body>
+</html>

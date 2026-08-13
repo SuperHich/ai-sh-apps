@@ -1,48 +1,40 @@
 # 🌟 Le Grenier des Apps
 
-A collection of interactive stories and mini-games for kids — built entirely with vanilla HTML, CSS & JavaScript. No frameworks, no build steps. Just open in a browser.
+A browsable library of interactive stories, mini-games and tools for all ages —
+built entirely with vanilla HTML, CSS & JavaScript. No frameworks, no build
+steps, no server. Just open in a browser.
+
+The landing page is a searchable library: 44 pieces of content across 7
+universes, filterable by universe, age and access level, with favourites and a
+"continue reading" shelf. Part of the catalogue is open to everyone; the rest
+opens once a (local, free) account is created. Members also get **the Atelier**,
+where they can compose new stories by hand or have Claude write one in the
+house style.
 
 ## Structure
 
 ```
-├── index.html              # Main landing page
+├── index.html              # The library (search, filters, favourites)
+├── atelier.html            # Content creation — members only
+├── lecture.html            # Reader for locally-created content
+├── assets/
+│   ├── css/theme.css       # Shared design system
+│   └── js/
+│       ├── catalog.js      # Single source of truth for every content item
+│       ├── auth.js         # Local accounts + sign-in modal
+│       ├── shell.js        # Shared nav bar, injected on every library page
+│       ├── protect.js      # Access guard for member-only pages
+│       ├── library.js      # Home page logic
+│       ├── template.js     # House-style story page generator
+│       └── atelier.js      # Guided + AI content creation
 ├── components/
 │   └── back-button.js      # Reusable navigation Web Component
 ├── stories/
 │   ├── arabe/              # Arabic stories (RTL)
-│   │   ├── index.html
-│   │   ├── aventure-nour.html
-│   │   ├── petit_aigle.html
-│   │   ├── poisson_dore.html
-│   │   ├── samsoum.html
-│   │   └── squirrel.html
 │   ├── fun/                # Jokes & humour
-│   │   ├── index.html
-│   │   └── blagues1.html
 │   ├── legend/             # World legends & heroes
-│   │   ├── index.html
-│   │   ├── dinosaures.html
-│   │   ├── elissa.html
-│   │   ├── hannibal.html
-│   │   ├── karoun.html
-│   │   ├── napoleon.html
-│   │   └── robinhood.html
-│   └── religion/           # Prophets & righteous figures
-│       ├── index.html
-│       ├── adam.html
-│       ├── dawud.html
-│       ├── haroun.html
-│       ├── haroun_rachid.html
-│       ├── ibrahim.html
-│       ├── ilyes.html
-│       ├── jesus.html
-│       ├── mohamed.html
-│       ├── moise.html
-│       ├── noe.html
-│       ├── omar.html
-│       ├── soulayman.html
-│       ├── younes.html
-│       └── youssef.html
+│   ├── religion/           # Prophets & righteous figures
+│   └── science/            # Science & discovery
 ├── games/
 │   ├── color-blind-game.html
 │   ├── famille-en-or.html
@@ -60,7 +52,59 @@ A collection of interactive stories and mini-games for kids — built entirely w
 
 ## Running
 
-Open `index.html` in any modern browser — no server required.
+Open `index.html` in any modern browser. A plain static server
+(`python3 -m http.server`) is recommended: opening over `file://` works, but
+`crypto.subtle` is unavailable there, so password hashing silently falls back
+to a much weaker scheme, and the AI generator needs an HTTPS origin.
+
+## Accounts and access levels
+
+Every entry in `assets/js/catalog.js` carries an `access` field:
+
+| `access`   | Who can open it                                    |
+|------------|----------------------------------------------------|
+| `public`   | everyone — 25 items                                 |
+| `membre`   | requires an account — 19 items, plus the Atelier    |
+
+**The accounts are deliberately a soft gate, not real security.** The site is
+static and served from GitHub Pages, so there is no backend: accounts live in
+`localStorage`, exist only on the device that created them, and the underlying
+HTML files stay reachable by direct URL. Passwords are never stored in clear
+(PBKDF2-SHA256, random salt, 150 000 iterations) but anyone with access to the
+browser can bypass the gate. It personalises the library and reserves the
+Atelier — it does not protect anything. Real access control would need a server.
+
+Member-only pages carry one extra line right after `<body>`:
+
+```html
+<script src="../../assets/js/protect.js"></script>
+```
+
+It draws an opaque veil, checks the catalogue and the session, then either
+lifts the veil or turns it into a sign-up panel. To change an item's access
+level, edit its `access` field in the catalogue and add or remove that line.
+
+## The Atelier
+
+`atelier.html` is the members-only creation area. Both modes produce the same
+thing: a self-contained HTML page in the house style, previewed in a sandboxed
+iframe before it is kept.
+
+- **Guided mode** — title, universe, age, chapters (`##` opens a chapter, blank
+  lines separate paragraphs) and a closing moral. `assets/js/template.js` lays
+  it out.
+- **AI mode** — describe the idea in a sentence and Claude writes the whole
+  page. Because there is no backend, the browser calls the Anthropic API
+  **directly** with the user's own key (`anthropic-dangerous-direct-browser-access`),
+  streaming the result. The key stays in the browser and is only persisted if
+  the user ticks the box; use a dedicated key with a spend cap. The request runs
+  on `claude-opus-5` and opts into server-side refusal fallbacks by default,
+  retrying without them if the account lacks the beta.
+
+Saved creations live in `localStorage` and appear in the library tagged
+*Ma création*, readable through `lecture.html`. To publish one for everyone,
+download the HTML file and drop it into `stories/<universe>/` — the
+`/ajouter-histoire` routine handles the rest.
 
 ## Deployment
 

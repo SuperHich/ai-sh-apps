@@ -3,696 +3,339 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Apps IA — Accueil</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Le Grenier des Apps — La bibliothèque</title>
+<meta name="description" content="Une bibliothèque d'histoires, de jeux et d'outils pour tous les âges — récits des prophètes, légendes du monde, sciences, contes en arabe et mini-jeux.">
+<meta name="theme-color" content="#08070f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --ink: #1a1208;
-    --parchment: #fdf6e3;
-    --warm-mid: #f0e6c8;
-    --gold: #c8922a;
-    --gold-light: #e8b84b;
-    --amber-deep: #7a4a10;
-    --rust: #9e3d1a;
-    --sage: #4a6741;
-    --story-bg: #2c1a08;
-    --game-bg: #0d2b1a;
-    --card-shadow: 0 8px 32px rgba(26,18,8,0.18), 0 2px 8px rgba(26,18,8,0.10);
-    --card-shadow-hover: 0 20px 60px rgba(26,18,8,0.28), 0 4px 16px rgba(26,18,8,0.16);
-  }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background-color: #1a1208;
-    color: var(--parchment);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* Background texture */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(200,146,42,0.12) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 40% at 90% 80%, rgba(74,103,65,0.08) 0%, transparent 60%),
-      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8922a' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .wrapper {
+  /* ── Héro ── */
+  .hero {
     position: relative;
-    z-index: 1;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 2rem 4rem;
-  }
-
-  /* ── Header ── */
-  header {
+    padding: clamp(48px, 9vw, 96px) 0 clamp(28px, 5vw, 46px);
     text-align: center;
-    padding: 4rem 0 3.5rem;
-    position: relative;
   }
 
-  .header-eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.25em;
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 20px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(240, 192, 75, .3);
+    background: rgba(240, 192, 75, .09);
+    font-size: .74rem;
+    font-weight: 600;
+    letter-spacing: .13em;
     text-transform: uppercase;
-    color: var(--gold);
-    opacity: 0.8;
-    margin-bottom: 1rem;
-    animation: fadeUp 0.6s ease both;
+    color: var(--gr-gold);
+  }
+  .hero-eyebrow .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--gr-jade);
+    box-shadow: 0 0 0 0 rgba(79, 216, 166, .7);
+    animation: pulse 2.4s infinite;
+  }
+  @keyframes pulse {
+    70%  { box-shadow: 0 0 0 9px rgba(79, 216, 166, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(79, 216, 166, 0); }
   }
 
-  header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.4rem, 5vw, 3.6rem);
+  .hero h1 {
+    margin: 0;
+    font-family: var(--gr-display);
+    font-size: clamp(2.5rem, 8vw, 5rem);
     font-weight: 700;
-    line-height: 1.1;
-    color: var(--parchment);
-    animation: fadeUp 0.6s 0.1s ease both;
+    line-height: 1.02;
+    letter-spacing: -.02em;
   }
-
-  header h1 em {
+  .hero h1 em {
     font-style: italic;
-    color: var(--gold-light);
+    background: linear-gradient(115deg, var(--gr-gold) 10%, var(--gr-ember) 50%, var(--gr-violet) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 220% auto;
+    animation: shimmer 7s linear infinite;
+  }
+  @keyframes shimmer {
+    to { background-position: 220% center; }
   }
 
-  .header-sub {
-    margin-top: 1rem;
-    font-size: 15px;
+  .hero-sub {
+    max-width: 620px;
+    margin: 20px auto 0;
+    font-size: clamp(1rem, 2.3vw, 1.16rem);
     font-weight: 300;
-    color: rgba(253,246,227,0.55);
-    animation: fadeUp 0.6s 0.2s ease both;
+    line-height: 1.65;
+    color: var(--gr-text-soft);
   }
 
-  .header-divider {
-    margin: 2rem auto 0;
-    width: 60px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    animation: fadeUp 0.6s 0.3s ease both;
-  }
-
-  /* ── Section title ── */
-  .section {
-    margin-top: 3rem;
-  }
-
-  .section-header {
+  .hero-actions {
     display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.5s ease both;
-  }
-
-  .section-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
     justify-content: center;
-    font-size: 17px;
-    flex-shrink: 0;
+    margin-top: 32px;
   }
+  .hero-actions .gr-btn { height: 50px; padding: 0 26px; font-size: .95rem; }
 
-  .section-icon.story { background: rgba(200,146,42,0.15); border: 1px solid rgba(200,146,42,0.3); }
-  .section-icon.game  { background: rgba(74,103,65,0.2);  border: 1px solid rgba(74,103,65,0.4); }
-  .section-icon.tool  { background: rgba(56,130,176,0.15); border: 1px solid rgba(56,130,176,0.3); }
-  .section-icon.fun   { background: rgba(226,97,79,0.15); border: 1px solid rgba(226,97,79,0.3); }
-  .section-icon.more  { background: rgba(100,100,160,0.15); border: 1px solid rgba(100,100,160,0.3); }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.35rem;
-    font-weight: 700;
-    color: var(--parchment);
-  }
-
-  .section-count {
-    margin-left: auto;
-    font-size: 12px;
-    color: rgba(253,246,227,0.35);
-    font-weight: 300;
-  }
-
-  /* ── Cards grid ── */
-  .cards-grid {
+  /* ── Compteurs ── */
+  .stats {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 14px;
+    max-width: 720px;
+    margin: 48px auto 0;
   }
-
-  /* ── App card ── */
-  .app-card {
-    border-radius: 16px;
-    overflow: hidden;
-    cursor: pointer;
-    text-decoration: none;
+  .stat {
+    padding: 18px 12px;
+    border-radius: var(--gr-r);
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+    text-align: center;
+  }
+  .stat b {
     display: block;
-    position: relative;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    box-shadow: var(--card-shadow);
-    animation: fadeUp 0.5s ease both;
+    font-family: var(--gr-display);
+    font-size: 1.95rem;
+    line-height: 1;
+    color: var(--gr-gold);
   }
-
-  .app-card:hover {
-    transform: translateY(-5px) scale(1.01);
-    box-shadow: var(--card-shadow-hover);
-  }
-
-  .app-card:hover .card-arrow { opacity: 1; transform: translate(2px, -2px); }
-  .app-card:hover .card-glow  { opacity: 1; }
-
-  .card-glow {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    border-radius: 16px;
-  }
-
-  /* Story cards */
-  .story .card-bg {
-    background: linear-gradient(160deg, #3d2210 0%, #1e0e04 100%);
-    border: 1px solid rgba(200,146,42,0.2);
-  }
-  .story .card-glow { box-shadow: inset 0 0 40px rgba(200,146,42,0.08); }
-  .story .card-accent { background: rgba(200,146,42,0.12); color: var(--gold-light); }
-  .story .card-icon-bg { background: rgba(200,146,42,0.15); }
-
-  /* Game cards */
-  .game .card-bg {
-    background: linear-gradient(160deg, #0e2618 0%, #051209 100%);
-    border: 1px solid rgba(74,103,65,0.25);
-  }
-  .game .card-glow { box-shadow: inset 0 0 40px rgba(74,103,65,0.1); }
-  .game .card-accent { background: rgba(74,103,65,0.2); color: #8ecb85; }
-  .game .card-icon-bg { background: rgba(74,103,65,0.2); }
-
-  /* Tool cards */
-  .tool .card-bg {
-    background: linear-gradient(160deg, #0e1e2e 0%, #06111a 100%);
-    border: 1px solid rgba(56,130,176,0.25);
-  }
-  .tool .card-glow { box-shadow: inset 0 0 40px rgba(56,130,176,0.1); }
-  .tool .card-accent { background: rgba(56,130,176,0.2); color: #7ec8e8; }
-  .tool .card-icon-bg { background: rgba(56,130,176,0.2); }
-
-  /* Fun cards */
-  .fun .card-bg {
-    background: linear-gradient(160deg, #2a1a10 0%, #1c1008 100%);
-    border: 1px solid rgba(226,97,79,0.2);
-  }
-  .fun .card-glow { box-shadow: inset 0 0 40px rgba(226,97,79,0.08); }
-  .fun .card-accent { background: rgba(226,97,79,0.15); color: #f0a090; }
-  .fun .card-icon-bg { background: rgba(226,97,79,0.15); }
-
-  /* Placeholder card */
-  .placeholder .card-bg {
-    background: rgba(255,255,255,0.02);
-    border: 1px dashed rgba(253,246,227,0.1);
-  }
-
-  .card-bg {
-    padding: 1.4rem;
-    height: 100%;
-  }
-
-  .card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-  }
-
-  .card-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-  }
-
-  .card-arrow {
-    font-size: 16px;
-    color: rgba(253,246,227,0.3);
-    opacity: 0;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-  }
-
-  .card-badge {
-    display: inline-block;
-    font-size: 10px;
-    letter-spacing: 0.08em;
+  .stat span {
+    display: block;
+    margin-top: 7px;
+    font-size: .76rem;
+    letter-spacing: .06em;
     text-transform: uppercase;
-    font-weight: 500;
-    padding: 3px 9px;
-    border-radius: 20px;
-    margin-bottom: 0.6rem;
+    color: var(--gr-text-faint);
   }
 
-  .card-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--parchment);
-    margin-bottom: 0.4rem;
-    line-height: 1.25;
+  /* ── Univers ── */
+  .universes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 16px;
   }
-
-  .card-desc {
-    font-size: 12.5px;
-    font-weight: 300;
-    color: rgba(253,246,227,0.5);
-    line-height: 1.5;
-  }
-
-  /* Placeholder */
-  .placeholder-inner {
-    border-radius: 16px;
-    padding: 1.4rem;
+  .universe {
+    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    min-height: 148px;
-    cursor: default;
-    gap: 0.5rem;
+    gap: 6px;
+    padding: 22px;
+    border-radius: var(--gr-r);
+    border: 1px solid var(--gr-line);
+    background: linear-gradient(155deg, var(--gr-surface-2), rgba(255, 255, 255, .012));
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform .3s cubic-bezier(.2, .8, .3, 1), border-color .3s, box-shadow .3s;
   }
-
-  .placeholder-plus {
-    width: 32px;
-    height: 32px;
+  .universe::before {
+    content: '';
+    position: absolute;
+    inset: auto -30% -60% auto;
+    width: 180px; height: 180px;
     border-radius: 50%;
-    border: 1px dashed rgba(253,246,227,0.2);
+    background: var(--accent);
+    opacity: .16;
+    filter: blur(38px);
+    transition: opacity .3s, transform .4s;
+  }
+  .universe:hover {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    box-shadow: var(--gr-shadow-hover);
+  }
+  .universe:hover::before { opacity: .34; transform: scale(1.25); }
+  .universe .emoji { font-size: 1.9rem; }
+  .universe strong { font-family: var(--gr-display); font-size: 1.1rem; }
+  .universe small { font-size: .8rem; line-height: 1.5; color: var(--gr-text-soft); }
+  .universe .count {
+    margin-top: 10px;
+    font-size: .74rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* ── Bandeau Atelier ── */
+  .studio {
+    position: relative;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    color: rgba(253,246,227,0.2);
+    gap: 26px;
+    margin-top: 72px;
+    padding: clamp(26px, 4vw, 44px);
+    border-radius: var(--gr-r-lg);
+    border: 1px solid rgba(177, 140, 255, .3);
+    background:
+      radial-gradient(90% 140% at 10% 0%, rgba(177, 140, 255, .22), transparent 62%),
+      linear-gradient(160deg, var(--gr-surface-2), rgba(255, 255, 255, .012));
+    overflow: hidden;
   }
-
-  .placeholder-text {
-    font-size: 12px;
-    color: rgba(253,246,227,0.2);
-    font-weight: 300;
+  .studio-text { flex: 1 1 320px; }
+  .studio h2 {
+    margin: 0 0 10px;
+    font-family: var(--gr-display);
+    font-size: clamp(1.5rem, 3.4vw, 2.05rem);
   }
-
-  /* ── Coming soon section ── */
-  .coming-soon {
-    margin-top: 3.5rem;
-    border-top: 1px solid rgba(253,246,227,0.06);
-    padding-top: 2.5rem;
-    animation: fadeUp 0.5s 0.4s ease both;
-  }
-
-  .coming-grid {
+  .studio p { margin: 0; font-size: .95rem; line-height: 1.65; color: var(--gr-text-soft); }
+  .studio ul {
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 0.75rem;
-    margin-top: 1.25rem;
+    gap: 9px;
+    font-size: .88rem;
+    color: var(--gr-text-soft);
   }
+  .studio li { display: flex; gap: 9px; align-items: flex-start; }
+  .studio li span { color: var(--gr-violet); }
+  .studio-cta { flex: 0 0 auto; }
 
-  .coming-pill {
-    border: 1px solid rgba(253,246,227,0.08);
-    border-radius: 10px;
-    padding: 0.7rem 1rem;
+  /* ── Divers ── */
+  .result-line {
+    margin: 18px 0 20px;
+    font-size: .86rem;
+    color: var(--gr-text-faint);
+  }
+  .result-line b { color: var(--gr-text); }
+
+  .filter-row {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 0.6rem;
-    font-size: 13px;
-    color: rgba(253,246,227,0.35);
-    font-weight: 300;
+    gap: 9px;
   }
-
-  .coming-pill span { font-size: 15px; opacity: 0.6; }
-
-  /* ── Footer ── */
-  footer {
-    margin-top: 4rem;
-    text-align: center;
-    padding-bottom: 2rem;
-    font-size: 12px;
-    color: rgba(253,246,227,0.18);
-    font-weight: 300;
-    animation: fadeUp 0.5s 0.5s ease both;
-  }
-
-  footer strong { color: rgba(253,246,227,0.35); font-weight: 500; }
-
-  /* ── Animations ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .cards-grid .app-card:nth-child(1) { animation-delay: 0.10s; }
-  .cards-grid .app-card:nth-child(2) { animation-delay: 0.18s; }
-  .cards-grid .app-card:nth-child(3) { animation-delay: 0.26s; }
-  .cards-grid .app-card:nth-child(4) { animation-delay: 0.34s; }
-
-  /* Responsive */
-  @media (max-width: 540px) {
-    .wrapper { padding: 0 1.2rem 3rem; }
-    header   { padding: 3rem 0 2.5rem; }
-    .cards-grid { grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  .filter-label {
+    font-size: .74rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gr-text-faint);
+    margin-right: 3px;
   }
 </style>
 </head>
-<body>
-<div class="wrapper">
+<body class="gr-body">
 
-  <!-- ── HEADER ── -->
-  <header>
-    <p class="header-eyebrow">Créations assistées par l'IA</p>
-    <h1>Le <em>Grenier</em> des Apps</h1>
-    <p class="header-sub">Toutes mes petites créations numériques, au même endroit.</p>
-    <div class="header-divider"></div>
+<div class="gr-page">
+
+  <!-- ══════════════ HÉRO ══════════════ -->
+  <header class="hero">
+    <p class="hero-eyebrow"><span class="dot"></span> Créations assistées par l'IA</p>
+    <h1>Le <em>Grenier</em><br>des Apps</h1>
+    <p class="hero-sub">
+      Une bibliothèque d'histoires, de jeux et d'outils à explorer en famille —
+      des récits des prophètes aux légendes du monde, des sciences aux contes en arabe.
+    </p>
+    <div class="hero-actions">
+      <a class="gr-btn gr-btn-primary" href="#bibliotheque">Explorer la bibliothèque</a>
+      <a class="gr-btn" href="atelier.html">✨ Créer un contenu</a>
+    </div>
+
+    <div class="stats" id="stats">
+      <div class="stat"><b data-count="0">0</b><span>Contenus</span></div>
+      <div class="stat"><b data-count="0">0</b><span>Univers</span></div>
+      <div class="stat"><b data-count="0">0</b><span>En accès libre</span></div>
+      <div class="stat"><b data-count="0">0</b><span>Pour les membres</span></div>
+    </div>
   </header>
 
-  <!-- ══════════════════════════════════
-       SECTION : HISTOIRES
-  ══════════════════════════════════ -->
-  <section class="section">
-    <div class="section-header">
-      <div class="section-icon story">📖</div>
-      <span class="section-title">Histoires</span>
-      <span class="section-count">4 thèmes</span>
+  <!-- ══════════════ REPRENDRE ══════════════ -->
+  <section class="gr-section" id="reprendre" hidden>
+    <div class="gr-section-head">
+      <h2>Reprendre</h2>
+      <div class="gr-rule"></div>
     </div>
-
-    <div class="cards-grid">
-
-      <!-- Carte : Conte interactif -->
-      <a href="stories/religion/index.html" class="app-card story" style="animation-delay:0.10s">
-        <div class="card-bg">
-          <div class="card-glow"></div>
-          <div class="card-top">
-            <div class="card-icon card-icon-bg">🌙</div>
-            <div class="card-arrow">↗</div>
-          </div>
-          <span class="card-badge card-accent">Nouveau</span>
-          <div class="card-name">Histoires des prophètes</div>
-          <div class="card-desc">Une collection d'histoires des prophètes ainsi que leurs récits et miracles.</div>
-        </div>
-      </a>
-
-      <!-- Carte : Conte arabe -->
-      <a href="stories/arabe/index.html" class="app-card story" style="animation-delay:0.10s">
-        <div class="card-bg">
-          <div class="card-glow"></div>
-          <div class="card-top">
-            <div class="card-icon card-icon-bg">📜</div>
-            <div class="card-arrow">↗</div>
-          </div>
-          <span class="card-badge card-accent">Nouveau</span>
-          <div class="card-name">Histoires en arabe</div>
-          <div class="card-desc">Des récits merveilleux en arabe pour les petits cœurs curieux — aventures, sagesse et leçons de vie.</div>
-        </div>
-      </a>
-
-      <!-- Carte : Légendes de Carthage -->
-      <a href="stories/legend/index.html" class="app-card story" style="animation-delay:0.18s">
-        <div class="card-bg">
-          <div class="card-glow"></div>
-          <div class="card-top">
-            <div class="card-icon card-icon-bg">🏛️</div>
-            <div class="card-arrow">↗</div>
-          </div>
-          <span class="card-badge card-accent">Nouveau</span>
-          <div class="card-name">Légendes du monde</div>
-          <div class="card-desc">Les récits légendaires des grandes figures du monde entier — ruse, courage et intelligence à travers les siècles.</div>
-        </div>
-      </a>
-
-      <!-- Carte : Sciences & Découvertes -->
-      <a href="stories/science/index.html" class="app-card story" style="animation-delay:0.26s">
-        <div class="card-bg">
-          <div class="card-glow"></div>
-          <div class="card-top">
-            <div class="card-icon card-icon-bg">🔭</div>
-            <div class="card-arrow">↗</div>
-          </div>
-          <span class="card-badge card-accent">Nouveau</span>
-          <div class="card-name">Sciences & Découvertes</div>
-          <div class="card-desc">Les grandes épopées de la nature, de l'humanité et du cosmos — dinosaures, évolution et voyage au cœur de l'univers.</div>
-        </div>
-      </a>
-
-      <!-- Placeholder -->
-      <div class="app-card placeholder" style="animation-delay:0.34s">
-        <div class="placeholder-inner">
-          <div class="placeholder-plus">+</div>
-          <div class="placeholder-text">Prochaine histoire</div>
-        </div>
-      </div>
-
-    </div>
+    <div class="gr-grid" id="recentGrid"></div>
   </section>
 
-  <!-- ══════════════════════════════════
-       SECTION : BLAGUES & HUMOUR
-  ══════════════════════════════════ -->
-  <section class="section">
-    <div class="section-header" style="animation-delay:0.12s">
-      <div class="section-icon fun">😂</div>
-      <span class="section-title">Blagues & Humour</span>
-      <span class="section-count">1 recueil</span>
+  <!-- ══════════════ UNIVERS ══════════════ -->
+  <section class="gr-section" id="univers">
+    <div class="gr-section-head">
+      <h2>Les univers</h2>
+      <div class="gr-rule"></div>
+      <p>Sept collections, chacune avec son ambiance. Choisis-en une pour filtrer la bibliothèque.</p>
     </div>
-
-    <div class="cards-grid">
-
-      <!-- Carte : Blagues de Tonton -->
-      <a href="stories/fun/index.html" class="app-card fun" style="animation-delay:0.14s">
-        <div class="card-bg">
-          <div class="card-glow"></div>
-          <div class="card-top">
-            <div class="card-icon card-icon-bg">🎭</div>
-            <div class="card-arrow">↗</div>
-          </div>
-          <span class="card-badge card-accent">Nouveau</span>
-          <div class="card-name">Blagues & Humour</div>
-          <div class="card-desc">Les meilleures blagues pour rire en famille — jeux de mots, animaux, célébrités et absurde garanti.</div>
-        </div>
-      </a>
-
-      <!-- Placeholder -->
-      <div class="app-card placeholder" style="animation-delay:0.22s">
-        <div class="placeholder-inner">
-          <div class="placeholder-plus">+</div>
-          <div class="placeholder-text">Prochain recueil</div>
-        </div>
-      </div>
-
-    </div>
+    <div class="universes" id="universes"></div>
   </section>
 
-  <!-- ══════════════════════════════════
-       SECTION : MINI JEUX
-  ══════════════════════════════════ -->
-  <section class="section">
-    <div class="section-header" style="animation-delay:0.15s">
-      <div class="section-icon game">🎮</div>
-      <span class="section-title">Mini Jeux</span>
-      <span class="section-count">8 jeux</span>
+  <!-- ══════════════ BIBLIOTHÈQUE ══════════════ -->
+  <section class="gr-section" id="bibliotheque">
+    <div class="gr-section-head">
+      <h2>Toute la bibliothèque</h2>
+      <div class="gr-rule"></div>
     </div>
 
-    <div class="cards-grid">
+    <div class="gr-filters filter-row" id="catFilters"></div>
 
-      <!-- Carte : Stop at 10 -->
-      <a href="games/timer-game.html" class="app-card game" style="animation-delay:0.20s">
-        <div class="card-bg">
-          <div class="card-glow"></div>
-          <div class="card-top">
-            <div class="card-icon card-icon-bg">⏱️</div>
-            <div class="card-arrow">↗</div>
-          </div>
-          <span class="card-badge card-accent">Suspens</span>
-          <div class="card-name">Stop at 10</div>
-          <div class="card-desc">Stoppe le timer exactement à 10.00 secondes. Pas une de plus, pas une de moins !</div>
-        </div>
-      </a>
-
-      <!-- Carte : React -->
-      <a href="games/reaction-game.html" class="app-card game" style="animation-delay:0.28s">
-        <div class="card-bg">
-          <div class="card-glow"></div>
-          <div class="card-top">
-            <div class="card-icon card-icon-bg">⚡</div>
-            <div class="card-arrow">↗</div>
-          </div>
-          <span class="card-badge card-accent">Réflexes</span>
-          <div class="card-name">React !</div>
-          <div class="card-desc">Appuie le plus vite possible dès que l'écran passe au vert. Qui a les réflexes les plus rapides ?</div>
-        </div>
-      </a>
-
-      <!-- Carte : Memory -->
-      <a href="games/memory-game.html" class="app-card game" style="animation-delay:0.36s">
-        <div class="card-bg">
-          <div class="card-glow"></div>
-          <div class="card-top">
-            <div class="card-icon card-icon-bg">🔢</div>
-            <div class="card-arrow">↗</div>
-          </div>
-          <span class="card-badge card-accent">Mémoire</span>
-          <div class="card-name">Memory !</div>
-          <div class="card-desc">Mémorise la séquence de chiffres qui s'affiche, puis retape-la dans le bon ordre !</div>
-        </div>
-      </a>
-
-      <!-- Carte : Color Blind -->
-      <a href="games/color-blind-game.html" class="app-card game" style="animation-delay:0.44s">
-        <div class="card-bg">
-          <div class="card-glow"></div>
-          <div class="card-top">
-            <div class="card-icon card-icon-bg">🎨</div>
-            <div class="card-arrow">↗</div>
-          </div>
-          <span class="card-badge card-accent">Confusion</span>
-          <div class="card-name">Color Blind</div>
-          <div class="card-desc">Tape la COULEUR du mot, pas ce qu'il dit ! 30 secondes de confusion garantie.</div>
-        </div>
-      </a>
-
-      <!-- Carte : Hot Potato -->
-      <a href="games/hot-potato-game.html" class="app-card game" style="animation-delay:0.52s">
-        <div class="card-bg">
-          <div class="card-glow"></div>
-          <div class="card-top">
-            <div class="card-icon card-icon-bg">🔴</div>
-            <div class="card-arrow">↗</div>
-          </div>
-          <span class="card-badge card-accent">Multijoueur</span>
-          <div class="card-name">Hot Potato</div>
-          <div class="card-desc">Passe la patate avant qu'elle explose ! Minuterie aléatoire, jusqu'à 8 joueurs.</div>
-        </div>
-      </a>
-
-      <!-- Carte : Simon -->
-      <a href="games/simon-game.html" class="app-card game" style="animation-delay:0.60s">
-        <div class="card-bg">
-          <div class="card-glow"></div>
-          <div class="card-top">
-            <div class="card-icon card-icon-bg">🎵</div>
-            <div class="card-arrow">↗</div>
-          </div>
-          <span class="card-badge card-accent">Mémoire</span>
-          <div class="card-name">Simon Dit</div>
-          <div class="card-desc">Répète la séquence de couleurs et de sons, de plus en plus longue. Jusqu'où iras-tu ?</div>
-        </div>
-      </a>
-
-      <!-- Carte : Mot Caché -->
-      <a href="games/mot-cache-game.html" class="app-card game" style="animation-delay:0.68s">
-        <div class="card-bg">
-          <div class="card-glow"></div>
-          <div class="card-top">
-            <div class="card-icon card-icon-bg">🔤</div>
-            <div class="card-arrow">↗</div>
-          </div>
-          <span class="card-badge card-accent">Mots</span>
-          <div class="card-name">Mot Caché</div>
-          <div class="card-desc">Trouve le mot de 5 lettres en 6 essais. Vert = bonne place, jaune = mauvaise place !</div>
-        </div>
-      </a>
-
-      <!-- Carte : Famille en Or -->
-      <a href="games/famille-en-or.html" class="app-card game" style="animation-delay:0.72s">
-        <div class="card-bg">
-          <div class="card-glow"></div>
-          <div class="card-top">
-            <div class="card-icon card-icon-bg">🏆</div>
-            <div class="card-arrow">↗</div>
-          </div>
-          <span class="card-badge card-accent">Quiz</span>
-          <div class="card-name">Famille en Or</div>
-          <div class="card-desc">Devine les réponses les plus populaires données par 100 personnes interrogées !</div>
-        </div>
-      </a>
-
-      <!-- Placeholder -->
-      <div class="app-card placeholder" style="animation-delay:0.18s">
-        <div class="placeholder-inner">
-          <div class="placeholder-plus">+</div>
-          <div class="placeholder-text">Prochain jeu</div>
-        </div>
-      </div>
-
-
+    <div class="gr-filters filter-row" style="margin-top:6px">
+      <span class="filter-label">Âge</span>
+      <div class="filter-row" id="ageFilters"></div>
+      <span class="filter-label" style="margin-left:14px">Accès</span>
+      <div class="filter-row" id="accessFilters"></div>
     </div>
+
+    <p class="result-line" id="resultLine"></p>
+
+    <div class="gr-grid" id="libraryGrid"></div>
   </section>
 
-  <!-- ══════════════════════════════════
-       SECTION : OUTILS
-  ══════════════════════════════════ -->
-  <section class="section">
-    <div class="section-header" style="animation-delay:0.2s">
-      <div class="section-icon tool">🧮</div>
-      <span class="section-title">Outils</span>
-      <span class="section-count">1 outil</span>
+  <!-- ══════════════ FAVORIS ══════════════ -->
+  <section class="gr-section" id="favoris" hidden>
+    <div class="gr-section-head">
+      <h2>Mes favoris</h2>
+      <div class="gr-rule"></div>
     </div>
-
-    <div class="cards-grid">
-
-      <!-- Carte : Calculatrice Financière -->
-      <a href="tools/financial_calculator.html" class="app-card tool" style="animation-delay:0.24s">
-        <div class="card-bg">
-          <div class="card-glow"></div>
-          <div class="card-top">
-            <div class="card-icon card-icon-bg">💰</div>
-            <div class="card-arrow">↗</div>
-          </div>
-          <span class="card-badge card-accent">Finance</span>
-          <div class="card-name">Calculatrice Financière</div>
-          <div class="card-desc">Simuler un investissement, calculer les intérêts composés et visualiser le pouvoir d'achat.</div>
-        </div>
-      </a>
-
-      <!-- Placeholder -->
-      <div class="app-card placeholder" style="animation-delay:0.32s">
-        <div class="placeholder-inner">
-          <div class="placeholder-plus">+</div>
-          <div class="placeholder-text">Prochain outil</div>
-        </div>
-      </div>
-
-    </div>
+    <div class="gr-grid" id="favGrid"></div>
   </section>
 
-  <!-- ══════════════════════════════════
-       COMING SOON
-  ══════════════════════════════════ -->
-  <div class="coming-soon">
-    <div class="section-header" style="margin-bottom:0; animation-delay:0.3s">
-      <div class="section-icon more">✦</div>
-      <span class="section-title">À venir…</span>
+  <!-- ══════════════ ATELIER ══════════════ -->
+  <section class="studio gr-reveal" id="atelier-teaser">
+    <div class="studio-text">
+      <h2>L'Atelier — ajoutez vos propres contenus</h2>
+      <p>
+        Réservé aux membres : composez une nouvelle histoire, un recueil de blagues ou une fiche
+        de découverte, et le Grenier la met en page dans le style de la maison.
+      </p>
+      <ul>
+        <li><span>✦</span> Un formulaire simple : titre, univers, chapitres — la page est générée pour vous.</li>
+        <li><span>✦</span> Ou décrivez votre idée en une phrase et laissez Claude écrire l'histoire complète.</li>
+        <li><span>✦</span> Aperçu immédiat, sauvegarde dans votre bibliothèque, export du fichier HTML.</li>
+      </ul>
     </div>
-    <div class="coming-grid">
-      <div class="coming-pill"><span>🎨</span> Illustrations</div>
-      <div class="coming-pill"><span>🧮</span> Outils</div>
-      <div class="coming-pill"><span>🗺️</span> Aventures</div>
-      <div class="coming-pill"><span>🎵</span> Musique</div>
-      <div class="coming-pill"><span>📚</span> Apprentissage</div>
-      <div class="coming-pill"><span>🌍</span> Langues</div>
+    <div class="studio-cta">
+      <a class="gr-btn gr-btn-primary" href="atelier.html" style="height:50px;padding:0 26px">Ouvrir l'Atelier</a>
     </div>
-  </div>
-
-  <footer>
-    Généré avec <strong>Claude</strong> · Mis à jour en 2025
-  </footer>
+  </section>
 
 </div>
+
+<footer class="gr-footer">
+  Généré avec <strong>Claude</strong> · Le Grenier des Apps ·
+  <a href="atelier.html">Atelier</a> · Mis à jour en 2026
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  window.GRENIER_SHELL = {
+    active: 'home',
+    search: true,
+    onSearch: function (q) { if (window.GRENIER.library) window.GRENIER.library.setQuery(q); }
+  };
+</script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/library.js"></script>
 </body>
 </html>
