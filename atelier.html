@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Atelier — Le Grenier des Apps</title>
+<meta name="description" content="Créez vos propres histoires pour le Grenier des Apps : mode guidé ou génération assistée par Claude, dans le style de la maison.">
+<meta name="theme-color" content="#08070f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<style>
+  .studio-head { padding: clamp(30px, 6vw, 58px) 0 8px; }
+  .studio-head h1 {
+    margin: 0;
+    font-family: var(--gr-display);
+    font-size: clamp(2.1rem, 6vw, 3.3rem);
+    line-height: 1.05;
+  }
+  .studio-head h1 em {
+    font-style: italic;
+    background: linear-gradient(115deg, var(--gr-violet), var(--gr-azure));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .studio-head p {
+    max-width: 640px;
+    margin: 14px 0 0;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--gr-text-soft);
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+    margin-top: 30px;
+  }
+  @media (min-width: 1000px) {
+    .layout { grid-template-columns: minmax(0, 460px) minmax(0, 1fr); align-items: start; }
+    .preview-col { position: sticky; top: calc(var(--gr-nav-h) + 20px); }
+  }
+
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+
+  .preview-frame {
+    width: 100%;
+    height: min(66vh, 620px);
+    border: 1px solid var(--gr-line);
+    border-radius: var(--gr-r);
+    background: #0a0913;
+  }
+  .preview-empty {
+    display: grid;
+    place-items: center;
+    height: min(66vh, 620px);
+    border: 1px dashed var(--gr-line-strong);
+    border-radius: var(--gr-r);
+    text-align: center;
+    padding: 30px;
+    color: var(--gr-text-faint);
+  }
+  .preview-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+
+  .stream-log {
+    margin-top: 14px;
+    padding: 13px 15px;
+    max-height: 190px;
+    overflow-y: auto;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid var(--gr-line);
+    background: rgba(8, 7, 15, .6);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: .74rem;
+    line-height: 1.6;
+    color: var(--gr-text-faint);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .mine-list { display: grid; gap: 10px; margin-top: 16px; }
+  .mine-row {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 15px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+  }
+  .mine-row .emoji { font-size: 1.5rem; }
+  .mine-row .meta { flex: 1; min-width: 0; }
+  .mine-row strong { display: block; font-family: var(--gr-display); font-size: 1rem; }
+  .mine-row small { color: var(--gr-text-faint); font-size: .78rem; }
+  .mine-row .actions { display: flex; gap: 7px; flex-shrink: 0; }
+
+  .gate {
+    max-width: 560px;
+    margin: clamp(40px, 10vw, 90px) auto;
+    text-align: center;
+  }
+  .gate .emoji { font-size: 3.6rem; }
+  .gate h2 { font-family: var(--gr-display); font-size: 1.9rem; margin: 14px 0 10px; }
+  .gate p { color: var(--gr-text-soft); line-height: 1.65; margin: 0 0 24px; }
+</style>
+</head>
+<body class="gr-body">
+
+<div class="gr-page">
+
+  <!-- Affiché aux visiteurs non connectés -->
+  <section class="gate gr-panel" id="gate" hidden>
+    <div class="emoji">🎨</div>
+    <h2>L'Atelier est réservé aux membres</h2>
+    <p>
+      Créer un compte prend dix secondes, ne demande aucune vérification et reste sur cet appareil.
+      Vous pourrez alors composer vos propres histoires et les ajouter à la bibliothèque.
+    </p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="gr-btn gr-btn-primary" type="button" data-gr="join">Créer mon compte</button>
+      <button class="gr-btn" type="button" data-gr="login">Me connecter</button>
+      <a class="gr-btn gr-btn-ghost" href="index.html">Retour à la bibliothèque</a>
+    </div>
+  </section>
+
+  <!-- Atelier -->
+  <div id="studio" hidden>
+
+    <header class="studio-head">
+      <h1>L'<em>Atelier</em></h1>
+      <p>
+        Composez une histoire à la main, ou décrivez votre idée et laissez Claude l'écrire dans le style
+        du Grenier. Dans les deux cas vous obtenez une page complète, prévisualisée avant publication.
+      </p>
+    </header>
+
+    <div class="layout">
+
+      <!-- ══════════ Colonne formulaire ══════════ -->
+      <div class="gr-panel">
+
+        <div class="gr-tabs" style="margin-bottom:22px">
+          <button class="gr-tab is-on" type="button" data-mode="guide">✍️ Mode guidé</button>
+          <button class="gr-tab" type="button" data-mode="ia">✨ Génération IA</button>
+        </div>
+
+        <!-- Champs communs -->
+        <div class="row2">
+          <div class="gr-field">
+            <label for="f-title">Titre</label>
+            <input class="gr-input" id="f-title" type="text" placeholder="Le Renard et l'Étoile">
+          </div>
+          <div class="gr-field">
+            <label for="f-emoji">Emoji</label>
+            <input class="gr-input" id="f-emoji" type="text" maxlength="4" placeholder="🦊">
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="gr-field">
+            <label for="f-cat">Univers</label>
+            <select class="gr-select" id="f-cat"></select>
+          </div>
+          <div class="gr-field">
+            <label for="f-age">Âge conseillé</label>
+            <select class="gr-select" id="f-age">
+              <option value="4">Dès 4 ans</option>
+              <option value="7" selected>Dès 7 ans</option>
+              <option value="10">Dès 10 ans</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="gr-field">
+          <label for="f-desc">Résumé de la carte</label>
+          <input class="gr-input" id="f-desc" type="text" placeholder="Une ou deux phrases qui donnent envie de lire.">
+        </div>
+
+        <!-- ── Mode guidé ── -->
+        <div data-panel="guide">
+          <div class="gr-field">
+            <label for="f-subtitle">Accroche (facultatif)</label>
+            <input class="gr-input" id="f-subtitle" type="text" placeholder="Une nuit d'hiver, au bord du lac gelé…">
+          </div>
+          <div class="gr-field">
+            <label for="f-text">Texte de l'histoire</label>
+            <textarea class="gr-textarea" id="f-text" rows="12"
+              placeholder="## Chapitre premier&#10;Il était une fois un renard qui…&#10;&#10;Un nouveau paragraphe après une ligne vide.&#10;&#10;## Le grand départ&#10;…"></textarea>
+            <p class="gr-hint">
+              Une ligne commençant par <code>##</code> (ou « Chapitre 1 ») ouvre un nouveau chapitre.
+              Les paragraphes sont séparés par une ligne vide.
+            </p>
+          </div>
+          <div class="gr-field">
+            <label for="f-moral">Morale de fin (facultatif)</label>
+            <input class="gr-input" id="f-moral" type="text" placeholder="Le courage ne fait pas de bruit.">
+          </div>
+          <label class="gr-hint" style="display:flex;gap:9px;align-items:center;cursor:pointer">
+            <input type="checkbox" id="f-rtl"> Texte en arabe (lecture de droite à gauche)
+          </label>
+          <button class="gr-btn gr-btn-primary" type="button" id="buildBtn"
+            style="width:100%;height:46px;margin-top:18px">Composer la page</button>
+        </div>
+
+        <!-- ── Mode IA ── -->
+        <div data-panel="ia" hidden>
+          <div class="gr-note is-warn" style="margin-bottom:18px">
+            <span>🔑</span>
+            <div>
+              Le Grenier n'a pas de serveur : l'appel part <strong>directement de votre navigateur</strong>
+              vers l'API Anthropic avec <strong>votre</strong> clé. Elle reste dans ce navigateur et n'est
+              jamais envoyée ailleurs — mais toute personne ayant accès à cet appareil pourrait la lire.
+              Utilisez une clé dédiée, avec un plafond de dépenses.
+            </div>
+          </div>
+
+          <div class="gr-field">
+            <label for="f-key">Clé API Anthropic</label>
+            <input class="gr-input" id="f-key" type="password" placeholder="sk-ant-…" autocomplete="off">
+            <p class="gr-hint">
+              À créer sur <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>.
+              <label style="display:inline-flex;gap:6px;align-items:center;margin-left:6px">
+                <input type="checkbox" id="f-remember"> mémoriser sur cet appareil
+              </label>
+            </p>
+          </div>
+
+          <div class="gr-field">
+            <label for="f-prompt">Votre idée</label>
+            <textarea class="gr-textarea" id="f-prompt" rows="6"
+              placeholder="Une histoire sur un petit phare qui a peur du noir, en cinq chapitres, avec une morale sur l'entraide."></textarea>
+          </div>
+
+          <div class="row2">
+            <div class="gr-field">
+              <label for="f-length">Longueur</label>
+              <select class="gr-select" id="f-length">
+                <option value="courte">Courte — 3 chapitres</option>
+                <option value="moyenne" selected>Moyenne — 5 chapitres</option>
+                <option value="longue">Longue — 8 chapitres</option>
+              </select>
+            </div>
+            <div class="gr-field">
+              <label for="f-effort">Soin apporté</label>
+              <select class="gr-select" id="f-effort">
+                <option value="low">Rapide</option>
+                <option value="medium" selected>Équilibré</option>
+                <option value="high">Soigné</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="gr-btn gr-btn-primary" type="button" id="generateBtn"
+            style="width:100%;height:46px;margin-top:6px">✨ Générer l'histoire</button>
+
+          <div class="stream-log" id="log" hidden></div>
+        </div>
+
+      </div>
+
+      <!-- ══════════ Colonne aperçu ══════════ -->
+      <div class="preview-col">
+        <div class="gr-section-head" style="margin-bottom:14px">
+          <h2 style="font-size:1.2rem">Aperçu</h2>
+          <div class="gr-rule"></div>
+        </div>
+
+        <div id="previewEmpty" class="preview-empty">
+          <div>
+            <div style="font-size:2.6rem;margin-bottom:10px">📖</div>
+            La page apparaîtra ici dès que vous l'aurez composée ou générée.
+          </div>
+        </div>
+        <iframe id="preview" class="preview-frame" title="Aperçu de la page créée"
+                sandbox="allow-scripts" hidden></iframe>
+
+        <div class="preview-actions" id="previewActions" hidden>
+          <button class="gr-btn gr-btn-primary" type="button" id="saveBtn">Ajouter à ma bibliothèque</button>
+          <button class="gr-btn" type="button" id="downloadBtn">⬇ Télécharger le HTML</button>
+          <button class="gr-btn gr-btn-ghost" type="button" id="resetBtn">Effacer</button>
+        </div>
+
+        <p class="gr-hint" id="saveHint" hidden>
+          Le contenu ajouté vit dans ce navigateur et apparaît dans votre bibliothèque.
+          Pour le publier pour tout le monde, téléchargez le fichier et déposez-le dans le dépôt
+          (<code>stories/&lt;univers&gt;/</code>) — la routine <code>/ajouter-histoire</code> s'en charge.
+        </p>
+
+        <!-- Mes créations -->
+        <section class="gr-section" style="margin-top:38px" id="mineSection" hidden>
+          <div class="gr-section-head" style="margin-bottom:6px">
+            <h2 style="font-size:1.2rem">Mes créations</h2>
+            <div class="gr-rule"></div>
+          </div>
+          <div class="mine-list" id="mineList"></div>
+        </section>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer class="gr-footer">
+  Généré avec <strong>Claude</strong> · Le Grenier des Apps ·
+  <a href="index.html">Bibliothèque</a>
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/template.js"></script>
+<script>window.GRENIER_SHELL = { active: 'atelier', search: false };</script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/atelier.js"></script>
+</body>
+</html>
