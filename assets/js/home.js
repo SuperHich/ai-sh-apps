@@ -85,27 +85,35 @@
     if (list.length) GRENIER.fillCards($('favGrid'), list);
   }
 
+  /** Les sept univers, en carrousel empilé (voir assets/js/carousel.js). */
   function renderUniverses() {
     var items = GRENIER.allItems();
-    var box = $('universes');
-    box.innerHTML = '';
+    var esc = GRENIER.escapeHtml;
 
-    GRENIER.categories.forEach(function (cat, i) {
+    var slides = GRENIER.categories.map(function (cat) {
       var count = items.filter(function (it) { return it.cat === cat.key; }).length;
+      var cover = GRENIER.itemById(cat.cover);
+      var thumb = cover ? GRENIER.thumbOf(cover) : '';
 
-      var tile = document.createElement('a');
-      tile.className = 'universe gr-reveal';
-      tile.href = GRENIER.base + 'bibliotheque.html?univers=' + encodeURIComponent(cat.key);
-      tile.style.setProperty('--accent', cat.accent);
-      tile.style.setProperty('--i', i);
-      tile.innerHTML =
-        '<span class="emoji" aria-hidden="true">' + cat.emoji + '</span>' +
-        '<strong>' + GRENIER.escapeHtml(cat.label) + '</strong>' +
-        '<small>' + GRENIER.escapeHtml(cat.blurb) + '</small>' +
-        '<span class="count">' + count + ' contenu' + (count > 1 ? 's' : '') + '</span>';
-      box.appendChild(tile);
+      return {
+        href: GRENIER.base + 'bibliotheque.html?univers=' + encodeURIComponent(cat.key),
+        accent: cat.accent,
+        label: cat.label,
+        html:
+          '<div class="gr-slide-media">' +
+            (thumb ? '<img src="' + thumb + '" alt="" loading="lazy" decoding="async" ' +
+                     'width="400" height="300" draggable="false">' : '') +
+            '<span class="gr-slide-emoji" aria-hidden="true">' + cat.emoji + '</span>' +
+          '</div>' +
+          '<div class="gr-slide-body">' +
+            '<span class="gr-badge">' + count + ' contenu' + (count > 1 ? 's' : '') + '</span>' +
+            '<h3>' + esc(cat.label) + '</h3>' +
+            '<p>' + esc(cat.blurb) + '</p>' +
+          '</div>'
+      };
     });
-    GRENIER.observeReveals(box);
+
+    GRENIER.stackedCarousel($('universes'), slides, { label: 'Les univers du Grenier' });
   }
 
   function renderStats() {

@@ -93,7 +93,13 @@
       );
     });
 
+    var hasMembers = items.some(function (it) { return it.access === 'membre'; });
+    var accessLabel = document.querySelector('[data-gr="accessLabel"]');
+    if (accessLabel) accessLabel.hidden = !hasMembers;
+    el.accessFilters.hidden = !hasMembers;
+
     el.accessFilters.innerHTML = '';
+    if (!hasMembers) return;
     ACCESS.forEach(function (acc) {
       el.accessFilters.appendChild(
         chip(acc.label, '#b18cff', state.access === acc.key, function () { setState({ access: acc.key }); })

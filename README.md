@@ -25,7 +25,8 @@ everyone; the rest opens once a (local, free) account is created.
 │       ├── auth.js         # Local accounts + sign-in modal
 │       ├── shell.js        # Shared nav bar, injected on every library page
 │       ├── cards.js        # The content card, shared by home and catalogue
-│       ├── protect.js      # Access guard for member-only pages
+│       ├── carousel.js     # Stacked universe carousel (home)
+│       ├── protect.js      # Access guard — kept for future member-only pages
 │       ├── home.js         # Home page logic
 │       ├── bibliotheque.js # Catalogue filtering and search
 │       ├── template.js     # House-style story page generator
@@ -62,30 +63,42 @@ to a much weaker scheme, and the AI generator needs an HTTPS origin.
 
 ## Accounts and access levels
 
-Every entry in `assets/js/catalog.js` carries an `access` field:
+**Everything in the catalogue is open.** No account is needed to read a story,
+play a game or open a tool, from any entry point — home page, catalogue,
+category index or direct URL.
 
-| `access`   | Who can open it                                    |
-|------------|----------------------------------------------------|
-| `public`   | everyone — 25 items                                 |
-| `membre`   | requires an account — 19 items, plus the Atelier    |
+Every entry in `assets/js/catalog.js` still carries an `access` field:
+
+| `access`   | Who can open it        |
+|------------|------------------------|
+| `public`   | everyone — all 44 items |
+| `membre`   | requires an account — none at the moment |
+
+The field and the whole mechanism (locked card state, access filter,
+`assets/js/protect.js`) are kept on purpose, for the day part of the catalogue
+moves behind an account or a subscription. While no item is `membre`, the
+access filter hides itself from the catalogue page rather than offering a
+choice that filters nothing.
+
+An account is therefore about **personalisation, not access**: favourites, the
+"Reprendre" rail, and later the Atelier.
 
 **The accounts are deliberately a soft gate, not real security.** The site is
 static and served from GitHub Pages, so there is no backend: accounts live in
 `localStorage`, exist only on the device that created them, and the underlying
 HTML files stay reachable by direct URL. Passwords are never stored in clear
 (PBKDF2-SHA256, random salt, 150 000 iterations) but anyone with access to the
-browser can bypass the gate. It personalises the library and reserves the
-Atelier — it does not protect anything. Real access control would need a server.
+browser can bypass the gate. Real access control would need a server.
 
-Member-only pages carry one extra line right after `<body>`:
+To put an item back behind an account: set its `access` to `'membre'` in the
+catalogue, and add one line right after `<body>` in its page:
 
 ```html
 <script src="../../assets/js/protect.js"></script>
 ```
 
 It draws an opaque veil, checks the catalogue and the session, then either
-lifts the veil or turns it into a sign-up panel. To change an item's access
-level, edit its `access` field in the catalogue and add or remove that line.
+lifts the veil or turns it into a sign-up panel.
 
 ## Thumbnails
 
@@ -102,6 +115,42 @@ hover — not to 44 images competing in the background.
 
 Images are `loading="lazy"` with `width`/`height` attributes, so the grid
 reserves its space and never shifts as thumbnails arrive.
+
+## The universe carousel
+
+The seven universes on the home page are a **stacked carousel**
+(`assets/js/carousel.js`): the cards fan out around a centre one, follow the
+finger or the mouse, and settle on the nearest card with a spring.
+
+It is a hand port of a React component (`carousel-07.tsx`, built on
+`motion/react`, Tailwind and shadcn/ui). The geometry and the drag maths are
+kept as-is:
+
+```
+x      = offset * xMultiplier            scale  = 1 - |offset| * scaleReduction
+y      = |offset| * yMultiplier          zIndex = round(100 - |offset| * 10)
+rotate = offset * rotationMultiplier     shift  = clamp(round(-dx / distanceDivisor
+         (0 when |offset| < 0.05)                        + -v / velocityDivisor), -3, 3)
+```
+
+The `spring` from `motion` (stiffness 200, damping 30, mass 1) is integrated by
+hand in `requestAnimationFrame` — four sub-steps per frame, because a single
+32 ms step at that stiffness diverges.
+
+**Why it was ported rather than installed.** The component's prerequisites are a
+React app with Tailwind, TypeScript and the shadcn `components/ui` folder. This
+site has no build step at all: files are served exactly as they are committed.
+Adopting them would mean rewriting all 44 content pages, so the logic was
+brought over instead. `docs/carousel-univers.md` records the mapping and the
+setup instructions that would apply if the site ever does move to React.
+
+Two things were **added** to the original:
+
+- **Arrows, dots, keyboard.** WCAG 2.2 §2.5.7 (*Dragging Movements*, level AA)
+  requires a single-pointer alternative to any drag operation. The source
+  component can only be driven by dragging. Focusing a buried card also brings
+  it to the front, so tabbing through the universes works.
+- **`prefers-reduced-motion`**, which skips the spring and jumps to the target.
 
 ## Feature flags
 

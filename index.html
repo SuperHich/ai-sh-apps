@@ -112,55 +112,29 @@
     color: var(--gr-text-faint);
   }
 
-  /* ── Univers ── */
-  .universes {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
-    gap: 16px;
-  }
-  .universe {
+  /* ── Univers ──
+     Le carrousel lui-même est habillé dans theme.css (.gr-carousel) ; ici,
+     seulement l'espace qu'il occupe dans la page. */
+  .universe-stack {
+    padding: 8px 0 4px;
+    /* Le halo de l'univers en vue, posé derrière la pile. */
     position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 22px;
-    border-radius: var(--gr-r);
-    border: 1px solid var(--gr-line);
-    background: linear-gradient(155deg, var(--gr-surface-2), rgba(255, 255, 255, .012));
-    color: inherit;
-    text-decoration: none;
-    overflow: hidden;
-    transition: transform var(--gr-normal) var(--gr-ease-out), border-color var(--gr-normal) ease,
-                box-shadow var(--gr-normal) ease;
   }
-  .universe::before {
+  .universe-stack::before {
     content: '';
     position: absolute;
-    inset: auto -30% -60% auto;
-    width: 180px; height: 180px;
-    border-radius: 50%;
-    background: var(--accent);
-    opacity: .16;
-    filter: blur(38px);
-    transition: opacity var(--gr-normal) ease, transform var(--gr-slow) var(--gr-ease-out);
+    inset: 6% 50% auto;
+    width: min(560px, 90%);
+    aspect-ratio: 1;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, rgba(240, 192, 75, .13), transparent 62%);
+    pointer-events: none;
   }
-  .universe:hover {
-    transform: translateY(-6px);
-    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
-    box-shadow: var(--gr-shadow-hover);
-  }
-  .universe:hover::before { opacity: .34; transform: scale(1.25); }
-  .universe:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-  .universe .emoji { font-size: 1.9rem; }
-  .universe strong { font-family: var(--gr-display); font-size: 1.1rem; }
-  .universe small { font-size: .8rem; line-height: 1.5; color: var(--gr-text-soft); }
-  .universe .count {
-    margin-top: 10px;
-    font-size: .74rem;
-    font-weight: 700;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    color: var(--accent);
+  .universe-hint {
+    margin: 14px 0 0;
+    text-align: center;
+    font-size: .78rem;
+    color: var(--gr-text-faint);
   }
 
   /* ── Appel vers la bibliothèque ── */
@@ -255,7 +229,12 @@
       <div class="gr-rule"></div>
       <p>Sept collections, chacune avec son ambiance.</p>
     </div>
-    <div class="universes" id="universes"></div>
+    <div class="universe-stack">
+      <div id="universes"></div>
+      <p class="universe-hint">
+        Faites glisser la pile, ou utilisez les flèches et les touches ← →.
+      </p>
+    </div>
   </section>
 
   <!-- ══════════════ FAVORIS ══════════════ -->
@@ -312,6 +291,7 @@
 <script>window.GRENIER_SHELL = { active: 'home', search: true };</script>
 <script src="assets/js/shell.js"></script>
 <script src="assets/js/cards.js"></script>
+<script src="assets/js/carousel.js"></script>
 <script src="assets/js/home.js"></script>
 </body>
 </html>
