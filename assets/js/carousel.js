@@ -32,13 +32,14 @@
   var GRENIER = global.GRENIER || (global.GRENIER = {});
 
   /* Réglages par palier de largeur, dans l'esprit des trois jeux de valeurs
-     du composant d'origine. Les diviseurs de glissement ont été rapprochés
-     de xMultiplier pour que le seuil de bascule tombe là où la carte suivie
-     par le doigt arrive au centre — sinon on tire beaucoup pour rien. */
+     du composant d'origine. `distance` vaut 1,2 × `x` : le seuil de bascule
+     tombe donc à 0,6 largeur de carte, là où l'œil considère que la carte
+     suivante a pris la place de l'autre. Plus loin, on tire longtemps pour
+     rien et le geste semble ne pas répondre. */
   var TIERS = [
-    { max: 640,      x: 150, y: 40, rotation: 8,  scaleReduction: 0.06, distance: 200, velocity: 900 },
-    { max: 1024,     x: 180, y: 52, rotation: 10, scaleReduction: 0.09, distance: 260, velocity: 900 },
-    { max: Infinity, x: 200, y: 64, rotation: 12, scaleReduction: 0.12, distance: 320, velocity: 900 }
+    { max: 640,      x: 150, y: 40, rotation: 8,  scaleReduction: 0.06, distance: 180, velocity: 900 },
+    { max: 1024,     x: 180, y: 52, rotation: 10, scaleReduction: 0.09, distance: 216, velocity: 900 },
+    { max: Infinity, x: 200, y: 64, rotation: 12, scaleReduction: 0.12, distance: 240, velocity: 900 }
   ];
 
   /* Au-delà de cet écart, une carte est trop loin derrière la pile : on la
@@ -53,6 +54,14 @@
   }
 
   function clamp(value, min, max) { return Math.min(max, Math.max(min, value)); }
+
+  /* Math.round penche vers +∞ : round(0.5) vaut 1 mais round(-0.5) vaut 0.
+     Le seuil de bascule serait donc plus dur à franchir vers l'arrière que
+     vers l'avant. On arrondit sur la valeur absolue pour que les deux sens
+     répondent exactement pareil. */
+  function roundSymmetric(value) {
+    return Math.sign(value) * Math.round(Math.abs(value));
+  }
 
   function prefersReducedMotion() {
     return !!(global.matchMedia && global.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -92,11 +101,20 @@
       var node = document.createElement('a');
       node.className = 'gr-slide';
       node.href = slide.href;
+      /* Un lien est nativement « draggable » : sans ça, Chrome démarre son
+         propre glisser-déposer au bout de quelques pixels, avale nos
+         pointermove et coupe le geste — surtout vers la droite, où le
+         curseur part vers le corps du lien. */
+      node.draggable = false;
+      node.addEventListener('dragstart', function (e) { e.preventDefault(); });
       node.style.setProperty('--accent', slide.accent || 'var(--gr-gold)');
       node.innerHTML = slide.html;
       /* Prendre le focus d'une carte enfouie la ramène devant : c'est la
-         navigation au clavier, et elle évite d'activer un lien invisible. */
-      node.addEventListener('focus', function () { go(i); });
+         navigation au clavier. On l'ignore quand le focus vient d'un clic,
+         sinon le ressort se déclenche au beau milieu d'un glissement. */
+      node.addEventListener('focus', function () {
+        if (!node.matches || node.matches(':focus-visible')) go(i);
+      });
       stage.appendChild(node);
       return node;
     });
@@ -291,9 +309,9 @@
       if (!drag || (e && e.pointerId !== drag.id)) return;
       var dx = (e ? e.clientX : drag.lastX) - drag.x;
       var totalShift = clamp(
-        Math.round(-dx / tier.distance + -drag.speed / tier.velocity), -3, 3
+        roundSymmetric(-dx / tier.distance + -drag.speed / tier.velocity), -3, 3
       );
-      var landed = Math.round(drag.origin) + totalShift;
+      var landed = roundSymmetric(drag.origin) + totalShift;
 
       /* Un glissement ne doit pas ouvrir l'univers relâché sous le doigt.
          Le clic arrive juste après ce gestionnaire : on laisse le drapeau

@@ -12,17 +12,19 @@
 <link rel="stylesheet" href="assets/css/theme.css">
 <style>
   /* ── Héro ── */
+  /* Le héros est volontairement court : le carrousel des univers doit
+     apparaître dans le premier écran, juste sous le titre. */
   .hero {
     position: relative;
-    padding: clamp(46px, 8vw, 84px) 0 clamp(24px, 4vw, 40px);
+    padding: clamp(26px, 4.5vw, 46px) 0 clamp(14px, 2vw, 22px);
     text-align: center;
   }
   .hero-eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    margin: 0 0 20px;
-    padding: 7px 16px;
+    margin: 0 0 16px;
+    padding: 6px 15px;
     border-radius: 999px;
     border: 1px solid rgba(240, 192, 75, .3);
     background: rgba(240, 192, 75, .09);
@@ -47,7 +49,7 @@
   .hero h1 {
     margin: 0;
     font-family: var(--gr-display);
-    font-size: clamp(2.5rem, 8vw, 4.8rem);
+    font-size: clamp(2.2rem, 6.4vw, 3.7rem);
     font-weight: 700;
     line-height: 1.03;
     letter-spacing: -.02em;
@@ -65,9 +67,9 @@
   @keyframes shimmer { to { background-position: 220% center; } }
 
   .hero-sub {
-    max-width: 610px;
-    margin: 20px auto 0;
-    font-size: clamp(1rem, 2.3vw, 1.14rem);
+    max-width: 580px;
+    margin: 16px auto 0;
+    font-size: clamp(.95rem, 2vw, 1.05rem);
     font-weight: 300;
     line-height: 1.65;
     color: var(--gr-text-soft);
@@ -78,45 +80,59 @@
     flex-wrap: wrap;
     gap: 12px;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 22px;
   }
-  .hero-actions .gr-btn { height: 50px; padding: 0 26px; font-size: .95rem; }
+  .hero-actions .gr-btn { height: 46px; padding: 0 24px; font-size: .92rem; }
 
+  /* Une bande fine : les chiffres informent, ils ne doivent pas repousser
+     le carrousel hors de l'écran. */
   .stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 14px;
-    max-width: 540px;
-    margin: 42px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 10px;
+    margin: 22px auto 0;
   }
   .stat {
-    padding: 16px 12px;
-    border-radius: var(--gr-r);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 7px;
+    padding: 7px 15px;
+    border-radius: 999px;
     border: 1px solid var(--gr-line);
     background: var(--gr-surface);
-    text-align: center;
   }
   .stat b {
-    display: block;
     font-family: var(--gr-display);
-    font-size: 1.9rem;
+    font-size: 1.12rem;
     line-height: 1;
     color: var(--gr-gold);
   }
   .stat span {
-    display: block;
-    margin-top: 7px;
-    font-size: .74rem;
+    font-size: .72rem;
     letter-spacing: .06em;
     text-transform: uppercase;
     color: var(--gr-text-faint);
   }
 
+  /* Sur téléphone, chaque ligne du héros repousse le carrousel : on resserre. */
+  @media (max-width: 560px) {
+    .hero-sub { margin-top: 12px; font-size: .92rem; line-height: 1.55; }
+    .hero-actions { margin-top: 18px; gap: 9px; }
+    .hero-actions .gr-btn { height: 44px; padding: 0 18px; font-size: .86rem; }
+    .stats { margin-top: 16px; }
+    .stat { padding: 6px 12px; }
+  }
+
   /* ── Univers ──
      Le carrousel lui-même est habillé dans theme.css (.gr-carousel) ; ici,
      seulement l'espace qu'il occupe dans la page. */
+  /* Première section de la page : elle colle au héros. */
+  #univers { margin-top: 18px; }
+  #univers .gr-section-head { margin-bottom: 10px; }
+
   .universe-stack {
-    padding: 8px 0 4px;
+    padding: 4px 0;
     /* Le halo de l'univers en vue, posé derrière la pile. */
     position: relative;
   }
@@ -180,7 +196,7 @@
     </p>
     <div class="hero-actions">
       <a class="gr-btn gr-btn-primary" href="bibliotheque.html">Parcourir la bibliothèque</a>
-      <a class="gr-btn" href="#selection">Voir la sélection</a>
+      <a class="gr-btn" href="#univers">Explorer les univers</a>
     </div>
     <div class="stats" id="stats">
       <div class="stat"><b>0</b><span>Contenus</span></div>
@@ -188,6 +204,21 @@
       <div class="stat"><b>0</b><span>En accès libre</span></div>
     </div>
   </header>
+
+  <!-- ══════════════ UNIVERS ══════════════ -->
+  <section class="gr-section" id="univers">
+    <div class="gr-section-head">
+      <h2>Les univers</h2>
+      <div class="gr-rule"></div>
+    </div>
+    <div class="universe-stack">
+      <div id="universes"></div>
+      <p class="universe-hint">
+        Sept collections : faites glisser la pile, ou utilisez les flèches et
+        les touches ← →.
+      </p>
+    </div>
+  </section>
 
   <!-- ══════════════ REPRENDRE ══════════════ -->
   <section class="gr-section" id="resumeSection" hidden>
@@ -219,21 +250,6 @@
     </div>
     <div class="gr-rail-wrap">
       <div class="gr-rail" id="newestRail"></div>
-    </div>
-  </section>
-
-  <!-- ══════════════ UNIVERS ══════════════ -->
-  <section class="gr-section" id="univers">
-    <div class="gr-section-head">
-      <h2>Les univers</h2>
-      <div class="gr-rule"></div>
-      <p>Sept collections, chacune avec son ambiance.</p>
-    </div>
-    <div class="universe-stack">
-      <div id="universes"></div>
-      <p class="universe-hint">
-        Faites glisser la pile, ou utilisez les flèches et les touches ← →.
-      </p>
     </div>
   </section>
 

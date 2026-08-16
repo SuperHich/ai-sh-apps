@@ -113,7 +113,8 @@
       };
     });
 
-    GRENIER.stackedCarousel($('universes'), slides, { label: 'Les univers du Grenier' });
+    GRENIER.universes = GRENIER.stackedCarousel($('universes'), slides,
+      { label: 'Les univers du Grenier' });
   }
 
   function renderStats() {

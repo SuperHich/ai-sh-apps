@@ -37,11 +37,7 @@
 
   /** Catalogue du dépôt + créations locales, chemins résolus. */
   GRENIER.allItems = function () {
-    var repo = GRENIER.items.map(function (it) {
-      var copy = Object.assign({}, it);
-      copy.href = GRENIER.base + GRENIER.hrefOf(it);
-      return copy;
-    });
+    var repo = GRENIER.items.map(GRENIER.resolve);
     return GRENIER.creations().concat(repo);
   };
 
@@ -78,7 +74,8 @@
 
     var card = document.createElement('a');
     card.className = 'gr-card gr-reveal' + (locked ? ' is-locked' : '');
-    card.href = item.href;
+    /* Filet de sécurité : une carte doit toujours mener quelque part. */
+    card.href = item.href || (GRENIER.base + GRENIER.hrefOf(item));
     card.style.setProperty('--accent', cat.accent);
     card.style.setProperty('--i', index || 0);
 

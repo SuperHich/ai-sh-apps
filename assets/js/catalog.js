@@ -312,12 +312,24 @@
     return GRENIER.base + 'assets/thumbs/' + (item ? item.id : '') + '.svg';
   };
 
+  /**
+   * Copie d'un contenu avec son lien résolu depuis la racine du site.
+   * Toute liste destinée à des cartes doit passer par là : une carte sans
+   * href pointe vers « undefined » et le contenu devient inatteignable.
+   */
+  GRENIER.resolve = function (item) {
+    if (!item) return null;
+    var copy = Object.assign({}, item);
+    if (!copy.href) copy.href = GRENIER.base + GRENIER.hrefOf(item);
+    return copy;
+  };
+
   GRENIER.featured = function () {
-    return GRENIER.featuredIds.map(GRENIER.itemById).filter(Boolean);
+    return GRENIER.featuredIds.map(GRENIER.itemById).filter(Boolean).map(GRENIER.resolve);
   };
 
   GRENIER.newest = function () {
-    return GRENIER.newestIds.map(GRENIER.itemById).filter(Boolean);
+    return GRENIER.newestIds.map(GRENIER.itemById).filter(Boolean).map(GRENIER.resolve);
   };
 
   GRENIER.ageLabel = function (age) {

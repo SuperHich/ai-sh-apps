@@ -84,12 +84,25 @@ Trois jeux de constantes, comme dans le composant d'origine :
 
 | Largeur | x | y | rotation | scaleReduction | distance | velocity |
 |---|---|---|---|---|---|---|
-| < 640 px | 150 | 40 | 8° | 0.06 | 200 | 900 |
-| < 1024 px | 180 | 52 | 10° | 0.09 | 260 | 900 |
-| ≥ 1024 px | 200 | 64 | 12° | 0.12 | 320 | 900 |
+| < 640 px | 150 | 40 | 8° | 0.06 | 180 | 900 |
+| < 1024 px | 180 | 52 | 10° | 0.09 | 216 | 900 |
+| ≥ 1024 px | 200 | 64 | 12° | 0.12 | 240 | 900 |
 
-Les diviseurs de glissement ont été rapprochés de `xMultiplier` : le seuil de
-bascule tombe ainsi là où la carte suivie par le doigt arrive au centre.
+`distance` vaut 1,2 × `x` : le seuil de bascule tombe à 0,6 largeur de carte,
+là où l'œil considère que la carte suivante a pris la place de l'autre.
+
+Trois détails décident du confort du geste, et manquaient à la première
+version :
+
+- **`<a draggable="false">`.** Un lien est nativement déplaçable : sans cela,
+  Chrome démarre son propre glisser-déposer au bout de quelques pixels, avale
+  les `pointermove` et coupe le geste — au hasard de l'endroit où l'on
+  appuie, donc « ça marche dans un sens et pas dans l'autre ».
+- **Arrondi symétrique.** `Math.round` penche vers +∞ : `round(0.5)` vaut 1
+  mais `round(-0.5)` vaut 0. Le seuil était donc légèrement plus dur à
+  franchir vers l'arrière. On arrondit sur la valeur absolue.
+- La prise de focus est ignorée quand elle vient d'un clic
+  (`:focus-visible`) : sinon le ressort se déclenchait au milieu du geste.
 
 ### Correspondance des dépendances
 

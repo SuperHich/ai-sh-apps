@@ -144,6 +144,12 @@ Adopting them would mean rewriting all 44 content pages, so the logic was
 brought over instead. `docs/carousel-univers.md` records the mapping and the
 setup instructions that would apply if the site ever does move to React.
 
+Two bugs are worth knowing about, because both looked like "the drag only
+works one way": an `<a>` is natively draggable, so Chrome hijacked the gesture
+with its own drag-and-drop (`draggable="false"` fixes it), and `Math.round`
+leans towards +∞, which made the backward threshold slightly harder to cross
+than the forward one (rounding on the absolute value fixes it).
+
 Two things were **added** to the original:
 
 - **Arrows, dots, keyboard.** WCAG 2.2 §2.5.7 (*Dragging Movements*, level AA)
