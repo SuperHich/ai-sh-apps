@@ -54,11 +54,53 @@
     z-index: 500;
     margin: 22px -8px 0;
     padding: 14px 8px 10px;
-    background: linear-gradient(to bottom, var(--gr-void) 74%, transparent);
+    /* Fond plein : une barre translucide laisse lire les cartes au travers.
+       Le dégradé passe dessous, en dehors de la barre. */
+    background: var(--gr-void);
+  }
+  .filter-bar::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 100%;
+    height: 18px;
+    background: linear-gradient(to bottom, var(--gr-void), transparent);
+    pointer-events: none;
   }
 
   .result-line { margin: 16px 0 18px; font-size: .86rem; color: var(--gr-text-faint); }
   .result-line b { color: var(--gr-text); }
+
+  /* Sur téléphone, les onze pastilles se replient sur cinq lignes : la barre
+     collante occupait alors plus de la moitié de l'écran et masquait les
+     résultats. Chaque groupe tient désormais sur une seule ligne qui défile
+     latéralement — la barre garde deux lignes, quelle que soit la largeur. */
+  @media (max-width: 720px) {
+    .filter-bar {
+      padding: 10px 8px 8px;
+    }
+    .filter-bar .gr-filters {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      /* De quoi respirer aux extrémités, sans rogner la première pastille. */
+      padding: 2px 8px 2px 0;
+      margin-right: -8px;
+    }
+    .filter-bar .gr-filters::-webkit-scrollbar { display: none; }
+    .filter-bar .filter-row { flex-wrap: nowrap; }
+    .filter-bar .gr-chip,
+    .filter-bar .filter-row,
+    .filter-bar .filter-label { flex: 0 0 auto; }
+
+    /* 44 px de haut : la cible tactile minimale. */
+    .filter-bar .gr-chip { min-height: 44px; padding: 9px 15px; }
+    /* Le survol soulève la pastille ; au doigt, cela ne ferait que décaler
+       la ligne pendant le défilement. */
+    .filter-bar .gr-chip:hover { transform: none; }
+
+    .result-line { margin: 12px 0 14px; }
+  }
 </style>
 </head>
 <body class="gr-body">

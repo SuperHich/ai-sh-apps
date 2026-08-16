@@ -173,7 +173,13 @@
 
     /** Un contenu est-il consultable en l'état ? */
     canAccess: function (item) {
-      return !item || item.access !== 'membre' || auth.isLoggedIn();
+      if (!item || item.access !== 'membre') return true;
+      /* Sans comptes exposés, un verrou n'aurait pas de porte : on ne peut
+         pas réserver un contenu à des membres qu'on n'invite pas à
+         s'inscrire. Le drapeau garde donc l'invariant, quoi que dise le
+         catalogue. */
+      if (!(GRENIER.features && GRENIER.features.comptes)) return true;
+      return auth.isLoggedIn();
     },
 
     /* ── Favoris ─────────────────────────────────────────────── */
