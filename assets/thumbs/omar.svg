@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="omarBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1a0808"/>
+              <stop offset="50%" stop-color="#2a1010"/>
+              <stop offset="100%" stop-color="#4a1818"/>
+            </linearGradient>
+            <radialGradient id="omarGlow" cx="50%" cy="45%" r="50%">
+              <stop offset="0%" stop-color="#f0c040" stop-opacity=".3"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#omarBg)"/>
+          <rect width="400" height="300" fill="url(#omarGlow)"/>
+          <!-- stars -->
+          <circle cx="35" cy="20" r="2" fill="#f0c040" opacity=".9"/>
+          <circle cx="90" cy="35" r="1.5" fill="white" opacity=".7"/>
+          <circle cx="155" cy="15" r="2" fill="white" opacity=".8"/>
+          <circle cx="260" cy="28" r="1.5" fill="#f0c040" opacity=".7"/>
+          <circle cx="325" cy="18" r="2" fill="white" opacity=".6"/>
+          <circle cx="370" cy="42" r="1.5" fill="#f0c040" opacity=".8"/>
+          <!-- Crescent moon -->
+          <circle cx="340" cy="55" r="22" fill="#ffe8a0" opacity=".7"/>
+          <circle cx="350" cy="46" r="18" fill="#1a0808"/>
+          <!-- Desert ground -->
+          <polygon points="0,250 70,225 160,240 250,218 340,232 400,220 400,300 0,300" fill="#c8a04a" opacity=".7"/>
+          <polygon points="0,265 90,245 200,258 300,240 380,252 400,245 400,300 0,300" fill="#d4b060"/>
+          <!-- City gate / walls of Medina -->
+          <g transform="translate(0,160)">
+            <rect x="60" y="50" width="280" height="80" fill="#3a1818"/>
+            <!-- Gate arch -->
+            <path d="M170,130 L170,75 Q200,50 230,75 L230,130 Z" fill="#1a0808"/>
+            <path d="M170,75 Q200,50 230,75" fill="none" stroke="#f0c040" stroke-width="2" opacity=".6"/>
+            <!-- Towers -->
+            <rect x="65" y="25" width="22" height="55" fill="#4a1818"/>
+            <rect x="65" y="20" width="22" height="8" fill="#5a2020" rx="2"/>
+            <rect x="313" y="25" width="22" height="55" fill="#4a1818"/>
+            <rect x="313" y="20" width="22" height="8" fill="#5a2020" rx="2"/>
+            <!-- Wall crenellations -->
+            <rect x="90" y="45" width="8" height="8" fill="#4a1818"/>
+            <rect x="105" y="45" width="8" height="8" fill="#4a1818"/>
+            <rect x="120" y="45" width="8" height="8" fill="#4a1818"/>
+            <rect x="270" y="45" width="8" height="8" fill="#4a1818"/>
+            <rect x="285" y="45" width="8" height="8" fill="#4a1818"/>
+            <rect x="300" y="45" width="8" height="8" fill="#4a1818"/>
+          </g>
+          <!-- Omar figure — tall, strong, staff in hand -->
+          <g transform="translate(200,165)">
+            <circle cx="0" cy="-14" r="30" fill="#f0c040" opacity=".08"/>
+            <path d="M-24,10 Q-20,72 0,76 Q20,72 24,10 Z" fill="#3a1a08"/>
+            <line x1="-24" y1="14" x2="-50" y2="2" stroke="#3a1a08" stroke-width="9" stroke-linecap="round"/>
+            <line x1="24" y1="14" x2="56" y2="-10" stroke="#3a1a08" stroke-width="9" stroke-linecap="round"/>
+            <!-- Staff -->
+            <line x1="56" y1="-10" x2="60" y2="-70" stroke="#8b5e3c" stroke-width="6" stroke-linecap="round"/>
+            <!-- Head -->
+            <circle cx="0" cy="-14" r="18" fill="#c8906a"/>
+            <circle cx="0" cy="-14" r="24" fill="none" stroke="#f0c040" stroke-width="1.5" opacity=".4"/>
+            <!-- Turban -->
+            <ellipse cx="0" cy="-26" rx="16" ry="11" fill="white" opacity=".85"/>
+            <!-- Eyes -->
+            <circle cx="-6" cy="-15" r="3" fill="#1a1a1a"/>
+            <circle cx="6" cy="-15" r="3" fill="#1a1a1a"/>
+            <!-- Beard -->
+            <ellipse cx="0" cy="-2" rx="6" ry="5" fill="#3a2010" opacity=".7"/>
+          </g>
+          <!-- Scales of justice (left) -->
+          <g transform="translate(80,145)" opacity=".7">
+            <line x1="0" y1="-20" x2="0" y2="5" stroke="#f0c040" stroke-width="2.5"/>
+            <line x1="-22" y1="0" x2="22" y2="0" stroke="#f0c040" stroke-width="2.5"/>
+            <path d="M-22,0 L-28,14 L-16,14 Z" fill="#f0c040" opacity=".6"/>
+            <path d="M22,0 L16,14 L28,14 Z" fill="#f0c040" opacity=".6"/>
+            <circle cx="0" cy="-22" r="4" fill="#f0c040" opacity=".5"/>
+          </g>
+          <!-- Lantern (right) -->
+          <g transform="translate(330,140)" opacity=".6">
+            <rect x="-5" y="0" width="10" height="20" fill="#f0c040" opacity=".3" rx="2"/>
+            <rect x="-3" y="-4" width="6" height="4" fill="#8b5e1a"/>
+            <circle cx="0" cy="10" r="4" fill="#ffe8a0" opacity=".6"/>
+          </g>
+        </svg>

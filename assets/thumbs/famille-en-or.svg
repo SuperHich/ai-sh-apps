@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2b1e05"/><stop offset="100%" stop-color="#140d03"/></linearGradient><radialGradient id="glow" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".16"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient></defs><rect width="400" height="300" fill="url(#bg)"/><rect width="400" height="300" fill="url(#glow)"/>
+<g>
+<rect x="58" y="86"  width="132" height="42" rx="9" fill="#c9960c"/>
+<rect x="210" y="86"  width="132" height="42" rx="9" fill="#c9960c"/>
+<rect x="58" y="140" width="132" height="42" rx="9" fill="#c9960c"/>
+<rect x="210" y="140" width="132" height="42" rx="9" fill="#c9960c"/></g>
+<g transform="translate(200,232)">
+<path d="M-26 -18 h52 v14 a26 26 0 0 1 -52 0 z" fill="#f0c04b"/>
+<rect x="-7" y="-4" width="14" height="18" fill="#f0c04b"/><rect x="-20" y="14" width="40" height="8" rx="3" fill="#f0c04b"/>
+<path d="M-26 -14 h-12 a14 14 0 0 0 12 16z" fill="#c9960c"/><path d="M26 -14 h12 a14 14 0 0 1 -12 16z" fill="#c9960c"/></g>
+<text x="200" y="58" font-family="Georgia,serif" font-size="20" letter-spacing="4"
+ text-anchor="middle" fill="#f0c04b" opacity=".9">100 PERSONNES</text>
+</svg>

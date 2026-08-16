@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ibrahimBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#060a12"/>
+              <stop offset="50%" stop-color="#1a0808"/>
+              <stop offset="100%" stop-color="#3a1005"/>
+            </linearGradient>
+            <radialGradient id="ibrahimGlow" cx="50%" cy="55%" r="50%">
+              <stop offset="0%" stop-color="#f0c040" stop-opacity=".3"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+            <radialGradient id="fireGlow" cx="50%" cy="70%" r="40%">
+              <stop offset="0%" stop-color="#e74c3c" stop-opacity=".35"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#ibrahimBg)"/>
+          <rect width="400" height="300" fill="url(#ibrahimGlow)"/>
+          <rect width="400" height="300" fill="url(#fireGlow)"/>
+          <!-- stars -->
+          <circle cx="40" cy="25" r="2" fill="#f0c040" opacity=".9"/>
+          <circle cx="95" cy="18" r="1.5" fill="white" opacity=".7"/>
+          <circle cx="155" cy="30" r="2" fill="white" opacity=".8"/>
+          <circle cx="250" cy="15" r="1.5" fill="#f0c040" opacity=".7"/>
+          <circle cx="310" cy="28" r="2" fill="white" opacity=".6"/>
+          <circle cx="365" cy="20" r="1.5" fill="#f0c040" opacity=".8"/>
+          <!-- Crescent moon -->
+          <circle cx="350" cy="55" r="22" fill="#ffe8a0" opacity=".7"/>
+          <circle cx="360" cy="46" r="18" fill="#060a12"/>
+          <!-- Desert ground -->
+          <polygon points="0,250 70,225 160,240 250,218 340,232 400,220 400,300 0,300" fill="#c8a04a" opacity=".7"/>
+          <polygon points="0,265 90,245 200,258 300,240 380,252 400,245 400,300 0,300" fill="#d4b060"/>
+          <!-- Kaaba silhouette (right) -->
+          <g transform="translate(320,218)">
+            <rect x="-28" y="-40" width="56" height="42" fill="#0d0d0d" rx="2"/>
+            <rect x="-28" y="-15" width="56" height="6" fill="#f0c040" opacity=".7"/>
+            <line x1="-28" y1="-40" x2="-28" y2="2" stroke="#f0c040" stroke-width="1" opacity=".4"/>
+            <line x1="28" y1="-40" x2="28" y2="2" stroke="#f0c040" stroke-width="1" opacity=".4"/>
+          </g>
+          <!-- Fire (center-left) -->
+          <g transform="translate(140,195)">
+            <ellipse cx="0" cy="20" rx="55" ry="14" fill="#e74c3c" opacity=".15"/>
+            <path d="M-35,20 Q-25,-30 -10,20 Q0,-50 10,15 Q20,-35 30,20 Q38,-20 45,20" fill="#e74c3c" opacity=".8"/>
+            <path d="M-28,20 Q-18,-20 -5,18 Q5,-40 15,15 Q22,-25 32,20" fill="#f39c12" opacity=".7"/>
+            <path d="M-18,20 Q-10,-10 0,18 Q8,-28 18,20" fill="#f1c40f" opacity=".6"/>
+            <!-- Ibrahim figure inside the fire, peaceful -->
+            <g transform="translate(0,-10)">
+              <circle cx="0" cy="-14" r="14" fill="#c8906a"/>
+              <path d="M-10,-24 Q0,-40 10,-24 L12,-8 Q0,-5 -12,-8 Z" fill="#1a0808"/>
+              <path d="M-16,5 Q-12,45 0,48 Q12,45 16,5 Z" fill="#1a6b4a"/>
+              <line x1="-16" y1="10" x2="-34" y2="0" stroke="#1a6b4a" stroke-width="7" stroke-linecap="round"/>
+              <line x1="16" y1="10" x2="34" y2="0" stroke="#1a6b4a" stroke-width="7" stroke-linecap="round"/>
+              <circle cx="-4" cy="-15" r="2.5" fill="#f0c040" opacity=".8"/>
+              <circle cx="4" cy="-15" r="2.5" fill="#f0c040" opacity=".8"/>
+              <!-- peaceful glow around Ibrahim -->
+              <circle cx="0" cy="0" r="35" fill="#87ceeb" opacity=".08"/>
+              <circle cx="0" cy="-14" r="20" fill="none" stroke="#87ceeb" stroke-width="1.5" opacity=".3"/>
+            </g>
+          </g>
+          <!-- Ram silhouette (left background) -->
+          <g transform="translate(55,235)" opacity=".5">
+            <ellipse cx="0" cy="0" rx="18" ry="12" fill="#d4b060"/>
+            <circle cx="-14" cy="-10" r="7" fill="#d4b060"/>
+            <path d="M-18,-14 Q-24,-24 -16,-22 Q-10,-20 -14,-14" stroke="#c8a04a" stroke-width="2" fill="none"/>
+            <path d="M-10,-14 Q-4,-24 -8,-22 Q-12,-20 -10,-14" stroke="#c8a04a" stroke-width="2" fill="none"/>
+          </g>
+        </svg>

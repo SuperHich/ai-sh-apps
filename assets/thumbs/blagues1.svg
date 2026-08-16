@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="blagueBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#1c1410"/>
+              <stop offset="100%" stop-color="#2a1e16"/>
+            </linearGradient>
+            <radialGradient id="blagueGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#e8a33d" stop-opacity=".25"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#blagueBg)"/>
+          <rect width="400" height="300" fill="url(#blagueGlow)"/>
+          <!-- stage curtains -->
+          <path d="M0,0 Q30,120 0,300" fill="#8b1e2b" opacity=".6"/>
+          <path d="M400,0 Q370,120 400,300" fill="#8b1e2b" opacity=".6"/>
+          <path d="M0,0 L160,0 Q130,40 140,80 Q100,60 0,80 Z" fill="#a0222e" opacity=".5"/>
+          <path d="M400,0 L240,0 Q270,40 260,80 Q300,60 400,80 Z" fill="#a0222e" opacity=".5"/>
+          <!-- stage floor -->
+          <rect x="40" y="220" width="320" height="80" fill="#3a2010" opacity=".6"/>
+          <rect x="40" y="220" width="320" height="4" fill="#e8a33d" opacity=".3"/>
+          <!-- spotlight -->
+          <ellipse cx="200" cy="240" rx="80" ry="20" fill="#f0c040" opacity=".12"/>
+          <!-- microphone stand -->
+          <line x1="200" y1="140" x2="200" y2="230" stroke="#888" stroke-width="3"/>
+          <circle cx="200" cy="230" r="12" fill="#555" opacity=".4"/>
+          <!-- microphone head -->
+          <ellipse cx="200" cy="132" rx="12" ry="16" fill="#444"/>
+          <ellipse cx="200" cy="132" rx="10" ry="14" fill="#555"/>
+          <!-- grid pattern on mic -->
+          <line x1="192" y1="124" x2="192" y2="140" stroke="#666" stroke-width=".5" opacity=".6"/>
+          <line x1="196" y1="120" x2="196" y2="144" stroke="#666" stroke-width=".5" opacity=".6"/>
+          <line x1="200" y1="118" x2="200" y2="146" stroke="#666" stroke-width=".5" opacity=".6"/>
+          <line x1="204" y1="120" x2="204" y2="144" stroke="#666" stroke-width=".5" opacity=".6"/>
+          <line x1="208" y1="124" x2="208" y2="140" stroke="#666" stroke-width=".5" opacity=".6"/>
+          <!-- laughing emojis floating -->
+          <text x="80" y="100" font-size="32" opacity=".7">😂</text>
+          <text x="290" y="80" font-size="28" opacity=".6">🤣</text>
+          <text x="130" y="180" font-size="24" opacity=".5">😆</text>
+          <text x="260" y="170" font-size="26" opacity=".5">😄</text>
+          <!-- stars/sparkles -->
+          <circle cx="60"  cy="40"  r="2"   fill="#f0c040" opacity=".8"/>
+          <circle cx="150" cy="30"  r="1.5" fill="white"   opacity=".6"/>
+          <circle cx="250" cy="25"  r="2"   fill="#f0c040" opacity=".7"/>
+          <circle cx="340" cy="45"  r="1.5" fill="white"   opacity=".6"/>
+          <!-- "HA HA" text hints -->
+          <text x="100" y="260" font-family="Georgia,serif" font-size="14" fill="#e8a33d" opacity=".3" transform="rotate(-8,100,260)">HA HA</text>
+          <text x="260" y="255" font-family="Georgia,serif" font-size="12" fill="#e8a33d" opacity=".25" transform="rotate(5,260,255)">HI HI</text>
+        </svg>

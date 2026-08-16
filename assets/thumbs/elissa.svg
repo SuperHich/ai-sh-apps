@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="elissaBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#1c1430"/>
+              <stop offset="55%" stop-color="#3a2a4a"/>
+              <stop offset="100%" stop-color="#7a5a6e"/>
+            </linearGradient>
+            <radialGradient id="elissaMoon" cx="75%" cy="25%" r="35%">
+              <stop offset="0%"   stop-color="#f3e6cf" stop-opacity=".5"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#elissaBg)"/>
+          <rect width="400" height="300" fill="url(#elissaMoon)"/>
+          <!-- moon -->
+          <circle cx="320" cy="65" r="28" fill="#f3e6cf" opacity=".9"/>
+          <circle cx="332" cy="56" r="22" fill="#1c1430"/>
+          <!-- stars -->
+          <circle cx="50"  cy="30"  r="1.5" fill="#f3e6cf" opacity=".8"/>
+          <circle cx="120" cy="50"  r="1.2" fill="#f0c040" opacity=".7"/>
+          <circle cx="200" cy="25"  r="1.6" fill="#f3e6cf" opacity=".8"/>
+          <circle cx="260" cy="45"  r="1.2" fill="#f0c040" opacity=".6"/>
+          <!-- sea -->
+          <rect x="0" y="200" width="400" height="100" fill="#3a4a5e" opacity=".7"/>
+          <path d="M0,200 Q100,188 200,200 Q300,212 400,200" stroke="#c8dce8" stroke-width="2" fill="none" opacity=".35"/>
+          <path d="M0,215 Q100,205 200,215 Q300,225 400,215" stroke="#c8dce8" stroke-width="1.5" fill="none" opacity=".2"/>
+          <!-- ship -->
+          <g transform="translate(160,190)">
+            <path d="M-35,8 Q0,20 35,8 L30,18 L-30,18 Z" fill="#3a2418"/>
+            <line x1="0" y1="8" x2="0" y2="-30" stroke="#5a3a20" stroke-width="3"/>
+            <path d="M0,-28 Q20,-15 0,-2" fill="#f3e6cf" opacity=".7"/>
+          </g>
+          <!-- hill / Byrsa -->
+          <path d="M0,250 Q200,180 400,250 L400,300 L0,300 Z" fill="#8a4a26"/>
+          <!-- leather strips around hill -->
+          <path d="M80,255 Q200,215 320,255" stroke="#3a2418" stroke-width="3" fill="none" stroke-dasharray="3,8" stroke-linecap="round" opacity=".7"/>
+          <!-- Elissa figure on hill -->
+          <g transform="translate(200,225)">
+            <circle cx="0" cy="-14" r="10" fill="#d99a66"/>
+            <path d="M-9,-22 Q0,-30 9,-22 Q7,-26 0,-28 Q-7,-26 -9,-22 Z" fill="#2a1f3a"/>
+            <!-- crown -->
+            <polygon points="-6,-28 -6,-33 -3,-28 0,-35 3,-28 6,-33 6,-28" fill="#d9a441"/>
+            <path d="M-12,0 Q0,28 12,0 Z" fill="#7a4a6e"/>
+            <line x1="-12" y1="2" x2="-22" y2="-6" stroke="#7a4a6e" stroke-width="5" stroke-linecap="round"/>
+            <line x1="12"  y1="2" x2="22"  y2="-6" stroke="#7a4a6e" stroke-width="5" stroke-linecap="round"/>
+          </g>
+          <!-- ox hide on ground -->
+          <ellipse cx="280" cy="260" rx="14" ry="6" fill="#5a3a20" opacity=".6"/>
+        </svg>

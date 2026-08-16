@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0e2018"/><stop offset="100%" stop-color="#050d0a"/></linearGradient><radialGradient id="glow" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".16"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient></defs><rect width="400" height="300" fill="url(#bg)"/><rect width="400" height="300" fill="url(#glow)"/>
+<g font-family="monospace" font-size="40" font-weight="700" text-anchor="middle">
+<g style="transform-origin:78px 128px"><rect x="44" y="94" width="68" height="68" rx="10" fill="#2f7d52"/><text x="78" y="142" fill="#fff">G</text></g>
+<g style="transform-origin:152px 128px"><rect x="118" y="94" width="68" height="68" rx="10" fill="#3a3f2a"/><text x="152" y="142" fill="#fff">R</text></g>
+<g style="transform-origin:226px 128px"><rect x="192" y="94" width="68" height="68" rx="10" fill="#c9a227"/><text x="226" y="142" fill="#fff">E</text></g>
+<g style="transform-origin:300px 128px"><rect x="266" y="94" width="68" height="68" rx="10" fill="#2f7d52"/><text x="300" y="142" fill="#fff">N</text></g>
+</g>
+<g fill="none" stroke="#274a38" stroke-width="2">
+<rect x="44" y="180" width="68" height="52" rx="9"/><rect x="118" y="180" width="68" height="52" rx="9"/>
+<rect x="192" y="180" width="68" height="52" rx="9"/><rect x="266" y="180" width="68" height="52" rx="9"/></g>
+</svg>

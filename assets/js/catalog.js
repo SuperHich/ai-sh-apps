@@ -32,6 +32,26 @@
     GRENIER.base = cut >= 0 ? src.slice(0, cut) : '';
   }
 
+  /* Fonctionnalités exposées au public. L'Atelier reste entièrement codé et
+     testable (atelier.html?preview=1) mais n'apparaît nulle part dans
+     l'interface tant que ce drapeau est à false. */
+  GRENIER.features = {
+    atelier: false
+  };
+
+  /* Contenus mis en avant sur l'accueil : un échantillon volontairement
+     court et varié, pas la bibliothèque entière. */
+  GRENIER.featuredIds = [
+    'moise', 'petit-aigle', 'dinosaures', 'hannibal',
+    'blagues1', 'hot-potato-game', 'espace', 'einstein'
+  ];
+
+  /* Derniers contenus arrivés, du plus récent au plus ancien. */
+  GRENIER.newestIds = [
+    'lumiere-hira', 'lumiere', 'phare', 'al-khwarizmi',
+    'einstein', 'ibn-battuta', 'colomb'
+  ];
+
   GRENIER.categories = [
     { key: 'propheties', label: 'Prophètes & Sagesse', emoji: '🌙', accent: '#f0c04b',
       blurb: 'Récits des prophètes, califes et grandes figures spirituelles.' },
@@ -274,6 +294,20 @@
   /** Chemin du contenu depuis la racine du site. */
   GRENIER.hrefOf = function (item) {
     return item.dir + '/' + item.file;
+  };
+
+  /** Vignette 4:3 du contenu, relative à la racine du site. */
+  GRENIER.thumbOf = function (item) {
+    if (item && item.thumb) return item.thumb;
+    return GRENIER.base + 'assets/thumbs/' + (item ? item.id : '') + '.svg';
+  };
+
+  GRENIER.featured = function () {
+    return GRENIER.featuredIds.map(GRENIER.itemById).filter(Boolean);
+  };
+
+  GRENIER.newest = function () {
+    return GRENIER.newestIds.map(GRENIER.itemById).filter(Boolean);
   };
 
   GRENIER.ageLabel = function (age) {

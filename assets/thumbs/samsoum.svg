@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="samBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0a2f2a"/>
+              <stop offset="100%" stop-color="#1a5c44"/>
+            </linearGradient>
+            <radialGradient id="samGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#f0c040" stop-opacity=".2"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#samBg)"/>
+          <rect width="400" height="300" fill="url(#samGlow)"/>
+          <!-- stars -->
+          <circle cx="40" cy="20" r="2" fill="#f0c040" opacity=".8"/>
+          <circle cx="110" cy="35" r="1.5" fill="white" opacity=".6"/>
+          <circle cx="180" cy="12" r="2" fill="#f0c040" opacity=".9"/>
+          <circle cx="290" cy="25" r="1.5" fill="white" opacity=".7"/>
+          <circle cx="360" cy="18" r="2" fill="#f0c040" opacity=".8"/>
+          <!-- moon -->
+          <circle cx="340" cy="50" r="18" fill="#ffe8a0" opacity=".7"/>
+          <circle cx="348" cy="43" r="14" fill="#0a2f2a"/>
+          <!-- river below -->
+          <rect x="0" y="230" width="400" height="70" fill="#0a4a6c" opacity=".6"/>
+          <path d="M0,235 Q100,225 200,235 Q300,245 400,235" stroke="#88ccee" stroke-width="2" fill="none" opacity=".4"/>
+          <path d="M0,250 Q100,240 200,250 Q300,260 400,250" stroke="#88ccee" stroke-width="1.5" fill="none" opacity=".3"/>
+          <!-- broken bridge -->
+          <rect x="20" y="200" width="140" height="12" fill="#8b5e3c" rx="2"/>
+          <rect x="240" y="200" width="140" height="12" fill="#8b5e3c" rx="2"/>
+          <!-- gap in bridge -->
+          <rect x="155" y="215" width="8" height="20" fill="#8b5e3c" opacity=".5"/>
+          <rect x="237" y="215" width="8" height="20" fill="#8b5e3c" opacity=".5"/>
+          <!-- bridge planks -->
+          <line x1="30" y1="200" x2="30" y2="212" stroke="#6b4020" stroke-width="2"/>
+          <line x1="60" y1="200" x2="60" y2="212" stroke="#6b4020" stroke-width="2"/>
+          <line x1="90" y1="200" x2="90" y2="212" stroke="#6b4020" stroke-width="2"/>
+          <line x1="120" y1="200" x2="120" y2="212" stroke="#6b4020" stroke-width="2"/>
+          <line x1="260" y1="200" x2="260" y2="212" stroke="#6b4020" stroke-width="2"/>
+          <line x1="290" y1="200" x2="290" y2="212" stroke="#6b4020" stroke-width="2"/>
+          <line x1="320" y1="200" x2="320" y2="212" stroke="#6b4020" stroke-width="2"/>
+          <line x1="350" y1="200" x2="350" y2="212" stroke="#6b4020" stroke-width="2"/>
+          <!-- trees left -->
+          <polygon points="20,195 35,130 50,195" fill="#1a6b30" opacity=".7"/>
+          <polygon points="45,195 60,140 75,195" fill="#2a8040" opacity=".6"/>
+          <!-- trees right -->
+          <polygon points="340,195 355,135 370,195" fill="#1a6b30" opacity=".7"/>
+          <polygon points="360,195 375,145 390,195" fill="#2a8040" opacity=".6"/>
+          <!-- Samsoum (rabbit) on left side of bridge -->
+          <g transform="translate(130,175)">
+            <!-- body -->
+            <ellipse cx="0" cy="0" rx="14" ry="10" fill="#e8d0b0"/>
+            <!-- head -->
+            <circle cx="-10" cy="-10" r="9" fill="#e8d0b0"/>
+            <!-- ears -->
+            <ellipse cx="-14" cy="-24" rx="4" ry="10" fill="#e8d0b0"/>
+            <ellipse cx="-6" cy="-24" rx="4" ry="10" fill="#e8d0b0"/>
+            <ellipse cx="-14" cy="-24" rx="2.5" ry="7" fill="#f0a0a0" opacity=".5"/>
+            <ellipse cx="-6" cy="-24" rx="2.5" ry="7" fill="#f0a0a0" opacity=".5"/>
+            <!-- eye -->
+            <circle cx="-12" cy="-10" r="2.5" fill="#1a1a1a"/>
+            <circle cx="-11" cy="-11" r="1" fill="white" opacity=".8"/>
+            <!-- nose -->
+            <ellipse cx="-16" cy="-8" rx="1.5" ry="1" fill="#f0a0a0"/>
+            <!-- tail -->
+            <circle cx="14" cy="-2" r="4" fill="white"/>
+          </g>
+          <!-- Friends helping (bird carrying plank) -->
+          <g transform="translate(200,160)" opacity=".8">
+            <path d="M-10,0 Q0,-12 10,0 Q18,-8 24,-2" fill="#d4a57a" stroke="none"/>
+            <rect x="-20" y="4" width="40" height="4" fill="#8b5e3c" rx="1"/>
+          </g>
+          <!-- sparkles around cooperation area -->
+          <circle cx="190" cy="180" r="2" fill="#f0c040" opacity=".6"/>
+          <circle cx="210" cy="170" r="1.5" fill="#ffe8a0" opacity=".5"/>
+          <circle cx="195" cy="195" r="1.5" fill="#f0c040" opacity=".5"/>
+        </svg>

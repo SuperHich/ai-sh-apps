@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#33160c"/><stop offset="100%" stop-color="#170907"/></linearGradient><radialGradient id="glow" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".16"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient></defs><rect width="400" height="300" fill="url(#bg)"/><rect width="400" height="300" fill="url(#glow)"/>
+<g>
+<ellipse cx="200" cy="164" rx="62" ry="46" fill="#b9762f"/>
+<ellipse cx="184" cy="152" rx="12" ry="9" fill="#8a5220" opacity=".7"/>
+<ellipse cx="218" cy="176" rx="9" ry="7" fill="#8a5220" opacity=".6"/>
+<path d="M200 118 q10-22 -6-34" stroke="#6b4a2a" stroke-width="6" fill="none" stroke-linecap="round"/>
+<circle cx="192" cy="82" r="7" fill="#ffd166"/>
+<circle cx="205" cy="72" r="5" fill="#ff8a5b"/></g>
+<g fill="#eddcc6" opacity=".85">
+<circle cx="58" cy="238" r="15"/><circle cx="150" cy="252" r="15"/>
+<circle cx="250" cy="252" r="15"/><circle cx="342" cy="238" r="15"/></g>
+</svg>

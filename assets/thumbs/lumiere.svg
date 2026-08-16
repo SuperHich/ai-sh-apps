@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lumiereBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#05070f"/>
+              <stop offset="55%" stop-color="#0a0f20"/>
+              <stop offset="100%" stop-color="#1c2450"/>
+            </linearGradient>
+            <radialGradient id="lumiereGlow" cx="50%" cy="18%" r="52%">
+              <stop offset="0%"   stop-color="#7c6fd1" stop-opacity=".26"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+            <linearGradient id="lumiereTrail" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%"   stop-color="#f4c56a" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#f4c56a" stop-opacity=".75"/>
+            </linearGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#lumiereBg)"/>
+          <rect width="400" height="300" fill="url(#lumiereGlow)"/>
+          <!-- champ d'étoiles -->
+          <circle cx="48"  cy="42"  r="1.5" fill="#eef0f5" opacity=".85"/>
+          <circle cx="118" cy="26"  r="1.1" fill="#eef0f5" opacity=".6"/>
+          <circle cx="196" cy="52"  r="1.3" fill="#eef0f5" opacity=".7"/>
+          <circle cx="286" cy="118" r="1.2" fill="#7c6fd1" opacity=".7"/>
+          <circle cx="352" cy="44"  r="1.4" fill="#eef0f5" opacity=".65"/>
+          <circle cx="78"  cy="112" r="1.1" fill="#eef0f5" opacity=".5"/>
+          <circle cx="240" cy="88"  r="1"   fill="#eef0f5" opacity=".55"/>
+          <!-- lune croissante -->
+          <circle cx="330" cy="66" r="21" fill="#eef0f5" opacity=".92"/>
+          <circle cx="339" cy="60" r="18" fill="#0a0f20"/>
+          <!-- l'Étoile du Veilleur et sa lumière en chemin -->
+          <polygon points="86,74 90,84 100,88 90,92 86,102 82,92 72,88 82,84" fill="#f4c56a"/>
+          <circle cx="86" cy="88" r="13" fill="#f4c56a" opacity=".22"/>
+          <path d="M100,92 Q170,112 236,128" fill="none" stroke="url(#lumiereTrail)"
+                stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="236" cy="128" r="4" fill="#fff6df"/>
+          <circle cx="236" cy="128" r="10" fill="#f4c56a" opacity=".25"/>
+          <!-- colline -->
+          <path d="M0,300 Q200,196 400,300 Z" fill="#0a0f22"/>
+          <!-- observatoire : socle, coupole, fente ouverte, télescope -->
+          <rect x="158" y="196" width="84" height="66" fill="#141a37"/>
+          <path d="M152,196 A 48 48 0 0 1 248,196 Z" fill="#1b2348"/>
+          <polygon points="188,196 216,196 228,124 196,134" fill="#05070f"/>
+          <rect x="198" y="130" width="10" height="68" rx="3" fill="#0d2033"
+                stroke="#cba869" stroke-width="1" transform="rotate(-12 203 164)"/>
+          <circle cx="203" cy="130" r="5" fill="#f4c56a" opacity=".65"/>
+          <!-- fenêtre chaude et deux silhouettes devant la porte -->
+          <rect x="168" y="222" width="18" height="22" fill="#f4c56a" opacity=".85"/>
+          <g fill="#05070f" opacity=".9">
+            <ellipse cx="150" cy="254" rx="4.4" ry="10"/>
+            <circle  cx="150" cy="240" r="3.8"/>
+            <ellipse cx="161" cy="257" rx="3.6" ry="8"/>
+            <circle  cx="161" cy="245" r="3.1"/>
+          </g>
+        </svg>

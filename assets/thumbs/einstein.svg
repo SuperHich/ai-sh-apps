@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="einBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#04060e"/>
+              <stop offset="55%" stop-color="#0c1020"/>
+              <stop offset="100%" stop-color="#2a3a4a"/>
+            </linearGradient>
+            <radialGradient id="einGlow" cx="50%" cy="35%" r="55%">
+              <stop offset="0%"   stop-color="#4a9aba" stop-opacity=".25"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#einBg)"/>
+          <rect width="400" height="300" fill="url(#einGlow)"/>
+          <!-- stars -->
+          <circle cx="40"  cy="30"  r="1.3" fill="#f0f0e8" opacity=".8"/>
+          <circle cx="120" cy="18"  r="1"   fill="#4a9aba" opacity=".8"/>
+          <circle cx="250" cy="24"  r="1.5" fill="#f0f0e8" opacity=".7"/>
+          <circle cx="340" cy="40"  r="1"   fill="#d4901a" opacity=".7"/>
+          <circle cx="300" cy="60"  r="1.1" fill="#f0f0e8" opacity=".5"/>
+          <!-- spacetime grid curved by mass -->
+          <g stroke="#4a9aba" stroke-width="1" fill="none" opacity=".45">
+            <path d="M20,150 Q200,130 380,150"/>
+            <path d="M20,175 Q200,215 380,175"/>
+            <path d="M20,200 Q200,255 380,200"/>
+            <path d="M20,225 Q200,285 380,225"/>
+            <path d="M60,140 Q80,220 60,290"/>
+            <path d="M140,138 Q160,220 140,292"/>
+            <path d="M260,138 Q240,220 260,292"/>
+            <path d="M340,140 Q320,220 340,290"/>
+          </g>
+          <!-- central mass (planet/star) -->
+          <circle cx="200" cy="210" r="26" fill="#d4901a" opacity=".9"/>
+          <circle cx="200" cy="210" r="26" fill="url(#einGlow)"/>
+          <ellipse cx="200" cy="210" rx="44" ry="14" fill="none" stroke="#f0f0e8" stroke-width="1.5" opacity=".6"/>
+          <!-- E=mc² -->
+          <text font-family="'Cinzel',serif" font-size="30" font-weight="800" fill="#f0f0e8" text-anchor="middle" x="200" y="95" opacity=".9">E=mc²</text>
+          <ellipse cx="200" cy="86" rx="90" ry="18" fill="#4a9aba" opacity=".07"/>
+        </svg>

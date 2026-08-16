@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="harounBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#060a12"/>
+              <stop offset="50%" stop-color="#0a1828"/>
+              <stop offset="100%" stop-color="#1a2a10"/>
+            </linearGradient>
+            <radialGradient id="harounGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#f0c040" stop-opacity=".25"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#harounBg)"/>
+          <rect width="400" height="300" fill="url(#harounGlow)"/>
+          <!-- stars -->
+          <circle cx="35" cy="22" r="2" fill="#f0c040" opacity=".9"/>
+          <circle cx="90" cy="38" r="1.5" fill="white" opacity=".7"/>
+          <circle cx="150" cy="14" r="2" fill="white" opacity=".8"/>
+          <circle cx="250" cy="28" r="1.5" fill="#f0c040" opacity=".7"/>
+          <circle cx="320" cy="18" r="2" fill="white" opacity=".6"/>
+          <circle cx="370" cy="45" r="1.5" fill="#f0c040" opacity=".8"/>
+          <!-- Moon -->
+          <circle cx="340" cy="55" r="24" fill="#ffe8a0" opacity=".7"/>
+          <circle cx="352" cy="46" r="20" fill="#060a12"/>
+          <!-- Desert mountains -->
+          <polygon points="0,250 80,200 160,230 250,190 340,215 400,195 400,300 0,300" fill="#c8a04a" opacity=".7"/>
+          <polygon points="0,265 90,240 190,255 280,232 370,248 400,240 400,300 0,300" fill="#d4b060"/>
+          <!-- Haroun figure — eloquent speaker, arms raised -->
+          <g transform="translate(200,190)">
+            <circle cx="0" cy="-14" r="30" fill="#f0c040" opacity=".1"/>
+            <path d="M-22,10 Q-18,68 0,72 Q18,68 22,10 Z" fill="#1a5a8a"/>
+            <line x1="-22" y1="14" x2="-58" y2="-18" stroke="#1a5a8a" stroke-width="9" stroke-linecap="round"/>
+            <line x1="22" y1="14" x2="58" y2="-18" stroke="#1a5a8a" stroke-width="9" stroke-linecap="round"/>
+            <circle cx="-60" cy="-20" r="7" fill="#c8906a" opacity=".6"/>
+            <circle cx="60" cy="-20" r="7" fill="#c8906a" opacity=".6"/>
+            <circle cx="0" cy="-14" r="18" fill="#c8906a"/>
+            <circle cx="0" cy="-14" r="24" fill="none" stroke="#f0c040" stroke-width="1.5" opacity=".4"/>
+            <path d="M-14,-28 Q0,-48 14,-28 L16,-10 Q0,-6 -16,-10 Z" fill="#0a1828"/>
+            <circle cx="-6" cy="-15" r="3" fill="#f0c040" opacity=".8"/>
+            <circle cx="6" cy="-15" r="3" fill="#f0c040" opacity=".8"/>
+          </g>
+          <!-- Speech/eloquence glow waves -->
+          <path d="M140,165 Q130,155 140,145" stroke="#f0c040" stroke-width="2" fill="none" opacity=".4"/>
+          <path d="M132,168 Q118,152 132,138" stroke="#f0c040" stroke-width="1.5" fill="none" opacity=".3"/>
+          <path d="M260,165 Q270,155 260,145" stroke="#f0c040" stroke-width="2" fill="none" opacity=".4"/>
+          <path d="M268,168 Q282,152 268,138" stroke="#f0c040" stroke-width="1.5" fill="none" opacity=".3"/>
+          <!-- Staff of Haroun (budding rod) -->
+          <g transform="translate(100,180)">
+            <line x1="0" y1="60" x2="0" y2="-30" stroke="#8b5e3c" stroke-width="6" stroke-linecap="round"/>
+            <circle cx="0" cy="-34" r="5" fill="#1a6b4a"/>
+            <circle cx="-6" cy="-28" r="4" fill="#2a8040"/>
+            <circle cx="6" cy="-28" r="4" fill="#2a8040"/>
+            <circle cx="0" cy="-40" r="3" fill="#f0c040" opacity=".7"/>
+          </g>
+          <!-- Tablets in background -->
+          <g transform="translate(310,220)" opacity=".5">
+            <rect x="-12" y="-28" width="22" height="30" rx="3" fill="#f5e6c8" stroke="#d4a017" stroke-width="1.5"/>
+            <rect x="12" y="-28" width="22" height="30" rx="3" fill="#f5e6c8" stroke="#d4a017" stroke-width="1.5"/>
+            <line x1="-8" y1="-20" x2="6" y2="-20" stroke="#d4a017" stroke-width="1.5"/>
+            <line x1="-8" y1="-13" x2="6" y2="-13" stroke="#d4a017" stroke-width="1.5"/>
+            <line x1="16" y1="-20" x2="30" y2="-20" stroke="#d4a017" stroke-width="1.5"/>
+            <line x1="16" y1="-13" x2="30" y2="-13" stroke="#d4a017" stroke-width="1.5"/>
+          </g>
+        </svg>

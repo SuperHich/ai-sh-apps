@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Le Grenier des Apps — La bibliothèque</title>
+<title>Le Grenier des Apps — Histoires, jeux et découvertes</title>
 <meta name="description" content="Une bibliothèque d'histoires, de jeux et d'outils pour tous les âges — récits des prophètes, légendes du monde, sciences, contes en arabe et mini-jeux.">
 <meta name="theme-color" content="#08070f">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,15 +14,14 @@
   /* ── Héro ── */
   .hero {
     position: relative;
-    padding: clamp(48px, 9vw, 96px) 0 clamp(28px, 5vw, 46px);
+    padding: clamp(46px, 8vw, 84px) 0 clamp(24px, 4vw, 40px);
     text-align: center;
   }
-
   .hero-eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    margin-bottom: 20px;
+    margin: 0 0 20px;
     padding: 7px 16px;
     border-radius: 999px;
     border: 1px solid rgba(240, 192, 75, .3);
@@ -48,10 +47,11 @@
   .hero h1 {
     margin: 0;
     font-family: var(--gr-display);
-    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-size: clamp(2.5rem, 8vw, 4.8rem);
     font-weight: 700;
-    line-height: 1.02;
+    line-height: 1.03;
     letter-spacing: -.02em;
+    text-wrap: balance;
   }
   .hero h1 em {
     font-style: italic;
@@ -62,38 +62,35 @@
     background-size: 220% auto;
     animation: shimmer 7s linear infinite;
   }
-  @keyframes shimmer {
-    to { background-position: 220% center; }
-  }
+  @keyframes shimmer { to { background-position: 220% center; } }
 
   .hero-sub {
-    max-width: 620px;
+    max-width: 610px;
     margin: 20px auto 0;
-    font-size: clamp(1rem, 2.3vw, 1.16rem);
+    font-size: clamp(1rem, 2.3vw, 1.14rem);
     font-weight: 300;
     line-height: 1.65;
     color: var(--gr-text-soft);
+    text-wrap: pretty;
   }
-
   .hero-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
     justify-content: center;
-    margin-top: 32px;
+    margin-top: 30px;
   }
   .hero-actions .gr-btn { height: 50px; padding: 0 26px; font-size: .95rem; }
 
-  /* ── Compteurs ── */
   .stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 14px;
-    max-width: 720px;
-    margin: 48px auto 0;
+    max-width: 540px;
+    margin: 42px auto 0;
   }
   .stat {
-    padding: 18px 12px;
+    padding: 16px 12px;
     border-radius: var(--gr-r);
     border: 1px solid var(--gr-line);
     background: var(--gr-surface);
@@ -102,14 +99,14 @@
   .stat b {
     display: block;
     font-family: var(--gr-display);
-    font-size: 1.95rem;
+    font-size: 1.9rem;
     line-height: 1;
     color: var(--gr-gold);
   }
   .stat span {
     display: block;
     margin-top: 7px;
-    font-size: .76rem;
+    font-size: .74rem;
     letter-spacing: .06em;
     text-transform: uppercase;
     color: var(--gr-text-faint);
@@ -118,7 +115,7 @@
   /* ── Univers ── */
   .universes {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
     gap: 16px;
   }
   .universe {
@@ -131,11 +128,10 @@
     border: 1px solid var(--gr-line);
     background: linear-gradient(155deg, var(--gr-surface-2), rgba(255, 255, 255, .012));
     color: inherit;
-    font: inherit;
-    text-align: left;
-    cursor: pointer;
+    text-decoration: none;
     overflow: hidden;
-    transition: transform .3s cubic-bezier(.2, .8, .3, 1), border-color .3s, box-shadow .3s;
+    transition: transform var(--gr-normal) var(--gr-ease-out), border-color var(--gr-normal) ease,
+                box-shadow var(--gr-normal) ease;
   }
   .universe::before {
     content: '';
@@ -146,7 +142,7 @@
     background: var(--accent);
     opacity: .16;
     filter: blur(38px);
-    transition: opacity .3s, transform .4s;
+    transition: opacity var(--gr-normal) ease, transform var(--gr-slow) var(--gr-ease-out);
   }
   .universe:hover {
     transform: translateY(-6px);
@@ -154,6 +150,7 @@
     box-shadow: var(--gr-shadow-hover);
   }
   .universe:hover::before { opacity: .34; transform: scale(1.25); }
+  .universe:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
   .universe .emoji { font-size: 1.9rem; }
   .universe strong { font-family: var(--gr-display); font-size: 1.1rem; }
   .universe small { font-size: .8rem; line-height: 1.5; color: var(--gr-text-soft); }
@@ -166,64 +163,33 @@
     color: var(--accent);
   }
 
-  /* ── Bandeau Atelier ── */
-  .studio {
-    position: relative;
+  /* ── Appel vers la bibliothèque ── */
+  .full-cta {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 26px;
-    margin-top: 72px;
-    padding: clamp(26px, 4vw, 44px);
+    gap: 22px;
+    margin-top: 70px;
+    padding: clamp(24px, 4vw, 40px);
     border-radius: var(--gr-r-lg);
-    border: 1px solid rgba(177, 140, 255, .3);
+    border: 1px solid rgba(240, 192, 75, .26);
     background:
-      radial-gradient(90% 140% at 10% 0%, rgba(177, 140, 255, .22), transparent 62%),
+      radial-gradient(90% 140% at 12% 0%, rgba(240, 192, 75, .18), transparent 62%),
       linear-gradient(160deg, var(--gr-surface-2), rgba(255, 255, 255, .012));
-    overflow: hidden;
   }
-  .studio-text { flex: 1 1 320px; }
-  .studio h2 {
-    margin: 0 0 10px;
-    font-family: var(--gr-display);
-    font-size: clamp(1.5rem, 3.4vw, 2.05rem);
-  }
-  .studio p { margin: 0; font-size: .95rem; line-height: 1.65; color: var(--gr-text-soft); }
-  .studio ul {
-    margin: 18px 0 0;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    gap: 9px;
-    font-size: .88rem;
-    color: var(--gr-text-soft);
-  }
-  .studio li { display: flex; gap: 9px; align-items: flex-start; }
-  .studio li span { color: var(--gr-violet); }
-  .studio-cta { flex: 0 0 auto; }
+  .full-cta div { flex: 1 1 300px; }
+  .full-cta h2 { margin: 0 0 8px; font-family: var(--gr-display); font-size: clamp(1.4rem, 3.2vw, 1.95rem); }
+  .full-cta p { margin: 0; color: var(--gr-text-soft); line-height: 1.6; }
 
-  /* ── Divers ── */
-  .result-line {
-    margin: 18px 0 20px;
-    font-size: .86rem;
-    color: var(--gr-text-faint);
+  .section-link {
+    margin-left: auto;
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--gr-gold);
+    text-decoration: none;
+    white-space: nowrap;
   }
-  .result-line b { color: var(--gr-text); }
-
-  .filter-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 9px;
-  }
-  .filter-label {
-    font-size: .74rem;
-    font-weight: 700;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--gr-text-faint);
-    margin-right: 3px;
-  }
+  .section-link:hover { text-decoration: underline; }
 </style>
 </head>
 <body class="gr-body">
@@ -231,33 +197,55 @@
 <div class="gr-page">
 
   <!-- ══════════════ HÉRO ══════════════ -->
-  <header class="hero">
-    <p class="hero-eyebrow"><span class="dot"></span> Créations assistées par l'IA</p>
+  <header class="hero gr-enter">
+    <p class="hero-eyebrow"><span class="dot" aria-hidden="true"></span> Créations assistées par l'IA</p>
     <h1>Le <em>Grenier</em><br>des Apps</h1>
     <p class="hero-sub">
-      Une bibliothèque d'histoires, de jeux et d'outils à explorer en famille —
+      Des histoires à lire en famille, des jeux à partager et quelques outils —
       des récits des prophètes aux légendes du monde, des sciences aux contes en arabe.
     </p>
     <div class="hero-actions">
-      <a class="gr-btn gr-btn-primary" href="#bibliotheque">Explorer la bibliothèque</a>
-      <a class="gr-btn" href="atelier.html">✨ Créer un contenu</a>
+      <a class="gr-btn gr-btn-primary" href="bibliotheque.html">Parcourir la bibliothèque</a>
+      <a class="gr-btn" href="#selection">Voir la sélection</a>
     </div>
-
     <div class="stats" id="stats">
-      <div class="stat"><b data-count="0">0</b><span>Contenus</span></div>
-      <div class="stat"><b data-count="0">0</b><span>Univers</span></div>
-      <div class="stat"><b data-count="0">0</b><span>En accès libre</span></div>
-      <div class="stat"><b data-count="0">0</b><span>Pour les membres</span></div>
+      <div class="stat"><b>0</b><span>Contenus</span></div>
+      <div class="stat"><b>0</b><span>Univers</span></div>
+      <div class="stat"><b>0</b><span>En accès libre</span></div>
     </div>
   </header>
 
   <!-- ══════════════ REPRENDRE ══════════════ -->
-  <section class="gr-section" id="reprendre" hidden>
+  <section class="gr-section" id="resumeSection" hidden>
     <div class="gr-section-head">
       <h2>Reprendre</h2>
       <div class="gr-rule"></div>
     </div>
-    <div class="gr-grid" id="recentGrid"></div>
+    <div class="gr-rail-wrap">
+      <div class="gr-rail" id="resumeRail"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ SÉLECTION ══════════════ -->
+  <section class="gr-section" id="selection">
+    <div class="gr-section-head">
+      <h2>La sélection du moment</h2>
+      <div class="gr-rule"></div>
+      <a class="section-link" href="bibliotheque.html">Tout voir →</a>
+      <p>Huit contenus pour commencer, choisis dans les sept univers.</p>
+    </div>
+    <div class="gr-grid" id="featuredGrid"></div>
+  </section>
+
+  <!-- ══════════════ NOUVEAUTÉS ══════════════ -->
+  <section class="gr-section">
+    <div class="gr-section-head">
+      <h2>Dernières arrivées</h2>
+      <div class="gr-rule"></div>
+    </div>
+    <div class="gr-rail-wrap">
+      <div class="gr-rail" id="newestRail"></div>
+    </div>
   </section>
 
   <!-- ══════════════ UNIVERS ══════════════ -->
@@ -265,77 +253,65 @@
     <div class="gr-section-head">
       <h2>Les univers</h2>
       <div class="gr-rule"></div>
-      <p>Sept collections, chacune avec son ambiance. Choisis-en une pour filtrer la bibliothèque.</p>
+      <p>Sept collections, chacune avec son ambiance.</p>
     </div>
     <div class="universes" id="universes"></div>
   </section>
 
-  <!-- ══════════════ BIBLIOTHÈQUE ══════════════ -->
-  <section class="gr-section" id="bibliotheque">
-    <div class="gr-section-head">
-      <h2>Toute la bibliothèque</h2>
-      <div class="gr-rule"></div>
-    </div>
-
-    <div class="gr-filters filter-row" id="catFilters"></div>
-
-    <div class="gr-filters filter-row" style="margin-top:6px">
-      <span class="filter-label">Âge</span>
-      <div class="filter-row" id="ageFilters"></div>
-      <span class="filter-label" style="margin-left:14px">Accès</span>
-      <div class="filter-row" id="accessFilters"></div>
-    </div>
-
-    <p class="result-line" id="resultLine"></p>
-
-    <div class="gr-grid" id="libraryGrid"></div>
-  </section>
-
   <!-- ══════════════ FAVORIS ══════════════ -->
-  <section class="gr-section" id="favoris" hidden>
+  <section class="gr-section" id="favSection" hidden>
     <div class="gr-section-head">
-      <h2>Mes favoris</h2>
+      <h2 id="favoris">Mes favoris</h2>
       <div class="gr-rule"></div>
     </div>
     <div class="gr-grid" id="favGrid"></div>
   </section>
 
-  <!-- ══════════════ ATELIER ══════════════ -->
-  <section class="studio gr-reveal" id="atelier-teaser">
-    <div class="studio-text">
-      <h2>L'Atelier — ajoutez vos propres contenus</h2>
+  <!-- ══════════════ VERS LE CATALOGUE ══════════════ -->
+  <section class="full-cta gr-reveal">
+    <div>
+      <h2>Et tout le reste</h2>
       <p>
-        Réservé aux membres : composez une nouvelle histoire, un recueil de blagues ou une fiche
-        de découverte, et le Grenier la met en page dans le style de la maison.
+        Le catalogue complet se cherche et se filtre par univers, par âge et par type de contenu.
       </p>
-      <ul>
-        <li><span>✦</span> Un formulaire simple : titre, univers, chapitres — la page est générée pour vous.</li>
-        <li><span>✦</span> Ou décrivez votre idée en une phrase et laissez Claude écrire l'histoire complète.</li>
-        <li><span>✦</span> Aperçu immédiat, sauvegarde dans votre bibliothèque, export du fichier HTML.</li>
-      </ul>
     </div>
-    <div class="studio-cta">
-      <a class="gr-btn gr-btn-primary" href="atelier.html" style="height:50px;padding:0 26px">Ouvrir l'Atelier</a>
+    <a class="gr-btn gr-btn-primary" href="bibliotheque.html" style="height:50px;padding:0 26px">
+      Ouvrir la bibliothèque
+    </a>
+  </section>
+
+  <!-- ══════════════ ATELIER ══════════════
+       Masqué tant que GRENIER.features.atelier est à false ; shell.js
+       révèle les éléments porteurs de data-feature quand le drapeau passe.
+  ═══════════════════════════════════════════ -->
+  <section class="full-cta gr-reveal" data-feature="atelier" hidden
+           style="border-color:rgba(177,140,255,.3);
+                  background:radial-gradient(90% 140% at 12% 0%, rgba(177,140,255,.2), transparent 62%),
+                             linear-gradient(160deg, var(--gr-surface-2), rgba(255,255,255,.012))">
+    <div>
+      <h2>L'Atelier — créez vos propres contenus</h2>
+      <p>
+        Composez une histoire à la main, ou décrivez votre idée et laissez Claude l'écrire
+        dans le style de la maison.
+      </p>
     </div>
+    <a class="gr-btn gr-btn-primary" href="atelier.html" style="height:50px;padding:0 26px">
+      Ouvrir l'Atelier
+    </a>
   </section>
 
 </div>
 
 <footer class="gr-footer">
   Généré avec <strong>Claude</strong> · Le Grenier des Apps ·
-  <a href="atelier.html">Atelier</a> · Mis à jour en 2026
+  <a href="bibliotheque.html">Bibliothèque</a> · Mis à jour en 2026
 </footer>
 
 <script src="assets/js/catalog.js"></script>
 <script src="assets/js/auth.js"></script>
-<script>
-  window.GRENIER_SHELL = {
-    active: 'home',
-    search: true,
-    onSearch: function (q) { if (window.GRENIER.library) window.GRENIER.library.setQuery(q); }
-  };
-</script>
+<script>window.GRENIER_SHELL = { active: 'home', search: true };</script>
 <script src="assets/js/shell.js"></script>
-<script src="assets/js/library.js"></script>
+<script src="assets/js/cards.js"></script>
+<script src="assets/js/home.js"></script>
 </body>
 </html>

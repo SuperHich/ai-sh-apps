@@ -4,27 +4,30 @@ A browsable library of interactive stories, mini-games and tools for all ages �
 built entirely with vanilla HTML, CSS & JavaScript. No frameworks, no build
 steps, no server. Just open in a browser.
 
-The landing page is a searchable library: 44 pieces of content across 7
-universes, filterable by universe, age and access level, with favourites and a
-"continue reading" shelf. Part of the catalogue is open to everyone; the rest
-opens once a (local, free) account is created. Members also get **the Atelier**,
-where they can compose new stories by hand or have Claude write one in the
-house style.
+The home page is a showcase — a curated selection, the latest arrivals and the
+seven universes. The full catalogue lives on its own page, searchable and
+filterable by universe, age and access level. Every entry is presented by a
+hand-drawn SVG thumbnail rather than an icon. Part of the catalogue is open to
+everyone; the rest opens once a (local, free) account is created.
 
 ## Structure
 
 ```
-├── index.html              # The library (search, filters, favourites)
-├── atelier.html            # Content creation — members only
+├── index.html              # Home — curated selection
+├── bibliotheque.html       # Full catalogue (search + filters)
+├── atelier.html            # Content creation — hidden behind a feature flag
 ├── lecture.html            # Reader for locally-created content
 ├── assets/
-│   ├── css/theme.css       # Shared design system
+│   ├── css/theme.css       # Shared design system + motion
+│   ├── thumbs/             # One 400×300 SVG thumbnail per content item
 │   └── js/
-│       ├── catalog.js      # Single source of truth for every content item
+│       ├── catalog.js      # Source of truth: items, curation, feature flags
 │       ├── auth.js         # Local accounts + sign-in modal
 │       ├── shell.js        # Shared nav bar, injected on every library page
+│       ├── cards.js        # The content card, shared by home and catalogue
 │       ├── protect.js      # Access guard for member-only pages
-│       ├── library.js      # Home page logic
+│       ├── home.js         # Home page logic
+│       ├── bibliotheque.js # Catalogue filtering and search
 │       ├── template.js     # House-style story page generator
 │       └── atelier.js      # Guided + AI content creation
 ├── components/
@@ -84,9 +87,40 @@ It draws an opaque veil, checks the catalogue and the session, then either
 lifts the veil or turns it into a sign-up panel. To change an item's access
 level, edit its `access` field in the catalogue and add or remove that line.
 
+## Thumbnails
+
+Every card is built around a 400×300 SVG in `assets/thumbs/`, named after the
+item's `id`. Thirty-five of them were lifted from the hand-drawn card art that
+already lived in the category index pages; the nine games and the tool got new
+ones drawn in the same idiom.
+
+They are **static on purpose**. An earlier version animated them from inside the
+SVG, which looked good in isolation but broke down at scale: with 44 animated
+SVGs rasterising at once, Chromium silently dropped some of them, for continuous
+GPU work and no benefit. Motion belongs to the card — reveal on scroll, zoom on
+hover — not to 44 images competing in the background.
+
+Images are `loading="lazy"` with `width`/`height` attributes, so the grid
+reserves its space and never shifts as thumbnails arrive.
+
+## Feature flags
+
+`GRENIER.features` in `assets/js/catalog.js` decides what the interface exposes:
+
+```js
+GRENIER.features = { atelier: false };
+```
+
+With the flag off, the Atelier disappears from the nav bar, the account menu and
+the home page, and `atelier.html` shows a "not open yet" panel. **No code is
+removed** — markup carrying `data-feature="atelier"` stays in the page and
+`shell.js` reveals it when the flag flips. To work on the feature meanwhile,
+open `atelier.html?preview=1`.
+
 ## The Atelier
 
-`atelier.html` is the members-only creation area. Both modes produce the same
+`atelier.html` is the members-only creation area, currently hidden behind the
+flag above. Both modes produce the same
 thing: a self-contained HTML page in the house style, previewed in a sandboxed
 iframe before it is kept.
 

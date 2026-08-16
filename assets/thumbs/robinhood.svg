@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="robinBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#10160e"/>
+              <stop offset="55%" stop-color="#2e4a26"/>
+              <stop offset="100%" stop-color="#6a8a4a"/>
+            </linearGradient>
+            <radialGradient id="robinGlow" cx="30%" cy="30%" r="40%">
+              <stop offset="0%"   stop-color="#eef0d8" stop-opacity=".3"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#robinBg)"/>
+          <rect width="400" height="300" fill="url(#robinGlow)"/>
+          <!-- sun rays through canopy -->
+          <circle cx="120" cy="80" r="30" fill="#eef0d8" opacity=".5"/>
+          <!-- tree trunks -->
+          <g fill="#14200e" opacity=".7">
+            <rect x="30"  y="0" width="16" height="300"/>
+            <rect x="340" y="0" width="20" height="300"/>
+            <rect x="370" y="40" width="14" height="260"/>
+          </g>
+          <!-- canopy -->
+          <g fill="#1c2814" opacity=".6">
+            <ellipse cx="40" cy="40" rx="60" ry="40"/>
+            <ellipse cx="360" cy="30" rx="70" ry="45"/>
+          </g>
+          <!-- ground -->
+          <path d="M0,240 Q200,220 400,240 L400,300 L0,300 Z" fill="#1c2814"/>
+          <!-- Robin Hood figure, hooded with bow -->
+          <g transform="translate(200,220)">
+            <path d="M-14,35 Q-16,5 -4,-18 Q0,-24 4,-18 Q16,5 14,35 Z" fill="#3a5a2e"/>
+            <circle cx="0" cy="-26" r="10" fill="#c98a55"/>
+            <path d="M-12,-30 Q0,-44 12,-30 Q9,-22 0,-24 Q-9,-22 -12,-30 Z" fill="#2e4a26"/>
+            <!-- bow -->
+            <path d="M14,-10 Q30,-26 14,-42" stroke="#5e3a1f" stroke-width="3" fill="none"/>
+            <line x1="14" y1="-10" x2="14" y2="-42" stroke="#c9a84a" stroke-width="1.5"/>
+            <!-- arrow -->
+            <line x1="14" y1="-26" x2="36" y2="-26" stroke="#5e3a1f" stroke-width="2" stroke-linecap="round"/>
+            <polygon points="36,-26 30,-23 30,-29" fill="#c9a84a"/>
+          </g>
+          <!-- deer silhouette in background -->
+          <g transform="translate(310,225)" fill="#1c2814" opacity=".5">
+            <ellipse cx="0" cy="0" rx="12" ry="8"/>
+            <circle cx="-10" cy="-6" r="5"/>
+            <path d="M-8,-10 Q-12,-18 -8,-22 M-8,-10 Q-5,-18 -8,-22" stroke="#1c2814" stroke-width="1.5" fill="none"/>
+            <rect x="-6" y="6" width="3" height="10"/>
+            <rect x="3"  y="6" width="3" height="10"/>
+          </g>
+        </svg>

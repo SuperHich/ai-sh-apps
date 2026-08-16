@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="espaceBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#02020a"/>
+              <stop offset="55%" stop-color="#0c1030"/>
+              <stop offset="100%" stop-color="#1a3a7a"/>
+            </linearGradient>
+            <radialGradient id="espaceGlow" cx="50%" cy="45%" r="55%">
+              <stop offset="0%"   stop-color="#1a8aaa" stop-opacity=".28"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+            <radialGradient id="espaceSun" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#ffe9bd"/>
+              <stop offset="60%"  stop-color="#c8a020"/>
+              <stop offset="100%" stop-color="#8a5a10"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#espaceBg)"/>
+          <rect width="400" height="300" fill="url(#espaceGlow)"/>
+          <!-- stars -->
+          <circle cx="40"  cy="30"  r="1.4" fill="#f0ecd8" opacity=".9"/>
+          <circle cx="110" cy="18"  r="1"   fill="#1a8aaa" opacity=".8"/>
+          <circle cx="180" cy="40"  r="1.2" fill="#f0ecd8" opacity=".7"/>
+          <circle cx="250" cy="22"  r="1.5" fill="#f0ecd8" opacity=".8"/>
+          <circle cx="330" cy="34"  r="1"   fill="#c8a020" opacity=".7"/>
+          <circle cx="370" cy="60"  r="1.2" fill="#f0ecd8" opacity=".6"/>
+          <circle cx="70"  cy="70"  r="1"   fill="#f0ecd8" opacity=".5"/>
+          <circle cx="300" cy="70"  r="1.1" fill="#1a8aaa" opacity=".6"/>
+          <!-- distant spiral galaxy -->
+          <g transform="translate(320,90)" opacity=".8">
+            <ellipse cx="0" cy="0" rx="34" ry="12" fill="none" stroke="#3a5aaa" stroke-width="1" opacity=".4" transform="rotate(-20)"/>
+            <ellipse cx="0" cy="0" rx="22" ry="8" fill="none" stroke="#6a8aca" stroke-width="1" opacity=".5" transform="rotate(-20)"/>
+            <circle cx="0" cy="0" r="6" fill="#f0ecd8" opacity=".9"/>
+            <circle cx="0" cy="0" r="12" fill="#c8a020" opacity=".2"/>
+          </g>
+          <!-- ringed planet -->
+          <g transform="translate(120,150)">
+            <ellipse cx="0" cy="0" rx="58" ry="16" fill="none" stroke="#c8a020" stroke-width="3" opacity=".55" transform="rotate(-18)"/>
+            <circle cx="0" cy="0" r="34" fill="url(#espaceSun)"/>
+            <ellipse cx="-10" cy="-8" rx="10" ry="6" fill="#ffe9bd" opacity=".35"/>
+            <ellipse cx="0" cy="0" rx="58" ry="16" fill="none" stroke="#f0ecd8" stroke-width="1.4" opacity=".35" transform="rotate(-18)"/>
+          </g>
+          <!-- small moon orbiting -->
+          <circle cx="205" cy="120" r="7" fill="#8a99b5" opacity=".9"/>
+          <!-- rocket -->
+          <g transform="translate(280,210) rotate(28)">
+            <path d="M0,-26 Q9,-8 8,14 L-8,14 Q-9,-8 0,-26 Z" fill="#f0ecd8"/>
+            <circle cx="0" cy="-8" r="4" fill="#1a3a7a"/>
+            <path d="M-8,8 L-17,20 L-8,16 Z" fill="#8a1a2a"/>
+            <path d="M8,8 L17,20 L8,16 Z" fill="#8a1a2a"/>
+            <path d="M-4,14 Q0,34 4,14 Z" fill="#ff9d3c" opacity=".9"/>
+            <path d="M-2,14 Q0,26 2,14 Z" fill="#ffe9bd"/>
+          </g>
+          <!-- comet -->
+          <g transform="translate(60,230)">
+            <line x1="0" y1="0" x2="40" y2="-26" stroke="#1a8aaa" stroke-width="2" opacity=".5" stroke-linecap="round"/>
+            <circle cx="0" cy="0" r="3.5" fill="#f0ecd8"/>
+          </g>
+        </svg>

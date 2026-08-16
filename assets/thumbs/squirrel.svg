@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sqBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1a0a08"/>
+              <stop offset="50%" stop-color="#2a1508"/>
+              <stop offset="100%" stop-color="#3a2010"/>
+            </linearGradient>
+            <radialGradient id="sqGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#f0c040" stop-opacity=".2"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#sqBg)"/>
+          <rect width="400" height="300" fill="url(#sqGlow)"/>
+          <!-- autumn sky stars -->
+          <circle cx="40" cy="25" r="2" fill="#f0c040" opacity=".8"/>
+          <circle cx="120" cy="15" r="1.5" fill="white" opacity=".6"/>
+          <circle cx="280" cy="20" r="2" fill="white" opacity=".7"/>
+          <circle cx="360" cy="35" r="1.5" fill="#f0c040" opacity=".7"/>
+          <!-- moon -->
+          <circle cx="340" cy="60" r="20" fill="#ffe8a0" opacity=".6"/>
+          <circle cx="350" cy="52" r="16" fill="#1a0a08"/>
+          <!-- autumn trees -->
+          <line x1="60" y1="300" x2="58" y2="160" stroke="#5a3a20" stroke-width="10"/>
+          <ellipse cx="55" cy="140" rx="40" ry="50" fill="#c04020" opacity=".8"/>
+          <ellipse cx="65" cy="130" rx="32" ry="40" fill="#e06028" opacity=".7"/>
+          <ellipse cx="48" cy="145" rx="28" ry="35" fill="#c04020" opacity=".6"/>
+          <line x1="340" y1="300" x2="342" y2="170" stroke="#5a3a20" stroke-width="9"/>
+          <ellipse cx="345" cy="150" rx="38" ry="48" fill="#c89020" opacity=".8"/>
+          <ellipse cx="335" cy="140" rx="30" ry="38" fill="#e0a828" opacity=".7"/>
+          <ellipse cx="350" cy="155" rx="26" ry="32" fill="#c89020" opacity=".6"/>
+          <!-- falling leaves -->
+          <ellipse cx="130" cy="100" rx="6" ry="3" fill="#e06028" opacity=".6" transform="rotate(30,130,100)"/>
+          <ellipse cx="250" cy="80" rx="5" ry="2.5" fill="#c89020" opacity=".5" transform="rotate(-20,250,80)"/>
+          <ellipse cx="180" cy="130" rx="5" ry="2.5" fill="#c04020" opacity=".5" transform="rotate(45,180,130)"/>
+          <ellipse cx="310" cy="110" rx="6" ry="3" fill="#e0a828" opacity=".6" transform="rotate(-35,310,110)"/>
+          <!-- ground -->
+          <rect x="0" y="260" width="400" height="40" fill="#2a1808" opacity=".8"/>
+          <ellipse cx="200" cy="265" rx="210" ry="15" fill="#3a2810" opacity=".6"/>
+          <!-- golden corn cob on ground -->
+          <g transform="translate(240,252)">
+            <ellipse cx="0" cy="0" rx="12" ry="6" fill="#f0c040" transform="rotate(-15)"/>
+            <ellipse cx="0" cy="0" rx="10" ry="4" fill="#ffe080" opacity=".7" transform="rotate(-15)"/>
+            <line x1="10" y1="-4" x2="18" y2="-8" stroke="#8aaa30" stroke-width="2" stroke-linecap="round"/>
+            <line x1="12" y1="-2" x2="20" y2="-4" stroke="#6a8a20" stroke-width="1.5" stroke-linecap="round"/>
+          </g>
+          <!-- squirrel -->
+          <g transform="translate(200,210)">
+            <!-- big fluffy tail -->
+            <path d="M15,10 Q45,-30 35,-50 Q28,-60 20,-45 Q10,-25 25,-10 Q35,5 15,10 Z" fill="#c06828" opacity=".9"/>
+            <path d="M18,8 Q40,-25 32,-42 Q26,-50 22,-38 Q14,-20 28,-8 Q34,2 18,8 Z" fill="#d48040" opacity=".6"/>
+            <!-- body -->
+            <ellipse cx="0" cy="5" rx="18" ry="22" fill="#c06828"/>
+            <!-- belly -->
+            <ellipse cx="-2" cy="10" rx="12" ry="14" fill="#e8c090" opacity=".6"/>
+            <!-- front paws holding acorn -->
+            <line x1="-12" y1="0" x2="-22" y2="-5" stroke="#c06828" stroke-width="5" stroke-linecap="round"/>
+            <line x1="-10" y1="5" x2="-20" y2="2" stroke="#c06828" stroke-width="5" stroke-linecap="round"/>
+            <!-- acorn in paws -->
+            <ellipse cx="-24" cy="-2" rx="6" ry="5" fill="#8b5e3c"/>
+            <path d="M-30,-5 Q-24,-10 -18,-5" fill="#5a3a20"/>
+            <!-- head -->
+            <circle cx="0" cy="-22" r="16" fill="#c06828"/>
+            <!-- inner ears -->
+            <ellipse cx="-8" cy="-36" rx="5" ry="8" fill="#c06828"/>
+            <ellipse cx="8" cy="-36" rx="5" ry="8" fill="#c06828"/>
+            <ellipse cx="-8" cy="-36" rx="3" ry="5" fill="#e8c090" opacity=".6"/>
+            <ellipse cx="8" cy="-36" rx="3" ry="5" fill="#e8c090" opacity=".6"/>
+            <!-- cheeks -->
+            <ellipse cx="-10" cy="-16" rx="6" ry="4" fill="#e8c090" opacity=".5"/>
+            <ellipse cx="10" cy="-16" rx="6" ry="4" fill="#e8c090" opacity=".5"/>
+            <!-- eyes -->
+            <circle cx="-6" cy="-24" r="4" fill="white"/>
+            <circle cx="6" cy="-24" r="4" fill="white"/>
+            <circle cx="-5" cy="-24" r="2.5" fill="#1e293b"/>
+            <circle cx="7" cy="-24" r="2.5" fill="#1e293b"/>
+            <circle cx="-4" cy="-25" r="1" fill="white" opacity=".8"/>
+            <circle cx="8" cy="-25" r="1" fill="white" opacity=".8"/>
+            <!-- nose -->
+            <ellipse cx="0" cy="-18" rx="3" ry="2" fill="#5a3020"/>
+            <!-- mouth -->
+            <path d="M-3,-16 Q0,-14 3,-16" stroke="#5a3020" stroke-width="1" fill="none"/>
+            <!-- whiskers -->
+            <line x1="-14" y1="-20" x2="-26" y2="-22" stroke="#c06828" stroke-width=".8" opacity=".5"/>
+            <line x1="-14" y1="-18" x2="-26" y2="-17" stroke="#c06828" stroke-width=".8" opacity=".5"/>
+            <line x1="14" y1="-20" x2="26" y2="-22" stroke="#c06828" stroke-width=".8" opacity=".5"/>
+            <line x1="14" y1="-18" x2="26" y2="-17" stroke="#c06828" stroke-width=".8" opacity=".5"/>
+          </g>
+          <!-- small acorns scattered -->
+          <ellipse cx="140" cy="268" rx="4" ry="3.5" fill="#8b5e3c" opacity=".6"/>
+          <ellipse cx="300" cy="270" rx="4" ry="3.5" fill="#8b5e3c" opacity=".5"/>
+          <!-- sparkles -->
+          <circle cx="220" cy="245" r="2" fill="#f0c040" opacity=".7"/>
+          <circle cx="170" cy="190" r="1.5" fill="#ffe8a0" opacity=".5"/>
+        </svg>

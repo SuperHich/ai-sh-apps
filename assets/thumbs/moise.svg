@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="moiseBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#1a3a5c"/>
+              <stop offset="100%" stop-color="#c8a04a"/>
+            </linearGradient>
+            <radialGradient id="moiseGlow" cx="50%" cy="55%" r="55%">
+              <stop offset="0%"   stop-color="#ffe08a" stop-opacity=".3"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#moiseBg)"/>
+          <rect width="400" height="300" fill="url(#moiseGlow)"/>
+          <!-- stars -->
+          <circle cx="40"  cy="30"  r="2"   fill="white"   opacity=".7"/>
+          <circle cx="100" cy="18"  r="1.5" fill="#f0c040" opacity=".8"/>
+          <circle cx="300" cy="25"  r="2"   fill="white"   opacity=".6"/>
+          <circle cx="360" cy="40"  r="1.5" fill="#f0c040" opacity=".7"/>
+          <circle cx="180" cy="12"  r="1"   fill="white"   opacity=".6"/>
+          <!-- Desert mountains -->
+          <polygon points="0,250 80,140 170,200 260,120 360,180 400,145 400,300 0,300" fill="#c8a04a" opacity=".8"/>
+          <polygon points="0,270 70,190 150,230 240,165 330,210 400,185 400,300 0,300" fill="#d4b060"/>
+          <!-- Sun warm -->
+          <circle cx="320" cy="70" r="40" fill="#f0c040" opacity=".8"/>
+          <!-- Moses silhouette on mountain -->
+          <g transform="translate(200,175)">
+            <path d="M-22,12 Q-18,80 0,85 Q18,80 22,12 Z" fill="#2d6b9e"/>
+            <line x1="-22" y1="18" x2="-48" y2="-14" stroke="#2d6b9e" stroke-width="9" stroke-linecap="round"/>
+            <line x1="22"  y1="18" x2="40"  y2="10"  stroke="#2d6b9e" stroke-width="9" stroke-linecap="round"/>
+            <!-- staff up -->
+            <line x1="-48" y1="-14" x2="-44" y2="-75" stroke="#8b5e3c" stroke-width="7" stroke-linecap="round"/>
+            <circle cx="-44" cy="-78" r="8" fill="#f0c040" opacity=".8"/>
+            <!-- tablets -->
+            <g transform="translate(32,5)">
+              <rect x="-14" y="-35" width="26" height="36" rx="4" fill="#f5e6c8" stroke="#d4a017" stroke-width="2"/>
+              <rect x="14"  y="-35" width="26" height="36" rx="4" fill="#f5e6c8" stroke="#d4a017" stroke-width="2"/>
+              <line x1="-10" y1="-26" x2="6"   y2="-26" stroke="#d4a017" stroke-width="2"/>
+              <line x1="-10" y1="-18" x2="6"   y2="-18" stroke="#d4a017" stroke-width="2"/>
+              <line x1="-10" y1="-10" x2="6"   y2="-10" stroke="#d4a017" stroke-width="2"/>
+              <line x1="18"  y1="-26" x2="34"  y2="-26" stroke="#d4a017" stroke-width="2"/>
+              <line x1="18"  y1="-18" x2="34"  y2="-18" stroke="#d4a017" stroke-width="2"/>
+              <line x1="18"  y1="-10" x2="34"  y2="-10" stroke="#d4a017" stroke-width="2"/>
+              <line x1="13" y1="-35" x2="13" y2="1" stroke="#d4a017" stroke-width="2.5"/>
+            </g>
+            <!-- head -->
+            <circle cx="0" cy="-12" r="18" fill="#d4a57a"/>
+            <path d="M-14,-26 Q0,-50 14,-26 L17,-7 Q0,-4 -17,-7 Z" fill="#1a3a5c"/>
+            <!-- eyes -->
+            <circle cx="-6" cy="-13" r="3" fill="#1a1a1a"/>
+            <circle cx="6"  cy="-13" r="3" fill="#1a1a1a"/>
+          </g>
+          <!-- Burning bush glow in distance -->
+          <g transform="translate(80,200)" opacity=".7">
+            <circle cx="0" cy="0" rx="25" ry="25" r="25" fill="#ff6600" opacity=".25"/>
+            <path d="M-12,5 Q-8,-18 -2,5 Q2,-22 8,2 Q12,-18 16,5" fill="#ff6600" opacity=".8"/>
+            <path d="M-10,5 Q-5,-22 2,5 Q6,-20 12,3" fill="#ffaa00" opacity=".7"/>
+          </g>
+        </svg>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La bibliothèque — Le Grenier des Apps</title>
+<meta name="description" content="Tout le catalogue du Grenier des Apps : histoires, jeux et outils, filtrables par univers, par âge et par type d'accès.">
+<meta name="theme-color" content="#08070f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<style>
+  .lib-head { padding: clamp(28px, 5vw, 52px) 0 4px; }
+  .lib-head h1 {
+    margin: 0;
+    font-family: var(--gr-display);
+    font-size: clamp(2rem, 5.5vw, 3rem);
+    line-height: 1.06;
+  }
+  .lib-head h1 em {
+    font-style: italic;
+    background: linear-gradient(115deg, var(--gr-gold), var(--gr-ember));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .lib-head p {
+    max-width: 620px;
+    margin: 12px 0 0;
+    color: var(--gr-text-soft);
+    line-height: 1.6;
+  }
+
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 9px;
+  }
+  .filter-label {
+    font-size: .74rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gr-text-faint);
+    margin-right: 3px;
+  }
+
+  /* La barre de filtres suit le défilement : sur 44 cartes, on ne veut pas
+     remonter en haut de page pour changer d'univers. */
+  .filter-bar {
+    position: sticky;
+    top: var(--gr-nav-h);
+    z-index: 500;
+    margin: 22px -8px 0;
+    padding: 14px 8px 10px;
+    background: linear-gradient(to bottom, var(--gr-void) 74%, transparent);
+  }
+
+  .result-line { margin: 16px 0 18px; font-size: .86rem; color: var(--gr-text-faint); }
+  .result-line b { color: var(--gr-text); }
+</style>
+</head>
+<body class="gr-body">
+
+<div class="gr-page">
+
+  <header class="lib-head gr-enter">
+    <h1>La <em>bibliothèque</em></h1>
+    <p>
+      Tout le catalogue, en un endroit. Cherchez un titre, ou combinez les filtres
+      pour trouver ce qui convient à l'âge et au moment.
+    </p>
+  </header>
+
+  <div class="filter-bar">
+    <div class="gr-filters filter-row" id="catFilters"></div>
+    <div class="gr-filters filter-row" style="margin-top:6px">
+      <span class="filter-label">Âge</span>
+      <div class="filter-row" id="ageFilters"></div>
+      <span class="filter-label" style="margin-left:14px">Accès</span>
+      <div class="filter-row" id="accessFilters"></div>
+    </div>
+  </div>
+
+  <p class="result-line" id="resultLine"></p>
+
+  <div class="gr-grid" id="libraryGrid"></div>
+
+</div>
+
+<footer class="gr-footer">
+  Généré avec <strong>Claude</strong> · Le Grenier des Apps ·
+  <a href="index.html">Accueil</a>
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  window.GRENIER_SHELL = {
+    active: 'library',
+    search: true,
+    onSearch: function (q) { if (window.GRENIER.library) window.GRENIER.library.setQuery(q); }
+  };
+</script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/cards.js"></script>
+<script src="assets/js/bibliotheque.js"></script>
+</body>
+</html>

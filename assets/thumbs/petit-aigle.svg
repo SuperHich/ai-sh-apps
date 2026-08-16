@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="eagleBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#0284c7"/>
+              <stop offset="100%" stop-color="#7dd3fc"/>
+            </linearGradient>
+            <radialGradient id="eagleGlow" cx="50%" cy="40%" r="50%">
+              <stop offset="0%"   stop-color="#f0c040" stop-opacity=".15"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#eagleBg)"/>
+          <rect width="400" height="300" fill="url(#eagleGlow)"/>
+          <!-- clouds -->
+          <ellipse cx="60" cy="50" rx="35" ry="14" fill="white" opacity=".4"/>
+          <ellipse cx="320" cy="70" rx="40" ry="12" fill="white" opacity=".3"/>
+          <!-- mountains -->
+          <polygon points="0,300 80,180 160,300" fill="#475569" opacity=".8"/>
+          <polygon points="120,300 220,150 320,300" fill="#64748b" opacity=".7"/>
+          <polygon points="260,300 350,190 440,300" fill="#475569" opacity=".8"/>
+          <!-- snow caps -->
+          <polygon points="80,180 65,200 95,200" fill="white" opacity=".5"/>
+          <polygon points="220,150 200,175 240,175" fill="white" opacity=".5"/>
+          <!-- eagle flying -->
+          <g transform="translate(200,110)">
+            <ellipse cx="0" cy="0" rx="28" ry="10" fill="#1e293b"/>
+            <path d="M-28,-2 Q-55,-35 -70,-25" stroke="#1e293b" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <path d="M28,-2 Q55,-35 70,-25" stroke="#1e293b" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <circle cx="-18" cy="-4" r="8" fill="#f8fafc"/>
+            <path d="M-26,-4 L-34,-2" stroke="#eab308" stroke-width="3" stroke-linecap="round"/>
+          </g>
+          <!-- small bird on ground looking up -->
+          <g transform="translate(180,260)">
+            <ellipse cx="0" cy="0" rx="10" ry="8" fill="#64748b"/>
+            <circle cx="-7" cy="-7" r="6" fill="#64748b"/>
+            <polygon points="-13,-7 -18,-6 -13,-5" fill="#f97316"/>
+          </g>
+          <!-- chicken coop hint -->
+          <rect x="40" y="250" width="50" height="35" fill="#92400e" rx="3"/>
+          <polygon points="35,250 65,232 95,250" fill="#b45309"/>
+          <ellipse cx="55" cy="270" rx="5" ry="7" fill="#f8fafc" opacity=".6"/>
+        </svg>
