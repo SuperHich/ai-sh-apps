@@ -63,9 +63,10 @@ to a much weaker scheme, and the AI generator needs an HTTPS origin.
 
 ## Accounts and access levels
 
-**Everything in the catalogue is open.** No account is needed to read a story,
-play a game or open a tool, from any entry point — home page, catalogue,
-category index or direct URL.
+**Everything in the catalogue is open, and accounts are not offered at all.**
+No account is needed — nor proposed — to read a story, play a game or open a
+tool, from any entry point: home page, catalogue, category index or direct
+URL. The nav bar has no "Rejoindre" button and no account menu.
 
 Every entry in `assets/js/catalog.js` still carries an `access` field:
 
@@ -80,8 +81,15 @@ moves behind an account or a subscription. While no item is `membre`, the
 access filter hides itself from the catalogue page rather than offering a
 choice that filters nothing.
 
-An account is therefore about **personalisation, not access**: favourites, the
-"Reprendre" rail, and later the Atelier.
+Favourites and the "Reprendre" rail keep working without an account: they live
+in `localStorage`, keyed to the browser, not to a user.
+
+Bringing accounts back is one flag away — `GRENIER.features.comptes = true` in
+`assets/js/catalog.js`. While it is `false`, `auth.canAccess()` treats every
+item as public **whatever the catalogue says**, so a `membre` item can never
+become a locked card with no door: no sign-up prompt, no lock. A visitor who
+signed in before the flag was lowered keeps their account menu, so they can
+still log out.
 
 **The accounts are deliberately a soft gate, not real security.** The site is
 static and served from GitHub Pages, so there is no backend: accounts live in
@@ -99,6 +107,16 @@ catalogue, and add one line right after `<body>` in its page:
 
 It draws an opaque veil, checks the catalogue and the session, then either
 lifts the veil or turns it into a sign-up panel.
+
+## The catalogue on a phone
+
+The filter bar is sticky, which is what you want on a 44-item catalogue — but
+eleven wrapped chips made it 476px tall on a 390px-wide screen, more than half
+the viewport, leaving no room for the results underneath. Below 720px each
+chip group now sits on a single horizontally-scrollable line, which pins the
+bar to two rows (156px, 18% of the screen) at any width. Chips get a 44px
+minimum height there, and the bar's background is opaque with the fade moved
+just below it, so cards no longer read through it.
 
 ## Thumbnails
 
@@ -168,14 +186,20 @@ Two things were **added** to the original:
 `GRENIER.features` in `assets/js/catalog.js` decides what the interface exposes:
 
 ```js
-GRENIER.features = { atelier: false };
+GRENIER.features = { atelier: false, comptes: false };
 ```
 
-With the flag off, the Atelier disappears from the nav bar, the account menu and
-the home page, and `atelier.html` shows a "not open yet" panel. **No code is
-removed** — markup carrying `data-feature="atelier"` stays in the page and
-`shell.js` reveals it when the flag flips. To work on the feature meanwhile,
-open `atelier.html?preview=1`.
+`atelier` — with it off, the Atelier disappears from the nav bar, the account
+menu and the home page, and `atelier.html` shows a "not open yet" panel. **No
+code is removed** — markup carrying `data-feature="atelier"` stays in the page
+and `shell.js` reveals it when the flag flips. To work on the feature
+meanwhile, open `atelier.html?preview=1`.
+
+`comptes` — with it off, nothing invites a visitor to sign in or sign up, and
+nothing can be reserved for members (see the section above). `auth.js` stays
+loaded and complete: the modal, PBKDF2 hashing, sessions and favourites are all
+still there, waiting for the flag. The Atelier's own sign-up flow keeps working
+behind `atelier.html?preview=1`, which is not public either.
 
 ## The Atelier
 

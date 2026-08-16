@@ -120,9 +120,14 @@
   function renderAccount(slot) {
     function draw() {
       var user = GRENIER.auth.current();
+      var exposed = !!(GRENIER.features && GRENIER.features.comptes);
       slot.innerHTML = '';
 
       if (!user) {
+        /* Comptes masqués : aucune invitation à rejoindre. Tout le
+           catalogue est libre, la barre n'a donc rien à proposer ici. */
+        if (!exposed) return;
+
         var btn = document.createElement('button');
         btn.className = 'gr-btn gr-btn-primary';
         btn.type = 'button';
@@ -132,6 +137,8 @@
         return;
       }
 
+      /* Une session ouverte avant le masquage garde son menu : sans lui,
+         plus aucun moyen de se déconnecter. */
       var wrap = document.createElement('div');
       wrap.style.position = 'relative';
 

@@ -35,11 +35,19 @@
     GRENIER.base = cut >= 0 ? src.slice(0, cut) : '';
   }
 
-  /* Fonctionnalités exposées au public. L'Atelier reste entièrement codé et
-     testable (atelier.html?preview=1) mais n'apparaît nulle part dans
-     l'interface tant que ce drapeau est à false. */
+  /* Fonctionnalités exposées au public. Le code de chacune reste entier :
+     ces drapeaux décident seulement de ce que l'interface montre.
+
+     atelier — l'Atelier est codé et testable (atelier.html?preview=1) mais
+       n'apparaît nulle part tant que ce drapeau est à false.
+     comptes — tant qu'il est à false, aucune invitation à s'inscrire ni à se
+       connecter n'est affichée, et rien ne peut être réservé aux membres
+       (voir auth.canAccess). Tout le catalogue est libre. Les favoris et la
+       reprise de lecture continuent de fonctionner : ils vivent dans le
+       navigateur, sans compte. */
   GRENIER.features = {
-    atelier: false
+    atelier: false,
+    comptes: false
   };
 
   /* Contenus mis en avant sur l'accueil : un échantillon volontairement
