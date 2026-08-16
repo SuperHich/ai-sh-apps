@@ -272,6 +272,60 @@
 
     /* ── Pointeur ─────────────────────────────────────────────── */
 
+    /* Pas de setPointerCapture ici : capturer le pointeur sur le conteneur
+       redirige aussi les événements souris de compatibilité — mousedown,
+       mouseup et donc click — vers ce conteneur. Le clic n'atteignait plus
+       le lien de la carte, et cliquer un univers n'ouvrait rien. On suit
+       le pointeur sur window à la place : le lien reste la cible du clic,
+       et le geste continue même si le curseur sort de la pile. */
+    function trackDrag(on) {
+      var method = on ? 'addEventListener' : 'removeEventListener';
+      global[method]('pointermove', onPointerMove);
+      global[method]('pointerup', endDrag);
+      global[method]('pointercancel', endDrag);
+    }
+
+    function onPointerMove(e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var dx = e.clientX - drag.x;
+      if (Math.abs(dx) > 6) drag.moved = true;
+
+      var now = performance.now();
+      var dt = Math.max(1, now - drag.time);
+      drag.speed = ((e.clientX - drag.lastX) / dt) * 1000;   /* px/s */
+      drag.lastX = e.clientX;
+      drag.time = now;
+
+      position = drag.origin - dx / tier.x;
+      paint();
+    }
+
+    function endDrag(e) {
+      if (!drag) { trackDrag(false); return; }
+      if (e && e.pointerId !== drag.id) return;
+
+      var dx = (e ? e.clientX : drag.lastX) - drag.x;
+      var totalShift = clamp(
+        roundSymmetric(-dx / tier.distance + -drag.speed / tier.velocity), -3, 3
+      );
+      var landed = roundSymmetric(drag.origin) + totalShift;
+
+      /* Un glissement ne doit pas ouvrir l'univers relâché sous le doigt.
+         Le clic arrive juste après ce gestionnaire : on laisse le drapeau
+         retomber au tour de boucle suivant. */
+      suppressClick = drag.moved;
+      setTimeout(function () { suppressClick = false; }, 0);
+
+      trackDrag(false);
+      stage.classList.remove('is-dragging');
+      drag = null;
+
+      target = landed;
+      paintChrome(indexAt(target));
+      if (prefersReducedMotion()) { position = target; paint(); }
+      else settle();
+    }
+
     stage.addEventListener('pointerdown', function (e) {
       if (e.button != null && e.button > 0) return;
       if (frame) { cancelAnimationFrame(frame); frame = null; }
@@ -286,50 +340,9 @@
         moved: false
       };
       velocity = 0;
-      stage.setPointerCapture(e.pointerId);
+      trackDrag(true);
       stage.classList.add('is-dragging');
     });
-
-    stage.addEventListener('pointermove', function (e) {
-      if (!drag || e.pointerId !== drag.id) return;
-      var dx = e.clientX - drag.x;
-      if (Math.abs(dx) > 6) drag.moved = true;
-
-      var now = performance.now();
-      var dt = Math.max(1, now - drag.time);
-      drag.speed = ((e.clientX - drag.lastX) / dt) * 1000;   /* px/s */
-      drag.lastX = e.clientX;
-      drag.time = now;
-
-      position = drag.origin - dx / tier.x;
-      paint();
-    });
-
-    function endDrag(e) {
-      if (!drag || (e && e.pointerId !== drag.id)) return;
-      var dx = (e ? e.clientX : drag.lastX) - drag.x;
-      var totalShift = clamp(
-        roundSymmetric(-dx / tier.distance + -drag.speed / tier.velocity), -3, 3
-      );
-      var landed = roundSymmetric(drag.origin) + totalShift;
-
-      /* Un glissement ne doit pas ouvrir l'univers relâché sous le doigt.
-         Le clic arrive juste après ce gestionnaire : on laisse le drapeau
-         retomber au tour de boucle suivant. */
-      suppressClick = drag.moved;
-      setTimeout(function () { suppressClick = false; }, 0);
-
-      stage.classList.remove('is-dragging');
-      drag = null;
-
-      target = landed;
-      paintChrome(indexAt(target));
-      if (prefersReducedMotion()) { position = target; paint(); }
-      else settle();
-    }
-
-    stage.addEventListener('pointerup', endDrag);
-    stage.addEventListener('pointercancel', endDrag);
 
     /* Cliquer une carte de côté la ramène au centre au lieu de l'ouvrir :
        on voit ce qu'on choisit avant de partir. */
@@ -374,6 +387,7 @@
       prev: function () { shift(-1); },
       destroy: function () {
         if (frame) cancelAnimationFrame(frame);
+        trackDrag(false);
         global.removeEventListener('resize', onResize);
         mount.innerHTML = '';
       }

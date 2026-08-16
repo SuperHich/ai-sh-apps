@@ -103,13 +103,20 @@ version :
   franchir vers l'arrière. On arrondit sur la valeur absolue.
 - La prise de focus est ignorée quand elle vient d'un clic
   (`:focus-visible`) : sinon le ressort se déclenchait au milieu du geste.
+- **Pas de `setPointerCapture`.** Capturer le pointeur sur le conteneur
+  redirige aussi les événements souris de compatibilité — `mousedown`,
+  `mouseup`, et donc `click` — vers ce conteneur. Le clic n'atteignait plus
+  le lien de la carte : cliquer un univers n'ouvrait rien. Le geste est
+  suivi par des écouteurs posés sur `window` le temps du glissement, ce qui
+  laisse le lien comme cible du clic tout en continuant à suivre un curseur
+  sorti de la pile.
 
 ### Correspondance des dépendances
 
 | Composant React | Équivalent natif ici |
 |---|---|
 | `motion/react` — `animate` + `spring` | intégrateur de ressort dans `carousel.js` |
-| `motion/react` — `drag="x"` / `onDragEnd` | `pointerdown` / `pointermove` / `pointerup` + `setPointerCapture` |
+| `motion/react` — `drag="x"` / `onDragEnd` | `pointerdown` sur la pile, `pointermove` / `pointerup` sur `window` |
 | shadcn `Badge` (via `class-variance-authority`) | `.gr-badge` dans `theme.css`, couleur pilotée par `--accent` |
 | Classes Tailwind | classes du design system (`--gr-*`) |
 | `React.FC` typé | JSDoc `@param` sur `GRENIER.stackedCarousel` |
