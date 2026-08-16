@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!--
+    Version monochrome pour les onglets épinglés de Safari (rel="mask-icon").
+    Safari ne garde que la silhouette et la repeint avec la couleur donnée
+    dans le lien : pas de dégradé, pas de tuile, juste l'étoile.
+  -->
+  <path d="M16 3 Q18.4 13.6 29 16 Q18.4 18.4 16 29 Q13.6 18.4 3 16 Q13.6 13.6 16 3 Z"
+        fill="#000"/>
+</svg>

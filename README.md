@@ -18,6 +18,8 @@ everyone; the rest opens once a (local, free) account is created.
 ├── atelier.html            # Content creation — hidden behind a feature flag
 ├── lecture.html            # Reader for locally-created content
 ├── assets/
+│   ├── favicon.svg         # Tab icon — the nav bar's brand mark
+│   ├── favicon-mono.svg    # Monochrome silhouette for Safari pinned tabs
 │   ├── css/theme.css       # Shared design system + motion
 │   ├── thumbs/             # One 400×300 SVG thumbnail per content item
 │   └── js/
@@ -107,6 +109,26 @@ catalogue, and add one line right after `<body>` in its page:
 
 It draws an opaque veil, checks the catalogue and the session, then either
 lifts the veil or turns it into a sign-up panel.
+
+## Tab icon
+
+`assets/favicon.svg` reproduces the nav bar's brand mark — the rounded tile and
+the four-pointed sparkle — so the site is recognisable in a crowded tab strip.
+Two deliberate departures from the nav version: the tile is painted solid
+(gold → ember → violet) instead of the bar's translucent gradient, which would
+vanish on a white tab strip, and the star is cut out dark rather than laid on
+in cream, to hold its contrast down at 16px.
+
+Every page in the repo declares it, with `rel="mask-icon"` alongside for
+Safari's pinned tabs. `assets/js/template.js` and the story template in
+`.claude/skills/ajouter-histoire` emit the same two lines, so new stories carry
+the icon without anyone remembering to add it.
+
+It is **SVG only** — no `.ico`, no `.png`. That keeps the repo free of binary
+assets, as everywhere else here, and every current browser reads an SVG
+favicon (Chrome, Edge, Firefox, Safari 16+). The cost is that Safari 15 and
+earlier fall back to the default page icon, and iOS "Add to Home Screen" uses
+a screenshot rather than the icon — both would need a PNG.
 
 ## The catalogue on a phone
 

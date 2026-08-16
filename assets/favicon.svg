@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Le Grenier des Apps">
+  <title>Le Grenier des Apps</title>
+  <!--
+    Reprise de la marque de la barre de navigation (.gr-brand-mark) : la tuile
+    arrondie et l'étoile à quatre branches. Deux écarts assumés, parce qu'un
+    favicon se lit à 16 px, dans une bande d'onglets souvent claire :
+      - la tuile est peinte en plein (or → braise → violet) au lieu du dégradé
+        translucide de la barre, qui disparaîtrait sur fond blanc ;
+      - l'étoile est creusée en sombre plutôt que posée en crème, pour garder
+        du contraste quand l'icône descend à 16 px.
+  -->
+  <defs>
+    <linearGradient id="tuile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6cb5c"/>
+      <stop offset=".52" stop-color="#ff8a5b"/>
+      <stop offset="1" stop-color="#b18cff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="32" height="32" rx="8.5" fill="url(#tuile)"/>
+
+  <!-- Étoile à quatre branches : les points de contrôle restent près du
+       centre, ce qui creuse les flancs et donne le ✦ de la barre. -->
+  <path d="M16 5 Q17.9 14.1 26.9 16 Q17.9 17.9 16 27 Q14.1 17.9 5.1 16 Q14.1 14.1 16 5 Z"
+        fill="#0d0b1a"/>
+
+  <!-- Liseré intérieur : détache la tuile d'un fond d'onglet clair. -->
+  <rect x=".75" y=".75" width="30.5" height="30.5" rx="7.9"
+        fill="none" stroke="#0d0b1a" stroke-opacity=".22" stroke-width="1.5"/>
+</svg>
