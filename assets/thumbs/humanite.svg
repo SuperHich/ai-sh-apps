@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="humBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#04040a"/>
+              <stop offset="55%" stop-color="#3a2410"/>
+              <stop offset="100%" stop-color="#c8601a"/>
+            </linearGradient>
+            <radialGradient id="humGlow" cx="50%" cy="38%" r="55%">
+              <stop offset="0%"   stop-color="#f0e4c0" stop-opacity=".3"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#humBg)"/>
+          <rect width="400" height="300" fill="url(#humGlow)"/>
+          <!-- stars -->
+          <circle cx="40"  cy="26" r="1.3" fill="#f0e4c0" opacity=".8"/>
+          <circle cx="110" cy="16" r="1"   fill="#c8a020" opacity=".8"/>
+          <circle cx="250" cy="20" r="1.5" fill="#f0e4c0" opacity=".7"/>
+          <circle cx="330" cy="38" r="1"   fill="#c8601a" opacity=".7"/>
+          <circle cx="300" cy="60" r="1.1" fill="#f0e4c0" opacity=".5"/>
+          <!-- rocket ascending toward the stars -->
+          <g transform="translate(300,70) rotate(35)">
+            <path d="M0,-22 Q7,-8 6,10 L-6,10 Q-7,-8 0,-22 Z" fill="#f0e4c0"/>
+            <circle cx="0" cy="-6" r="3" fill="#1a3a6a"/>
+            <path d="M-6,6 L-13,16 L-6,12 Z" fill="#c8601a"/>
+            <path d="M6,6 L13,16 L6,12 Z" fill="#c8601a"/>
+            <path d="M-3,10 Q0,26 3,10 Z" fill="#c8601a" opacity=".85"/>
+          </g>
+          <!-- savanna horizon -->
+          <path d="M0,220 Q200,196 400,220 L400,300 L0,300 Z" fill="#3a2418"/>
+          <path d="M0,250 Q200,232 400,250 L400,300 L0,300 Z" fill="#8a5a2a"/>
+          <!-- acacia tree of life -->
+          <g transform="translate(70,225)" fill="#1a0e06">
+            <rect x="-3" y="-34" width="6" height="38" rx="2"/>
+            <path d="M0,-34 Q-24,-42 -38,-36 M0,-34 Q-14,-52 -26,-56 M0,-34 Q14,-52 26,-56 M0,-34 Q24,-42 38,-36" stroke="#1a0e06" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <ellipse cx="0" cy="-52" rx="34" ry="12" fill="#1a0e06" opacity=".6"/>
+          </g>
+          <!-- evolution silhouettes: ape to upright human -->
+          <g fill="#1a0e06" transform="translate(150,246)">
+            <path d="M-4,-20 Q-8,-8 -2,0 L-6,10 M-4,-20 Q0,-16 3,-10 L8,-6 M-4,-20 Q4,-24 6,-30" stroke="#1a0e06" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <circle cx="4" cy="-32" r="4"/>
+          </g>
+          <g fill="#1a0e06" transform="translate(210,244)">
+            <rect x="-2" y="-30" width="4" height="24" rx="2"/>
+            <circle cx="0" cy="-34" r="4"/>
+            <line x1="0" y1="-24" x2="-7" y2="-14" stroke="#1a0e06" stroke-width="3" stroke-linecap="round"/>
+            <line x1="0" y1="-24" x2="7"  y2="-14" stroke="#1a0e06" stroke-width="3" stroke-linecap="round"/>
+            <line x1="0" y1="-6"  x2="-6" y2="6"  stroke="#1a0e06" stroke-width="3" stroke-linecap="round"/>
+            <line x1="0" y1="-6"  x2="6"  y2="6"  stroke="#1a0e06" stroke-width="3" stroke-linecap="round"/>
+          </g>
+          <!-- spark of fire -->
+          <g transform="translate(255,232)">
+            <path d="M0,0 Q-6,-10 0,-18 Q6,-10 0,0 Z" fill="#ff9d3c" opacity=".9"/>
+            <path d="M0,-4 Q-3,-9 0,-13 Q3,-9 0,-4 Z" fill="#f0e4c0"/>
+          </g>
+        </svg>

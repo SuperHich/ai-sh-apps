@@ -35,7 +35,20 @@
      Accès
      ══════════════════════════════════════════════════════════════ */
 
+  /** L'Atelier est-il exposé ? Drapeau du catalogue, ou ?preview=1. */
+  function isExposed() {
+    if (GRENIER.features && GRENIER.features.atelier) return true;
+    return new URLSearchParams(location.search).get('preview') === '1';
+  }
+
   function applyAccess() {
+    if (!isExposed()) {
+      $('soon').hidden = false;
+      $('gate').hidden = true;
+      $('studio').hidden = true;
+      return;
+    }
+    $('soon').hidden = true;
     var user = auth.current();
     $('gate').hidden = !!user;
     $('studio').hidden = !user;

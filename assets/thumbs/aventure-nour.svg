@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="nourBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#0f2e1c"/>
+              <stop offset="100%" stop-color="#1e4a2f"/>
+            </linearGradient>
+            <radialGradient id="nourGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#f0c040" stop-opacity=".25"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#nourBg)"/>
+          <rect width="400" height="300" fill="url(#nourGlow)"/>
+          <!-- stars -->
+          <circle cx="30"  cy="20"  r="2"   fill="#f0c040" opacity=".8"/>
+          <circle cx="100" cy="35"  r="1.5" fill="white"   opacity=".6"/>
+          <circle cx="170" cy="15"  r="2"   fill="#f0c040" opacity=".9"/>
+          <circle cx="280" cy="25"  r="1.5" fill="white"   opacity=".7"/>
+          <circle cx="350" cy="18"  r="2"   fill="#f0c040" opacity=".8"/>
+          <!-- crescent moon -->
+          <circle cx="340" cy="50" r="18" fill="#ffe8a0" opacity=".7"/>
+          <circle cx="348" cy="43" r="14" fill="#0f2e1c"/>
+          <!-- forest trees background -->
+          <polygon points="20,240 35,140 50,240" fill="#1a5a28" opacity=".7"/>
+          <polygon points="50,240 70,120 90,240" fill="#1a6b30" opacity=".8"/>
+          <polygon points="80,240 100,100 120,240" fill="#2a8040" opacity=".7"/>
+          <polygon points="300,240 320,110 340,240" fill="#1a6b30" opacity=".8"/>
+          <polygon points="330,240 350,130 370,240" fill="#1a5a28" opacity=".7"/>
+          <polygon points="360,240 375,150 390,240" fill="#2a8040" opacity=".6"/>
+          <!-- ground -->
+          <rect x="0" y="240" width="400" height="60" fill="#1a4a25"/>
+          <!-- path/trail -->
+          <path d="M120,280 Q160,250 200,255 Q240,260 280,240" stroke="#c9960c" stroke-width="3" fill="none" opacity=".4" stroke-dasharray="8,6"/>
+          <!-- cave entrance (center) -->
+          <ellipse cx="200" cy="215" rx="50" ry="55" fill="#0a1a0e"/>
+          <ellipse cx="200" cy="215" rx="45" ry="50" fill="#060e08"/>
+          <!-- golden glow from cave -->
+          <ellipse cx="200" cy="220" rx="25" ry="30" fill="#f0c040" opacity=".12"/>
+          <ellipse cx="200" cy="225" rx="12" ry="15" fill="#f0c040" opacity=".2"/>
+          <!-- crystal door hint -->
+          <rect x="188" y="185" width="24" height="40" rx="12" fill="#a0d8ef" opacity=".25"/>
+          <line x1="200" y1="185" x2="200" y2="225" stroke="#a0d8ef" stroke-width="1" opacity=".4"/>
+          <!-- Nour figure walking toward cave -->
+          <g transform="translate(145,210)">
+            <circle cx="0" cy="-14" r="12" fill="#c8845a"/>
+            <path d="M-5,-22 Q0,-32 5,-22 L7,-8 Q0,-5 -7,-8 Z" fill="#d9a13b"/>
+            <path d="M-12,2 Q-8,35 0,38 Q8,35 12,2 Z" fill="#d9a13b"/>
+            <line x1="-12" y1="6" x2="-24" y2="-2" stroke="#d9a13b" stroke-width="5" stroke-linecap="round"/>
+            <line x1="12" y1="6" x2="24" y2="14" stroke="#d9a13b" stroke-width="5" stroke-linecap="round"/>
+            <!-- lantern in hand -->
+            <circle cx="26" cy="14" r="5" fill="#f0c040" opacity=".6"/>
+            <circle cx="26" cy="14" r="3" fill="#ffe8a0" opacity=".8"/>
+          </g>
+          <!-- spider web hint (left) -->
+          <g transform="translate(60,180)" opacity=".3">
+            <line x1="0" y1="0" x2="20" y2="15" stroke="white" stroke-width=".5"/>
+            <line x1="0" y1="0" x2="-5" y2="20" stroke="white" stroke-width=".5"/>
+            <line x1="0" y1="0" x2="15" y2="-5" stroke="white" stroke-width=".5"/>
+          </g>
+          <!-- fox silhouette (right) -->
+          <g transform="translate(310,248)" opacity=".5">
+            <ellipse cx="0" cy="0" rx="12" ry="7" fill="#c97e2c"/>
+            <circle cx="-10" cy="-6" r="5" fill="#c97e2c"/>
+            <polygon points="-14,-10 -12,-16 -10,-10" fill="#c97e2c"/>
+            <polygon points="-7,-10 -5,-16 -3,-10" fill="#c97e2c"/>
+            <path d="M12,0 Q20,-3 22,0" stroke="#c97e2c" stroke-width="2" fill="none"/>
+          </g>
+          <!-- compass icon -->
+          <g transform="translate(200,265)" opacity=".4">
+            <circle cx="0" cy="0" r="8" fill="none" stroke="#f0c040" stroke-width="1"/>
+            <polygon points="0,-6 2,0 0,6 -2,0" fill="#f0c040"/>
+          </g>
+        </svg>

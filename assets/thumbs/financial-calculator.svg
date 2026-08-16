@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#062421"/><stop offset="100%" stop-color="#03110f"/></linearGradient><radialGradient id="glow" cx="50%" cy="45%" r="60%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".16"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient></defs><rect width="400" height="300" fill="url(#bg)"/><rect width="400" height="300" fill="url(#glow)"/>
+<g style="transform-box:fill-box">
+<rect x="70"  y="150" width="46" height="90"  rx="7" fill="#2e7f6b"/>
+<rect x="130" y="122" width="46" height="118" rx="7" fill="#3f9c84"/>
+<rect x="190" y="92"  width="46" height="148" rx="7" fill="#54bd9f"/>
+<rect x="250" y="58"  width="46" height="182" rx="7" fill="#6ee7d7"/></g>
+<line x1="52" y1="244" x2="348" y2="244" stroke="#6ee7d7" stroke-width="3" opacity=".6"/>
+<path d="M78 132 L152 108 L212 76 L272 44" stroke="#ffd166" stroke-width="3.5" fill="none"
+ stroke-linecap="round" stroke-linejoin="round"/>
+<circle class="c" cx="330" cy="96" r="22" fill="#ffd166" style="transform-origin:330px 96px"/>
+<text x="330" y="104" font-family="Georgia,serif" font-size="22" font-weight="700"
+ text-anchor="middle" fill="#5a4406">€</text>
+</svg>

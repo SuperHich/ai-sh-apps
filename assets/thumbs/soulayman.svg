@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="soulaymanBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#06080e"/>
+              <stop offset="50%" stop-color="#0e0a20"/>
+              <stop offset="100%" stop-color="#1a1430"/>
+            </linearGradient>
+            <radialGradient id="soulaymanGlow" cx="50%" cy="45%" r="50%">
+              <stop offset="0%" stop-color="#f0c040" stop-opacity=".3"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#soulaymanBg)"/>
+          <rect width="400" height="300" fill="url(#soulaymanGlow)"/>
+          <!-- stars -->
+          <circle cx="30" cy="20" r="2" fill="#f0c040" opacity=".9"/>
+          <circle cx="85" cy="35" r="1.5" fill="white" opacity=".7"/>
+          <circle cx="150" cy="15" r="2" fill="white" opacity=".8"/>
+          <circle cx="260" cy="28" r="1.5" fill="#f0c040" opacity=".7"/>
+          <circle cx="330" cy="18" r="2" fill="white" opacity=".6"/>
+          <circle cx="375" cy="42" r="1.5" fill="#f0c040" opacity=".8"/>
+          <!-- Moon -->
+          <circle cx="345" cy="55" r="22" fill="#ffe8a0" opacity=".7"/>
+          <circle cx="355" cy="46" r="18" fill="#06080e"/>
+          <!-- Throne platform -->
+          <rect x="120" y="200" width="160" height="80" fill="#1a1430" rx="4"/>
+          <rect x="130" y="195" width="140" height="10" fill="#f0c040" opacity=".5" rx="2"/>
+          <!-- Throne back -->
+          <rect x="155" y="130" width="90" height="70" fill="#2a1a40" rx="5"/>
+          <path d="M155,130 Q200,105 245,130" fill="#4a2a80" stroke="#f0c040" stroke-width="1.5" opacity=".8"/>
+          <!-- Throne armrests -->
+          <rect x="145" y="165" width="15" height="35" fill="#2a1a40" rx="3"/>
+          <rect x="240" y="165" width="15" height="35" fill="#2a1a40" rx="3"/>
+          <!-- Gold ornaments on throne -->
+          <circle cx="200" cy="118" r="6" fill="#f0c040" opacity=".7"/>
+          <circle cx="165" cy="128" r="3" fill="#f0c040" opacity=".5"/>
+          <circle cx="235" cy="128" r="3" fill="#f0c040" opacity=".5"/>
+          <!-- Soulayman figure on throne -->
+          <g transform="translate(200,165)">
+            <path d="M-18,8 Q-14,50 0,52 Q14,50 18,8 Z" fill="#4a1a7a"/>
+            <line x1="-18" y1="12" x2="-36" y2="4" stroke="#4a1a7a" stroke-width="7" stroke-linecap="round"/>
+            <line x1="18" y1="12" x2="36" y2="4" stroke="#4a1a7a" stroke-width="7" stroke-linecap="round"/>
+            <circle cx="0" cy="-10" r="15" fill="#c8906a"/>
+            <circle cx="0" cy="-10" r="20" fill="none" stroke="#f0c040" stroke-width="1.5" opacity=".5"/>
+            <!-- Crown -->
+            <path d="M-12,-22 L-14,-34 L-6,-28 L0,-36 L6,-28 L14,-34 L12,-22 Z" fill="#f0c040"/>
+            <circle cx="0" cy="-36" r="3" fill="#ffe8a0"/>
+            <!-- Eyes -->
+            <circle cx="-5" cy="-11" r="2.5" fill="#f0c040" opacity=".8"/>
+            <circle cx="5" cy="-11" r="2.5" fill="#f0c040" opacity=".8"/>
+          </g>
+          <!-- Wind swirls -->
+          <path d="M30,140 Q60,130 90,140 Q110,148 130,138" stroke="#c8f0ff" stroke-width="2" fill="none" opacity=".3"/>
+          <path d="M270,145 Q300,135 330,145 Q355,152 375,142" stroke="#c8f0ff" stroke-width="2" fill="none" opacity=".3"/>
+          <!-- Ant (left) -->
+          <g transform="translate(70,260)" opacity=".7">
+            <ellipse cx="0" cy="0" rx="5" ry="3" fill="#8b5e3c"/>
+            <ellipse cx="7" cy="-1" rx="3" ry="2.5" fill="#8b5e3c"/>
+            <line x1="9" y1="-3" x2="12" y2="-7" stroke="#8b5e3c" stroke-width="1"/>
+            <line x1="7" y1="-3" x2="9" y2="-7" stroke="#8b5e3c" stroke-width="1"/>
+          </g>
+          <!-- Bird (hoopoe) -->
+          <g transform="translate(310,95)" opacity=".8">
+            <ellipse cx="0" cy="0" rx="12" ry="7" fill="#d4a57a"/>
+            <circle cx="-9" cy="-5" r="5" fill="#d4a57a"/>
+            <polygon points="-14,-5 -18,-4 -14,-3" fill="#f0c040"/>
+            <polygon points="-7,-9 -5,-18 -3,-9" fill="#f0c040"/>
+            <polygon points="-5,-9 -3,-16 -1,-9" fill="#e8a308"/>
+            <path d="M10,-2 Q18,-8 22,-4" stroke="#d4a57a" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M10,2 Q18,8 22,4" stroke="#d4a57a" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- Djinn smoke (right) -->
+          <g transform="translate(340,210)" opacity=".4">
+            <path d="M0,50 Q-5,30 5,20 Q15,10 8,0 Q2,-10 10,-20" stroke="#9b59b6" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M5,50 Q10,35 3,25 Q-3,15 5,5 Q12,-5 6,-15" stroke="#9b59b6" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- Ring glow -->
+          <circle cx="236" cy="169" r="5" fill="#f0c040" opacity=".6"/>
+          <circle cx="236" cy="169" r="3" fill="#ffe8a0" opacity=".8"/>
+        </svg>

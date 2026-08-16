@@ -8,7 +8,7 @@
  *
  * Configuration facultative avant le chargement du script :
  *   window.GRENIER_SHELL = {
- *     active: 'home' | 'library' | 'games' | 'atelier',
+ *     active: 'home' | 'library' | 'atelier',
  *     search: true,            // afficher le champ de recherche
  *     aurora: true,            // fond animé (pages de la bibliothèque)
  *     onSearch: function (q) {} // sinon la recherche renvoie vers l'accueil
@@ -27,9 +27,13 @@
 
   var NAV_ITEMS = [
     { key: 'home',    label: 'Accueil',      href: 'index.html' },
-    { key: 'library', label: 'Bibliothèque', href: 'index.html#bibliotheque' },
-    { key: 'atelier', label: 'Atelier',      href: 'atelier.html' }
+    { key: 'library', label: 'Bibliothèque', href: 'bibliotheque.html' },
+    { key: 'atelier', label: 'Atelier',      href: 'atelier.html', feature: 'atelier' }
   ];
+
+  function visible(item) {
+    return !item.feature || (GRENIER.features && GRENIER.features[item.feature]);
+  }
 
   /* ── Fond animé ────────────────────────────────────────────── */
   function mountAurora() {
@@ -47,7 +51,7 @@
     nav.className = 'gr-nav';
     nav.setAttribute('aria-label', 'Navigation principale');
 
-    var links = NAV_ITEMS.map(function (item) {
+    var links = NAV_ITEMS.filter(visible).map(function (item) {
       var active = item.key === cfg.active ? ' is-active' : '';
       return '<a class="gr-nav-link' + active + '" href="' + base + item.href + '">' + item.label + '</a>';
     }).join('');
@@ -94,7 +98,7 @@
         search.addEventListener('keydown', function (e) {
           if (e.key !== 'Enter') return;
           var q = search.value.trim();
-          location.href = base + 'index.html' + (q ? '?q=' + encodeURIComponent(q) : '') + '#bibliotheque';
+          location.href = base + 'bibliotheque.html' + (q ? '?q=' + encodeURIComponent(q) : '');
         });
       }
       GRENIER.searchInput = search;
@@ -145,7 +149,9 @@
         'position:absolute;top:calc(100% + 10px);right:0;min-width:210px;padding:8px;' +
         'z-index:950;display:none;border-radius:16px';
       menu.innerHTML =
-        '<a class="gr-nav-link" style="display:block" href="' + base + 'atelier.html">🎨 Mon Atelier</a>' +
+        (GRENIER.features && GRENIER.features.atelier
+          ? '<a class="gr-nav-link" style="display:block" href="' + base + 'atelier.html">🎨 Mon Atelier</a>'
+          : '') +
         '<a class="gr-nav-link" style="display:block" href="' + base + 'index.html#favoris">💖 Mes favoris</a>' +
         '<button class="gr-nav-link" type="button" style="display:block;width:100%;text-align:left;' +
         'border:none;background:none;font:inherit;cursor:pointer" data-gr="logout">↩ Se déconnecter</button>';
@@ -263,8 +269,18 @@
     }, { passive: true });
   }
 
+  /* Éléments conditionnés par un drapeau : le balisage reste dans la page,
+     seule sa révélation dépend de GRENIER.features. */
+  function applyFeatureFlags() {
+    document.querySelectorAll('[data-feature]').forEach(function (node) {
+      var on = GRENIER.features && GRENIER.features[node.getAttribute('data-feature')];
+      node.hidden = !on;
+    });
+  }
+
   /* ── Démarrage ─────────────────────────────────────────────── */
   function start() {
+    applyFeatureFlags();
     if (cfg.aurora !== false && document.querySelector('.gr-page')) mountAurora();
     mountNav();
     enhanceCategoryGrid();

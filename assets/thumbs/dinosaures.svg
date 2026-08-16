@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="dinoBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#3a2418"/>
+              <stop offset="55%" stop-color="#a8622a"/>
+              <stop offset="100%" stop-color="#d4b04a"/>
+            </linearGradient>
+            <radialGradient id="dinoGlow" cx="50%" cy="40%" r="50%">
+              <stop offset="0%"   stop-color="#ffe6b0" stop-opacity=".3"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#dinoBg)"/>
+          <rect width="400" height="300" fill="url(#dinoGlow)"/>
+          <!-- sun -->
+          <circle cx="320" cy="70" r="35" fill="#ffe9bd" opacity=".8"/>
+          <!-- volcano -->
+          <polygon points="60,240 130,120 200,240" fill="#3a2418" opacity=".8"/>
+          <path d="M125,130 q5,-15 10,0" stroke="#c1601e" stroke-width="4" fill="none" opacity=".8"/>
+          <circle cx="130" cy="118" r="7" fill="#ff9d3c" opacity=".7"/>
+          <!-- ground -->
+          <path d="M0,220 Q200,195 400,220 L400,300 L0,300 Z" fill="#7a8a4a"/>
+          <!-- ferns -->
+          <g fill="#3a5a3a">
+            <path d="M300,230 Q290,210 300,190 Q310,210 300,230 Z"/>
+            <path d="M330,235 Q322,215 335,200 Q342,215 330,235 Z"/>
+          </g>
+          <!-- long-neck dinosaur -->
+          <g transform="translate(200,210)" fill="#6a8a4a">
+            <ellipse cx="0" cy="0" rx="30" ry="16"/>
+            <path d="M-20,-5 Q-50,-30 -60,-55 Q-62,-60 -56,-58 Q-45,-40 -20,-10 Z"/>
+            <circle cx="-58" cy="-56" r="7"/>
+            <rect x="-14" y="12" width="7" height="16" rx="3"/>
+            <rect x="-2"  y="12" width="7" height="16" rx="3"/>
+            <rect x="10"  y="12" width="7" height="16" rx="3"/>
+            <rect x="22"  y="12" width="7" height="16" rx="3"/>
+            <path d="M28,-2 Q42,0 38,10" stroke="#6a8a4a" stroke-width="4" fill="none"/>
+          </g>
+          <!-- small running dino -->
+          <g transform="translate(310,240)" fill="#8a4a2a">
+            <path d="M-10,8 Q-12,-5 0,-12 Q8,-16 12,-8 Q15,0 10,6 L18,8 L12,12 Z"/>
+            <rect x="-4" y="8" width="4" height="8" rx="1"/>
+            <rect x="4"  y="8" width="4" height="8" rx="1"/>
+          </g>
+        </svg>

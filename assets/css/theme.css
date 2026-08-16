@@ -38,10 +38,20 @@
   --gr-ui: 'Outfit', 'DM Sans', system-ui, -apple-system, sans-serif;
 
   --gr-nav-h: 68px;
+
+  /* Mouvement — une courbe et trois durées, pas une valeur par transition */
+  --gr-ease-out:  cubic-bezier(.22, .8, .3, 1);
+  --gr-ease-back: cubic-bezier(.34, 1.56, .64, 1);   /* ≈ back.out(1.4) */
+  --gr-fast:   180ms;
+  --gr-normal: 320ms;
+  --gr-slow:   420ms;
 }
 
 /* ── Reset léger ── */
 *, *::before, *::after { box-sizing: border-box; }
+
+/* L'attribut hidden doit gagner contre nos propres display: flex/grid. */
+[hidden] { display: none !important; }
 
 html { scroll-behavior: smooth; }
 
@@ -352,107 +362,111 @@ body.gr-body {
    ══════════════════════════════════════════════════════════════ */
 .gr-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
 }
 
 .gr-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 236px;
-  padding: 20px;
   border-radius: var(--gr-r);
   border: 1px solid var(--gr-line);
-  background:
-    linear-gradient(160deg, var(--gr-surface-2), rgba(255,255,255,0.015));
+  background: linear-gradient(170deg, var(--gr-surface-2), rgba(255, 255, 255, 0.014));
   color: inherit;
   text-decoration: none;
   overflow: hidden;
-  isolation: isolate;
   box-shadow: var(--gr-shadow);
-  transition: transform .3s cubic-bezier(.2,.8,.3,1), border-color .3s, box-shadow .3s;
-}
-.gr-card::before {
-  /* halo qui suit le curseur */
-  content: '';
-  position: absolute;
-  inset: -1px;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity .3s;
-  background: radial-gradient(
-    260px circle at var(--mx, 50%) var(--my, 50%),
-    color-mix(in srgb, var(--accent, #f0c04b) 26%, transparent),
-    transparent 65%
-  );
-}
-.gr-card::after {
-  /* liseré coloré en haut */
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--accent, var(--gr-gold)), transparent);
-  opacity: .55;
-  transition: opacity .3s;
+  transition: transform .32s var(--gr-ease-out), border-color .32s ease, box-shadow .32s ease;
 }
 .gr-card:hover {
-  transform: translateY(-7px);
-  border-color: color-mix(in srgb, var(--accent, #f0c04b) 45%, transparent);
+  transform: translateY(-8px);
+  border-color: color-mix(in srgb, var(--accent, #f0c04b) 50%, transparent);
   box-shadow: var(--gr-shadow-hover);
 }
-.gr-card:hover::before { opacity: 1; }
-.gr-card:hover::after { opacity: 1; }
 .gr-card:focus-visible {
-  outline: 2px solid var(--accent, var(--gr-gold));
+  outline: 3px solid var(--accent, var(--gr-gold));
   outline-offset: 3px;
 }
 
-.gr-card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 14px;
+/* ── Vignette ──
+   L'espace est réservé par aspect-ratio : l'image ne provoque aucun
+   décalage de mise en page en arrivant (CLS ≈ 0). */
+.gr-card-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--accent, #f0c04b) 10%, #0b0a16);
+  flex-shrink: 0;
 }
-.gr-card-icon {
-  width: 50px; height: 50px;
-  display: grid; place-items: center;
-  border-radius: 15px;
-  font-size: 25px;
-  background: color-mix(in srgb, var(--accent, #f0c04b) 16%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent, #f0c04b) 30%, transparent);
-  transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+.gr-card-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.01);
+  transition: transform .55s var(--gr-ease-out), filter .35s ease;
 }
-.gr-card:hover .gr-card-icon { transform: scale(1.1) rotate(-7deg); }
+.gr-card:hover .gr-card-thumb { transform: scale(1.07); }
 
-.gr-card-kicker {
+/* Voile bas : garantit la lisibilité des surimpressions quelle que soit
+   la vignette (les illustrations sont claires en bas pour certaines). */
+.gr-card-media::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 62%;
+  background: linear-gradient(to top, rgba(8, 7, 15, .92), rgba(8, 7, 15, 0));
+  pointer-events: none;
+}
+
+.gr-card-kind {
+  position: absolute;
+  left: 12px; bottom: 11px;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  align-self: flex-start;
-  margin-bottom: 8px;
-  padding: 3px 10px;
+  gap: 6px;
+  padding: 5px 11px;
   border-radius: 999px;
-  font-size: .66rem;
+  font-size: .72rem;
   font-weight: 700;
-  letter-spacing: .09em;
+  letter-spacing: .04em;
+  color: #0d0b16;
+  background: var(--accent, var(--gr-gold));
+  transform: translateY(0);
+  transition: transform .3s var(--gr-ease-out);
+}
+.gr-card:hover .gr-card-kind { transform: translateY(-2px); }
+
+/* ── Corps ── */
+.gr-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 15px 17px 17px;
+}
+.gr-card-kicker {
+  align-self: flex-start;
+  margin-bottom: 7px;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--accent, var(--gr-gold));
-  background: color-mix(in srgb, var(--accent, #f0c04b) 14%, transparent);
 }
-
 .gr-card-title {
   margin: 0 0 6px;
   font-family: var(--gr-display);
-  font-size: 1.16rem;
+  font-size: 1.22rem;
   font-weight: 700;
-  line-height: 1.24;
+  line-height: 1.22;
+  /* Évite le mot orphelin sur les titres de deux ou trois mots. */
+  text-wrap: balance;
 }
 .gr-card-desc {
   margin: 0;
-  font-size: .84rem;
+  font-size: .845rem;
   line-height: 1.55;
   color: var(--gr-text-soft);
   flex: 1;
@@ -462,8 +476,8 @@ body.gr-body {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin-top: 16px;
-  padding-top: 13px;
+  margin-top: 15px;
+  padding-top: 12px;
   border-top: 1px solid var(--gr-line);
   font-size: .76rem;
   color: var(--gr-text-faint);
@@ -474,52 +488,62 @@ body.gr-body {
   gap: 5px;
   font-weight: 700;
   color: var(--accent, var(--gr-gold));
-  transition: gap .2s;
+  transition: gap .25s var(--gr-ease-out);
 }
-.gr-card:hover .gr-card-cta { gap: 9px; }
+.gr-card:hover .gr-card-cta { gap: 10px; }
 
-/* Favori */
+/* ── Favori ──
+   44×44 de cible tactile réelle, même si le disque visible est plus petit. */
 .gr-fav {
-  width: 34px; height: 34px;
-  display: grid; place-items: center;
-  border-radius: 50%;
-  border: 1px solid var(--gr-line);
-  background: rgba(8,7,15,.5);
-  color: var(--gr-text-faint);
-  cursor: pointer;
-  font-size: 15px;
-  line-height: 1;
-  transition: transform .2s, color .2s, border-color .2s;
-}
-.gr-fav:hover { transform: scale(1.15); color: var(--gr-rose); border-color: var(--gr-rose); }
-.gr-fav.is-on { color: var(--gr-rose); border-color: var(--gr-rose); background: rgba(255,111,156,.14); }
-
-/* Contenu réservé aux membres */
-.gr-card.is-locked .gr-card-title,
-.gr-card.is-locked .gr-card-desc { opacity: .55; }
-.gr-card.is-locked .gr-card-icon { position: relative; filter: saturate(.45); }
-.gr-card.is-locked .gr-card-icon::after {
-  content: '🔒';
   position: absolute;
-  right: -6px; bottom: -6px;
-  width: 22px; height: 22px;
-  display: grid; place-items: center;
-  font-size: 11px;
-  border-radius: 50%;
-  background: #14102a;
-  border: 1px solid rgba(177, 140, 255, .5);
+  top: 6px; right: 6px;
+  z-index: 3;
+  width: 46px; height: 46px;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0;
 }
-.gr-lock {
+.gr-fav::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: rgba(8, 7, 15, .62);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, .18);
+  transition: transform .25s var(--gr-ease-out), background .25s ease, border-color .25s ease;
+}
+.gr-fav span { position: relative; z-index: 1; opacity: .75; transition: opacity .2s, transform .25s var(--gr-ease-out); }
+.gr-fav:hover span { opacity: 1; transform: scale(1.15); }
+.gr-fav:hover::before { border-color: var(--gr-rose); }
+.gr-fav.is-on span { opacity: 1; color: var(--gr-rose); }
+.gr-fav.is-on::before { background: rgba(255, 111, 156, .22); border-color: var(--gr-rose); }
+.gr-fav:focus-visible::before { outline: 2px solid var(--gr-gold); outline-offset: 2px; }
+
+/* ── Contenu réservé ── */
+.gr-card.is-locked .gr-card-thumb { filter: saturate(.35) brightness(.62); }
+.gr-card:hover.is-locked .gr-card-thumb { filter: saturate(.5) brightness(.72); }
+.gr-card-lock {
+  position: absolute;
+  top: 12px; left: 12px;
+  z-index: 3;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 3px 9px;
+  gap: 6px;
+  padding: 5px 11px;
   border-radius: 999px;
-  font-size: .68rem;
+  font-size: .7rem;
   font-weight: 700;
-  color: var(--gr-violet);
-  background: rgba(177,140,255,.14);
-  border: 1px solid rgba(177,140,255,.3);
+  color: #fff;
+  background: rgba(20, 12, 40, .8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(177, 140, 255, .5);
 }
 
 /* Badge sur les cartes des index de catégorie (injecté par shell.js) */
@@ -712,15 +736,281 @@ body.gr-body {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   Animations d'apparition
+   Mouvement
    ══════════════════════════════════════════════════════════════ */
+
+/* Révélation au défilement, en cascade.
+   --i est l'index de l'élément dans sa grille ; le délai est plafonné pour
+   qu'une grille de 44 cartes ne mette pas trois secondes à se dévoiler. */
 .gr-reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.3,1);
+  transform: translateY(20px) scale(.97);
+  transition:
+    opacity var(--gr-slow) var(--gr-ease-out),
+    transform var(--gr-slow) var(--gr-ease-back);
+  transition-delay: calc(min(var(--i, 0) * 40ms, 480ms));
 }
 .gr-reveal.is-in { opacity: 1; transform: none; }
 
+/* Entrée du héros : même grammaire, jouée au chargement. */
+.gr-enter > * {
+  opacity: 0;
+  animation: gr-rise var(--gr-slow) var(--gr-ease-out) forwards;
+}
+.gr-enter > *:nth-child(1) { animation-delay: 60ms; }
+.gr-enter > *:nth-child(2) { animation-delay: 140ms; }
+.gr-enter > *:nth-child(3) { animation-delay: 220ms; }
+.gr-enter > *:nth-child(4) { animation-delay: 300ms; }
+.gr-enter > *:nth-child(5) { animation-delay: 380ms; }
+
+@keyframes gr-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Rejeu de la grille quand un filtre change : le contenu se renouvelle,
+   la transition doit le dire — court, sans rebond (UI informative). */
+.gr-swap { animation: gr-swap-in 260ms var(--gr-ease-out); }
+@keyframes gr-swap-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Rail horizontal (sélections de l'accueil)
+   ══════════════════════════════════════════════════════════════ */
+.gr-rail-wrap { position: relative; }
+
+.gr-rail {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+  padding: 4px 4px 16px;
+  margin: 0 -4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gr-line-strong) transparent;
+}
+.gr-rail::-webkit-scrollbar { height: 8px; }
+.gr-rail::-webkit-scrollbar-thumb { background: var(--gr-line-strong); border-radius: 999px; }
+.gr-rail > * {
+  flex: 0 0 clamp(230px, 74vw, 286px);
+  scroll-snap-align: start;
+}
+
+.gr-rail-btn {
+  position: absolute;
+  top: calc(50% - 34px);
+  z-index: 5;
+  width: 44px; height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--gr-line-strong);
+  background: rgba(13, 11, 26, .88);
+  backdrop-filter: blur(10px);
+  color: var(--gr-text);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--gr-fast) ease, transform var(--gr-fast) var(--gr-ease-out);
+}
+.gr-rail-wrap:hover .gr-rail-btn,
+.gr-rail-btn:focus-visible { opacity: 1; }
+.gr-rail-btn:hover { transform: scale(1.1); }
+.gr-rail-btn[disabled] { opacity: 0 !important; pointer-events: none; }
+.gr-rail-btn.is-prev { left: -14px; }
+.gr-rail-btn.is-next { right: -14px; }
+
+@media (pointer: coarse) {
+  /* Au doigt, on fait défiler : les flèches n'ont pas lieu d'être. */
+  .gr-rail-btn { display: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Carrousel empilé (les univers, sur l'accueil)
+   Les transformations sont posées par carousel.js image par image :
+   ici, uniquement l'habillage et les commandes.
+   ══════════════════════════════════════════════════════════════ */
+.gr-carousel {
+  --slide-w: clamp(190px, 56vw, 284px);
+  position: relative;
+  /* La pile déborde volontairement sur les côtés : on la coupe au bord de
+     la page pour que le document ne défile jamais horizontalement.
+     clip (et non hidden) laisse l'axe vertical libre. */
+  overflow-x: clip;
+}
+
+.gr-carousel-stage {
+  position: relative;
+  height: calc(var(--slide-w) * 1.44);
+  margin-inline: auto;
+  /* pan-y : le glissement horizontal nous appartient, le défilement
+     vertical de la page reste au navigateur. */
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.gr-carousel-stage.is-dragging { cursor: grabbing; }
+
+.gr-slide {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--slide-w);
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--gr-r);
+  border: 1px solid var(--gr-line);
+  /* Fond opaque : les cartes se recouvrent, on ne doit pas lire le texte
+     de celle de derrière au travers de celle de devant. */
+  background:
+    linear-gradient(170deg, var(--gr-surface-2), rgba(255, 255, 255, .014)),
+    var(--gr-void);
+  color: inherit;
+  text-decoration: none;
+  overflow: hidden;
+  box-shadow: var(--gr-shadow);
+  /* La position vient du script : aucune transition dessus, sinon le
+     ressort et la transition se disputent la même propriété. */
+  transition: border-color var(--gr-normal) ease, box-shadow var(--gr-normal) ease;
+  will-change: transform;
+}
+.gr-slide.is-active {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: var(--gr-shadow-hover), 0 0 44px -14px var(--accent);
+}
+.gr-slide:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+.gr-slide-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--accent) 10%, #0b0a16);
+}
+.gr-slide-media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;   /* l'image ne doit pas voler le glissement */
+}
+.gr-slide-media::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, var(--gr-surface-2) 2%, transparent 58%);
+}
+.gr-slide-emoji {
+  position: absolute;
+  left: 12px; bottom: 10px;
+  z-index: 1;
+  font-size: 1.55rem;
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, .6));
+}
+
+.gr-slide-body { padding: 14px 16px 18px; }
+.gr-slide-body h3 {
+  margin: 0 0 6px;
+  font-family: var(--gr-display);
+  font-size: 1.06rem;
+  line-height: 1.2;
+}
+.gr-slide-body p {
+  margin: 0;
+  font-size: .8rem;
+  line-height: 1.5;
+  color: var(--gr-text-soft);
+}
+
+/* Pastille de comptage — équivalent du Badge shadcn du composant source. */
+.gr-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 9px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ── Commandes : l'alternative au glisser (WCAG 2.5.7) ── */
+.gr-carousel-ctrl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 22px;
+}
+.gr-carousel-btn {
+  flex: 0 0 auto;
+  width: 46px; height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--gr-line-strong);
+  background: var(--gr-surface-2);
+  color: var(--gr-text);
+  cursor: pointer;
+  transition: transform var(--gr-fast) var(--gr-ease-out), background var(--gr-fast) ease,
+              border-color var(--gr-fast) ease;
+}
+.gr-carousel-btn:hover {
+  transform: scale(1.08);
+  border-color: color-mix(in srgb, var(--gr-gold) 50%, transparent);
+  background: rgba(240, 192, 75, .1);
+}
+.gr-carousel-btn:focus-visible { outline: 3px solid var(--gr-gold); outline-offset: 3px; }
+
+.gr-carousel-dots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.gr-carousel-dot {
+  /* La cible tactile fait 44×44 ; seule la pastille centrale est peinte. */
+  width: 26px; height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.gr-carousel-dot::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 999px;
+  background: var(--gr-line-strong);
+  transition: width var(--gr-normal) var(--gr-ease-back), background var(--gr-normal) ease;
+}
+.gr-carousel-dot:hover::before { background: var(--gr-text-faint); }
+.gr-carousel-dot.is-on::before { width: 26px; background: var(--accent); }
+.gr-carousel-dot:focus-visible { outline: 3px solid var(--gr-gold); outline-offset: -6px; border-radius: 12px; }
+
+/* Réservé aux lecteurs d'écran. */
+.gr-sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   Respect de prefers-reduced-motion
+   Le mouvement est un ornement : sans lui, tout doit rester lisible
+   et immédiatement dans son état final.
+   ══════════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: .001ms !important;
@@ -728,7 +1018,11 @@ body.gr-body {
     transition-duration: .001ms !important;
     scroll-behavior: auto !important;
   }
-  .gr-reveal { opacity: 1; transform: none; }
+  .gr-reveal { opacity: 1; transform: none; transition-delay: 0ms; }
+  .gr-enter > * { opacity: 1; animation: none; }
+  .gr-card:hover { transform: none; }
+  .gr-card:hover .gr-card-thumb { transform: scale(1.01); }
+  .gr-aurora span { animation: none; }
 }
 
 /* ══════════════════════════════════════════════════════════════
