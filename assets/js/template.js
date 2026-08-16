@@ -113,6 +113,9 @@
 '<meta charset="UTF-8">\n' +
 '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
 '<title>' + esc(data.title) + '</title>\n' +
+/* La page finit dans stories/<categorie>/ : deux niveaux sous la racine. */
+'<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">\n' +
+'<link rel="mask-icon" href="../../assets/favicon-mono.svg" color="#f0c04b">\n' +
 '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">\n' +
 '<style>\n' +
 '  :root {\n' +
