@@ -178,6 +178,8 @@
   .card:nth-child(5) { animation-delay:.5s; }
   .card:nth-child(6) { animation-delay:.6s; }
   .card:nth-child(7) { animation-delay:.7s; }
+  .card:nth-child(8) { animation-delay:.8s; }
+  .card:nth-child(9) { animation-delay:.9s; }
 
   /* card illustration area */
   .card-art {
@@ -335,7 +337,7 @@
     <p class="hero-sub">Des grandes épopées de la nature, de l'humanité et du cosmos</p>
     <div class="count-badge">
       <span>✦</span>
-      <span><strong id="storyCount">6</strong> histoires disponibles</span>
+      <span><strong id="storyCount">8</strong> histoires disponibles</span>
       <span>✦</span>
     </div>
   </header>
@@ -785,8 +787,139 @@
       </div>
     </a>
 
+    <a class="card" href="volcans.html">
+      <div class="card-art">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="volcanBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#06050a"/>
+              <stop offset="52%"  stop-color="#3a1408"/>
+              <stop offset="100%" stop-color="#8a2a10"/>
+            </linearGradient>
+            <radialGradient id="volcanGlow" cx="50%" cy="34%" r="52%">
+              <stop offset="0%"   stop-color="#ff6a2a" stop-opacity=".4"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#volcanBg)"/>
+          <rect width="400" height="300" fill="url(#volcanGlow)"/>
+          <!-- étoiles -->
+          <circle cx="44"  cy="30" r="1.4" fill="#f0e8da" opacity=".7"/>
+          <circle cx="120" cy="18" r="1.1" fill="#f0e8da" opacity=".6"/>
+          <circle cx="342" cy="26" r="1.3" fill="#f0e8da" opacity=".7"/>
+          <!-- panache -->
+          <g opacity=".5">
+            <ellipse cx="204" cy="64" rx="70" ry="34" fill="#6b6470"/>
+            <ellipse cx="160" cy="40" rx="44" ry="24" fill="#5a5460"/>
+            <ellipse cx="248" cy="34" rx="50" ry="26" fill="#5a5460"/>
+          </g>
+          <!-- cône -->
+          <path d="M28,300 L180,96 L224,96 L376,300Z" fill="#1a141c"/>
+          <path d="M28,300 L180,96 L196,96 L128,300Z" fill="#241d24"/>
+          <!-- cratère -->
+          <ellipse cx="202" cy="96" rx="28" ry="9" fill="#ff6a2a"/>
+          <ellipse cx="202" cy="96" rx="14" ry="5" fill="#ffd08a"/>
+          <!-- coulées -->
+          <path d="M192,102 Q176,152 148,204 Q126,250 114,300" fill="none" stroke="#ff6a2a"
+                stroke-width="10" stroke-linecap="round"/>
+          <path d="M212,102 Q232,150 262,200 Q288,250 300,300" fill="none" stroke="#d1341c"
+                stroke-width="8" stroke-linecap="round"/>
+          <path d="M202,102 Q200,150 192,198" fill="none" stroke="#ffd08a"
+                stroke-width="3.4" stroke-linecap="round" opacity=".85"/>
+          <!-- projections -->
+          <g fill="#ffb066">
+            <circle cx="168" cy="66" r="4"/><circle cx="238" cy="58" r="3.4"/>
+            <circle cx="204" cy="44" r="4.4"/>
+          </g>
+          <!-- reflets au sol -->
+          <g fill="#ff6a2a" opacity=".18">
+            <ellipse cx="114" cy="292" rx="52" ry="8"/><ellipse cx="300" cy="292" rx="44" ry="7"/>
+          </g>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">✦ Science · Géologie</div>
+        <div class="card-title">Les Volcans 🌋</div>
+        <p class="card-desc">Sous nos pieds, 5 000 °C et des plaques qui se bousculent de deux centimètres par an. Comment un volcan naît, prévient, détruit — et fertilise.</p>
+        <div class="card-footer">
+          <div class="card-chapters">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            5 chapitres
+          </div>
+          <div class="card-btn">
+            Lire l'histoire
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="electricite.html">
+      <div class="card-art">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="elecBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#04050a"/>
+              <stop offset="55%"  stop-color="#101d33"/>
+              <stop offset="100%" stop-color="#2a6ea8"/>
+            </linearGradient>
+            <radialGradient id="elecGlow" cx="62%" cy="52%" r="52%">
+              <stop offset="0%"   stop-color="#e0a63c" stop-opacity=".34"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#elecBg)"/>
+          <rect width="400" height="300" fill="url(#elecGlow)"/>
+          <!-- nuage d'orage -->
+          <g fill="#141a26" opacity=".95">
+            <ellipse cx="104" cy="56" rx="80" ry="30"/>
+            <ellipse cx="56"  cy="66" rx="50" ry="22"/>
+            <ellipse cx="158" cy="68" rx="56" ry="24"/>
+          </g>
+          <!-- éclair -->
+          <path d="M104,84 L78,140 L110,140 L70,214" fill="none" stroke="#8fd4ff"
+                stroke-width="7" stroke-linejoin="round"/>
+          <path d="M104,84 L78,140 L110,140 L70,214" fill="none" stroke="#eaf7ff"
+                stroke-width="2.6" stroke-linejoin="round"/>
+          <!-- fil qui relie -->
+          <path d="M112,232 Q184,262 250,222" fill="none" stroke="#c0743a" stroke-width="5"/>
+          <!-- ampoule -->
+          <g transform="translate(292 168)">
+            <ellipse rx="76" ry="76" fill="#e0a63c" opacity=".18"/>
+            <path d="M-38,16 Q-50,-34 -20,-58 Q0,-72 20,-58 Q50,-34 38,16 Q26,38 0,38 Q-26,38 -38,16Z"
+                  fill="#0d1016" stroke="#8fd4ff" stroke-width="2.4"/>
+            <rect x="-20" y="38" width="40" height="12" rx="3" fill="#3a3a44"/>
+            <rect x="-17" y="50" width="34" height="10" rx="3" fill="#2e2e38"/>
+            <rect x="-14" y="60" width="28" height="9"  rx="3" fill="#3a3a44"/>
+            <path d="M-14,28 L-14,-10 q6,-12 12,0 t12,0 t12,0 L26,28"
+                  fill="none" stroke="#ffd88a" stroke-width="3"/>
+          </g>
+          <!-- étincelles -->
+          <g fill="#8fd4ff">
+            <circle cx="196" cy="102" r="2.4"/><circle cx="360" cy="70" r="2"/>
+            <circle cx="44"  cy="252" r="2.2"/>
+          </g>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">✦ Science · Physique</div>
+        <div class="card-title">L'Électricité ⚡</div>
+        <p class="card-desc">De l'ambre que frottaient les Grecs au barrage qui allume ta lampe : 2 600 ans, une grenouille, un cerf-volant et un aimant.</p>
+        <div class="card-footer">
+          <div class="card-chapters">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            5 chapitres
+          </div>
+          <div class="card-btn">
+            Lire l'histoire
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+    </a>
+
 <!-- ══ COMING SOON ══ -->
-    <div class="card card-soon" style="animation-delay:.8s">
+    <div class="card card-soon" style="animation-delay:1s">
       <div class="soon-art">
         <div class="soon-icon">🔬</div>
       </div>

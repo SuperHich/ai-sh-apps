@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" preserveAspectRatio="xMidYMid slice">
+  <title>Marie Curie — la fiole de radium qui luit sur la paillasse</title>
+          <defs>
+            <linearGradient id="curieBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#05050a"/>
+              <stop offset="58%"  stop-color="#0e2a2a"/>
+              <stop offset="100%" stop-color="#16233f"/>
+            </linearGradient>
+            <radialGradient id="curieGlow" cx="50%" cy="52%" r="52%">
+              <stop offset="0%"   stop-color="#5fd6b4" stop-opacity=".34"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#curieBg)"/>
+          <rect width="400" height="300" fill="url(#curieGlow)"/>
+          <!-- paillasse -->
+          <rect x="0" y="248" width="400" height="52" fill="#0d0c12"/>
+          <rect x="0" y="245" width="400" height="4"  fill="#1c1a24"/>
+          <!-- éprouvettes dans l'ombre -->
+          <g fill="#0f0e16" stroke="#2c2a36" stroke-width="1.6">
+            <path d="M74,150 L74,220 Q74,240 92,240 Q110,240 110,220 L110,150Z"/>
+            <path d="M300,164 L300,222 Q300,240 316,240 Q332,240 332,222 L332,164Z"/>
+          </g>
+          <g fill="#5fd6b4" opacity=".3">
+            <rect x="76" y="206" width="32" height="34" rx="14"/>
+            <rect x="302" y="210" width="28" height="30" rx="12"/>
+          </g>
+          <!-- la fiole de radium, au centre -->
+          <path d="M172,96 L172,150 L146,214 Q142,236 168,236 L232,236 Q258,236 254,214 L228,150 L228,96Z"
+                fill="#0b1a18" stroke="#5fd6b4" stroke-width="2.4"/>
+          <rect x="166" y="82" width="68" height="16" rx="4" fill="#1a2420" stroke="#5fd6b4" stroke-width="1.6"/>
+          <path d="M152,192 Q200,178 248,192 L254,214 Q258,236 232,236 L168,236 Q142,236 146,214Z"
+                fill="#5fd6b4" opacity=".8"/>
+          <ellipse cx="200" cy="196" rx="112" ry="72" fill="#5fd6b4" opacity=".16"/>
+          <circle cx="182" cy="210" r="3.4" fill="#eafff8" opacity=".85"/>
+          <circle cx="216" cy="216" r="2.6" fill="#eafff8" opacity=".7"/>
+          <!-- carnet ouvert -->
+          <g transform="translate(58 244)">
+            <path d="M-40,0 L0,-10 L0,-30 L-40,-20Z" fill="#efe7d6" opacity=".55"/>
+            <path d="M40,0 L0,-10 L0,-30 L40,-20Z" fill="#e2d8c2" opacity=".55"/>
+          </g>
+          <!-- symbole du rayonnement -->
+          <g transform="translate(340 70)" fill="#d9a63c" opacity=".55">
+            <circle r="5"/>
+            <path d="M0,-9 A9,9 0 0 1 8,4 L4,2 A5,5 0 0 0 0,-5Z"/>
+            <path d="M8,4 A9,9 0 0 1 -8,4 L-4,2 A5,5 0 0 0 4,2Z"/>
+            <path d="M-8,4 A9,9 0 0 1 0,-9 L0,-5 A5,5 0 0 0 -4,2Z"/>
+          </g>
+        </svg>

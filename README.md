@@ -129,7 +129,7 @@ time, and the whole thing works from the keyboard (1–4 to answer, Enter to
 advance). Adding a quiz is one block in `assets/js/quiz-data.js`, one item in
 the catalogue, one thumbnail.
 
-**`carte.html`** places the stories on a world map — 26 of them, on 17 places,
+**`carte.html`** places the stories on a world map — 27 of them, on 18 places,
 plus the dotted routes of Elissa, Hannibal, Colomb, Ibn Battuta, Napoléon and
 Einstein. Coastlines and pins share one equirectangular projection
 (`x = (lon+180)/360·L`, `y = (90-lat)/180·H`), so a pin lands where it belongs

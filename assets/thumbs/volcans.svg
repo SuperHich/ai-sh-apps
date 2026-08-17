@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" preserveAspectRatio="xMidYMid slice">
+  <title>Un volcan en éruption, panache de cendres et coulées de lave</title>
+          <defs>
+            <linearGradient id="volcanBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#06050a"/>
+              <stop offset="52%"  stop-color="#3a1408"/>
+              <stop offset="100%" stop-color="#8a2a10"/>
+            </linearGradient>
+            <radialGradient id="volcanGlow" cx="50%" cy="34%" r="52%">
+              <stop offset="0%"   stop-color="#ff6a2a" stop-opacity=".4"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#volcanBg)"/>
+          <rect width="400" height="300" fill="url(#volcanGlow)"/>
+          <!-- étoiles -->
+          <circle cx="44"  cy="30" r="1.4" fill="#f0e8da" opacity=".7"/>
+          <circle cx="120" cy="18" r="1.1" fill="#f0e8da" opacity=".6"/>
+          <circle cx="342" cy="26" r="1.3" fill="#f0e8da" opacity=".7"/>
+          <!-- panache -->
+          <g opacity=".5">
+            <ellipse cx="204" cy="64" rx="70" ry="34" fill="#6b6470"/>
+            <ellipse cx="160" cy="40" rx="44" ry="24" fill="#5a5460"/>
+            <ellipse cx="248" cy="34" rx="50" ry="26" fill="#5a5460"/>
+          </g>
+          <!-- cône -->
+          <path d="M28,300 L180,96 L224,96 L376,300Z" fill="#1a141c"/>
+          <path d="M28,300 L180,96 L196,96 L128,300Z" fill="#241d24"/>
+          <!-- cratère -->
+          <ellipse cx="202" cy="96" rx="28" ry="9" fill="#ff6a2a"/>
+          <ellipse cx="202" cy="96" rx="14" ry="5" fill="#ffd08a"/>
+          <!-- coulées -->
+          <path d="M192,102 Q176,152 148,204 Q126,250 114,300" fill="none" stroke="#ff6a2a"
+                stroke-width="10" stroke-linecap="round"/>
+          <path d="M212,102 Q232,150 262,200 Q288,250 300,300" fill="none" stroke="#d1341c"
+                stroke-width="8" stroke-linecap="round"/>
+          <path d="M202,102 Q200,150 192,198" fill="none" stroke="#ffd08a"
+                stroke-width="3.4" stroke-linecap="round" opacity=".85"/>
+          <!-- projections -->
+          <g fill="#ffb066">
+            <circle cx="168" cy="66" r="4"/><circle cx="238" cy="58" r="3.4"/>
+            <circle cx="204" cy="44" r="4.4"/>
+          </g>
+          <!-- reflets au sol -->
+          <g fill="#ff6a2a" opacity=".18">
+            <ellipse cx="114" cy="292" rx="52" ry="8"/><ellipse cx="300" cy="292" rx="44" ry="7"/>
+          </g>
+        </svg>

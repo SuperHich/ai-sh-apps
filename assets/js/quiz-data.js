@@ -110,7 +110,7 @@
     /* ── Légendes du monde ───────────────────────────────────── */
     legendes: {
       titre: 'Légendes du monde',
-      sousTitre: 'Douze questions sur les héros, les savants et les bâtisseuses.',
+      sousTitre: 'Treize questions sur les héros, les savants et les bâtisseuses.',
       questions: [
         {
           q: 'Par où Hannibal fait-il passer son armée et ses éléphants pour surprendre Rome ?',
@@ -192,6 +192,17 @@
           note: 'Il appela « Indios » les habitants des îles atteintes le 12 octobre 1492, et n\'en changea jamais.'
         },
         {
+          q: 'Marie Curie est la seule personne à avoir reçu deux prix Nobel dans deux sciences. Lesquelles ?',
+          choix: [
+            'Physique et chimie',
+            'Chimie et médecine',
+            'Physique et mathématiques',
+            'Médecine et physique'
+          ],
+          bonne: 0, source: 'marie-curie',
+          note: 'Physique en 1903, avec Pierre et Becquerel ; chimie en 1911, seule, pour le polonium et le radium.'
+        },
+        {
           q: 'Qu\'a fait bâtir Fatima al-Fihriya à Fès, en 859 ?',
           choix: [
             'Un palais pour sa famille',
@@ -220,7 +231,7 @@
     /* ── Sciences & Découvertes ──────────────────────────────── */
     sciences: {
       titre: 'Sciences & Découvertes',
-      sousTitre: 'Douze questions sur le cosmos, la vie, le temps long et ton propre corps.',
+      sousTitre: 'Quatorze questions sur le cosmos, la Terre, la vie et ton propre corps.',
       questions: [
         {
           q: 'Il y a combien de temps les dinosaures ont-ils disparu ?',
@@ -290,6 +301,28 @@
           ],
           bonne: 1, source: 'lumiere',
           note: 'L\'Étoile du Veilleur est peut-être déjà éteinte : sa dernière lumière voyage encore vers nous.'
+        },
+        {
+          q: 'À quelle vitesse les plaques tectoniques se déplacent-elles ?',
+          choix: [
+            'Quelques mètres par jour',
+            'Entre 2 et 10 centimètres par an',
+            'Un kilomètre par siècle',
+            'Elles ne bougent pas'
+          ],
+          bonne: 1, source: 'volcans',
+          note: 'À peu près la vitesse à laquelle poussent tes ongles. C\'est leur rencontre qui fabrique les volcans.'
+        },
+        {
+          q: 'D\'où vient le mot « électricité » ?',
+          choix: [
+            'Du nom du savant Élektros',
+            'Du mot grec qui désigne l\'ambre',
+            'Du latin « éclair »',
+            'Du nom de la ville d\'Élektra'
+          ],
+          bonne: 1, source: 'electricite',
+          note: 'ἤλεκτρον, êlektron : l\'ambre, que Thalès frottait pour attirer les plumes il y a 2 600 ans.'
         },
         {
           q: 'Combien de fois ton cœur bat-il en une journée ?',
