@@ -59,8 +59,8 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'lumiere-hira', 'lumiere', 'phare', 'al-khwarizmi',
-    'einstein', 'ibn-battuta', 'colomb'
+    'carte-histoires', 'quiz-propheties', 'quiz-legendes', 'quiz-sciences',
+    'lumiere-hira', 'lumiere', 'phare'
   ];
 
   GRENIER.categories = [
@@ -282,7 +282,28 @@
     { id: 'financial-calculator', title: 'Calculatrice Financière', emoji: '💰', cat: 'outils', kind: 'outil',
       dir: 'tools', file: 'financial_calculator.html', age: 10, access: 'public',
       desc: 'Simuler un investissement, calculer les intérêts composés, visualiser le pouvoir d\'achat.',
-      tags: ['finance', 'interets', 'investissement', 'epargne'] }
+      tags: ['finance', 'interets', 'investissement', 'epargne'] },
+    { id: 'carte-histoires', title: 'La carte des histoires', emoji: '🗺️', cat: 'outils', kind: 'outil',
+      dir: '.', file: 'carte.html', age: 7, access: 'public',
+      desc: 'Un planisphère cliquable : où se passe chaque récit, et les trajets des grands voyageurs.',
+      tags: ['carte', 'monde', 'geographie', 'voyage', 'lieux'] },
+
+    /* ── Quiz ─────────────────────────────────────────────────
+       Chaque quiz est rangé dans l'univers qu'il interroge : on le trouve
+       à côté des histoires dont il tire ses questions. Le fichier est le
+       même pour tous — c'est la clé d'univers qui change (quiz.js). */
+    { id: 'quiz-propheties', title: 'Quiz — Prophètes & Sagesse', emoji: '❓', cat: 'propheties', kind: 'jeu',
+      dir: '.', file: 'quiz.html?univers=propheties', age: 7, access: 'public',
+      desc: 'Dix questions sur Moïse, Younes, Noé, Youssef et les autres — réponses dans les histoires.',
+      tags: ['quiz', 'questions', 'prophetes', 'jeu'] },
+    { id: 'quiz-legendes', title: 'Quiz — Légendes du monde', emoji: '❓', cat: 'legendes', kind: 'jeu',
+      dir: '.', file: 'quiz.html?univers=legendes', age: 10, access: 'public',
+      desc: 'Dix questions sur Hannibal, Elissa, Napoléon, Colomb, Ibn Battuta et Al-Khwarizmi.',
+      tags: ['quiz', 'questions', 'histoire', 'jeu'] },
+    { id: 'quiz-sciences', title: 'Quiz — Sciences & Découvertes', emoji: '❓', cat: 'sciences', kind: 'jeu',
+      dir: '.', file: 'quiz.html?univers=sciences', age: 7, access: 'public',
+      desc: 'Dix questions sur les dinosaures, le cosmos, l\'odyssée humaine et la lumière des étoiles.',
+      tags: ['quiz', 'questions', 'sciences', 'jeu'] }
   ];
 
   /* ── Utilitaires ───────────────────────────────────────────── */

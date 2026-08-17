@@ -28,6 +28,7 @@
   var NAV_ITEMS = [
     { key: 'home',    label: 'Accueil',      href: 'index.html' },
     { key: 'library', label: 'Bibliothèque', href: 'bibliotheque.html' },
+    { key: 'carte',   label: 'La carte',     href: 'carte.html' },
     { key: 'atelier', label: 'Atelier',      href: 'atelier.html', feature: 'atelier' }
   ];
 

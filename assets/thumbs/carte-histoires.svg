@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="mer" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1b2e"/>
+      <stop offset="1" stop-color="#07090f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#mer)"/>
+
+  <!-- parallèles et méridiens -->
+  <g stroke="#5bb8ff" stroke-opacity=".13" stroke-width="1">
+    <path d="M0 70 H400 M0 130 H400 M0 190 H400 M0 250 H400"/>
+    <path d="M70 0 V300 M150 0 V300 M230 0 V300 M310 0 V300"/>
+  </g>
+
+  <!-- terres simplifiées -->
+  <g fill="#f4efe4" fill-opacity=".1" stroke="#f4efe4" stroke-opacity=".3" stroke-width="1.6"
+     stroke-linejoin="round">
+    <path d="M24 96 L54 74 L96 82 L122 68 L150 88 L142 116 L112 132 L118 160 L96 186 L64 172 L44 140 Z"/>
+    <path d="M186 66 L232 56 L286 66 L330 58 L372 78 L364 104 L322 112 L286 104 L246 116 L206 104 Z"/>
+    <path d="M214 130 L252 124 L276 142 L272 178 L252 214 L236 246 L214 232 L206 190 L200 156 Z"/>
+    <path d="M300 196 L342 190 L364 208 L354 232 L318 236 L298 220 Z"/>
+  </g>
+
+  <!-- trajet en pointillés -->
+  <path d="M70 150 C 130 108, 190 118, 236 96 S 320 96, 348 128" fill="none"
+        stroke="#f0c04b" stroke-opacity=".7" stroke-width="2.4" stroke-dasharray="7 8"
+        stroke-linecap="round"/>
+
+  <!-- épingles -->
+  <g>
+    <circle cx="70" cy="150" r="17" fill="#f0c04b" opacity=".18"/>
+    <circle cx="70" cy="150" r="7" fill="#f0c04b" stroke="#07090f" stroke-width="2.4"/>
+    <circle cx="236" cy="96" r="20" fill="#4fd8a6" opacity=".18"/>
+    <circle cx="236" cy="96" r="8" fill="#4fd8a6" stroke="#07090f" stroke-width="2.4"/>
+    <circle cx="348" cy="128" r="16" fill="#ff8a5b" opacity=".18"/>
+    <circle cx="348" cy="128" r="6.5" fill="#ff8a5b" stroke="#07090f" stroke-width="2.4"/>
+    <circle cx="240" cy="200" r="15" fill="#b18cff" opacity=".18"/>
+    <circle cx="240" cy="200" r="6" fill="#b18cff" stroke="#07090f" stroke-width="2.4"/>
+  </g>
+
+  <!-- rose des vents -->
+  <g transform="translate(348 246)" stroke="#f4efe4" stroke-opacity=".45" fill="none" stroke-width="1.8">
+    <circle r="17"/>
+    <path d="M0 -22 L4.5 -4 L0 0 L-4.5 -4 Z" fill="#f0c04b" stroke="none"/>
+    <path d="M0 22 L4.5 4 L0 0 L-4.5 4 Z" fill="#f4efe4" fill-opacity=".5" stroke="none"/>
+  </g>
+</svg>
