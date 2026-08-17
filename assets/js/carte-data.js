@@ -128,6 +128,10 @@
       note: 'La colline gagnée par Elissa avec une peau de bœuf, devenue la cité qui donna Hannibal au monde.',
       stories: ['elissa', 'hannibal'] },
 
+    { nom: 'Boukhara & Hamadan', lon: 64.42, lat: 39.77,
+      note: 'La bibliothèque des Samanides qu\'Ibn Sina demanda en récompense — et, à l\'autre bout de ses errances, Hamadan où il s\'éteignit en 1037.',
+      stories: ['ibn-sina'] },
+
     { nom: 'Tanger', lon: -5.8, lat: 35.77,
       note: 'Le point de départ — et de retour, vingt-neuf ans plus tard — d\'Ibn Battuta.',
       stories: ['ibn-battuta'] },
@@ -158,6 +162,9 @@
    * quand on ouvre le lieu de départ.
    */
   GRENIER.trajets = [
+    { story: 'ibn-sina', nom: 'Les errances d\'Ibn Sina : Boukhara, Gurgandj, Rayy, Ispahan, Hamadan',
+      points: [[64.42, 39.77], [60.1, 42.3], [51.4, 35.6], [51.68, 32.65], [48.5, 34.8]] },
+
     { story: 'elissa', nom: 'La fuite d\'Elissa : de Tyr à Carthage',
       points: [[35.2, 33.27], [28, 35.5], [20, 36.5], [10.32, 36.85]] },
 

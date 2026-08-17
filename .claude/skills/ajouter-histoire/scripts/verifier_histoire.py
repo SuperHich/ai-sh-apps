@@ -227,12 +227,35 @@ def verifier_statique(racine: Path, categorie: str, slug: str, rap: Rapport):
     else:
         rap.ok("tous les liens relatifs de la page resolvent sur le disque")
 
-    # 7 — la categorie est bien accessible depuis l'index racine
+    # 7 — la categorie est bien accessible depuis l'accueil
+    # Depuis la refonte, l'accueil ne pointe plus vers les index de categorie :
+    # il passe par la bibliotheque filtree (bibliotheque.html?univers=<cle>),
+    # alimentee par assets/js/catalog.js. Les deux chemins sont acceptes.
     racine_idx = (racine / "index.html").read_text(encoding="utf-8", errors="replace")
+    catalogue = racine / "assets" / "js" / "catalog.js"
+    cat_src = catalogue.read_text(encoding="utf-8", errors="replace") if catalogue.exists() else ""
     if f"stories/{categorie}/index.html" in racine_idx:
         rap.ok(f"categorie {categorie} liee depuis l'index racine")
+    elif f"stories/{categorie}'" in cat_src:
+        rap.ok(f"categorie {categorie} atteignable via le catalogue (bibliotheque filtree)")
     else:
-        rap.ko(f"index racine : aucun lien vers stories/{categorie}/index.html")
+        rap.ko(f"categorie {categorie} : ni lien dans l'index racine, ni entree dans catalog.js")
+
+    # 8 — l'histoire est inscrite au catalogue de la bibliotheque
+    # Sans cette entree, la page existe mais reste invisible : ni recherche, ni
+    # filtres, ni carte de contenu, ni « dernieres arrivees ».
+    if cat_src:
+        if f"file: '{slug}.html'" in cat_src:
+            rap.ok(f"histoire inscrite dans catalog.js (fichier {slug}.html)")
+        else:
+            rap.ko(f"catalog.js : aucune entree pour {slug}.html — l'histoire sera "
+                   f"absente de la bibliotheque, de la recherche et des filtres")
+        vignette = racine / "assets" / "thumbs" / f"{slug}.svg"
+        if vignette.exists():
+            rap.ok(f"vignette presente : assets/thumbs/{slug}.svg")
+        else:
+            rap.ko(f"vignette manquante : assets/thumbs/{slug}.svg "
+                   f"(la carte de la bibliotheque affichera un trou)")
 
     return attendu, page
 

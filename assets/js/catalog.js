@@ -59,8 +59,8 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'carte-histoires', 'quiz-propheties', 'quiz-legendes', 'quiz-sciences',
-    'lumiere-hira', 'lumiere', 'phare'
+    'ibn-sina', 'carte-histoires', 'quiz-propheties', 'quiz-legendes',
+    'quiz-sciences', 'lumiere-hira', 'lumiere'
   ];
 
   GRENIER.categories = [
@@ -211,6 +211,10 @@
       dir: 'stories/legend', file: 'einstein.html', age: 10, access: 'public',
       desc: 'De l\'employé du bureau des brevets au génie qui réécrivit les lois de l\'univers.',
       tags: ['science', 'relativité', 'physique', 'genie'] },
+    { id: 'ibn-sina', title: 'Ibn Sina', emoji: '🩺', cat: 'legendes', kind: 'histoire',
+      dir: 'stories/legend', file: 'ibn-sina.html', age: 10, access: 'public',
+      desc: 'L\'enfant de Boukhara qui préféra une bibliothèque à un trésor, et dont le Canon fut enseigné six siècles en Europe.',
+      tags: ['medecine', 'avicenne', 'boukhara', 'philosophie', 'savant', 'perse'] },
     { id: 'al-khwarizmi', title: 'Al-Khwarizmi', emoji: '📐', cat: 'legendes', kind: 'histoire',
       dir: 'stories/legend', file: 'al-khwarizmi.html', age: 10, access: 'public',
       desc: 'Le savant de Bagdad qui inventa l\'algèbre et donna son nom à l\'algorithme.',
