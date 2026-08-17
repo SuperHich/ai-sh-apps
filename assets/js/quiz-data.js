@@ -110,7 +110,7 @@
     /* ── Légendes du monde ───────────────────────────────────── */
     legendes: {
       titre: 'Légendes du monde',
-      sousTitre: 'Dix questions sur les héros, les savants et les explorateurs.',
+      sousTitre: 'Douze questions sur les héros, les savants et les bâtisseuses.',
       questions: [
         {
           q: 'Par où Hannibal fait-il passer son armée et ses éléphants pour surprendre Rome ?',
@@ -192,6 +192,23 @@
           note: 'Il appela « Indios » les habitants des îles atteintes le 12 octobre 1492, et n\'en changea jamais.'
         },
         {
+          q: 'Qu\'a fait bâtir Fatima al-Fihriya à Fès, en 859 ?',
+          choix: [
+            'Un palais pour sa famille',
+            'Une mosquée devenue la plus ancienne école encore ouverte au monde',
+            'Le premier hôpital du Maroc',
+            'Un marché aux livres'
+          ],
+          bonne: 1, source: 'fatima-al-fihriya',
+          note: 'Al-Qarawiyyin : on y enseigne sans interruption depuis, et sa bibliothèque a été restaurée en 2016.'
+        },
+        {
+          q: 'Ibn Sina obtint la guérison d\'un émir. Que demanda-t-il en récompense ?',
+          choix: ['De l\'or', 'La clé de la bibliothèque du palais', 'Un titre de ministre', 'Un cheval'],
+          bonne: 1, source: 'ibn-sina',
+          note: 'Il y passa des mois, salle après salle — chacune consacrée à une science différente.'
+        },
+        {
           q: 'Combien de temps dura le voyage d\'Ibn Battuta, parti pour un simple pèlerinage ?',
           choix: ['Un an', 'Neuf ans', 'Vingt-neuf ans', 'Cinquante ans'],
           bonne: 2, source: 'ibn-battuta',
@@ -203,7 +220,7 @@
     /* ── Sciences & Découvertes ──────────────────────────────── */
     sciences: {
       titre: 'Sciences & Découvertes',
-      sousTitre: 'Dix questions sur le cosmos, la vie et le temps long.',
+      sousTitre: 'Douze questions sur le cosmos, la vie, le temps long et ton propre corps.',
       questions: [
         {
           q: 'Il y a combien de temps les dinosaures ont-ils disparu ?',
@@ -273,6 +290,23 @@
           ],
           bonne: 1, source: 'lumiere',
           note: 'L\'Étoile du Veilleur est peut-être déjà éteinte : sa dernière lumière voyage encore vers nous.'
+        },
+        {
+          q: 'Combien de fois ton cœur bat-il en une journée ?',
+          choix: ['Environ 5 000 fois', 'Environ 100 000 fois', 'Environ un million de fois', 'Environ 500 fois'],
+          bonne: 1, source: 'corps-humain',
+          note: 'Soit à peu près trois milliards de battements dans une vie entière, sans une seule pause.'
+        },
+        {
+          q: 'Pourquoi les poumons sont-ils faits de millions de minuscules bulles ?',
+          choix: [
+            'Pour être plus légers',
+            'Pour faire tenir 70 m² de surface d\'échange dans la poitrine',
+            'Pour filtrer la poussière',
+            'Pour amortir les chocs'
+          ],
+          bonne: 1, source: 'corps-humain',
+          note: 'Dépliées, les alvéoles couvriraient une grande salle de classe. C\'est là que l\'oxygène passe dans le sang.'
         },
         {
           q: 'Que choisit Léna face à la Gardienne des Brumes ?',

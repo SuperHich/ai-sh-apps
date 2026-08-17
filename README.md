@@ -120,8 +120,8 @@ lifts the veil or turns it into a sign-up panel.
 
 Two ways in that are not a list of cards.
 
-**`quiz.html`** runs one quiz per universe — ten questions each for Prophètes
-& Sagesse, Légendes du monde and Sciences & Découvertes. Every question comes
+**`quiz.html`** runs one quiz per universe — Prophètes & Sagesse, Légendes du
+monde and Sciences & Découvertes. Every question comes
 from a story already on the site, and every answer, right or wrong, links back
 to the story it came from: the quiz rewards reading rather than replacing it.
 Questions and answers are shuffled on each run, one question is shown at a
@@ -129,7 +129,7 @@ time, and the whole thing works from the keyboard (1–4 to answer, Enter to
 advance). Adding a quiz is one block in `assets/js/quiz-data.js`, one item in
 the catalogue, one thumbnail.
 
-**`carte.html`** places the stories on a world map — 23 of them, on 15 places,
+**`carte.html`** places the stories on a world map — 26 of them, on 17 places,
 plus the dotted routes of Elissa, Hannibal, Colomb, Ibn Battuta, Napoléon and
 Einstein. Coastlines and pins share one equirectangular projection
 (`x = (lon+180)/360·L`, `y = (90-lat)/180·H`), so a pin lands where it belongs

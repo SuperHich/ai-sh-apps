@@ -132,6 +132,10 @@
       note: 'La bibliothèque des Samanides qu\'Ibn Sina demanda en récompense — et, à l\'autre bout de ses errances, Hamadan où il s\'éteignit en 1037.',
       stories: ['ibn-sina'] },
 
+    { nom: 'Fès', lon: -5.0, lat: 34.06,
+      note: 'La médina où Fatima al-Fihriya fit bâtir, en 859, la mosquée al-Qarawiyyin — devenue une école qui n\'a jamais fermé depuis.',
+      stories: ['fatima-al-fihriya'] },
+
     { nom: 'Tanger', lon: -5.8, lat: 35.77,
       note: 'Le point de départ — et de retour, vingt-neuf ans plus tard — d\'Ibn Battuta.',
       stories: ['ibn-battuta'] },
@@ -162,6 +166,9 @@
    * quand on ouvre le lieu de départ.
    */
   GRENIER.trajets = [
+    { story: 'fatima-al-fihriya', nom: 'L\'exil de la famille al-Fihri : de Kairouan à Fès',
+      points: [[10.1, 35.68], [3, 36.2], [-2, 35.2], [-5.0, 34.06]] },
+
     { story: 'ibn-sina', nom: 'Les errances d\'Ibn Sina : Boukhara, Gurgandj, Rayy, Ispahan, Hamadan',
       points: [[64.42, 39.77], [60.1, 42.3], [51.4, 35.6], [51.68, 32.65], [48.5, 34.8]] },
 
