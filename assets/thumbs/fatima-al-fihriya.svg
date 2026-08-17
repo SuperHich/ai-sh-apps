@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" preserveAspectRatio="xMidYMid slice">
+  <title>Fatima al-Fihriya — le minaret vert d'al-Qarawiyyin et un livre ouvert</title>
+          <defs>
+            <linearGradient id="fatimaBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#06060a"/>
+              <stop offset="55%"  stop-color="#123a3c"/>
+              <stop offset="100%" stop-color="#1c7a72"/>
+            </linearGradient>
+            <radialGradient id="fatimaGlow" cx="50%" cy="38%" r="55%">
+              <stop offset="0%"   stop-color="#e3ad3c" stop-opacity=".24"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#fatimaBg)"/>
+          <rect width="400" height="300" fill="url(#fatimaGlow)"/>
+          <!-- étoiles -->
+          <circle cx="46"  cy="30" r="1.3" fill="#f4e9d0" opacity=".8"/>
+          <circle cx="128" cy="20" r="1"   fill="#e3ad3c" opacity=".8"/>
+          <circle cx="300" cy="26" r="1.4" fill="#f4e9d0" opacity=".7"/>
+          <circle cx="352" cy="50" r="1"   fill="#4fb8a4" opacity=".7"/>
+          <!-- lune -->
+          <circle cx="330" cy="70" r="20" fill="#f4e9d0" opacity=".8"/>
+          <circle cx="323" cy="65" r="18" fill="#0d2426"/>
+          <!-- minaret carré au toit vert -->
+          <rect x="168" y="96" width="64" height="150" rx="2" fill="#0d1214"/>
+          <rect x="162" y="88" width="76" height="10" rx="2" fill="#111a1c"/>
+          <path d="M168,96 L200,60 L232,96Z" fill="#1c7a72"/>
+          <rect x="195" y="44" width="10" height="18" rx="2" fill="#0d1214"/>
+          <circle cx="200" cy="38" r="7" fill="#e3ad3c" opacity=".75"/>
+          <!-- bandeau de zellige -->
+          <rect x="168" y="140" width="64" height="12" fill="#1c7a72" opacity=".6"/>
+          <rect x="168" y="196" width="64" height="8"  fill="#a8552a" opacity=".5"/>
+          <!-- fenêtres en arc, éclairées -->
+          <path d="M180,190 Q180,166 190,163 Q200,166 200,190Z" fill="#e3ad3c" opacity=".32"/>
+          <path d="M204,190 Q204,166 214,163 Q224,166 224,190Z" fill="#e3ad3c" opacity=".26"/>
+          <!-- arcades de la cour, de part et d'autre -->
+          <g fill="none" stroke="#0d1214" stroke-width="14">
+            <path d="M40,246 L40,208 Q70,182 100,208 L100,246"/>
+            <path d="M300,246 L300,208 Q330,182 360,208 L360,246"/>
+          </g>
+          <g fill="none" stroke="#1c7a72" stroke-width="2" opacity=".45">
+            <path d="M40,208 Q70,182 100,208"/><path d="M300,208 Q330,182 360,208"/>
+          </g>
+          <!-- livre ouvert au premier plan -->
+          <path d="M150,286 L198,274 L198,252 L150,264Z" fill="#f4e9d0" opacity=".9"/>
+          <path d="M250,286 L202,274 L202,252 L250,264Z" fill="#e9dcbe" opacity=".9"/>
+          <path d="M198,252 L200,251 L202,252 L202,274 L200,275 L198,274Z" fill="#c6b088"/>
+        </svg>

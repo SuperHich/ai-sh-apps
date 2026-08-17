@@ -59,8 +59,8 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'lumiere-hira', 'lumiere', 'phare', 'al-khwarizmi',
-    'einstein', 'ibn-battuta', 'colomb'
+    'corps-humain', 'fatima-al-fihriya', 'ibn-sina', 'carte-histoires',
+    'quiz-propheties', 'quiz-legendes', 'quiz-sciences'
   ];
 
   GRENIER.categories = [
@@ -211,6 +211,14 @@
       dir: 'stories/legend', file: 'einstein.html', age: 10, access: 'public',
       desc: 'De l\'employé du bureau des brevets au génie qui réécrivit les lois de l\'univers.',
       tags: ['science', 'relativité', 'physique', 'genie'] },
+    { id: 'fatima-al-fihriya', title: 'Fatima al-Fihriya', emoji: '🕌', cat: 'legendes', kind: 'histoire',
+      dir: 'stories/legend', file: 'fatima-al-fihriya.html', age: 7, access: 'public',
+      desc: 'Elle hérita d\'une fortune et bâtit à Fès, en 859, l\'école la plus ancienne du monde encore ouverte.',
+      tags: ['fes', 'qarawiyyin', 'universite', 'maroc', 'ecole', 'femme'] },
+    { id: 'ibn-sina', title: 'Ibn Sina', emoji: '🩺', cat: 'legendes', kind: 'histoire',
+      dir: 'stories/legend', file: 'ibn-sina.html', age: 10, access: 'public',
+      desc: 'L\'enfant de Boukhara qui préféra une bibliothèque à un trésor, et dont le Canon fut enseigné six siècles en Europe.',
+      tags: ['medecine', 'avicenne', 'boukhara', 'philosophie', 'savant', 'perse'] },
     { id: 'al-khwarizmi', title: 'Al-Khwarizmi', emoji: '📐', cat: 'legendes', kind: 'histoire',
       dir: 'stories/legend', file: 'al-khwarizmi.html', age: 10, access: 'public',
       desc: 'Le savant de Bagdad qui inventa l\'algèbre et donna son nom à l\'algorithme.',
@@ -278,11 +286,37 @@
       desc: 'Devine les réponses les plus populaires données par 100 personnes.',
       tags: ['quiz', 'famille', 'multijoueur'] },
 
+    { id: 'corps-humain', title: 'Le Corps Humain', emoji: '🫀', cat: 'sciences', kind: 'histoire',
+      dir: 'stories/science', file: 'corps-humain.html', age: 7, access: 'public',
+      desc: 'Le cœur, le sang, le souffle, les os et le cerveau : le voyage à l\'intérieur de la machine que tu habites.',
+      tags: ['corps', 'anatomie', 'coeur', 'cerveau', 'sang', 'muscles', 'os'] },
+
     /* ── Outils ──────────────────────────────────────────────── */
     { id: 'financial-calculator', title: 'Calculatrice Financière', emoji: '💰', cat: 'outils', kind: 'outil',
       dir: 'tools', file: 'financial_calculator.html', age: 10, access: 'public',
       desc: 'Simuler un investissement, calculer les intérêts composés, visualiser le pouvoir d\'achat.',
-      tags: ['finance', 'interets', 'investissement', 'epargne'] }
+      tags: ['finance', 'interets', 'investissement', 'epargne'] },
+    { id: 'carte-histoires', title: 'La carte des histoires', emoji: '🗺️', cat: 'outils', kind: 'outil',
+      dir: '.', file: 'carte.html', age: 7, access: 'public',
+      desc: 'Un planisphère cliquable : où se passe chaque récit, et les trajets des grands voyageurs.',
+      tags: ['carte', 'monde', 'geographie', 'voyage', 'lieux'] },
+
+    /* ── Quiz ─────────────────────────────────────────────────
+       Chaque quiz est rangé dans l'univers qu'il interroge : on le trouve
+       à côté des histoires dont il tire ses questions. Le fichier est le
+       même pour tous — c'est la clé d'univers qui change (quiz.js). */
+    { id: 'quiz-propheties', title: 'Quiz — Prophètes & Sagesse', emoji: '❓', cat: 'propheties', kind: 'jeu',
+      dir: '.', file: 'quiz.html?univers=propheties', age: 7, access: 'public',
+      desc: 'Dix questions sur Moïse, Younes, Noé, Youssef et les autres — réponses dans les histoires.',
+      tags: ['quiz', 'questions', 'prophetes', 'jeu'] },
+    { id: 'quiz-legendes', title: 'Quiz — Légendes du monde', emoji: '❓', cat: 'legendes', kind: 'jeu',
+      dir: '.', file: 'quiz.html?univers=legendes', age: 10, access: 'public',
+      desc: 'Douze questions sur Hannibal, Elissa, Napoléon, Colomb, Ibn Battuta, Ibn Sina et Fatima al-Fihriya.',
+      tags: ['quiz', 'questions', 'histoire', 'jeu'] },
+    { id: 'quiz-sciences', title: 'Quiz — Sciences & Découvertes', emoji: '❓', cat: 'sciences', kind: 'jeu',
+      dir: '.', file: 'quiz.html?univers=sciences', age: 7, access: 'public',
+      desc: 'Douze questions sur les dinosaures, le cosmos, l\'odyssée humaine et le corps humain.',
+      tags: ['quiz', 'questions', 'sciences', 'jeu'] }
   ];
 
   /* ── Utilitaires ───────────────────────────────────────────── */

@@ -181,6 +181,8 @@
   .card:nth-child(8) { animation-delay:.8s; }
   .card:nth-child(9) { animation-delay:.9s; }
   .card:nth-child(10) { animation-delay:1s; }
+  .card:nth-child(11) { animation-delay:1.1s; }
+  .card:nth-child(12) { animation-delay:1.2s; }
 
   /* card illustration area */
   .card-art {
@@ -345,7 +347,7 @@
     <p class="hero-sub">Des récits légendaires des grandes figures du monde entier</p>
     <div class="count-badge">
       <span>✦</span>
-      <span><strong id="storyCount">9</strong> histoires disponibles</span>
+      <span><strong id="storyCount">11</strong> histoires disponibles</span>
       <span>✦</span>
     </div>
   </header>
@@ -986,8 +988,140 @@
       </div>
     </a>
 
+    <a class="card" href="ibn-sina.html">
+      <div class="card-art">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sinaBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#06040a"/>
+              <stop offset="55%"  stop-color="#1e2f6b"/>
+              <stop offset="100%" stop-color="#1f7a63"/>
+            </linearGradient>
+            <radialGradient id="sinaGlow" cx="50%" cy="40%" r="55%">
+              <stop offset="0%"   stop-color="#e0a83a" stop-opacity=".24"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#sinaBg)"/>
+          <rect width="400" height="300" fill="url(#sinaGlow)"/>
+          <!-- étoiles -->
+          <circle cx="44"  cy="30" r="1.3" fill="#f2e6c8" opacity=".8"/>
+          <circle cx="126" cy="20" r="1"   fill="#e0a83a" opacity=".8"/>
+          <circle cx="296" cy="24" r="1.4" fill="#f2e6c8" opacity=".7"/>
+          <circle cx="352" cy="46" r="1"   fill="#1f7a63" opacity=".7"/>
+          <!-- croissant -->
+          <circle cx="332" cy="68" r="21" fill="#f2e6c8" opacity=".8"/>
+          <circle cx="325" cy="63" r="19" fill="#0d1330"/>
+          <!-- coupole de Boukhara -->
+          <ellipse cx="200" cy="196" rx="62" ry="18" fill="#0d1226"/>
+          <path d="M138,196 Q138,142 200,126 Q262,142 262,196Z" fill="#152447"/>
+          <path d="M152,186 Q200,172 248,186" fill="none" stroke="#1f7a63" stroke-width="1.4" opacity=".5"/>
+          <circle cx="200" cy="120" r="7" fill="#152447"/>
+          <path d="M209,113 Q219,120 209,127 Q217,120 212,115Z" fill="#e0a83a" opacity=".6"/>
+          <!-- minarets -->
+          <rect x="112" y="150" width="15" height="128" rx="3" fill="#0c0a16"/>
+          <ellipse cx="119" cy="148" rx="10" ry="4" fill="#12102a"/>
+          <rect x="273" y="150" width="15" height="128" rx="3" fill="#0c0a16"/>
+          <ellipse cx="280" cy="148" rx="10" ry="4" fill="#12102a"/>
+          <!-- le livre ouvert, au premier plan -->
+          <path d="M148,272 L198,260 L198,236 L148,248Z" fill="#f2e6c8" opacity=".92"/>
+          <path d="M252,272 L202,260 L202,236 L252,248Z" fill="#e8dbb8" opacity=".92"/>
+          <path d="M198,236 L200,235 L202,236 L202,260 L200,261 L198,260Z" fill="#c8b48a"/>
+          <g stroke="#1e2f6b" stroke-width=".8" opacity=".55">
+            <line x1="156" y1="252" x2="192" y2="243"/><line x1="156" y1="258" x2="192" y2="249"/>
+            <line x1="208" y1="243" x2="244" y2="252"/><line x1="208" y1="249" x2="244" y2="258"/>
+          </g>
+          <!-- tracé du pouls -->
+          <path d="M20,110 L74,110 L82,92 L90,128 L98,110 L140,110" fill="none"
+                stroke="#8f2733" stroke-width="2" opacity=".75"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">✦ Légende · Le Prince des Savants</div>
+        <div class="card-title">Ibn Sina 🩺</div>
+        <p class="card-desc">L'enfant de Boukhara qui préféra une bibliothèque à un trésor, et écrivit un livre de médecine que l'Europe enseigna encore six siècles plus tard.</p>
+        <div class="card-footer">
+          <div class="card-chapters">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            5 chapitres
+          </div>
+          <div class="card-btn">
+            Lire l'histoire
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="fatima-al-fihriya.html">
+      <div class="card-art">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fatimaBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#06060a"/>
+              <stop offset="55%"  stop-color="#123a3c"/>
+              <stop offset="100%" stop-color="#1c7a72"/>
+            </linearGradient>
+            <radialGradient id="fatimaGlow" cx="50%" cy="38%" r="55%">
+              <stop offset="0%"   stop-color="#e3ad3c" stop-opacity=".24"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#fatimaBg)"/>
+          <rect width="400" height="300" fill="url(#fatimaGlow)"/>
+          <!-- étoiles -->
+          <circle cx="46"  cy="30" r="1.3" fill="#f4e9d0" opacity=".8"/>
+          <circle cx="128" cy="20" r="1"   fill="#e3ad3c" opacity=".8"/>
+          <circle cx="300" cy="26" r="1.4" fill="#f4e9d0" opacity=".7"/>
+          <circle cx="352" cy="50" r="1"   fill="#4fb8a4" opacity=".7"/>
+          <!-- lune -->
+          <circle cx="330" cy="70" r="20" fill="#f4e9d0" opacity=".8"/>
+          <circle cx="323" cy="65" r="18" fill="#0d2426"/>
+          <!-- minaret carré au toit vert -->
+          <rect x="168" y="96" width="64" height="150" rx="2" fill="#0d1214"/>
+          <rect x="162" y="88" width="76" height="10" rx="2" fill="#111a1c"/>
+          <path d="M168,96 L200,60 L232,96Z" fill="#1c7a72"/>
+          <rect x="195" y="44" width="10" height="18" rx="2" fill="#0d1214"/>
+          <circle cx="200" cy="38" r="7" fill="#e3ad3c" opacity=".75"/>
+          <!-- bandeau de zellige -->
+          <rect x="168" y="140" width="64" height="12" fill="#1c7a72" opacity=".6"/>
+          <rect x="168" y="196" width="64" height="8"  fill="#a8552a" opacity=".5"/>
+          <!-- fenêtres en arc, éclairées -->
+          <path d="M180,190 Q180,166 190,163 Q200,166 200,190Z" fill="#e3ad3c" opacity=".32"/>
+          <path d="M204,190 Q204,166 214,163 Q224,166 224,190Z" fill="#e3ad3c" opacity=".26"/>
+          <!-- arcades de la cour, de part et d'autre -->
+          <g fill="none" stroke="#0d1214" stroke-width="14">
+            <path d="M40,246 L40,208 Q70,182 100,208 L100,246"/>
+            <path d="M300,246 L300,208 Q330,182 360,208 L360,246"/>
+          </g>
+          <g fill="none" stroke="#1c7a72" stroke-width="2" opacity=".45">
+            <path d="M40,208 Q70,182 100,208"/><path d="M300,208 Q330,182 360,208"/>
+          </g>
+          <!-- livre ouvert au premier plan -->
+          <path d="M150,286 L198,274 L198,252 L150,264Z" fill="#f4e9d0" opacity=".9"/>
+          <path d="M250,286 L202,274 L202,252 L250,264Z" fill="#e9dcbe" opacity=".9"/>
+          <path d="M198,252 L200,251 L202,252 L202,274 L200,275 L198,274Z" fill="#c6b088"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">✦ Légende · La Mère des Enfants</div>
+        <div class="card-title">Fatima al-Fihriya 🕌</div>
+        <p class="card-desc">Elle hérita d'une fortune et bâtit à Fès, en 859, une mosquée devenue la plus ancienne institution d'enseignement encore ouverte au monde.</p>
+        <div class="card-footer">
+          <div class="card-chapters">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            5 chapitres
+          </div>
+          <div class="card-btn">
+            Lire l'histoire
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+    </a>
+
     <!-- ══ COMING SOON ══ -->
-    <div class="card card-soon" style="animation-delay:1.1s">
+    <div class="card card-soon" style="animation-delay:1.3s">
       <div class="soon-art">
         <div class="soon-icon">🏛️</div>
       </div>

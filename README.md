@@ -15,6 +15,8 @@ everyone; the rest opens once a (local, free) account is created.
 ```
 ├── index.html              # Home — curated selection
 ├── bibliotheque.html       # Full catalogue (search + filters)
+├── carte.html              # World map of the places in the stories
+├── quiz.html               # Quizzes — one per universe
 ├── atelier.html            # Content creation — hidden behind a feature flag
 ├── lecture.html            # Reader for locally-created content
 ├── assets/
@@ -28,6 +30,10 @@ everyone; the rest opens once a (local, free) account is created.
 │       ├── shell.js        # Shared nav bar, injected on every library page
 │       ├── cards.js        # The content card, shared by home and catalogue
 │       ├── carousel.js     # Stacked universe carousel (home)
+│       ├── carte.js        # Map projection, pins, fan-out placement
+│       ├── carte-data.js   # Coastlines, places and travellers' routes
+│       ├── quiz.js         # Quiz engine
+│       ├── quiz-data.js    # The questions, one block per universe
 │       ├── protect.js      # Access guard — kept for future member-only pages
 │       ├── home.js         # Home page logic
 │       ├── bibliotheque.js # Catalogue filtering and search
@@ -109,6 +115,34 @@ catalogue, and add one line right after `<body>` in its page:
 
 It draws an opaque veil, checks the catalogue and the session, then either
 lifts the veil or turns it into a sign-up panel.
+
+## Quizzes and the map
+
+Two ways in that are not a list of cards.
+
+**`quiz.html`** runs one quiz per universe — Prophètes & Sagesse, Légendes du
+monde and Sciences & Découvertes. Every question comes
+from a story already on the site, and every answer, right or wrong, links back
+to the story it came from: the quiz rewards reading rather than replacing it.
+Questions and answers are shuffled on each run, one question is shown at a
+time, and the whole thing works from the keyboard (1–4 to answer, Enter to
+advance). Adding a quiz is one block in `assets/js/quiz-data.js`, one item in
+the catalogue, one thumbnail.
+
+**`carte.html`** places the stories on a world map — 26 of them, on 17 places,
+plus the dotted routes of Elissa, Hannibal, Colomb, Ibn Battuta, Napoléon and
+Einstein. Coastlines and pins share one equirectangular projection
+(`x = (lon+180)/360·L`, `y = (90-lat)/180·H`), so a pin lands where it belongs
+without any hand-tuning. The coastlines are deliberately coarse — a storyteller's
+map, not an atlas.
+
+Two problems were worth solving properly there. Eight places sit within a few
+degrees of each other in the Near East, so their markers overlapped into one
+unclickable blob: each cluster now fans out around its centroid, keeping a dot
+at the true position with a thread back to it. And an invisible 29px disc under
+each pin brings the touch target above the 24×24px floor of WCAG 2.5.8. The
+same information is repeated as a plain list under the map, for anyone who
+would rather not poke at a map at all.
 
 ## Tab icon
 

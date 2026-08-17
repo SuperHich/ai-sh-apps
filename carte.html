@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La carte des histoires — Le Grenier des Apps</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="mask-icon" href="assets/favicon-mono.svg" color="#f0c04b">
+<meta name="description" content="Où se passent les histoires du Grenier des Apps : de l'Égypte de Moïse à Carthage, de Bagdad à Princeton, une carte cliquable des lieux et des voyages.">
+<meta name="theme-color" content="#08070f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<style>
+  .carte-head { padding: clamp(24px, 4.5vw, 46px) 0 4px; }
+  .carte-head h1 {
+    margin: 0;
+    font-family: var(--gr-display);
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    line-height: 1.08;
+  }
+  .carte-head h1 em {
+    font-style: italic;
+    background: linear-gradient(115deg, var(--gr-gold), var(--gr-jade));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .carte-head p { max-width: 640px; margin: 10px 0 0; color: var(--gr-text-soft); line-height: 1.6; }
+  .carte-compte { margin-top: 12px; font-size: .86rem; color: var(--gr-text-faint); }
+  .carte-compte b { color: var(--gr-gold); }
+
+  /* ── Le planisphère ── */
+  .carte-cadre {
+    position: relative;
+    margin-top: 22px;
+    padding: 10px;
+    border-radius: var(--gr-r-lg);
+    border: 1px solid var(--gr-line);
+    /* Fond opaque : l'océan ne doit pas laisser passer les aurores de
+       l'arrière-plan, qui ressemblaient à des îles floues. */
+    background:
+      radial-gradient(120% 90% at 50% 0%, rgba(91, 184, 255, .1), transparent 62%),
+      linear-gradient(170deg, #0f1526, #090a12);
+    /* La carte déborde volontairement sur les petits écrans : on la fait
+       défiler horizontalement plutôt que de la réduire jusqu'à l'illisible. */
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+  #carteSvg {
+    display: block;
+    width: 100%;
+    min-width: 620px;
+    height: auto;
+  }
+
+  /* Parallèles et méridiens : trois traits qui disent « ceci est une carte ». */
+  .carte-grille {
+    stroke: #5bb8ff;
+    stroke-opacity: .1;
+    fill: none;
+  }
+
+  .carte-terre {
+    fill: rgba(244, 239, 228, .07);
+    stroke: rgba(244, 239, 228, .22);
+    stroke-width: 1.1;
+    stroke-linejoin: round;
+  }
+
+  .carte-route {
+    fill: none;
+    stroke: var(--gr-text-faint);
+    stroke-width: 1.2;
+    stroke-dasharray: 4 5;
+    stroke-linecap: round;
+    opacity: .35;
+    transition: opacity var(--gr-normal) ease, stroke var(--gr-normal) ease;
+  }
+  .carte-route.is-on { opacity: 1; stroke: var(--gr-gold); stroke-width: 2; }
+
+  .carte-epingle { cursor: pointer; }
+  .carte-cible { fill: transparent; }
+  /* Fil et ancre : la position réelle du lieu, quand le marqueur a dû
+     s'écarter pour rester cliquable. */
+  .carte-fil {
+    stroke: var(--accent);
+    stroke-width: 1;
+    stroke-opacity: .4;
+    transition: stroke-opacity var(--gr-normal) ease;
+  }
+  .carte-ancre { fill: var(--accent); opacity: .6; }
+  .carte-epingle.is-on .carte-fil { stroke-opacity: .95; }
+  .carte-epingle.is-on .carte-ancre { opacity: 1; }
+
+  .carte-halo {
+    fill: var(--accent);
+    opacity: .16;
+    transform: scale(.6);
+    /* transform-box est indispensable : sans lui, « center » se rapporte au
+       viewBox du SVG entier et le halo part à l'autre bout de la carte. */
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform var(--gr-normal) var(--gr-ease-back), opacity var(--gr-normal) ease;
+  }
+  .carte-point {
+    fill: var(--accent);
+    stroke: #08070f;
+    stroke-width: 1.6;
+    transition: r var(--gr-fast) var(--gr-ease-back);
+  }
+  .carte-nombre {
+    fill: #14100a;
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-size: 7px;
+    font-weight: 700;
+    text-anchor: middle;
+    pointer-events: none;
+  }
+  .carte-etiquette {
+    fill: var(--gr-text-soft);
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    text-anchor: middle;
+    opacity: 0;
+    pointer-events: none;
+    paint-order: stroke;
+    stroke: #08070f;
+    stroke-width: 3;
+    stroke-linejoin: round;
+    transition: opacity var(--gr-fast) ease;
+  }
+  .carte-epingle:hover .carte-halo,
+  .carte-epingle:focus .carte-halo { transform: scale(1); opacity: .3; }
+  .carte-epingle:hover .carte-etiquette,
+  .carte-epingle:focus .carte-etiquette,
+  .carte-epingle.is-on .carte-etiquette { opacity: 1; }
+  .carte-epingle.is-on .carte-halo { transform: scale(1.25); opacity: .38; }
+  .carte-epingle.is-on .carte-point { r: 9; }
+  .carte-epingle:focus { outline: none; }
+  .carte-epingle:focus-visible .carte-point { stroke: var(--gr-gold); stroke-width: 3; }
+
+  /* ── Panneau du lieu ── */
+  .carte-panneau {
+    margin-top: 22px;
+    padding: clamp(18px, 3vw, 26px);
+    border-radius: var(--gr-r);
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+    animation: gr-swap-in 260ms var(--gr-ease-out);
+  }
+  .carte-panneau h2 {
+    margin: 0;
+    font-family: var(--gr-display);
+    font-size: clamp(1.25rem, 3vw, 1.6rem);
+  }
+  .carte-note { margin: 8px 0 0; color: var(--gr-text-soft); line-height: 1.6; }
+  .carte-liens {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .carte-lien {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 56px;
+    padding: 10px 14px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface-2);
+    color: inherit;
+    text-decoration: none;
+    transition: transform var(--gr-fast) var(--gr-ease-out), border-color var(--gr-fast) ease;
+  }
+  .carte-lien:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  }
+  .carte-lien:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .carte-lien > span:first-child { font-size: 1.5rem; }
+  .carte-lien strong { display: block; font-size: .96rem; }
+  .carte-lien small { display: block; margin-top: 2px; font-size: .76rem; color: var(--gr-text-faint); }
+
+  /* ── Liste équivalente ── */
+  .carte-index { margin-top: 34px; }
+  .carte-index h2 {
+    margin: 0 0 4px;
+    font-family: var(--gr-display);
+    font-size: 1.2rem;
+  }
+  .carte-index p { margin: 0 0 16px; font-size: .86rem; color: var(--gr-text-faint); }
+  #carteListe {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .carte-item {
+    width: 100%;
+    min-height: 56px;
+    padding: 12px 15px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color var(--gr-fast) ease, background var(--gr-fast) ease;
+  }
+  .carte-item:hover { background: var(--gr-surface-2); border-color: var(--gr-line-strong); }
+  .carte-item:focus-visible { outline: 3px solid var(--gr-gold); outline-offset: 2px; }
+  .carte-item strong { display: block; font-size: .95rem; }
+  .carte-item span { display: block; margin-top: 3px; font-size: .78rem; color: var(--gr-text-faint); }
+
+  .carte-mention {
+    margin-top: 26px;
+    font-size: .78rem;
+    line-height: 1.6;
+    color: var(--gr-text-faint);
+  }
+</style>
+</head>
+<body class="gr-body">
+
+<div class="gr-page">
+
+  <header class="carte-head gr-enter">
+    <h1>La <em>carte</em> des histoires</h1>
+    <p>
+      Où se passe ce qu'on lit. Touchez une épingle pour ouvrir le lieu ;
+      les pointillés suivent les grands voyageurs — Elissa, Hannibal, Colomb,
+      Ibn Battuta, Napoléon et Einstein.
+    </p>
+    <p class="carte-compte" id="carteCompte"></p>
+  </header>
+
+  <div class="carte-cadre">
+    <svg id="carteSvg" role="img" aria-label="Planisphère simplifié des lieux des histoires du Grenier"></svg>
+  </div>
+
+  <section class="carte-panneau" id="cartePanneau" aria-live="polite" hidden></section>
+
+  <section class="carte-index">
+    <h2>Tous les lieux</h2>
+    <p>La même chose en liste, si la carte n'est pas pratique.</p>
+    <ul id="carteListe"></ul>
+  </section>
+
+  <p class="carte-mention">
+    Planisphère simplifié, dessiné à la main : les contours sont approximatifs,
+    mais les épingles sont posées aux coordonnées réelles des lieux.
+    Les histoires sans lieu — les contes en arabe, les dinosaures, le cosmos —
+    n'y figurent pas : elles se passent partout, ou nulle part.
+  </p>
+
+</div>
+
+<footer class="gr-footer">
+  Généré avec <strong>Claude</strong> · Le Grenier des Apps ·
+  <a href="index.html">Accueil</a> · <a href="bibliotheque.html">Bibliothèque</a>
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>window.GRENIER_SHELL = { active: 'library', search: true };</script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/carte-data.js"></script>
+<script src="assets/js/carte.js"></script>
+</body>
+</html>

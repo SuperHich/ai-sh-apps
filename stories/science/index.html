@@ -177,6 +177,7 @@
   .card:nth-child(4) { animation-delay:.4s; }
   .card:nth-child(5) { animation-delay:.5s; }
   .card:nth-child(6) { animation-delay:.6s; }
+  .card:nth-child(7) { animation-delay:.7s; }
 
   /* card illustration area */
   .card-art {
@@ -334,7 +335,7 @@
     <p class="hero-sub">Des grandes épopées de la nature, de l'humanité et du cosmos</p>
     <div class="count-badge">
       <span>✦</span>
-      <span><strong id="storyCount">5</strong> histoires disponibles</span>
+      <span><strong id="storyCount">6</strong> histoires disponibles</span>
       <span>✦</span>
     </div>
   </header>
@@ -721,8 +722,71 @@
       </div>
     </a>
 
-    <!-- ══ COMING SOON ══ -->
-    <div class="card card-soon" style="animation-delay:.4s">
+        <a class="card" href="corps-humain.html">
+      <div class="card-art">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="corpsBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#05050a"/>
+              <stop offset="60%"  stop-color="#3a1018"/>
+              <stop offset="100%" stop-color="#7a1f2c"/>
+            </linearGradient>
+            <radialGradient id="corpsGlow" cx="50%" cy="42%" r="55%">
+              <stop offset="0%"   stop-color="#c0384a" stop-opacity=".3"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#corpsBg)"/>
+          <rect width="400" height="300" fill="url(#corpsGlow)"/>
+          <!-- tracé cardiaque en fond -->
+          <path d="M0,60 L86,60 L98,34 L110,86 L122,60 L200,60 L212,30 L224,92 L236,60 L400,60"
+                fill="none" stroke="#c0384a" stroke-width="2.4" opacity=".45"/>
+          <!-- silhouette -->
+          <g fill="#120d14" stroke="#3a6ea8" stroke-width="1.2" stroke-opacity=".4">
+            <circle cx="200" cy="128" r="26"/>
+            <path d="M176,160 Q200,150 224,160 L234,244 L166,244Z"/>
+            <path d="M176,164 L134,208 L142,216 L182,180Z"/>
+            <path d="M224,164 L266,208 L258,216 L218,180Z"/>
+          </g>
+          <!-- vaisseaux -->
+          <g fill="none" stroke-linecap="round">
+            <path d="M200,172 L200,238" stroke="#c0384a" stroke-width="3"/>
+            <path d="M200,184 Q180,194 172,216" stroke="#c0384a" stroke-width="2"/>
+            <path d="M200,184 Q220,194 228,216" stroke="#3a6ea8" stroke-width="2"/>
+            <path d="M200,206 Q186,216 182,240" stroke="#3a6ea8" stroke-width="1.6"/>
+            <path d="M200,206 Q214,216 218,240" stroke="#c0384a" stroke-width="1.6"/>
+          </g>
+          <!-- le cœur -->
+          <path d="M200,192 C190,178 168,180 168,198 C168,216 190,226 200,236 C210,226 232,216 232,198 C232,180 210,178 200,192Z"
+                fill="#c0384a"/>
+          <ellipse cx="200" cy="206" rx="44" ry="38" fill="#c0384a" opacity=".16"/>
+          <!-- globules rouges, en bas -->
+          <g>
+            <g transform="translate(56 268)"><ellipse rx="16" ry="11" fill="#c0384a"/><ellipse rx="7" ry="4" fill="#8f2233"/></g>
+            <g transform="translate(104 282)"><ellipse rx="13" ry="9" fill="#b83344"/><ellipse rx="6" ry="3.6" fill="#8a2131"/></g>
+            <g transform="translate(330 272)"><ellipse rx="15" ry="10" fill="#c93d50"/><ellipse rx="7" ry="4" fill="#932435"/></g>
+          </g>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag">✦ Science · Anatomie</div>
+        <div class="card-title">Le Corps Humain 🫀</div>
+        <p class="card-desc">Cent mille battements par jour, cent mille kilomètres de vaisseaux, 86 milliards de neurones : le voyage à l'intérieur de la machine que tu habites.</p>
+        <div class="card-footer">
+          <div class="card-chapters">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            5 chapitres
+          </div>
+          <div class="card-btn">
+            Lire l'histoire
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </div>
+    </a>
+
+<!-- ══ COMING SOON ══ -->
+    <div class="card card-soon" style="animation-delay:.8s">
       <div class="soon-art">
         <div class="soon-icon">🔬</div>
       </div>

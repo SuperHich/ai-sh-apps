@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fatima al-Fihriya – Celle qui bâtit la plus vieille université du monde</title>
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="mask-icon" href="../../assets/favicon-mono.svg" color="#f0c04b">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+  :root {
+    --zellige:#1c7a72;   /* vert des zelliges de Fès */
+    --menthe:#4fb8a4;
+    --terre:#a8552a;     /* terre cuite */
+    --parchemin:#f4e9d0;
+    --safran:#e3ad3c;
+    --encre:#070608;
+    --dark:#0a0a0d;
+    --dark2:#0b0c11;
+    --dark3:#080a0c;
+    --serif:'EB Garamond','Georgia',serif;
+    --display:'Cinzel','Trajan Pro',serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--encre);color:var(--parchemin);
+    font-family:var(--serif);font-size:1.15em;line-height:1.8;
+    scroll-snap-type:y proximity;overflow-y:scroll;height:100vh;
+  }
+  ::selection{background:#1c7a72;color:var(--parchemin);}
+
+  section{
+    min-height:100vh;scroll-snap-align:start;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:80px 24px;position:relative;overflow:hidden;
+  }
+  section.dark{background:var(--dark);}
+
+  section.hero-bg{
+    background:
+      radial-gradient(ellipse at 50% 62%,rgba(28,122,114,.4)  0%,transparent 66%),
+      radial-gradient(ellipse at 82% 12%,rgba(227,173,60,.1)  0%,transparent 50%),
+      var(--dark);
+  }
+  section.exil-bg{
+    background:
+      radial-gradient(ellipse at 30% 66%,rgba(168,85,42,.24)  0%,transparent 56%),
+      radial-gradient(ellipse at 84% 20%,rgba(227,173,60,.1)  0%,transparent 50%),
+      var(--dark2);
+  }
+  section.chantier-bg{
+    background:
+      radial-gradient(ellipse at 52% 44%,rgba(227,173,60,.16) 0%,transparent 58%),
+      radial-gradient(ellipse at 16% 76%,rgba(28,122,114,.16) 0%,transparent 52%),
+      var(--dark3);
+  }
+  section.halqa-bg{
+    background:
+      radial-gradient(ellipse at 50% 50%,rgba(28,122,114,.26) 0%,transparent 60%),
+      radial-gradient(ellipse at 14% 18%,rgba(227,173,60,.1)  0%,transparent 50%),
+      var(--dark);
+  }
+  section.biblio-bg{
+    background:
+      radial-gradient(ellipse at 44% 56%,rgba(168,85,42,.2)   0%,transparent 58%),
+      radial-gradient(ellipse at 80% 16%,rgba(79,184,164,.12) 0%,transparent 50%),
+      var(--dark2);
+  }
+  section.aujourdhui-bg{
+    background:
+      radial-gradient(ellipse at 50% 48%,rgba(79,184,164,.2)  0%,transparent 62%),
+      radial-gradient(ellipse at 20% 14%,rgba(227,173,60,.12) 0%,transparent 52%),
+      var(--dark3);
+  }
+
+  .divider{width:120px;height:1px;background:linear-gradient(to right,transparent,rgba(227,173,60,.7),transparent);margin:26px auto;}
+
+  .hero-sec{text-align:center;}
+  .roman-num{font-family:var(--display);font-size:.87em;letter-spacing:6px;color:rgba(227,173,60,.65);text-transform:uppercase;margin-bottom:18px;display:block;}
+  h1{
+    font-family:var(--display);font-size:clamp(1.8em,5.4vw,4em);font-weight:800;
+    line-height:1.1;text-transform:uppercase;letter-spacing:2px;
+    background:linear-gradient(155deg,var(--parchemin) 20%,var(--safran) 55%,var(--menthe) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px;
+  }
+  .sub{font-family:var(--display);font-size:clamp(.8em,2vw,.96em);color:rgba(227,173,60,.7);letter-spacing:3px;text-transform:uppercase;margin-bottom:22px;}
+  .tagline{font-style:italic;color:rgba(244,233,208,.52);font-size:1.18em;max-width:560px;margin:0 auto 38px;}
+  .scroll-cue{
+    display:inline-block;font-family:var(--display);font-size:.75em;
+    letter-spacing:4px;text-transform:uppercase;color:rgba(227,173,60,.6);
+    animation:pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:.35;transform:translateY(0);}50%{opacity:.85;transform:translateY(7px);}}
+
+  .chapter{max-width:680px;width:100%;text-align:center;}
+  .chapter-num{font-family:var(--display);font-size:.75em;letter-spacing:5px;color:rgba(168,85,42,1);text-transform:uppercase;margin-bottom:12px;display:block;}
+  h2{font-family:var(--display);font-size:clamp(1.35em,3.6vw,2.1em);font-weight:600;color:var(--safran);text-transform:uppercase;letter-spacing:2px;margin-bottom:26px;}
+  p{text-align:justify;color:rgba(244,233,208,.83);font-size:1.04em;margin-bottom:14px;}
+  blockquote{border-left:3px solid rgba(227,173,60,.55);margin:26px 0;padding:14px 24px;text-align:left;background:rgba(227,173,60,.05);border-radius:0 4px 4px 0;}
+  blockquote p{text-align:left;font-style:italic;color:var(--parchemin);font-size:1.14em;margin:0;}
+  blockquote cite{display:block;margin-top:8px;font-size:.74em;letter-spacing:2px;text-transform:uppercase;color:rgba(227,173,60,.65);font-style:normal;}
+  strong{color:var(--parchemin);font-weight:600;}
+  em{color:rgba(227,173,60,.9);font-style:italic;}
+
+  .illus{width:100%;max-width:640px;margin:0 auto 34px;border-radius:6px;overflow:hidden;}
+  .illus svg{display:block;width:100%;}
+
+  .ending{text-align:center;}
+  .ending .ornament{font-size:2em;color:rgba(227,173,60,.7);display:block;margin-bottom:22px;letter-spacing:12px;}
+  .ending .moral{font-style:italic;font-size:1.18em;color:rgba(244,233,208,.72);max-width:580px;margin:0 auto 24px;text-align:center;}
+  .ending .ref{font-family:var(--display);font-size:.72em;letter-spacing:3px;color:rgba(168,85,42,1);text-transform:uppercase;}
+
+  @keyframes shimmer{0%,100%{opacity:.45;}50%{opacity:1;}}
+  @keyframes twinkle{0%,100%{opacity:.2;}50%{opacity:.95;}}
+  @keyframes flicker{0%,100%{opacity:.55;}50%{opacity:1;}}
+  @keyframes drift{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+  @keyframes monte{0%{opacity:0;transform:translateY(6px);}100%{opacity:.9;transform:translateY(0);}}
+
+  @media(max-width:600px){section{padding:50px 16px;}h1{font-size:1.8em;}}
+  @media(prefers-reduced-motion:reduce){
+    .scroll-cue{animation:none;}
+    svg *{animation:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html" color="green"></back-button>
+
+<!-- ══ HERO ══ -->
+<section class="hero-bg hero-sec">
+
+  <div style="width:100%;max-width:580px;margin:0 auto 32px;">
+    <svg viewBox="0 0 580 200" xmlns="http://www.w3.org/2000/svg" role="img">
+      <title>Le minaret vert d'al-Qarawiyyin sous un ciel étoilé, et le nom de Fatima al-Fihriya</title>
+      <rect x="0" y="0" width="580" height="200" fill="#06060a"/>
+
+      <!-- entrelacs de zellige en filigrane -->
+      <g opacity=".14" stroke="#1c7a72" stroke-width=".9" fill="none">
+        <polygon points="290,40 302,72 334,72 308,90 318,122 290,102 262,122 272,90 246,72 278,72"/>
+        <polygon points="92,90 100,110 122,110 105,123 111,143 92,130 73,143 79,123 62,110 84,110" opacity=".7"/>
+        <polygon points="488,90 496,110 518,110 501,123 507,143 488,130 469,143 475,123 458,110 480,110" opacity=".7"/>
+      </g>
+      <line x1="0" y1="150" x2="580" y2="150" stroke="#1c7a72" stroke-width=".8" opacity=".25"/>
+
+      <!-- minaret carré, tuiles vertes -->
+      <rect x="266" y="76" width="48" height="98" rx="2" fill="#0e1216"/>
+      <rect x="262" y="70" width="56" height="8" rx="2" fill="#121a1e"/>
+      <path d="M266,76 L290,52 L314,76Z" fill="#1c7a72" opacity=".75"/>
+      <rect x="286" y="40" width="8" height="14" rx="2" fill="#0e1216"/>
+      <circle cx="290" cy="36" r="5" fill="#e3ad3c" opacity=".7"/>
+      <!-- fenêtres en arc -->
+      <path d="M275,132 Q275,116 283,114 Q291,116 291,132Z" fill="#e3ad3c" opacity=".24" style="animation:shimmer 3s ease-in-out infinite"/>
+      <path d="M293,132 Q293,116 301,114 Q309,116 309,132Z" fill="#e3ad3c" opacity=".2"  style="animation:shimmer 2.5s ease-in-out infinite .4s"/>
+      <!-- bandeau de zellige -->
+      <rect x="266" y="100" width="48" height="7" fill="#1c7a72" opacity=".5"/>
+
+      <!-- toits de la médina -->
+      <g fill="#0d0f12">
+        <rect x="60"  y="150" width="70" height="26"/><rect x="140" y="142" width="54" height="34"/>
+        <rect x="200" y="152" width="52" height="24"/><rect x="330" y="146" width="60" height="30"/>
+        <rect x="398" y="154" width="48" height="22"/><rect x="456" y="144" width="64" height="32"/>
+      </g>
+
+      <!-- étoiles -->
+      <circle cx="46"  cy="24" r="1.2" fill="#f4e9d0" style="animation:twinkle 2.4s ease-in-out infinite"/>
+      <circle cx="150" cy="16" r="1"   fill="#f4e9d0" style="animation:twinkle 3s ease-in-out infinite .4s"/>
+      <circle cx="418" cy="18" r="1.3" fill="#f4e9d0" style="animation:twinkle 2.6s ease-in-out infinite .8s"/>
+      <circle cx="534" cy="28" r="1"   fill="#f4e9d0" style="animation:twinkle 2.1s ease-in-out infinite .2s"/>
+
+      <text font-family="serif" font-size="30" fill="#1c7a72" text-anchor="middle" x="290" y="194" opacity=".3">فاطمة الفهرية</text>
+    </svg>
+  </div>
+
+  <span class="roman-num">IX<sup>e</sup> siècle · Kairouan, puis Fès</span>
+  <h1>Fatima al-Fihriya</h1>
+  <p class="sub">فاطمة الفهرية · Oum al-Banine — la mère des enfants</p>
+  <div class="divider"></div>
+  <p class="tagline">Elle a hérité d'une fortune. Elle aurait pu vivre tranquille. Elle a bâti une école qui n'a pas fermé depuis mille cent soixante-cinq ans.</p>
+  <span class="scroll-cue">Fais défiler ↓</span>
+</section>
+
+<!-- ══ I — L'EXIL ══ -->
+<section class="exil-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre I</span>
+    <h2>De Kairouan à Fès</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Une caravane quitte Kairouan vers l'ouest et arrive dans la médina de Fès</title>
+        <rect x="0" y="0" width="640" height="250" fill="#08070a"/>
+
+        <!-- ciel du soir -->
+        <rect x="0" y="0" width="640" height="120" fill="#12100e"/>
+        <circle cx="92" cy="66" r="26" fill="#e3ad3c" opacity=".16"/>
+        <circle cx="92" cy="66" r="13" fill="#e3ad3c" opacity=".4"/>
+
+        <!-- dunes -->
+        <path d="M0,168 Q120,144 250,164 Q380,184 500,158 Q580,142 640,156 L640,250 L0,250Z" fill="#1a120c"/>
+        <path d="M0,192 Q140,172 280,190 Q420,208 540,186 Q600,176 640,184 L640,250 L0,250Z" fill="#120c08"/>
+
+        <!-- Kairouan, à gauche : coupole + minaret carré qu'on quitte -->
+        <g opacity=".8">
+          <rect x="26" y="126" width="26" height="44" rx="2" fill="#0d0c10"/>
+          <path d="M26,126 L39,112 L52,126Z" fill="#151318"/>
+          <ellipse cx="86" cy="168" rx="30" ry="10" fill="#0d0c10"/>
+          <path d="M56,168 Q56,140 86,132 Q116,140 116,168Z" fill="#111015"/>
+        </g>
+
+        <!-- caravane : chameaux et voyageurs -->
+        <g fill="#0a0808">
+          <path d="M232,176 q6,-16 20,-16 q6,-10 14,-2 q12,-2 14,14 l4,16 l-6,0 l-3,-12 l-8,0 l-3,12 l-6,0 l-3,-12 l-10,0 l-3,12 l-6,0Z"/>
+          <path d="M300,180 q5,-14 18,-14 q5,-9 13,-2 q11,-2 13,13 l3,15 l-5,0 l-3,-11 l-7,0 l-3,11 l-5,0 l-3,-11 l-9,0 l-3,11 l-5,0Z"/>
+          <ellipse cx="352" cy="192" rx="7" ry="14"/>
+        </g>
+        <!-- coffres sur les bâts -->
+        <rect x="244" y="152" width="22" height="10" rx="2" fill="#a8552a" opacity=".65"/>
+        <rect x="312" y="158" width="20" height="9"  rx="2" fill="#a8552a" opacity=".55"/>
+
+        <!-- Fès, à droite : la médina qui accueille -->
+        <g>
+          <rect x="470" y="120" width="140" height="60" fill="#0d0f12"/>
+          <rect x="486" y="104" width="20" height="76" rx="2" fill="#0f1418"/>
+          <path d="M486,104 L496,88 L506,104Z" fill="#1c7a72" opacity=".6"/>
+          <g fill="#e3ad3c" opacity=".22">
+            <rect x="500" y="134" width="9" height="14" rx="3" style="animation:shimmer 3.2s ease-in-out infinite"/>
+            <rect x="520" y="140" width="9" height="14" rx="3" style="animation:shimmer 2.6s ease-in-out infinite .3s"/>
+            <rect x="546" y="132" width="9" height="14" rx="3" style="animation:shimmer 3.6s ease-in-out infinite .6s"/>
+            <rect x="574" y="142" width="9" height="14" rx="3" style="animation:shimmer 2.9s ease-in-out infinite .1s"/>
+          </g>
+          <!-- porte de la ville -->
+          <path d="M528,180 L528,152 Q544,138 560,152 L560,180Z" fill="#07080a"/>
+        </g>
+
+        <!-- traces de pas dans le sable -->
+        <g fill="#e3ad3c" opacity=".2">
+          <ellipse cx="150" cy="204" rx="4" ry="2"/><ellipse cx="168" cy="210" rx="4" ry="2"/>
+          <ellipse cx="186" cy="204" rx="4" ry="2"/><ellipse cx="204" cy="210" rx="4" ry="2"/>
+        </g>
+      </svg>
+    </div>
+
+    <p>
+      Au début du <strong>IX<sup>e</sup> siècle</strong>, une famille quitte
+      <strong>Kairouan</strong>, en Tunisie, pour s'installer à <strong>Fès</strong>, une jeune
+      ville du Maroc où l'on accueille alors les nouveaux venus. Ils font partie d'un groupe
+      assez nombreux pour donner son nom à tout un quartier : celui des gens de Kairouan — en
+      arabe, <em>al-Qarawiyyin</em>. Retiens ce mot, il servira.
+    </p>
+    <p>
+      Dans cette famille, il y a deux sœurs : <strong>Fatima</strong> et <strong>Mariam</strong>,
+      filles d'un marchand nommé Mohammed al-Fihri. Le père réussit en affaires, très bien même.
+      Et lorsqu'il meurt, ses deux filles héritent d'une fortune considérable.
+    </p>
+    <p>
+      Il faut mesurer ce que cela signifie, en ce temps-là. Deux femmes, seules, libres de leur
+      argent. Elles auraient pu acheter une grande maison, des terres, une vie confortable et
+      silencieuse. Chacune décide de faire construire une mosquée pour son quartier : Mariam
+      celle des Andalous, Fatima celle des Qarawiyyin.
+    </p>
+    <blockquote>
+      <p>« Elle voulut que son héritage serve à ceux qui n'avaient rien, et qu'il leur serve
+      encore longtemps après elle. »</p>
+      <cite>D'après les chroniqueurs de Fès</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ══ II — LE CHANTIER ══ -->
+<section class="chantier-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre II</span>
+    <h2>Le chantier de 859</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Le chantier de la mosquée al-Qarawiyyin : la terre creusée sur place, les arcs qui montent</title>
+        <rect x="0" y="0" width="640" height="260" fill="#07070a"/>
+
+        <!-- ciel de chantier au petit matin -->
+        <rect x="0" y="0" width="640" height="130" fill="#0e0e12"/>
+        <circle cx="546" cy="52" r="34" fill="#e3ad3c" opacity=".1"/>
+        <circle cx="546" cy="52" r="16" fill="#e3ad3c" opacity=".3"/>
+
+        <!-- la fosse creusée sur le terrain même -->
+        <path d="M0,230 L120,230 Q150,204 200,206 L200,260 L0,260Z" fill="#140d08"/>
+        <path d="M120,230 Q150,206 198,208" fill="none" stroke="#a8552a" stroke-width="1.4" opacity=".5"/>
+        <g fill="#a8552a" opacity=".35">
+          <ellipse cx="86"  cy="240" rx="16" ry="5"/>
+          <ellipse cx="132" cy="248" rx="12" ry="4"/>
+        </g>
+        <!-- pelle plantée -->
+        <line x1="164" y1="212" x2="176" y2="176" stroke="#3a2a1a" stroke-width="3"/>
+        <path d="M160,214 L172,206 L178,216 L166,224Z" fill="#4a4a52"/>
+
+        <!-- arcs en fer à cheval en construction -->
+        <g>
+          <rect x="236" y="126" width="16" height="104" fill="#0f1114"/>
+          <rect x="322" y="126" width="16" height="104" fill="#0f1114"/>
+          <rect x="408" y="126" width="16" height="104" fill="#0f1114"/>
+          <rect x="494" y="126" width="16" height="104" fill="#0f1114"/>
+          <path d="M252,126 Q252,90 287,84 Q322,90 322,126" fill="none" stroke="#141820" stroke-width="15"/>
+          <path d="M338,126 Q338,90 373,84 Q408,90 408,126" fill="none" stroke="#141820" stroke-width="15"/>
+          <path d="M424,128 Q424,96 459,90" fill="none" stroke="#141820" stroke-width="15"
+                stroke-dasharray="70" style="animation:monte 2.6s ease-out both"/>
+          <!-- liseré de zellige déjà posé sur les deux premiers arcs -->
+          <path d="M252,126 Q252,90 287,84 Q322,90 322,126" fill="none" stroke="#1c7a72" stroke-width="2" opacity=".5"/>
+          <path d="M338,126 Q338,90 373,84 Q408,90 408,126" fill="none" stroke="#1c7a72" stroke-width="2" opacity=".35"/>
+        </g>
+        <!-- échafaudage de bois sur l'arc en cours -->
+        <g stroke="#3a2a18" stroke-width="2.4" opacity=".8">
+          <line x1="424" y1="230" x2="424" y2="96"/><line x1="470" y1="230" x2="470" y2="96"/>
+          <line x1="420" y1="150" x2="474" y2="150"/><line x1="420" y1="188" x2="474" y2="188"/>
+        </g>
+
+        <!-- sol du chantier -->
+        <rect x="0" y="230" width="640" height="30" fill="#0c0a0c"/>
+        <!-- pierres taillées, en attente -->
+        <g fill="#171a1f">
+          <rect x="212" y="236" width="26" height="12" rx="2"/>
+          <rect x="244" y="240" width="22" height="10" rx="2"/>
+          <rect x="540" y="234" width="28" height="14" rx="2"/>
+          <rect x="574" y="240" width="24" height="10" rx="2"/>
+        </g>
+
+        <!-- ouvriers -->
+        <g fill="#0a0a0e">
+          <path d="M282,230 q3,-22 12,-22 q9,0 12,22Z"/><circle cx="294" cy="200" r="7"/>
+          <path d="M362,230 q3,-20 11,-20 q8,0 11,20Z"/><circle cx="373" cy="204" r="6.5"/>
+        </g>
+
+        <!-- Fatima, en retrait, qui surveille -->
+        <g>
+          <path d="M596,232 q4,-30 16,-30 q12,0 16,30Z" fill="#101018"/>
+          <circle cx="612" cy="196" r="9" fill="#151522"/>
+          <path d="M601,192 Q612,180 623,192 Q618,200 612,200 Q606,200 601,192Z" fill="#1c7a72" opacity=".55"/>
+        </g>
+      </svg>
+    </div>
+
+    <p>
+      Les travaux commencent en <strong>859</strong>. Fatima ne se contente pas de payer : la
+      tradition raconte qu'elle suit le chantier de bout en bout, et qu'elle prend une décision
+      étonnante — <strong>tout doit sortir du terrain lui-même</strong>. On creuse sur place
+      pour trouver la terre, le sable, la pierre et l'eau. Rien ne vient d'ailleurs, rien qui
+      pourrait avoir été mal acquis.
+    </p>
+    <p>
+      On dit aussi qu'elle jeûna chaque jour, du premier coup de pioche jusqu'au dernier, et
+      qu'elle pria dans la mosquée le jour où elle fut terminée. Ces détails viennent des
+      chroniqueurs, longtemps après : impossible de les vérifier. Ce qu'on peut vérifier, lui,
+      tient debout depuis : <strong>la mosquée al-Qarawiyyin existe toujours</strong>, au cœur
+      de la médina de Fès.
+    </p>
+    <p>
+      On lui donna un surnom : <em>Oum al-Banine</em>, « la mère des enfants ». Non parce
+      qu'elle en avait eu beaucoup, mais parce que des générations d'élèves allaient grandir
+      entre ces murs.
+    </p>
+  </div>
+</section>
+
+<!-- ══ III — LA HALQA ══ -->
+<section class="halqa-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre III</span>
+    <h2>Le cercle qui devint une école</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Une halqa : les élèves assis en cercle autour d'un maître, sous les arcs de la mosquée</title>
+        <rect x="0" y="0" width="640" height="260" fill="#07080a"/>
+
+        <!-- arcs de la salle de prière -->
+        <g>
+          <rect x="44"  y="70" width="14" height="150" fill="#0e1114"/>
+          <rect x="150" y="70" width="14" height="150" fill="#0e1114"/>
+          <rect x="256" y="70" width="14" height="150" fill="#0e1114"/>
+          <rect x="370" y="70" width="14" height="150" fill="#0e1114"/>
+          <rect x="476" y="70" width="14" height="150" fill="#0e1114"/>
+          <rect x="582" y="70" width="14" height="150" fill="#0e1114"/>
+          <g fill="none" stroke="#121820" stroke-width="13">
+            <path d="M58,70 Q58,32 107,26 Q156,32 156,70"/>
+            <path d="M164,70 Q164,32 213,26 Q262,32 262,70"/>
+            <path d="M270,70 Q270,30 327,24 Q384,30 384,70"/>
+            <path d="M384,70 Q384,32 433,26 Q482,32 482,70"/>
+            <path d="M490,70 Q490,32 539,26 Q588,32 588,70"/>
+          </g>
+          <g fill="none" stroke="#1c7a72" stroke-width="1.6" opacity=".4">
+            <path d="M58,70 Q58,32 107,26 Q156,32 156,70"/>
+            <path d="M270,70 Q270,30 327,24 Q384,30 384,70"/>
+            <path d="M490,70 Q490,32 539,26 Q588,32 588,70"/>
+          </g>
+        </g>
+
+        <!-- lampes suspendues -->
+        <g>
+          <line x1="213" y1="40" x2="213" y2="66" stroke="#2a2418" stroke-width="1"/>
+          <path d="M205,66 L221,66 L217,84 L209,84Z" fill="#e3ad3c" opacity=".5" style="animation:flicker 3s ease-in-out infinite"/>
+          <line x1="433" y1="40" x2="433" y2="66" stroke="#2a2418" stroke-width="1"/>
+          <path d="M425,66 L441,66 L437,84 L429,84Z" fill="#e3ad3c" opacity=".42" style="animation:flicker 2.5s ease-in-out infinite .5s"/>
+        </g>
+
+        <!-- nattes au sol -->
+        <ellipse cx="320" cy="212" rx="188" ry="40" fill="#0f0d0a"/>
+        <ellipse cx="320" cy="212" rx="188" ry="40" fill="none" stroke="#a8552a" stroke-width="1" opacity=".35"/>
+        <ellipse cx="320" cy="212" rx="120" ry="26" fill="none" stroke="#a8552a" stroke-width=".8" opacity=".25"/>
+
+        <!-- le maître, adossé à une colonne, un livre ouvert -->
+        <g>
+          <path d="M304,208 q4,-34 16,-34 q12,0 16,34Z" fill="#141420"/>
+          <circle cx="320" cy="168" r="10" fill="#1a1a28"/>
+          <path d="M309,164 Q320,152 331,164 Q326,172 320,172 Q314,172 309,164Z" fill="#0e0e18"/>
+          <rect x="306" y="192" width="28" height="12" rx="2" fill="#f4e9d0" opacity=".8"/>
+          <line x1="320" y1="192" x2="320" y2="204" stroke="#0b0a10" stroke-width="1"/>
+        </g>
+
+        <!-- les élèves, en cercle autour de lui -->
+        <g fill="#121220">
+          <g><path d="M208,214 q3,-22 11,-22 q8,0 11,22Z"/><circle cx="219" cy="188" r="7"/></g>
+          <g><path d="M246,222 q3,-22 11,-22 q8,0 11,22Z"/><circle cx="257" cy="196" r="7"/></g>
+          <g><path d="M372,222 q3,-22 11,-22 q8,0 11,22Z"/><circle cx="383" cy="196" r="7"/></g>
+          <g><path d="M410,214 q3,-22 11,-22 q8,0 11,22Z"/><circle cx="421" cy="188" r="7"/></g>
+          <g opacity=".75"><path d="M162,206 q3,-20 10,-20 q7,0 10,20Z"/><circle cx="172" cy="182" r="6.4"/></g>
+          <g opacity=".75"><path d="M458,206 q3,-20 10,-20 q7,0 10,20Z"/><circle cx="468" cy="182" r="6.4"/></g>
+          <g opacity=".6"><path d="M286,236 q3,-18 9,-18 q6,0 9,18Z"/><circle cx="295" cy="214" r="6"/></g>
+          <g opacity=".6"><path d="M336,236 q3,-18 9,-18 q6,0 9,18Z"/><circle cx="345" cy="214" r="6"/></g>
+        </g>
+        <!-- tablettes d'écriture sur les genoux -->
+        <g fill="#f4e9d0" opacity=".55">
+          <rect x="212" y="206" width="14" height="8" rx="1"/>
+          <rect x="376" y="214" width="14" height="8" rx="1"/>
+          <rect x="414" y="206" width="14" height="8" rx="1"/>
+        </g>
+      </svg>
+    </div>
+
+    <p>
+      Une mosquée, au IX<sup>e</sup> siècle, n'est pas seulement un lieu de prière. C'est aussi
+      l'endroit où l'on s'assoit en cercle autour de quelqu'un qui sait quelque chose, pour le
+      lui demander. Ce cercle porte un nom : la <em>halqa</em>.
+    </p>
+    <p>
+      À al-Qarawiyyin, les cercles se multiplient. On y étudie d'abord le Coran et le droit,
+      puis la grammaire, la logique, la <strong>médecine</strong>, les
+      <strong>mathématiques</strong>, l'<strong>astronomie</strong>. Des étudiants viennent de
+      tout le Maghreb, d'Andalousie, d'Égypte. On y enseigne assis par terre, sans estrade,
+      pendant des siècles.
+    </p>
+    <p>
+      Peu à peu, la mosquée devient une institution : des maîtres reconnus, des programmes,
+      des élèves inscrits — et une attestation remise à qui a terminé son étude d'un livre
+      auprès d'un maître, l'<em>ijaza</em>. C'est l'ancêtre lointain de nos diplômes.
+    </p>
+    <blockquote>
+      <p>« Il n'y a pas d'estrade à al-Qarawiyyin : le maître s'assoit par terre, comme ses
+      élèves, et c'est le livre qu'on met au centre. »</p>
+      <cite>Description traditionnelle des cercles d'étude de Fès</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ══ IV — LA BIBLIOTHÈQUE ══ -->
+<section class="biblio-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre IV</span>
+    <h2>Ce que gardent ces murs</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>La bibliothèque d'al-Qarawiyyin : manuscrits anciens dans leurs coffres de cèdre</title>
+        <rect x="0" y="0" width="640" height="250" fill="#08070a"/>
+
+        <!-- niches en arc, remplies de manuscrits -->
+        <g>
+          <path d="M60,240 L60,120 Q114,80 168,120 L168,240Z" fill="#0e0c10"/>
+          <path d="M236,240 L236,110 Q290,68 344,110 L344,240Z" fill="#100e12"/>
+          <path d="M412,240 L412,120 Q466,80 520,120 L520,240Z" fill="#0e0c10"/>
+          <g fill="none" stroke="#a8552a" stroke-width="1.4" opacity=".45">
+            <path d="M60,120 Q114,80 168,120"/><path d="M236,110 Q290,68 344,110"/>
+            <path d="M412,120 Q466,80 520,120"/>
+          </g>
+        </g>
+
+        <!-- étagères et manuscrits couchés -->
+        <g fill="#2a1e14">
+          <rect x="66" y="160" width="96" height="4"/><rect x="66" y="196" width="96" height="4"/>
+          <rect x="242" y="150" width="96" height="4"/><rect x="242" y="186" width="96" height="4"/>
+          <rect x="242" y="222" width="96" height="4"/>
+          <rect x="418" y="160" width="96" height="4"/><rect x="418" y="196" width="96" height="4"/>
+        </g>
+        <g opacity=".9">
+          <rect x="70"  y="146" width="88" height="6" rx="1" fill="#1c7a72"/>
+          <rect x="74"  y="152" width="80" height="6" rx="1" fill="#a8552a"/>
+          <rect x="70"  y="182" width="88" height="6" rx="1" fill="#e3ad3c" opacity=".7"/>
+          <rect x="76"  y="188" width="76" height="6" rx="1" fill="#1c7a72" opacity=".8"/>
+          <rect x="246" y="136" width="88" height="6" rx="1" fill="#a8552a"/>
+          <rect x="250" y="142" width="80" height="6" rx="1" fill="#1c7a72"/>
+          <rect x="246" y="172" width="88" height="6" rx="1" fill="#e3ad3c" opacity=".65"/>
+          <rect x="250" y="178" width="80" height="6" rx="1" fill="#a8552a" opacity=".8"/>
+          <rect x="246" y="208" width="88" height="6" rx="1" fill="#1c7a72" opacity=".85"/>
+          <rect x="422" y="146" width="88" height="6" rx="1" fill="#e3ad3c" opacity=".6"/>
+          <rect x="426" y="152" width="80" height="6" rx="1" fill="#a8552a" opacity=".85"/>
+          <rect x="422" y="182" width="88" height="6" rx="1" fill="#1c7a72"/>
+        </g>
+
+        <!-- un manuscrit ouvert au centre, sur un pupitre -->
+        <g transform="translate(290 216)">
+          <path d="M-40,0 L0,-8 L0,-30 L-40,-22Z" fill="#f4e9d0" opacity=".92"/>
+          <path d="M40,0 L0,-8 L0,-30 L40,-22Z" fill="#e9dcbe" opacity=".92"/>
+          <path d="M0,-30 L2,-31 L4,-30 L4,-8 L2,-7 L0,-8Z" fill="#c6b088"/>
+          <g stroke="#1c7a72" stroke-width=".8" opacity=".55">
+            <line x1="-34" y1="-14" x2="-6" y2="-20"/><line x1="-34" y1="-9" x2="-6" y2="-15"/>
+            <line x1="8" y1="-20" x2="36" y2="-14"/><line x1="8" y1="-15" x2="36" y2="-9"/>
+          </g>
+          <!-- pupitre -->
+          <path d="M-46,2 L46,2 L38,14 L-38,14Z" fill="#2a1e14"/>
+        </g>
+
+        <!-- poussière dorée dans un rai de lumière -->
+        <path d="M540,0 L640,0 L640,250 L470,250Z" fill="#e3ad3c" opacity=".05"/>
+        <g fill="#e3ad3c" opacity=".35">
+          <circle cx="556" cy="70"  r="1.4" style="animation:drift 4s ease-in-out infinite"/>
+          <circle cx="588" cy="120" r="1.1" style="animation:drift 3.2s ease-in-out infinite .5s"/>
+          <circle cx="566" cy="176" r="1.3" style="animation:drift 4.6s ease-in-out infinite .9s"/>
+          <circle cx="606" cy="206" r="1"   style="animation:drift 3.6s ease-in-out infinite .3s"/>
+        </g>
+      </svg>
+    </div>
+
+    <p>
+      Autour des cercles d'étude, une <strong>bibliothèque</strong> se constitue, siècle après
+      siècle. On y trouve aujourd'hui des milliers de manuscrits : un exemplaire du Coran du
+      <strong>IX<sup>e</sup> siècle</strong> écrit sur peau de chameau, des traités de médecine,
+      d'astronomie, de droit — et le manuscrit de la <em>Muqaddima</em> d'
+      <strong>Ibn Khaldoun</strong>, l'un des premiers livres au monde à essayer d'expliquer
+      comment naissent et meurent les sociétés.
+    </p>
+    <p>
+      Ibn Khaldoun, justement, a étudié puis enseigné à Fès. D'autres grands noms ont fréquenté
+      ces cercles. Des légendes en ajoutent quelques-uns dont les historiens n'ont pas la
+      preuve : c'est le sort des lieux très anciens — on aime leur prêter tous les visiteurs
+      illustres.
+    </p>
+    <p>
+      Ce qui est certain, c'est la continuité. Al-Qarawiyyin n'a pas fermé. Pas pendant les
+      guerres, pas pendant les épidémies, pas pendant les changements de dynastie. En
+      <strong>1963</strong>, elle a été rattachée au système universitaire marocain, et elle
+      délivre aujourd'hui des diplômes d'État.
+    </p>
+  </div>
+</section>
+
+<!-- ══ V — AUJOURD'HUI ══ -->
+<section class="aujourdhui-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre V</span>
+    <h2>Mille cent soixante-cinq ans</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 240" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>La ligne du temps d'al-Qarawiyyin, de 859 à aujourd'hui</title>
+        <rect x="0" y="0" width="640" height="240" fill="#07080a"/>
+
+        <!-- la ligne -->
+        <line x1="50" y1="150" x2="590" y2="150" stroke="#1c7a72" stroke-width="2" opacity=".55"/>
+        <g fill="#e3ad3c">
+          <circle cx="80"  cy="150" r="6"/>
+          <circle cx="230" cy="150" r="4.6" opacity=".8"/>
+          <circle cx="366" cy="150" r="4.6" opacity=".8"/>
+          <circle cx="470" cy="150" r="4.6" opacity=".8"/>
+          <circle cx="574" cy="150" r="7"/>
+        </g>
+        <g font-family="'EB Garamond',Georgia,serif" font-size="11" fill="#f4e9d0" opacity=".75" text-anchor="middle">
+          <text x="80"  y="176">859</text>
+          <text x="230" y="176">XIV<tspan font-size="8" dy="-3">e</tspan><tspan dy="3"> s.</tspan></text>
+          <text x="366" y="176">1350</text>
+          <text x="470" y="176">1963</text>
+          <text x="574" y="176">2016</text>
+        </g>
+        <g font-family="'EB Garamond',Georgia,serif" font-size="10" fill="#4fb8a4" opacity=".7" text-anchor="middle">
+          <text x="80"  y="126">Fatima bâtit</text>
+          <text x="230" y="126">Ibn Khaldoun</text>
+          <text x="366" y="126">la bibliothèque</text>
+          <text x="470" y="126">université d'État</text>
+          <text x="574" y="126">restaurée</text>
+        </g>
+
+        <!-- petite silhouette de la mosquée à gauche, la même à droite -->
+        <g fill="#0f1216">
+          <rect x="56" y="196" width="48" height="30"/>
+          <rect x="64" y="182" width="12" height="44" rx="2"/>
+          <path d="M64,182 L70,170 L76,182Z" fill="#1c7a72" opacity=".6"/>
+        </g>
+        <g fill="#0f1216">
+          <rect x="550" y="196" width="48" height="30"/>
+          <rect x="558" y="182" width="12" height="44" rx="2"/>
+          <path d="M558,182 L564,170 L570,182Z" fill="#1c7a72" opacity=".75"/>
+          <g fill="#e3ad3c" opacity=".3">
+            <rect x="576" y="204" width="7" height="10" rx="2" style="animation:shimmer 3s ease-in-out infinite"/>
+            <rect x="588" y="204" width="7" height="10" rx="2" style="animation:shimmer 2.4s ease-in-out infinite .4s"/>
+          </g>
+        </g>
+
+        <!-- flèche de continuité -->
+        <path d="M120,214 Q320,238 534,214" fill="none" stroke="#e3ad3c" stroke-width="1.2"
+              stroke-dasharray="4 6" opacity=".45"/>
+        <text x="326" y="234" font-family="'EB Garamond',Georgia,serif" font-size="10"
+              fill="#e3ad3c" opacity=".55" text-anchor="middle" font-style="italic">jamais fermée</text>
+      </svg>
+    </div>
+
+    <p>
+      L'<strong>UNESCO</strong> et le <em>Livre Guinness des records</em> la présentent comme la
+      <strong>plus ancienne institution d'enseignement supérieur encore en activité au
+      monde</strong>. Des historiens discutent le mot « université » — l'institution
+      médiévale européenne, avec ses statuts et ses facultés, est une autre invention. Mais
+      sur le fait qu'on y enseigne sans interruption depuis 859, personne ne discute.
+    </p>
+    <p>
+      Sa bibliothèque, elle, avait vieilli. Les manuscrits souffraient de l'humidité, le
+      bâtiment prenait l'eau. Entre 2012 et 2016, sa restauration a été confiée à une
+      architecte marocaine, <strong>Aziza Chaouni</strong> — gouttières refaites, chaudière
+      remplacée, salle de lecture ouverte au public, laboratoire pour restaurer les
+      manuscrits page à page.
+    </p>
+    <blockquote>
+      <p>« Une femme l'a fondée. Onze siècles plus tard, une femme l'a sauvée. »</p>
+      <cite>À propos de la restauration de la bibliothèque d'al-Qarawiyyin, 2016</cite>
+    </blockquote>
+    <p>
+      Fatima al-Fihriya est morte vers <strong>880</strong>. Elle n'a jamais su qu'on
+      enseignerait encore dans sa mosquée mille ans après elle, ni qu'on donnerait son nom à
+      des écoles, des bourses et des prix, de Fès jusqu'en Europe.
+    </p>
+  </div>
+</section>
+
+<!-- ══ FIN ══ -->
+<section class="dark ending">
+  <div class="chapter">
+    <span class="ornament">✦ ✦ ✦</span>
+    <h2>Ce que l'histoire nous dit</h2>
+    <div class="divider"></div>
+
+    <p class="moral">
+      On peut dépenser une fortune pour soi, et il n'en reste rien au bout d'une vie.
+      On peut la dépenser pour les autres, et il en reste quelque chose au bout de mille ans.
+    </p>
+    <p class="moral">
+      Fatima n'a pas construit un palais à son nom. Elle a construit un endroit où des gens
+      qu'elle ne connaîtrait jamais viendraient apprendre — et c'est pour ça qu'on connaît
+      encore le sien.
+    </p>
+    <p class="ref">859 – aujourd'hui · Fès, Maroc · جامعة القرويين</p>
+  </div>
+</section>
+
+</body>
+</html>

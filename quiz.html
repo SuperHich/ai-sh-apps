@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les quiz du Grenier — Le Grenier des Apps</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="mask-icon" href="assets/favicon-mono.svg" color="#f0c04b">
+<meta name="description" content="Dix questions par univers, toutes tirées des histoires du Grenier des Apps : prophètes, légendes du monde, sciences et découvertes.">
+<meta name="theme-color" content="#08070f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<style>
+  /* Colonne de lecture : une question qui traverse 1100 px se lit mal. */
+  #quizJeu, #quizFin, #quizJeu .quiz-head { max-width: 760px; }
+
+  .quiz-head { padding: clamp(24px, 4.5vw, 46px) 0 4px; }
+  .quiz-head h1 {
+    margin: 0;
+    font-family: var(--gr-display);
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    line-height: 1.08;
+  }
+  .quiz-head p { margin: 10px 0 0; color: var(--gr-text-soft); line-height: 1.6; }
+
+  /* ── Choix de l'univers ── */
+  .quiz-univers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 26px;
+  }
+  .quiz-univers {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    padding: 22px;
+    border-radius: var(--gr-r);
+    border: 1px solid var(--gr-line);
+    background: linear-gradient(155deg, var(--gr-surface-2), rgba(255, 255, 255, .012));
+    color: inherit;
+    text-decoration: none;
+    overflow: hidden;
+    transition: transform var(--gr-normal) var(--gr-ease-out),
+                border-color var(--gr-normal) ease, box-shadow var(--gr-normal) ease;
+  }
+  .quiz-univers::before {
+    content: '';
+    position: absolute;
+    inset: auto -30% -60% auto;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: .16;
+    filter: blur(38px);
+    transition: opacity var(--gr-normal) ease;
+  }
+  .quiz-univers:hover {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    box-shadow: var(--gr-shadow-hover);
+  }
+  .quiz-univers:hover::before { opacity: .34; }
+  .quiz-univers:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .quiz-univers-emoji { font-size: 1.9rem; }
+  .quiz-univers strong { font-family: var(--gr-display); font-size: 1.14rem; }
+  .quiz-univers small { font-size: .82rem; line-height: 1.5; color: var(--gr-text-soft); }
+  .quiz-univers .gr-badge { margin: 8px 0 0; }
+
+  /* ── Partie en cours ── */
+  .quiz-jauge {
+    height: 5px;
+    margin: 22px 0 18px;
+    border-radius: 999px;
+    background: var(--gr-surface-2);
+    overflow: hidden;
+  }
+  .quiz-jauge span {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent, var(--gr-gold)), var(--gr-ember));
+    transition: width var(--gr-slow) var(--gr-ease-out);
+  }
+  .quiz-compteur {
+    font-size: .76rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gr-text-faint);
+  }
+  .quiz-question {
+    margin: 10px 0 22px;
+    font-family: var(--gr-display);
+    font-size: clamp(1.25rem, 3.4vw, 1.7rem);
+    line-height: 1.32;
+    text-wrap: pretty;
+  }
+
+  .quiz-choix-liste { display: grid; gap: 10px; }
+  .quiz-choix {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    width: 100%;
+    min-height: 56px;
+    padding: 12px 16px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+    color: var(--gr-text);
+    font: inherit;
+    font-size: .98rem;
+    text-align: left;
+    cursor: pointer;
+    transition: transform var(--gr-fast) var(--gr-ease-out), background var(--gr-fast) ease,
+                border-color var(--gr-fast) ease;
+  }
+  .quiz-choix:hover:not(:disabled) {
+    transform: translateX(4px);
+    background: var(--gr-surface-2);
+    border-color: color-mix(in srgb, var(--accent, #f0c04b) 45%, transparent);
+  }
+  .quiz-choix:focus-visible { outline: 3px solid var(--accent, var(--gr-gold)); outline-offset: 2px; }
+  .quiz-choix:disabled { cursor: default; opacity: .75; }
+  .quiz-touche {
+    flex: 0 0 auto;
+    width: 28px; height: 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    border: 1px solid var(--gr-line);
+    background: rgba(255, 255, 255, .05);
+    font-size: .78rem;
+    font-weight: 700;
+    color: var(--gr-text-faint);
+  }
+  .quiz-choix.is-bonne {
+    opacity: 1;
+    border-color: var(--gr-jade);
+    background: color-mix(in srgb, var(--gr-jade) 16%, transparent);
+  }
+  .quiz-choix.is-bonne .quiz-touche { border-color: var(--gr-jade); color: var(--gr-jade); }
+  .quiz-choix.is-ratee {
+    opacity: 1;
+    border-color: var(--gr-rose);
+    background: color-mix(in srgb, var(--gr-rose) 14%, transparent);
+  }
+  .quiz-choix.is-ratee .quiz-touche { border-color: var(--gr-rose); color: var(--gr-rose); }
+
+  .quiz-retour {
+    margin-top: 18px;
+    padding: 16px 18px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+    animation: gr-swap-in 260ms var(--gr-ease-out);
+  }
+  .quiz-retour.is-bonne { border-color: color-mix(in srgb, var(--gr-jade) 45%, transparent); }
+  .quiz-retour.is-ratee { border-color: color-mix(in srgb, var(--gr-rose) 45%, transparent); }
+  .quiz-retour strong { display: block; font-size: 1rem; }
+  .quiz-retour.is-bonne strong { color: var(--gr-jade); }
+  .quiz-retour.is-ratee strong { color: var(--gr-rose); }
+  .quiz-retour p { margin: 8px 0 0; font-size: .9rem; line-height: 1.6; color: var(--gr-text-soft); }
+  .quiz-retour a {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: .86rem;
+    font-weight: 600;
+    color: var(--gr-gold);
+  }
+  #quizSuivant { margin-top: 18px; height: 50px; padding: 0 26px; }
+
+  /* ── Fin de partie ── */
+  .quiz-fin {
+    margin-top: 28px;
+    padding: clamp(24px, 5vw, 44px);
+    border-radius: var(--gr-r-lg);
+    border: 1px solid rgba(240, 192, 75, .26);
+    background:
+      radial-gradient(90% 140% at 50% 0%, rgba(240, 192, 75, .16), transparent 62%),
+      linear-gradient(160deg, var(--gr-surface-2), rgba(255, 255, 255, .012));
+    text-align: center;
+  }
+  .quiz-score { font-family: var(--gr-display); line-height: 1; }
+  .quiz-score b { font-size: clamp(3rem, 12vw, 4.6rem); color: var(--gr-gold); }
+  .quiz-score span { font-size: 1.2rem; color: var(--gr-text-faint); }
+  .quiz-bilan { margin: 14px 0 0; color: var(--gr-text-soft); }
+  .quiz-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 24px;
+  }
+  .quiz-actions .gr-btn { height: 48px; padding: 0 22px; }
+  .quiz-revoir {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid var(--gr-line);
+  }
+  .quiz-revoir-titre {
+    flex-basis: 100%;
+    margin: 0;
+    font-size: .76rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gr-text-faint);
+  }
+  .quiz-revoir .gr-btn { height: 42px; font-size: .84rem; }
+
+  .quiz-aide {
+    margin-top: 20px;
+    font-size: .78rem;
+    color: var(--gr-text-faint);
+  }
+</style>
+</head>
+<body class="gr-body">
+
+<div class="gr-page">
+
+  <!-- ══════════════ CHOIX DE L'UNIVERS ══════════════ -->
+  <section id="quizHub" hidden>
+    <header class="quiz-head gr-enter">
+      <h1>Les <em>quiz</em> du Grenier</h1>
+      <p>
+        Dix questions par univers, toutes tirées des histoires du site.
+        Chaque réponse renvoie vers le récit d'où elle vient.
+      </p>
+    </header>
+    <div class="quiz-univers-grid" id="hubGrid"></div>
+  </section>
+
+  <!-- ══════════════ PARTIE EN COURS ══════════════ -->
+  <section id="quizJeu" hidden>
+    <header class="quiz-head">
+      <h1 id="quizTitre">Quiz</h1>
+      <p id="quizSousTitre"></p>
+    </header>
+
+    <div class="quiz-jauge" role="presentation"><span id="quizBarre"></span></div>
+    <p class="quiz-compteur" id="quizCompteur" aria-live="polite"></p>
+    <h2 class="quiz-question" id="quizQuestion"></h2>
+
+    <div class="quiz-choix-liste" id="quizChoix"></div>
+
+    <div class="quiz-retour" id="quizRetour" role="status" hidden></div>
+    <button class="gr-btn gr-btn-primary" type="button" id="quizSuivant" hidden>Question suivante</button>
+
+    <p class="quiz-aide">Au clavier : touches 1 à 4 pour répondre, Entrée pour avancer.</p>
+  </section>
+
+  <!-- ══════════════ RÉSULTAT ══════════════ -->
+  <section class="quiz-fin" id="quizFin" hidden>
+    <p class="quiz-score" id="quizScore"></p>
+    <p class="quiz-bilan" id="quizBilan"></p>
+    <div class="quiz-actions">
+      <button class="gr-btn gr-btn-primary" type="button" data-gr="rejouer">Rejouer ce quiz</button>
+      <a class="gr-btn" href="quiz.html">Un autre univers</a>
+      <a class="gr-btn" href="bibliotheque.html">La bibliothèque</a>
+    </div>
+    <div class="quiz-revoir" id="quizRevoir"></div>
+  </section>
+
+</div>
+
+<footer class="gr-footer">
+  Généré avec <strong>Claude</strong> · Le Grenier des Apps ·
+  <a href="index.html">Accueil</a> · <a href="bibliotheque.html">Bibliothèque</a>
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>window.GRENIER_SHELL = { active: 'library', search: true };</script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/quiz-data.js"></script>
+<script src="assets/js/quiz.js"></script>
+</body>
+</html>

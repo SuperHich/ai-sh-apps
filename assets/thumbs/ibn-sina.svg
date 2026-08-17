@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" preserveAspectRatio="xMidYMid slice">
+  <title>Ibn Sina — la coupole de Boukhara, un livre ouvert et un tracé de pouls</title>
+          <defs>
+            <linearGradient id="sinaBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#06040a"/>
+              <stop offset="55%"  stop-color="#1e2f6b"/>
+              <stop offset="100%" stop-color="#1f7a63"/>
+            </linearGradient>
+            <radialGradient id="sinaGlow" cx="50%" cy="40%" r="55%">
+              <stop offset="0%"   stop-color="#e0a83a" stop-opacity=".24"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#sinaBg)"/>
+          <rect width="400" height="300" fill="url(#sinaGlow)"/>
+          <!-- étoiles -->
+          <circle cx="44"  cy="30" r="1.3" fill="#f2e6c8" opacity=".8"/>
+          <circle cx="126" cy="20" r="1"   fill="#e0a83a" opacity=".8"/>
+          <circle cx="296" cy="24" r="1.4" fill="#f2e6c8" opacity=".7"/>
+          <circle cx="352" cy="46" r="1"   fill="#1f7a63" opacity=".7"/>
+          <!-- croissant -->
+          <circle cx="332" cy="68" r="21" fill="#f2e6c8" opacity=".8"/>
+          <circle cx="325" cy="63" r="19" fill="#0d1330"/>
+          <!-- coupole de Boukhara -->
+          <ellipse cx="200" cy="196" rx="62" ry="18" fill="#0d1226"/>
+          <path d="M138,196 Q138,142 200,126 Q262,142 262,196Z" fill="#152447"/>
+          <path d="M152,186 Q200,172 248,186" fill="none" stroke="#1f7a63" stroke-width="1.4" opacity=".5"/>
+          <circle cx="200" cy="120" r="7" fill="#152447"/>
+          <path d="M209,113 Q219,120 209,127 Q217,120 212,115Z" fill="#e0a83a" opacity=".6"/>
+          <!-- minarets -->
+          <rect x="112" y="150" width="15" height="128" rx="3" fill="#0c0a16"/>
+          <ellipse cx="119" cy="148" rx="10" ry="4" fill="#12102a"/>
+          <rect x="273" y="150" width="15" height="128" rx="3" fill="#0c0a16"/>
+          <ellipse cx="280" cy="148" rx="10" ry="4" fill="#12102a"/>
+          <!-- le livre ouvert, au premier plan -->
+          <path d="M148,272 L198,260 L198,236 L148,248Z" fill="#f2e6c8" opacity=".92"/>
+          <path d="M252,272 L202,260 L202,236 L252,248Z" fill="#e8dbb8" opacity=".92"/>
+          <path d="M198,236 L200,235 L202,236 L202,260 L200,261 L198,260Z" fill="#c8b48a"/>
+          <g stroke="#1e2f6b" stroke-width=".8" opacity=".55">
+            <line x1="156" y1="252" x2="192" y2="243"/><line x1="156" y1="258" x2="192" y2="249"/>
+            <line x1="208" y1="243" x2="244" y2="252"/><line x1="208" y1="249" x2="244" y2="258"/>
+          </g>
+          <!-- tracé du pouls -->
+          <path d="M20,110 L74,110 L82,92 L90,128 L98,110 L140,110" fill="none"
+                stroke="#8f2733" stroke-width="2" opacity=".75"/>
+        </svg>
