@@ -59,7 +59,7 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
+    'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
     'fatima-al-fihriya', 'ibn-sina', 'carte-histoires'
   ];
 
@@ -302,6 +302,11 @@
       dir: 'stories/science', file: 'corps-humain.html', age: 7, access: 'public',
       desc: 'Le cœur, le sang, le souffle, les os et le cerveau : le voyage à l\'intérieur de la machine que tu habites.',
       tags: ['corps', 'anatomie', 'coeur', 'cerveau', 'sang', 'muscles', 'os'] },
+
+    { id: 'anatomie', title: 'L\'Explorateur du Corps Humain', emoji: '🫁', cat: 'sciences', kind: 'outil',
+      dir: '.', file: 'anatomie.html', age: 7, access: 'public',
+      desc: 'Un corps en trois dimensions à faire tourner et à traverser du regard : dix-sept organes à toucher du doigt, leurs chiffres, leurs secrets — et un jeu pour les retrouver.',
+      tags: ['corps', 'anatomie', 'organes', 'coeur', 'cerveau', 'poumons', 'squelette', 'sciences', '3d'] },
 
     { id: 'planetes', title: 'L\'Explorateur des Planètes', emoji: '🪐', cat: 'sciences', kind: 'outil',
       dir: '.', file: 'planetes.html', age: 7, access: 'public',

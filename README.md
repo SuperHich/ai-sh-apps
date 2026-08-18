@@ -18,6 +18,7 @@ everyone; the rest opens once a (local, free) account is created.
 ├── carte.html              # World map of the places in the stories
 ├── quiz.html               # Quizzes — one per universe
 ├── planetes.html           # Planet explorer — rotate and zoom the solar system
+├── anatomie.html           # Body explorer — a 3D human body and its organs
 ├── atelier.html            # Content creation — hidden behind a feature flag
 ├── lecture.html            # Reader for locally-created content
 ├── assets/
@@ -37,6 +38,8 @@ everyone; the rest opens once a (local, free) account is created.
 │       ├── quiz-data.js    # The questions, one block per universe
 │       ├── planetes.js     # Sphere renderer, procedural surfaces, rings
 │       ├── planetes-data.js# The eleven bodies and their figures
+│       ├── anatomie.js     # Software 3D: mesh builders, depth sort, picking
+│       ├── anatomie-data.js# The seventeen organs and their figures
 │       ├── protect.js      # Access guard — kept for future member-only pages
 │       ├── home.js         # Home page logic
 │       ├── bibliotheque.js # Catalogue filtering and search
@@ -119,9 +122,9 @@ catalogue, and add one line right after `<body>` in its page:
 It draws an opaque veil, checks the catalogue and the session, then either
 lifts the veil or turns it into a sign-up panel.
 
-## Quizzes, the map and the planets
+## Quizzes, the map, the planets and the body
 
-Three ways in that are not a list of cards.
+Four ways in that are not a list of cards.
 
 **`quiz.html`** runs one quiz per universe — Prophètes & Sagesse, Légendes du
 monde and Sciences & Découvertes. Every question comes
@@ -178,6 +181,36 @@ instant.
 Everything the page shows about a body — figures, atmosphere, moons, facts,
 travel times — lives in `assets/js/planetes-data.js`. Adding a twelfth world is
 one entry there, one `paint` case in the renderer, and a thumbnail.
+
+**`anatomie.html`** is the same idea turned inward: a human body you rotate,
+zoom and click through, with seventeen organs placed where they actually are.
+It is a full software 3D renderer in a 2D canvas — no WebGL, no library, no
+model file.
+
+*Building.* The body is generated once, at load, from four primitives: an
+ellipsoid, a tube swept along a path, a stack of elliptical sections (a loft)
+and a flat ribbon. A heart is a loft whose centre drifts down, left and forward;
+the small intestine is a tube along a serpentine that folds nine times in twelve
+centimetres; a rib is a ribbon along an arc from the spine to the sternum. Every
+coordinate is in centimetres, on a 170 cm body, which is why the organs land in
+the right place relative to each other. Roughly 9 000 triangles.
+
+*Drawing.* Each frame runs two rotations and a projection over every vertex,
+then classifies triangles: back faces of solid organs are dropped, the skin and
+the diaphragm are kept two-sided and translucent — that sandwich of a far skin
+face, the organs, and a near skin face is what makes the body look see-through.
+Depth is resolved the old way, by painting far to near, with a 1024-bucket
+counting sort (linear, and it shows at 5 000 triangles a frame). Triangles that
+share a colour accumulate into one path, so a body costs a few hundred fill
+calls rather than several thousand. The JavaScript side measures ~5 ms a frame.
+
+*Picking.* No hidden colour buffer: the sorted list is walked from nearest to
+farthest and the first triangle containing the point wins, skipping the skin so
+you click through it. Exact, and free — which is also what makes the "find the
+organ" game possible, since the game is just picking with the question reversed.
+
+Organ text, figures and facts live in `assets/js/anatomie-data.js`; the shape of
+each organ lives in `buildBody()`. Adding an organ is one entry and one mesh.
 
 ## Tab icon
 
