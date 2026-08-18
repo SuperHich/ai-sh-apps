@@ -148,6 +148,10 @@
       note: 'L\'île où naquit Napoléon en 1769, avant Paris, Austerlitz, Moscou et Sainte-Hélène.',
       stories: ['napoleon'] },
 
+    { nom: 'Varsovie & Paris', lon: 21.01, lat: 52.23,
+      note: 'L\'université clandestine où Maria Skłodowska apprit la physique, avant le train pour Paris et le hangar de la rue Lhomond.',
+      stories: ['marie-curie'] },
+
     { nom: 'Gênes', lon: 8.95, lat: 44.4,
       note: 'Les quais où grandit Cristoforo Colombo, persuadé qu\'on pouvait rejoindre les Indes par l\'ouest.',
       stories: ['colomb'] },
@@ -166,6 +170,9 @@
    * quand on ouvre le lieu de départ.
    */
   GRENIER.trajets = [
+    { story: 'marie-curie', nom: 'De Varsovie à Paris, en 1891',
+      points: [[21.01, 52.23], [14.5, 52.1], [8.7, 50.1], [2.35, 48.85]] },
+
     { story: 'fatima-al-fihriya', nom: 'L\'exil de la famille al-Fihri : de Kairouan à Fès',
       points: [[10.1, 35.68], [3, 36.2], [-2, 35.2], [-5.0, 34.06]] },
 

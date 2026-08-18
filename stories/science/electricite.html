@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Électricité – De l'ambre jaune à l'interrupteur</title>
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="mask-icon" href="../../assets/favicon-mono.svg" color="#f0c04b">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+  :root {
+    --eclair:#8fd4ff;
+    --azur:#2a6ea8;
+    --ambre:#e0a63c;
+    --cuivre:#c0743a;
+    --ivoire:#eee7d8;
+    --vert:#4fc08a;
+    --nuit:#05060a;
+    --dark:#08090e;
+    --dark2:#090a10;
+    --dark3:#07080d;
+    --serif:'EB Garamond','Georgia',serif;
+    --display:'Cinzel','Trajan Pro',serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--nuit);color:var(--ivoire);
+    font-family:var(--serif);font-size:1.15em;line-height:1.8;
+    scroll-snap-type:y proximity;overflow-y:scroll;height:100vh;
+  }
+  ::selection{background:#1c4a72;color:var(--ivoire);}
+
+  section{
+    min-height:100vh;scroll-snap-align:start;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:80px 24px;position:relative;overflow:hidden;
+  }
+  section.dark{background:var(--dark);}
+
+  section.hero-bg{
+    background:
+      radial-gradient(ellipse at 50% 56%,rgba(143,212,255,.16) 0%,transparent 64%),
+      radial-gradient(ellipse at 84% 14%,rgba(224,166,60,.12)  0%,transparent 52%),
+      var(--dark);
+  }
+  section.ambre-bg{
+    background:
+      radial-gradient(ellipse at 46% 54%,rgba(224,166,60,.24)  0%,transparent 58%),
+      radial-gradient(ellipse at 84% 18%,rgba(42,110,168,.16)  0%,transparent 52%),
+      var(--dark2);
+  }
+  section.foudre-bg{
+    background:
+      radial-gradient(ellipse at 52% 44%,rgba(143,212,255,.2)  0%,transparent 58%),
+      radial-gradient(ellipse at 16% 78%,rgba(42,110,168,.24)  0%,transparent 54%),
+      var(--dark3);
+  }
+  section.pile-bg{
+    background:
+      radial-gradient(ellipse at 48% 50%,rgba(192,116,58,.24)  0%,transparent 58%),
+      radial-gradient(ellipse at 84% 20%,rgba(79,192,138,.12)  0%,transparent 52%),
+      var(--dark);
+  }
+  section.faraday-bg{
+    background:
+      radial-gradient(ellipse at 50% 50%,rgba(42,110,168,.26)  0%,transparent 60%),
+      radial-gradient(ellipse at 18% 18%,rgba(224,166,60,.12)  0%,transparent 52%),
+      var(--dark2);
+  }
+  section.maison-bg{
+    background:
+      radial-gradient(ellipse at 50% 48%,rgba(224,166,60,.2)   0%,transparent 60%),
+      radial-gradient(ellipse at 82% 16%,rgba(143,212,255,.14) 0%,transparent 52%),
+      var(--dark3);
+  }
+
+  .divider{width:120px;height:1px;background:linear-gradient(to right,transparent,rgba(224,166,60,.7),transparent);margin:26px auto;}
+
+  .hero-sec{text-align:center;}
+  .roman-num{font-family:var(--display);font-size:.87em;letter-spacing:6px;color:rgba(224,166,60,.65);text-transform:uppercase;margin-bottom:18px;display:block;}
+  h1{
+    font-family:var(--display);font-size:clamp(2em,6vw,4.4em);font-weight:800;
+    line-height:1.1;text-transform:uppercase;letter-spacing:2px;
+    background:linear-gradient(155deg,var(--ivoire) 18%,var(--ambre) 48%,var(--eclair) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px;
+  }
+  .sub{font-family:var(--display);font-size:clamp(.8em,2vw,.96em);color:rgba(224,166,60,.7);letter-spacing:3px;text-transform:uppercase;margin-bottom:22px;}
+  .tagline{font-style:italic;color:rgba(238,231,216,.52);font-size:1.18em;max-width:560px;margin:0 auto 38px;}
+  .scroll-cue{
+    display:inline-block;font-family:var(--display);font-size:.75em;
+    letter-spacing:4px;text-transform:uppercase;color:rgba(224,166,60,.6);
+    animation:pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:.35;transform:translateY(0);}50%{opacity:.85;transform:translateY(7px);}}
+
+  .chapter{max-width:680px;width:100%;text-align:center;}
+  .chapter-num{font-family:var(--display);font-size:.75em;letter-spacing:5px;color:rgba(42,110,168,1);text-transform:uppercase;margin-bottom:12px;display:block;}
+  h2{font-family:var(--display);font-size:clamp(1.35em,3.6vw,2.1em);font-weight:600;color:var(--ambre);text-transform:uppercase;letter-spacing:2px;margin-bottom:26px;}
+  p{text-align:justify;color:rgba(238,231,216,.83);font-size:1.04em;margin-bottom:14px;}
+  blockquote{border-left:3px solid rgba(224,166,60,.55);margin:26px 0;padding:14px 24px;text-align:left;background:rgba(224,166,60,.05);border-radius:0 4px 4px 0;}
+  blockquote p{text-align:left;font-style:italic;color:var(--ivoire);font-size:1.14em;margin:0;}
+  blockquote cite{display:block;margin-top:8px;font-size:.74em;letter-spacing:2px;text-transform:uppercase;color:rgba(224,166,60,.65);font-style:normal;}
+  strong{color:var(--ivoire);font-weight:600;}
+  em{color:rgba(224,166,60,.9);font-style:italic;}
+
+  .illus{width:100%;max-width:640px;margin:0 auto 34px;border-radius:6px;overflow:hidden;}
+  .illus svg{display:block;width:100%;}
+
+  .chiffres{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:24px 0 8px;}
+  .chiffre{
+    flex:1 1 150px;max-width:200px;padding:14px 12px;border-radius:8px;
+    border:1px solid rgba(224,166,60,.22);background:rgba(224,166,60,.05);
+  }
+  .chiffre b{display:block;font-family:var(--display);font-size:1.4em;color:var(--ambre);line-height:1.2;}
+  .chiffre span{display:block;margin-top:6px;font-size:.78em;line-height:1.45;color:rgba(238,231,216,.6);}
+
+  /* Encart de prudence — propre à cette histoire */
+  .prudence{
+    margin:26px 0 6px;padding:16px 20px;border-radius:8px;text-align:left;
+    border:1px solid rgba(224,80,60,.35);background:rgba(224,80,60,.07);
+  }
+  .prudence strong{display:block;margin-bottom:6px;color:#ffb0a0;letter-spacing:1px;text-transform:uppercase;font-size:.8em;font-family:var(--display);}
+  .prudence p{margin:0;font-size:.95em;text-align:left;}
+
+  .ending{text-align:center;}
+  .ending .ornament{font-size:2em;color:rgba(224,166,60,.7);display:block;margin-bottom:22px;letter-spacing:12px;}
+  .ending .moral{font-style:italic;font-size:1.18em;color:rgba(238,231,216,.72);max-width:580px;margin:0 auto 24px;text-align:center;}
+  .ending .ref{font-family:var(--display);font-size:.72em;letter-spacing:3px;color:rgba(42,110,168,1);text-transform:uppercase;}
+
+  @keyframes shimmer{0%,100%{opacity:.45;}50%{opacity:1;}}
+  @keyframes twinkle{0%,100%{opacity:.2;}50%{opacity:.95;}}
+  @keyframes eclate{0%,100%{opacity:0;}46%{opacity:0;}50%{opacity:1;}54%{opacity:0;}}
+  @keyframes file{0%{stroke-dashoffset:160;}100%{stroke-dashoffset:0;}}
+  @keyframes drift{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+  @keyframes allume{0%,100%{opacity:.35;}50%{opacity:1;}}
+
+  @media(max-width:600px){section{padding:50px 16px;}h1{font-size:2em;}}
+  @media(prefers-reduced-motion:reduce){
+    .scroll-cue{animation:none;}
+    svg *{animation:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html" color="blue"></back-button>
+
+<!-- ══ HERO ══ -->
+<section class="hero-bg hero-sec">
+
+  <div style="width:100%;max-width:560px;margin:0 auto 32px;">
+    <svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" role="img">
+      <title>Un éclair traverse le ciel et rejoint le filament d'une ampoule</title>
+      <rect x="0" y="0" width="560" height="200" fill="#04050a"/>
+
+      <!-- nuage -->
+      <g fill="#141a26" opacity=".9">
+        <ellipse cx="150" cy="46" rx="72" ry="26"/>
+        <ellipse cx="106" cy="54" rx="46" ry="20"/>
+        <ellipse cx="196" cy="56" rx="52" ry="22"/>
+      </g>
+      <!-- l'éclair -->
+      <path d="M148,70 L128,110 L152,110 L124,164"
+            fill="none" stroke="#8fd4ff" stroke-width="3.4" stroke-linejoin="round"
+            style="animation:eclate 3.4s ease-in-out infinite"/>
+      <path d="M148,70 L128,110 L152,110 L124,164"
+            fill="none" stroke="#eaf7ff" stroke-width="1.2" stroke-linejoin="round"
+            style="animation:eclate 3.4s ease-in-out infinite"/>
+      <ellipse cx="140" cy="116" rx="60" ry="60" fill="#8fd4ff" opacity=".08"
+               style="animation:eclate 3.4s ease-in-out infinite"/>
+
+      <!-- le fil qui traverse -->
+      <path d="M170,170 Q260,190 340,150" fill="none" stroke="#c0743a" stroke-width="3"/>
+      <path d="M170,170 Q260,190 340,150" fill="none" stroke="#8fd4ff" stroke-width="1.4"
+            stroke-dasharray="6 12" style="animation:file 2s linear infinite"/>
+
+      <!-- l'ampoule -->
+      <g transform="translate(408 104)">
+        <ellipse rx="52" ry="52" fill="#e0a63c" opacity=".14" style="animation:allume 3s ease-in-out infinite"/>
+        <path d="M-26,10 Q-34,-24 -14,-40 Q0,-50 14,-40 Q34,-24 26,10 Q18,26 0,26 Q-18,26 -26,10Z"
+              fill="#0d1016" stroke="#8fd4ff" stroke-width="1.4" stroke-opacity=".55"/>
+        <!-- culot -->
+        <rect x="-14" y="26" width="28" height="8"  rx="2" fill="#3a3a44"/>
+        <rect x="-12" y="34" width="24" height="7"  rx="2" fill="#2e2e38"/>
+        <rect x="-10" y="41" width="20" height="6"  rx="2" fill="#3a3a44"/>
+        <!-- filament -->
+        <path d="M-10,20 L-10,-6 q4,-8 8,0 t8,0 t8,0 q4,-8 4,0 L18,20"
+              fill="none" stroke="#ffd88a" stroke-width="1.8"
+              style="animation:allume 3s ease-in-out infinite"/>
+      </g>
+
+      <!-- étincelles -->
+      <g fill="#8fd4ff">
+        <circle cx="300" cy="60" r="1.4" style="animation:twinkle 2.4s ease-in-out infinite"/>
+        <circle cx="486" cy="40" r="1.2" style="animation:twinkle 3s ease-in-out infinite .5s"/>
+        <circle cx="520" cy="160" r="1"  style="animation:twinkle 2.6s ease-in-out infinite .9s"/>
+      </g>
+    </svg>
+  </div>
+
+  <span class="roman-num">De l'ambre des Grecs à ta lampe de chevet</span>
+  <h1>L'Électricité</h1>
+  <p class="sub">2 600 ans pour apprivoiser l'étincelle</p>
+  <div class="divider"></div>
+  <p class="tagline">Tout est parti d'un caillou jaune qu'on frottait sur un tissu, et qui attirait les plumes. Il a fallu vingt-cinq siècles pour comprendre pourquoi.</p>
+  <span class="scroll-cue">Fais défiler ↓</span>
+</section>
+
+<!-- ══ I — L'AMBRE ══ -->
+<section class="ambre-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre I</span>
+    <h2>Le caillou qui attirait les plumes</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 240" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Un morceau d'ambre frotté sur une étoffe attire de petites plumes</title>
+        <rect x="0" y="0" width="640" height="240" fill="#07070b"/>
+
+        <!-- table -->
+        <rect x="0" y="182" width="640" height="58" fill="#100d0c"/>
+        <rect x="0" y="180" width="640" height="3"  fill="#221b16"/>
+
+        <!-- étoffe -->
+        <path d="M120,182 Q180,158 250,168 Q320,178 380,166 Q430,156 470,182Z" fill="#3a1c2a" opacity=".8"/>
+        <g stroke="#5a2c40" stroke-width="1" opacity=".6">
+          <path d="M150,176 Q220,160 300,172"/><path d="M200,180 Q280,166 360,174"/>
+        </g>
+
+        <!-- le morceau d'ambre, tenu -->
+        <g transform="translate(250 128)">
+          <ellipse rx="46" ry="42" fill="#e0a63c" opacity=".14" style="animation:allume 3.4s ease-in-out infinite"/>
+          <path d="M-24,10 Q-30,-14 -12,-24 Q6,-32 22,-18 Q32,-4 24,14 Q10,28 -8,26 Q-20,22 -24,10Z"
+                fill="#e0a63c" opacity=".85"/>
+          <path d="M-14,-4 Q-6,-14 6,-10 Q14,-4 10,6 Q0,14 -8,8Z" fill="#ffd88a" opacity=".6"/>
+          <!-- l'insecte piégé, clin d'œil -->
+          <ellipse cx="2" cy="4" rx="4" ry="2.4" fill="#6a3a10" opacity=".8"/>
+          <g stroke="#6a3a10" stroke-width=".8" opacity=".7">
+            <line x1="-2" y1="4" x2="-8" y2="0"/><line x1="6" y1="4" x2="12" y2="0"/>
+            <line x1="-2" y1="5" x2="-8" y2="9"/><line x1="6" y1="5" x2="12" y2="9"/>
+          </g>
+        </g>
+
+        <!-- champ d'attraction -->
+        <g fill="none" stroke="#8fd4ff" stroke-width="1" opacity=".4">
+          <path d="M292,116 Q330,104 360,110" stroke-dasharray="4 6"/>
+          <path d="M294,132 Q336,132 372,138" stroke-dasharray="4 6"/>
+          <path d="M290,148 Q328,158 356,166" stroke-dasharray="4 6"/>
+        </g>
+
+        <!-- petites plumes attirées -->
+        <g fill="#eee7d8" opacity=".85">
+          <g transform="translate(372 106) rotate(-18)">
+            <path d="M0,0 q10,-6 22,-2 q-8,8 -22,2Z"/>
+            <line x1="0" y1="0" x2="22" y2="-2" stroke="#b9b2a2" stroke-width=".8"/>
+          </g>
+          <g transform="translate(386 138) rotate(6)" style="animation:drift 3s ease-in-out infinite">
+            <path d="M0,0 q11,-6 24,-2 q-9,9 -24,2Z"/>
+          </g>
+          <g transform="translate(370 168) rotate(22)" style="animation:drift 3.6s ease-in-out infinite .4s">
+            <path d="M0,0 q9,-5 20,-2 q-8,8 -20,2Z"/>
+          </g>
+        </g>
+
+        <!-- le mot grec -->
+        <text x="520" y="128" font-family="'EB Garamond',Georgia,serif" font-size="26"
+              fill="#e0a63c" opacity=".8" text-anchor="middle">ἤλεκτρον</text>
+        <text x="520" y="150" font-family="'EB Garamond',Georgia,serif" font-size="12"
+              fill="#eee7d8" opacity=".5" text-anchor="middle">êlektron — l'ambre</text>
+      </svg>
+    </div>
+
+    <p>
+      Il y a environ <strong>2 600 ans</strong>, en Grèce, un savant nommé <strong>Thalès</strong>
+      remarque une curiosité. Quand on frotte un morceau d'<em>ambre</em> — cette résine d'arbre
+      fossilisée, dorée et translucide — sur une étoffe de laine, il se met à attirer les
+      plumes, les brins de paille, les cheveux.
+    </p>
+    <p>
+      Personne ne comprend pourquoi, et personne ne comprendra pendant très, très longtemps.
+      Mais le mot reste : l'ambre se dit <em>êlektron</em> en grec. Vingt-deux siècles plus
+      tard, un médecin anglais forgera à partir de ce mot un adjectif nouveau —
+      <strong>électrique</strong>.
+    </p>
+    <p>
+      Aujourd'hui on sait ce qui se passait : en frottant, on arrache des
+      <strong>électrons</strong> à un matériau pour les déposer sur l'autre. L'un se retrouve
+      avec trop de charges négatives, l'autre pas assez — et les deux s'attirent. C'est la même
+      chose quand tu retires un pull en hiver et que tes cheveux se dressent, ou quand tu prends
+      une petite décharge en touchant une poignée de porte.
+    </p>
+    <p>
+      La foudre, c'est ce phénomène en très grand : des charges qui s'accumulent dans un nuage
+      jusqu'à ce que l'air lui-même cède. Mais pour que quelqu'un ose faire ce rapprochement,
+      il faudra attendre un imprimeur américain avec un cerf-volant.
+    </p>
+  </div>
+</section>
+
+<!-- ══ II — FRANKLIN ══ -->
+<section class="foudre-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre II</span>
+    <h2>Le cerf-volant et le paratonnerre</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Un cerf-volant dans un ciel d'orage, relié par une ficelle à une clé</title>
+        <rect x="0" y="0" width="640" height="250" fill="#06070c"/>
+
+        <!-- ciel d'orage -->
+        <g fill="#131826" opacity=".95">
+          <ellipse cx="220" cy="40" rx="130" ry="40"/>
+          <ellipse cx="410" cy="34" rx="110" ry="34"/>
+          <ellipse cx="540" cy="52" rx="90"  ry="30"/>
+        </g>
+        <!-- éclairs lointains -->
+        <path d="M520,72 L508,98 L524,98 L504,132" fill="none" stroke="#8fd4ff" stroke-width="2"
+              style="animation:eclate 4s ease-in-out infinite"/>
+        <path d="M150,74 L140,96 L154,96 L136,124" fill="none" stroke="#8fd4ff" stroke-width="1.6"
+              style="animation:eclate 4s ease-in-out infinite 1.4s"/>
+
+        <!-- pluie -->
+        <g stroke="#8fd4ff" stroke-width="1" opacity=".22">
+          <line x1="60"  y1="90"  x2="52"  y2="116"/><line x1="120" y1="100" x2="112" y2="126"/>
+          <line x1="300" y1="86"  x2="292" y2="112"/><line x1="360" y1="104" x2="352" y2="130"/>
+          <line x1="470" y1="96"  x2="462" y2="122"/><line x1="580" y1="110" x2="572" y2="136"/>
+        </g>
+
+        <!-- le cerf-volant -->
+        <g transform="translate(330 92) rotate(18)">
+          <path d="M0,-34 L26,0 L0,34 L-26,0Z" fill="#2a3448" stroke="#8fd4ff" stroke-width="1.4"/>
+          <line x1="0" y1="-34" x2="0" y2="34" stroke="#8fd4ff" stroke-width=".8" opacity=".6"/>
+          <line x1="-26" y1="0" x2="26" y2="0" stroke="#8fd4ff" stroke-width=".8" opacity=".6"/>
+          <!-- pointe métallique -->
+          <line x1="0" y1="-34" x2="0" y2="-48" stroke="#c9c9d4" stroke-width="2"/>
+          <!-- queue -->
+          <path d="M0,34 q10,18 -4,30 q-12,12 2,26" fill="none" stroke="#e0a63c" stroke-width="1.4" opacity=".7"/>
+        </g>
+
+        <!-- la ficelle mouillée -->
+        <path d="M312,124 Q300,170 286,206" fill="none" stroke="#b9b2a2" stroke-width="1.4"/>
+        <path d="M312,124 Q300,170 286,206" fill="none" stroke="#8fd4ff" stroke-width="1.4"
+              stroke-dasharray="4 8" style="animation:file 1.6s linear infinite"/>
+
+        <!-- la clé, et l'étincelle -->
+        <g transform="translate(286 210)">
+          <circle r="6" fill="none" stroke="#c9c9d4" stroke-width="2.4"/>
+          <rect x="4" y="-2" width="20" height="4" rx="1" fill="#c9c9d4"/>
+          <rect x="18" y="2" width="3" height="5" fill="#c9c9d4"/>
+          <rect x="23" y="2" width="3" height="5" fill="#c9c9d4"/>
+          <circle cx="-14" cy="0" r="8" fill="#8fd4ff" opacity=".5" style="animation:eclate 2.6s ease-in-out infinite"/>
+          <path d="M-6,-4 L-14,2 L-9,2 L-18,10" fill="none" stroke="#eaf7ff" stroke-width="1.6"
+                style="animation:eclate 2.6s ease-in-out infinite"/>
+        </g>
+
+        <!-- le paratonnerre, à droite : le vrai résultat -->
+        <g transform="translate(548 172)">
+          <path d="M-46,78 L-46,10 L0,-22 L46,10 L46,78Z" fill="#0f1118"/>
+          <path d="M-46,10 L0,-22 L46,10" fill="none" stroke="#2a3448" stroke-width="1.6"/>
+          <line x1="0" y1="-22" x2="0" y2="-58" stroke="#c9c9d4" stroke-width="3"/>
+          <circle cx="0" cy="-60" r="3" fill="#eaf7ff"/>
+          <path d="M0,-22 L14,10 L14,78" fill="none" stroke="#c0743a" stroke-width="2.4"/>
+          <g fill="#e0a63c" opacity=".4">
+            <rect x="-30" y="30" width="12" height="14" rx="2"/>
+            <rect x="18"  y="30" width="12" height="14" rx="2"/>
+          </g>
+          <text y="98" font-family="'EB Garamond',Georgia,serif" font-size="11" fill="#eee7d8"
+                opacity=".55" text-anchor="middle">paratonnerre</text>
+        </g>
+      </svg>
+    </div>
+
+    <p>
+      Au XVIII<sup>e</sup> siècle, l'électricité est un spectacle de salon : on fait crépiter des
+      machines à frotter, on électrise des invités qui se donnent la main pour sentir la
+      secousse. Personne ne fait le lien avec l'orage.
+    </p>
+    <p>
+      <strong>Benjamin Franklin</strong>, imprimeur et savant américain, ose l'hypothèse : et si
+      la foudre n'était rien d'autre que cette même électricité, en énorme ? Il propose une
+      expérience pour le vérifier : dresser une longue tige de fer pointue et voir si elle tire
+      des étincelles d'un nuage d'orage.
+    </p>
+    <p>
+      En <strong>mai 1752</strong>, à Marly-la-Ville, près de Paris, un Français nommé
+      <strong>Thomas-François Dalibard</strong> réalise l'expérience de Franklin — et elle
+      fonctionne. Franklin raconte ensuite avoir fait voler un cerf-volant sous l'orage, une
+      clé attachée à la ficelle. Cette seconde histoire est célèbre, et les historiens en
+      discutent encore : on ne sait pas exactement comment elle s'est passée.
+    </p>
+    <blockquote>
+      <p>Ce qui est certain, c'est la conclusion. La foudre est électrique — et une pointe de
+      métal reliée au sol peut lui offrir un chemin sans danger.</p>
+      <cite>L'invention du paratonnerre, 1752</cite>
+    </blockquote>
+    <p>
+      C'est la première fois qu'on ne se contente pas de comprendre un phénomène naturel : on
+      s'en <strong>protège</strong>. Le paratonnerre est peut-être le premier objet de l'histoire
+      qui doit son existence à une expérience de physique.
+    </p>
+  </div>
+</section>
+
+<!-- ══ III — LA PILE ══ -->
+<section class="pile-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre III</span>
+    <h2>La grenouille et la pile</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>La patte de grenouille de Galvani et l'empilement de disques de Volta</title>
+        <rect x="0" y="0" width="640" height="250" fill="#07080c"/>
+        <line x1="320" y1="24" x2="320" y2="226" stroke="#2a2a38" stroke-width="1" stroke-dasharray="4 8"/>
+
+        <!-- GAUCHE : la paillasse de Galvani -->
+        <text x="160" y="40" font-family="'EB Garamond',Georgia,serif" font-size="12"
+              fill="#4fc08a" opacity=".8" text-anchor="middle">Galvani, 1780</text>
+        <rect x="40" y="176" width="240" height="8" rx="2" fill="#241c14"/>
+        <!-- le crochet et la patte -->
+        <line x1="160" y1="86" x2="160" y2="120" stroke="#c9c9d4" stroke-width="2.4"/>
+        <path d="M160,120 q-10,6 -2,14" fill="none" stroke="#c9c9d4" stroke-width="2.4"/>
+        <g transform="translate(160 138)">
+          <path d="M0,0 q-14,10 -10,26 q3,14 -8,22" fill="none" stroke="#4fc08a" stroke-width="5"
+                stroke-linecap="round" opacity=".85"/>
+          <path d="M-18,48 q-8,4 -12,0" fill="none" stroke="#4fc08a" stroke-width="4" stroke-linecap="round"/>
+          <!-- la secousse -->
+          <g style="animation:eclate 3s ease-in-out infinite">
+            <circle cx="-10" cy="26" r="14" fill="#8fd4ff" opacity=".28"/>
+            <path d="M-4,16 L-12,26 L-6,26 L-16,38" fill="none" stroke="#eaf7ff" stroke-width="1.4"/>
+          </g>
+        </g>
+        <text x="160" y="216" font-family="'EB Garamond',Georgia,serif" font-size="11"
+              fill="#eee7d8" opacity=".5" text-anchor="middle">« l'électricité animale »</text>
+
+        <!-- DROITE : la pile de Volta -->
+        <text x="480" y="40" font-family="'EB Garamond',Georgia,serif" font-size="12"
+              fill="#c0743a" opacity=".9" text-anchor="middle">Volta, 1800</text>
+        <g transform="translate(480 190)">
+          <!-- socle -->
+          <rect x="-52" y="0" width="104" height="8" rx="2" fill="#241c14"/>
+          <!-- colonnes de maintien -->
+          <line x1="-34" y1="0" x2="-34" y2="-128" stroke="#3a3020" stroke-width="3"/>
+          <line x1="34"  y1="0" x2="34"  y2="-128" stroke="#3a3020" stroke-width="3"/>
+          <!-- l'empilement zinc / carton / cuivre -->
+          <g>
+            <rect x="-26" y="-14" width="52" height="6" rx="1" fill="#c0743a"/>
+            <rect x="-26" y="-20" width="52" height="4" rx="1" fill="#5a4a3a"/>
+            <rect x="-26" y="-26" width="52" height="6" rx="1" fill="#9aa0aa"/>
+            <rect x="-26" y="-40" width="52" height="6" rx="1" fill="#c0743a"/>
+            <rect x="-26" y="-46" width="52" height="4" rx="1" fill="#5a4a3a"/>
+            <rect x="-26" y="-52" width="52" height="6" rx="1" fill="#9aa0aa"/>
+            <rect x="-26" y="-66" width="52" height="6" rx="1" fill="#c0743a"/>
+            <rect x="-26" y="-72" width="52" height="4" rx="1" fill="#5a4a3a"/>
+            <rect x="-26" y="-78" width="52" height="6" rx="1" fill="#9aa0aa"/>
+            <rect x="-26" y="-92" width="52" height="6" rx="1" fill="#c0743a"/>
+            <rect x="-26" y="-98" width="52" height="4" rx="1" fill="#5a4a3a"/>
+            <rect x="-26" y="-104" width="52" height="6" rx="1" fill="#9aa0aa"/>
+          </g>
+          <!-- fils qui sortent -->
+          <path d="M-26,-104 q-40,-8 -54,26" fill="none" stroke="#c0743a" stroke-width="2.4"/>
+          <path d="M26,-14 q42,-4 54,26" fill="none" stroke="#c0743a" stroke-width="2.4"/>
+          <!-- le courant, continu -->
+          <path d="M-80,-78 q-6,40 40,52 q46,12 118,-24" fill="none" stroke="#8fd4ff"
+                stroke-width="1.6" stroke-dasharray="5 9" opacity=".8"
+                style="animation:file 2s linear infinite"/>
+          <g font-family="'EB Garamond',Georgia,serif" font-size="10" fill="#9aa0aa" opacity=".8">
+            <text x="-70" y="-110">zinc</text>
+            <text x="46"  y="-6">cuivre</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <p>
+      Vers 1780, à Bologne, le médecin <strong>Luigi Galvani</strong> dissèque des grenouilles.
+      Un jour, en touchant une patte avec un instrument métallique, il la voit
+      <em>se contracter</em>, comme vivante. Il en conclut que les animaux fabriquent une
+      électricité qui leur est propre.
+    </p>
+    <p>
+      Son confrère <strong>Alessandro Volta</strong> n'y croit pas. Selon lui, ce ne sont pas
+      les grenouilles qui produisent le courant, mais le <strong>contact entre deux métaux
+      différents</strong> séparés par un liquide — la patte ne servant que de détecteur.
+    </p>
+    <p>
+      Pour le prouver, en <strong>1800</strong>, Volta empile des disques de zinc et de cuivre
+      séparés par des cartons trempés dans l'eau salée. Sans aucune grenouille, la colonne
+      débite du courant, <strong>de façon continue</strong>. C'est la première
+      <strong>pile</strong> — le mot vient de là, on <em>empile</em>.
+    </p>
+    <blockquote>
+      <p>Galvani avait tort sur la cause et raison sur l'essentiel : les nerfs et les muscles
+      fonctionnent bel et bien à l'électricité. Deux savants en désaccord, et deux découvertes
+      au lieu d'une.</p>
+      <cite>Galvani contre Volta</cite>
+    </blockquote>
+    <p>
+      Pour la première fois, on dispose d'une source de courant qu'on peut poser sur une table
+      et rallumer quand on veut. Tout ce qui suit en découle. Et l'unité de tension porte
+      aujourd'hui son nom : le <strong>volt</strong>.
+    </p>
+  </div>
+</section>
+
+<!-- ══ IV — FARADAY ══ -->
+<section class="faraday-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre IV</span>
+    <h2>L'aimant qui fabrique du courant</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 240" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Un aimant entre et sort d'une bobine de cuivre, l'aiguille du galvanomètre dévie</title>
+        <rect x="0" y="0" width="640" height="240" fill="#07080c"/>
+
+        <!-- la bobine -->
+        <g transform="translate(250 122)">
+          <!-- tube -->
+          <rect x="-90" y="-34" width="180" height="68" rx="34" fill="#0d1016" stroke="#2a3040" stroke-width="1.6"/>
+          <!-- spires -->
+          <g fill="none" stroke="#c0743a" stroke-width="5" stroke-linecap="round">
+            <path d="M-78,-34 q-12,34 0,68"/><path d="M-52,-34 q-12,34 0,68"/>
+            <path d="M-26,-34 q-12,34 0,68"/><path d="M0,-34 q-12,34 0,68"/>
+            <path d="M26,-34 q-12,34 0,68"/><path d="M52,-34 q-12,34 0,68"/>
+            <path d="M78,-34 q-12,34 0,68"/>
+          </g>
+          <!-- fils vers l'appareil -->
+          <path d="M-84,34 q-30,40 20,52 q60,14 150,-10" fill="none" stroke="#c0743a" stroke-width="2.4"/>
+          <path d="M84,34 q30,36 90,26" fill="none" stroke="#c0743a" stroke-width="2.4"/>
+          <path d="M-84,34 q-30,40 20,52 q60,14 150,-10" fill="none" stroke="#8fd4ff" stroke-width="1.4"
+                stroke-dasharray="5 9" style="animation:file 1.8s linear infinite"/>
+        </g>
+
+        <!-- l'aimant qui entre -->
+        <g transform="translate(196 122)" style="animation:drift 2.6s ease-in-out infinite">
+          <rect x="-90" y="-13" width="60" height="26" rx="3" fill="#8a2a3a"/>
+          <rect x="-30" y="-13" width="60" height="26" rx="3" fill="#2a6ea8"/>
+          <text x="-60" y="5" font-family="'EB Garamond',Georgia,serif" font-size="13"
+                fill="#eee7d8" text-anchor="middle">N</text>
+          <text x="0" y="5" font-family="'EB Garamond',Georgia,serif" font-size="13"
+                fill="#eee7d8" text-anchor="middle">S</text>
+          <!-- flèche de mouvement -->
+          <g stroke="#e0a63c" stroke-width="2" fill="none">
+            <path d="M34,0 L70,0"/><path d="M62,-6 L72,0 L62,6"/>
+          </g>
+        </g>
+
+        <!-- le galvanomètre -->
+        <g transform="translate(500 186)">
+          <rect x="-60" y="-70" width="120" height="80" rx="5" fill="#12141c" stroke="#2a3040" stroke-width="1.6"/>
+          <path d="M-44,-16 A44,44 0 0 1 44,-16" fill="none" stroke="#2a3040" stroke-width="1.4"/>
+          <g stroke="#eee7d8" stroke-width="1" opacity=".4">
+            <line x1="-40" y1="-20" x2="-34" y2="-26"/><line x1="0" y1="-58" x2="0" y2="-50"/>
+            <line x1="40" y1="-20" x2="34" y2="-26"/>
+          </g>
+          <text x="0" y="-32" font-family="'EB Garamond',Georgia,serif" font-size="9"
+                fill="#eee7d8" opacity=".4" text-anchor="middle">0</text>
+          <!-- aiguille qui dévie -->
+          <g style="animation:drift 2.6s ease-in-out infinite">
+            <line x1="0" y1="-16" x2="26" y2="-44" stroke="#8fd4ff" stroke-width="2.4"/>
+            <circle cx="0" cy="-16" r="4" fill="#8fd4ff"/>
+          </g>
+        </g>
+        <text x="500" y="212" font-family="'EB Garamond',Georgia,serif" font-size="11"
+              fill="#8fd4ff" opacity=".7" text-anchor="middle">du courant, sans pile</text>
+      </svg>
+    </div>
+
+    <p>
+      <strong>Michael Faraday</strong> avait quitté l'école à treize ans pour devenir apprenti
+      relieur. Il lisait les livres qu'il reliait. C'est comme ça qu'il est devenu, à force de
+      curiosité, l'un des plus grands expérimentateurs de tous les temps.
+    </p>
+    <p>
+      En <strong>1831</strong>, il fait l'expérience décisive : il approche un aimant d'une
+      bobine de fil de cuivre. Tant que l'aimant <em>bouge</em>, une aiguille dévie au bout du
+      fil : il y a du courant. Dès que l'aimant s'arrête, le courant disparaît. C'est
+      l'<strong>induction</strong>.
+    </p>
+    <p>
+      Cela paraît minuscule. C'est pourtant la découverte qui a électrifié le monde. Car une
+      <strong>centrale électrique</strong>, quelle qu'elle soit, ne fait rien d'autre que ça :
+      faire tourner des aimants devant des bobines. Ce qui change, c'est seulement <em>ce qui
+      fait tourner</em> — la vapeur d'une chaudière, la chute d'un barrage, le vent d'une
+      éolienne, la chaleur d'un réacteur.
+    </p>
+    <blockquote>
+      <p>On raconte qu'un ministre lui demanda à quoi son invention pouvait bien servir.
+      Faraday aurait répondu : « Monsieur, je l'ignore. Mais je parie qu'un jour vous la
+      taxerez. »</p>
+      <cite>Anecdote attribuée à Faraday — souvent racontée, jamais prouvée</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ══ V — CHEZ TOI ══ -->
+<section class="maison-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre V</span>
+    <h2>Du barrage à ta lampe</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 240" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Le chemin de l'électricité : centrale, lignes à haute tension, transformateur, maison</title>
+        <rect x="0" y="0" width="640" height="240" fill="#07080c"/>
+        <rect x="0" y="196" width="640" height="44" fill="#0c0d12"/>
+
+        <!-- la centrale (barrage) -->
+        <g transform="translate(70 150)">
+          <path d="M-56,46 L-56,-30 L-14,-30 L-14,46Z" fill="#141822"/>
+          <path d="M-56,-30 L-14,-30 L-14,-18 L-56,-18Z" fill="#1c2230"/>
+          <!-- retenue d'eau -->
+          <path d="M-120,46 L-120,-14 L-56,-14 L-56,46Z" fill="#12233a"/>
+          <g stroke="#2a6ea8" stroke-width="1" opacity=".5">
+            <path d="M-114,-6 q10,-4 20,0 t20,0 t20,0"/>
+          </g>
+          <!-- chute -->
+          <path d="M-56,-14 q10,26 6,60" fill="none" stroke="#8fd4ff" stroke-width="4" opacity=".5"/>
+          <!-- turbine -->
+          <circle cx="-34" cy="20" r="10" fill="none" stroke="#e0a63c" stroke-width="2"/>
+          <g stroke="#e0a63c" stroke-width="1.6">
+            <line x1="-34" y1="10" x2="-34" y2="30"/><line x1="-44" y1="20" x2="-24" y2="20"/>
+          </g>
+          <text y="66" font-family="'EB Garamond',Georgia,serif" font-size="10" fill="#eee7d8"
+                opacity=".55" text-anchor="middle" x="-56">on fait tourner</text>
+        </g>
+
+        <!-- pylônes et lignes -->
+        <g stroke="#3a4050" stroke-width="2.4" fill="none">
+          <path d="M230,196 L230,80 M214,196 L246,196 M214,110 L246,110 M206,132 L254,132"/>
+          <path d="M390,196 L390,80 M374,196 L406,196 M374,110 L406,110 M366,132 L414,132"/>
+        </g>
+        <g fill="none" stroke="#c0743a" stroke-width="1.6">
+          <path d="M120,120 Q176,140 206,132"/><path d="M254,132 Q322,152 366,132"/>
+          <path d="M414,132 Q460,148 500,140"/>
+          <path d="M120,100 Q176,120 214,110"/><path d="M246,110 Q322,132 374,110"/>
+          <path d="M406,110 Q462,128 500,124"/>
+        </g>
+        <g fill="none" stroke="#8fd4ff" stroke-width="1.4" stroke-dasharray="5 10" opacity=".8"
+           style="animation:file 2.2s linear infinite">
+          <path d="M120,120 Q176,140 206,132"/><path d="M254,132 Q322,152 366,132"/>
+          <path d="M414,132 Q460,148 500,140"/>
+        </g>
+        <text x="310" y="70" font-family="'EB Garamond',Georgia,serif" font-size="10"
+              fill="#8fd4ff" opacity=".6" text-anchor="middle">400 000 volts</text>
+
+        <!-- transformateur -->
+        <g transform="translate(520 168)">
+          <rect x="-20" y="-28" width="40" height="28" rx="3" fill="#141822" stroke="#3a4050" stroke-width="1.4"/>
+          <g stroke="#3a4050" stroke-width="1.2">
+            <line x1="-14" y1="-28" x2="-14" y2="-36"/><line x1="0" y1="-28" x2="0" y2="-36"/>
+            <line x1="14" y1="-28" x2="14" y2="-36"/>
+          </g>
+          <text y="16" font-family="'EB Garamond',Georgia,serif" font-size="9" fill="#eee7d8"
+                opacity=".5" text-anchor="middle">230 V</text>
+        </g>
+
+        <!-- la maison -->
+        <g transform="translate(592 168)">
+          <path d="M-40,28 L-40,-8 L0,-34 L40,-8 L40,28Z" fill="#12141c"/>
+          <path d="M-44,-6 L0,-38 L44,-6" fill="none" stroke="#3a4050" stroke-width="2"/>
+          <rect x="-10" y="4" width="20" height="24" fill="#0d0f16"/>
+          <rect x="-30" y="-2" width="16" height="14" rx="2" fill="#e0a63c" opacity=".7"
+                style="animation:allume 3s ease-in-out infinite"/>
+          <rect x="14"  y="-2" width="16" height="14" rx="2" fill="#e0a63c" opacity=".55"
+                style="animation:allume 3.4s ease-in-out infinite .5s"/>
+        </g>
+        <path d="M540,152 Q566,150 570,146" fill="none" stroke="#c0743a" stroke-width="2"/>
+      </svg>
+    </div>
+
+    <p>
+      Aujourd'hui, la chaîne est complète. Dans une centrale, quelque chose fait tourner un
+      aimant géant devant des bobines : de l'eau qui tombe, de la vapeur, du vent. Le courant
+      produit part sur des lignes à très haute tension — jusqu'à
+      <strong>400 000 volts</strong> — parce que plus la tension est élevée, moins on perd
+      d'énergie sur des centaines de kilomètres.
+    </p>
+    <p>
+      Près de chez toi, un <strong>transformateur</strong> ramène tout ça à
+      <strong>230 volts</strong>, la tension des prises. Et quand tu appuies sur un
+      interrupteur, tu ne fais qu'une chose : tu <em>refermes un chemin</em>. Les électrons
+      étaient déjà là, dans le fil, immobiles. Le circuit fermé leur donne une direction.
+    </p>
+    <p>
+      Curiosité : dans le fil, les électrons avancent très lentement — moins vite qu'un
+      escargot. Mais la <em>poussée</em> se propage, elle, à près de la vitesse de la lumière.
+      C'est pour ça que la lampe s'allume instantanément, même si les électrons qui sont
+      dedans mettront des heures à parcourir la pièce.
+    </p>
+
+    <div class="chiffres">
+      <div class="chiffre"><b>230 V</b><span>la tension d'une prise en France ; 400 000 V sur les grandes lignes</span></div>
+      <div class="chiffre"><b>0,1 mm/s</b><span>la vitesse réelle des électrons dans un fil de cuivre</span></div>
+      <div class="chiffre"><b>50 fois</b><span>par seconde, le courant du secteur change de sens : c'est l'alternatif</span></div>
+    </div>
+
+    <div class="prudence">
+      <strong>Une chose à ne jamais oublier</strong>
+      <p>
+        Ce qui traverse une prise peut arrêter un cœur. On n'ouvre pas un appareil, on
+        n'enfonce rien dans une prise, on ne touche pas à l'électricité avec les mains
+        mouillées, et on ne s'abrite pas sous un arbre isolé pendant un orage. La curiosité
+        est une excellente chose ; ici, elle se pratique en regardant, et en demandant à un
+        adulte.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FIN ══ -->
+<section class="dark ending">
+  <div class="chapter">
+    <span class="ornament">✦ ✦ ✦</span>
+    <h2>Ce que la science nous dit</h2>
+    <div class="divider"></div>
+
+    <p class="moral">
+      Un caillou jaune frotté sur de la laine. Une patte de grenouille qui sursaute. Un aimant
+      qu'on approche d'un fil. Aucune de ces trois choses ne servait à rien, le jour où on
+      l'a remarquée.
+    </p>
+    <p class="moral">
+      Elles éclairent aujourd'hui les villes. Les découvertes les plus utiles commencent
+      presque toujours par quelqu'un qui trouve un détail bizarre — et qui refuse de passer
+      son chemin.
+    </p>
+    <p class="ref">Thalès · Franklin · Galvani · Volta · Faraday · ta lampe</p>
+  </div>
+</section>
+
+</body>
+</html>
