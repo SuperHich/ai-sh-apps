@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Explorateur du Corps Humain — Le Grenier des Apps</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="mask-icon" href="assets/favicon-mono.svg" color="#f0c04b">
+<meta name="description" content="Un corps humain en trois dimensions que l'on fait tourner et dans lequel on zoome : dix-sept organes à toucher du doigt, leur rôle, leurs chiffres et leurs secrets.">
+<meta name="theme-color" content="#08070f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<style>
+  /* ══════════════════════════════════════════════════════════════
+     L'Explorateur du Corps Humain
+     Le corps est calculé et peint dans un canvas : la page ne fournit
+     que la scène, les commandes et la fiche.
+     ══════════════════════════════════════════════════════════════ */
+
+  .an-head { padding: clamp(22px, 4vw, 40px) 0 2px; }
+  .an-head h1 {
+    margin: 0;
+    font-family: var(--gr-display);
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    line-height: 1.08;
+  }
+  .an-head h1 em {
+    font-style: italic;
+    background: linear-gradient(115deg, var(--gr-gold), var(--gr-rose) 60%, var(--gr-violet));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .an-head p { max-width: 660px; margin: 10px 0 0; color: var(--gr-text-soft); line-height: 1.6; }
+
+  /* ── La scène ── */
+  .an-stage {
+    position: relative;
+    margin-top: 20px;
+    border-radius: var(--gr-r-lg);
+    border: 1px solid var(--gr-line);
+    background:
+      radial-gradient(80% 70% at 50% 12%, rgba(255, 111, 156, .1), transparent 62%),
+      radial-gradient(90% 90% at 50% 100%, rgba(91, 184, 255, .07), transparent 60%),
+      linear-gradient(175deg, #12101c, #07060d 72%);
+    overflow: hidden;
+    touch-action: none;
+    cursor: grab;
+    user-select: none;
+  }
+  .an-stage.is-dragging { cursor: grabbing; }
+  .an-stage:focus-visible { outline: 2px solid var(--gr-gold); outline-offset: 3px; }
+  .an-stage canvas { display: block; width: 100%; height: 100%; }
+  .an-canvas-wrap { height: clamp(380px, 66vh, 680px); }
+
+  .an-badge { position: absolute; top: 14px; left: 16px; pointer-events: none; max-width: 60%; }
+  .an-badge b {
+    display: block;
+    font-family: var(--gr-display);
+    font-size: clamp(1.2rem, 3vw, 1.7rem);
+    line-height: 1.1;
+  }
+  .an-badge span {
+    display: block;
+    margin-top: 3px;
+    font-size: .72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gr-text-faint);
+  }
+
+  .an-tools { position: absolute; right: 14px; top: 14px; display: flex; flex-direction: column; gap: 7px; }
+  .an-tool {
+    width: 40px; height: 40px;
+    display: grid; place-items: center;
+    border-radius: 12px;
+    border: 1px solid var(--gr-line);
+    background: rgba(10, 12, 24, .62);
+    backdrop-filter: blur(9px);
+    color: var(--gr-text);
+    cursor: pointer;
+    transition: border-color var(--gr-fast) var(--gr-ease-out),
+                background var(--gr-fast) var(--gr-ease-out),
+                transform var(--gr-fast) var(--gr-ease-out);
+  }
+  .an-tool:hover { border-color: var(--gr-line-strong); background: rgba(22, 24, 44, .8); transform: translateY(-1px); }
+  .an-tool:active { transform: scale(.95); }
+  .an-tool svg { width: 18px; height: 18px; }
+
+  /* Le bandeau du jeu : la question doit rester sous les yeux pendant qu'on
+     cherche l'organe, sinon il faut faire l'aller-retour avec le bas de page. */
+  .an-quiz {
+    position: absolute;
+    left: 50%; bottom: 14px;
+    transform: translateX(-50%);
+    width: min(440px, calc(100% - 120px));
+    padding: 12px 16px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid rgba(177, 140, 255, .4);
+    background: rgba(14, 12, 26, .82);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    pointer-events: none;
+  }
+  .an-quiz-q { margin: 0; font-size: .95rem; color: var(--gr-text); line-height: 1.45; }
+  .an-quiz-q b { color: var(--gr-violet); }
+  .an-quiz-fb { margin: 7px 0 0; font-size: .84rem; min-height: 1.1em; color: var(--gr-text-faint); }
+  .an-quiz-fb.is-good { color: var(--gr-jade); }
+  .an-quiz-fb.is-bad { color: var(--gr-ember); }
+  .an-quiz-score {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 3px 11px;
+    border-radius: 999px;
+    background: rgba(177, 140, 255, .16);
+    font-size: .74rem;
+    letter-spacing: .08em;
+    color: var(--gr-violet);
+  }
+  /* Pendant une partie, le nom de l'organe et l'aide gestuelle disparaissent :
+     l'un vendrait la mèche, l'autre gênerait le bandeau. */
+  .an-stage.is-quiz .an-badge,
+  .an-stage.is-quiz .an-hint { opacity: 0; }
+
+  .an-hint {
+    position: absolute;
+    left: 50%; bottom: 12px;
+    transform: translateX(-50%);
+    display: flex; gap: 14px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--gr-line);
+    background: rgba(10, 12, 24, .55);
+    backdrop-filter: blur(9px);
+    font-size: .72rem;
+    color: var(--gr-text-faint);
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity var(--gr-slow) var(--gr-ease-out);
+  }
+  .an-hint.is-gone { opacity: 0; }
+  .an-hint b { color: var(--gr-text-soft); font-weight: 500; }
+  @media (max-width: 620px) { .an-hint span:nth-child(3) { display: none; } }
+
+  /* ── Commandes sous la scène ── */
+  .an-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .an-controls .gr-chip { --sys: var(--gr-gold); }
+  .an-controls .gr-chip.is-on {
+    color: var(--gr-text);
+    border-color: var(--sys);
+    background: color-mix(in srgb, var(--sys) 16%, transparent);
+  }
+  .an-sep { width: 1px; height: 26px; background: var(--gr-line); margin: 0 4px; }
+  .an-toggle {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+    color: var(--gr-text-faint);
+    font-family: inherit; font-size: .84rem; font-weight: 500;
+    cursor: pointer;
+    transition: color var(--gr-fast) var(--gr-ease-out), border-color var(--gr-fast) var(--gr-ease-out);
+  }
+  .an-toggle i {
+    width: 9px; height: 9px; border-radius: 50%;
+    border: 1px solid currentColor;
+    font-style: normal;
+  }
+  .an-toggle.is-on { color: var(--gr-text); border-color: var(--gr-line-strong); }
+  .an-toggle.is-on i { background: currentColor; }
+  .an-sys-blurb { margin: 10px 0 0; font-size: .84rem; color: var(--gr-text-faint); min-height: 1.2em; }
+
+  /* ── Le quai des organes ── */
+  .an-dock-wrap {
+    margin-top: 12px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .an-dock-wrap::-webkit-scrollbar { display: none; }
+  .an-dock { display: flex; gap: 8px; padding: 4px 2px 8px; min-width: max-content; }
+  .an-dock button {
+    display: flex; align-items: center; gap: 9px;
+    padding: 8px 15px 8px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+    color: var(--gr-text-soft);
+    font-family: inherit; font-size: .86rem; font-weight: 500;
+    white-space: nowrap; cursor: pointer;
+    transition: border-color var(--gr-fast) var(--gr-ease-out),
+                color var(--gr-fast) var(--gr-ease-out),
+                transform var(--gr-fast) var(--gr-ease-out);
+  }
+  .an-dock button:hover { transform: translateY(-2px); color: var(--gr-text); border-color: var(--gr-line-strong); }
+  .an-dock button.is-on {
+    color: var(--gr-text);
+    background: var(--gr-surface-2);
+    border-color: var(--dot);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--dot) 40%, transparent);
+  }
+  .an-dot {
+    width: 20px; height: 20px; flex: none;
+    border-radius: 50%;
+    background: radial-gradient(circle at 34% 30%, #fff, var(--dot) 58%, #100c14);
+    box-shadow: inset -2px -2px 5px rgba(0, 0, 0, .5);
+  }
+
+  /* ── La fiche ── */
+  .an-sheet {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 18px;
+    margin-top: 26px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .an-sheet { grid-template-columns: 1fr; } }
+
+  .an-panel {
+    padding: clamp(16px, 2.5vw, 24px);
+    border-radius: var(--gr-r);
+    border: 1px solid var(--gr-line);
+    background: linear-gradient(165deg, var(--gr-surface-2), rgba(255, 255, 255, .012));
+  }
+  .an-panel + .an-panel { margin-top: 16px; }
+  .an-panel h2 { margin: 0; font-family: var(--gr-display); font-size: 1.34rem; }
+  .an-panel h3 {
+    margin: 0 0 12px;
+    font-size: .74rem; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--gr-text-faint);
+  }
+  .an-sys-tag {
+    display: inline-block;
+    margin: 8px 0 0;
+    padding: 4px 11px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--sys, #f0c04b) 45%, transparent);
+    background: color-mix(in srgb, var(--sys, #f0c04b) 14%, transparent);
+    font-size: .72rem; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--sys, var(--gr-gold));
+  }
+  .an-role { margin: 14px 0 0; color: var(--gr-text-soft); line-height: 1.65; }
+  .an-where {
+    margin: 12px 0 0;
+    padding-left: 12px;
+    border-left: 2px solid var(--gr-line);
+    font-size: .88rem; color: var(--gr-text-faint); line-height: 1.55;
+  }
+
+  .an-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 9px;
+    margin-top: 18px;
+  }
+  .an-stat {
+    padding: 11px 13px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid var(--gr-line);
+    background: rgba(255, 255, 255, .028);
+  }
+  .an-stat span {
+    display: block;
+    font-size: .68rem; letter-spacing: .09em; text-transform: uppercase;
+    color: var(--gr-text-faint);
+  }
+  .an-stat b {
+    display: block; margin-top: 5px;
+    font-family: var(--gr-display); font-size: 1.02rem; font-weight: 600;
+    line-height: 1.25;
+  }
+  .an-stat em { font-style: normal; font-size: .74rem; color: var(--gr-text-faint); }
+
+  .an-daily {
+    margin: 0;
+    padding: 14px 16px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid rgba(240, 192, 75, .2);
+    background: rgba(240, 192, 75, .06);
+    color: var(--gr-text-soft);
+    line-height: 1.6;
+    font-size: .92rem;
+  }
+
+  .an-facts { display: flex; flex-direction: column; gap: 10px; }
+  .an-fact {
+    display: flex; gap: 11px;
+    padding: 12px 14px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid var(--gr-line);
+    background: rgba(255, 255, 255, .028);
+    font-size: .89rem; line-height: 1.55;
+    color: var(--gr-text-soft);
+  }
+  .an-fact i { font-style: normal; font-size: 1.05rem; line-height: 1.4; }
+  .an-fact p { margin: 0; }
+
+  /* ── Le jeu ── */
+  .an-game { border-color: rgba(177, 140, 255, .28); }
+  .an-question { margin: 0 0 12px; font-size: 1rem; color: var(--gr-text-soft); line-height: 1.5; }
+  .an-question b { color: var(--gr-text); font-weight: 600; }
+  .an-game-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .an-score {
+    font-family: var(--gr-display);
+    font-size: 1.2rem;
+    color: var(--gr-violet);
+  }
+  .an-feedback { margin: 12px 0 0; font-size: .88rem; min-height: 1.2em; color: var(--gr-text-faint); }
+  .an-feedback.is-good { color: var(--gr-jade); }
+  .an-feedback.is-bad { color: var(--gr-ember); }
+  .an-game.is-playing .an-play-note { display: block; }
+  .an-play-note { display: none; margin: 10px 0 0; font-size: .8rem; color: var(--gr-text-faint); }
+  /* Pendant une partie, la liste des organes s'efface : elle donnerait la réponse. */
+  .an-dock-wrap.is-hidden { opacity: .3; pointer-events: none; }
+
+  /* ── Les systèmes ── */
+  .an-systems { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+  .an-system {
+    padding: 15px 17px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid color-mix(in srgb, var(--sys) 30%, transparent);
+    background: color-mix(in srgb, var(--sys) 7%, transparent);
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+    transition: transform var(--gr-fast) var(--gr-ease-out), border-color var(--gr-fast) var(--gr-ease-out);
+  }
+  .an-system:hover { transform: translateY(-2px); border-color: var(--sys); }
+  .an-system b { display: block; font-family: var(--gr-display); font-size: 1.05rem; color: var(--sys); }
+  .an-system span { display: block; margin-top: 6px; font-size: .84rem; color: var(--gr-text-soft); line-height: 1.5; }
+</style>
+</head>
+<body class="gr-body">
+
+<div class="gr-page">
+
+  <!-- ══════════════ HÉRO ══════════════ -->
+  <header class="an-head gr-enter">
+    <h1>L'Explorateur du <em>Corps Humain</em></h1>
+    <p>
+      Un corps en trois dimensions, à faire tourner et à traverser du regard.
+      <b id="anCount">17</b> organes à toucher du doigt : ce qu'ils font, où ils sont,
+      combien ils pèsent et ce qu'ils accomplissent pendant que vous lisez cette ligne.
+    </p>
+  </header>
+
+  <!-- ══════════════ LA SCÈNE ══════════════ -->
+  <section class="gr-section" style="margin-top:18px" aria-label="Le corps en trois dimensions">
+    <div class="an-stage" id="anStage" tabindex="0"
+         aria-label="Corps humain en trois dimensions : flèches pour le faire tourner, plus et moins pour zoomer, espace pour arrêter la rotation. La liste des organes juste en dessous donne le même accès au clavier.">
+      <div class="an-canvas-wrap">
+        <canvas id="anScene" role="img" aria-label="Vue en trois dimensions d'un corps humain et de ses organes"></canvas>
+      </div>
+
+      <div class="an-badge">
+        <b id="anName">Le corps humain</b>
+        <span id="anKind">Touchez un organe</span>
+      </div>
+
+      <div class="an-tools">
+        <button class="an-tool" id="anPlay" type="button" title="Arrêter la rotation" aria-label="Arrêter la rotation"></button>
+        <button class="an-tool" id="anIn" type="button" title="Zoomer" aria-label="Zoomer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg>
+        </button>
+        <button class="an-tool" id="anOut" type="button" title="Dézoomer" aria-label="Dézoomer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/></svg>
+        </button>
+        <button class="an-tool" id="anReset" type="button" title="Revenir au corps entier" aria-label="Revenir au corps entier">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
+        </button>
+      </div>
+
+      <div class="an-quiz" id="anQuiz" hidden>
+        <p class="an-quiz-q" id="anQuizQ"></p>
+        <p class="an-quiz-fb" id="anQuizFb"></p>
+        <span class="an-quiz-score" id="anQuizScore"></span>
+      </div>
+
+      <p class="an-hint" id="anHint">
+        <span><b>Glissez</b> pour tourner</span>
+        <span><b>Cliquez</b> un organe</span>
+        <span><b>Molette</b> pour zoomer</span>
+      </p>
+    </div>
+
+    <div class="an-controls">
+      <button class="an-toggle" id="anSkin" type="button" aria-pressed="true"><i></i>Peau</button>
+      <button class="an-toggle" id="anBones" type="button" aria-pressed="false"><i></i>Squelette</button>
+      <div class="an-sep" aria-hidden="true"></div>
+      <div class="gr-filters" id="anFilters" role="group" aria-label="Filtrer par système"></div>
+    </div>
+    <p class="an-sys-blurb" id="anSysBlurb"></p>
+
+    <div class="an-dock-wrap" id="anDockWrap">
+      <div class="an-dock" id="anDock" role="tablist" aria-label="Choisir un organe"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ LA FICHE ══════════════ -->
+  <section class="gr-section" style="margin-top:22px">
+    <div class="an-sheet">
+
+      <div>
+        <div class="an-panel">
+          <h2 id="anTitle">Le corps humain</h2>
+          <span class="an-sys-tag" id="anSystem">Choisissez un organe</span>
+          <p class="an-role" id="anRole">
+            Trente-sept mille milliards de cellules, une trentaine d'organes, et
+            l'ensemble tient debout, se répare et se renouvelle sans que vous ayez à y penser.
+            Faites tourner le corps, cliquez un organe : sa fiche s'ouvre ici.
+          </p>
+          <p class="an-where" id="anWhere">
+            La peau est translucide pour laisser voir l'intérieur ; le bouton « Squelette »
+            ajoute les 206 os, et les filtres n'affichent qu'un système à la fois.
+          </p>
+          <div class="an-stats" id="anStats"></div>
+        </div>
+
+        <div class="an-panel">
+          <h3>En une journée</h3>
+          <p class="an-daily" id="anDaily">
+            Ton cœur bat cent mille fois, tes poumons prennent vingt-deux mille respirations
+            et tes reins filtrent cent quatre-vingts litres de sang. Aujourd'hui. Comme hier.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <div class="an-panel">
+          <h3>Le sais-tu ?</h3>
+          <div class="an-facts" id="anFacts">
+            <div class="an-fact"><i>🫀</i><p>Choisissez un organe sur le corps ou dans la liste : ses deux surprises s'affichent ici.</p></div>
+          </div>
+        </div>
+
+        <div class="an-panel an-game" id="anGame">
+          <h3>Trouve l'organe</h3>
+          <p class="an-question" id="anQuestion">Six questions, six organes à trouver sur le corps. Prêt ?</p>
+          <div class="an-game-row">
+            <button class="gr-btn gr-btn-primary" id="anGameStart" type="button">Commencer</button>
+            <span class="an-score" id="anScore">0 / 0</span>
+          </div>
+          <p class="an-feedback" id="anFeedback"></p>
+          <p class="an-play-note">La liste des organes est masquée pendant la partie — ce serait trop facile.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════ LES SYSTÈMES ══════════════ -->
+  <section class="gr-section" id="systemes">
+    <div class="gr-section-head">
+      <h2>Les grands systèmes</h2>
+      <div class="gr-rule"></div>
+      <p>
+        Les organes ne travaillent jamais seuls : ils forment des équipes.
+        Cliquez une équipe pour ne garder qu'elle à l'écran.
+      </p>
+    </div>
+    <div class="an-systems" id="anSystems"></div>
+  </section>
+
+</div>
+
+<footer class="gr-footer">
+  Généré avec <strong>Claude</strong> · Le Grenier des Apps ·
+  <a href="index.html">Accueil</a> · <a href="bibliotheque.html">Bibliothèque</a>
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>window.GRENIER_SHELL = { active: 'library', search: true };</script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/anatomie-data.js"></script>
+<script src="assets/js/anatomie.js"></script>
+</body>
+</html>

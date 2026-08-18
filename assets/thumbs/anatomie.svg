@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="anBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#160f1c"/>
+      <stop offset="55%"  stop-color="#1d1526"/>
+      <stop offset="100%" stop-color="#2a1420"/>
+    </linearGradient>
+    <radialGradient id="anGlow" cx="50%" cy="42%" r="55%">
+      <stop offset="0%"   stop-color="#ff6f9c" stop-opacity=".22"/>
+      <stop offset="100%" stop-color="#ff6f9c" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="anSkin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#f0c4a6" stop-opacity=".26"/>
+      <stop offset="100%" stop-color="#f0c4a6" stop-opacity=".08"/>
+    </linearGradient>
+    <radialGradient id="anHeart" cx="36%" cy="30%" r="70%">
+      <stop offset="0%"   stop-color="#ff8f96"/>
+      <stop offset="100%" stop-color="#b3323c"/>
+    </radialGradient>
+    <radialGradient id="anLung" cx="34%" cy="28%" r="72%">
+      <stop offset="0%"   stop-color="#ffd0cc"/>
+      <stop offset="100%" stop-color="#d07f7f"/>
+    </radialGradient>
+    <radialGradient id="anBrain" cx="34%" cy="28%" r="72%">
+      <stop offset="0%"   stop-color="#ffd4e6"/>
+      <stop offset="100%" stop-color="#d284ae"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#anBg)"/>
+  <rect width="400" height="300" fill="url(#anGlow)"/>
+
+  <!-- repères de mesure, comme une planche d'anatomie -->
+  <g stroke="#f4efe4" stroke-opacity=".07" stroke-width="1">
+    <line x1="0" y1="75" x2="400" y2="75"/>
+    <line x1="0" y1="150" x2="400" y2="150"/>
+    <line x1="0" y1="225" x2="400" y2="225"/>
+    <line x1="200" y1="0" x2="200" y2="300"/>
+  </g>
+
+  <!-- la silhouette, translucide -->
+  <g fill="url(#anSkin)" stroke="#f0c4a6" stroke-opacity=".3" stroke-width="1.5">
+    <circle cx="200" cy="52" r="30"/>
+    <path d="M186,80 h28 v14 h-28 Z"/>
+    <path d="M152,96 q48,-12 96,0 l10,74 q-6,66 -14,104 h-88 q-8,-38 -14,-104 Z"/>
+    <path d="M150,100 q-22,6 -26,30 l-6,66 q-1,10 9,11 q10,1 12,-9 l8,-58 Z"/>
+    <path d="M250,100 q22,6 26,30 l6,66 q1,10 -9,11 q-10,1 -12,-9 l-8,-58 Z"/>
+  </g>
+
+  <!-- cerveau -->
+  <g>
+    <ellipse cx="190" cy="46" rx="13" ry="17" fill="url(#anBrain)"/>
+    <ellipse cx="211" cy="46" rx="13" ry="17" fill="url(#anBrain)"/>
+    <path d="M180,38 q8,5 0,10 M180,52 q8,5 0,10 M221,38 q-8,5 0,10 M221,52 q-8,5 0,10"
+          fill="none" stroke="#a85c85" stroke-opacity=".5" stroke-width="1.6"/>
+    <ellipse cx="200" cy="70" rx="11" ry="6" fill="#c98fb4"/>
+  </g>
+
+  <!-- trachée -->
+  <path d="M200,80 v34" stroke="#9fc9e8" stroke-width="6" stroke-linecap="round" opacity=".9"/>
+
+  <!-- poumons -->
+  <path d="M186,116 q-22,4 -26,30 l-2,34 q0,12 12,14 l14,2 Z" fill="url(#anLung)" opacity=".95"/>
+  <path d="M214,116 q22,4 26,30 l2,34 q0,12 -12,14 l-14,2 Z" fill="url(#anLung)" opacity=".95"/>
+
+  <!-- cœur -->
+  <path d="M198,124 q16,0 18,16 q1,20 -12,32 q-13,-12 -14,-32 q0,-14 8,-16 Z" fill="url(#anHeart)"/>
+
+  <!-- diaphragme -->
+  <path d="M158,196 q42,-16 84,0" fill="none" stroke="#c98f7a" stroke-width="5" stroke-opacity=".65" stroke-linecap="round"/>
+
+  <!-- foie et estomac -->
+  <path d="M206,200 q34,-2 36,18 q-2,16 -22,18 q-16,0 -18,-14 Z" fill="#9c4a38"/>
+  <path d="M186,202 q-20,2 -22,18 q0,16 16,16 q14,-2 12,-16 Z" fill="#e0a05a"/>
+
+  <!-- intestins -->
+  <g fill="none" stroke="#e8a87c" stroke-width="7" stroke-linecap="round">
+    <path d="M170,252 h58"/>
+    <path d="M170,264 h58"/>
+    <path d="M172,276 h54"/>
+  </g>
+  <path d="M160,240 v46 M240,240 v46" stroke="#c98a5e" stroke-width="8" stroke-linecap="round" fill="none"/>
+</svg>
