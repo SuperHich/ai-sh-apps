@@ -17,6 +17,7 @@ everyone; the rest opens once a (local, free) account is created.
 ├── bibliotheque.html       # Full catalogue (search + filters)
 ├── carte.html              # World map of the places in the stories
 ├── quiz.html               # Quizzes — one per universe
+├── planetes.html           # Planet explorer — rotate and zoom the solar system
 ├── atelier.html            # Content creation — hidden behind a feature flag
 ├── lecture.html            # Reader for locally-created content
 ├── assets/
@@ -34,6 +35,8 @@ everyone; the rest opens once a (local, free) account is created.
 │       ├── carte-data.js   # Coastlines, places and travellers' routes
 │       ├── quiz.js         # Quiz engine
 │       ├── quiz-data.js    # The questions, one block per universe
+│       ├── planetes.js     # Sphere renderer, procedural surfaces, rings
+│       ├── planetes-data.js# The eleven bodies and their figures
 │       ├── protect.js      # Access guard — kept for future member-only pages
 │       ├── home.js         # Home page logic
 │       ├── bibliotheque.js # Catalogue filtering and search
@@ -116,9 +119,9 @@ catalogue, and add one line right after `<body>` in its page:
 It draws an opaque veil, checks the catalogue and the session, then either
 lifts the veil or turns it into a sign-up panel.
 
-## Quizzes and the map
+## Quizzes, the map and the planets
 
-Two ways in that are not a list of cards.
+Three ways in that are not a list of cards.
 
 **`quiz.html`** runs one quiz per universe — Prophètes & Sagesse, Légendes du
 monde and Sciences & Découvertes. Every question comes
@@ -143,6 +146,38 @@ at the true position with a thread back to it. And an invisible 29px disc under
 each pin brings the touch target above the 24×24px floor of WCAG 2.5.8. The
 same information is repeated as a plain list under the map, for anyone who
 would rather not poke at a map at all.
+
+**`planetes.html`** is an orrery you can put your finger on: the Sun, the eight
+planets, the Moon and Pluto, each a real sphere you drag to spin, pinch to zoom
+and tilt to look down on. There is no 3D library and not one image file — the
+globe is computed pixel by pixel in a 2D canvas, in three steps.
+
+*Painting.* Each body gets a 1024×512 equirectangular map generated from 3D
+value noise sampled **on the unit sphere** rather than on the flat rectangle:
+that alone removes both the seam at the 180° meridian and the smearing at the
+poles. On top of that base come the features that make a world recognisable —
+continents with deserts banded by latitude, craters stamped into a height field,
+Jupiter's belts warped by turbulence with the Great Red Spot as an ellipse,
+Pluto's Tombaugh Regio drawn with the heart curve `(x²+y²−1)³ − x²y³ ≤ 0`. The
+height field is then hillshaded into the albedo, which is what makes a crater
+still look like a crater when you zoom in on it.
+
+*Projecting.* For a given radius and tilt, every pixel of the disc is resolved
+once into the texture row it reads, the column it starts at, and the light it
+receives — a "table" of typed arrays. Rotating the planet afterwards is an
+integer column offset: no `asin`, no `atan2`, no square root per frame. A frame
+costs one pass over the visible pixels and nothing else.
+
+*Composing.* Rings are radial gradients squashed by the tilt and drawn in two
+halves, the far one before the sphere and the near one after, so the planet sits
+inside them; moons ride the same ellipse and are sorted the same way. Painting
+a map costs about half a second, so the remaining bodies are painted during idle
+time while you read the fact sheet — after a few seconds, switching worlds is
+instant.
+
+Everything the page shows about a body — figures, atmosphere, moons, facts,
+travel times — lives in `assets/js/planetes-data.js`. Adding a twelfth world is
+one entry there, one `paint` case in the renderer, and a thumbnail.
 
 ## Tab icon
 
