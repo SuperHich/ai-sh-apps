@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Explorateur des Planètes — Le Grenier des Apps</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="mask-icon" href="assets/favicon-mono.svg" color="#f0c04b">
+<meta name="description" content="Visitez le Soleil, les huit planètes, la Lune et Pluton : faites-les tourner du doigt, zoomez sur leurs surfaces et découvrez leurs chiffres, leurs lunes et leurs secrets.">
+<meta name="theme-color" content="#08070f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<style>
+  /* ══════════════════════════════════════════════════════════════
+     L'Explorateur des Planètes
+     Le globe est dessiné pixel par pixel dans un canvas : pas de
+     bibliothèque 3D, pas d'images à télécharger. Les surfaces sont
+     peintes par du bruit procédural au moment où l'on ouvre un astre,
+     puis gardées en mémoire — on ne les repeint jamais deux fois.
+     ══════════════════════════════════════════════════════════════ */
+
+  /* ── Héro ── */
+  .pl-head { padding: clamp(22px, 4vw, 40px) 0 2px; }
+  .pl-head h1 {
+    margin: 0;
+    font-family: var(--gr-display);
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    line-height: 1.08;
+  }
+  .pl-head h1 em {
+    font-style: italic;
+    background: linear-gradient(115deg, var(--gr-gold), var(--gr-azure) 70%, var(--gr-violet));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .pl-head p { max-width: 660px; margin: 10px 0 0; color: var(--gr-text-soft); line-height: 1.6; }
+
+  /* ── La scène ── */
+  .pl-stage {
+    position: relative;
+    margin-top: 20px;
+    border-radius: var(--gr-r-lg);
+    border: 1px solid var(--gr-line);
+    background: radial-gradient(120% 100% at 50% 0%, #101a33, #05060d 70%);
+    overflow: hidden;
+    touch-action: none;             /* les gestes servent à tourner, pas à défiler */
+    cursor: grab;
+    user-select: none;
+  }
+  .pl-stage.is-dragging { cursor: grabbing; }
+  .pl-stage:focus-visible { outline: 2px solid var(--gr-gold); outline-offset: 3px; }
+  .pl-stage canvas { display: block; width: 100%; height: 100%; }
+  .pl-canvas-wrap { height: clamp(320px, 58vh, 620px); }
+
+  /* Nom de l'astre posé sur la scène */
+  .pl-badge {
+    position: absolute;
+    top: 14px; left: 16px;
+    pointer-events: none;
+  }
+  .pl-badge b {
+    display: block;
+    font-family: var(--gr-display);
+    font-size: clamp(1.2rem, 3vw, 1.7rem);
+    line-height: 1.1;
+  }
+  .pl-badge span {
+    display: block;
+    margin-top: 3px;
+    font-size: .72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gr-text-faint);
+  }
+
+  /* Barre d'outils flottante */
+  .pl-tools {
+    position: absolute;
+    right: 14px; top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .pl-tool {
+    width: 40px; height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    border: 1px solid var(--gr-line);
+    background: rgba(10, 12, 24, .62);
+    backdrop-filter: blur(9px);
+    color: var(--gr-text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color var(--gr-fast) var(--gr-ease-out),
+                background var(--gr-fast) var(--gr-ease-out),
+                transform var(--gr-fast) var(--gr-ease-out);
+  }
+  .pl-tool:hover { border-color: var(--gr-line-strong); background: rgba(20, 24, 44, .8); transform: translateY(-1px); }
+  .pl-tool:active { transform: translateY(0) scale(.95); }
+  .pl-tool svg { width: 18px; height: 18px; }
+
+  /* Aide gestuelle, en bas de la scène */
+  .pl-hint {
+    position: absolute;
+    left: 50%; bottom: 12px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 14px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--gr-line);
+    background: rgba(10, 12, 24, .55);
+    backdrop-filter: blur(9px);
+    font-size: .72rem;
+    color: var(--gr-text-faint);
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity var(--gr-slow) var(--gr-ease-out);
+  }
+  .pl-hint.is-gone { opacity: 0; }
+  .pl-hint b { color: var(--gr-text-soft); font-weight: 500; }
+  @media (max-width: 560px) { .pl-hint span:nth-child(3) { display: none; } }
+
+  /* Voile de chargement pendant la peinture d'une surface */
+  .pl-loading {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(5, 6, 13, .74);
+    font-size: .82rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gr-text-faint);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--gr-fast) linear;
+  }
+  .pl-loading.is-on { opacity: 1; }
+  .pl-loading i {
+    display: block;
+    width: 34px; height: 34px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    border: 2px solid rgba(240, 192, 75, .22);
+    border-top-color: var(--gr-gold);
+    animation: pl-spin 900ms linear infinite;
+  }
+  @keyframes pl-spin { to { transform: rotate(360deg); } }
+
+  /* ── Le quai des astres ── */
+  .pl-dock-wrap {
+    margin-top: 14px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pl-dock-wrap::-webkit-scrollbar { display: none; }
+  .pl-dock {
+    display: flex;
+    gap: 8px;
+    padding: 4px 2px 8px;
+    min-width: max-content;
+  }
+  .pl-dock button {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 15px 8px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+    color: var(--gr-text-soft);
+    font-family: inherit;
+    font-size: .86rem;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: border-color var(--gr-fast) var(--gr-ease-out),
+                color var(--gr-fast) var(--gr-ease-out),
+                background var(--gr-fast) var(--gr-ease-out),
+                transform var(--gr-fast) var(--gr-ease-out);
+  }
+  .pl-dock button:hover { transform: translateY(-2px); color: var(--gr-text); border-color: var(--gr-line-strong); }
+  .pl-dock button.is-on {
+    color: var(--gr-text);
+    background: var(--gr-surface-2);
+    border-color: var(--dot, var(--gr-gold));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--dot, #f0c04b) 35%, transparent);
+  }
+  .pl-dot {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 30%, var(--dot-hi, #fff), var(--dot, #888) 62%, #0a0a12);
+    box-shadow: inset -2px -2px 5px rgba(0, 0, 0, .55);
+    flex: none;
+  }
+
+  /* ── La fiche ── */
+  .pl-sheet {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 18px;
+    margin-top: 26px;
+    align-items: start;
+  }
+  @media (max-width: 880px) { .pl-sheet { grid-template-columns: 1fr; } }
+
+  .pl-panel {
+    padding: clamp(16px, 2.5vw, 24px);
+    border-radius: var(--gr-r);
+    border: 1px solid var(--gr-line);
+    background: linear-gradient(165deg, var(--gr-surface-2), rgba(255, 255, 255, .012));
+  }
+  .pl-panel + .pl-panel { margin-top: 16px; }
+  .pl-panel h2 {
+    margin: 0 0 4px;
+    font-family: var(--gr-display);
+    font-size: 1.28rem;
+  }
+  .pl-panel h3 {
+    margin: 0 0 12px;
+    font-size: .74rem;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--gr-text-faint);
+  }
+  .pl-tagline { margin: 0 0 16px; color: var(--gr-text-soft); line-height: 1.6; }
+
+  /* Carte d'identité */
+  .pl-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+    gap: 9px;
+  }
+  .pl-stat {
+    padding: 11px 13px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid var(--gr-line);
+    background: rgba(255, 255, 255, .028);
+  }
+  .pl-stat span {
+    display: block;
+    font-size: .68rem;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--gr-text-faint);
+  }
+  .pl-stat b {
+    display: block;
+    margin-top: 5px;
+    font-family: var(--gr-display);
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--gr-text);
+    line-height: 1.25;
+  }
+  .pl-stat em { font-style: normal; font-size: .74rem; color: var(--gr-text-faint); }
+
+  /* Atmosphère */
+  .pl-gas { display: flex; flex-direction: column; gap: 9px; }
+  .pl-gas-row { display: grid; grid-template-columns: 1fr; gap: 4px; }
+  .pl-gas-top { display: flex; justify-content: space-between; font-size: .82rem; }
+  .pl-gas-top b { font-weight: 500; }
+  .pl-gas-top span { color: var(--gr-text-faint); }
+  .pl-gas-bar {
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .07);
+    overflow: hidden;
+  }
+  .pl-gas-bar i {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--gas, var(--gr-azure));
+    transform-origin: left;
+    animation: pl-grow var(--gr-slow) var(--gr-ease-out) both;
+  }
+  @keyframes pl-grow { from { transform: scaleX(0); } }
+  .pl-note { margin: 12px 0 0; font-size: .8rem; color: var(--gr-text-faint); line-height: 1.55; }
+
+  /* Comparaison de taille */
+  .pl-compare {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: clamp(14px, 4vw, 34px);
+    min-height: 170px;
+    padding: 8px 0 2px;
+  }
+  .pl-compare figure { margin: 0; text-align: center; }
+  .pl-compare .ball {
+    margin: 0 auto;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, var(--hi, #fff), var(--co, #888) 60%, #06060d);
+    box-shadow: inset -6px -6px 18px rgba(0, 0, 0, .55);
+    transition: width var(--gr-slow) var(--gr-ease-out), height var(--gr-slow) var(--gr-ease-out);
+  }
+  .pl-compare figcaption {
+    margin-top: 9px;
+    font-size: .76rem;
+    color: var(--gr-text-faint);
+  }
+  .pl-compare figcaption b { display: block; color: var(--gr-text-soft); font-size: .85rem; font-weight: 500; }
+
+  /* Calculette du visiteur */
+  .pl-you { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; }
+  .pl-you-in { display: flex; align-items: center; gap: 8px; }
+  .pl-you-in input {
+    width: 76px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--gr-line);
+    background: rgba(255, 255, 255, .04);
+    color: var(--gr-text);
+    font-family: inherit;
+    font-size: .92rem;
+  }
+  .pl-you-in input:focus { outline: none; border-color: var(--gr-gold); }
+  .pl-you-in label { font-size: .82rem; color: var(--gr-text-soft); }
+  .pl-you-out {
+    margin-top: 10px;
+    font-family: var(--gr-display);
+    font-size: 1.5rem;
+    color: var(--gr-gold);
+  }
+  .pl-you-out small { display: block; font-family: var(--gr-ui); font-size: .78rem; color: var(--gr-text-faint); margin-top: 4px; }
+
+  /* Le sais-tu ? */
+  .pl-facts { display: flex; flex-direction: column; gap: 10px; }
+  .pl-fact {
+    display: flex;
+    gap: 11px;
+    padding: 12px 14px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid rgba(240, 192, 75, .18);
+    background: rgba(240, 192, 75, .05);
+    font-size: .89rem;
+    line-height: 1.55;
+    color: var(--gr-text-soft);
+  }
+  .pl-fact i { font-style: normal; font-size: 1.05rem; line-height: 1.4; }
+
+  /* Lunes */
+  .pl-moons { display: flex; flex-wrap: wrap; gap: 7px; }
+  .pl-moon {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--gr-line);
+    background: rgba(255, 255, 255, .03);
+    font-size: .8rem;
+    color: var(--gr-text-soft);
+  }
+  .pl-moon b { color: var(--gr-text); font-weight: 500; }
+
+  /* Voyage */
+  .pl-trip { display: flex; flex-direction: column; gap: 8px; }
+  .pl-trip-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px dashed var(--gr-line);
+    font-size: .87rem;
+  }
+  .pl-trip-row:last-child { border-bottom: 0; }
+  .pl-trip-row span { color: var(--gr-text-soft); }
+  .pl-trip-row b { font-family: var(--gr-display); font-size: 1rem; color: var(--gr-text); white-space: nowrap; }
+
+  /* ── Le plan du système ── */
+  .pl-map-frame {
+    position: relative;
+    margin-top: 4px;
+    border-radius: var(--gr-r);
+    border: 1px solid var(--gr-line);
+    background: radial-gradient(70% 90% at 50% 50%, rgba(240, 192, 75, .07), transparent 62%), #06070f;
+    /* Comme le planisphère des histoires : sur un téléphone, le plan déborde
+       et se fait défiler plutôt que de rétrécir jusqu'à l'illisible. */
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+  #plMap { display: block; width: 100%; min-width: 660px; height: auto; }
+  .pl-map-name {
+    font-size: 10.5px;
+    fill: rgba(244, 239, 228, .62);
+    font-family: var(--gr-ui);
+    /* Un liseré sombre : les noms restent lisibles quand deux orbites se croisent. */
+    paint-order: stroke fill;
+    stroke: rgba(6, 7, 15, .9);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+  }
+  .pl-orbit { fill: none; stroke: rgba(244, 239, 228, .13); stroke-width: 1; }
+  .pl-map-hit { cursor: pointer; }
+  .pl-map-hit:hover .pl-map-name { fill: var(--gr-gold); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pl-gas-bar i { animation: none; }
+  }
+</style>
+</head>
+<body class="gr-body">
+
+<div class="gr-page">
+
+  <!-- ══════════════ HÉRO ══════════════ -->
+  <header class="pl-head gr-enter">
+    <h1>L'Explorateur des <em>Planètes</em></h1>
+    <p>
+      Onze mondes à portée de doigt : le Soleil, les huit planètes, notre Lune et Pluton.
+      Faites-les tourner, zoomez sur leurs déserts, leurs tempêtes et leurs anneaux —
+      puis lisez ce que les sondes nous en ont rapporté.
+    </p>
+  </header>
+
+  <!-- ══════════════ LA SCÈNE ══════════════ -->
+  <section class="gr-section" style="margin-top:18px" aria-label="Vue de l'astre">
+    <div class="pl-stage" id="plStage" tabindex="0"
+         aria-label="Vue de l'astre : flèches pour le faire tourner, plus et moins pour zoomer, espace pour arrêter la rotation">
+      <div class="pl-canvas-wrap">
+        <canvas id="plScene" role="img" aria-label="La Terre, vue de l'espace"></canvas>
+      </div>
+
+      <div class="pl-badge">
+        <b id="plName">La Terre</b>
+        <span id="plKind">Planète tellurique</span>
+      </div>
+
+      <div class="pl-tools">
+        <button class="pl-tool" id="plPlay" type="button" title="Mettre la rotation en pause" aria-label="Mettre la rotation en pause">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        </button>
+        <button class="pl-tool" id="plIn" type="button" title="Zoomer" aria-label="Zoomer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg>
+        </button>
+        <button class="pl-tool" id="plOut" type="button" title="Dézoomer" aria-label="Dézoomer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/></svg>
+        </button>
+        <button class="pl-tool" id="plReset" type="button" title="Recentrer la vue" aria-label="Recentrer la vue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
+        </button>
+      </div>
+
+      <p class="pl-hint" id="plHint">
+        <span><b>Glissez</b> pour faire tourner</span>
+        <span><b>Molette</b> ou pincez pour zoomer</span>
+        <span><b>← → ↑ ↓</b> au clavier</span>
+      </p>
+
+      <div class="pl-loading" id="plLoading"><div><i></i>Peinture de la surface…</div></div>
+    </div>
+
+    <div class="pl-dock-wrap">
+      <div class="pl-dock" id="plDock" role="tablist" aria-label="Choisir un astre"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ LA FICHE ══════════════ -->
+  <section class="gr-section" style="margin-top:22px">
+    <div class="pl-sheet">
+
+      <div>
+        <div class="pl-panel">
+          <h2 id="plCardTitle">Carte d'identité</h2>
+          <p class="pl-tagline" id="plTagline"></p>
+          <div class="pl-stats" id="plStats"></div>
+        </div>
+
+        <div class="pl-panel">
+          <h3>Le sais-tu ?</h3>
+          <div class="pl-facts" id="plFacts"></div>
+        </div>
+
+        <div class="pl-panel">
+          <h3>Ses lunes</h3>
+          <div class="pl-moons" id="plMoons"></div>
+          <p class="pl-note" id="plMoonNote"></p>
+        </div>
+      </div>
+
+      <div>
+        <div class="pl-panel">
+          <h3>Et toi, là-bas ?</h3>
+          <div class="pl-you">
+            <div>
+              <div class="pl-you-in">
+                <input id="plMass" type="number" min="1" max="400" step="1" value="35" aria-label="Ton poids sur Terre, en kilos">
+                <label for="plMass">kg sur Terre</label>
+              </div>
+              <p class="pl-you-out" id="plWeight">—</p>
+            </div>
+            <div>
+              <div class="pl-you-in">
+                <input id="plAge" type="number" min="1" max="120" step="1" value="9" aria-label="Ton âge en années terrestres">
+                <label for="plAge">ans sur Terre</label>
+              </div>
+              <p class="pl-you-out" id="plAgeOut">—</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pl-panel">
+          <h3>Sa taille, face à la Terre</h3>
+          <div class="pl-compare" id="plCompare"></div>
+          <p class="pl-note" id="plCompareNote"></p>
+        </div>
+
+        <div class="pl-panel">
+          <h3>Atmosphère</h3>
+          <div class="pl-gas" id="plGas"></div>
+          <p class="pl-note" id="plGasNote"></p>
+        </div>
+
+        <div class="pl-panel">
+          <h3>Le voyage depuis la Terre</h3>
+          <div class="pl-trip" id="plTrip"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════ LE PLAN DU SYSTÈME ══════════════ -->
+  <section class="gr-section" id="systeme">
+    <div class="gr-section-head">
+      <h2>Le plan du système solaire</h2>
+      <div class="gr-rule"></div>
+      <p>
+        Les orbites tournent à leur vitesse réelle, l'une par rapport à l'autre :
+        Mercure boucle son tour quand Neptune n'a pas fait un pas.
+        Cliquez une planète pour aller la visiter.
+      </p>
+    </div>
+    <div class="pl-map-frame">
+      <svg id="plMap" viewBox="0 0 960 280" role="img" aria-label="Plan animé du système solaire, chaque planète est cliquable"></svg>
+    </div>
+    <p class="pl-note">
+      Les distances sont compressées — à l'échelle réelle, Neptune serait à trente mètres
+      d'un Soleil grand comme une pièce de monnaie, et les planètes seraient invisibles.
+    </p>
+  </section>
+
+</div>
+
+<footer class="gr-footer">
+  Généré avec <strong>Claude</strong> · Le Grenier des Apps ·
+  <a href="index.html">Accueil</a> · <a href="bibliotheque.html">Bibliothèque</a>
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>window.GRENIER_SHELL = { active: 'library', search: true };</script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/planetes-data.js"></script>
+<script src="assets/js/planetes.js"></script>
+</body>
+</html>
