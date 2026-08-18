@@ -588,7 +588,8 @@
     zoom: 1,
     dpr: 1,
     w: 0, h: 0,          /* taille du canvas en pixels réels */
-    time: 0,
+    time: 0,             /* l'horloge de la page, jamais interrompue */
+    clock: 0,            /* celle de la scène : la pause l'arrête */
     interacting: 0,      /* horodatage de la dernière manipulation */
     table: null,
     tableKey: ''
@@ -797,7 +798,7 @@
 
     for (var i = 0; i < moons.length; i++) {
       var m = moons[i];
-      var a = view.time * (0.42 / Math.pow(m.r, 1.5)) + i * 2.4;
+      var a = view.clock * (0.42 / Math.pow(m.r, 1.5)) + i * 2.4;
       var ca = Math.cos(a);
       var x = m.r * R * Math.sin(a);
       var y = m.r * R * sinT * ca;
@@ -930,7 +931,9 @@
     drawMoons(ctx, R, body, sinT, cosT, roll, 'front');
     ctx.restore();
 
+    /* En pause, tout s'immobilise — le globe comme ses lunes. */
     if (view.spinning) {
+      view.clock += dt;
       view.spin += (body.render.spin || 1) * 0.14 * dt;
       if (view.spin > 1e6) view.spin -= 1e6;
     }
@@ -1282,9 +1285,26 @@
     touched();
   }
 
+  /**
+   * Les boutons flottants sont posés à l'intérieur de la scène. Sans cette
+   * garde, leur pointerdown remonte jusqu'ici, la scène capture le pointeur,
+   * et le relâchement lui est réattribué : le clic n'atteint jamais le bouton.
+   * Au doigt le clic est synthétisé depuis la séquence tactile et passait
+   * quand même — d'où un bouton qui marchait sur téléphone et pas à la souris.
+   */
+  function isControl(node) {
+    while (node && node !== stage) {
+      var tag = node.tagName;
+      if (tag === 'BUTTON' || tag === 'A' || tag === 'INPUT' || tag === 'LABEL') return true;
+      node = node.parentNode;
+    }
+    return false;
+  }
+
   stage.addEventListener('pointerdown', function (e) {
+    if (isControl(e.target)) return;
     pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
-    stage.setPointerCapture(e.pointerId);
+    try { stage.setPointerCapture(e.pointerId); } catch (err) {}
     stage.classList.add('is-dragging');
     var ids = Object.keys(pointers);
     if (ids.length === 2) {
