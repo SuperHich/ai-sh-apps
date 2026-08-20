@@ -19,6 +19,7 @@ everyone; the rest opens once a (local, free) account is created.
 ├── quiz.html               # Quizzes — one per universe
 ├── planetes.html           # Planet explorer — rotate and zoom the solar system
 ├── anatomie.html           # Body explorer — a 3D human body and its organs
+├── empires.html            # Timeline of the world's dominant empires
 ├── atelier.html            # Content creation — hidden behind a feature flag
 ├── lecture.html            # Reader for locally-created content
 ├── assets/
@@ -40,6 +41,8 @@ everyone; the rest opens once a (local, free) account is created.
 │       ├── planetes-data.js# The eleven bodies and their figures
 │       ├── anatomie.js     # Software 3D: mesh builders, depth sort, picking
 │       ├── anatomie-data.js# The seventeen organs and their figures
+│       ├── empires.js      # Timeline build, era filters, proportional ribbon
+│       ├── empires-data.js # The twenty-two empires and their records
 │       ├── protect.js      # Access guard — kept for future member-only pages
 │       ├── home.js         # Home page logic
 │       ├── bibliotheque.js # Catalogue filtering and search
@@ -211,6 +214,33 @@ organ" game possible, since the game is just picking with the question reversed.
 
 Organ text, figures and facts live in `assets/js/anatomie-data.js`; the shape of
 each organ lives in `buildBody()`. Adding an organ is one entry and one mesh.
+
+**`empires.html`** walks six thousand years of dominant powers, from the city
+states of Sumer to the present, as a vertical timeline of twenty-two cards. Each
+card answers the same five questions — the period, the regions held, what made
+it strong, why it fell, and what we kept — so the empires can actually be
+compared instead of merely listed. Cards open in place; the regions and the one
+striking figure stay readable while closed.
+
+Two decisions carry the page. Cards are spaced evenly, because proportional
+spacing would crush the modern era into a sliver — so the **ribbon** at the top
+takes that job instead, drawing every empire as a bar of its true length against
+a shared axis. It is the one view where Egypt's thirty-one centuries look like
+thirty-one centuries, and clicking a bar opens its card. And empires are filed
+by their **apogee rather than their birth**: the Ottomans begin in 1299 but rule
+in the modern era, and that is where the filter puts them.
+
+The relief is CSS, not a library: one mouse listener writes two custom
+properties per on-screen card and `perspective()` does the rest, capped at 3.2°
+where text is still comfortable. Reveal-on-scroll deliberately avoids
+`IntersectionObserver` — it leaves cards dark behind an anchor jump or a ribbon
+click, since they never crossed the viewport. A sweep over the still-dark cards,
+riding the same `requestAnimationFrame` that fills the rail, catches everything
+that scrolled past. `prefers-reduced-motion` drops the orbs, the tilt and the
+reveal in one go.
+
+The twenty-two records live in `assets/js/empires-data.js`; adding an empire is
+one entry there and a short name for its ribbon label.
 
 ## Tab icon
 

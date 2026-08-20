@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Frise des Empires — Le Grenier des Apps</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="mask-icon" href="assets/favicon-mono.svg" color="#f0c04b">
+<meta name="description" content="Six mille ans de puissances dominantes, de Sumer à aujourd'hui : pour chaque empire, sa période, les régions dominées, ce qui a fait sa force et pourquoi il a disparu.">
+<meta name="theme-color" content="#08070f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<style>
+  /* ══════════════════════════════════════════════════════════════
+     La Frise des Empires
+     Une colonne verticale, des fiches en quinconce, et un peu de
+     relief : les cartes s'inclinent selon la position de la souris.
+     Tout est en CSS et en JS natif — pas de bibliothèque d'animation,
+     la révélation au défilement passe par IntersectionObserver.
+     ══════════════════════════════════════════════════════════════ */
+
+  /* ── Héro ── */
+  .em-head { padding: clamp(22px, 4vw, 40px) 0 2px; }
+  .em-head h1 {
+    margin: 0;
+    font-family: var(--gr-display);
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    line-height: 1.08;
+  }
+  .em-head h1 em {
+    font-style: italic;
+    background: linear-gradient(115deg, var(--gr-gold), var(--gr-ember) 55%, var(--gr-violet));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .em-head p { max-width: 680px; margin: 10px 0 0; color: var(--gr-text-soft); line-height: 1.6; }
+
+  /* ── Le ruban proportionnel ──
+     Les fiches sont espacées régulièrement ; ce ruban, lui, respecte les
+     durées réelles. C'est là qu'on voit que l'Égypte tient à elle seule
+     plus de la moitié de la frise. */
+  .em-ribbon-wrap {
+    margin-top: 22px;
+    padding: 16px 16px 12px;
+    border-radius: var(--gr-r);
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+  }
+  .em-ribbon-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .em-ribbon-head h2 {
+    margin: 0;
+    font-family: var(--gr-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+  .em-ribbon-head span { font-size: .76rem; color: var(--gr-text-faint); }
+  .em-ribbon-scroll {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .em-ribbon-scroll::-webkit-scrollbar { display: none; }
+  .em-ribbon { min-width: 640px; display: block; width: 100%; height: auto; }
+  .em-ribbon .bar { cursor: pointer; transition: opacity var(--gr-fast) var(--gr-ease-out); }
+  .em-ribbon .bar:hover { opacity: .75; }
+  .em-ribbon .bar.is-dim { opacity: .16; }
+  .em-ribbon .lbl { font-size: 10px; fill: var(--gr-text-faint); font-family: var(--gr-ui); }
+  .em-ribbon .grid { stroke: rgba(255,255,255,.09); stroke-width: 1; }
+
+  /* ── Les filtres d'époque ── */
+  .em-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .em-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border-radius: 999px;
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+    color: var(--gr-text-soft);
+    font-family: inherit;
+    font-size: .84rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color var(--gr-fast) var(--gr-ease-out),
+                color var(--gr-fast) var(--gr-ease-out),
+                background var(--gr-fast) var(--gr-ease-out),
+                transform var(--gr-fast) var(--gr-ease-out);
+  }
+  .em-chip:hover { transform: translateY(-2px); color: var(--gr-text); border-color: var(--gr-line-strong); }
+  .em-chip i {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--tint, var(--gr-gold));
+    flex: none;
+  }
+  .em-chip.is-on {
+    color: var(--gr-text);
+    background: var(--gr-surface-2);
+    border-color: var(--tint, var(--gr-gold));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--tint, #f0c04b) 35%, transparent);
+  }
+  .em-chip b { font-weight: 600; }
+  .em-chip small { color: var(--gr-text-faint); font-size: .78em; }
+
+  /* ── La frise ── */
+  .em-line {
+    position: relative;
+    margin-top: 30px;
+    padding: 8px 0 20px;
+  }
+
+  /* Sphères décoratives, floutées, très lentes. Purement d'ambiance :
+     elles ne captent aucun clic et disparaissent si l'on préfère moins
+     de mouvement. */
+  .em-orbs { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+  .em-orbs span {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(46px);
+    opacity: .17;
+    animation: em-drift 26s var(--gr-ease-out) infinite alternate;
+  }
+  @keyframes em-drift {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to   { transform: translate3d(3vw, 7vh, 0) scale(1.22); }
+  }
+
+  /* Le rail central. Le trait plein se remplit au défilement : il donne
+     la position dans les six mille ans. */
+  .em-rail {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 21px;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(180deg,
+      rgba(240,192,75,.05), rgba(255,255,255,.13) 12%, rgba(255,255,255,.13) 88%, rgba(91,184,255,.05));
+    z-index: 1;
+  }
+  .em-rail::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: var(--fill, 0%);
+    border-radius: 2px;
+    background: linear-gradient(180deg, var(--gr-gold), var(--gr-ember) 42%, var(--gr-violet) 72%, var(--gr-azure));
+    box-shadow: 0 0 14px rgba(240, 192, 75, .35);
+  }
+
+  .em-items { position: relative; z-index: 2; list-style: none; margin: 0; padding: 0; }
+
+  /* Un séparateur d'époque, glissé entre deux fiches. */
+  .em-era {
+    position: relative;
+    margin: 6px 0 22px;
+    padding-left: 54px;
+  }
+  .em-era:not(:first-child) { margin-top: 40px; }
+  .em-era b {
+    display: block;
+    font-family: var(--gr-display);
+    font-size: 1.22rem;
+    color: var(--tint, var(--gr-gold));
+  }
+  .em-era span { font-size: .8rem; color: var(--gr-text-faint); }
+  .em-era::before {
+    content: '';
+    position: absolute;
+    left: 14px; top: 8px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 2px solid var(--tint, var(--gr-gold));
+    background: var(--gr-void);
+  }
+
+  /* ── Une fiche ── */
+  .em-item {
+    position: relative;
+    padding-left: 54px;
+    margin-bottom: 18px;
+    /* Point de départ de la révélation ; JS ajoute .is-in au passage. */
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity var(--gr-slow) var(--gr-ease-out),
+                transform var(--gr-slow) var(--gr-ease-out);
+  }
+  .em-item.is-in { opacity: 1; transform: none; }
+  .em-item[hidden] { display: none; }
+
+  /* Le nœud sur le rail */
+  .em-node {
+    position: absolute;
+    left: 0; top: 14px;
+    width: 44px; height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 3px solid var(--gr-void);
+    background: color-mix(in srgb, var(--tint, #f0c04b) 26%, #0d0b1a);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--tint, #f0c04b) 55%, transparent);
+    font-size: 1.12rem;
+    z-index: 3;
+    transition: transform var(--gr-normal) var(--gr-ease-back),
+                box-shadow var(--gr-normal) var(--gr-ease-out);
+  }
+  .em-item.is-open .em-node,
+  .em-item:hover .em-node { transform: scale(1.12); }
+  .em-item.is-open .em-node {
+    box-shadow: 0 0 0 1px var(--tint, #f0c04b), 0 0 22px color-mix(in srgb, var(--tint, #f0c04b) 55%, transparent);
+  }
+
+  /* La carte. Le relief vient d'une rotation pilotée par la souris :
+     deux variables mises à jour en JS, le reste est du CSS. */
+  .em-card {
+    position: relative;
+    border-radius: var(--gr-r);
+    border: 1px solid var(--gr-line);
+    background: linear-gradient(160deg, rgba(255,255,255,.055), rgba(255,255,255,.02));
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transform: perspective(1100px) rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg));
+    transition: transform var(--gr-normal) var(--gr-ease-out),
+                border-color var(--gr-normal) var(--gr-ease-out),
+                box-shadow var(--gr-normal) var(--gr-ease-out);
+  }
+  .em-item:hover .em-card,
+  .em-item.is-open .em-card {
+    border-color: color-mix(in srgb, var(--tint, #f0c04b) 45%, transparent);
+    box-shadow: var(--gr-shadow-hover);
+  }
+  /* Un liseré coloré qui se remplit quand la fiche est ouverte. */
+  .em-card::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0;
+    height: 2px;
+    width: 0;
+    background: var(--tint, var(--gr-gold));
+    transition: width var(--gr-slow) var(--gr-ease-out);
+  }
+  .em-item.is-open .em-card::after { width: 100%; }
+
+  /* L'en-tête, toujours visible : c'est aussi le bouton d'ouverture. */
+  .em-top {
+    display: block;
+    width: 100%;
+    padding: 17px 19px;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .em-top:focus-visible { outline: 2px solid var(--tint, var(--gr-gold)); outline-offset: -3px; border-radius: var(--gr-r); }
+  .em-kicker {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 7px;
+  }
+  .em-period {
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .05em;
+    color: var(--tint, var(--gr-gold));
+    font-variant-numeric: tabular-nums;
+  }
+  .em-tag {
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--gr-line);
+    font-size: .68rem;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--gr-text-faint);
+  }
+  .em-title {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin: 0;
+  }
+  .em-title h3 {
+    margin: 0;
+    font-family: var(--gr-display);
+    font-size: clamp(1.16rem, 2.6vw, 1.42rem);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  /* Le chevron tourne quand la fiche s'ouvre. */
+  .em-caret {
+    flex: none;
+    width: 26px; height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--gr-line);
+    color: var(--gr-text-faint);
+    transition: transform var(--gr-normal) var(--gr-ease-out),
+                color var(--gr-fast) var(--gr-ease-out);
+  }
+  .em-caret svg { width: 13px; height: 13px; }
+  .em-item.is-open .em-caret { transform: rotate(180deg); color: var(--tint, var(--gr-gold)); }
+
+  /* La ligne des régions dominées : visible sans ouvrir la fiche. */
+  .em-where {
+    margin: 9px 0 0;
+    font-size: .89rem;
+    line-height: 1.55;
+    color: var(--gr-text-soft);
+  }
+  .em-where b { color: var(--gr-text); font-weight: 500; }
+
+  /* Le chiffre qui frappe */
+  .em-stat {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 11px;
+    padding: 6px 13px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--tint, #f0c04b) 30%, transparent);
+    background: color-mix(in srgb, var(--tint, #f0c04b) 9%, transparent);
+  }
+  .em-stat b {
+    font-family: var(--gr-display);
+    font-size: 1.02rem;
+    color: var(--tint, var(--gr-gold));
+    white-space: nowrap;
+  }
+  .em-stat span { font-size: .76rem; color: var(--gr-text-soft); }
+
+  /* ── Le corps dépliable ──
+     Hauteur animée par grid-template-rows : pas de mesure en JS, et la
+     fiche reste correcte si le texte se réagence. */
+  .em-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--gr-slow) var(--gr-ease-out);
+  }
+  .em-item.is-open .em-body { grid-template-rows: 1fr; }
+  .em-body > div { overflow: hidden; }
+  .em-body-in { padding: 2px 19px 19px; }
+
+  .em-block { margin-top: 16px; }
+  .em-block:first-child { margin-top: 4px; }
+  .em-block h4 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 8px;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gr-text-faint);
+  }
+  .em-block h4::before {
+    content: '';
+    width: 14px; height: 1px;
+    background: var(--tint, var(--gr-gold));
+    flex: none;
+  }
+  .em-block p { margin: 0; font-size: .92rem; line-height: 1.68; color: var(--gr-text-soft); }
+  .em-block ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .em-block li {
+    position: relative;
+    padding-left: 19px;
+    font-size: .92rem;
+    line-height: 1.62;
+    color: var(--gr-text-soft);
+  }
+  .em-block li::before {
+    content: '';
+    position: absolute;
+    left: 2px; top: .62em;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--tint, var(--gr-gold));
+    opacity: .8;
+  }
+  /* La cause de disparition : le point noir de chaque empire. */
+  .em-fall {
+    padding: 13px 15px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid rgba(232, 83, 79, .26);
+    background: rgba(232, 83, 79, .07);
+  }
+  .em-fall p { color: rgba(244, 239, 228, .78); }
+  /* L'anecdote */
+  .em-extra {
+    padding: 13px 15px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+  }
+  .em-seat {
+    margin-top: 15px;
+    padding-top: 13px;
+    border-top: 1px solid var(--gr-line);
+    font-size: .8rem;
+    color: var(--gr-text-faint);
+  }
+  .em-seat b { color: var(--gr-text-soft); font-weight: 500; }
+
+  /* Rien à afficher après filtrage */
+  .em-empty {
+    padding: 34px 20px;
+    text-align: center;
+    color: var(--gr-text-faint);
+    font-size: .92rem;
+  }
+
+  /* ── Écrans larges : les fiches passent en quinconce ── */
+  @media (min-width: 900px) {
+    .em-rail { left: 50%; transform: translateX(-50%); }
+    .em-items { display: block; }
+
+    .em-era {
+      padding-left: 0;
+      text-align: center;
+      margin: 46px 0 26px;
+    }
+    .em-era::before { left: 50%; top: -26px; transform: translateX(-50%); }
+
+    .em-item {
+      width: calc(50% - 42px);
+      padding-left: 0;
+      margin-bottom: 26px;
+    }
+    .em-item.side-l { margin-right: auto; }
+    .em-item.side-r { margin-left: auto; }
+    /* Les fiches de droite descendent d'un demi-cran : la frise respire
+       au lieu de s'aligner en deux colonnes parallèles. */
+    .em-item.side-r { margin-top: -34px; }
+    .em-item.side-r:first-of-type { margin-top: 0; }
+
+    .em-item.side-l .em-node { left: auto; right: -63px; }
+    .em-item.side-r .em-node { left: -63px; }
+    .em-item.side-l .em-title { text-align: right; flex-direction: row-reverse; }
+    .em-item.side-l .em-kicker { justify-content: flex-end; }
+    .em-item.side-l .em-where,
+    .em-item.side-l .em-top { text-align: right; }
+    .em-item.side-l .em-body-in { text-align: left; }
+  }
+
+  /* ── Confort de lecture ── */
+  @media (prefers-reduced-motion: reduce) {
+    .em-orbs { display: none; }
+    .em-item { opacity: 1; transform: none; transition: none; }
+    .em-card { transform: none !important; transition: none; }
+    .em-body { transition: none; }
+  }
+
+  @media print {
+    .em-orbs, .em-filters, .em-ribbon-wrap, .em-rail { display: none; }
+    .em-item { opacity: 1; transform: none; page-break-inside: avoid; }
+    .em-body { grid-template-rows: 1fr !important; }
+  }
+</style>
+</head>
+<body class="gr-body">
+
+<div class="gr-page">
+
+  <!-- ══════════════ HÉRO ══════════════ -->
+  <header class="em-head gr-enter">
+    <h1>La Frise des <em>Empires</em></h1>
+    <p>
+      Six mille ans de puissances dominantes, des premières cités de Sumer au monde
+      d'aujourd'hui. Pour chacune : la période, les régions tenues, ce qui a fait sa
+      force — et la raison, presque toujours la même, pour laquelle elle a fini par tomber.
+    </p>
+  </header>
+
+  <!-- ══════════════ LE RUBAN PROPORTIONNEL ══════════════ -->
+  <section class="em-ribbon-wrap gr-enter" aria-labelledby="emRibbonTitle">
+    <div class="em-ribbon-head">
+      <h2 id="emRibbonTitle">Six mille ans à l'échelle</h2>
+      <span>Chaque barre dure ce qu'a duré l'empire. Cliquez pour ouvrir sa fiche.</span>
+    </div>
+    <div class="em-ribbon-scroll">
+      <svg id="emRibbon" class="em-ribbon" role="img"
+           aria-label="Ruban chronologique : chaque empire est une barre dont la longueur suit sa durée réelle"></svg>
+    </div>
+  </section>
+
+  <!-- ══════════════ LES FILTRES ══════════════ -->
+  <section aria-label="Filtrer par époque">
+    <div class="em-filters" id="emFilters" role="group"></div>
+  </section>
+
+  <!-- ══════════════ LA FRISE ══════════════ -->
+  <section class="em-line" aria-label="Frise des empires">
+    <div class="em-orbs" id="emOrbs" aria-hidden="true"></div>
+    <div class="em-rail" id="emRail" aria-hidden="true"></div>
+    <ol class="em-items" id="emItems"></ol>
+    <p class="em-empty" id="emEmpty" hidden>Aucun empire dans cette époque.</p>
+  </section>
+
+  <!-- ══════════════ LA LEÇON ══════════════ -->
+  <section class="gr-section" id="lecon">
+    <div class="gr-section-head">
+      <h2>Ce que la frise raconte</h2>
+      <div class="gr-rule"></div>
+      <p>
+        Mis bout à bout, ces vingt-deux empires disent trois choses. Qu'aucun ne s'est cru
+        mortel. Que presque tous sont tombés de l'intérieur — successions disputées, impôt
+        devenu insupportable, sécheresse ou épidémie — avant qu'un ennemi n'achève le
+        travail. Et que ce qu'il en reste n'est jamais le territoire : c'est une écriture,
+        un droit, une langue, un chiffre. Rome a perdu ses provinces et nous a laissé son
+        droit ; Bagdad a perdu son califat et nous a laissé l'algèbre.
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="gr-footer">
+  Généré avec <strong>Claude</strong> · Le Grenier des Apps ·
+  <a href="index.html">Accueil</a> · <a href="bibliotheque.html">Bibliothèque</a>
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>window.GRENIER_SHELL = { active: 'library', search: true };</script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/empires-data.js"></script>
+<script src="assets/js/empires.js"></script>
+</body>
+</html>
