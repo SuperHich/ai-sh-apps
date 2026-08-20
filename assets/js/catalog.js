@@ -59,7 +59,7 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
+    'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
     'fatima-al-fihriya', 'ibn-sina', 'carte-histoires'
   ];
 
@@ -227,6 +227,11 @@
       dir: 'stories/legend', file: 'al-khwarizmi.html', age: 10, access: 'public',
       desc: 'Le savant de Bagdad qui inventa l\'algèbre et donna son nom à l\'algorithme.',
       tags: ['maths', 'algebre', 'bagdad', 'algorithme'] },
+
+    { id: 'empires', title: 'La Frise des Empires', emoji: '👑', cat: 'legendes', kind: 'outil',
+      dir: '.', file: 'empires.html', age: 10, access: 'public',
+      desc: 'Six mille ans de puissances dominantes, de Sumer à aujourd\'hui : pour chacune sa période, les régions tenues, ce qui a fait sa force et pourquoi elle a fini par tomber.',
+      tags: ['empires', 'histoire', 'frise', 'chronologie', 'rome', 'egypte', 'mongols', 'ottoman', 'civilisation'] },
 
     /* ── Sciences & Découvertes ──────────────────────────────── */
     { id: 'dinosaures', title: 'Les Dinosaures', emoji: '🦕', cat: 'sciences', kind: 'histoire',

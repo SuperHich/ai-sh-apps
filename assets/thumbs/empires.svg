@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="emBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#0f0c1a"/>
+      <stop offset="58%"  stop-color="#1b1426"/>
+      <stop offset="100%" stop-color="#33200f"/>
+    </linearGradient>
+    <radialGradient id="emGlow" cx="50%" cy="34%" r="58%">
+      <stop offset="0%"   stop-color="#f0c04b" stop-opacity=".26"/>
+      <stop offset="100%" stop-color="#f0c04b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="emRail" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#f0c04b"/>
+      <stop offset="42%"  stop-color="#ff8a5b"/>
+      <stop offset="72%"  stop-color="#b18cff"/>
+      <stop offset="100%" stop-color="#5bb8ff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#emBg)"/>
+  <rect width="400" height="300" fill="url(#emGlow)"/>
+
+  <!-- le ruban des durées, comme en haut de la page -->
+  <g opacity=".55">
+    <rect x="28"  y="40" width="150" height="7" rx="3.5" fill="#f0c04b"/>
+    <rect x="52"  y="54" width="248" height="7" rx="3.5" fill="#e0b24a"/>
+    <rect x="150" y="68" width="86"  height="7" rx="3.5" fill="#d0603f"/>
+    <rect x="206" y="82" width="118" height="7" rx="3.5" fill="#ff8a5b"/>
+    <rect x="268" y="96" width="74"  height="7" rx="3.5" fill="#b18cff"/>
+  </g>
+
+  <!-- les monuments, du plus ancien au plus récent -->
+  <g fill="#0a0713" fill-opacity=".92">
+    <!-- pyramide -->
+    <polygon points="52,232 84,176 116,232"/>
+    <!-- temple à colonnes -->
+    <polygon points="128,196 160,178 192,196"/>
+    <rect x="132" y="200" width="6" height="32"/>
+    <rect x="145" y="200" width="6" height="32"/>
+    <rect x="158" y="200" width="6" height="32"/>
+    <rect x="171" y="200" width="6" height="32"/>
+    <rect x="182" y="200" width="6" height="32"/>
+    <!-- coupole et minaret -->
+    <path d="M206,232 v-24 a20,20 0 0 1 40,0 v24 Z"/>
+    <rect x="250" y="186" width="8" height="46" rx="2"/>
+    <circle cx="254" cy="182" r="5"/>
+    <!-- tour moderne -->
+    <polygon points="286,232 292,192 302,192 308,232"/>
+    <rect x="292" y="176" width="10" height="18" rx="2"/>
+    <!-- gratte-ciel -->
+    <rect x="322" y="168" width="22" height="64" rx="2"/>
+    <rect x="350" y="190" width="16" height="42" rx="2"/>
+  </g>
+
+  <!-- le rail du temps et ses nœuds -->
+  <rect x="24" y="240" width="352" height="3" rx="1.5" fill="url(#emRail)"/>
+  <g stroke="#0f0c1a" stroke-width="2.5">
+    <circle cx="84"  cy="241.5" r="7" fill="#f0c04b"/>
+    <circle cx="160" cy="241.5" r="7" fill="#ff8a5b"/>
+    <circle cx="226" cy="241.5" r="7" fill="#4fd8a6"/>
+    <circle cx="297" cy="241.5" r="7" fill="#b18cff"/>
+    <circle cx="344" cy="241.5" r="7" fill="#5bb8ff"/>
+  </g>
+
+  <!-- la couronne : le fil rouge de la frise -->
+  <g transform="translate(200,272)">
+    <path d="M-26,10 L-30,-12 L-15,-1 L0,-18 L15,-1 L30,-12 L26,10 Z" fill="#f0c04b"/>
+    <rect x="-26" y="12" width="52" height="6" rx="3" fill="#e0a93c"/>
+    <circle cx="-30" cy="-15" r="3.4" fill="#ffe9bd"/>
+    <circle cx="0"   cy="-22" r="3.8" fill="#ffe9bd"/>
+    <circle cx="30"  cy="-15" r="3.4" fill="#ffe9bd"/>
+  </g>
+</svg>
