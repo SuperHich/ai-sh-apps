@@ -1,24 +1,29 @@
 /**
- * Les Âges de la Tunisie — bande du temps, carte et fiches
+ * Les Âges d'un pays — bande du temps, carte et fiches
  * ------------------------------------------------------------------
+ * Un moteur, deux pages : tunisie.html et france.html chargent chacune
+ * leur jeu de données dans `window.AGES`, et ce fichier en fait une
+ * page. Rien ici ne connaît de pays en particulier — ni un contour, ni
+ * une date, ni une ville.
+ *
  * Pas de bibliothèque : trois pièces, une seule sélection.
  *
- *   1. LA BANDE — les douze époques se suivent sans trou, donc elles
- *      forment un ruban continu plutôt que des barres séparées : la
- *      largeur de chaque segment est sa durée réelle. Une exception
- *      assumée, le Capsien : cinq mille ans de préhistoire écraseraient
- *      les trente siècles suivants en un trait. Il est donc sorti de
- *      l'échelle, dans un bloc à part, derrière une cassure en
- *      pointillés — le dessin dit lui-même qu'il triche là, et nulle
- *      part ailleurs.
+ *   1. LA BANDE — les époques d'un territoire se suivent sans trou,
+ *      donc elles forment un ruban continu plutôt que des barres
+ *      séparées : la largeur de chaque segment est sa durée réelle.
+ *      Une exception assumée, la préhistoire : des millénaires
+ *      écraseraient les trente siècles suivants en un trait. Toute
+ *      époque marquée `scaled: false` est donc sortie de l'échelle,
+ *      dans un bloc à part, derrière une cassure en pointillés — le
+ *      dessin dit lui-même qu'il triche là, et nulle part ailleurs.
  *
  *   2. LA CARTE — le contour du pays et les lieux de l'époque passent
  *      par la même projection (équirectangulaire, corrigée par le
  *      cosinus de la latitude moyenne pour que la forme reste juste) :
  *      un site tombe au bon endroit sans réglage à la main. Les
  *      étiquettes se repoussent verticalement quand deux lieux sont
- *      trop proches — sinon Gabès et Djerba s'écrivent l'une sur
- *      l'autre.
+ *      trop proches — sinon Gabès et Djerba, ou Crécy et Azincourt,
+ *      s'écrivent l'une sur l'autre.
  *
  *   3. LA FICHE — reconstruite à chaque changement d'époque. Une seule
  *      époque est affichée à la fois : c'est un parcours, pas une liste
@@ -32,28 +37,28 @@
 (function (global) {
   'use strict';
 
-  var TN = global.TUNISIE;
-  if (!TN || !TN.periods) return;
+  var DATA = global.AGES;
+  if (!DATA || !DATA.periods) return;
 
   var doc = global.document;
   var SVGNS = 'http://www.w3.org/2000/svg';
 
   function $(id) { return doc.getElementById(id); }
 
-  var elBand   = $('tnBand');
-  var elChips  = $('tnChips');
-  var elMap    = $('tnMap');
-  var elCard   = $('tnCard');
-  var elPrev   = $('tnPrev');
-  var elNext   = $('tnNext');
-  var elPos    = $('tnPos');
-  var elReach  = $('tnReach');
+  var elBand   = $('agBand');
+  var elChips  = $('agChips');
+  var elMap    = $('agMap');
+  var elCard   = $('agCard');
+  var elPrev   = $('agPrev');
+  var elNext   = $('agNext');
+  var elPos    = $('agPos');
+  var elReach  = $('agReach');
   if (!elBand || !elCard || !elMap) return;
 
   var calmQuery = global.matchMedia ? global.matchMedia('(prefers-reduced-motion: reduce)') : null;
   function isCalm() { return !!(calmQuery && calmQuery.matches); }
 
-  var periods = TN.periods;
+  var periods = DATA.periods;
   var index = 0;
 
   /* ══════════════════════════════════════════════════════════════
@@ -81,6 +86,16 @@
 
   function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
 
+  /* L'année de fin d'une époque encore en cours, c'est aujourd'hui. */
+  function endOf(p) { return p.end == null ? new Date().getFullYear() : p.end; }
+
+  function eraOf(key) {
+    for (var i = 0; i < DATA.eras.length; i++) {
+      if (DATA.eras[i].key === key) return DATA.eras[i];
+    }
+    return { key: key, label: key, color: '#f0c04b' };
+  }
+
   /* « -814 » se lit « 814 av. J.-C. » ; « 1861 » se lit tel quel. */
   function yearLabel(y) {
     if (y === 0) return '0';
@@ -92,18 +107,18 @@
      ══════════════════════════════════════════════════════════════ */
 
   var BAND_W = 1000;            /* unités du viewBox — le SVG s'étire */
-  var OFF_W  = 96;              /* largeur du bloc hors échelle */
-  var GAP    = 26;              /* la cassure entre le bloc et l'échelle */
+  var scaled = periods.filter(function (p) { return p.scaled !== false; });
+  var offScale = periods.filter(function (p) { return p.scaled === false; });
+  /* Sans époque hors échelle, ni bloc ni cassure : la bande part du bord. */
+  var OFF_W  = offScale.length ? 96 : 0;
+  var GAP    = offScale.length ? 26 : 0;
   var TOP    = 26;              /* place laissée au curseur au-dessus */
   var BAR_H  = 34;
   var ERA_H  = 9;
   var BAND_H = TOP + ERA_H + 6 + BAR_H + 26;
 
-  var scaled = periods.filter(function (p) { return p.scaled !== false; });
-  var offScale = periods.filter(function (p) { return p.scaled === false; });
-
   var minY = Math.min.apply(null, scaled.map(function (p) { return p.start; }));
-  var maxY = Math.max.apply(null, scaled.map(TN.endOf));
+  var maxY = Math.max.apply(null, scaled.map(endOf));
   var span = maxY - minY;
   var plotL = OFF_W + GAP;
   var plotW = BAND_W - plotL - 4;
@@ -118,7 +133,7 @@
       var w = OFF_W / offScale.length;
       return { x: slot * w, w: w - 2 };
     }
-    var x1 = bx(p.start), x2 = bx(TN.endOf(p));
+    var x1 = bx(p.start), x2 = bx(endOf(p));
     return { x: x1, w: Math.max(4, x2 - x1) };
   }
 
@@ -133,7 +148,7 @@
     var yBar = TOP + ERA_H + 6;
 
     /* ── Le bandeau des grands âges, au-dessus des époques ── */
-    TN.eras.forEach(function (era) {
+    DATA.eras.forEach(function (era) {
       var group = periods.filter(function (p) { return p.era === era.key; });
       if (!group.length) return;
       var first = bandBox(group[0], 0);
@@ -145,39 +160,47 @@
       }));
       if (w > 96) {
         elBand.appendChild(svgText(era.short || era.label, {
-          x: (x + w / 2).toFixed(1), y: yEra - 8, 'text-anchor': 'middle', class: 'tn-band-era'
+          x: (x + w / 2).toFixed(1), y: yEra - 8, 'text-anchor': 'middle', class: 'ag-band-era'
         }));
       }
     });
 
-    /* ── Les repères de siècles ── */
-    var step = 500;
+    /* ── Les repères de siècles ──
+       Un pas fixe irait de travers dès que le cadrage change : on prend
+       le plus fin qui tienne en une dizaine de graduations. */
+    var steps = [1000, 500, 250, 100, 50];
+    var step = steps[0];
+    for (var si = 0; si < steps.length; si++) {
+      if (span / steps[si] <= 9) { step = steps[si]; break; }
+    }
     var first = Math.ceil(minY / step) * step;
     for (var y = first; y <= maxY; y += step) {
       var gx = bx(y);
       elBand.appendChild(svg('line', {
-        x1: gx.toFixed(1), y1: yBar, x2: gx.toFixed(1), y2: yBar + BAR_H + 6, class: 'tn-band-grid'
+        x1: gx.toFixed(1), y1: yBar, x2: gx.toFixed(1), y2: yBar + BAR_H + 6, class: 'ag-band-grid'
       }));
       elBand.appendChild(svgText(yearLabel(y), {
-        x: gx.toFixed(1), y: yBar + BAR_H + 20, 'text-anchor': 'middle', class: 'tn-band-tick'
+        x: gx.toFixed(1), y: yBar + BAR_H + 20, 'text-anchor': 'middle', class: 'ag-band-tick'
       }));
     }
 
     /* ── La cassure : ce qui sépare le hors-échelle du reste ── */
+    if (offScale.length) {
     elBand.appendChild(svg('path', {
       d: 'M' + (OFF_W + 7) + ' ' + (yBar - 4) +
          ' l10 ' + (BAR_H / 2 + 4) + ' l-10 ' + (BAR_H / 2 + 4),
-      class: 'tn-band-break'
+      class: 'ag-band-break'
     }));
     elBand.appendChild(svgText('hors échelle', {
-      x: (OFF_W / 2).toFixed(1), y: yBar + BAR_H + 20, 'text-anchor': 'middle', class: 'tn-band-tick'
+      x: (OFF_W / 2).toFixed(1), y: yBar + BAR_H + 20, 'text-anchor': 'middle', class: 'ag-band-tick'
     }));
+    }
 
     /* ── Les époques ── */
     periods.forEach(function (p, i) {
       var box = bandBox(p, i);
       var g = svg('g', {
-        class: 'tn-seg', 'data-id': p.id, tabindex: '0', role: 'button',
+        class: 'ag-seg', 'data-id': p.id, tabindex: '0', role: 'button',
         'aria-label': p.name + ', ' + p.period
       });
       var title = svg('title', {});
@@ -185,7 +208,7 @@
       g.appendChild(title);
       g.appendChild(svg('rect', {
         x: box.x.toFixed(1), y: yBar, width: box.w.toFixed(1), height: BAR_H,
-        rx: 6, fill: p.color, class: 'tn-seg-fill'
+        rx: 6, fill: p.color, class: 'ag-seg-fill'
       }));
       /* Le nom ne tient pas dans tous les segments : le protectorat fait
          soixante-quinze ans, soit vingt pixels de large. On mesure au lieu
@@ -193,7 +216,7 @@
       if (box.w > p.short.length * 6.6 + 14) {
         g.appendChild(svgText(p.short, {
           x: (box.x + box.w / 2).toFixed(1), y: (yBar + BAR_H / 2 + 4).toFixed(1),
-          'text-anchor': 'middle', class: 'tn-seg-name'
+          'text-anchor': 'middle', class: 'ag-seg-name'
         }));
       }
       g.addEventListener('click', function () { select(i); });
@@ -205,13 +228,13 @@
     });
 
     /* ── Le curseur, posé sur l'époque choisie ── */
-    var cursor = svg('path', { id: 'tnCursor', class: 'tn-band-cursor', d: 'M0 0' });
+    var cursor = svg('path', { id: 'agCursor', class: 'ag-band-cursor', d: 'M0 0' });
     elBand.appendChild(cursor);
     moveCursor();
   }
 
   function moveCursor() {
-    var cursor = elBand.querySelector('#tnCursor');
+    var cursor = elBand.querySelector('#agCursor');
     if (!cursor) return;
     var box = bandSegs[index].box;
     var cx = box.x + box.w / 2;
@@ -236,7 +259,7 @@
   function buildChips() {
     if (!elChips) return;
     periods.forEach(function (p, i) {
-      var chip = el('button', 'tn-chip');
+      var chip = el('button', 'ag-chip');
       chip.type = 'button';
       chip.style.setProperty('--tint', p.color);
       chip.setAttribute('aria-pressed', 'false');
@@ -257,8 +280,13 @@
      villes côtières s'écrivent dans la mer et il leur faut de la place ;
      à l'ouest, elles se retournent vers l'intérieur des terres. */
   var MAP_H = 620, PAD_T = 30, PAD_L = 78, PAD_R = 108;
-  var lats = TN.outline.map(function (pt) { return pt[1]; });
-  var lons = TN.outline.map(function (pt) { return pt[0]; });
+  /* Le cadrage porte sur le contour ET les îles : la Corse fait partie du
+     pays, elle ne doit pas se retrouver dans la marge réservée aux
+     étiquettes. */
+  var shape = DATA.outline.slice();
+  (DATA.islands || []).forEach(function (isle) { shape = shape.concat(isle.points); });
+  var lats = shape.map(function (pt) { return pt[1]; });
+  var lons = shape.map(function (pt) { return pt[0]; });
   var lat0 = Math.min.apply(null, lats), lat1 = Math.max.apply(null, lats);
   var lon0 = Math.min.apply(null, lons), lon1 = Math.max.apply(null, lons);
   /* Sans le cosinus, un degré de longitude vaudrait un degré de latitude
@@ -266,6 +294,9 @@
   var kx = Math.cos((lat0 + lat1) / 2 * Math.PI / 180);
   var scale = (MAP_H - PAD_T * 2) / (lat1 - lat0);
   var MAP_W = (lon1 - lon0) * kx * scale + PAD_L + PAD_R;
+
+  /* Par défaut, on coupe au milieu du pays. */
+  var labelSplit = DATA.labelSplit == null ? (lon0 + lon1) / 2 : DATA.labelSplit;
 
   function mx(lon) { return PAD_L + (lon - lon0) * kx * scale; }
   function my(lat) { return PAD_T + (lat1 - lat) * scale; }
@@ -281,25 +312,28 @@
     elMap.setAttribute('viewBox', '0 0 ' + MAP_W.toFixed(1) + ' ' + MAP_H);
 
     var defs = svg('defs', {});
-    var grad = svg('linearGradient', { id: 'tnLand', x1: '0', y1: '0', x2: '0.4', y2: '1' });
+    var grad = svg('linearGradient', { id: 'agLand', x1: '0', y1: '0', x2: '0.4', y2: '1' });
     grad.appendChild(svg('stop', { offset: '0%',   'stop-color': '#2a2340' }));
     grad.appendChild(svg('stop', { offset: '100%', 'stop-color': '#1a1528' }));
     defs.appendChild(grad);
     elMap.appendChild(defs);
 
-    elMap.appendChild(svg('path', { d: pathOf(TN.outline), class: 'tn-land' }));
-    TN.islands.forEach(function (isle) {
-      elMap.appendChild(svg('path', { d: pathOf(isle.points), class: 'tn-land tn-isle' }));
+    elMap.appendChild(svg('path', { d: pathOf(DATA.outline), class: 'ag-land' }));
+    (DATA.islands || []).forEach(function (isle) {
+      elMap.appendChild(svg('path', { d: pathOf(isle.points), class: 'ag-land tn-isle' }));
     });
-    TN.labels.forEach(function (lab) {
+    (DATA.labels || []).forEach(function (lab) {
       elMap.appendChild(svgText(lab.text, {
         x: mx(lab.lon).toFixed(1), y: my(lab.lat).toFixed(1),
-        'text-anchor': lab.anchor === 'end' ? 'end' : 'start', class: 'tn-geo'
+        /* Un repère peut être centré sur son point (une mer, un voisin)
+           aussi bien qu'accroché à gauche ou à droite. */
+        'text-anchor': lab.anchor === 'end' || lab.anchor === 'middle' ? lab.anchor : 'start',
+        class: 'ag-geo'
       }));
     });
 
     /* La couche des lieux : redessinée à chaque époque. */
-    elMap.appendChild(svg('g', { id: 'tnSites' }));
+    elMap.appendChild(svg('g', { id: 'agSites' }));
   }
 
   /* Deux étiquettes du même côté et à la même hauteur se recouvrent :
@@ -316,7 +350,7 @@
   }
 
   function drawSites(period) {
-    var layer = elMap.querySelector('#tnSites');
+    var layer = elMap.querySelector('#agSites');
     if (!layer) return;
     clear(layer);
 
@@ -324,16 +358,18 @@
       return {
         site: s,
         x: mx(s.lon), y: my(s.lat), ly: my(s.lat) + 4,
-        /* À l'ouest, l'étiquette part vers la gauche ; à l'est, elle
-           s'écrit dans la mer, où il y a toute la place. */
-        anchor: s.lon < 9.85 ? 'end' : 'start'
+        /* À l'ouest, l'étiquette part vers la gauche ; à l'est, vers la
+           droite. Le partage est donné par les données (`labelSplit`),
+           parce qu'il dépend de la forme du pays : en Tunisie, presque
+           tout l'est est de la mer libre. */
+        anchor: s.lon < labelSplit ? 'end' : 'start'
       };
     });
     spreadLabels(list);
 
     list.forEach(function (item, i) {
       var s = item.site;
-      var g = svg('g', { class: 'tn-site tn-site-' + s.kind });
+      var g = svg('g', { class: 'ag-site ag-site-' + s.kind });
       if (!isCalm()) g.style.animationDelay = (i * 55) + 'ms';
 
       var title = svg('title', {});
@@ -362,7 +398,7 @@
       var label = svgText(s.name.replace(/\s*\(.*\)\s*$/, ''), {
         x: (item.x + dx).toFixed(1), y: item.ly.toFixed(1),
         'text-anchor': item.anchor,
-        class: 'tn-site-name' + (s.kind === 'capitale' ? ' is-capital' : '')
+        class: 'ag-site-name' + (s.kind === 'capitale' ? ' is-capital' : '')
       });
       g.appendChild(label);
 
@@ -371,7 +407,7 @@
         g.appendChild(svg('line', {
           x1: item.x.toFixed(1), y1: item.y.toFixed(1),
           x2: (item.x + dx * 0.55).toFixed(1), y2: (item.ly - 4).toFixed(1),
-          class: 'tn-site-thread'
+          class: 'ag-site-thread'
         }));
       }
       layer.appendChild(g);
@@ -383,7 +419,7 @@
      ══════════════════════════════════════════════════════════════ */
 
   function block(cls, heading, build) {
-    var wrap = el('div', 'tn-block' + (cls ? ' ' + cls : ''));
+    var wrap = el('div', 'ag-block' + (cls ? ' ' + cls : ''));
     wrap.appendChild(el('h3', null, heading));
     build(wrap);
     return wrap;
@@ -393,36 +429,36 @@
     clear(elCard);
     elCard.style.setProperty('--tint', p.color);
 
-    var era = TN.eraOf(p.era);
+    var era = eraOf(p.era);
 
-    var head = el('header', 'tn-card-head');
-    var kicker = el('div', 'tn-kicker');
-    kicker.appendChild(el('span', 'tn-period', p.period));
-    kicker.appendChild(el('span', 'tn-tag', era.short || era.label));
+    var head = el('header', 'ag-card-head');
+    var kicker = el('div', 'ag-kicker');
+    kicker.appendChild(el('span', 'ag-period', p.period));
+    kicker.appendChild(el('span', 'ag-tag', era.short || era.label));
     head.appendChild(kicker);
 
-    var h2 = el('h2', 'tn-name');
-    h2.appendChild(el('span', 'tn-emoji', p.emoji));
+    var h2 = el('h2', 'ag-name');
+    h2.appendChild(el('span', 'ag-emoji', p.emoji));
     h2.appendChild(doc.createTextNode(p.name));
     head.appendChild(h2);
-    head.appendChild(el('p', 'tn-summary', p.summary));
+    head.appendChild(el('p', 'ag-summary', p.summary));
 
-    var stat = el('p', 'tn-stat');
+    var stat = el('p', 'ag-stat');
     stat.appendChild(el('b', null, p.stat.value));
     stat.appendChild(el('span', null, p.stat.label));
     head.appendChild(stat);
     elCard.appendChild(head);
 
     /* Les trois lignes qu'on cherche en premier. */
-    var meta = el('dl', 'tn-meta');
+    var meta = el('dl', 'ag-meta');
     [['Capitale', p.seat], ['Qui gouverne', p.rulers], ['Étendue', p.reach]].forEach(function (row) {
       meta.appendChild(el('dt', null, row[0]));
       meta.appendChild(el('dd', null, row[1]));
     });
     elCard.appendChild(meta);
 
-    elCard.appendChild(block('tn-events', 'Ce qui s\'y passe', function (wrap) {
-      var ol = el('ol', 'tn-timeline');
+    elCard.appendChild(block('ag-events', 'Ce qui s\'y passe', function (wrap) {
+      var ol = el('ol', 'ag-timeline');
       p.events.forEach(function (ev) {
         var li = el('li');
         li.appendChild(el('b', null, ev.y));
@@ -432,8 +468,8 @@
       wrap.appendChild(ol);
     }));
 
-    elCard.appendChild(block('tn-figures', 'Qui on retient', function (wrap) {
-      var ul = el('ul', 'tn-people');
+    elCard.appendChild(block('ag-figures', 'Qui on retient', function (wrap) {
+      var ul = el('ul', 'ag-people');
       p.figures.forEach(function (f) {
         var li = el('li');
         li.appendChild(el('b', null, f.name));
@@ -443,17 +479,17 @@
       wrap.appendChild(ul);
     }));
 
-    elCard.appendChild(block('tn-legacy', 'Ce qu\'il en reste aujourd\'hui', function (wrap) {
-      var ul = el('ul', 'tn-list');
+    elCard.appendChild(block('ag-legacy', 'Ce qu\'il en reste aujourd\'hui', function (wrap) {
+      var ul = el('ul', 'ag-list');
       p.legacy.forEach(function (line) { ul.appendChild(el('li', null, line)); });
       wrap.appendChild(ul);
     }));
 
-    elCard.appendChild(block('tn-meanwhile', 'Pendant ce temps', function (wrap) {
+    elCard.appendChild(block('ag-meanwhile', 'Pendant ce temps', function (wrap) {
       wrap.appendChild(el('p', null, p.meanwhile));
     }));
 
-    elCard.appendChild(block('tn-turn', 'Comment ça bascule', function (wrap) {
+    elCard.appendChild(block('ag-turn', 'Comment ça bascule', function (wrap) {
       wrap.appendChild(el('p', null, p.turn));
     }));
   }

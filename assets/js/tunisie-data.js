@@ -41,7 +41,16 @@
 (function (global) {
   'use strict';
 
-  var TN = global.TUNISIE || (global.TUNISIE = {});
+  /* Le jeu de données est publié sous window.AGES : c'est ce que le
+     moteur (assets/js/ages.js) va lire. Une page charge un jeu, pas deux. */
+  var TN = {};
+
+  TN.key = 'tunisie';
+
+  /* Les étiquettes des lieux situés à l'ouest de cette longitude s'écrivent
+     vers la gauche ; les autres vers la droite. Presque tout l'est du pays
+     est de la mer libre : on peut y écrire large. */
+  TN.labelSplit = 9.85;
 
   /* ══════════════════════════════════════════════════════════════
      LE DESSIN DU PAYS
@@ -625,25 +634,6 @@
     }
   ];
 
-  /* ── Utilitaires partagés avec la page ─────────────────────── */
-
-  /** L'année de fin d'une époque encore en cours, c'est aujourd'hui. */
-  TN.endOf = function (p) {
-    return p.end == null ? new Date().getFullYear() : p.end;
-  };
-
-  TN.byId = function (id) {
-    for (var i = 0; i < TN.periods.length; i++) {
-      if (TN.periods[i].id === id) return TN.periods[i];
-    }
-    return null;
-  };
-
-  TN.eraOf = function (key) {
-    for (var i = 0; i < TN.eras.length; i++) {
-      if (TN.eras[i].key === key) return TN.eras[i];
-    }
-    return { key: key, label: key, color: '#f0c04b' };
-  };
+  global.AGES = TN;
 
 })(window);

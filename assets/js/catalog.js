@@ -59,7 +59,7 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
+    'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
     'fatima-al-fihriya', 'ibn-sina', 'carte-histoires'
   ];
 
@@ -237,6 +237,11 @@
       dir: '.', file: 'tunisie.html', age: 10, access: 'public',
       desc: 'Douze époques traversées par le territoire tunisien, des Capsiens à la République : la carte des lieux, la chronologie et ce qu\'il en reste aujourd\'hui.',
       tags: ['tunisie', 'histoire', 'carthage', 'rome', 'kairouan', 'hafsides', 'ottoman', 'protectorat', 'maghreb', 'frise', 'carte'] },
+
+    { id: 'france', title: 'Les Âges de la France', emoji: '\ud83c\uddeb\ud83c\uddf7', cat: 'legendes', kind: 'outil',
+      dir: '.', file: 'france.html', age: 10, access: 'public',
+      desc: 'Treize époques traversées par le territoire français, de Lascaux à aujourd\'hui : la carte des lieux, la chronologie et ce qu\'il en reste.',
+      tags: ['france', 'histoire', 'gaule', 'rome', 'clovis', 'charlemagne', 'cathedrales', 'revolution', 'republique', 'frise', 'carte'] },
 
     /* ── Sciences & Découvertes ──────────────────────────────── */
     { id: 'dinosaures', title: 'Les Dinosaures', emoji: '🦕', cat: 'sciences', kind: 'histoire',
