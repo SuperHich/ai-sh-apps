@@ -5,7 +5,7 @@ built entirely with vanilla HTML, CSS & JavaScript. No frameworks, no build
 steps, no server. Just open in a browser.
 
 The home page is a showcase — a curated selection, the latest arrivals and the
-seven universes. The full catalogue lives on its own page, searchable and
+eight universes. The full catalogue lives on its own page, searchable and
 filterable by universe, age and access level. Every entry is presented by a
 hand-drawn SVG thumbnail rather than an icon. Part of the catalogue is open to
 everyone; the rest opens once a (local, free) account is created.
@@ -15,7 +15,7 @@ everyone; the rest opens once a (local, free) account is created.
 ```
 ├── index.html              # Home — curated selection
 ├── bibliotheque.html       # Full catalogue (search + filters)
-├── carte.html              # World map of the places in the stories
+├── carte.html              # World map of the places — reached from the nav bar
 ├── quiz.html               # Quizzes — one per universe
 ├── planetes.html           # Planet explorer — rotate and zoom the solar system
 ├── anatomie.html           # Body explorer — a 3D human body and its organs
@@ -84,6 +84,30 @@ Open `index.html` in any modern browser. A plain static server
 `crypto.subtle` is unavailable there, so password hashing silently falls back
 to a much weaker scheme, and the AI generator needs an HTTPS origin.
 
+## The eight universes
+
+`GRENIER.categories` in `assets/js/catalog.js` is the list, and everything that
+shows a universe — the home carousel, the catalogue's filter chips, the counts
+on both — reads it and counts the items itself. There is no number written by
+hand anywhere: moving one item between universes updates every badge.
+
+| Universe | What's in it |
+|----------|--------------|
+| Prophètes & Sagesse | Prophets, caliphs, spiritual figures |
+| Histoires en arabe | Arabic stories, read right to left |
+| Légendes du monde | Heroes, scholars and explorers |
+| **Histoire** | The timelines: the world's empires, and the ages of Tunisia and France |
+| Sciences & Découvertes | From the Big Bang to the human body, explorers included |
+| Blagues & Humour | Jokes |
+| Mini-jeux | Reflexes, memory, words |
+| Outils | The financial calculator — and only it |
+
+Two boundaries are deliberate. **Histoire** was split off from *Légendes du
+monde* because a timeline and a story are not the same object: the legends are
+read, the timelines are walked through. And **Outils** holds exactly one item,
+because a tool is something you come to use for its own sake — the map and the
+quizzes are ways into the catalogue, not entries in it.
+
 ## Accounts and access levels
 
 **Everything in the catalogue is open, and accounts are not offered at all.**
@@ -95,7 +119,7 @@ Every entry in `assets/js/catalog.js` still carries an `access` field:
 
 | `access`   | Who can open it        |
 |------------|------------------------|
-| `public`   | everyone — all 59 items |
+| `public`   | everyone — all 58 items |
 | `membre`   | requires an account — none at the moment |
 
 The field and the whole mechanism (locked card state, access filter,
@@ -144,7 +168,10 @@ time, and the whole thing works from the keyboard (1–4 to answer, Enter to
 advance). Adding a quiz is one block in `assets/js/quiz-data.js`, one item in
 the catalogue, one thumbnail.
 
-**`carte.html`** places the stories on a world map — 27 of them, on 18 places,
+**`carte.html`** is deliberately **not in the catalogue**: it is not one more
+piece of content but another way into the ones that already exist, so it is
+reached through the nav bar's "La carte" entry rather than through a card in the
+library. It places the stories on a world map — 27 of them, on 18 places,
 plus the dotted routes of Elissa, Hannibal, Colomb, Ibn Battuta, Napoléon and
 Einstein. Coastlines and pins share one equirectangular projection
 (`x = (lon+180)/360·L`, `y = (90-lat)/180·H`), so a pin lands where it belongs
@@ -315,7 +342,7 @@ a screenshot rather than the icon — both would need a PNG.
 
 ## The catalogue on a phone
 
-The filter bar is sticky, which is what you want on a 59-item catalogue — but
+The filter bar is sticky, which is what you want on a 58-item catalogue — but
 eleven wrapped chips made it 476px tall on a 390px-wide screen, more than half
 the viewport, leaving no room for the results underneath. Below 720px each
 chip group now sits on a single horizontally-scrollable line, which pins the
@@ -341,7 +368,7 @@ reserves its space and never shifts as thumbnails arrive.
 
 ## The universe carousel
 
-The seven universes on the home page are a **stacked carousel**
+The eight universes on the home page are a **stacked carousel**
 (`assets/js/carousel.js`): the cards fan out around a centre one, follow the
 finger or the mouse, and settle on the nearest card with a spring.
 

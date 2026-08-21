@@ -24,7 +24,7 @@
  *     alternative à pointeur unique pour toute action au glisser : le
  *     carrousel d'origine n'est manipulable qu'à la souris ou au doigt.
  *   - le respect de prefers-reduced-motion (saut direct, sans ressort).
- *   - un défilement circulaire : avec sept univers, on ne veut pas de butée.
+ *   - un défilement circulaire : avec huit univers, on ne veut pas de butée.
  */
 (function (global) {
   'use strict';
