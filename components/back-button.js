@@ -97,3 +97,34 @@ class BackButton extends HTMLElement {
 }
 
 customElements.define('back-button', BackButton);
+
+/* ══════════════════════════════════════════════════════════════
+   MESURE D'AUDIENCE
+   GoatCounter : pas de cookie, pas de donnée personnelle, donc pas
+   de bandeau de consentement à ajouter au site.
+
+   Le script est chargé d'ici plutôt que collé dans les 66 pages :
+   chaque page du site charge shell.js ou components/back-button.js,
+   et les cinq index de catégorie chargent les deux — d'où le
+   drapeau, qui évite de compter deux fois la même visite. Le bloc
+   est donc écrit à l'identique dans les deux fichiers : s'il change
+   ici, il doit changer là-bas.
+
+   Rien n'est envoyé depuis un poste de développement : ni file://,
+   ni localhost. Le tableau de bord ne montre que de vrais visiteurs.
+   ══════════════════════════════════════════════════════════════ */
+(function () {
+  if (window.GRENIER_MESURE) return;
+
+  var host = location.hostname;
+  if (location.protocol === 'file:' || host === '' ||
+      host === 'localhost' || host === '127.0.0.1' || host === '::1') return;
+
+  window.GRENIER_MESURE = true;
+
+  var tag = document.createElement('script');
+  tag.async = true;
+  tag.src = 'https://gc.zgo.at/count.js';
+  tag.setAttribute('data-goatcounter', 'https://superhich.goatcounter.com/count');
+  (document.head || document.documentElement).appendChild(tag);
+})();

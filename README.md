@@ -456,6 +456,42 @@ Saved creations live in `localStorage` and appear in the library tagged
 download the HTML file and drop it into `stories/<universe>/` — the
 `/ajouter-histoire` routine handles the rest.
 
+## Counting visitors
+
+`assets/js/shell.js` and `components/back-button.js` each end with the same
+twelve-line block, which injects [GoatCounter](https://www.goatcounter.com/)'s
+`count.js` at runtime:
+
+```js
+tag.src = 'https://gc.zgo.at/count.js';
+tag.setAttribute('data-goatcounter', 'https://superhich.goatcounter.com/count');
+```
+
+Three things about that placement. The site has **no build step and no shared
+template**, so a snippet pasted into the HTML would mean editing 66 files and
+remembering it for every new story — but every page loads one of these two
+scripts, so two files cover the whole site, games and stories included. The five
+category index pages load **both**, hence the `window.GRENIER_MESURE` flag: a
+second copy of the block finds the flag set and does nothing, so a visit is never
+counted twice. And the block is deliberately **duplicated rather than factored
+out**: a third shared file would need to be included by the two files anyway, at
+the cost of one more request and a relative-path problem. If it changes in one
+file, change it in the other.
+
+Nothing is sent from a development machine — `file://`, `localhost`, `127.0.0.1`
+and `::1` all return early — so the dashboard only ever shows real visitors.
+
+GoatCounter sets **no cookie** and collects no personal data, which is why the
+site carries no consent banner. The dashboard lives at
+`https://superhich.goatcounter.com`; it counts page views per URL, so it also
+answers "which story is actually read".
+
+**What the numbers are worth.** Any JavaScript counter is invisible to ad
+blockers and to some privacy modes: expect to miss somewhere between 10% and 30%
+of visits. Read the trend, not the absolute figure. Counting server-side — the
+only exact method — is impossible on GitHub Pages, which gives no access to its
+logs; it would take a move to Cloudflare Pages, Netlify or Vercel.
+
 ## Deployment
 
 The site is deployed to GitHub Pages via `.github/workflows/pages.yml`. The workflow uploads the static files at the repository root and deploys them on every push to `main`.
