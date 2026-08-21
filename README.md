@@ -5,7 +5,7 @@ built entirely with vanilla HTML, CSS & JavaScript. No frameworks, no build
 steps, no server. Just open in a browser.
 
 The home page is a showcase — a curated selection, the latest arrivals and the
-seven universes. The full catalogue lives on its own page, searchable and
+eight universes. The full catalogue lives on its own page, searchable and
 filterable by universe, age and access level. Every entry is presented by a
 hand-drawn SVG thumbnail rather than an icon. Part of the catalogue is open to
 everyone; the rest opens once a (local, free) account is created.
@@ -15,17 +15,20 @@ everyone; the rest opens once a (local, free) account is created.
 ```
 ├── index.html              # Home — curated selection
 ├── bibliotheque.html       # Full catalogue (search + filters)
-├── carte.html              # World map of the places in the stories
+├── carte.html              # World map of the places — reached from the nav bar
 ├── quiz.html               # Quizzes — one per universe
 ├── planetes.html           # Planet explorer — rotate and zoom the solar system
 ├── anatomie.html           # Body explorer — a 3D human body and its organs
 ├── empires.html            # Timeline of the world's dominant empires
+├── tunisie.html            # The ages of Tunisia — timeline + map of its periods
+├── france.html             # The ages of France — same engine, other country
 ├── atelier.html            # Content creation — hidden behind a feature flag
 ├── lecture.html            # Reader for locally-created content
 ├── assets/
 │   ├── favicon.svg         # Tab icon — the nav bar's brand mark
 │   ├── favicon-mono.svg    # Monochrome silhouette for Safari pinned tabs
 │   ├── css/theme.css       # Shared design system + motion
+│   ├── css/ages.css        # The "ages of a country" page (tunisie + france)
 │   ├── thumbs/             # One 400×300 SVG thumbnail per content item
 │   └── js/
 │       ├── catalog.js      # Source of truth: items, curation, feature flags
@@ -43,6 +46,9 @@ everyone; the rest opens once a (local, free) account is created.
 │       ├── anatomie-data.js# The seventeen organs and their figures
 │       ├── empires.js      # Timeline build, era filters, proportional ribbon
 │       ├── empires-data.js # The twenty-two empires and their records
+│       ├── ages.js         # Proportional band, country map, period card
+│       ├── tunisie-data.js # Tunisia: twelve periods, outline, sites
+│       ├── france-data.js  # France: thirteen periods, outline, sites
 │       ├── protect.js      # Access guard — kept for future member-only pages
 │       ├── home.js         # Home page logic
 │       ├── bibliotheque.js # Catalogue filtering and search
@@ -78,6 +84,30 @@ Open `index.html` in any modern browser. A plain static server
 `crypto.subtle` is unavailable there, so password hashing silently falls back
 to a much weaker scheme, and the AI generator needs an HTTPS origin.
 
+## The eight universes
+
+`GRENIER.categories` in `assets/js/catalog.js` is the list, and everything that
+shows a universe — the home carousel, the catalogue's filter chips, the counts
+on both — reads it and counts the items itself. There is no number written by
+hand anywhere: moving one item between universes updates every badge.
+
+| Universe | What's in it |
+|----------|--------------|
+| Prophètes & Sagesse | Prophets, caliphs, spiritual figures |
+| Histoires en arabe | Arabic stories, read right to left |
+| Légendes du monde | Heroes, scholars and explorers |
+| **Histoire** | The timelines: the world's empires, and the ages of Tunisia and France |
+| Sciences & Découvertes | From the Big Bang to the human body, explorers included |
+| Blagues & Humour | Jokes |
+| Mini-jeux | Reflexes, memory, words |
+| Outils | The financial calculator — and only it |
+
+Two boundaries are deliberate. **Histoire** was split off from *Légendes du
+monde* because a timeline and a story are not the same object: the legends are
+read, the timelines are walked through. And **Outils** holds exactly one item,
+because a tool is something you come to use for its own sake — the map and the
+quizzes are ways into the catalogue, not entries in it.
+
 ## Accounts and access levels
 
 **Everything in the catalogue is open, and accounts are not offered at all.**
@@ -89,7 +119,7 @@ Every entry in `assets/js/catalog.js` still carries an `access` field:
 
 | `access`   | Who can open it        |
 |------------|------------------------|
-| `public`   | everyone — all 44 items |
+| `public`   | everyone — all 58 items |
 | `membre`   | requires an account — none at the moment |
 
 The field and the whole mechanism (locked card state, access filter,
@@ -125,9 +155,9 @@ catalogue, and add one line right after `<body>` in its page:
 It draws an opaque veil, checks the catalogue and the session, then either
 lifts the veil or turns it into a sign-up panel.
 
-## Quizzes, the map, the planets and the body
+## Quizzes, the map, the planets, the body and the timelines
 
-Four ways in that are not a list of cards.
+Seven ways in that are not a list of cards.
 
 **`quiz.html`** runs one quiz per universe — Prophètes & Sagesse, Légendes du
 monde and Sciences & Découvertes. Every question comes
@@ -138,7 +168,10 @@ time, and the whole thing works from the keyboard (1–4 to answer, Enter to
 advance). Adding a quiz is one block in `assets/js/quiz-data.js`, one item in
 the catalogue, one thumbnail.
 
-**`carte.html`** places the stories on a world map — 27 of them, on 18 places,
+**`carte.html`** is deliberately **not in the catalogue**: it is not one more
+piece of content but another way into the ones that already exist, so it is
+reached through the nav bar's "La carte" entry rather than through a card in the
+library. It places the stories on a world map — 27 of them, on 18 places,
 plus the dotted routes of Elissa, Hannibal, Colomb, Ibn Battuta, Napoléon and
 Einstein. Coastlines and pins share one equirectangular projection
 (`x = (lon+180)/360·L`, `y = (90-lat)/180·H`), so a pin lands where it belongs
@@ -242,6 +275,51 @@ reveal in one go.
 The twenty-two records live in `assets/js/empires-data.js`; adding an empire is
 one entry there and a short name for its ribbon label.
 
+**`tunisie.html`** and **`france.html`** narrow the same question to one
+piece of ground: the periods a single territory has lived through — twelve for
+Tunisia, from the Capsians to the Republic; thirteen for France, from Lascaux to
+today. Where the empire timeline compares powers, these follow a **territory** —
+so the periods are contiguous by construction, the end of one being the start of
+the next, and each card answers the same six questions: who rules, from where,
+what happens, who is remembered, what is still standing today, and how it tips
+into the next period. One period is shown at a time: it is a walk, not a list to
+unfold.
+
+The two pages are **one engine and two datasets**. `assets/js/ages.js` and
+`assets/css/ages.css` know nothing about any country — no outline, no date, no
+city; each page loads its own `*-data.js`, which publishes everything into
+`window.AGES`, and sets three custom properties for what is genuinely
+page-specific: the three colours of the title gradient and the width of the map
+column (Tunisia is tall and narrow and fits in 340px; France is nearly square
+and needs 520px). Adding a third country is one data file, one page of markup
+and a thumbnail.
+
+Three decisions carry the design. The band at the top is **one continuous
+ribbon** rather than separate bars, because successive periods have no gaps to
+show — its segments are as wide as the periods are long. Prehistory is the
+single exception, and the drawing says so: forty millennia would squash thirty
+centuries of history into a hairline, so any period flagged `scaled: false` sits
+in an out-of-scale block behind a dashed break, labelled *hors échelle*. And a
+segment can be twenty pixels wide (the French protectorate in Tunisia lasted
+seventy-five years), so the same choice is offered three ways — the band, a
+scrollable rail of chips, and the arrows (buttons or ← →). Segment names are
+drawn only when they actually fit, measured rather than guessed.
+
+The **map** is the other half of each card. The country outline and the period's
+places share one projection — equirectangular, corrected by the cosine of the
+mean latitude so the shape stays right — which is what makes a site land where
+it belongs without hand-tuning. Islands count as land, not margin, so Corsica is
+inside the frame rather than in the padding. Labels are written outwards on each
+side of a split longitude the dataset chooses (mid-country by default, but
+Tunisia pushes it east: almost everything east of the coast is open sea and
+there is room to write). Two labels that would collide push each other down,
+with a thread back to the dot they left — without it, Gabès and Djerba, or Nîmes
+and Arles, write on top of each other. A name in brackets (`Thysdrus (El Jem)`)
+shows its ancient half on the map and keeps the whole thing for the tooltip.
+
+The periods, the outline and the places live in `assets/js/tunisie-data.js` and
+`assets/js/france-data.js`; adding a period is one entry there.
+
 ## Tab icon
 
 `assets/favicon.svg` reproduces the nav bar's brand mark — the rounded tile and
@@ -264,7 +342,7 @@ a screenshot rather than the icon — both would need a PNG.
 
 ## The catalogue on a phone
 
-The filter bar is sticky, which is what you want on a 44-item catalogue — but
+The filter bar is sticky, which is what you want on a 58-item catalogue — but
 eleven wrapped chips made it 476px tall on a 390px-wide screen, more than half
 the viewport, leaving no room for the results underneath. Below 720px each
 chip group now sits on a single horizontally-scrollable line, which pins the
@@ -290,7 +368,7 @@ reserves its space and never shifts as thumbnails arrive.
 
 ## The universe carousel
 
-The seven universes on the home page are a **stacked carousel**
+The eight universes on the home page are a **stacked carousel**
 (`assets/js/carousel.js`): the cards fan out around a centre one, follow the
 finger or the mouse, and settle on the nearest card with a spring.
 

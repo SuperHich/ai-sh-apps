@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les Âges de la France — Le Grenier des Apps</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="mask-icon" href="assets/favicon-mono.svg" color="#f0c04b">
+<meta name="description" content="Treize époques traversées par le territoire français, de Lascaux à aujourd'hui : la carte des lieux, la chronologie, ce qui a changé et ce qu'il en reste.">
+<meta name="theme-color" content="#08070f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<link rel="stylesheet" href="assets/css/ages.css">
+<style>
+  /* Les trois couleurs du titre — bleu, or, rouge. Le blanc du drapeau
+     disparaîtrait sur ce fond sombre : l'or le remplace au centre. */
+  :root {
+    --ag-accent-1: #5bb8ff;
+    --ag-accent-2: #f0c04b;
+    --ag-accent-3: #e8534f;
+    /* La France est presque aussi large que haute : sa carte demande une
+       colonne plus généreuse que la Tunisie, qui tient dans 340 px. */
+    --ag-map-col: 520px;
+  }
+</style>
+</head>
+<body class="gr-body">
+
+<div class="gr-page">
+
+  <!-- ══════════════ HÉRO ══════════════ -->
+  <header class="ag-head gr-enter">
+    <h1>Les Âges de la <em>France</em></h1>
+    <p>
+      Treize époques pour un même territoire, entre l'Atlantique et le Rhin.
+      Lascaux, la Gaule, Rome, Clovis, Charlemagne, les cathédrales, la guerre de
+      Cent Ans, les châteaux, Versailles, la Révolution, les deux guerres, puis
+      aujourd'hui : à chaque fois, la carte des lieux qui comptent, ce qui s'y
+      passe, qui gouverne — et ce qu'on en voit encore en traversant le pays.
+    </p>
+  </header>
+
+  <!-- ══════════════ LA BANDE DU TEMPS ══════════════ -->
+  <section class="ag-band-wrap gr-enter" aria-labelledby="agBandTitle">
+    <div class="ag-band-head">
+      <h2 id="agBandTitle">Deux mille huit cents ans à l'échelle</h2>
+      <span>Chaque segment dure ce qu'a duré l'époque. Cliquez pour l'ouvrir.</span>
+    </div>
+    <div class="ag-band-scroll">
+      <svg id="agBand" role="img"
+           aria-label="Bande chronologique : les treize époques se suivent, la largeur de chacune suit sa durée réelle"></svg>
+    </div>
+  </section>
+
+  <!-- ══════════════ LES PASTILLES ══════════════ -->
+  <div class="ag-chips" id="agChips" role="group" aria-label="Choisir une époque"></div>
+
+  <!-- ══════════════ LA SCÈNE ══════════════ -->
+  <section class="ag-stage" aria-label="L'époque choisie">
+
+    <div class="ag-map-panel">
+      <figure class="ag-map-figure">
+        <svg id="agMap" role="img"
+             aria-label="Carte de la France : les lieux qui comptent pendant l'époque choisie"></svg>
+      </figure>
+      <p class="ag-legend">
+        <span><b class="cap"></b> Capitale</span>
+        <span><b class="vil"></b> Ville</span>
+        <span><b class="sit"></b> Site</span>
+      </p>
+      <p class="ag-reach" id="agReach"></p>
+    </div>
+
+    <!-- La fiche est annoncée : elle change entièrement à chaque choix. -->
+    <article class="ag-card" id="agCard" aria-live="polite"></article>
+  </section>
+
+  <div class="ag-nav">
+    <button class="gr-btn" type="button" id="agPrev">← <span class="ag-long">Époque </span>précédente</button>
+    <span class="ag-pos" id="agPos"></span>
+    <button class="gr-btn gr-btn-primary" type="button" id="agNext"><span class="ag-long">Époque </span>suivante →</button>
+  </div>
+  <p class="ag-keys">Les touches ← et → font aussi défiler les époques.</p>
+
+  <!-- ══════════════ CE QUE ÇA RACONTE ══════════════ -->
+  <section class="gr-section" id="lecon">
+    <div class="gr-section-head">
+      <h2>Ce que ces treize époques racontent</h2>
+      <div class="gr-rule"></div>
+      <p>
+        Mises bout à bout, elles disent une chose que les manuels séparent en chapitres :
+        ce pays s'est fait par accumulation, presque jamais par table rase. Le latin des
+        légionnaires est devenu le français ; les évêchés romains sont devenus les diocèses,
+        puis les départements ont été dessinés contre eux ; les rois ont bâti l'État que la
+        Révolution a pris tel quel, en changeant seulement de main. Même les ruptures les
+        plus nettes gardent la charpente d'avant : Napoléon reprend les préfets de la
+        Convention, la République reprend l'école des congrégations, et le TGV suit les
+        vallées où passaient les voies romaines. C'est pour cela qu'en un seul canton on
+        peut croiser un dolmen, un aqueduc, une cathédrale et une centrale nucléaire. Le
+        pays ne s'est pas succédé à lui-même : il s'est empilé.
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="gr-footer">
+  Généré avec <strong>Claude</strong> · Le Grenier des Apps ·
+  <a href="index.html">Accueil</a> · <a href="bibliotheque.html">Bibliothèque</a> ·
+  <a href="tunisie.html">Les Âges de la Tunisie</a>
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>window.GRENIER_SHELL = { active: 'library', search: true };</script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/france-data.js"></script>
+<script src="assets/js/ages.js"></script>
+</body>
+</html>

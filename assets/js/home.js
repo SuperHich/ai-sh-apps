@@ -85,7 +85,7 @@
     if (list.length) GRENIER.fillCards($('favGrid'), list);
   }
 
-  /** Les sept univers, en carrousel empilé (voir assets/js/carousel.js). */
+  /** Les univers, en carrousel empilé (voir assets/js/carousel.js). */
   function renderUniverses() {
     var items = GRENIER.allItems();
     var esc = GRENIER.escapeHtml;

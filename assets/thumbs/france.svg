@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="frBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#0d0c1c"/>
+      <stop offset="58%"  stop-color="#191428"/>
+      <stop offset="100%" stop-color="#2b1622"/>
+    </linearGradient>
+    <radialGradient id="frGlow" cx="70%" cy="32%" r="62%">
+      <stop offset="0%"   stop-color="#5bb8ff" stop-opacity=".22"/>
+      <stop offset="100%" stop-color="#5bb8ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="frLand" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0%"   stop-color="#5bb8ff" stop-opacity=".92"/>
+      <stop offset="52%"  stop-color="#f0c04b" stop-opacity=".9"/>
+      <stop offset="100%" stop-color="#e8534f" stop-opacity=".9"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#frBg)"/>
+  <rect width="400" height="300" fill="url(#frGlow)"/>
+
+  <!-- les strates du temps : une barre par grand âge, comme la bande de la page -->
+  <g opacity=".6">
+    <rect x="24" y="40"  width="104" height="8" rx="4" fill="#c9973f"/>
+    <rect x="24" y="56"  width="142" height="8" rx="4" fill="#f0c04b"/>
+    <rect x="24" y="72"  width="120" height="8" rx="4" fill="#4fd8a6"/>
+    <rect x="24" y="88"  width="88"  height="8" rx="4" fill="#b18cff"/>
+    <rect x="24" y="104" width="66"  height="8" rx="4" fill="#5bb8ff"/>
+  </g>
+
+  <!-- ce que chaque époque a laissé debout : menhir, arche romaine, gothique, fer -->
+  <g fill="#08070f" fill-opacity=".9">
+    <!-- menhir -->
+    <path d="M30,242 l4,-52 a9,9 0 0 1 16,0 l4,52 Z"/>
+    <!-- arche d'aqueduc -->
+    <path d="M66,242 v-46 h56 v46 h-11 v-28 a17,17 0 0 0 -34,0 v28 Z"/>
+    <!-- façade gothique : deux tours et une rosace -->
+    <path d="M132,242 v-58 h44 v58 Z"/>
+    <rect x="130" y="170" width="14" height="72" rx="2"/>
+    <rect x="164" y="170" width="14" height="72" rx="2"/>
+    <circle cx="154" cy="200" r="8" fill="#f0c04b" fill-opacity=".55"/>
+    <!-- tour de fer -->
+    <path d="M186,242 l10,-52 h10 l10,52 h-9 l-6,-30 h-0 l-6,30 Z"/>
+    <rect x="194" y="176" width="14" height="6" rx="2"/>
+    <rect x="198" y="164" width="6" height="14" rx="2"/>
+  </g>
+
+  <!-- le pays lui-même -->
+  <path d="M281.5 58.0 L274.9 59.5 L271.5 60.9 L268.9 75.7 L253.0 86.1 L247.8 88.6 L235.7 88.8 L235.4 82.6 L231.1 82.6 L231.6 98.1 L226.1 101.4 L213.1 99.0 L194.9 106.1 L191.9 112.5 L209.0 118.4 L223.8 126.4 L229.1 140.6 L237.1 146.8 L238.6 156.7 L236.9 174.2 L232.0 195.7 L229.0 198.1 L242.1 205.4 L259.8 209.9 L269.9 213.6 L276.8 216.3 L289.8 214.8 L290.1 204.1 L298.3 197.2 L312.8 198.1 L319.1 199.3 L329.2 203.5 L343.3 191.7 L346.6 190.2 L338.7 179.8 L335.5 166.2 L340.2 156.5 L337.4 147.4 L329.2 147.0 L328.6 141.5 L333.0 135.5 L339.9 125.1 L347.3 120.9 L350.0 102.3 L355.5 95.6 L347.5 94.1 L338.0 91.4 L331.9 86.5 L325.4 85.0 L312.8 74.0 L304.0 71.7 L297.7 70.4 L292.6 63.7 L283.8 62.2 Z"
+        fill="url(#frLand)" stroke="#f4efe4" stroke-opacity=".45" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M359.8 205.0 L369.6 204.5 L372.1 220.0 L370.2 234.0 L362.7 230.9 L359.5 216.3 Z"
+        fill="url(#frLand)" stroke="#f4efe4" stroke-opacity=".4" stroke-width="1.6" stroke-linejoin="round"/>
+
+  <!-- quatre capitales successives -->
+  <g stroke="#0d0c1c" stroke-width="2.2">
+    <circle cx="281.2" cy="97.6"  r="6.5" fill="#f4efe4"/>
+    <circle cx="302.4" cy="90.3"  r="4.5" fill="#0d0c1c" fill-opacity=".78"/>
+    <circle cx="312.5" cy="154.1" r="4.5" fill="#0d0c1c" fill-opacity=".78"/>
+    <circle cx="281.9" cy="130.0" r="4.5" fill="#0d0c1c" fill-opacity=".78"/>
+  </g>
+</svg>

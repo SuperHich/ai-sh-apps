@@ -59,8 +59,8 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
-    'fatima-al-fihriya', 'ibn-sina', 'carte-histoires'
+    'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
+    'fatima-al-fihriya', 'ibn-sina'
   ];
 
   GRENIER.categories = [
@@ -73,6 +73,9 @@
     { key: 'legendes',   label: 'Légendes du monde',   emoji: '🏛️', accent: '#ff8a5b',
       cover: 'hannibal',
       blurb: 'Héros, savants et explorateurs qui ont marqué l\'Histoire.' },
+    { key: 'histoire',   label: 'Histoire',            emoji: '🏺', accent: '#e8534f',
+      cover: 'empires',
+      blurb: 'Frises et cartes : les empires du monde et les âges des pays.' },
     { key: 'sciences',   label: 'Sciences & Découvertes', emoji: '🔭', accent: '#5bb8ff',
       cover: 'espace',
       blurb: 'Du Big Bang aux dinosaures, les grandes épopées du réel.' },
@@ -228,10 +231,20 @@
       desc: 'Le savant de Bagdad qui inventa l\'algèbre et donna son nom à l\'algorithme.',
       tags: ['maths', 'algebre', 'bagdad', 'algorithme'] },
 
-    { id: 'empires', title: 'La Frise des Empires', emoji: '👑', cat: 'legendes', kind: 'outil',
+    { id: 'empires', title: 'La Frise des Empires', emoji: '👑', cat: 'histoire', kind: 'outil',
       dir: '.', file: 'empires.html', age: 10, access: 'public',
       desc: 'Six mille ans de puissances dominantes, de Sumer à aujourd\'hui : pour chacune sa période, les régions tenues, ce qui a fait sa force et pourquoi elle a fini par tomber.',
       tags: ['empires', 'histoire', 'frise', 'chronologie', 'rome', 'egypte', 'mongols', 'ottoman', 'civilisation'] },
+
+    { id: 'tunisie', title: 'Les Âges de la Tunisie', emoji: '\ud83c\uddf9\ud83c\uddf3', cat: 'histoire', kind: 'outil',
+      dir: '.', file: 'tunisie.html', age: 10, access: 'public',
+      desc: 'Douze époques traversées par le territoire tunisien, des Capsiens à la République : la carte des lieux, la chronologie et ce qu\'il en reste aujourd\'hui.',
+      tags: ['tunisie', 'histoire', 'carthage', 'rome', 'kairouan', 'hafsides', 'ottoman', 'protectorat', 'maghreb', 'frise', 'carte'] },
+
+    { id: 'france', title: 'Les Âges de la France', emoji: '\ud83c\uddeb\ud83c\uddf7', cat: 'histoire', kind: 'outil',
+      dir: '.', file: 'france.html', age: 10, access: 'public',
+      desc: 'Treize époques traversées par le territoire français, de Lascaux à aujourd\'hui : la carte des lieux, la chronologie et ce qu\'il en reste.',
+      tags: ['france', 'histoire', 'gaule', 'rome', 'clovis', 'charlemagne', 'cathedrales', 'revolution', 'republique', 'frise', 'carte'] },
 
     /* ── Sciences & Découvertes ──────────────────────────────── */
     { id: 'dinosaures', title: 'Les Dinosaures', emoji: '🦕', cat: 'sciences', kind: 'histoire',
@@ -323,10 +336,11 @@
       dir: 'tools', file: 'financial_calculator.html', age: 10, access: 'public',
       desc: 'Simuler un investissement, calculer les intérêts composés, visualiser le pouvoir d\'achat.',
       tags: ['finance', 'interets', 'investissement', 'epargne'] },
-    { id: 'carte-histoires', title: 'La carte des histoires', emoji: '🗺️', cat: 'outils', kind: 'outil',
-      dir: '.', file: 'carte.html', age: 7, access: 'public',
-      desc: 'Un planisphère cliquable : où se passe chaque récit, et les trajets des grands voyageurs.',
-      tags: ['carte', 'monde', 'geographie', 'voyage', 'lieux'] },
+
+    /* La carte des histoires (carte.html) n'est volontairement pas dans le
+       catalogue : elle n'est pas un contenu de plus mais une autre façon
+       d'entrer dans ceux qui existent déjà. On y va par l'entrée « La carte »
+       de la barre de navigation, pas par une carte de la bibliothèque. */
 
     /* ── Quiz ─────────────────────────────────────────────────
        Chaque quiz est rangé dans l'univers qu'il interroge : on le trouve
