@@ -59,7 +59,7 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
+    'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
     'fatima-al-fihriya', 'ibn-sina', 'carte-histoires'
   ];
 
@@ -232,6 +232,11 @@
       dir: '.', file: 'empires.html', age: 10, access: 'public',
       desc: 'Six mille ans de puissances dominantes, de Sumer à aujourd\'hui : pour chacune sa période, les régions tenues, ce qui a fait sa force et pourquoi elle a fini par tomber.',
       tags: ['empires', 'histoire', 'frise', 'chronologie', 'rome', 'egypte', 'mongols', 'ottoman', 'civilisation'] },
+
+    { id: 'tunisie', title: 'Les Âges de la Tunisie', emoji: '\ud83c\uddf9\ud83c\uddf3', cat: 'legendes', kind: 'outil',
+      dir: '.', file: 'tunisie.html', age: 10, access: 'public',
+      desc: 'Douze époques traversées par le territoire tunisien, des Capsiens à la République : la carte des lieux, la chronologie et ce qu\'il en reste aujourd\'hui.',
+      tags: ['tunisie', 'histoire', 'carthage', 'rome', 'kairouan', 'hafsides', 'ottoman', 'protectorat', 'maghreb', 'frise', 'carte'] },
 
     /* ── Sciences & Découvertes ──────────────────────────────── */
     { id: 'dinosaures', title: 'Les Dinosaures', emoji: '🦕', cat: 'sciences', kind: 'histoire',

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les Âges de la Tunisie — Le Grenier des Apps</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="mask-icon" href="assets/favicon-mono.svg" color="#f0c04b">
+<meta name="description" content="Douze époques traversées par le territoire tunisien, des Capsiens à la République : la carte des lieux, la chronologie, ce qui a changé et ce qu'il en reste aujourd'hui.">
+<meta name="theme-color" content="#08070f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/theme.css">
+<style>
+  /* ══════════════════════════════════════════════════════════════
+     Les Âges de la Tunisie
+     Une bande du temps en haut, une carte à gauche, une fiche à
+     droite. Une seule époque à la fois : la page est un parcours,
+     pas une liste à dérouler.
+     ══════════════════════════════════════════════════════════════ */
+
+  /* ── Héro ── */
+  .tn-head { padding: clamp(22px, 4vw, 40px) 0 2px; }
+  .tn-head h1 {
+    margin: 0;
+    font-family: var(--gr-display);
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    line-height: 1.08;
+  }
+  .tn-head h1 em {
+    font-style: italic;
+    background: linear-gradient(115deg, var(--gr-gold), var(--gr-ember) 45%, #e8534f);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .tn-head p { max-width: 700px; margin: 10px 0 0; color: var(--gr-text-soft); line-height: 1.65; }
+
+  /* ── La bande du temps ── */
+  .tn-band-wrap {
+    margin-top: 22px;
+    padding: 14px 16px 10px;
+    border-radius: var(--gr-r);
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+  }
+  .tn-band-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .tn-band-head h2 { margin: 0; font-family: var(--gr-display); font-size: 1.05rem; font-weight: 600; }
+  .tn-band-head span { font-size: .76rem; color: var(--gr-text-faint); }
+  /* Sous 760px, la bande garde sa largeur utile et défile du doigt. */
+  .tn-band-scroll { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; }
+  .tn-band-scroll::-webkit-scrollbar { display: none; }
+  #tnBand { display: block; width: 100%; min-width: 700px; height: auto; }
+
+  .tn-seg { cursor: pointer; }
+  .tn-seg-fill {
+    fill-opacity: .5;
+    transition: fill-opacity var(--gr-fast) var(--gr-ease-out);
+  }
+  .tn-seg:hover .tn-seg-fill { fill-opacity: .78; }
+  .tn-seg.is-on .tn-seg-fill { fill-opacity: 1; }
+  .tn-seg:focus-visible { outline: none; }
+  .tn-seg:focus-visible .tn-seg-fill { stroke: var(--gr-text); stroke-width: 2; fill-opacity: .9; }
+  .tn-seg-name {
+    font-family: var(--gr-ui);
+    font-size: 12px;
+    font-weight: 600;
+    fill: #0d0b1a;
+    pointer-events: none;
+  }
+  .tn-band-era {
+    font-family: var(--gr-ui);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    fill: var(--gr-text-faint);
+  }
+  .tn-band-tick { font-family: var(--gr-ui); font-size: 11px; fill: var(--gr-text-faint); }
+  .tn-band-grid { stroke: rgba(255,255,255,.09); stroke-width: 1; }
+  .tn-band-break {
+    fill: none;
+    stroke: rgba(255,255,255,.35);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 4 4;
+  }
+
+  /* ── Le rail des pastilles ── */
+  .tn-chips {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    padding-bottom: 6px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+  .tn-chips::-webkit-scrollbar { display: none; }
+  .tn-chip {
+    flex: none;
+    scroll-snap-align: center;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+    color: var(--gr-text-soft);
+    font-family: inherit;
+    font-size: .84rem;
+    cursor: pointer;
+    transition: border-color var(--gr-fast) var(--gr-ease-out),
+                color var(--gr-fast) var(--gr-ease-out),
+                background var(--gr-fast) var(--gr-ease-out),
+                transform var(--gr-fast) var(--gr-ease-out);
+  }
+  .tn-chip:hover { transform: translateY(-2px); color: var(--gr-text); border-color: var(--gr-line-strong); }
+  .tn-chip i { font-style: normal; font-size: 1rem; }
+  .tn-chip b { font-weight: 600; white-space: nowrap; }
+  .tn-chip small { color: var(--gr-text-faint); font-size: .76em; white-space: nowrap; }
+  .tn-chip.is-on {
+    color: var(--gr-text);
+    background: var(--gr-surface-2);
+    border-color: var(--tint, var(--gr-gold));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--tint, #f0c04b) 35%, transparent);
+  }
+
+  /* ── La scène : la carte et la fiche ── */
+  .tn-stage {
+    display: grid;
+    gap: 20px;
+    margin-top: 22px;
+    align-items: start;
+  }
+  @media (min-width: 960px) {
+    .tn-stage { grid-template-columns: minmax(280px, 340px) 1fr; }
+    /* La carte suit la lecture de la fiche, qui est longue. */
+    .tn-map-panel { position: sticky; top: calc(var(--gr-nav-h) + 14px); }
+  }
+
+  .tn-map-panel {
+    padding: 14px;
+    border-radius: var(--gr-r);
+    border: 1px solid var(--gr-line);
+    background:
+      radial-gradient(120% 80% at 80% 0%, rgba(91, 184, 255, .10), transparent 60%),
+      var(--gr-surface);
+  }
+  .tn-map-figure { margin: 0; display: flex; justify-content: center; }
+  #tnMap {
+    width: 100%;
+    height: auto;
+    max-height: min(66vh, 620px);
+  }
+  .tn-land {
+    fill: url(#tnLand);
+    stroke: rgba(244, 239, 228, .3);
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+  }
+  .tn-isle { stroke-width: 1.2; }
+  .tn-geo {
+    font-family: var(--gr-ui);
+    font-size: 13px;
+    letter-spacing: .07em;
+    fill: rgba(244, 239, 228, .3);
+  }
+  .tn-site-name {
+    font-family: var(--gr-ui);
+    font-size: 14px;
+    fill: var(--gr-text-soft);
+    paint-order: stroke;
+    stroke: rgba(8, 7, 15, .82);
+    stroke-width: 3.4;
+    stroke-linejoin: round;
+  }
+  .tn-site-name.is-capital { font-weight: 600; fill: var(--gr-text); }
+  .tn-site-thread { stroke: rgba(244, 239, 228, .3); stroke-width: 1; }
+  .tn-site { animation: tn-pop var(--gr-normal) var(--gr-ease-back) both; }
+  @keyframes tn-pop { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+
+  .tn-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin: 10px 2px 0;
+    font-size: .74rem;
+    color: var(--gr-text-faint);
+  }
+  .tn-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .tn-legend b {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--gr-text-soft);
+  }
+  .tn-legend .cap { background: var(--gr-text-soft); box-shadow: 0 0 0 3px rgba(244,239,228,.16); }
+  .tn-legend .vil { background: var(--gr-text-soft); }
+  .tn-legend .sit { border-style: dashed; }
+  .tn-reach { margin: 8px 2px 0; font-size: .78rem; color: var(--gr-text-faint); line-height: 1.5; }
+
+  /* ── La fiche ── */
+  .tn-card {
+    padding: clamp(18px, 3vw, 26px);
+    border-radius: var(--gr-r);
+    border: 1px solid color-mix(in srgb, var(--tint, #f0c04b) 34%, var(--gr-line));
+    background:
+      radial-gradient(100% 60% at 0% 0%, color-mix(in srgb, var(--tint, #f0c04b) 12%, transparent), transparent 62%),
+      linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  }
+  .tn-card.is-fresh { animation: tn-enter var(--gr-slow) var(--gr-ease-out) both; }
+  @keyframes tn-enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+  .tn-kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; }
+  .tn-period {
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .05em;
+    color: var(--tint, var(--gr-gold));
+    font-variant-numeric: tabular-nums;
+  }
+  .tn-tag {
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--gr-line);
+    font-size: .68rem;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--gr-text-faint);
+  }
+  .tn-name {
+    display: flex;
+    align-items: baseline;
+    gap: 11px;
+    margin: 9px 0 0;
+    font-family: var(--gr-display);
+    font-size: clamp(1.4rem, 3.4vw, 2rem);
+    font-weight: 600;
+    line-height: 1.15;
+  }
+  .tn-emoji { font-size: .9em; }
+  .tn-summary { margin: 12px 0 0; font-size: .98rem; line-height: 1.7; color: var(--gr-text-soft); }
+  .tn-stat {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 9px;
+    margin: 14px 0 0;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--tint, #f0c04b) 32%, transparent);
+    background: color-mix(in srgb, var(--tint, #f0c04b) 9%, transparent);
+  }
+  .tn-stat b {
+    font-family: var(--gr-display);
+    font-size: 1.06rem;
+    color: var(--tint, var(--gr-gold));
+    white-space: nowrap;
+  }
+  .tn-stat span { font-size: .78rem; color: var(--gr-text-soft); }
+
+  .tn-meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 16px;
+    margin: 20px 0 0;
+    padding: 15px 0 0;
+    border-top: 1px solid var(--gr-line);
+    font-size: .88rem;
+  }
+  .tn-meta dt {
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gr-text-faint);
+    padding-top: 2px;
+  }
+  .tn-meta dd { margin: 0; color: var(--gr-text-soft); line-height: 1.55; }
+
+  .tn-block { margin-top: 22px; }
+  .tn-block h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 11px;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gr-text-faint);
+  }
+  .tn-block h3::before {
+    content: '';
+    width: 16px; height: 1px;
+    background: var(--tint, var(--gr-gold));
+    flex: none;
+  }
+  .tn-block p { margin: 0; font-size: .92rem; line-height: 1.68; color: var(--gr-text-soft); }
+
+  /* La chronologie interne de l'époque */
+  .tn-timeline { list-style: none; margin: 0; padding: 0 0 0 15px; border-left: 1px solid var(--gr-line); }
+  .tn-timeline li { position: relative; padding: 0 0 13px 4px; }
+  .tn-timeline li:last-child { padding-bottom: 0; }
+  .tn-timeline li::before {
+    content: '';
+    position: absolute;
+    left: -20px; top: .42em;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--tint, var(--gr-gold));
+  }
+  .tn-timeline b {
+    display: block;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: var(--tint, var(--gr-gold));
+    font-variant-numeric: tabular-nums;
+  }
+  .tn-timeline span { display: block; font-size: .91rem; line-height: 1.6; color: var(--gr-text-soft); }
+
+  .tn-people { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .tn-people li {
+    padding: 11px 14px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+  }
+  .tn-people b { display: block; font-family: var(--gr-display); font-size: 1rem; }
+  .tn-people span { display: block; margin-top: 3px; font-size: .89rem; line-height: 1.6; color: var(--gr-text-soft); }
+
+  .tn-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+  .tn-list li {
+    position: relative;
+    padding-left: 19px;
+    font-size: .92rem;
+    line-height: 1.62;
+    color: var(--gr-text-soft);
+  }
+  .tn-list li::before {
+    content: '';
+    position: absolute;
+    left: 2px; top: .62em;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--tint, var(--gr-gold));
+    opacity: .85;
+  }
+
+  .tn-meanwhile, .tn-turn {
+    padding: 14px 16px;
+    border-radius: var(--gr-r-sm);
+    border: 1px solid var(--gr-line);
+    background: var(--gr-surface);
+  }
+  .tn-turn {
+    border-color: color-mix(in srgb, var(--tint, #f0c04b) 30%, transparent);
+    background: color-mix(in srgb, var(--tint, #f0c04b) 7%, transparent);
+  }
+
+  /* ── La navigation d'une époque à l'autre ── */
+  .tn-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .tn-nav .gr-btn { height: 46px; padding: 0 18px; }
+  .tn-nav .gr-btn[disabled] { opacity: .38; pointer-events: none; }
+  .tn-pos {
+    margin: 0 auto;
+    font-size: .8rem;
+    letter-spacing: .08em;
+    color: var(--gr-text-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  /* Sur un téléphone, deux boutons pleins et le compteur ne tiennent pas
+     sur une ligne : le compteur passe dessous et les boutons se partagent
+     la largeur, sans jamais pousser la page. */
+  @media (max-width: 560px) {
+    .tn-nav { gap: 9px; }
+    .tn-nav .gr-btn { flex: 1 1 40%; padding: 0 10px; font-size: .84rem; }
+    .tn-nav .gr-btn .tn-long { display: none; }
+    .tn-pos { order: 3; flex: 1 0 100%; margin: 2px 0 0; text-align: center; }
+  }
+  .tn-keys { margin: 10px 0 0; font-size: .76rem; color: var(--gr-text-faint); text-align: center; }
+
+  /* ── Confort de lecture ── */
+  @media (prefers-reduced-motion: reduce) {
+    .tn-card.is-fresh, .tn-site { animation: none; }
+    .tn-chip:hover { transform: none; }
+  }
+  @media print {
+    .tn-band-wrap, .tn-chips, .tn-nav, .tn-keys { display: none; }
+    .tn-card { border-color: #999; }
+  }
+</style>
+</head>
+<body class="gr-body">
+
+<div class="gr-page">
+
+  <!-- ══════════════ HÉRO ══════════════ -->
+  <header class="tn-head gr-enter">
+    <h1>Les Âges de la <em>Tunisie</em></h1>
+    <p>
+      Douze époques pour un même bout de terre, entre la Méditerranée et le désert.
+      Carthage, Rome, les Vandales, Byzance, Kairouan, Mahdia, Tunis, Istanbul, Paris,
+      puis la République : à chaque fois, la carte des lieux qui comptent, ce qui s'y
+      passe, qui gouverne — et ce qu'on en voit encore aujourd'hui en marchant dans le pays.
+    </p>
+  </header>
+
+  <!-- ══════════════ LA BANDE DU TEMPS ══════════════ -->
+  <section class="tn-band-wrap gr-enter" aria-labelledby="tnBandTitle">
+    <div class="tn-band-head">
+      <h2 id="tnBandTitle">Trois mille ans à l'échelle</h2>
+      <span>Chaque segment dure ce qu'a duré l'époque. Cliquez pour l'ouvrir.</span>
+    </div>
+    <div class="tn-band-scroll">
+      <svg id="tnBand" role="img"
+           aria-label="Bande chronologique : les douze époques se suivent, la largeur de chacune suit sa durée réelle"></svg>
+    </div>
+  </section>
+
+  <!-- ══════════════ LES PASTILLES ══════════════ -->
+  <div class="tn-chips" id="tnChips" role="group" aria-label="Choisir une époque"></div>
+
+  <!-- ══════════════ LA SCÈNE ══════════════ -->
+  <section class="tn-stage" aria-label="L'époque choisie">
+
+    <div class="tn-map-panel">
+      <figure class="tn-map-figure">
+        <svg id="tnMap" role="img"
+             aria-label="Carte de la Tunisie : les lieux qui comptent pendant l'époque choisie"></svg>
+      </figure>
+      <p class="tn-legend">
+        <span><b class="cap"></b> Capitale</span>
+        <span><b class="vil"></b> Ville</span>
+        <span><b class="sit"></b> Site</span>
+      </p>
+      <p class="tn-reach" id="tnReach"></p>
+    </div>
+
+    <!-- La fiche est annoncée : elle change entièrement à chaque choix. -->
+    <article class="tn-card" id="tnCard" aria-live="polite"></article>
+  </section>
+
+  <div class="tn-nav">
+    <button class="gr-btn" type="button" id="tnPrev">← <span class="tn-long">Époque </span>précédente</button>
+    <span class="tn-pos" id="tnPos"></span>
+    <button class="gr-btn gr-btn-primary" type="button" id="tnNext"><span class="tn-long">Époque </span>suivante →</button>
+  </div>
+  <p class="tn-keys">Les touches ← et → font aussi défiler les époques.</p>
+
+  <!-- ══════════════ CE QUE ÇA RACONTE ══════════════ -->
+  <section class="gr-section" id="lecon">
+    <div class="gr-section-head">
+      <h2>Ce que ces douze époques racontent</h2>
+      <div class="gr-rule"></div>
+      <p>
+        Mises bout à bout, elles disent une chose simple : ce pays n'a presque jamais été
+        conquis pour lui-même. On est venu y chercher une route, un port, du blé, de l'huile,
+        un tremplin vers la Sicile ou vers l'Égypte. Chaque fois, le maître nouveau a gardé
+        l'appareil du précédent — Rome le cadastre punique, les Vandales l'impôt romain, les
+        Arabes les pierres de Carthage, la France l'administration beylicale — et chaque fois,
+        il a laissé quelque chose que personne n'a pu reprendre : un alphabet, une loi, une
+        langue, une mosquée, une école. C'est pour cela qu'en trente kilomètres, entre Tunis
+        et Zaghouan, on croise un port punique, un aqueduc romain, une mosquée aghlabide et
+        une avenue de 1900. Le pays ne s'est pas succédé à lui-même : il s'est empilé.
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="gr-footer">
+  Généré avec <strong>Claude</strong> · Le Grenier des Apps ·
+  <a href="index.html">Accueil</a> · <a href="bibliotheque.html">Bibliothèque</a> ·
+  <a href="empires.html">La Frise des Empires</a>
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>window.GRENIER_SHELL = { active: 'library', search: true };</script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/tunisie-data.js"></script>
+<script src="assets/js/tunisie.js"></script>
+</body>
+</html>

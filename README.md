@@ -20,6 +20,7 @@ everyone; the rest opens once a (local, free) account is created.
 ├── planetes.html           # Planet explorer — rotate and zoom the solar system
 ├── anatomie.html           # Body explorer — a 3D human body and its organs
 ├── empires.html            # Timeline of the world's dominant empires
+├── tunisie.html            # The ages of Tunisia — timeline + map of its periods
 ├── atelier.html            # Content creation — hidden behind a feature flag
 ├── lecture.html            # Reader for locally-created content
 ├── assets/
@@ -43,6 +44,8 @@ everyone; the rest opens once a (local, free) account is created.
 │       ├── anatomie-data.js# The seventeen organs and their figures
 │       ├── empires.js      # Timeline build, era filters, proportional ribbon
 │       ├── empires-data.js # The twenty-two empires and their records
+│       ├── tunisie.js      # Proportional band, country map, period card
+│       ├── tunisie-data.js # The twelve periods, the outline and the sites
 │       ├── protect.js      # Access guard — kept for future member-only pages
 │       ├── home.js         # Home page logic
 │       ├── bibliotheque.js # Catalogue filtering and search
@@ -89,7 +92,7 @@ Every entry in `assets/js/catalog.js` still carries an `access` field:
 
 | `access`   | Who can open it        |
 |------------|------------------------|
-| `public`   | everyone — all 44 items |
+| `public`   | everyone — all 58 items |
 | `membre`   | requires an account — none at the moment |
 
 The field and the whole mechanism (locked card state, access filter,
@@ -125,9 +128,9 @@ catalogue, and add one line right after `<body>` in its page:
 It draws an opaque veil, checks the catalogue and the session, then either
 lifts the veil or turns it into a sign-up panel.
 
-## Quizzes, the map, the planets and the body
+## Quizzes, the map, the planets, the body and the two timelines
 
-Four ways in that are not a list of cards.
+Six ways in that are not a list of cards.
 
 **`quiz.html`** runs one quiz per universe — Prophètes & Sagesse, Légendes du
 monde and Sciences & Découvertes. Every question comes
@@ -242,6 +245,38 @@ reveal in one go.
 The twenty-two records live in `assets/js/empires-data.js`; adding an empire is
 one entry there and a short name for its ribbon label.
 
+**`tunisie.html`** narrows the same question to one piece of ground: the twelve
+periods the Tunisian territory has lived through, from the Capsians to the
+Republic. Where the empire timeline compares powers, this one follows a
+**territory** — so the periods are contiguous by construction, the end of one
+being the start of the next, and each card answers the same six questions: who
+rules, from where, what happens, who is remembered, what is still standing
+today, and how it tips into the next period. One period is shown at a time: it
+is a walk, not a list to unfold.
+
+Three decisions carry the page. The band at the top is **one continuous ribbon**
+rather than separate bars, because successive periods have no gaps to show — its
+segments are as wide as the periods are long. The Capsians are the single
+exception, and the drawing says so: five millennia of prehistory would squash
+thirty centuries of history into a hairline, so they sit in an out-of-scale
+block behind a dashed break, labelled *hors échelle*. And a segment can be
+twenty pixels wide (the protectorate lasted seventy-five years), so the same
+choice is offered three ways — the band, a scrollable rail of chips, and the
+arrows (buttons or ← →). Segment names are drawn only when they actually fit,
+measured rather than guessed.
+
+The **map** is the other half of each card. The country outline and the period's
+places share one projection — equirectangular, corrected by the cosine of the
+mean latitude so the shape stays right — which is what makes a site land where
+it belongs without hand-tuning. Labels are written into the sea on the east
+coast and inland on the west, and two labels that would collide push each other
+down, with a thread back to the dot they left: without that, Gabès and Djerba
+write on top of each other. A name in brackets (`Thysdrus (El Jem)`) shows its
+ancient half on the map and keeps the whole thing for the tooltip.
+
+The twelve periods, the outline and the places live in
+`assets/js/tunisie-data.js`; adding a period is one entry there.
+
 ## Tab icon
 
 `assets/favicon.svg` reproduces the nav bar's brand mark — the rounded tile and
@@ -264,7 +299,7 @@ a screenshot rather than the icon — both would need a PNG.
 
 ## The catalogue on a phone
 
-The filter bar is sticky, which is what you want on a 44-item catalogue — but
+The filter bar is sticky, which is what you want on a 58-item catalogue — but
 eleven wrapped chips made it 476px tall on a 390px-wide screen, more than half
 the viewport, leaving no room for the results underneath. Below 720px each
 chip group now sits on a single horizontally-scrollable line, which pins the
