@@ -340,6 +340,22 @@ favicon (Chrome, Edge, Firefox, Safari 16+). The cost is that Safari 15 and
 earlier fall back to the default page icon, and iOS "Add to Home Screen" uses
 a screenshot rather than the icon — both would need a PNG.
 
+## The nav bar on a phone
+
+Below 560px — every phone held upright — the search field used to be hidden
+outright. That is exactly where it is most useful: a 58-item catalogue is not
+something you scroll through with a thumb. It now stays, and takes the space
+instead: the brand's wordmark drops (the tile still identifies the site), the
+flexible spacer goes with it, and the field fills what is left — 182px on a
+320px screen, 246px on a 390px one.
+
+Two details make it usable rather than merely present. The input is **44px
+tall**, the touch-target floor of WCAG 2.5.8, and its font goes to **16px**:
+below that, iOS Safari zooms the whole page when the field takes focus, and the
+visitor has to pinch back out. And the placeholder shortens to "Rechercher…"
+under 560px — the long version was cut mid-word — switching back on rotation,
+since `shell.js` listens to the media query rather than reading it once.
+
 ## The catalogue on a phone
 
 The filter bar is sticky, which is what you want on a 58-item catalogue — but

@@ -315,8 +315,20 @@ body.gr-body {
   .gr-nav-search { flex-basis: 160px; }
 }
 @media (max-width: 560px) {
-  .gr-nav-search { display: none; }
+  /* Sur un téléphone en portrait, la recherche restait cachée : c'est
+     pourtant là qu'elle sert le plus, un catalogue de soixante contenus
+     ne se parcourt pas au pouce. On lui donne la place au lieu de la
+     supprimer — le texte de la marque part (la pastille suffit à
+     identifier le site) et l'espaceur avec lui. */
   .gr-brand span.gr-brand-text { display: none; }
+  .gr-nav-spacer { display: none; }
+  .gr-nav-search { flex: 1 1 auto; }
+  .gr-nav-search input {
+    height: 44px;      /* le plancher tactile de WCAG 2.5.8 */
+    font-size: 1rem;   /* 16 px : en dessous, iOS zoome sur la page au focus */
+    padding-left: 34px;
+  }
+  .gr-nav-search svg { left: 11px; }
 }
 
 /* ══════════════════════════════════════════════════════════════

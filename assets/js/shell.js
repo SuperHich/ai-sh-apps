@@ -103,6 +103,22 @@
         });
       }
       GRENIER.searchInput = search;
+
+      /* Le champ est étroit sur un téléphone : « Rechercher une histoire,
+         un jeu… » y serait coupé au milieu. On raccourcit le texte
+         d'invite, et on le rallonge dès que l'écran s'élargit — passer du
+         portrait au paysage suffit. */
+      var narrow = global.matchMedia ? global.matchMedia('(max-width: 560px)') : null;
+      var fitPlaceholder = function () {
+        search.placeholder = narrow && narrow.matches
+          ? 'Rechercher…'
+          : 'Rechercher une histoire, un jeu…';
+      };
+      fitPlaceholder();
+      if (narrow) {
+        if (narrow.addEventListener) narrow.addEventListener('change', fitPlaceholder);
+        else if (narrow.addListener) narrow.addListener(fitPlaceholder);
+      }
     }
 
     /* Raccourci clavier « / » */
