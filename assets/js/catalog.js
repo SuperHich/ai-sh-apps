@@ -59,7 +59,7 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
+    'roue-des-defis', 'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
     'fatima-al-fihriya', 'ibn-sina'
   ];
 
@@ -303,6 +303,10 @@
       dir: 'games', file: 'mot-cache-game.html', age: 10, access: 'public',
       desc: 'Trouve le mot de 5 lettres en 6 essais. Vert = bonne place !',
       tags: ['mots', 'vocabulaire', 'lettres'] },
+    { id: 'roue-des-defis', title: 'La Roue des Défis', emoji: '\ud83c\udfa1', cat: 'jeux', kind: 'jeu',
+      dir: 'games', file: 'roue-des-defis.html', age: 7, access: 'public',
+      desc: 'Lancez la roue, tombez sur une catégorie et répondez — ou relevez un défi chronométré. Dix tours, à jouer à plusieurs.',
+      tags: ['quiz', 'roue', 'defi', 'mime', 'cinema', 'culture', 'multijoueur', 'jeu'] },
     { id: 'famille-en-or', title: 'Famille en Or', emoji: '🏆', cat: 'jeux', kind: 'jeu',
       dir: 'games', file: 'famille-en-or.html', age: 7, access: 'public',
       desc: 'Devine les réponses les plus populaires données par 100 personnes.',

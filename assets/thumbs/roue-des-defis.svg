@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="rdBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#2a1856"/>
+      <stop offset="60%"  stop-color="#140b2b"/>
+      <stop offset="100%" stop-color="#0b0619"/>
+    </linearGradient>
+    <radialGradient id="rdGlow" cx="67%" cy="45%" r="60%">
+      <stop offset="0%"   stop-color="#ffc93c" stop-opacity=".22"/>
+      <stop offset="100%" stop-color="#ffc93c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#rdBg)"/>
+  <rect width="400" height="300" fill="url(#rdGlow)"/>
+
+  <!-- la carte de question, à gauche -->
+  <g>
+    <rect x="26" y="86" width="122" height="132" rx="16" fill="#2a1856" stroke="#ffffff" stroke-opacity=".16" stroke-width="2"/>
+    <rect x="26" y="86" width="122" height="30" rx="15" fill="#ff9f1c"/>
+    <rect x="26" y="101" width="122" height="15" fill="#ff9f1c"/>
+    <rect x="38" y="96" width="52" height="10" rx="5" fill="#331c00" fill-opacity=".75"/>
+    <rect x="38" y="128" width="98" height="8" rx="4" fill="#ffffff" fill-opacity=".55"/>
+    <rect x="38" y="142" width="72" height="8" rx="4" fill="#ffffff" fill-opacity=".35"/>
+    <rect x="38" y="162" width="98" height="16" rx="8" fill="#3ddc97" fill-opacity=".3" stroke="#3ddc97" stroke-width="1.6"/>
+    <rect x="38" y="184" width="98" height="16" rx="8" fill="#ffffff" fill-opacity=".07"/>
+  </g>
+
+  <!-- la roue -->
+  <g>
+    <circle cx="268" cy="150" r="112" fill="#ffffff" fill-opacity=".12"/>
+    <path d="M268 150 L268.0 46.0 A104 104 0 0 1 358.1 98.0 Z" fill="#ff5c6c"/>
+    <path d="M268 150 L358.1 98.0 A104 104 0 0 1 358.1 202.0 Z" fill="#b18cff"/>
+    <path d="M268 150 L358.1 202.0 A104 104 0 0 1 268.0 254.0 Z" fill="#3ddc97"/>
+    <path d="M268 150 L268.0 254.0 A104 104 0 0 1 177.9 202.0 Z" fill="#5bb8ff"/>
+    <path d="M268 150 L177.9 202.0 A104 104 0 0 1 177.9 98.0 Z" fill="#ff9f1c"/>
+    <path d="M268 150 L177.9 98.0 A104 104 0 0 1 268.0 46.0 Z" fill="#ffc93c"/>
+    <g stroke="#140b2b" stroke-width="3" stroke-opacity=".85" fill="none">
+      <path d="M268 150 L268 46 M268 150 L358.1 98 M268 150 L358.1 202
+               M268 150 L268 254 M268 150 L177.9 202 M268 150 L177.9 98"/>
+      <circle cx="268" cy="150" r="104"/>
+    </g>
+    <!-- le moyeu -->
+    <circle cx="268" cy="150" r="26" fill="#ffc93c" stroke="#140b2b" stroke-width="4"/>
+    <circle cx="268" cy="150" r="11" fill="#ff5c6c"/>
+    <circle cx="268" cy="150" r="4"  fill="#fff8e6"/>
+    <!-- la flèche, en haut -->
+    <path d="M268 62 L254 30 Q268 39 282 30 Z" fill="#ffc93c" stroke="#140b2b" stroke-width="3" stroke-linejoin="round"/>
+  </g>
+
+  <!-- quelques confettis -->
+  <g opacity=".85">
+    <rect x="150" y="46"  width="9" height="12" rx="2" fill="#3ddc97" transform="rotate(18 154 52)"/>
+    <rect x="330" y="248" width="9" height="12" rx="2" fill="#ff5c6c" transform="rotate(-24 334 254)"/>
+    <rect x="176" y="252" width="8" height="11" rx="2" fill="#5bb8ff" transform="rotate(32 180 257)"/>
+    <rect x="352" y="52"  width="8" height="11" rx="2" fill="#ffffff" transform="rotate(-14 356 57)"/>
+    <rect x="120" y="242" width="8" height="11" rx="2" fill="#b18cff" transform="rotate(44 124 247)"/>
+  </g>
+</svg>

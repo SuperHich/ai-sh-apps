@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Roue des Défis — Le Grenier des Apps</title>
+<meta name="description" content="Un quiz plateau : lancez la roue, tombez sur une catégorie, répondez à la question. Dix tours, du cinéma à l'histoire.">
+<meta name="theme-color" content="#1b1035">
+
+<!-- Tailwind, compilé une fois et versionné : le Grenier n'a ni étape de
+     compilation ni dépendance chargée à l'exécution, et cette page non plus.
+     Pour régénérer la feuille après avoir touché aux classes du balisage,
+     voir la section « La Roue des Défis » du README. -->
+<link rel="stylesheet" href="../assets/css/roue-des-defis.css">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="mask-icon" href="../assets/favicon-mono.svg" color="#f0c04b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+
+<style>
+  /* Ce que Tailwind ne fait pas : la rotation de la roue, la flèche,
+     les confettis et deux ou trois animations. Tout le reste est en
+     classes utilitaires dans le balisage. */
+
+  body { background: radial-gradient(120% 90% at 50% 0%, #2a1856 0%, #140b2b 55%, #0b0619 100%); }
+
+  /* ── Filet de sécurité ──────────────────────────────────────────
+     Si Tailwind ne charge pas (hors ligne, CDN bloqué), `hidden` et
+     `flex` ne veulent plus rien dire : la modale et l'écran de fin
+     s'afficheraient par-dessus le jeu en permanence. Ces deux règles
+     suffisent à garder la page jouable ; l'habillage, lui, sera
+     simplement plus terne. */
+  .hidden { display: none !important; }
+  #modale.flex, #fin.flex { display: flex !important; }
+
+  /* ── États d'une réponse ────────────────────────────────────────
+     Écrits ici plutôt que fabriqués en assemblant des classes Tailwind
+     dans le JS : une classe utilitaire construite à l'exécution dépend
+     du scanner du CDN, et disparaît le jour où l'on compile le CSS. */
+  .rep-bonne {
+    background: rgba(61, 220, 151, .25) !important;
+    border-color: #3ddc97 !important;
+  }
+  .rep-mauvaise {
+    background: rgba(255, 92, 108, .25) !important;
+    border-color: #ff5c6c !important;
+  }
+
+  /* ── La roue ──────────────────────────────────────────────────
+     Le canvas est dessiné une fois ; c'est le CSS qui le fait tourner.
+     La transition longue avec un easing très « freinant » donne la
+     sensation d'une roue lourde qui ralentit toute seule. */
+  #roue {
+    transform: rotate(0deg);
+    transition: transform var(--duree, 4600ms) cubic-bezier(.16, .84, .22, 1);
+    will-change: transform;
+  }
+
+  /* La flèche est fixe, en haut, et pointe vers le centre. */
+  .fleche {
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, .5));
+  }
+
+  /* ── Apparitions ── */
+  @keyframes surgir {
+    from { opacity: 0; transform: translateY(18px) scale(.96); }
+    to   { opacity: 1; transform: none; }
+  }
+  .surgir { animation: surgir .32s cubic-bezier(.22, 1.2, .36, 1) both; }
+
+  @keyframes pulse-or {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 201, 60, .55); }
+    70%      { box-shadow: 0 0 0 18px rgba(255, 201, 60, 0); }
+  }
+  .pulse-or { animation: pulse-or 2.2s infinite; }
+
+  @keyframes secousse {
+    10%, 90% { transform: translateX(-2px); }
+    20%, 80% { transform: translateX(4px); }
+    30%, 50%, 70% { transform: translateX(-6px); }
+    40%, 60% { transform: translateX(6px); }
+  }
+  .secousse { animation: secousse .5s both; }
+
+  /* ── Confettis ── */
+  #confettis { position: fixed; inset: 0; pointer-events: none; z-index: 60; }
+
+  /* ── Confort de lecture ──
+     Un visiteur qui demande moins de mouvement garde le jeu : la roue
+     tourne juste beaucoup plus vite, et sans confettis. */
+  @media (prefers-reduced-motion: reduce) {
+    #roue { transition-duration: 600ms; }
+    .surgir, .pulse-or, .secousse { animation: none; }
+  }
+</style>
+</head>
+
+<body class="min-h-screen font-jeu text-white antialiased selection:bg-or/30">
+
+<!-- ══════════════════════════ EN-TÊTE ══════════════════════════ -->
+<header class="mx-auto w-full max-w-3xl px-4 pt-20 pb-2 sm:pt-6">
+  <div class="flex items-center justify-between gap-3">
+    <h1 class="text-2xl sm:text-3xl font-extrabold leading-none">
+      <span class="text-or">La Roue</span> des Défis
+    </h1>
+    <button id="btnSon" type="button" aria-pressed="true"
+            class="grid h-10 w-10 place-items-center rounded-xl border border-white/15 bg-white/5
+                   text-lg transition hover:bg-white/10"
+            title="Couper le son">🔊</button>
+  </div>
+
+  <!-- Tableau de bord : score et tour, mis à jour à chaque manche -->
+  <div class="mt-4 grid grid-cols-2 gap-3">
+    <div class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+      <p class="text-[11px] uppercase tracking-[.15em] text-white/50">Score</p>
+      <p id="score" class="text-3xl font-extrabold text-or tabular-nums">0</p>
+    </div>
+    <div class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+      <p class="text-[11px] uppercase tracking-[.15em] text-white/50">Tour</p>
+      <p class="text-3xl font-extrabold tabular-nums">
+        <span id="tour">1</span><span class="text-white/40 text-xl">/<span id="tours">10</span></span>
+      </p>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════ LA ROUE ══════════════════════════ -->
+<main class="mx-auto w-full max-w-3xl px-4 pb-16">
+
+  <section class="mt-4 flex flex-col items-center" aria-label="La roue">
+
+    <div class="relative w-full max-w-[380px]">
+      <!-- La flèche, fixe, pointe vers le bas sur le secteur gagnant -->
+      <svg class="fleche absolute left-1/2 -top-1 z-20 h-10 w-10 -translate-x-1/2" viewBox="0 0 40 40"
+           aria-hidden="true">
+        <path d="M20 34 L6 6 Q20 14 34 6 Z" fill="#ffc93c" stroke="#140b2b" stroke-width="2.5"
+              stroke-linejoin="round"/>
+      </svg>
+
+      <!-- La roue elle-même : dessinée en canvas, tournée en CSS -->
+      <div class="relative aspect-square rounded-full p-2
+                  bg-gradient-to-b from-white/25 to-white/5 shadow-2xl shadow-black/50">
+        <canvas id="roue" class="h-full w-full rounded-full" width="800" height="800"
+                role="img" aria-label="Roue à six secteurs : Cinéma, Pop Culture, Sciences &amp; Nature, Histoire, Défis et Mimes, Bonus"></canvas>
+        <!-- Le moyeu -->
+        <div class="pointer-events-none absolute left-1/2 top-1/2 grid h-16 w-16 -translate-x-1/2
+                    -translate-y-1/2 place-items-center rounded-full border-4 border-nuit
+                    bg-gradient-to-b from-or to-[#ff9f1c] text-2xl shadow-lg">🎯</div>
+      </div>
+    </div>
+
+    <!-- Le bouton et la ligne d'état -->
+    <button id="btnLancer" type="button"
+            class="pulse-or mt-7 w-full max-w-[320px] rounded-2xl bg-gradient-to-b from-or to-[#ff9f1c]
+                   px-6 py-4 text-lg font-extrabold text-nuit shadow-xl transition
+                   hover:brightness-110 active:scale-[.98] disabled:cursor-not-allowed
+                   disabled:opacity-40 disabled:animate-none">
+      Lancer la roue
+    </button>
+
+    <!-- aria-live : le résultat de la roue est annoncé aux lecteurs d'écran -->
+    <p id="etat" class="mt-4 h-6 text-center text-sm text-white/60" role="status" aria-live="polite">
+      Appuyez sur le bouton — ou sur la barre d'espace.
+    </p>
+  </section>
+</main>
+
+<!-- ══════════════════════ MODALE DE QUESTION ══════════════════════ -->
+<div id="modale" class="fixed inset-0 z-50 hidden items-end justify-center bg-black/70 p-3 backdrop-blur-sm sm:items-center"
+     role="dialog" aria-modal="true" aria-labelledby="qTitre">
+  <div id="carte" class="surgir w-full max-w-lg overflow-hidden rounded-3xl border border-white/15 bg-carte shadow-2xl">
+
+    <!-- Bandeau de catégorie : sa couleur est celle du secteur -->
+    <div id="bandeau" class="flex items-center gap-3 px-5 py-4">
+      <span id="qEmoji" class="text-3xl" aria-hidden="true">🎬</span>
+      <div class="min-w-0">
+        <p id="qCat" class="truncate text-lg font-extrabold leading-tight">Cinéma</p>
+        <p id="qMise" class="text-xs font-semibold uppercase tracking-[.12em] opacity-80">100 points</p>
+      </div>
+    </div>
+
+    <div class="px-5 pb-5">
+      <h2 id="qTitre" class="text-xl font-bold leading-snug sm:text-2xl">Question</h2>
+
+      <!-- Les quatre réponses, injectées par le script -->
+      <div id="options" class="mt-5 grid gap-2.5"></div>
+
+      <!-- Verdict + bouton de passage au tour suivant -->
+      <p id="verdict" class="mt-4 hidden text-center text-sm font-semibold"></p>
+      <button id="btnSuite" type="button"
+              class="mt-4 hidden w-full rounded-2xl bg-white/10 px-5 py-3.5 font-extrabold
+                     transition hover:bg-white/20">
+        Tour suivant →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ ÉCRAN DE FIN ══════════════════════ -->
+<div id="fin" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 p-4 backdrop-blur">
+  <div class="surgir w-full max-w-md rounded-3xl border border-white/15 bg-carte p-7 text-center shadow-2xl">
+    <p id="finEmoji" class="text-6xl">🏆</p>
+    <h2 class="mt-3 text-2xl font-extrabold">Partie terminée</h2>
+    <p id="finTexte" class="mt-2 text-white/70">Bien joué !</p>
+    <p id="finScore" class="mt-5 text-5xl font-extrabold text-or tabular-nums">0</p>
+    <p class="text-xs uppercase tracking-[.15em] text-white/50">points</p>
+    <p id="finDetail" class="mt-4 text-sm text-white/60"></p>
+    <button id="btnRejouer" type="button"
+            class="mt-6 w-full rounded-2xl bg-gradient-to-b from-or to-[#ff9f1c] px-6 py-4
+                   text-lg font-extrabold text-nuit shadow-xl transition hover:brightness-110">
+      Recommencer
+    </button>
+  </div>
+</div>
+
+<canvas id="confettis" aria-hidden="true"></canvas>
+
+<script src="../components/back-button.js"></script>
+<back-button href="../index.html" label="Accueil" color="gold"></back-button>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   LA ROUE DES DÉFIS
+   Quiz plateau en un seul fichier : une roue à six secteurs, une
+   question par tour, dix tours.
+
+   Le code est découpé en cinq blocs indépendants :
+     1. DONNÉES   — catégories et banque de questions (à étendre ici)
+     2. SON       — trois bips en Web Audio, sans fichier
+     3. CONFETTIS — une pluie de rectangles en canvas
+     4. ROUE      — dessin, lancer, détection du secteur
+     5. JEU       — l'enchaînement des tours et le score
+   ══════════════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  /* ════════════════ 1. DONNÉES ════════════════
+     Pour ajouter une catégorie : une entrée ici, une clé de même `id`
+     dans BANQUE, et c'est tout — la roue, les couleurs et les filtres
+     s'adaptent au nombre de secteurs.
+     Pour ajouter une question : un objet { q, options, bonne } où
+     `bonne` est l'index (0-3) de la bonne réponse. */
+
+  var CATEGORIES = [
+    { id: 'cinema',   nom: 'Cinéma',            emoji: '🎬', couleur: '#ff5c6c', encre: '#2b0a10' },
+    { id: 'pop',      nom: 'Pop Culture',       emoji: '🎧', couleur: '#b18cff', encre: '#1a0c33' },
+    { id: 'sciences', nom: 'Sciences & Nature', emoji: '🔬', couleur: '#3ddc97', encre: '#052b1d' },
+    { id: 'histoire', nom: 'Histoire',          emoji: '🏛️', couleur: '#5bb8ff', encre: '#04203a' },
+    /* `type: 'defi'` change le tour : pas de QCM, un défi à jouer devant
+       les autres, un chronomètre, et deux boutons Réussi / Raté. */
+    { id: 'defis',    nom: 'Défis & Mimes',     emoji: '🤸', couleur: '#ff9f1c', encre: '#331c00',
+      type: 'defi' },
+    { id: 'bonus',    nom: 'Bonus ×2',          emoji: '⭐', couleur: '#ffc93c', encre: '#33240a', bonus: true }
+  ];
+
+  var BANQUE = {
+    cinema: [
+      { q: 'Quel film a reçu le tout premier Oscar du meilleur film d\'animation, en 2002 ?',
+        options: ['Shrek', 'Monstres & Cie', 'L\'Âge de glace', 'Le Voyage de Chihiro'], bonne: 0 },
+      { q: 'Qui a réalisé « Jurassic Park » en 1993 ?',
+        options: ['James Cameron', 'Steven Spielberg', 'Ridley Scott', 'George Lucas'], bonne: 1 },
+      { q: 'Dans « Le Seigneur des anneaux », où l\'Anneau doit-il être détruit ?',
+        options: ['La Moria', 'Fondcombe', 'La Montagne du Destin', 'Isengard'], bonne: 2 },
+      { q: 'Quelle réplique Dark Vador prononce-t-il réellement dans « L\'Empire contre-attaque » ?',
+        options: ['« Luke, je suis ton père »', '« Non, je suis ton père »',
+                  '« Luke, viens vers moi »', '« Je suis ton destin »'], bonne: 1 }
+    ],
+    pop: [
+      { q: 'Dans quel jeu de 1981 Mario apparaît-il pour la première fois ?',
+        options: ['Donkey Kong', 'Super Mario Bros.', 'Mario Kart', 'Pac-Man'], bonne: 0 },
+      { q: 'Quel groupe a enregistré l\'album « Abbey Road » ?',
+        options: ['Les Rolling Stones', 'Pink Floyd', 'The Beatles', 'Queen'], bonne: 2 },
+      { q: 'Combien de maisons compte l\'école de Poudlard ?',
+        options: ['Trois', 'Quatre', 'Cinq', 'Sept'], bonne: 1 },
+      { q: 'Sur quelle plateforme la série « Stranger Things » est-elle diffusée ?',
+        options: ['Disney+', 'Prime Video', 'Netflix', 'Apple TV+'], bonne: 2 }
+    ],
+    sciences: [
+      { q: 'Quel est l\'animal terrestre le plus rapide sur une courte distance ?',
+        options: ['Le guépard', 'Le lion', 'L\'autruche', 'Le springbok'], bonne: 0 },
+      { q: 'Combien d\'os compte le squelette d\'un adulte ?',
+        options: ['186', '206', '256', '306'], bonne: 1 },
+      { q: 'Quelle planète est la plus proche du Soleil ?',
+        options: ['Vénus', 'Mars', 'Mercure', 'La Terre'], bonne: 2 },
+      { q: 'Quel gaz les plantes absorbent-elles pour la photosynthèse ?',
+        options: ['Le dioxygène', 'L\'azote', 'Le méthane', 'Le dioxyde de carbone'], bonne: 3 }
+    ],
+    histoire: [
+      { q: 'En quelle année la Bastille est-elle prise ?',
+        options: ['1776', '1789', '1793', '1815'], bonne: 1 },
+      { q: 'Qui fut le premier empereur romain ?',
+        options: ['Jules César', 'Néron', 'Auguste', 'Trajan'], bonne: 2 },
+      { q: 'Quel peuple a fondé Carthage ?',
+        options: ['Les Phéniciens', 'Les Grecs', 'Les Étrusques', 'Les Égyptiens'], bonne: 0 },
+      { q: 'En quelle année le mur de Berlin est-il tombé ?',
+        options: ['1985', '1989', '1991', '1993'], bonne: 1 }
+    ],
+    /* Les « Défis & Mimes » ne se répondent pas, ils se jouent : le
+       texte est lu à voix haute, le joueur exécute, la table tranche.
+       `duree` est le temps accordé, en secondes. */
+    defis: [
+      { texte: 'Mime « faire du vélo dans une côte très raide » — sans un son.', duree: 45 },
+      { texte: 'Fais deviner le film « Titanic » en mimant, sans prononcer un mot.', duree: 60 },
+      { texte: 'Imite trois animaux à la suite : la table doit nommer les trois.', duree: 45 },
+      { texte: 'Chante le refrain d\'une chanson connue en remplaçant toutes les paroles par « la ».', duree: 45 },
+      { texte: 'Mime un métier de ton choix jusqu\'à ce qu\'on le trouve.', duree: 60 },
+      { texte: 'Décris un film célèbre en trois mots, sans dire son titre.', duree: 30 },
+      { texte: 'Fais deviner un animal en ne faisant que son cri.', duree: 30 },
+      { texte: 'Parle sans t\'arrêter d\'un sujet imposé par ton voisin — sans dire « euh ».', duree: 30 }
+    ]
+  };
+
+  var CONFIG = {
+    toursParPartie: 10,
+    pointsBonneReponse: 100,
+    multiplicateurBonus: 2,
+    dureeRotation: 4600,   /* ms — doit rester égal à --duree du CSS */
+    delaiApresReponse: 350,
+    dureeDefiParDefaut: 45 /* s, si le défi n'en précise pas */
+  };
+
+  /* ════════════════ 2. SON ════════════════
+     Trois sons de synthèse, sans le moindre fichier. Le contexte audio
+     n'est créé qu'au premier clic : les navigateurs refusent de le
+     démarrer avant un geste de l'utilisateur. */
+  var Son = (function () {
+    var ctx = null, actif = true;
+
+    function contexte() {
+      if (!ctx) {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return null;
+        ctx = new AC();
+      }
+      if (ctx.state === 'suspended') ctx.resume();
+      return ctx;
+    }
+
+    function bip(frequence, duree, type, volume) {
+      if (!actif) return;
+      var c = contexte();
+      if (!c) return;
+      var osc = c.createOscillator(), gain = c.createGain();
+      osc.type = type || 'sine';
+      osc.frequency.setValueAtTime(frequence, c.currentTime);
+      gain.gain.setValueAtTime(volume || 0.12, c.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + duree);
+      osc.connect(gain); gain.connect(c.destination);
+      osc.start(); osc.stop(c.currentTime + duree);
+    }
+
+    return {
+      /* Le tic-tac de la roue : des clics de plus en plus espacés,
+         calés sur le ralentissement de la rotation. */
+      roue: function (duree) {
+        if (!actif || !contexte()) return;
+        var t = 0, pas = 45;
+        while (t < duree - 200) {
+          setTimeout(function () { bip(900, 0.035, 'square', 0.05); }, t);
+          t += pas;
+          pas *= 1.13;   /* chaque clic un peu plus tard : la roue freine */
+        }
+      },
+      bonne: function () {
+        bip(660, 0.12, 'triangle', 0.16);
+        setTimeout(function () { bip(880, 0.16, 'triangle', 0.16); }, 110);
+        setTimeout(function () { bip(1180, 0.22, 'triangle', 0.14); }, 230);
+      },
+      mauvaise: function () {
+        bip(210, 0.22, 'sawtooth', 0.10);
+        setTimeout(function () { bip(150, 0.3, 'sawtooth', 0.09); }, 130);
+      },
+      fin: function () {
+        [523, 659, 784, 1046].forEach(function (f, i) {
+          setTimeout(function () { bip(f, 0.3, 'triangle', 0.15); }, i * 140);
+        });
+      },
+      tic: function () { bip(1200, 0.05, 'square', 0.07); },
+      bascule: function () { actif = !actif; if (actif) bip(700, 0.08, 'sine', 0.1); return actif; },
+      estActif: function () { return actif; }
+    };
+  })();
+
+  /* ════════════════ 3. CONFETTIS ════════════════ */
+  var Confettis = (function () {
+    var canvas = document.getElementById('confettis');
+    var ctx = canvas.getContext('2d');
+    var pieces = [], anim = 0;
+    var calme = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function taille() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    taille();
+    window.addEventListener('resize', taille);
+
+    function boucle() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pieces = pieces.filter(function (p) { return p.y < canvas.height + 40; });
+      pieces.forEach(function (p) {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.16; p.rot += p.vr;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.couleur;
+        ctx.fillRect(-p.l / 2, -p.h / 2, p.l, p.h);
+        ctx.restore();
+      });
+      anim = pieces.length ? requestAnimationFrame(boucle) : 0;
+    }
+
+    return {
+      lancer: function () {
+        if (calme) return;
+        var teintes = ['#ffc93c', '#3ddc97', '#ff5c6c', '#b18cff', '#5bb8ff', '#ffffff'];
+        for (var i = 0; i < 90; i++) {
+          pieces.push({
+            x: canvas.width / 2 + (Math.random() - 0.5) * 240,
+            y: canvas.height * 0.42,
+            vx: (Math.random() - 0.5) * 9,
+            vy: -Math.random() * 11 - 4,
+            l: 6 + Math.random() * 8,
+            h: 8 + Math.random() * 10,
+            rot: Math.random() * Math.PI,
+            vr: (Math.random() - 0.5) * 0.3,
+            couleur: teintes[(Math.random() * teintes.length) | 0]
+          });
+        }
+        if (!anim) anim = requestAnimationFrame(boucle);
+      }
+    };
+  })();
+
+  /* ════════════════ 4. LA ROUE ════════════════
+     Géométrie : le secteur i occupe les angles [i×60°, (i+1)×60°]
+     mesurés dans le sens horaire depuis le haut, roue à l'arrêt.
+
+     Lancer : on tire d'abord le secteur au sort, puis on calcule la
+     rotation qui l'amène sous la flèche — l'inverse (tourner au hasard
+     puis regarder où l'on tombe) donne des arrondis capricieux aux
+     frontières. On vérifie quand même le résultat en relisant l'angle
+     final : c'est cette lecture qui fait foi. */
+  var Roue = (function () {
+    var canvas = document.getElementById('roue');
+    var ctx = canvas.getContext('2d');
+    var N = CATEGORIES.length;
+    var SECTEUR = 360 / N;
+    var rotation = 0;          /* cumulée, en degrés : la roue avance toujours */
+
+    function rad(deg) { return deg * Math.PI / 180; }
+
+    function dessiner() {
+      var T = canvas.width, R = T / 2;
+      ctx.clearRect(0, 0, T, T);
+
+      CATEGORIES.forEach(function (cat, i) {
+        /* En canvas, l'angle 0 pointe vers l'est : le haut vaut -90°. */
+        var debut = rad(-90 + i * SECTEUR);
+        var fin = rad(-90 + (i + 1) * SECTEUR);
+
+        ctx.beginPath();
+        ctx.moveTo(R, R);
+        ctx.arc(R, R, R - 6, debut, fin);
+        ctx.closePath();
+        ctx.fillStyle = cat.couleur;
+        ctx.fill();
+        ctx.lineWidth = 6;
+        ctx.strokeStyle = 'rgba(20, 11, 43, .85)';
+        ctx.stroke();
+
+        /* Le libellé, couché le long du rayon du secteur.
+           Sur la moitié gauche de la roue, un texte simplement tourné
+           se retrouve la tête en bas : on lui ajoute un demi-tour, et
+           on inverse alors les axes pour qu'il reste au même endroit
+           et dans le bon ordre de lecture. */
+        var angle = -90 + i * SECTEUR + SECTEUR / 2;
+        var normal = ((angle % 360) + 360) % 360;
+        var demiTour = normal > 90 && normal < 270;
+        var sx = demiTour ? -1 : 1;     /* sens du rayon après le demi-tour */
+
+        ctx.save();
+        ctx.translate(R, R);
+        ctx.rotate(rad(angle));
+        if (demiTour) ctx.rotate(Math.PI);
+        ctx.textAlign = demiTour ? 'left' : 'right';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = cat.encre;
+
+        ctx.font = '700 46px "Baloo 2", system-ui, sans-serif';
+        var mots = cat.nom.split(' ');
+        if (mots.length > 1) {          /* deux mots : deux lignes */
+          ctx.fillText(mots[0], sx * (R - 74), -26);
+          ctx.fillText(mots.slice(1).join(' '), sx * (R - 74), 22);
+        } else {
+          ctx.fillText(cat.nom, sx * (R - 74), 0);
+        }
+        ctx.font = '46px system-ui, sans-serif';
+        ctx.fillText(cat.emoji, sx * (R - 30), 0);
+        ctx.restore();
+      });
+
+      /* Anneau extérieur */
+      ctx.beginPath();
+      ctx.arc(R, R, R - 4, 0, Math.PI * 2);
+      ctx.lineWidth = 8;
+      ctx.strokeStyle = 'rgba(255,255,255,.22)';
+      ctx.stroke();
+    }
+
+    /* Quel secteur se trouve sous la flèche, pour une rotation donnée ?
+       La flèche est au sommet ; l'angle de la roue qui s'y trouve est
+       l'opposé de la rotation. */
+    function secteurSousLaFleche(deg) {
+      var a = ((-deg % 360) + 360) % 360;
+      return Math.floor(a / SECTEUR) % N;
+    }
+
+    return {
+      dessiner: dessiner,
+      secteurSousLaFleche: secteurSousLaFleche,
+      rotationCourante: function () { return rotation; },
+
+      /** Lance la roue vers `index` et appelle `fini(indexLu)` à l'arrêt. */
+      lancer: function (index, fini) {
+        var centre = index * SECTEUR + SECTEUR / 2;
+        /* Un écart aléatoire, mais jamais assez grand pour franchir un
+           bord : on reste à 8° au moins de la frontière du secteur. */
+        var ecart = (Math.random() - 0.5) * (SECTEUR - 16);
+        var cible = 360 - centre + ecart;
+        var tours = 4 + Math.floor(Math.random() * 3);
+        var delta = (((cible - (rotation % 360)) % 360) + 360) % 360 + tours * 360;
+
+        rotation += delta;
+        canvas.style.setProperty('--duree', CONFIG.dureeRotation + 'ms');
+        canvas.style.transform = 'rotate(' + rotation + 'deg)';
+
+        var termine = false;
+        var conclure = function () {
+          if (termine) return;
+          termine = true;
+          canvas.removeEventListener('transitionend', conclure);
+          fini(secteurSousLaFleche(rotation));
+        };
+        canvas.addEventListener('transitionend', conclure);
+        /* Filet de sécurité : si l'onglet passe en arrière-plan, la
+           transition peut ne jamais signaler sa fin. */
+        setTimeout(conclure, CONFIG.dureeRotation + 400);
+      }
+    };
+  })();
+
+  /* ════════════════ 5. LE JEU ════════════════ */
+  var el = {
+    score: document.getElementById('score'),
+    tour: document.getElementById('tour'),
+    tours: document.getElementById('tours'),
+    etat: document.getElementById('etat'),
+    lancer: document.getElementById('btnLancer'),
+    son: document.getElementById('btnSon'),
+    modale: document.getElementById('modale'),
+    carte: document.getElementById('carte'),
+    bandeau: document.getElementById('bandeau'),
+    qEmoji: document.getElementById('qEmoji'),
+    qCat: document.getElementById('qCat'),
+    qMise: document.getElementById('qMise'),
+    qTitre: document.getElementById('qTitre'),
+    options: document.getElementById('options'),
+    verdict: document.getElementById('verdict'),
+    suite: document.getElementById('btnSuite'),
+    fin: document.getElementById('fin'),
+    finEmoji: document.getElementById('finEmoji'),
+    finTexte: document.getElementById('finTexte'),
+    finScore: document.getElementById('finScore'),
+    finDetail: document.getElementById('finDetail'),
+    rejouer: document.getElementById('btnRejouer')
+  };
+
+  var etat = {
+    score: 0,
+    tour: 1,
+    bonnes: 0,
+    enCours: false,     /* la roue tourne, ou une question est ouverte */
+    question: null,
+    vues: {}            /* questions déjà posées, par catégorie */
+  };
+
+  /* ── Tirage sans répétition ──
+     On évite de reposer une question — ou un défi — tant que la
+     catégorie n'a pas été épuisée : sur dix tours, retomber deux fois
+     sur la même agace. */
+  function tirer(catId) {
+    var liste = BANQUE[catId];
+    if (!etat.vues[catId] || etat.vues[catId].length >= liste.length) etat.vues[catId] = [];
+    var libres = [];
+    for (var i = 0; i < liste.length; i++) {
+      if (etat.vues[catId].indexOf(i) === -1) libres.push(i);
+    }
+    var choix = libres[(Math.random() * libres.length) | 0];
+    etat.vues[catId].push(choix);
+    return liste[choix];
+  }
+
+  function majTableau() {
+    el.score.textContent = etat.score;
+    el.tour.textContent = Math.min(etat.tour, CONFIG.toursParPartie);
+    el.tours.textContent = CONFIG.toursParPartie;
+  }
+
+  /* ── Un tour : le lancer ── */
+  function lancer() {
+    if (etat.enCours || etat.tour > CONFIG.toursParPartie) return;
+    etat.enCours = true;
+    el.lancer.disabled = true;
+    el.lancer.textContent = 'La roue tourne…';
+    el.etat.textContent = '';
+
+    Son.roue(CONFIG.dureeRotation);
+    Roue.lancer((Math.random() * CATEGORIES.length) | 0, function (index) {
+      var secteur = CATEGORIES[index];
+      el.etat.textContent = secteur.emoji + '  ' + secteur.nom;
+      setTimeout(function () { poserQuestion(secteur); }, 500);
+    });
+  }
+
+  /* ── Un tour : ce que le secteur déclenche ──
+     Le Bonus n'a rien à lui : il emprunte une catégorie au hasard et
+     double la mise. Si le sort désigne les Défis, le tour bonus est donc
+     un défi à 200 points. */
+  function poserQuestion(secteur) {
+    var doubler = !!secteur.bonus;
+    var source = secteur;
+    if (doubler) {
+      var jouables = CATEGORIES.filter(function (c) { return !c.bonus; });
+      source = jouables[(Math.random() * jouables.length) | 0];
+    }
+
+    var mise = CONFIG.pointsBonneReponse * (doubler ? CONFIG.multiplicateurBonus : 1);
+
+    /* L'en-tête est le même dans les deux cas. */
+    el.bandeau.style.background = secteur.couleur;
+    el.bandeau.style.color = secteur.encre;
+    el.qEmoji.textContent = secteur.emoji;
+    el.qCat.textContent = doubler ? 'Bonus ×2 — ' + source.nom : source.nom;
+    el.qMise.textContent = mise + ' points en jeu';
+    el.verdict.classList.add('hidden');
+    el.suite.classList.add('hidden');
+
+    if (source.type === 'defi') return poserDefi(source, mise);
+
+    var question = tirer(source.id);
+    etat.question = { question: question, mise: mise, repondu: false };
+    el.qTitre.textContent = question.q;
+
+    /* Les réponses, dans un ordre différent à chaque fois */
+    el.options.innerHTML = '';
+    var ordre = question.options.map(function (_, i) { return i; });
+    for (var i = ordre.length - 1; i > 0; i--) {         /* mélange de Fisher-Yates */
+      var j = (Math.random() * (i + 1)) | 0;
+      var t = ordre[i]; ordre[i] = ordre[j]; ordre[j] = t;
+    }
+
+    ordre.forEach(function (indexOriginal, rang) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'flex w-full items-center gap-3 rounded-2xl border border-white/15 bg-white/5 ' +
+                      'px-4 py-3.5 text-left font-semibold transition hover:bg-white/15 ' +
+                      'active:scale-[.99] disabled:cursor-default';
+      btn.dataset.index = indexOriginal;      /* pour retrouver la bonne réponse sans comparer du texte */
+      btn.innerHTML =
+        '<span class="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-white/10 text-xs ' +
+        'font-bold">' + (rang + 1) + '</span><span>' + question.options[indexOriginal] + '</span>';
+      btn.addEventListener('click', function () { repondre(btn, indexOriginal === question.bonne); });
+      el.options.appendChild(btn);
+    });
+
+    ouvrirModale();
+  }
+
+  /* ── Un tour : le défi ──
+     Pas de bonne réponse à cocher : un texte à exécuter devant la table,
+     un chronomètre, et deux boutons. Le temps écoulé vaut « raté » — le
+     jeu tranche tout seul si personne ne le fait. */
+  function poserDefi(source, mise) {
+    var defi = tirer(source.id);
+    var secondes = defi.duree || CONFIG.dureeDefiParDefaut;
+    etat.question = { defi: defi, mise: mise, repondu: false, estDefi: true };
+
+    el.qTitre.textContent = defi.texte;
+
+    el.options.innerHTML =
+      '<div class="rounded-2xl border border-white/15 bg-white/5 px-4 py-3">' +
+        '<div class="flex items-baseline justify-between">' +
+          '<span class="text-xs uppercase tracking-[.12em] text-white/50">Temps restant</span>' +
+          '<span id="chrono" class="text-2xl font-extrabold tabular-nums" aria-live="off">' +
+            secondes + ' s</span>' +
+        '</div>' +
+        '<div class="mt-2 h-2 overflow-hidden rounded-full bg-white/10">' +
+          '<div id="jauge" class="h-full w-full rounded-full bg-or transition-[width] duration-1000 ease-linear"></div>' +
+        '</div>' +
+      '</div>';
+
+    /* Les deux verdicts sont des boutons ordinaires du bloc #options :
+       ils héritent ainsi du raccourci clavier 1 / 2 déjà en place. */
+    [['1', 'Réussi', 'rep-bonne', true], ['2', 'Raté', 'rep-mauvaise', false]]
+      .forEach(function (v) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'flex w-full items-center gap-3 rounded-2xl border border-white/15 bg-white/5 ' +
+                        'px-4 py-3.5 text-left font-semibold transition hover:bg-white/15 ' +
+                        'active:scale-[.99] disabled:cursor-default';
+        btn.innerHTML =
+          '<span class="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-white/10 text-xs ' +
+          'font-bold">' + v[0] + '</span><span>' + v[1] + '</span>';
+        btn.addEventListener('click', function () { repondre(btn, v[3]); });
+        el.options.appendChild(btn);
+      });
+
+    demarrerChrono(secondes);
+    ouvrirModale();
+  }
+
+  /* Le décompte. Un seul intervalle à la fois, arrêté dès qu'on répond. */
+  var chrono = 0;
+  function demarrerChrono(secondes) {
+    arreterChrono();
+    var reste = secondes;
+    var jauge = document.getElementById('jauge');
+    var affichage = document.getElementById('chrono');
+    chrono = setInterval(function () {
+      reste -= 1;
+      if (affichage) affichage.textContent = Math.max(0, reste) + ' s';
+      if (jauge) jauge.style.width = Math.max(0, reste / secondes * 100) + '%';
+      if (reste <= 5 && reste > 0) {
+        if (affichage) affichage.className = 'text-2xl font-extrabold tabular-nums text-rouge';
+        Son.tic();
+      }
+      if (reste <= 0) {
+        arreterChrono();
+        /* Personne n'a tranché : le temps décide. */
+        var rate = el.options.querySelectorAll('button')[1];
+        if (rate && !etat.question.repondu) repondre(rate, false);
+      }
+    }, 1000);
+  }
+  function arreterChrono() { if (chrono) { clearInterval(chrono); chrono = 0; } }
+
+  function ouvrirModale() {
+    el.modale.classList.remove('hidden');
+    el.modale.classList.add('flex');
+    /* Le focus entre dans la modale : au clavier, on répond tout de suite. */
+    var premier = el.options.querySelector('button');
+    if (premier) premier.focus();
+  }
+
+  /* ── Un tour : la réponse ── */
+  function repondre(bouton, correcte) {
+    if (etat.question.repondu) return;
+    etat.question.repondu = true;
+
+    arreterChrono();
+
+    /* Tout se fige. Pour une question, la bonne réponse se révèle en
+       vert ; un défi n'en a pas — seul le verdict choisi se colore. */
+    var indexBonne = etat.question.estDefi ? -1 : etat.question.question.bonne;
+    Array.prototype.forEach.call(el.options.querySelectorAll('button'), function (b) {
+      b.disabled = true;
+      b.classList.remove('hover:bg-white/15');
+      if (!etat.question.estDefi && Number(b.dataset.index) === indexBonne) b.classList.add('rep-bonne');
+    });
+    if (etat.question.estDefi && correcte) bouton.classList.add('rep-bonne');
+
+    if (correcte) {
+      etat.score += etat.question.mise;
+      etat.bonnes += 1;
+      el.verdict.textContent = (etat.question.estDefi ? 'Défi relevé ! +' : 'Bravo ! +') +
+                               etat.question.mise + ' points';
+      el.verdict.className = 'mt-4 text-center text-sm font-semibold text-menthe';
+      Son.bonne();
+      Confettis.lancer();
+    } else {
+      bouton.classList.add('rep-mauvaise');
+      el.verdict.textContent = etat.question.estDefi
+        ? 'Défi manqué — aucun point pour ce tour.'
+        : 'Raté — aucun point pour ce tour.';
+      el.verdict.className = 'mt-4 text-center text-sm font-semibold text-rouge';
+      el.carte.classList.add('secousse');
+      setTimeout(function () { el.carte.classList.remove('secousse'); }, 500);
+      Son.mauvaise();
+    }
+
+    majTableau();
+    el.verdict.classList.remove('hidden');
+    setTimeout(function () {
+      el.suite.classList.remove('hidden');
+      el.suite.textContent = etat.tour >= CONFIG.toursParPartie ? 'Voir le résultat →' : 'Tour suivant →';
+      el.suite.focus();
+    }, CONFIG.delaiApresReponse);
+  }
+
+  /* ── Un tour : la suite ── */
+  function tourSuivant() {
+    arreterChrono();
+    el.modale.classList.add('hidden');
+    el.modale.classList.remove('flex');
+    etat.enCours = false;
+    etat.tour += 1;
+
+    if (etat.tour > CONFIG.toursParPartie) return terminer();
+
+    majTableau();
+    el.lancer.disabled = false;
+    el.lancer.textContent = 'Lancer la roue';
+    el.etat.textContent = 'Tour ' + etat.tour + ' — à vous de jouer.';
+    el.lancer.focus();
+  }
+
+  /* ── Fin de partie ── */
+  function terminer() {
+    var max = CONFIG.toursParPartie * CONFIG.pointsBonneReponse;
+    var part = etat.score / max;
+    el.finEmoji.textContent = part >= 0.8 ? '🏆' : part >= 0.5 ? '🎉' : '🙂';
+    el.finTexte.textContent = part >= 0.8 ? 'Score de champion !'
+                            : part >= 0.5 ? 'Belle partie.'
+                            : 'On remet ça ?';
+    el.finScore.textContent = etat.score;
+    el.finDetail.textContent = etat.bonnes + ' bonne' + (etat.bonnes > 1 ? 's' : '') +
+                               ' réponse' + (etat.bonnes > 1 ? 's' : '') +
+                               ' sur ' + CONFIG.toursParPartie + ' tours.';
+    el.fin.classList.remove('hidden');
+    el.fin.classList.add('flex');
+    Son.fin();
+    if (part >= 0.5) Confettis.lancer();
+    el.rejouer.focus();
+  }
+
+  function recommencer() {
+    arreterChrono();
+    etat.score = 0; etat.tour = 1; etat.bonnes = 0; etat.enCours = false; etat.vues = {};
+    el.fin.classList.add('hidden');
+    el.fin.classList.remove('flex');
+    el.lancer.disabled = false;
+    el.lancer.textContent = 'Lancer la roue';
+    el.etat.textContent = 'Nouvelle partie — appuyez sur le bouton.';
+    majTableau();
+    el.lancer.focus();
+  }
+
+  /* ── Branchements ── */
+  el.lancer.addEventListener('click', lancer);
+  el.suite.addEventListener('click', tourSuivant);
+  el.rejouer.addEventListener('click', recommencer);
+  el.son.addEventListener('click', function () {
+    var actif = Son.bascule();
+    el.son.textContent = actif ? '🔊' : '🔇';
+    el.son.setAttribute('aria-pressed', String(actif));
+    el.son.title = actif ? 'Couper le son' : 'Remettre le son';
+  });
+
+  /* Clavier : espace pour lancer, 1 à 4 pour répondre. */
+  document.addEventListener('keydown', function (e) {
+    if (!el.modale.classList.contains('hidden')) {
+      var n = parseInt(e.key, 10);
+      if (n >= 1 && n <= 4) {
+        var b = el.options.querySelectorAll('button')[n - 1];
+        if (b && !b.disabled) { e.preventDefault(); b.click(); }
+      } else if (e.key === 'Enter' && !el.suite.classList.contains('hidden')) {
+        e.preventDefault(); tourSuivant();
+      }
+      return;
+    }
+    if ((e.key === ' ' || e.key === 'Enter') && !el.lancer.disabled &&
+        document.activeElement !== el.son) {
+      e.preventDefault(); lancer();
+    }
+  });
+
+  /* ── Démarrage ── */
+  Roue.dessiner();
+  majTableau();
+
+  /* Les polices Google arrivent après le premier dessin : on redessine
+     une fois qu'elles sont là, sinon les libellés restent en police
+     système au milieu d'un habillage qui, lui, a changé. */
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { Roue.dessiner(); });
+  }
+
+  /* Petite trappe de test : permet de vérifier depuis l'extérieur que
+     le secteur annoncé correspond bien à l'angle réel de la roue. */
+  window.__roue = {
+    secteurSousLaFleche: Roue.secteurSousLaFleche,
+    rotationCourante: Roue.rotationCourante,
+    categories: CATEGORIES,
+    etat: etat
+  };
+})();
+</script>
+</body>
+</html>

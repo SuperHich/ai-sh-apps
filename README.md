@@ -28,6 +28,7 @@ everyone; the rest opens once a (local, free) account is created.
 │   ├── favicon.svg         # Tab icon — the nav bar's brand mark
 │   ├── favicon-mono.svg    # Monochrome silhouette for Safari pinned tabs
 │   ├── css/theme.css       # Shared design system + motion
+│   ├── css/roue-des-defis.css # Tailwind, compiled once for the wheel game
 │   ├── css/ages.css        # The "ages of a country" page (tunisie + france)
 │   ├── thumbs/             # One 400×300 SVG thumbnail per content item
 │   └── js/
@@ -69,6 +70,7 @@ everyone; the rest opens once a (local, free) account is created.
 │   ├── memory-game.html
 │   ├── mot-cache-game.html
 │   ├── reaction-game.html
+│   ├── roue-des-defis.html
 │   ├── simon-game.html
 │   └── timer-game.html
 ├── tools/
@@ -99,7 +101,7 @@ hand anywhere: moving one item between universes updates every badge.
 | **Histoire** | The timelines: the world's empires, and the ages of Tunisia and France |
 | Sciences & Découvertes | From the Big Bang to the human body, explorers included |
 | Blagues & Humour | Jokes |
-| Mini-jeux | Reflexes, memory, words |
+| Mini-jeux | Reflexes, memory, words — and the wheel quiz |
 | Outils | The financial calculator — and only it |
 
 Two boundaries are deliberate. **Histoire** was split off from *Légendes du
@@ -119,7 +121,7 @@ Every entry in `assets/js/catalog.js` still carries an `access` field:
 
 | `access`   | Who can open it        |
 |------------|------------------------|
-| `public`   | everyone — all 58 items |
+| `public`   | everyone — all 59 items |
 | `membre`   | requires an account — none at the moment |
 
 The field and the whole mechanism (locked card state, access filter,
@@ -320,6 +322,57 @@ shows its ancient half on the map and keeps the whole thing for the tooltip.
 The periods, the outline and the places live in `assets/js/tunisie-data.js` and
 `assets/js/france-data.js`; adding a period is one entry there.
 
+## La Roue des Défis
+
+`games/roue-des-defis.html` is a party quiz: spin a six-sector wheel, land on a
+category, answer a four-option question — or, on the *Défis & Mimes* sector,
+perform a timed challenge in front of the table. Ten turns, 100 points a
+correct answer, doubled on the Bonus sector.
+
+Two mechanics are worth knowing about.
+
+**Landing on a sector.** Spinning at random and then reading where the wheel
+stopped is the version that misfires: at a sector boundary the rounding decides,
+and the card that opens contradicts what the player sees. Here the sector is
+drawn *first*, then the rotation that brings it under the pointer is computed —
+with a random offset bounded to ±22°, so the wheel never stops within 8° of an
+edge. The result is then **re-read from the final angle**, and that reading is
+what opens the card. A test spins the wheel and compares the CSS transform
+matrix against the announced category; it has to agree every time.
+
+**Two kinds of turn.** A category carrying `type: 'defi'` in the data does not
+ask a question: it hands out a challenge, starts a countdown, and offers two
+buttons — *Réussi* and *Raté*. Running out of time counts as a miss, so the game
+settles it if the table doesn't. Both kinds of turn share the same card, the
+same scoring and the same keyboard shortcuts (1–4 to answer, 1–2 to judge a
+challenge), because the challenge buttons are ordinary buttons in the same
+container.
+
+Categories and questions live in `CATEGORIES` and `BANQUE` at the top of the
+script — adding one of either is a single entry, and the wheel redraws itself
+for any number of sectors.
+
+**The stylesheet is Tailwind, compiled once and committed.** The standalone
+version of this game loads Tailwind from a CDN; the repo version cannot, since
+the whole site is built on having no runtime dependency and no build step. So
+the utilities actually used are compiled into `assets/css/roue-des-defis.css`
+and versioned alongside the page. After changing classes in the markup,
+regenerate it with:
+
+```bash
+npx tailwindcss@3 -c tailwind.roue.js -i tw.css -o assets/css/roue-des-defis.css --minify
+# tw.css        →  @tailwind base;@tailwind components;@tailwind utilities;
+# tailwind.roue.js →  content: ['./games/roue-des-defis.html'], and the six colours
+#                     nuit #140b2b · nuit2 #1f1240 · carte #2a1856
+#                     or   #ffc93c · menthe #3ddc97 · rouge #ff5c6c
+```
+
+The states that JavaScript adds at runtime — a right answer in green, a wrong
+one in red — are **plain CSS classes** in the page's own `<style>`, not Tailwind
+utilities assembled from strings: a utility built at runtime depends on the
+CDN's scanner and would vanish the day the CSS is compiled. Which is exactly
+what happened here.
+
 ## Tab icon
 
 `assets/favicon.svg` reproduces the nav bar's brand mark — the rounded tile and
@@ -358,7 +411,7 @@ since `shell.js` listens to the media query rather than reading it once.
 
 ## The catalogue on a phone
 
-The filter bar is sticky, which is what you want on a 58-item catalogue — but
+The filter bar is sticky, which is what you want on a 59-item catalogue — but
 eleven wrapped chips made it 476px tall on a 390px-wide screen, more than half
 the viewport, leaving no room for the results underneath. Below 720px each
 chip group now sits on a single horizontally-scrollable line, which pins the
