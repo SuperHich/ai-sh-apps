@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sdBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#102a43"/>
+      <stop offset="60%"  stop-color="#0a1a2b"/>
+      <stop offset="100%" stop-color="#050d16"/>
+    </linearGradient>
+    <radialGradient id="sdGlow" cx="50%" cy="42%" r="60%">
+      <stop offset="0%"   stop-color="#38bdf8" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#sdBg)"/>
+  <rect width="400" height="300" fill="url(#sdGlow)"/>
+
+  <!-- fond de la grille -->
+  <rect x="77" y="27" width="246" height="246" rx="10" fill="#f8fafc"/>
+
+  <!-- cases mises en valeur -->
+  <rect x="187" y="33" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="187" y="59" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="187" y="85" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="161" y="111" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="187" y="111" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="213" y="111" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="83" y="137" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="109" y="137" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="135" y="137" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="161" y="137" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="213" y="137" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="239" y="137" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="265" y="137" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="291" y="137" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="161" y="163" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="187" y="163" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="213" y="163" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="187" y="189" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="187" y="215" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="187" y="241" width="26" height="26" fill="#e0f2fe"/>
+  <rect x="187" y="137" width="26" height="26" fill="#7dd3fc"/>
+
+  <!-- lignes fines -->
+  <g stroke="#cbd5e1" stroke-width="1">
+    <line x1="109" y1="33" x2="109" y2="267"/>
+    <line x1="83" y1="59" x2="317" y2="59"/>
+    <line x1="135" y1="33" x2="135" y2="267"/>
+    <line x1="83" y1="85" x2="317" y2="85"/>
+    <line x1="161" y1="33" x2="161" y2="267"/>
+    <line x1="83" y1="111" x2="317" y2="111"/>
+    <line x1="187" y1="33" x2="187" y2="267"/>
+    <line x1="83" y1="137" x2="317" y2="137"/>
+    <line x1="213" y1="33" x2="213" y2="267"/>
+    <line x1="83" y1="163" x2="317" y2="163"/>
+    <line x1="239" y1="33" x2="239" y2="267"/>
+    <line x1="83" y1="189" x2="317" y2="189"/>
+    <line x1="265" y1="33" x2="265" y2="267"/>
+    <line x1="83" y1="215" x2="317" y2="215"/>
+    <line x1="291" y1="33" x2="291" y2="267"/>
+    <line x1="83" y1="241" x2="317" y2="241"/>
+  </g>
+
+  <!-- séparations des blocs -->
+  <g stroke="#0f172a" stroke-width="3" stroke-linecap="round">
+    <line x1="161" y1="33" x2="161" y2="267"/>
+    <line x1="83" y1="111" x2="317" y2="111"/>
+    <line x1="239" y1="33" x2="239" y2="267"/>
+    <line x1="83" y1="189" x2="317" y2="189"/>
+    <rect x="83" y="33" width="234" height="234" fill="none" rx="3"/>
+  </g>
+
+  <!-- chiffres -->
+  <g font-family="Outfit, system-ui, sans-serif" font-size="17" text-anchor="middle">
+    <text x="96" y="51" fill="#0f172a" font-weight="700">5</text>
+    <text x="200" y="51" fill="#0284c7" font-weight="600">7</text>
+    <text x="304" y="51" fill="#0f172a" font-weight="700">2</text>
+    <text x="148" y="77" fill="#0f172a" font-weight="700">8</text>
+    <text x="252" y="77" fill="#0f172a" font-weight="700">4</text>
+    <text x="122" y="103" fill="#0f172a" font-weight="700">3</text>
+    <text x="226" y="103" fill="#0f172a" font-weight="700">9</text>
+    <text x="278" y="103" fill="#0f172a" font-weight="700">6</text>
+    <text x="174" y="129" fill="#0f172a" font-weight="700">1</text>
+    <text x="304" y="129" fill="#0f172a" font-weight="700">8</text>
+    <text x="96" y="155" fill="#0f172a" font-weight="700">9</text>
+    <text x="200" y="155" fill="#0284c7" font-weight="600">4</text>
+    <text x="304" y="155" fill="#0f172a" font-weight="700">3</text>
+    <text x="96" y="181" fill="#0f172a" font-weight="700">2</text>
+    <text x="226" y="181" fill="#0f172a" font-weight="700">6</text>
+    <text x="122" y="207" fill="#0f172a" font-weight="700">7</text>
+    <text x="174" y="207" fill="#0284c7" font-weight="600">5</text>
+    <text x="278" y="207" fill="#0f172a" font-weight="700">1</text>
+    <text x="148" y="233" fill="#0f172a" font-weight="700">4</text>
+    <text x="252" y="233" fill="#0f172a" font-weight="700">8</text>
+    <text x="96" y="259" fill="#0f172a" font-weight="700">6</text>
+    <text x="200" y="259" fill="#0f172a" font-weight="700">2</text>
+    <text x="304" y="259" fill="#0f172a" font-weight="700">9</text>
+  </g>
+</svg>

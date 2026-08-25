@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mcBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#1b2050"/>
+      <stop offset="60%"  stop-color="#0d1030"/>
+      <stop offset="100%" stop-color="#06070f"/>
+    </linearGradient>
+    <radialGradient id="mcGlow" cx="50%" cy="40%" r="62%">
+      <stop offset="0%"   stop-color="#818cf8" stop-opacity=".26"/>
+      <stop offset="100%" stop-color="#818cf8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#mcBg)"/>
+  <rect width="400" height="300" fill="url(#mcGlow)"/>
+
+  <!-- cadre de la grille -->
+  <rect x="47" y="22" width="305" height="256" rx="14" fill="#0a0d24" stroke="#3b4288" stroke-width="3"/>
+
+  <!-- cases -->
+  <rect x="55" y="30" width="44" height="44" rx="6" fill="#7dd3fc"/>
+  <rect x="104" y="30" width="44" height="44" rx="6" fill="#fde68a"/>
+  <rect x="153" y="30" width="44" height="44" rx="6" fill="#fde68a"/>
+  <rect x="202" y="30" width="44" height="44" rx="6" fill="#fde68a"/>
+  <rect x="251" y="30" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="300" y="30" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="55" y="79" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="104" y="79" width="44" height="44" rx="6" fill="#f8fafc"/>
+  <rect x="153" y="79" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="202" y="79" width="44" height="44" rx="6" fill="#f8fafc"/>
+  <rect x="251" y="79" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="300" y="79" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="55" y="128" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="104" y="128" width="44" height="44" rx="6" fill="#f8fafc"/>
+  <rect x="153" y="128" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="202" y="128" width="44" height="44" rx="6" fill="#f8fafc"/>
+  <rect x="251" y="128" width="44" height="44" rx="6" fill="#f8fafc"/>
+  <rect x="300" y="128" width="44" height="44" rx="6" fill="#f8fafc"/>
+  <rect x="55" y="177" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="104" y="177" width="44" height="44" rx="6" fill="#f8fafc"/>
+  <rect x="153" y="177" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="202" y="177" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="251" y="177" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="300" y="177" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="55" y="226" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="104" y="226" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="153" y="226" width="44" height="44" rx="6" fill="#151a3d" fill-opacity=".85"/>
+  <rect x="202" y="226" width="44" height="44" rx="6" fill="#f8fafc"/>
+  <rect x="251" y="226" width="44" height="44" rx="6" fill="#f8fafc"/>
+  <rect x="300" y="226" width="44" height="44" rx="6" fill="#f8fafc"/>
+
+  <!-- numéros d'indices -->
+  <g font-family="Outfit, system-ui, sans-serif" font-size="12" font-weight="600" fill="#64748b">
+    <text x="60" y="44">1</text>
+    <text x="109" y="44">2</text>
+    <text x="207" y="44">3</text>
+    <text x="207" y="142">4</text>
+    <text x="207" y="240">5</text>
+  </g>
+
+  <!-- lettres -->
+  <g font-family="Outfit, system-ui, sans-serif" font-size="26" font-weight="700" fill="#1e293b" text-anchor="middle">
+    <text x="77" y="62">M</text>
+    <text x="126" y="62">O</text>
+    <text x="175" y="62">T</text>
+    <text x="224" y="62">S</text>
+    <text x="126" y="111">U</text>
+    <text x="224" y="111">E</text>
+    <text x="126" y="160">R</text>
+    <text x="224" y="160">L</text>
+    <text x="273" y="160">A</text>
+    <text x="322" y="160">C</text>
+    <text x="126" y="209">S</text>
+    <text x="224" y="258">J</text>
+    <text x="273" y="258">E</text>
+    <text x="322" y="258">U</text>
+  </g>
+</svg>

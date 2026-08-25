@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔢 Sudoku</title>
+<meta name="description" content="Sudoku interactif : six grilles de trois niveaux, notes au crayon, vérification, indices et chronomètre.">
+<meta name="theme-color" content="#f0f9ff">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔢</text></svg>">
+
+<!-- Tailwind CSS (CDN) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: { 50:'#f0f9ff', 100:'#e0f2fe', 200:'#bae6fd', 400:'#38bdf8', 500:'#0ea5e9', 600:'#0284c7', 700:'#0369a1' }
+        },
+        fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] }
+      }
+    }
+  };
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     Styles maison : la grille 9×9, ses surbrillances, les notes
+     au crayon et les confettis. Le reste est en classes Tailwind.
+     ───────────────────────────────────────────────────────────── */
+
+  :root {
+    --sel:    #7dd3fc;   /* case sélectionnée        */
+    --peer:   #e0f2fe;   /* même ligne / colonne / bloc */
+    --twin:   #fef3c7;   /* même chiffre ailleurs    */
+    --ink:    #0f172a;   /* chiffres donnés          */
+    --pencil: #0284c7;   /* chiffres du joueur       */
+  }
+
+  body { font-family: 'Outfit', system-ui, sans-serif; }
+
+  .sk-wrap { container-type: inline-size; width: 100%; }
+
+  .sk-board {
+    display: grid;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    width: 100%;
+    aspect-ratio: 1;
+    background: #fff;
+    border: 3px solid var(--ink);
+    border-radius: .6rem;
+    overflow: hidden;
+    touch-action: manipulation;
+    user-select: none;
+  }
+
+  .sk-cell {
+    position: relative;
+    border-right: 1px solid #cbd5e1;
+    border-bottom: 1px solid #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color .1s ease;
+  }
+  .sk-cell.edge-r { border-right: 2px solid var(--ink); }
+  .sk-cell.edge-b { border-bottom: 2px solid var(--ink); }
+  .sk-cell:nth-child(9n) { border-right: 0; }
+  .sk-cell:nth-child(n+73) { border-bottom: 0; }
+
+  .sk-cell.is-peer     { background: var(--peer); }
+  .sk-cell.is-twin     { background: var(--twin); }
+  .sk-cell.is-selected { background: var(--sel); }
+
+  .sk-val {
+    font-size: clamp(1rem, 5.4cqw, 2rem);
+    font-weight: 500;
+    color: var(--pencil);
+    line-height: 1;
+  }
+  .sk-cell.is-given .sk-val { color: var(--ink); font-weight: 700; }
+  .sk-cell.is-wrong .sk-val { color: #dc2626; }          /* conflit dans la grille */
+  .sk-cell.mark-ko  .sk-val { color: #dc2626; text-decoration: line-through; }
+  .sk-cell.mark-ok  .sk-val { color: #15803d; }
+  .sk-cell.is-revealed .sk-val { color: #7c3aed; font-style: italic; }
+
+  /* Notes au crayon : une mini-grille 3×3 dans la case */
+  .sk-notes {
+    position: absolute; inset: 6%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    font-size: clamp(.42rem, 1.9cqw, .72rem);
+    line-height: 1;
+    color: #64748b;
+    pointer-events: none;
+  }
+  .sk-notes span { display: grid; place-items: center; }
+
+  /* Pavé numérique */
+  .pad-btn { position: relative; }
+  .pad-btn .left {
+    position: absolute; bottom: 2px; right: 4px;
+    font-size: .6rem; font-weight: 600; color: #94a3b8;
+  }
+  .pad-btn.is-done { opacity: .35; }
+
+  /* Confettis */
+  #confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 60; }
+  .confetti-piece {
+    position: absolute; top: -14vh; width: 10px; height: 16px; opacity: 0;
+    animation: confetti-fall linear forwards;
+  }
+  @keyframes confetti-fall {
+    0%   { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 1; }
+    100% { transform: translate3d(var(--drift), 110vh, 0) rotate(var(--spin)); opacity: .9; }
+  }
+
+  /* Bannière de victoire (indépendante de Tailwind) */
+  #win-overlay         { display: none; }
+  #win-overlay.is-open { display: flex; }
+  .win-pop { animation: win-pop .45s cubic-bezier(.2,.9,.3,1.4) both; }
+  @keyframes win-pop {
+    from { transform: scale(.8) translateY(12px); opacity: 0; }
+    to   { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .confetti-piece, .win-pop { animation: none !important; }
+  }
+</style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-brand-50 via-white to-indigo-50 text-slate-800">
+
+<div id="confetti" aria-hidden="true"></div>
+
+<div class="mx-auto max-w-6xl px-3 py-5 sm:px-6 sm:py-8">
+
+  <!-- ══ En-tête ══ -->
+  <header class="mb-5 text-center sm:mb-7">
+    <a href="../index.html"
+       class="mb-4 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/70 px-3 py-1.5 text-xs font-semibold text-slate-500 shadow-sm transition hover:bg-white hover:text-brand-600">
+      ← Accueil
+    </a>
+    <p class="mb-2 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/70 px-3 py-1 text-[.68rem] font-semibold uppercase tracking-[.16em] text-brand-700">
+      <span class="h-1.5 w-1.5 rounded-full bg-indigo-400"></span> Jeu de logique
+    </p>
+    <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Sudoku</h1>
+    <p class="mx-auto mt-1.5 max-w-xl text-sm text-slate-500">
+      Chaque ligne, chaque colonne et chaque bloc de 3×3 contient les chiffres de 1 à 9, une seule fois.
+    </p>
+  </header>
+
+  <!-- ══ Sélecteur de grilles ══ -->
+  <nav class="mb-5 flex flex-col items-center gap-3 sm:mb-6">
+    <div id="tabs" role="tablist" aria-label="Choix de la grille" class="flex w-full flex-wrap justify-center gap-2"></div>
+    <label class="sr-only" for="grid-select">Grille</label>
+    <select id="grid-select" class="w-full max-w-xs rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm sm:hidden"></select>
+  </nav>
+
+  <main class="grid gap-5 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)] lg:items-start lg:gap-7">
+
+    <!-- ── Colonne grille ── -->
+    <section class="flex flex-col items-center gap-3">
+
+      <div class="flex w-full max-w-[560px] items-center justify-between rounded-xl border border-brand-200 bg-white/80 px-3.5 py-2 shadow-sm">
+        <span id="grid-title" class="text-sm font-semibold text-slate-700">Facile n°1</span>
+        <span class="flex items-center gap-3 text-sm text-slate-500">
+          <span id="left-label">51 cases à remplir</span>
+          <span id="timer" class="rounded-lg bg-slate-100 px-2 py-0.5 font-mono text-sm font-semibold text-slate-700">00:00</span>
+        </span>
+      </div>
+
+      <div class="sk-wrap max-w-[560px]">
+        <div id="board" class="sk-board" role="grid" aria-label="Grille de sudoku"></div>
+      </div>
+
+      <p id="status" class="max-w-[560px] text-center text-xs text-slate-400">
+        Clique sur une case, puis tape un chiffre (ou utilise le pavé).
+      </p>
+    </section>
+
+    <!-- ── Colonne commandes ── -->
+    <section class="flex flex-col gap-4">
+
+      <!-- Pavé numérique -->
+      <div class="rounded-2xl border border-slate-200 bg-white/80 p-3 shadow-sm sm:p-4">
+        <div class="mb-3 flex items-center justify-between">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-brand-700">Chiffres</h2>
+          <button id="btn-notes" type="button"
+                  class="rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm transition hover:bg-slate-100">
+            ✏️ Notes : <span id="notes-state">off</span>
+          </button>
+        </div>
+        <div id="pad" class="grid grid-cols-5 gap-2 sm:grid-cols-5"></div>
+        <p class="mt-2 text-center text-xs text-slate-400">
+          En mode Notes, le chiffre s'inscrit en petit dans le coin de la case.
+        </p>
+      </div>
+
+      <!-- Boutons -->
+      <div class="grid grid-cols-2 gap-2">
+        <button id="btn-check" type="button"
+                class="rounded-xl bg-emerald-600 px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 active:scale-95">✓ Vérifier</button>
+        <button id="btn-hint" type="button"
+                class="rounded-xl bg-amber-500 px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-600 active:scale-95">💡 Indice</button>
+        <button id="btn-reveal" type="button"
+                class="rounded-xl bg-violet-600 px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-violet-700 active:scale-95">👁 Révéler</button>
+        <button id="btn-clear" type="button"
+                class="rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm font-semibold text-slate-600 shadow-sm transition hover:bg-slate-100 active:scale-95">⟲ Effacer tout</button>
+      </div>
+
+      <!-- Aide -->
+      <div class="rounded-2xl border border-slate-200 bg-white/80 p-3 text-xs leading-relaxed text-slate-500 shadow-sm sm:p-4">
+        <p class="mb-1 font-semibold text-slate-600">Raccourcis</p>
+        <p><kbd class="rounded bg-slate-200 px-1">1</kbd>–<kbd class="rounded bg-slate-200 px-1">9</kbd> écrire ·
+           <kbd class="rounded bg-slate-200 px-1">0</kbd> / <kbd class="rounded bg-slate-200 px-1">Suppr</kbd> effacer ·
+           <kbd class="rounded bg-slate-200 px-1">←↑→↓</kbd> se déplacer ·
+           <kbd class="rounded bg-slate-200 px-1">N</kbd> mode notes</p>
+        <p class="mt-2">Les chiffres en gras sont donnés au départ : ils ne s'effacent pas.
+           Un chiffre en rouge est en conflit avec un autre de sa ligne, sa colonne ou son bloc.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mt-8 text-center text-xs text-slate-400">
+    Six grilles · <span id="footer-givens"></span> chiffres donnés dans celle-ci · solution unique
+  </footer>
+</div>
+
+<div id="win-overlay" class="fixed inset-0 z-50 items-center justify-center bg-slate-900/40 px-4">
+  <div class="win-pop w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-2xl">
+    <div class="mb-2 text-5xl">🎉</div>
+    <h2 class="text-2xl font-bold text-slate-900">Grille résolue !</h2>
+    <p id="win-text" class="mt-1 text-sm text-slate-500"></p>
+    <div class="mt-5 flex gap-2">
+      <button id="win-close" type="button"
+              class="flex-1 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100">Fermer</button>
+      <button id="win-next" type="button"
+              class="flex-1 rounded-xl bg-brand-600 px-3 py-2 text-sm font-semibold text-white hover:bg-brand-700">Grille suivante</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   1. DONNÉES
+      Une grille = 81 caractères lus de gauche à droite, ligne par
+      ligne. Dans `puzzle`, « . » marque une case à remplir ; dans
+      `solution`, l'unique réponse. Chaque grille a été vérifiée :
+      elle n'admet qu'une seule solution.
+      Pour en ajouter une : copier un bloc et garder ce format.
+   ═══════════════════════════════════════════════════════════════════ */
+
+const GRILLES = [
+  {
+    id: "facile-1",
+    titre: "Facile n°1",
+    niveau: "Facile",
+    emoji: "🌱",
+    indices: 42,
+    /* 81 caractères, "." = case à remplir */
+    puzzle:   ".83295417..18...59.95...862.7...49......7..2.3.96825..1.84..7.596475..31....1...8",
+    solution: "683295417421867359795341862572134986846579123319682574138426795964758231257913648",
+  },
+  {
+    id: "facile-2",
+    titre: "Facile n°2",
+    niveau: "Facile",
+    emoji: "🌱",
+    indices: 42,
+    /* 81 caractères, "." = case à remplir */
+    puzzle:   "..68...2315.29478..823...143..5..1.982.6.9..796.13...827.4.369.5...6....619..5...",
+    solution: "496871523153294786782356914347528169821649357965137248278413695534962871619785432",
+  },
+  {
+    id: "moyen-1",
+    titre: "Moyen n°1",
+    niveau: "Moyen",
+    emoji: "🎯",
+    indices: 34,
+    /* 81 caractères, "." = case à remplir */
+    puzzle:   "63.8.47......57.61.7.6..8..72..6.1.4.6...8.75..1..2...856.4.39.......4.8...7.3..6",
+    solution: "639814752248357961175629843723965184964138275581472639856241397317596428492783516",
+  },
+  {
+    id: "moyen-2",
+    titre: "Moyen n°2",
+    niveau: "Moyen",
+    emoji: "🎯",
+    indices: 34,
+    /* 81 caractères, "." = case à remplir */
+    puzzle:   "8193.2.4.....7...53.7...91.1..6.54..64......8...1..693.7......1.8.5132....174...9",
+    solution: "819352746462971835357468912198635427643297158725184693574829361986513274231746589",
+  },
+  {
+    id: "difficile-1",
+    titre: "Difficile n°1",
+    niveau: "Difficile",
+    emoji: "🔥",
+    indices: 27,
+    /* 81 caractères, "." = case à remplir */
+    puzzle:   "9......1.4..2.3......71.2..7.69..8.55.....4.6....3....3.4.9.6.2.5...7..4.....29..",
+    solution: "928456317471283569635719248716924835593178426842635791384591672259367184167842953",
+  },
+  {
+    id: "difficile-2",
+    titre: "Difficile n°2",
+    niveau: "Difficile",
+    emoji: "🔥",
+    indices: 27,
+    /* 81 caractères, "." = case à remplir */
+    puzzle:   ".27..86.4.1........8.....23..619..45..93...6..428.6...7.......6...64..1........3.",
+    solution: "327918654614235879985467123836192745179354268542876391793521486258643917461789532",
+  },
+];
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   2. MOTEUR DE JEU
+   ═══════════════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  var STORE_PREFIX = 'grenier:sudoku:';
+  var N = 9, TOTAL = 81;
+
+  var state = {
+    index: 0, puzzle: null,
+    given: [],      // true si le chiffre était donné au départ
+    values: [],     // 0 = vide
+    notes: [],      // tableau de 9 booléens par case
+    marks: [],      // '' | 'ok' | 'ko' (résultat de « Vérifier »)
+    revealed: [],   // cases dévoilées par l'indice ou la solution
+    selected: 0,
+    noteMode: false,
+    solved: false,
+    seconds: 0
+  };
+
+  var cells = [];   // éléments du DOM, un par case
+  var padBtns = [];
+  var ticker = null;
+
+  var el = {
+    board: document.getElementById('board'),
+    tabs: document.getElementById('tabs'),
+    select: document.getElementById('grid-select'),
+    pad: document.getElementById('pad'),
+    title: document.getElementById('grid-title'),
+    left: document.getElementById('left-label'),
+    timer: document.getElementById('timer'),
+    status: document.getElementById('status'),
+    notesState: document.getElementById('notes-state'),
+    btnNotes: document.getElementById('btn-notes'),
+    footGivens: document.getElementById('footer-givens'),
+    winOverlay: document.getElementById('win-overlay'),
+    winText: document.getElementById('win-text'),
+    confetti: document.getElementById('confetti')
+  };
+
+  /* ── Repères ────────────────────────────────────────────────────── */
+
+  function rowOf(i) { return Math.floor(i / N); }
+  function colOf(i) { return i % N; }
+  function boxOf(i) { return Math.floor(rowOf(i) / 3) * 3 + Math.floor(colOf(i) / 3); }
+
+  /** Les 20 cases qui voient la case i (ligne, colonne, bloc). */
+  function peersOf(i) {
+    var out = [], r = rowOf(i), c = colOf(i), br = Math.floor(r / 3) * 3, bc = Math.floor(c / 3) * 3, k;
+    for (k = 0; k < N; k++) {
+      if (k !== c) out.push(r * N + k);
+      if (k !== r) out.push(k * N + c);
+    }
+    for (var dr = 0; dr < 3; dr++) {
+      for (var dc = 0; dc < 3; dc++) {
+        var rr = br + dr, cc = bc + dc;
+        if (rr !== r && cc !== c) out.push(rr * N + cc);
+      }
+    }
+    return out;
+  }
+
+  var PEERS = [];
+  for (var i = 0; i < TOTAL; i++) PEERS.push(peersOf(i));
+
+  /** Une valeur est en conflit si un pair porte le même chiffre. */
+  function conflicting(i) {
+    var v = state.values[i];
+    if (!v) return false;
+    var p = PEERS[i];
+    for (var k = 0; k < p.length; k++) if (state.values[p[k]] === v) return true;
+    return false;
+  }
+
+  /* ── Construction ───────────────────────────────────────────────── */
+
+  function buildTabs() {
+    el.tabs.innerHTML = '';
+    el.select.innerHTML = '';
+    GRILLES.forEach(function (g, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-selected', i === state.index ? 'true' : 'false');
+      b.textContent = g.emoji + '  ' + g.titre;
+      b.className = 'hidden rounded-xl px-3.5 py-2 text-sm font-semibold shadow-sm transition sm:block ' +
+        (i === state.index ? 'bg-brand-600 text-white'
+                           : 'border border-slate-200 bg-white text-slate-600 hover:bg-brand-50');
+      b.addEventListener('click', function () { loadPuzzle(i); });
+      el.tabs.appendChild(b);
+
+      var o = document.createElement('option');
+      o.value = i;
+      o.textContent = g.emoji + ' ' + g.titre;
+      o.selected = i === state.index;
+      el.select.appendChild(o);
+    });
+  }
+
+  function buildBoard() {
+    el.board.innerHTML = '';
+    cells = [];
+    for (var i = 0; i < TOTAL; i++) {
+      var d = document.createElement('div');
+      d.className = 'sk-cell';
+      if (colOf(i) % 3 === 2 && colOf(i) < 8) d.classList.add('edge-r');
+      if (rowOf(i) % 3 === 2 && rowOf(i) < 8) d.classList.add('edge-b');
+      d.dataset.i = i;
+      d.setAttribute('role', 'gridcell');
+      d.innerHTML = '<span class="sk-val"></span><span class="sk-notes"></span>';
+      var notes = d.lastChild;
+      for (var n = 1; n <= 9; n++) notes.appendChild(document.createElement('span'));
+      el.board.appendChild(d);
+      cells.push(d);
+    }
+  }
+
+  function buildPad() {
+    el.pad.innerHTML = '';
+    padBtns = [];
+    for (var n = 1; n <= 9; n++) {
+      (function (n) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'pad-btn rounded-xl border border-slate-200 bg-white py-3 text-lg font-bold text-slate-700 shadow-sm transition hover:bg-brand-50 active:scale-95';
+        b.innerHTML = n + '<span class="left"></span>';
+        b.addEventListener('click', function () { enter(n); });
+        el.pad.appendChild(b);
+        padBtns.push(b);
+      })(n);
+    }
+    var er = document.createElement('button');
+    er.type = 'button';
+    er.className = 'rounded-xl border border-slate-200 bg-white py-3 text-lg shadow-sm transition hover:bg-slate-100 active:scale-95';
+    er.textContent = '⌫';
+    er.title = 'Effacer la case';
+    er.addEventListener('click', function () { enter(0); });
+    el.pad.appendChild(er);
+  }
+
+  /* ── Chargement ─────────────────────────────────────────────────── */
+
+  function loadPuzzle(index) {
+    state.index = index;
+    state.puzzle = GRILLES[index];
+    state.given = []; state.values = []; state.notes = [];
+    state.marks = []; state.revealed = [];
+    for (var i = 0; i < TOTAL; i++) {
+      var ch = state.puzzle.puzzle[i];
+      var v = ch === '.' ? 0 : +ch;
+      state.given.push(v !== 0);
+      state.values.push(v);
+      state.notes.push([false, false, false, false, false, false, false, false, false]);
+      state.marks.push('');
+      state.revealed.push(false);
+    }
+    state.selected = state.given[0] ? firstEmpty() : 0;
+    state.noteMode = false;
+    state.solved = false;
+    state.seconds = 0;
+
+    buildTabs();
+    buildBoard();
+    buildPad();
+    restore();
+
+    el.title.textContent = state.puzzle.emoji + ' ' + state.puzzle.titre;
+    el.footGivens.textContent = state.puzzle.indices;
+    el.status.textContent = 'Clique sur une case, puis tape un chiffre (ou utilise le pavé).';
+    hideWin();
+    startTimer();
+    paint();
+  }
+
+  function firstEmpty() {
+    for (var i = 0; i < TOTAL; i++) if (!state.values[i]) return i;
+    return 0;
+  }
+
+  function clearAll() {
+    for (var i = 0; i < TOTAL; i++) {
+      if (state.given[i]) continue;
+      state.values[i] = 0;
+      state.notes[i] = [false, false, false, false, false, false, false, false, false];
+      state.marks[i] = '';
+      state.revealed[i] = false;
+    }
+    state.solved = false;
+    state.seconds = 0;
+    hideWin();
+    startTimer();
+    save();
+    paint();
+  }
+
+  /* ── Chronomètre ────────────────────────────────────────────────── */
+
+  function fmt(s) {
+    var m = Math.floor(s / 60), r = s % 60;
+    return (m < 10 ? '0' : '') + m + ':' + (r < 10 ? '0' : '') + r;
+  }
+
+  function startTimer() {
+    if (ticker) clearInterval(ticker);
+    el.timer.textContent = fmt(state.seconds);
+    ticker = setInterval(function () {
+      if (state.solved || document.hidden) return;
+      state.seconds++;
+      el.timer.textContent = fmt(state.seconds);
+      if (state.seconds % 10 === 0) save();
+    }, 1000);
+  }
+
+  /* ── Sauvegarde locale ──────────────────────────────────────────── */
+
+  function save() {
+    try {
+      localStorage.setItem(STORE_PREFIX + state.puzzle.id, JSON.stringify({
+        v: state.values.join(''),
+        n: state.notes.map(function (a) {
+          return a.reduce(function (acc, b, k) { return acc + (b ? (k + 1) : ''); }, '');
+        }).join(','),
+        r: state.revealed.map(function (b) { return b ? 1 : 0; }).join(''),
+        t: state.seconds
+      }));
+    } catch (e) { /* mode privé : on joue sans sauvegarde */ }
+  }
+
+  function restore() {
+    try {
+      var raw = localStorage.getItem(STORE_PREFIX + state.puzzle.id);
+      if (!raw) return;
+      var d = JSON.parse(raw);
+      if (d.v && d.v.length === TOTAL) {
+        for (var i = 0; i < TOTAL; i++) {
+          if (state.given[i]) continue;
+          var v = +d.v[i];
+          if (v >= 1 && v <= 9) state.values[i] = v;
+        }
+      }
+      if (typeof d.n === 'string') {
+        d.n.split(',').forEach(function (s, i) {
+          if (!s || i >= TOTAL) return;
+          for (var k = 0; k < s.length; k++) state.notes[i][+s[k] - 1] = true;
+        });
+      }
+      if (typeof d.r === 'string' && d.r.length === TOTAL) {
+        for (var j = 0; j < TOTAL; j++) state.revealed[j] = d.r[j] === '1';
+      }
+      if (typeof d.t === 'number') state.seconds = d.t;
+    } catch (e) { /* rien à restaurer */ }
+  }
+
+  /* ── Rendu ──────────────────────────────────────────────────────── */
+
+  function paint() {
+    var sel = state.selected;
+    var selVal = state.values[sel];
+    var selRow = rowOf(sel), selCol = colOf(sel), selBox = boxOf(sel);
+
+    for (var i = 0; i < TOTAL; i++) {
+      var d = cells[i], v = state.values[i];
+      var val = d.firstChild, notes = d.lastChild;
+
+      val.textContent = v ? v : '';
+      for (var n = 0; n < 9; n++) {
+        notes.childNodes[n].textContent = (!v && state.notes[i][n]) ? (n + 1) : '';
+      }
+
+      var isPeer = (rowOf(i) === selRow || colOf(i) === selCol || boxOf(i) === selBox);
+      var isTwin = !!selVal && v === selVal && i !== sel;
+      d.classList.toggle('is-given', state.given[i]);
+      d.classList.toggle('is-selected', i === sel);
+      d.classList.toggle('is-peer', isPeer && i !== sel && !isTwin);
+      d.classList.toggle('is-twin', isTwin);
+      d.classList.toggle('is-wrong', conflicting(i) && !state.given[i]);
+      d.classList.toggle('mark-ok', state.marks[i] === 'ok');
+      d.classList.toggle('mark-ko', state.marks[i] === 'ko');
+      d.classList.toggle('is-revealed', state.revealed[i]);
+    }
+
+    // compteur par chiffre : combien il en reste à placer
+    for (var k = 1; k <= 9; k++) {
+      var placed = 0;
+      for (var m = 0; m < TOTAL; m++) if (state.values[m] === k) placed++;
+      var b = padBtns[k - 1];
+      b.lastChild.textContent = (9 - placed) > 0 ? (9 - placed) : '';
+      b.classList.toggle('is-done', placed >= 9);
+    }
+
+    var left = 0;
+    for (var q = 0; q < TOTAL; q++) if (!state.values[q]) left++;
+    el.left.textContent = left === 0 ? 'grille complète' :
+      (left + (left > 1 ? ' cases à remplir' : ' case à remplir'));
+  }
+
+  /* ── Saisie ─────────────────────────────────────────────────────── */
+
+  function select(i) {
+    if (i < 0 || i >= TOTAL) return;
+    state.selected = i;
+    paint();
+  }
+
+  function enter(n) {
+    var i = state.selected;
+    if (state.given[i]) { flashStatus('Ce chiffre fait partie de l\'énoncé : il ne peut pas changer.'); return; }
+
+    if (n === 0) {
+      state.values[i] = 0;
+      state.notes[i] = [false, false, false, false, false, false, false, false, false];
+      state.marks[i] = '';
+      state.revealed[i] = false;
+    } else if (state.noteMode) {
+      if (state.values[i]) state.values[i] = 0;   // une note remplace la valeur
+      state.notes[i][n - 1] = !state.notes[i][n - 1];
+    } else {
+      state.values[i] = state.values[i] === n ? 0 : n;   // retaper le même chiffre l'efface
+      state.marks[i] = '';
+      state.revealed[i] = false;
+      if (state.values[i]) {
+        state.notes[i] = [false, false, false, false, false, false, false, false, false];
+        // le chiffre posé disparaît des notes des cases voisines
+        PEERS[i].forEach(function (p) { state.notes[p][n - 1] = false; });
+      }
+    }
+    save();
+    paint();
+    checkWin();
+  }
+
+  function move(dr, dc) {
+    var r = rowOf(state.selected) + dr, c = colOf(state.selected) + dc;
+    if (r < 0 || c < 0 || r >= N || c >= N) return;
+    select(r * N + c);
+  }
+
+  function toggleNotes(force) {
+    state.noteMode = (force === undefined) ? !state.noteMode : force;
+    el.notesState.textContent = state.noteMode ? 'on' : 'off';
+    el.btnNotes.className = state.noteMode
+      ? 'rounded-xl border border-brand-500 bg-brand-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition'
+      : 'rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm transition hover:bg-slate-100';
+  }
+
+  var statusTimer = null;
+  function flashStatus(msg) {
+    el.status.textContent = msg;
+    if (statusTimer) clearTimeout(statusTimer);
+    statusTimer = setTimeout(function () {
+      el.status.textContent = 'Clique sur une case, puis tape un chiffre (ou utilise le pavé).';
+    }, 3500);
+  }
+
+  el.board.addEventListener('click', function (e) {
+    var cell = e.target.closest ? e.target.closest('.sk-cell') : null;
+    if (cell) select(+cell.dataset.i);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.target && /^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) return;
+    var k = e.key;
+    if (k >= '1' && k <= '9') { e.preventDefault(); enter(+k); return; }
+    switch (k) {
+      case '0': case 'Backspace': case 'Delete': e.preventDefault(); enter(0); break;
+      case 'ArrowLeft':  e.preventDefault(); move(0, -1); break;
+      case 'ArrowRight': e.preventDefault(); move(0, 1); break;
+      case 'ArrowUp':    e.preventDefault(); move(-1, 0); break;
+      case 'ArrowDown':  e.preventDefault(); move(1, 0); break;
+      case 'n': case 'N': e.preventDefault(); toggleNotes(); break;
+      default: break;
+    }
+  });
+
+  /* ── Outils ─────────────────────────────────────────────────────── */
+
+  function solutionAt(i) { return +state.puzzle.solution[i]; }
+
+  function check() {
+    var wrong = 0, empty = 0;
+    for (var i = 0; i < TOTAL; i++) {
+      if (state.given[i]) { state.marks[i] = ''; continue; }
+      var v = state.values[i];
+      if (!v) { state.marks[i] = ''; empty++; continue; }
+      if (v === solutionAt(i)) state.marks[i] = 'ok';
+      else { state.marks[i] = 'ko'; wrong++; }
+    }
+    paint();
+    if (!wrong && !empty) { celebrate(); return; }
+    flashStatus(wrong
+      ? wrong + (wrong > 1 ? ' chiffres sont faux' : ' chiffre est faux') +
+        (empty ? ' et ' + empty + ' case(s) restent vides.' : '.')
+      : 'Aucune erreur ! Il reste ' + empty + ' case(s) à remplir.');
+  }
+
+  function hint() {
+    var i = state.selected;
+    if (state.given[i] || state.values[i] === solutionAt(i)) {
+      i = -1;
+      var empties = [];
+      for (var k = 0; k < TOTAL; k++) {
+        if (!state.given[k] && state.values[k] !== solutionAt(k)) empties.push(k);
+      }
+      if (!empties.length) { flashStatus('La grille est déjà juste.'); return; }
+      i = empties[Math.floor(Math.random() * empties.length)];
+    }
+    state.values[i] = solutionAt(i);
+    state.notes[i] = [false, false, false, false, false, false, false, false, false];
+    state.marks[i] = '';
+    state.revealed[i] = true;
+    PEERS[i].forEach(function (p) { state.notes[p][state.values[i] - 1] = false; });
+    state.selected = i;
+    save();
+    paint();
+    flashStatus('Indice : un chiffre a été placé (en violet).');
+    checkWin();
+  }
+
+  function reveal() {
+    if (!confirm('Afficher toute la solution ?')) return;
+    for (var i = 0; i < TOTAL; i++) {
+      if (state.given[i]) continue;
+      if (state.values[i] !== solutionAt(i)) state.revealed[i] = true;
+      state.values[i] = solutionAt(i);
+      state.notes[i] = [false, false, false, false, false, false, false, false, false];
+      state.marks[i] = '';
+    }
+    state.solved = true;
+    save();
+    paint();
+    flashStatus('Solution affichée. Les chiffres en violet ont été révélés.');
+  }
+
+  /* ── Victoire ───────────────────────────────────────────────────── */
+
+  function isComplete() {
+    for (var i = 0; i < TOTAL; i++) if (state.values[i] !== solutionAt(i)) return false;
+    return true;
+  }
+
+  function checkWin() { if (!state.solved && isComplete()) celebrate(); }
+
+  function celebrate() {
+    state.solved = true;
+    paint();
+    var aide = state.revealed.some(Boolean);
+    el.winText.textContent = state.puzzle.titre + ' résolue en ' + fmt(state.seconds) + '. ' +
+      (aide ? 'Quelques chiffres avaient été révélés.' : 'Sans aucune aide !');
+    el.winOverlay.classList.add('is-open');
+    confettiBurst();
+  }
+
+  function hideWin() {
+    el.winOverlay.classList.remove('is-open');
+    el.confetti.innerHTML = '';
+  }
+
+  var CONFETTI_COLORS = ['#0ea5e9', '#f59e0b', '#10b981', '#ef4444', '#6366f1', '#ec4899'];
+
+  function confettiBurst() {
+    el.confetti.innerHTML = '';
+    for (var i = 0; i < 90; i++) {
+      var p = document.createElement('span');
+      p.className = 'confetti-piece';
+      p.style.left = (Math.random() * 100) + 'vw';
+      p.style.background = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
+      p.style.animationDuration = (2.4 + Math.random() * 2.2) + 's';
+      p.style.animationDelay = (Math.random() * 1.2) + 's';
+      p.style.setProperty('--drift', (Math.random() * 30 - 15) + 'vw');
+      p.style.setProperty('--spin', (Math.random() * 1080 - 540) + 'deg');
+      if (i % 3 === 0) p.style.borderRadius = '50%';
+      el.confetti.appendChild(p);
+    }
+    setTimeout(function () { el.confetti.innerHTML = ''; }, 6000);
+  }
+
+  /* ── Branchements ───────────────────────────────────────────────── */
+
+  el.btnNotes.addEventListener('click', function () { toggleNotes(); });
+  document.getElementById('btn-check').addEventListener('click', check);
+  document.getElementById('btn-hint').addEventListener('click', hint);
+  document.getElementById('btn-reveal').addEventListener('click', reveal);
+  document.getElementById('btn-clear').addEventListener('click', function () {
+    if (confirm('Effacer tous vos chiffres dans cette grille ?')) clearAll();
+  });
+  document.getElementById('win-close').addEventListener('click', hideWin);
+  document.getElementById('win-next').addEventListener('click', function () {
+    loadPuzzle((state.index + 1) % GRILLES.length);
+  });
+  el.select.addEventListener('change', function () { loadPuzzle(+el.select.value); });
+  el.winOverlay.addEventListener('click', function (e) { if (e.target === el.winOverlay) hideWin(); });
+  window.addEventListener('beforeunload', save);
+
+  toggleNotes(false);
+  loadPuzzle(0);
+})();
+</script>
+</body>
+</html>
