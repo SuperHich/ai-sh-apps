@@ -59,7 +59,7 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'roue-des-defis', 'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
+    'mots-croises', 'roue-des-defis', 'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
     'fatima-al-fihriya', 'ibn-sina'
   ];
 
@@ -307,6 +307,10 @@
       dir: 'games', file: 'roue-des-defis.html', age: 7, access: 'public',
       desc: 'Lancez la roue, tombez sur une catégorie et répondez — ou relevez un défi chronométré. Dix tours, à jouer à plusieurs.',
       tags: ['quiz', 'roue', 'defi', 'mime', 'cinema', 'culture', 'multijoueur', 'jeu'] },
+    { id: 'mots-croises', title: 'Mots Croisés', emoji: '✏️', cat: 'jeux', kind: 'jeu',
+      dir: 'games', file: 'mots-croises.html', age: 10, access: 'public',
+      desc: 'Trois grilles thématiques à remplir : sciences, histoire, contes. Indices, vérification et solution.',
+      tags: ['mots', 'lettres', 'grille', 'vocabulaire', 'reflexion', 'jeu'] },
     { id: 'famille-en-or', title: 'Famille en Or', emoji: '🏆', cat: 'jeux', kind: 'jeu',
       dir: 'games', file: 'famille-en-or.html', age: 7, access: 'public',
       desc: 'Devine les réponses les plus populaires données par 100 personnes.',

@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✏️ Mots Croisés</title>
+<meta name="description" content="Mots croisés interactifs en français : plusieurs grilles thématiques, navigation clavier, vérification et solution.">
+<meta name="theme-color" content="#eef2ff">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✏️</text></svg>">
+
+<!-- Tailwind CSS (CDN) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: { 50:'#eef2ff', 100:'#e0e7ff', 200:'#c7d2fe', 400:'#818cf8', 500:'#6366f1', 600:'#4f46e5', 700:'#4338ca' }
+        },
+        fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] }
+      }
+    }
+  };
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     Styles maison : uniquement ce que Tailwind ne fait pas bien
+     (grille dynamique, surbrillances, confettis, animations).
+     ───────────────────────────────────────────────────────────── */
+
+  :root {
+    --cell-active:  #7dd3fc;   /* case sélectionnée   : bleu clair marqué */
+    --cell-word:    #fef3c7;   /* mot actif           : jaune très doux   */
+    --cell-black:   #1e293b;   /* case noire          : contraste fort    */
+  }
+
+  body { font-family: 'Outfit', system-ui, sans-serif; }
+
+  /* ── Grille ── */
+  .xw-board {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    gap: 2px;
+    background: #cbd5e1;              /* les « traits » de la grille */
+    border: 3px solid var(--cell-black);
+    border-radius: .6rem;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: var(--cols) / var(--rows);
+    touch-action: manipulation;
+  }
+
+  .xw-cell {
+    position: relative;
+    background: #fff;
+    transition: background-color .12s ease;
+  }
+  .xw-cell.is-black { background: var(--cell-black); }
+  .xw-cell.in-word  { background: var(--cell-word); }
+  .xw-cell.is-active{ background: var(--cell-active); }
+
+  /* Numéro d'indice, en haut à gauche */
+  .xw-num {
+    position: absolute;
+    top: 1px; left: 2px;
+    font-size: clamp(.42rem, 1.5vw, .58rem);
+    line-height: 1;
+    font-weight: 600;
+    color: #64748b;
+    pointer-events: none;
+    user-select: none;
+  }
+  .xw-cell.is-active .xw-num { color: #0c4a6e; }
+
+  /* Saisie : un input par case (clavier natif sur mobile) */
+  .xw-input {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    border: 0; outline: 0;
+    background: transparent;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: clamp(.95rem, 4.2vw, 1.45rem);
+    color: #1e293b;
+    caret-color: transparent;
+    padding: 0;
+  }
+  .xw-input:focus { outline: 0; }
+
+  /* États après « Vérifier » / « Révéler » */
+  .xw-cell.mark-ok    .xw-input { color: #15803d; }
+  .xw-cell.mark-ko    .xw-input { color: #dc2626; }
+  .xw-cell.mark-ko::after {
+    content: '';
+    position: absolute; inset: 12% 12% auto auto;
+    width: 0; height: 0;
+    border-top: .5rem solid #dc2626;
+    border-left: .5rem solid transparent;
+  }
+  .xw-cell.is-revealed .xw-input { color: #7c3aed; }
+
+  /* ── Liste des indices ── */
+  .clue-item { cursor: pointer; }
+  .clue-item.is-active {
+    background: #e0e7ff;
+    color: #3730a3;
+    font-weight: 600;
+  }
+  .clue-item.is-done { color: #94a3b8; }
+  .clue-item.is-done .clue-num { color: #94a3b8; }
+  .clue-list { scrollbar-width: thin; }
+
+  /* ── Confettis (100 % CSS) ── */
+  #confetti {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 60;
+  }
+  .confetti-piece {
+    position: absolute;
+    top: -14vh;
+    width: 10px; height: 16px;
+    opacity: 0;
+    animation: confetti-fall linear forwards;
+  }
+  @keyframes confetti-fall {
+    0%   { transform: translate3d(0, -10vh, 0) rotate(0deg);      opacity: 1; }
+    100% { transform: translate3d(var(--drift), 110vh, 0) rotate(var(--spin)); opacity: .9; }
+  }
+
+  /* ── Bannière de victoire ──
+     L'affichage ne dépend pas de Tailwind : si le CDN est bloqué,
+     l'overlay reste malgré tout caché tant qu'on n'a pas gagné. */
+  #win-overlay          { display: none; }
+  #win-overlay.is-open  { display: flex; }
+  .win-pop { animation: win-pop .45s cubic-bezier(.2,.9,.3,1.4) both; }
+  @keyframes win-pop {
+    from { transform: scale(.8) translateY(12px); opacity: 0; }
+    to   { transform: scale(1)   translateY(0);   opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .confetti-piece, .win-pop { animation: none !important; }
+  }
+</style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-brand-50 via-white to-sky-50 text-slate-800">
+
+<div id="confetti" aria-hidden="true"></div>
+
+<div class="mx-auto max-w-6xl px-3 py-5 sm:px-6 sm:py-8">
+
+  <!-- ══ En-tête ══ -->
+  <header class="mb-5 text-center sm:mb-7">
+    <!-- Retour au site : un simple lien, pour garder le fichier autonome. -->
+    <a href="../index.html"
+       class="mb-4 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/70 px-3 py-1.5 text-xs font-semibold text-slate-500 shadow-sm transition hover:bg-white hover:text-brand-600">
+      ← Accueil
+    </a>
+    <p class="mb-2 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/70 px-3 py-1 text-[.68rem] font-semibold uppercase tracking-[.16em] text-brand-600">
+      <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span> Jeu de lettres
+    </p>
+    <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Mots Croisés</h1>
+    <p class="mx-auto mt-1.5 max-w-xl text-sm text-slate-500">
+      Choisis une grille, clique sur une case et tape tes lettres. Les flèches déplacent le curseur,
+      un second clic change le sens.
+    </p>
+  </header>
+
+  <!-- ══ Sélecteur de grilles ══ -->
+  <nav class="mb-5 flex flex-col items-center gap-3 sm:mb-6">
+    <div id="tabs" role="tablist" aria-label="Choix de la grille"
+         class="flex w-full flex-wrap justify-center gap-2"></div>
+    <label class="sr-only" for="grid-select">Grille</label>
+    <select id="grid-select"
+            class="w-full max-w-xs rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm sm:hidden"></select>
+  </nav>
+
+  <!-- ══ Corps : grille + indices ══ -->
+  <main class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-start lg:gap-7">
+
+    <!-- ── Colonne grille ── -->
+    <section class="flex flex-col items-center gap-3">
+
+      <!-- Indice courant (bandeau, surtout utile sur mobile) -->
+      <div id="current-clue"
+           class="flex w-full max-w-[560px] items-start gap-3 rounded-xl border border-brand-200 bg-white/80 px-3.5 py-2.5 shadow-sm">
+        <span id="current-badge"
+              class="mt-0.5 shrink-0 rounded-lg bg-brand-600 px-2 py-0.5 text-xs font-bold text-white">1 H</span>
+        <p id="current-text" class="text-sm leading-snug text-slate-700">Sélectionne une case pour commencer.</p>
+      </div>
+
+      <!-- La grille -->
+      <div class="w-full max-w-[560px]">
+        <div id="board" class="xw-board" role="grid" aria-label="Grille de mots croisés"></div>
+      </div>
+
+      <!-- Progression -->
+      <div class="w-full max-w-[560px]">
+        <div class="mb-1 flex items-center justify-between text-xs text-slate-500">
+          <span id="progress-label">0 / 0 cases remplies</span>
+          <span id="grid-title" class="font-semibold text-slate-600"></span>
+        </div>
+        <div class="h-1.5 w-full overflow-hidden rounded-full bg-slate-200">
+          <div id="progress-bar" class="h-full w-0 rounded-full bg-brand-500 transition-all duration-300"></div>
+        </div>
+      </div>
+
+      <!-- Boutons -->
+      <div class="flex w-full max-w-[560px] flex-wrap justify-center gap-2">
+        <button id="btn-check" type="button"
+                class="flex-1 rounded-xl bg-emerald-600 px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 active:scale-95 sm:flex-none sm:px-4">
+          ✓ Vérifier
+        </button>
+        <button id="btn-reveal" type="button"
+                class="flex-1 rounded-xl bg-violet-600 px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-violet-700 active:scale-95 sm:flex-none sm:px-4">
+          👁 Révéler la grille
+        </button>
+        <button id="btn-clear" type="button"
+                class="flex-1 rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm font-semibold text-slate-600 shadow-sm transition hover:bg-slate-100 active:scale-95 sm:flex-none sm:px-4">
+          ⟲ Effacer tout
+        </button>
+      </div>
+
+      <p class="max-w-[560px] text-center text-xs text-slate-400">
+        Clavier : lettres pour écrire · <kbd class="rounded bg-slate-200 px-1">←↑→↓</kbd> se déplacer ·
+        <kbd class="rounded bg-slate-200 px-1">Espace</kbd> changer de sens ·
+        <kbd class="rounded bg-slate-200 px-1">Tab</kbd> mot suivant
+      </p>
+    </section>
+
+    <!-- ── Colonne indices ── -->
+    <section class="grid gap-4 sm:grid-cols-2">
+      <div class="rounded-2xl border border-slate-200 bg-white/80 p-3 shadow-sm sm:p-4">
+        <h2 class="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-brand-700">
+          <span class="grid h-6 w-6 place-items-center rounded-md bg-brand-100 text-brand-700">→</span> Horizontal
+        </h2>
+        <ol id="clues-across" class="clue-list max-h-[38vh] space-y-0.5 overflow-y-auto pr-1 text-sm lg:max-h-[52vh]"></ol>
+      </div>
+      <div class="rounded-2xl border border-slate-200 bg-white/80 p-3 shadow-sm sm:p-4">
+        <h2 class="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-brand-700">
+          <span class="grid h-6 w-6 place-items-center rounded-md bg-brand-100 text-brand-700">↓</span> Vertical
+        </h2>
+        <ol id="clues-down" class="clue-list max-h-[38vh] space-y-0.5 overflow-y-auto pr-1 text-sm lg:max-h-[52vh]"></ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mt-8 text-center text-xs text-slate-400">
+    Grilles thématiques · <span id="footer-count"></span> mots à trouver dans cette grille
+  </footer>
+</div>
+
+<!-- ══ Bannière de victoire ══ -->
+<div id="win-overlay" class="fixed inset-0 z-50 items-center justify-center bg-slate-900/40 px-4">
+  <div class="win-pop w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-2xl">
+    <div class="mb-2 text-5xl">🎉</div>
+    <h2 class="text-2xl font-bold text-slate-900">Bravo !</h2>
+    <p id="win-text" class="mt-1 text-sm text-slate-500">Grille terminée sans une seule erreur.</p>
+    <div class="mt-5 flex gap-2">
+      <button id="win-close" type="button"
+              class="flex-1 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100">
+        Fermer
+      </button>
+      <button id="win-next" type="button"
+              class="flex-1 rounded-xl bg-brand-600 px-3 py-2 text-sm font-semibold text-white hover:bg-brand-700">
+        Grille suivante
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   1. DONNÉES — chaque grille est un objet autonome.
+      Pour en ajouter une : copier un bloc, garder la même structure.
+        grid   : tableau de lignes, '#' = case noire
+        clues  : indices « across » (horizontal) et « down » (vertical),
+                 repérés par la case de départ (row, col).
+      Les numéros affichés sont recalculés par le moteur : ils suivent
+      toujours l'ordre classique (balayage gauche→droite, haut→bas).
+   ═══════════════════════════════════════════════════════════════════ */
+
+const GRILLES = [
+  {
+    id: "sciences",
+    titre: "Sciences & Nature",
+    emoji: "🔬",
+    dimensions: { rows: 10, cols: 10 },
+    /* "#" = case noire */
+    grid: [
+      ['N','U','A','G','E','#','#','#','#','#'],
+      ['#','#','#','R','#','A','T','O','M','E'],
+      ['#','#','#','A','#','#','#','X','#','#'],
+      ['#','P','#','I','#','V','#','Y','#','#'],
+      ['#','L','#','N','#','O','#','G','#','C'],
+      ['#','A','B','E','I','L','L','E','#','O'],
+      ['#','N','#','#','#','C','#','N','#','M'],
+      ['#','E','#','C','R','A','T','E','R','E'],
+      ['#','T','#','#','#','N','#','#','#','T'],
+      ['N','E','I','G','E','#','L','A','V','E'],
+    ],
+    clues: {
+      across: [
+        { number: 1, row: 0, col: 0, text: "Amas blanc qui flotte dans le ciel" },
+        { number: 3, row: 1, col: 5, text: "La plus petite brique de la matière" },
+        { number: 8, row: 5, col: 1, text: "Insecte qui butine et fabrique le miel" },
+        { number: 9, row: 7, col: 3, text: "Grand trou creusé au sommet du volcan" },
+        { number: 10, row: 9, col: 0, text: "Elle tombe du ciel en flocons blancs" },
+        { number: 11, row: 9, col: 6, text: "Roche brûlante qui coule sur les pentes" },
+      ],
+      down: [
+        { number: 2, row: 0, col: 3, text: "On la sème pour faire pousser une plante" },
+        { number: 4, row: 1, col: 7, text: "Le gaz que l'on respire pour vivre" },
+        { number: 5, row: 3, col: 1, text: "Astre qui tourne autour d'une étoile" },
+        { number: 6, row: 3, col: 5, text: "Montagne qui crache de la lave" },
+        { number: 7, row: 4, col: 9, text: "Astre filant qui traîne une longue queue" },
+      ]
+    }
+  },
+  {
+    id: "histoire",
+    titre: "Culture & Histoire",
+    emoji: "🏰",
+    dimensions: { rows: 10, cols: 10 },
+    /* "#" = case noire */
+    grid: [
+      ['#','#','C','H','A','T','E','A','U','#'],
+      ['#','#','#','#','#','O','#','#','#','#'],
+      ['#','#','#','A','R','M','U','R','E','#'],
+      ['#','M','#','#','#','B','#','#','#','M'],
+      ['#','O','#','#','#','E','#','T','#','U'],
+      ['#','M','O','N','N','A','I','E','#','S'],
+      ['#','I','#','#','#','U','#','M','#','E'],
+      ['R','E','I','N','E','#','E','P','E','E'],
+      ['O','#','#','#','#','#','#','L','#','#'],
+      ['I','#','C','A','S','Q','U','E','#','#'],
+    ],
+    clues: {
+      across: [
+        { number: 1, row: 0, col: 2, text: "Grande demeure fortifiée du Moyen Âge" },
+        { number: 3, row: 2, col: 3, text: "Habit de métal qui protège le chevalier" },
+        { number: 7, row: 5, col: 1, text: "Pièces que l'on échange contre des biens" },
+        { number: 8, row: 7, col: 0, text: "Elle règne aux côtés du roi" },
+        { number: 9, row: 7, col: 6, text: "Arme à lame droite portée au côté" },
+        { number: 10, row: 9, col: 2, text: "Il protège la tête du soldat" },
+      ],
+      down: [
+        { number: 2, row: 0, col: 5, text: "Monument bâti pour abriter un défunt" },
+        { number: 4, row: 3, col: 1, text: "Corps embaumé, enroulé de bandelettes" },
+        { number: 5, row: 3, col: 9, text: "On y admire tableaux et statues" },
+        { number: 6, row: 4, col: 7, text: "Édifice élevé pour honorer les dieux" },
+        { number: 8, row: 7, col: 0, text: "C'est lui qui porte la couronne" },
+      ]
+    }
+  },
+  {
+    id: "contes",
+    titre: "Animaux & Contes",
+    emoji: "🦄",
+    dimensions: { rows: 8, cols: 8 },
+    /* "#" = case noire */
+    grid: [
+      ['L','A','P','I','N','#','C','#'],
+      ['#','#','R','#','#','R','O','I'],
+      ['#','#','I','#','S','#','N','#'],
+      ['#','#','N','#','I','#','T','#'],
+      ['L','I','C','O','R','N','E','#'],
+      ['O','#','E','#','E','#','#','A'],
+      ['U','#','#','#','N','A','I','N'],
+      ['P','O','U','L','E','#','#','E'],
+    ],
+    clues: {
+      across: [
+        { number: 1, row: 0, col: 0, text: "Il adore les carottes et bondit dans le pré" },
+        { number: 4, row: 1, col: 5, text: "Il règne sur le royaume du conte" },
+        { number: 6, row: 4, col: 0, text: "Cheval blanc à la corne unique" },
+        { number: 8, row: 6, col: 4, text: "Blanche-Neige en connaît sept" },
+        { number: 9, row: 7, col: 0, text: "Elle pond ses œufs dans la basse-cour" },
+      ],
+      down: [
+        { number: 2, row: 0, col: 2, text: "Fils du roi, souvent charmant" },
+        { number: 3, row: 0, col: 6, text: "Récit merveilleux qui commence par « Il était une fois »" },
+        { number: 5, row: 2, col: 4, text: "Moitié femme, moitié poisson" },
+        { number: 6, row: 4, col: 0, text: "Il souffle sur la maison des trois petits cochons" },
+        { number: 7, row: 5, col: 7, text: "Compagnon têtu qui porte de lourds sacs" },
+      ]
+    }
+  },
+];
+
+/* ═══════════════════════════════════════════════════════════════════
+   2. MOTEUR DE JEU
+   ═══════════════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  var ACROSS = 'across', DOWN = 'down';
+  var STORE_PREFIX = 'grenier:mots-croises:';
+
+  /* État courant ---------------------------------------------------- */
+  var state = {
+    index:    0,      // grille affichée
+    puzzle:   null,   // objet de GRILLES
+    rows: 0, cols: 0,
+    entries:  [],     // lettres saisies par le joueur
+    marks:    [],     // '' | 'ok' | 'ko'  (résultat de « Vérifier »)
+    revealed: [],     // cases dévoilées par « Révéler »
+    numbers:  [],     // numéro affiché dans la case (0 = aucun)
+    cursor:   { row: 0, col: 0 },
+    dir:      ACROSS,
+    solved:   false
+  };
+
+  var cellEls = [];   // cellEls[row][col] = { wrap, input }
+  var el = {
+    board:      document.getElementById('board'),
+    tabs:       document.getElementById('tabs'),
+    select:     document.getElementById('grid-select'),
+    across:     document.getElementById('clues-across'),
+    down:       document.getElementById('clues-down'),
+    badge:      document.getElementById('current-badge'),
+    curText:    document.getElementById('current-text'),
+    progLabel:  document.getElementById('progress-label'),
+    progBar:    document.getElementById('progress-bar'),
+    title:      document.getElementById('grid-title'),
+    footCount:  document.getElementById('footer-count'),
+    winOverlay: document.getElementById('win-overlay'),
+    winText:    document.getElementById('win-text'),
+    confetti:   document.getElementById('confetti')
+  };
+
+  /* ── Utilitaires de grille ──────────────────────────────────────── */
+
+  function isBlack(r, c) {
+    return r < 0 || c < 0 || r >= state.rows || c >= state.cols ||
+           state.puzzle.grid[r][c] === '#';
+  }
+  function solutionAt(r, c) { return state.puzzle.grid[r][c]; }
+
+  /** Numérotation classique des cases de départ de mot. */
+  function computeNumbers(puzzle) {
+    var R = puzzle.dimensions.rows, C = puzzle.dimensions.cols, g = puzzle.grid;
+    var nums = [], n = 0;
+    for (var r = 0; r < R; r++) {
+      nums.push([]);
+      for (var c = 0; c < C; c++) {
+        if (g[r][c] === '#') { nums[r].push(0); continue; }
+        var startAcross = (c === 0 || g[r][c - 1] === '#') && (c + 1 < C && g[r][c + 1] !== '#');
+        var startDown   = (r === 0 || g[r - 1][c] === '#') && (r + 1 < R && g[r + 1][c] !== '#');
+        nums[r].push(startAcross || startDown ? ++n : 0);
+      }
+    }
+    return nums;
+  }
+
+  /** Case de départ du mot qui passe par (r, c) dans la direction dir. */
+  function wordStart(r, c, dir) {
+    var dr = dir === DOWN ? 1 : 0, dc = dir === ACROSS ? 1 : 0;
+    while (!isBlack(r - dr, c - dc)) { r -= dr; c -= dc; }
+    return { row: r, col: c };
+  }
+
+  /** Toutes les cases du mot passant par (r, c). Vide si le mot n'existe pas. */
+  function wordCells(r, c, dir) {
+    if (isBlack(r, c)) return [];
+    var dr = dir === DOWN ? 1 : 0, dc = dir === ACROSS ? 1 : 0;
+    var s = wordStart(r, c, dir), cells = [];
+    var rr = s.row, cc = s.col;
+    while (!isBlack(rr, cc)) { cells.push({ row: rr, col: cc }); rr += dr; cc += dc; }
+    return cells.length > 1 ? cells : [];
+  }
+
+  /** L'indice (objet clue) correspondant au mot passant par (r, c). */
+  function clueFor(r, c, dir) {
+    var cells = wordCells(r, c, dir);
+    if (!cells.length) return null;
+    var s = cells[0], list = state.puzzle.clues[dir];
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].row === s.row && list[i].col === s.col) return list[i];
+    }
+    return null;
+  }
+
+  /** Direction utilisable pour cette case (bascule si le mot n'existe pas). */
+  function usableDir(r, c, wanted) {
+    if (wordCells(r, c, wanted).length) return wanted;
+    var other = wanted === ACROSS ? DOWN : ACROSS;
+    return wordCells(r, c, other).length ? other : wanted;
+  }
+
+  /* ── Construction de l'interface ────────────────────────────────── */
+
+  function buildTabs() {
+    el.tabs.innerHTML = '';
+    el.select.innerHTML = '';
+    GRILLES.forEach(function (p, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-selected', i === state.index ? 'true' : 'false');
+      b.dataset.index = i;
+      b.textContent = p.emoji + '  ' + p.titre;
+      b.className = 'hidden rounded-xl px-4 py-2 text-sm font-semibold shadow-sm transition sm:block ' +
+        (i === state.index
+          ? 'bg-brand-600 text-white'
+          : 'border border-slate-200 bg-white text-slate-600 hover:bg-brand-50');
+      b.addEventListener('click', function () { loadPuzzle(i); });
+      el.tabs.appendChild(b);
+
+      var o = document.createElement('option');
+      o.value = i;
+      o.textContent = p.emoji + ' ' + p.titre + ' (' + p.dimensions.rows + '×' + p.dimensions.cols + ')';
+      o.selected = i === state.index;
+      el.select.appendChild(o);
+    });
+  }
+
+  function buildBoard() {
+    el.board.innerHTML = '';
+    el.board.style.setProperty('--rows', state.rows);
+    el.board.style.setProperty('--cols', state.cols);
+    cellEls = [];
+
+    for (var r = 0; r < state.rows; r++) {
+      cellEls.push([]);
+      for (var c = 0; c < state.cols; c++) {
+        var wrap = document.createElement('div');
+        wrap.className = 'xw-cell';
+        wrap.dataset.row = r;
+        wrap.dataset.col = c;
+
+        if (isBlack(r, c)) {
+          wrap.classList.add('is-black');
+          wrap.setAttribute('aria-hidden', 'true');
+          cellEls[r].push({ wrap: wrap, input: null });
+        } else {
+          if (state.numbers[r][c]) {
+            var num = document.createElement('span');
+            num.className = 'xw-num';
+            num.textContent = state.numbers[r][c];
+            wrap.appendChild(num);
+          }
+          var input = document.createElement('input');
+          input.className = 'xw-input';
+          input.type = 'text';
+          input.maxLength = 1;
+          input.autocomplete = 'off';
+          input.autocapitalize = 'characters';
+          input.spellcheck = false;
+          input.setAttribute('inputmode', 'text');
+          input.setAttribute('aria-label', 'Ligne ' + (r + 1) + ', colonne ' + (c + 1));
+          input.dataset.row = r;
+          input.dataset.col = c;
+          wrap.appendChild(input);
+          cellEls[r].push({ wrap: wrap, input: input });
+        }
+        el.board.appendChild(wrap);
+      }
+    }
+  }
+
+  function buildClues() {
+    [[ACROSS, el.across], [DOWN, el.down]].forEach(function (pair) {
+      var dir = pair[0], list = pair[1];
+      list.innerHTML = '';
+      state.puzzle.clues[dir].forEach(function (clue) {
+        var li = document.createElement('li');
+        li.className = 'clue-item rounded-lg px-2 py-1.5 leading-snug transition hover:bg-slate-100';
+        li.dataset.dir = dir;
+        li.dataset.row = clue.row;
+        li.dataset.col = clue.col;
+        li.innerHTML = '<span class="clue-num mr-1.5 font-bold text-brand-600">' +
+                       state.numbers[clue.row][clue.col] + '.</span>' +
+                       '<span></span>';
+        li.lastChild.textContent = clue.text;
+        var len = wordCells(clue.row, clue.col, dir).length;
+        var tag = document.createElement('span');
+        tag.className = 'ml-1 text-xs text-slate-400';
+        tag.textContent = '(' + len + ')';
+        li.appendChild(tag);
+        li.addEventListener('click', function () { selectClue(clue, dir); });
+        list.appendChild(li);
+      });
+    });
+  }
+
+  /* ── Chargement / réinitialisation ──────────────────────────────── */
+
+  function emptyMatrix(rows, cols, val) {
+    var m = [];
+    for (var r = 0; r < rows; r++) {
+      m.push([]);
+      for (var c = 0; c < cols; c++) m[r].push(val);
+    }
+    return m;
+  }
+
+  function loadPuzzle(index) {
+    state.index   = index;
+    state.puzzle  = GRILLES[index];
+    state.rows    = state.puzzle.dimensions.rows;
+    state.cols    = state.puzzle.dimensions.cols;
+    state.numbers = computeNumbers(state.puzzle);
+    state.entries = emptyMatrix(state.rows, state.cols, '');
+    state.marks   = emptyMatrix(state.rows, state.cols, '');
+    state.revealed= emptyMatrix(state.rows, state.cols, false);
+    state.dir     = ACROSS;
+    state.solved  = false;
+
+    buildTabs();
+    buildBoard();
+    buildClues();
+    restore();
+
+    el.title.textContent = state.puzzle.emoji + ' ' + state.puzzle.titre;
+    el.footCount.textContent = state.puzzle.clues.across.length + state.puzzle.clues.down.length;
+    hideWin();
+
+    var first = state.puzzle.clues.across[0] || state.puzzle.clues.down[0];
+    state.dir = state.puzzle.clues.across[0] ? ACROSS : DOWN;
+    state.cursor = { row: first.row, col: first.col };
+    paint();
+  }
+
+  function clearAll() {
+    state.entries  = emptyMatrix(state.rows, state.cols, '');
+    state.marks    = emptyMatrix(state.rows, state.cols, '');
+    state.revealed = emptyMatrix(state.rows, state.cols, false);
+    state.solved   = false;
+    hideWin();
+    save();
+    paint();
+    focusCell(state.cursor.row, state.cursor.col);
+  }
+
+  /* ── Sauvegarde locale (facultative, silencieuse si indisponible) ── */
+
+  function save() {
+    try {
+      /* Une case vide = un espace : les lignes gardent la même largeur. */
+      var flat = state.entries.map(function (row) {
+        return row.map(function (ch) { return ch || ' '; }).join('');
+      }).join('\n');
+      localStorage.setItem(STORE_PREFIX + state.puzzle.id, flat);
+    } catch (e) { /* mode privé : on joue sans sauvegarde */ }
+  }
+
+  function restore() {
+    try {
+      var raw = localStorage.getItem(STORE_PREFIX + state.puzzle.id);
+      if (!raw) return;
+      var rows = raw.split('\n');
+      for (var r = 0; r < state.rows; r++) {
+        for (var c = 0; c < state.cols; c++) {
+          var ch = rows[r] ? rows[r][c] : '';
+          if (ch && ch !== ' ' && !isBlack(r, c)) state.entries[r][c] = ch;
+        }
+      }
+    } catch (e) { /* rien à restaurer */ }
+  }
+
+  /* ── Rendu (surbrillances, lettres, progression) ────────────────── */
+
+  function paint() {
+    var cur = state.cursor;
+    state.dir = usableDir(cur.row, cur.col, state.dir);
+    var active = wordCells(cur.row, cur.col, state.dir);
+    var inWord = {};
+    active.forEach(function (p) { inWord[p.row + ':' + p.col] = true; });
+
+    for (var r = 0; r < state.rows; r++) {
+      for (var c = 0; c < state.cols; c++) {
+        var cell = cellEls[r][c];
+        if (!cell.input) continue;
+        var w = cell.wrap;
+        w.classList.toggle('in-word', !!inWord[r + ':' + c]);
+        w.classList.toggle('is-active', r === cur.row && c === cur.col);
+        w.classList.toggle('mark-ok', state.marks[r][c] === 'ok');
+        w.classList.toggle('mark-ko', state.marks[r][c] === 'ko');
+        w.classList.toggle('is-revealed', state.revealed[r][c]);
+        if (cell.input.value !== state.entries[r][c]) cell.input.value = state.entries[r][c];
+      }
+    }
+
+    paintClues();
+    paintProgress();
+  }
+
+  function paintClues() {
+    var curClue = clueFor(state.cursor.row, state.cursor.col, state.dir);
+    [[ACROSS, el.across], [DOWN, el.down]].forEach(function (pair) {
+      var dir = pair[0], list = pair[1];
+      Array.prototype.forEach.call(list.children, function (li) {
+        var r = +li.dataset.row, c = +li.dataset.col;
+        var isActive = !!curClue && dir === state.dir && curClue.row === r && curClue.col === c;
+        li.classList.toggle('is-active', isActive);
+        li.classList.toggle('is-done', isWordFilled(r, c, dir));
+        if (isActive) scrollIntoList(list, li);
+      });
+    });
+
+    if (curClue) {
+      el.badge.textContent = state.numbers[curClue.row][curClue.col] + ' ' + (state.dir === ACROSS ? 'H' : 'V');
+      el.curText.textContent = curClue.text;
+    } else {
+      el.badge.textContent = '—';
+      el.curText.textContent = 'Sélectionne une case pour commencer.';
+    }
+  }
+
+  function scrollIntoList(list, li) {
+    var top = li.offsetTop - list.offsetTop;
+    if (top < list.scrollTop || top + li.offsetHeight > list.scrollTop + list.clientHeight) {
+      list.scrollTop = top - list.clientHeight / 2 + li.offsetHeight;
+    }
+  }
+
+  function isWordFilled(r, c, dir) {
+    var cells = wordCells(r, c, dir);
+    if (!cells.length) return false;
+    return cells.every(function (p) { return !!state.entries[p.row][p.col]; });
+  }
+
+  function paintProgress() {
+    var total = 0, filled = 0;
+    for (var r = 0; r < state.rows; r++) {
+      for (var c = 0; c < state.cols; c++) {
+        if (isBlack(r, c)) continue;
+        total++;
+        if (state.entries[r][c]) filled++;
+      }
+    }
+    el.progLabel.textContent = filled + ' / ' + total + ' cases remplies';
+    el.progBar.style.width = (total ? (filled / total) * 100 : 0) + '%';
+  }
+
+  /* ── Déplacements & sélection ───────────────────────────────────── */
+
+  function focusCell(r, c) {
+    var cell = cellEls[r] && cellEls[r][c];
+    if (!cell || !cell.input) return;
+    try { cell.input.focus({ preventScroll: true }); } catch (e) { cell.input.focus(); }
+    cell.input.select();
+  }
+
+  function setCursor(r, c, dir, refocus) {
+    if (isBlack(r, c)) return;
+    state.cursor = { row: r, col: c };
+    if (dir) state.dir = dir;
+    state.dir = usableDir(r, c, state.dir);
+    paint();
+    if (refocus !== false) focusCell(r, c);
+  }
+
+  function toggleDir() {
+    var other = state.dir === ACROSS ? DOWN : ACROSS;
+    if (wordCells(state.cursor.row, state.cursor.col, other).length) {
+      state.dir = other;
+      paint();
+    }
+  }
+
+  /** Case suivante/précédente à l'intérieur du mot actif. */
+  function step(delta) {
+    var cells = wordCells(state.cursor.row, state.cursor.col, state.dir);
+    var i = indexOfCell(cells, state.cursor);
+    var j = i + delta;
+    if (j >= 0 && j < cells.length) setCursor(cells[j].row, cells[j].col);
+  }
+
+  function indexOfCell(cells, pos) {
+    for (var i = 0; i < cells.length; i++) {
+      if (cells[i].row === pos.row && cells[i].col === pos.col) return i;
+    }
+    return -1;
+  }
+
+  /** Après une lettre : on vise la prochaine case vide du mot, sinon la suivante. */
+  function advance() {
+    var cells = wordCells(state.cursor.row, state.cursor.col, state.dir);
+    var i = indexOfCell(cells, state.cursor);
+    for (var j = i + 1; j < cells.length; j++) {
+      if (!state.entries[cells[j].row][cells[j].col]) { setCursor(cells[j].row, cells[j].col); return; }
+    }
+    if (i + 1 < cells.length) setCursor(cells[i + 1].row, cells[i + 1].col);
+    else paint();
+  }
+
+  /** Déplacement libre avec les flèches (saute les cases noires). */
+  function move(dr, dc) {
+    var wanted = dr ? DOWN : ACROSS;
+    if (state.dir !== wanted && wordCells(state.cursor.row, state.cursor.col, wanted).length) {
+      state.dir = wanted;   // 1re pression : on change de sens
+      paint();
+      return;
+    }
+    var r = state.cursor.row + dr, c = state.cursor.col + dc;
+    while (r >= 0 && c >= 0 && r < state.rows && c < state.cols) {
+      if (!isBlack(r, c)) { setCursor(r, c, wanted); return; }
+      r += dr; c += dc;
+    }
+  }
+
+  function selectClue(clue, dir) {
+    var cells = wordCells(clue.row, clue.col, dir);
+    var target = cells.find(function (p) { return !state.entries[p.row][p.col]; }) || cells[0];
+    setCursor(target.row, target.col, dir);
+  }
+
+  /** Mot suivant / précédent dans l'ordre des listes d'indices. */
+  function jumpWord(delta) {
+    var all = state.puzzle.clues.across.map(function (c) { return { clue: c, dir: ACROSS }; })
+      .concat(state.puzzle.clues.down.map(function (c) { return { clue: c, dir: DOWN }; }));
+    var cur = clueFor(state.cursor.row, state.cursor.col, state.dir);
+    var i = 0;
+    for (var k = 0; k < all.length; k++) {
+      if (all[k].dir === state.dir && cur && all[k].clue.row === cur.row && all[k].clue.col === cur.col) { i = k; break; }
+    }
+    var next = all[(i + delta + all.length) % all.length];
+    selectClue(next.clue, next.dir);
+  }
+
+  /* ── Saisie ─────────────────────────────────────────────────────── */
+
+  /** « é » → « E », « ç » → « C » … puis on ne garde que A-Z. */
+  function normalize(ch) {
+    var up = ch.toUpperCase();
+    if (up.normalize) up = up.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return /^[A-Z]$/.test(up) ? up : '';
+  }
+
+  function writeLetter(r, c, letter) {
+    state.entries[r][c] = letter;
+    state.marks[r][c] = '';
+    state.revealed[r][c] = false;
+    save();
+  }
+
+  el.board.addEventListener('input', function (e) {
+    var input = e.target;
+    if (!input.classList.contains('xw-input')) return;
+    var r = +input.dataset.row, c = +input.dataset.col;
+    var raw = input.value.slice(-1);
+    var letter = normalize(raw);
+    input.value = letter || state.entries[r][c];
+    if (!letter) return;
+    writeLetter(r, c, letter);
+    advance();
+    checkWin();
+  });
+
+  el.board.addEventListener('keydown', function (e) {
+    var input = e.target;
+    if (!input.classList.contains('xw-input')) return;
+    var r = +input.dataset.row, c = +input.dataset.col;
+    if (r !== state.cursor.row || c !== state.cursor.col) setCursor(r, c, null, false);
+
+    switch (e.key) {
+      case 'ArrowLeft':  e.preventDefault(); move(0, -1); break;
+      case 'ArrowRight': e.preventDefault(); move(0,  1); break;
+      case 'ArrowUp':    e.preventDefault(); move(-1, 0); break;
+      case 'ArrowDown':  e.preventDefault(); move( 1, 0); break;
+      case ' ':
+      case 'Spacebar':   e.preventDefault(); toggleDir(); break;
+      case 'Enter':      e.preventDefault(); toggleDir(); break;
+      case 'Tab':        e.preventDefault(); jumpWord(e.shiftKey ? -1 : 1); break;
+      case 'Backspace':
+        e.preventDefault();
+        if (state.entries[r][c]) {
+          writeLetter(r, c, '');
+          paint();
+        } else {
+          step(-1);
+          var p = state.cursor;
+          if (state.entries[p.row][p.col]) { writeLetter(p.row, p.col, ''); }
+          paint();
+        }
+        break;
+      case 'Escape':      input.blur(); break;
+      case 'Delete':
+        e.preventDefault();
+        writeLetter(r, c, '');
+        paint();
+        break;
+      default: break;
+    }
+  });
+
+  /* Clic : sélectionne la case ; second clic sur la case active = bascule */
+  el.board.addEventListener('mousedown', handlePointer);
+  el.board.addEventListener('touchstart', handlePointer, { passive: true });
+
+  function handlePointer(e) {
+    var wrap = e.target.closest ? e.target.closest('.xw-cell') : null;
+    if (!wrap || wrap.classList.contains('is-black')) return;
+    var r = +wrap.dataset.row, c = +wrap.dataset.col;
+    if (r === state.cursor.row && c === state.cursor.col) toggleDir();
+    else setCursor(r, c);
+    focusCell(r, c);
+  }
+
+  el.board.addEventListener('dblclick', function (e) {
+    var wrap = e.target.closest ? e.target.closest('.xw-cell') : null;
+    if (wrap && !wrap.classList.contains('is-black')) toggleDir();
+  });
+
+  /* Clic dans une case via le focus clavier (Tab natif, lecteur d'écran) */
+  el.board.addEventListener('focusin', function (e) {
+    var input = e.target;
+    if (!input.classList.contains('xw-input')) return;
+    var r = +input.dataset.row, c = +input.dataset.col;
+    if (r !== state.cursor.row || c !== state.cursor.col) setCursor(r, c, null, false);
+  });
+
+  /* ── Outils : vérifier, révéler, effacer ────────────────────────── */
+
+  function check() {
+    var wrong = 0, empty = 0;
+    for (var r = 0; r < state.rows; r++) {
+      for (var c = 0; c < state.cols; c++) {
+        if (isBlack(r, c)) continue;
+        var v = state.entries[r][c];
+        if (!v) { state.marks[r][c] = ''; empty++; continue; }
+        if (v === solutionAt(r, c)) state.marks[r][c] = 'ok';
+        else { state.marks[r][c] = 'ko'; wrong++; }
+      }
+    }
+    paint();
+    if (!wrong && !empty) { celebrate(); return; }
+    el.curText.textContent = wrong
+      ? wrong + (wrong > 1 ? ' lettres sont fausses' : ' lettre est fausse') +
+        (empty ? ' et ' + empty + ' case(s) restent vides.' : '.')
+      : 'Aucune erreur ! Il reste ' + empty + ' case(s) à remplir.';
+    el.badge.textContent = wrong ? '✗' : '✓';
+  }
+
+  function reveal() {
+    if (!confirm('Afficher toute la solution ?')) return;
+    for (var r = 0; r < state.rows; r++) {
+      for (var c = 0; c < state.cols; c++) {
+        if (isBlack(r, c)) continue;
+        if (state.entries[r][c] !== solutionAt(r, c)) state.revealed[r][c] = true;
+        state.entries[r][c] = solutionAt(r, c);
+        state.marks[r][c] = '';
+      }
+    }
+    state.solved = true;   // plus de bannière de victoire : la grille a été dévoilée
+    save();
+    paint();
+    el.curText.textContent = 'Solution affichée. Les lettres en violet ont été révélées.';
+    el.badge.textContent = '👁';
+  }
+
+  /* ── Victoire ───────────────────────────────────────────────────── */
+
+  function isComplete() {
+    for (var r = 0; r < state.rows; r++) {
+      for (var c = 0; c < state.cols; c++) {
+        if (isBlack(r, c)) continue;
+        if (state.entries[r][c] !== solutionAt(r, c)) return false;
+      }
+    }
+    return true;
+  }
+
+  function checkWin() {
+    if (state.solved || !isComplete()) return;
+    celebrate();
+  }
+
+  function celebrate() {
+    state.solved = true;
+    for (var r = 0; r < state.rows; r++) {
+      for (var c = 0; c < state.cols; c++) if (!isBlack(r, c)) state.marks[r][c] = 'ok';
+    }
+    paint();
+    el.winText.textContent = 'Grille « ' + state.puzzle.titre + ' » terminée. ' +
+      (state.revealed.some(function (row) { return row.some(Boolean); })
+        ? 'Quelques lettres avaient été révélées.'
+        : 'Sans une seule erreur !');
+    el.winOverlay.classList.add('is-open');
+    confettiBurst();
+  }
+
+  function hideWin() {
+    el.winOverlay.classList.remove('is-open');
+    el.confetti.innerHTML = '';
+  }
+
+  var CONFETTI_COLORS = ['#6366f1', '#f59e0b', '#10b981', '#ef4444', '#0ea5e9', '#ec4899'];
+
+  function confettiBurst() {
+    el.confetti.innerHTML = '';
+    var n = 90;
+    for (var i = 0; i < n; i++) {
+      var p = document.createElement('span');
+      p.className = 'confetti-piece';
+      p.style.left = (Math.random() * 100) + 'vw';
+      p.style.background = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
+      p.style.animationDuration = (2.4 + Math.random() * 2.2) + 's';
+      p.style.animationDelay = (Math.random() * 1.2) + 's';
+      p.style.setProperty('--drift', (Math.random() * 30 - 15) + 'vw');
+      p.style.setProperty('--spin', (Math.random() * 1080 - 540) + 'deg');
+      if (i % 3 === 0) p.style.borderRadius = '50%';
+      el.confetti.appendChild(p);
+    }
+    setTimeout(function () { el.confetti.innerHTML = ''; }, 6000);
+  }
+
+  /* ── Branchements ───────────────────────────────────────────────── */
+
+  document.getElementById('btn-check').addEventListener('click', check);
+  document.getElementById('btn-reveal').addEventListener('click', reveal);
+  document.getElementById('btn-clear').addEventListener('click', function () {
+    if (confirm('Effacer toutes les lettres de cette grille ?')) clearAll();
+  });
+  document.getElementById('win-close').addEventListener('click', hideWin);
+  document.getElementById('win-next').addEventListener('click', function () {
+    loadPuzzle((state.index + 1) % GRILLES.length);
+  });
+  el.select.addEventListener('change', function () { loadPuzzle(+el.select.value); });
+  el.winOverlay.addEventListener('click', function (e) { if (e.target === el.winOverlay) hideWin(); });
+
+  /* Départ */
+  loadPuzzle(0);
+})();
+</script>
+</body>
+</html>
