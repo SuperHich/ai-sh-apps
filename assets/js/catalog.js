@@ -59,7 +59,7 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'mots-croises', 'roue-des-defis', 'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
+    'mots-fleches', 'mots-croises', 'roue-des-defis', 'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
     'fatima-al-fihriya', 'ibn-sina'
   ];
 
@@ -311,6 +311,10 @@
       dir: 'games', file: 'mots-croises.html', age: 10, access: 'public',
       desc: 'Trois grilles thématiques à remplir : sciences, histoire, contes. Indices, vérification et solution.',
       tags: ['mots', 'lettres', 'grille', 'vocabulaire', 'reflexion', 'jeu'] },
+    { id: 'mots-fleches', title: 'Mots Fléchés', emoji: '➡️', cat: 'jeux', kind: 'jeu',
+      dir: 'games', file: 'mots-fleches.html', age: 10, access: 'public',
+      desc: 'Les définitions sont dans la grille, la flèche montre où écrire. Trois niveaux.',
+      tags: ['mots', 'lettres', 'grille', 'fleches', 'vocabulaire', 'reflexion', 'jeu'] },
     { id: 'famille-en-or', title: 'Famille en Or', emoji: '🏆', cat: 'jeux', kind: 'jeu',
       dir: 'games', file: 'famille-en-or.html', age: 7, access: 'public',
       desc: 'Devine les réponses les plus populaires données par 100 personnes.',

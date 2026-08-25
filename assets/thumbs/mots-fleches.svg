@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mfBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#0f3b30"/>
+      <stop offset="60%"  stop-color="#08221d"/>
+      <stop offset="100%" stop-color="#04100d"/>
+    </linearGradient>
+    <radialGradient id="mfGlow" cx="50%" cy="40%" r="62%">
+      <stop offset="0%"   stop-color="#34d399" stop-opacity=".26"/>
+      <stop offset="100%" stop-color="#34d399" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#mfBg)"/>
+  <rect width="400" height="300" fill="url(#mfGlow)"/>
+
+  <rect x="41" y="17" width="317" height="266" rx="14" fill="#06170f" stroke="#2f7d63" stroke-width="3"/>
+
+  <!-- cases -->
+  <rect x="49" y="25" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="100" y="25" width="46" height="46" rx="6" fill="#334155"/>
+  <rect x="151" y="25" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="202" y="25" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="253" y="25" width="46" height="46" rx="6" fill="#334155"/>
+  <rect x="304" y="25" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="49" y="76" width="46" height="46" rx="6" fill="#334155"/>
+  <rect x="100" y="76" width="46" height="46" rx="6" fill="#6ee7b7"/>
+  <rect x="151" y="76" width="46" height="46" rx="6" fill="#fde68a"/>
+  <rect x="202" y="76" width="46" height="46" rx="6" fill="#fde68a"/>
+  <rect x="253" y="76" width="46" height="46" rx="6" fill="#fde68a"/>
+  <rect x="304" y="76" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="49" y="127" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="100" y="127" width="46" height="46" rx="6" fill="#f8fafc"/>
+  <rect x="151" y="127" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="202" y="127" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="253" y="127" width="46" height="46" rx="6" fill="#f8fafc"/>
+  <rect x="304" y="127" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="49" y="178" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="100" y="178" width="46" height="46" rx="6" fill="#f8fafc"/>
+  <rect x="151" y="178" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="202" y="178" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="253" y="178" width="46" height="46" rx="6" fill="#f8fafc"/>
+  <rect x="304" y="178" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="49" y="229" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="100" y="229" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="151" y="229" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="202" y="229" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="253" y="229" width="46" height="46" rx="6" fill="#132a22"/>
+  <rect x="304" y="229" width="46" height="46" rx="6" fill="#132a22"/>
+
+  <!-- lignes de texte des définitions -->
+  <g fill="#cbd5e1" fill-opacity=".85">
+    <rect x="107" y="35" width="30" height="4" rx="2"/>
+    <rect x="107" y="44" width="24" height="4" rx="2"/>
+    <rect x="107" y="53" width="18" height="4" rx="2"/>
+    <rect x="56" y="86" width="30" height="4" rx="2"/>
+    <rect x="56" y="95" width="24" height="4" rx="2"/>
+    <rect x="56" y="104" width="18" height="4" rx="2"/>
+    <rect x="260" y="35" width="30" height="4" rx="2"/>
+    <rect x="260" y="44" width="24" height="4" rx="2"/>
+    <rect x="260" y="53" width="18" height="4" rx="2"/>
+  </g>
+
+  <!-- flèches vers la première lettre -->
+  <g fill="#fbbf24">
+    <polygon points="116,58 130,58 123,68"/>
+    <polygon points="82,92 82,106 92,99"/>
+    <polygon points="269,58 283,58 276,68"/>
+  </g>
+
+  <!-- lettres -->
+  <g font-family="Outfit, system-ui, sans-serif" font-size="27" font-weight="700" fill="#0f172a" text-anchor="middle">
+    <text x="123" y="109">M</text>
+    <text x="174" y="109">O</text>
+    <text x="225" y="109">T</text>
+    <text x="276" y="109">S</text>
+    <text x="123" y="160">A</text>
+    <text x="276" y="160">E</text>
+    <text x="123" y="211">I</text>
+    <text x="276" y="211">L</text>
+  </g>
+</svg>
