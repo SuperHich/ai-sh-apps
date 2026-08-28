@@ -65,13 +65,17 @@ everyone; the rest opens once a (local, free) account is created.
 │   └── science/            # Science & discovery
 ├── games/
 │   ├── color-blind-game.html
+│   ├── el-jem.html         # Gamebook: the amphitheatre of Thysdrus
 │   ├── famille-en-or.html
 │   ├── hot-potato-game.html
 │   ├── memory-game.html
 │   ├── mot-cache-game.html
+│   ├── mots-croises.html
+│   ├── mots-fleches.html
 │   ├── reaction-game.html
 │   ├── roue-des-defis.html
 │   ├── simon-game.html
+│   ├── sudoku.html
 │   └── timer-game.html
 ├── tools/
 │   └── financial_calculator.html
@@ -98,7 +102,7 @@ hand anywhere: moving one item between universes updates every badge.
 | Prophètes & Sagesse | Prophets, caliphs, spiritual figures |
 | Histoires en arabe | Arabic stories, read right to left |
 | Légendes du monde | Heroes, scholars and explorers |
-| **Histoire** | The timelines: the world's empires, and the ages of Tunisia and France |
+| **Histoire** | The timelines — the world's empires, the ages of Tunisia and France — and the El Jem gamebook |
 | Sciences & Découvertes | From the Big Bang to the human body, explorers included |
 | Blagues & Humour | Jokes |
 | Mini-jeux | Reflexes, memory, words — and the wheel quiz |
@@ -106,7 +110,9 @@ hand anywhere: moving one item between universes updates every badge.
 
 Two boundaries are deliberate. **Histoire** was split off from *Légendes du
 monde* because a timeline and a story are not the same object: the legends are
-read, the timelines are walked through. And **Outils** holds exactly one item,
+read, the timelines are walked through. *Le Secret d'El Jem* sits there rather
+than in *Mini-jeux* for the same reason: what it teaches is a real monument,
+and the game is only the way in. And **Outils** holds exactly one item,
 because a tool is something you come to use for its own sake — the map and the
 quizzes are ways into the catalogue, not entries in it.
 
@@ -121,7 +127,7 @@ Every entry in `assets/js/catalog.js` still carries an `access` field:
 
 | `access`   | Who can open it        |
 |------------|------------------------|
-| `public`   | everyone — all 59 items |
+| `public`   | everyone — all 63 items |
 | `membre`   | requires an account — none at the moment |
 
 The field and the whole mechanism (locked card state, access filter,
@@ -372,6 +378,57 @@ one in red — are **plain CSS classes** in the page's own `<style>`, not Tailwi
 utilities assembled from strings: a utility built at runtime depends on the
 CDN's scanner and would vanish the day the CSS is compiled. Which is exactly
 what happened here.
+
+## Le Secret d'El Jem
+
+`games/el-jem.html` is a gamebook — *un livre dont tu es le héros* — set in the
+Roman amphitheatre of El Jem, the ancient **Thysdrus**. The reader plays a young
+explorer who picks up a mosaic fragment in the sand and ends up under the arena
+with a rusted key. Twenty-eight passages, two or three choices each, five
+endings.
+
+**The map is the monument.** Every location is a real part of the site: the
+arena floor, the two galleries crossing beneath it, the lift shafts that hoisted
+cages up through a trapdoor, the *vomitoria* under the tiers, the breach blown
+in the west wall at the end of the 17th century, the mosaic museum next door.
+The twenty-four *Le saviez-vous ?* boxes carry the history — the olive oil that
+paid for the building, the 238 AD revolt that proclaimed Gordian emperor, the
+35 000 seats, UNESCO 1979, why an archaeologist records where an object was
+before touching it. They are opt-in: a box opens on a tap, and opening it files
+the fact in **Mes découvertes**, so the teaching is collected rather than
+imposed.
+
+**Objects open doors.** Seven items — the notebook, the lamp, the key, the coin,
+the mosaic fragment, the inscription copied at the museum, an olive twig — sit
+in a bag pinned to the top of the screen. A choice that needs one stays
+**visible but closed**, with a padlock and a line saying what would open it:
+a child who cannot get through a door still learns the door is there, and where
+to look. The shortest route to the treasure is twelve choices long and needs
+four of the seven items — the graph was walked state by state, carrying the
+bag, to check that every ending and every locked door is actually reachable.
+
+**The story is data.** `AVENTURE_EL_JEM.etapes` is a flat map of passages —
+`texte`, `choix`, optional `objetGagne`, `saviezVous`, `ambiance` — and the
+engine knows nothing else. Adding a passage is one entry; the progress gauge,
+the discovery counter and the end-of-game report all count the data rather than
+a number written by hand.
+
+**Five ambiances, one palette.** The page swaps a handful of CSS variables on
+`body[data-ambiance]` — sun on the sand, cool dark under the arena, sky at the
+top of the arcades, museum blue, gold at the endings. Two accent variables are
+kept apart on purpose: `--accent` paints the arcade frieze, `--accent-txt`
+paints text, so the ochre can stay bright in the dark without dropping small
+bold labels below 4.5:1. Every colour pair in the five ambiances was measured
+in a browser.
+
+Like `sudoku.html` and the two crossword games, the page is **one self-contained
+file that loads Tailwind from a CDN** — not the compiled stylesheet used by *La
+Roue des Défis*. Since the classes assembled at runtime here come from string
+concatenation, a compiled build would need every variant listed; the CDN's
+scanner sees them in the file. If the CDN is unreachable, the page's own
+`<style>` still carries the background, the ambiances, the reading typography
+and a `[hidden]` rule, so the adventure stays legible and playable — plain, but
+never broken.
 
 ## Tab icon
 

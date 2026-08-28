@@ -59,7 +59,7 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'sudoku', 'mots-fleches', 'mots-croises', 'roue-des-defis', 'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
+    'el-jem', 'sudoku', 'mots-fleches', 'mots-croises', 'roue-des-defis', 'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
     'fatima-al-fihriya', 'ibn-sina'
   ];
 
@@ -75,7 +75,7 @@
       blurb: 'Héros, savants et explorateurs qui ont marqué l\'Histoire.' },
     { key: 'histoire',   label: 'Histoire',            emoji: '🏺', accent: '#e8534f',
       cover: 'empires',
-      blurb: 'Frises et cartes : les empires du monde et les âges des pays.' },
+      blurb: 'Frises, cartes et monuments : les empires du monde, les âges des pays, et l\'amphithéâtre d\'El Jem.' },
     { key: 'sciences',   label: 'Sciences & Découvertes', emoji: '🔭', accent: '#5bb8ff',
       cover: 'espace',
       blurb: 'Du Big Bang aux dinosaures, les grandes épopées du réel.' },
@@ -245,6 +245,11 @@
       dir: '.', file: 'france.html', age: 10, access: 'public',
       desc: 'Treize époques traversées par le territoire français, de Lascaux à aujourd\'hui : la carte des lieux, la chronologie et ce qu\'il en reste.',
       tags: ['france', 'histoire', 'gaule', 'rome', 'clovis', 'charlemagne', 'cathedrales', 'revolution', 'republique', 'frise', 'carte'] },
+
+    { id: 'el-jem', title: 'Le Secret d\'El Jem', emoji: '\ud83c\udfdb\ufe0f', cat: 'histoire', kind: 'jeu',
+      dir: 'games', file: 'el-jem.html', age: 7, access: 'public',
+      desc: 'Un livre dont tu es le héros dans l\'amphithéâtre romain d\'El Jem : les galeries sous l\'arène, le musée des mosaïques, un sac à remplir et cinq fins possibles.',
+      tags: ['el jem', 'thysdrus', 'tunisie', 'rome', 'amphitheatre', 'colisee', 'archeologie', 'mosaique', 'olivier', 'aventure', 'livre dont tu es le heros', 'unesco'] },
 
     /* ── Sciences & Découvertes ──────────────────────────────── */
     { id: 'dinosaures', title: 'Les Dinosaures', emoji: '🦕', cat: 'sciences', kind: 'histoire',
