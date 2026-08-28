@@ -22,7 +22,7 @@
           sable:  { 50:'#fdf9f0', 100:'#faf1de', 200:'#f2e0bd', 300:'#e6c993', 400:'#d8ad63', 500:'#c8902f' },
           pierre: { 100:'#efe7db', 200:'#ded2c0', 300:'#c5b49c', 400:'#a4907a', 500:'#7d6b57', 600:'#5d4e3d', 700:'#42372a', 800:'#2b231a' },
           ocre:   { 300:'#eeb45e', 400:'#e0952f', 500:'#c8791b', 600:'#a35d12' },
-          olive:  { 300:'#b3c88c', 400:'#8ea760', 500:'#6d8a45', 600:'#4f6a30' }
+          olive:  { 300:'#b3c88c', 400:'#8ea760', 500:'#6d8a45', 600:'#4f6a30', 700:'#3b5223' }
         },
         fontFamily: {
           sans:  ['Nunito', 'system-ui', 'sans-serif'],
@@ -50,18 +50,18 @@
     --fond-3: #e6c993;
     --encre:  #42372a;
     --accent: #c8791b;   /* décor : frise, filets            */
-    --accent-txt: #8f4f0d; /* texte : doit rester lisible     */
+    --accent-txt: #7f440a; /* texte : doit rester lisible     */
     --carte:  rgba(255, 252, 244, .93);
   }
 
   /* Une ambiance par famille de lieux : l'arène en plein soleil, les
      souterrains dans la fraîcheur, le sommet dans le ciel, le musée
      dans le bleu des mosaïques, les fins dans l'or du couchant. */
-  body[data-ambiance="soleil"]     { --fond-1:#fdf9f0; --fond-2:#f7e4c0; --fond-3:#e9c98f; --encre:#42372a; --accent:#c8791b; --accent-txt:#8f4f0d; --carte:rgba(255,252,244,.93); }
+  body[data-ambiance="soleil"]     { --fond-1:#fdf9f0; --fond-2:#f7e4c0; --fond-3:#e9c98f; --encre:#42372a; --accent:#c8791b; --accent-txt:#7f440a; --carte:rgba(255,252,244,.93); }
   body[data-ambiance="souterrain"] { --fond-1:#2b231a; --fond-2:#1d1811; --fond-3:#120e09; --encre:#f6ecda; --accent:#f0ad4e; --accent-txt:#ffeed2; --carte:rgba(38,30,21,.82); }
-  body[data-ambiance="hauteur"]    { --fond-1:#eaf4fb; --fond-2:#f6e9cc; --fond-3:#e6c993; --encre:#33405b; --accent:#c8791b; --accent-txt:#8a4f10; --carte:rgba(255,253,249,.93); }
+  body[data-ambiance="hauteur"]    { --fond-1:#eaf4fb; --fond-2:#f6e9cc; --fond-3:#e6c993; --encre:#33405b; --accent:#c8791b; --accent-txt:#7f440a; --carte:rgba(255,253,249,.93); }
   body[data-ambiance="musee"]      { --fond-1:#eef6f5; --fond-2:#dcecea; --fond-3:#bcd8d6; --encre:#1f3b40; --accent:#0f766e; --accent-txt:#0b5951; --carte:rgba(255,255,255,.90); }
-  body[data-ambiance="fin"]        { --fond-1:#fff8e6; --fond-2:#f7dfa8; --fond-3:#e8b45e; --encre:#42372a; --accent:#c8791b; --accent-txt:#8f4f0d; --carte:rgba(255,252,242,.94); }
+  body[data-ambiance="fin"]        { --fond-1:#fff8e6; --fond-2:#f7dfa8; --fond-3:#e8b45e; --encre:#42372a; --accent:#c8791b; --accent-txt:#7f440a; --carte:rgba(255,252,242,.94); }
 
   html { scroll-padding-top: 8.5rem; }
 
@@ -109,6 +109,18 @@
      ces éléments prennent la couleur de l'ambiance courante. */
   .frise { color: var(--accent); }
   .ton-accent { color: var(--accent-txt); }
+
+  /* Les encadrés teintés (le lieu, « Le saviez-vous ? ») prenaient une
+     couleur fixe, qui jurait dès que l'ambiance changeait de famille.
+     Ils se mélangent maintenant à l'accent du lieu ; la valeur en dur
+     reste comme repli pour les navigateurs sans color-mix. */
+  .teinte-accent { border-color: rgba(200,121,27,.45); background-color: rgba(200,121,27,.14); }
+  .teinte-accent:hover { background-color: rgba(200,121,27,.20); }
+  @supports (color: color-mix(in srgb, red, blue)) {
+    .teinte-accent { border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+                     background-color: color-mix(in srgb, var(--accent) 14%, transparent); }
+    .teinte-accent:hover { background-color: color-mix(in srgb, var(--accent) 20%, transparent); }
+  }
 
   /* La carte du récit : parchemin au soleil, pierre sombre sous l'arène. */
   .carte-recit { background: var(--carte); transition: background-color .6s ease; }
@@ -225,7 +237,7 @@
         <!-- Lieu -->
         <p class="mb-3 flex flex-wrap items-center gap-2">
           <span id="badge-lieu"
-                class="ton-accent inline-flex items-center gap-1.5 rounded-full border border-ocre-400/50 bg-ocre-300/20 px-3 py-1 text-[.7rem] font-bold uppercase tracking-[.14em]">
+                class="ton-accent teinte-accent inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[.7rem] font-bold uppercase tracking-[.14em]">
             <span id="lieu-emoji">🏟️</span><span id="lieu-nom">L'arène</span>
           </span>
         </p>
@@ -240,7 +252,7 @@
         <div id="gain" hidden
              class="mt-4 flex items-center gap-3 rounded-2xl border-2 border-dashed border-olive-400/70 bg-white/75 px-4 py-3">
           <span id="gain-emoji" class="text-2xl">🪙</span>
-          <p class="text-sm font-bold text-olive-600">
+          <p class="text-sm font-bold text-olive-700">
             Tu ranges <span id="gain-nom" class="underline decoration-olive-400 decoration-2 underline-offset-2"></span> dans ton sac.
           </p>
         </div>
@@ -248,7 +260,7 @@
         <!-- Encadré pédagogique, à déplier -->
         <div id="bloc-savoir" hidden class="mt-5">
           <button id="btn-savoir" type="button"
-                  class="flex w-full items-center gap-2 rounded-2xl border-2 border-ocre-400/50 bg-ocre-300/15 px-4 py-3 text-left transition hover:bg-ocre-300/30">
+                  class="teinte-accent flex w-full items-center gap-2 rounded-2xl border-2 px-4 py-3 text-left transition">
             <span class="text-xl">💡</span>
             <span class="ton-accent flex-1 font-titre text-base font-bold">Le saviez-vous&nbsp;?</span>
             <span id="fleche-savoir" class="ton-accent transition">▸</span>
@@ -1003,7 +1015,7 @@
 
     if (!ouvert) {
       var aide = document.createElement('span');
-      aide.className = 'mt-1 block text-[.82rem] font-normal italic leading-snug text-pierre-600';
+      aide.className = 'mt-1 block text-[.82rem] font-normal italic leading-snug text-pierre-700';
       aide.textContent = c.indice || ('Il te manque : ' + manquants.join(', ') + '.');
       corps.appendChild(aide);
       b.disabled = true;
