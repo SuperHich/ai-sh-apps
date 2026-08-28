@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Secret de la Rome Antique — Le Grenier des Apps</title>
+<meta name="description" content="Un livre dont tu es le héros dans la Rome antique : le Forum, le Colisée et ses souterrains, le Palatin, le Panthéon. Un sac à remplir, des encadrés à débloquer, six fins possibles.">
+<meta name="theme-color" content="#f7eedd">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="mask-icon" href="../assets/favicon-mono.svg" color="#a6412f">
+
+<!-- Tailwind CSS (CDN) — même choix que les autres jeux du Grenier :
+     le fichier reste autonome, ouvrable d'un double-clic. -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  /* Si la CDN ne répond pas, `tailwind` n'existe pas : on ne veut pas
+     d'erreur de page pour autant — la feuille maison prend le relais. */
+  if (window.tailwind) tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          travertin: { 50:'#fdfaf3', 100:'#f7eedd', 200:'#ecdcc0', 300:'#dcc79f', 400:'#c6ab7d', 500:'#a98d5c' },
+          pierre:    { 100:'#efe9df', 200:'#ded6c8', 300:'#c4b9a7', 400:'#a39682', 500:'#7c7160', 600:'#5c5348', 700:'#403a31', 800:'#2a2620' },
+          pourpre:   { 300:'#d98b7d', 400:'#c2604f', 500:'#a6412f', 600:'#852f20' },
+          laurier:   { 300:'#b4c98d', 400:'#8ba85f', 500:'#6b8a43', 600:'#4e6a2e', 700:'#3a5122' }
+        },
+        fontFamily: {
+          sans:  ['Nunito', 'system-ui', 'sans-serif'],
+          titre: ['"Baloo 2"', 'system-ui', 'sans-serif']
+        }
+      }
+    }
+  };
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     Styles maison : les ambiances de lieu (le décor change quand on
+     descend sous l'arène ou qu'on entre au musée), les transitions
+     entre paragraphes et la poussière dorée. Le reste est en
+     classes Tailwind dans le balisage.
+     ───────────────────────────────────────────────────────────── */
+
+  :root {
+    --fond-1: #fdfaf3;
+    --fond-2: #ecdcc0;
+    --fond-3: #dcc79f;
+    --encre:  #403a31;
+    --accent: #a6412f;     /* décor : fronton, filets         */
+    --accent-txt: #8b3324; /* texte : doit rester lisible     */
+    --carte:  rgba(255, 253, 248, .93);
+  }
+
+  /* Une ambiance par quartier de la ville antique : le Forum en plein
+     soleil, le Colisée dans la poussière dorée, les souterrains dans
+     le noir, le Palatin dans la verdure de sa colline, le Panthéon
+     dans la lumière grise qui tombe de l'oculus, et l'or des fins. */
+  body[data-ambiance="forum"]      { --fond-1:#fdfaf3; --fond-2:#f2e6cf; --fond-3:#dcc79f; --encre:#403a31; --accent:#a6412f; --accent-txt:#8b3324; --carte:rgba(255,253,248,.93); }
+  body[data-ambiance="colisee"]    { --fond-1:#fdf7ea; --fond-2:#f3ddb4; --fond-3:#dfbc84; --encre:#3d3226; --accent:#a6522a; --accent-txt:#8a3f1c; --carte:rgba(255,252,243,.93); }
+  body[data-ambiance="souterrain"] { --fond-1:#282019; --fond-2:#1a150f; --fond-3:#0f0b07; --encre:#f6ecda; --accent:#f0ad4e; --accent-txt:#ffeed2; --carte:rgba(36,29,21,.82); }
+  body[data-ambiance="palatin"]    { --fond-1:#f4f8ec; --fond-2:#e2eed4; --fond-3:#c6dcae; --encre:#2c3a25; --accent:#4e6a2e; --accent-txt:#3b5322; --carte:rgba(253,255,250,.92); }
+  body[data-ambiance="pantheon"]   { --fond-1:#eff2f7; --fond-2:#dde3ee; --fond-3:#c2ccdd; --encre:#26314a; --accent:#3f5b8c; --accent-txt:#2e4570; --carte:rgba(255,255,255,.92); }
+  body[data-ambiance="fin"]        { --fond-1:#fff8e6; --fond-2:#f5dfb2; --fond-3:#e3b878; --encre:#403a31; --accent:#a6412f; --accent-txt:#8b3324; --carte:rgba(255,252,242,.94); }
+
+  html { scroll-padding-top: 8.5rem; }
+
+  body {
+    background:
+      radial-gradient(120% 80% at 50% -10%, var(--fond-1) 0%, var(--fond-2) 55%, var(--fond-3) 100%)
+      fixed;
+    color: var(--encre);
+    transition: background-color .6s ease, color .5s ease;
+  }
+
+  /* Grain de pierre : une trame très légère, pour que le fond ne soit
+     pas un aplat de couleur mais une surface. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: .35;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(120,90,50,.10) 0 1px, transparent 1px),
+      radial-gradient(circle at 70% 60%, rgba(120,90,50,.08) 0 1px, transparent 1px),
+      radial-gradient(circle at 45% 85%, rgba(120,90,50,.09) 0 1px, transparent 1px);
+    background-size: 24px 24px, 31px 31px, 18px 18px;
+  }
+
+  /* ── Transition entre deux paragraphes ─────────────────────── */
+  .etape-sortie  { opacity: 0; transform: translateY(-10px) scale(.995); }
+  .etape-entree  { opacity: 0; transform: translateY(14px); }
+  #scene         { transition: opacity .28s ease, transform .28s ease; }
+
+  /* Les choix apparaissent l'un après l'autre. */
+  @keyframes monte { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform:none; } }
+  .choix-anim { animation: monte .34s cubic-bezier(.22,1,.36,1) both; }
+
+  /* Un objet qui entre dans le sac fait une petite fête. */
+  @keyframes pop { 0%{transform:scale(.4);opacity:0} 60%{transform:scale(1.14)} 100%{transform:scale(1);opacity:1} }
+  .objet-neuf { animation: pop .5s cubic-bezier(.22,1,.36,1) both; }
+
+  @keyframes lueur { 0%,100% { box-shadow: 0 0 0 0 rgba(166,65,47,.45); } 50% { box-shadow: 0 0 0 10px rgba(166,65,47,0); } }
+  .pulse-accent { animation: lueur 1.8s ease-out 2; }
+
+  /* Le fronton du temple qui coiffe la carte, et tout ce qui doit
+     rester lisible aussi bien en plein soleil qu'au fond des
+     souterrains : ces éléments prennent la couleur de l'ambiance. */
+  .frise { color: var(--accent); }
+  .ton-accent { color: var(--accent-txt); }
+
+  /* Les encadrés teintés (le lieu, « Le saviez-vous ? ») prenaient une
+     couleur fixe, qui jurait dès que l'ambiance changeait de famille.
+     Ils se mélangent maintenant à l'accent du lieu ; la valeur en dur
+     reste comme repli pour les navigateurs sans color-mix. */
+  .teinte-accent { border-color: rgba(166,65,47,.45); background-color: rgba(166,65,47,.14); }
+  .teinte-accent:hover { background-color: rgba(166,65,47,.20); }
+  @supports (color: color-mix(in srgb, red, blue)) {
+    .teinte-accent { border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+                     background-color: color-mix(in srgb, var(--accent) 14%, transparent); }
+    .teinte-accent:hover { background-color: color-mix(in srgb, var(--accent) 20%, transparent); }
+  }
+
+  /* La carte du récit : marbre clair au soleil, pierre sombre sous
+     l'arène du Colisée. */
+  .carte-recit { background: var(--carte); transition: background-color .6s ease; }
+
+  /* Confort de lecture pour les 7-12 ans : texte ample, interlignage
+     généreux, et une lettrine sur le premier paragraphe. */
+  .recit { font-size: 1.06rem; line-height: 1.85; }
+  @media (min-width: 640px) { .recit { font-size: 1.14rem; line-height: 1.9; } }
+
+  /* Filet de sécurité : si le CDN Tailwind ne répond pas, `hidden`
+     ne veut plus rien dire et tous les panneaux s'empileraient. */
+  [hidden] { display: none !important; }
+
+  .carte-verre { backdrop-filter: blur(6px); }
+
+  /* Barre de progression des découvertes. */
+  #jauge { transition: width .5s cubic-bezier(.22,1,.36,1); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  }
+</style>
+</head>
+
+<body data-ambiance="forum" class="min-h-screen font-sans">
+
+<!-- ══════════════════════════════════════════════════════════════
+     BARRE HAUTE : le sac de l'explorateur + les outils de confort
+     ══════════════════════════════════════════════════════════════ -->
+<header class="sticky top-0 z-30 border-b border-pierre-300/50 bg-travertin-50/85 shadow-sm carte-verre">
+  <div class="mx-auto flex max-w-3xl flex-col gap-2 px-3 py-2.5 sm:px-5">
+
+    <div class="flex items-center gap-2">
+      <a href="../index.html"
+         class="inline-flex shrink-0 items-center gap-1 rounded-full border border-pierre-300 bg-white/70 px-2.5 py-1 text-[.7rem] font-bold text-pierre-600 transition hover:bg-white hover:text-pourpre-600"
+         title="Retour au Grenier des Apps">← Accueil</a>
+
+      <p class="min-w-0 flex-1 truncate font-titre text-base font-extrabold text-pierre-700 sm:text-lg">
+        🏛️ Le Secret de la Rome&nbsp;Antique
+      </p>
+
+      <button id="btn-savoirs" type="button"
+              class="inline-flex shrink-0 items-center gap-1 rounded-full border border-pourpre-400/60 bg-pourpre-300/25 px-2.5 py-1 text-[.7rem] font-bold text-pourpre-600 transition hover:bg-pourpre-300/50">
+        💡 <span id="compteur-savoirs">0</span>
+        <span class="hidden sm:inline">découvertes</span>
+      </button>
+    </div>
+
+    <!-- ── Le sac : mini-inventaire toujours visible ── -->
+    <div class="flex items-center gap-2">
+      <span class="shrink-0 text-[.68rem] font-bold uppercase tracking-widest text-pierre-500">Ton sac</span>
+      <div id="sac" class="flex min-h-[30px] flex-1 flex-wrap items-center gap-1.5" aria-live="polite">
+        <span id="sac-vide" class="text-[.78rem] italic text-pierre-400">il est encore vide…</span>
+      </div>
+    </div>
+
+    <!-- Touche un objet du sac pour savoir ce que c'est. -->
+    <p id="sac-info" hidden class="-mt-1 rounded-lg bg-laurier-300/25 px-2.5 py-1 text-[.75rem] leading-snug text-pierre-700"></p>
+
+    <!-- ── Jauge d'exploration ── -->
+    <div class="flex items-center gap-2">
+      <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-pierre-300/40">
+        <div id="jauge" class="h-full w-0 rounded-full bg-gradient-to-r from-pourpre-300 to-pourpre-500"></div>
+      </div>
+      <span id="jauge-texte" class="shrink-0 text-[.68rem] font-bold text-pierre-500">1 lieu</span>
+    </div>
+  </div>
+</header>
+
+<main class="mx-auto max-w-3xl px-3 py-5 sm:px-5 sm:py-8">
+
+  <!-- ══ Bandeau de reprise (affiché seulement s'il y a une partie sauvegardée) ══ -->
+  <div id="reprise" hidden
+       class="mb-4 rounded-2xl border-2 border-pourpre-400/50 bg-travertin-100/90 p-4 shadow-md carte-verre">
+    <p class="font-titre text-lg font-bold text-pierre-700">Tu étais déjà en route…</p>
+    <p class="mt-1 text-sm text-pierre-600">Une aventure commencée t'attend dans les pierres de Rome.</p>
+    <div class="mt-3 flex flex-wrap gap-2">
+      <button id="btn-reprendre" type="button"
+              class="rounded-xl bg-pourpre-500 px-4 py-2 text-sm font-bold text-white shadow transition hover:bg-pourpre-600">
+        Reprendre l'aventure
+      </button>
+      <button id="btn-neuf" type="button"
+              class="rounded-xl border border-pierre-300 bg-white/80 px-4 py-2 text-sm font-bold text-pierre-600 transition hover:bg-white">
+        Repartir du début
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ La carte du récit ══ -->
+  <article class="carte-recit overflow-hidden rounded-3xl border border-pierre-300/60 shadow-xl carte-verre">
+
+    <!-- Frise d'arcades : le monument, dessiné en trois étages -->
+    <div class="frise bg-gradient-to-b from-travertin-200/70 to-transparent px-4 pt-4">
+      <svg viewBox="0 0 600 74" class="mx-auto block h-14 w-full max-w-2xl sm:h-20" aria-hidden="true" fill="none">
+        <g stroke="currentColor" stroke-width="2.4" stroke-linecap="round" opacity=".55">
+          <!-- le sol du Forum, et de part et d'autre les arcs qui le ferment -->
+          <path d="M20 72h560" />
+          <path d="M40 72V52a12 12 0 0 1 24 0v20M76 72V56a10 10 0 0 1 20 0v16" />
+          <path d="M504 72V56a10 10 0 0 1 20 0v16M536 72V52a12 12 0 0 1 24 0v20" />
+          <!-- le temple : fronton, entablement, huit colonnes -->
+          <path d="M100 32 L300 8 L500 32" stroke-linejoin="round" />
+          <path d="M100 32 h400 M106 40 h388" />
+          <path d="M128 44 v22 M136 44 v22" />
+          <path d="M124 44 h16" />
+          <path d="M123 66 h18" />
+          <path d="M176 44 v22 M184 44 v22" />
+          <path d="M172 44 h16" />
+          <path d="M171 66 h18" />
+          <path d="M224 44 v22 M232 44 v22" />
+          <path d="M220 44 h16" />
+          <path d="M219 66 h18" />
+          <path d="M272 44 v22 M280 44 v22" />
+          <path d="M268 44 h16" />
+          <path d="M267 66 h18" />
+          <path d="M320 44 v22 M328 44 v22" />
+          <path d="M316 44 h16" />
+          <path d="M315 66 h18" />
+          <path d="M368 44 v22 M376 44 v22" />
+          <path d="M364 44 h16" />
+          <path d="M363 66 h18" />
+          <path d="M416 44 v22 M424 44 v22" />
+          <path d="M412 44 h16" />
+          <path d="M411 66 h18" />
+          <path d="M464 44 v22 M472 44 v22" />
+          <path d="M460 44 h16" />
+          <path d="M459 66 h18" />
+          <path d="M100 70 h400" />
+        </g>
+      </svg>
+    </div>
+
+    <div class="px-4 pb-6 pt-2 sm:px-9 sm:pb-9">
+
+      <div id="scene">
+
+        <!-- Lieu -->
+        <p class="mb-3 flex flex-wrap items-center gap-2">
+          <span id="badge-lieu"
+                class="ton-accent teinte-accent inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[.7rem] font-bold uppercase tracking-[.14em]">
+            <span id="lieu-emoji">🏛️</span><span id="lieu-nom">Le Forum</span>
+          </span>
+        </p>
+
+        <!-- Titre de fin (masqué pendant l'aventure) -->
+        <h2 id="titre-fin" hidden class="ton-accent mb-2 font-titre text-2xl font-extrabold sm:text-3xl"></h2>
+
+        <!-- Le paragraphe -->
+        <div id="texte" class="recit space-y-4" role="region" aria-live="polite" aria-atomic="true"></div>
+
+        <!-- Objet ramassé -->
+        <div id="gain" hidden
+             class="mt-4 flex items-center gap-3 rounded-2xl border-2 border-dashed border-laurier-400/70 bg-white/75 px-4 py-3">
+          <span id="gain-emoji" class="text-2xl">🪙</span>
+          <p class="text-sm font-bold text-laurier-700">
+            Tu ranges <span id="gain-nom" class="underline decoration-laurier-400 decoration-2 underline-offset-2"></span> dans ton sac.
+          </p>
+        </div>
+
+        <!-- Encadré pédagogique, à déplier -->
+        <div id="bloc-savoir" hidden class="mt-5">
+          <button id="btn-savoir" type="button"
+                  class="teinte-accent flex w-full items-center gap-2 rounded-2xl border-2 px-4 py-3 text-left transition">
+            <span class="text-xl">💡</span>
+            <span class="ton-accent flex-1 font-titre text-base font-bold">Le saviez-vous&nbsp;?</span>
+            <span id="fleche-savoir" class="ton-accent transition">▸</span>
+          </button>
+          <p id="texte-savoir" hidden
+             class="mt-2 rounded-2xl border border-pourpre-400/30 bg-white/70 px-4 py-3 text-[.95rem] leading-relaxed text-pierre-700"></p>
+        </div>
+
+        <!-- Les choix -->
+        <div id="choix" class="mt-6 space-y-3"></div>
+
+      </div>
+    </div>
+  </article>
+
+  <!-- ══ Outils de confort ══ -->
+  <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
+    <button id="btn-retour" type="button"
+            class="inline-flex items-center gap-1.5 rounded-xl border border-pierre-300 bg-white/70 px-3.5 py-2 text-sm font-bold text-pierre-600 shadow-sm transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40">
+      ↩︎ Retour au choix précédent
+    </button>
+    <button id="btn-recommencer" type="button"
+            class="inline-flex items-center gap-1.5 rounded-xl border border-pierre-300 bg-white/70 px-3.5 py-2 text-sm font-bold text-pierre-600 shadow-sm transition hover:bg-white">
+      ⟳ Recommencer l'aventure
+    </button>
+  </div>
+
+  <p class="mt-6 text-center text-xs text-pierre-500">
+    Forum, Colisée, Palatin et Panthéon — <strong>Roma</strong>, Italie · Centre historique inscrit au patrimoine mondial de l'UNESCO depuis 1980.
+  </p>
+</main>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANNEAU « MES DÉCOUVERTES »
+     ══════════════════════════════════════════════════════════════ -->
+<div id="voile-savoirs" hidden class="fixed inset-0 z-40 flex items-end justify-center bg-pierre-800/50 p-0 sm:items-center sm:p-4">
+  <div role="dialog" aria-modal="true" aria-labelledby="titre-savoirs"
+       class="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border border-pierre-300 bg-travertin-50 p-5 shadow-2xl sm:rounded-3xl">
+    <div class="mb-3 flex items-center justify-between gap-3">
+      <h3 id="titre-savoirs" class="font-titre text-xl font-extrabold text-pierre-700">💡 Mes découvertes</h3>
+      <button id="fermer-savoirs" type="button"
+              class="rounded-full border border-pierre-300 bg-white px-3 py-1 text-sm font-bold text-pierre-600 transition hover:bg-pierre-100">Fermer</button>
+    </div>
+    <p id="savoirs-vide" class="text-sm italic text-pierre-500">
+      Aucune découverte pour l'instant. Ouvre les encadrés « Le saviez-vous ? » que tu croises en chemin.
+    </p>
+    <ul id="liste-savoirs" class="space-y-2.5"></ul>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ══════════════════════════════════════════════════════════════
+     LES OBJETS DU SAC
+     Chaque objet est désigné partout par son nom exact : c’est la
+     clé qui relie « objetGagne » d’une étape à « requiert » d’un
+     choix situé plus loin dans l’aventure.
+     ══════════════════════════════════════════════════════════════ */
+  var OBJETS = {
+    'Carnet d’archéologue':    { emoji: '📓', desc: 'Pour noter, dessiner et relever ce que tu vois.' },
+    'Tessère en os':           { emoji: '🎟️', desc: 'Une plaquette d’os gravée de lettres et d’un chiffre romain.' },
+    'Tablette de cire':        { emoji: '🖊️', desc: 'Un cadre de bois rempli de cire, et un stylet : on y copie tout.' },
+    'Lampe de fouille':        { emoji: '🔦', desc: 'La lampe des archéologues, pour les niveaux sans fenêtre.' },
+    'Denier d’argent':         { emoji: '🪙', desc: 'Une petite monnaie usée, au profil d’empereur presque effacé.' },
+    'Anneau-sceau de bronze':  { emoji: '💍', desc: 'Une bague à cachet : on la pressait dans la cire pour signer.' },
+    'Empreinte du nom FELIX':  { emoji: '📜', desc: 'Le relief d’un nom gravé, pris à la cire sur un gradin.' },
+    'Le nom de Felix':         { emoji: '🏷️', desc: 'Ce que l’archive dit de lui : briquetier, atelier du Palatin.' }
+  };
+
+  /* ══════════════════════════════════════════════════════════════
+     L’AVENTURE
+     Chaque étape : un paragraphe, parfois un objet à ramasser, un
+     encadré « Le saviez-vous ? » facultatif, et deux ou trois choix.
+     Un choix peut exiger un objet (« requiert ») : il reste visible,
+     mais fermé, avec l’indice de ce qu’il faudrait trouver.
+     ══════════════════════════════════════════════════════════════ */
+  var AVENTURE_ROME = {
+    titre: 'Le Secret de la Rome Antique',
+    lieu: 'Forum, Colisée, Palatin et Panthéon (Rome, Italie)',
+    premiereEtape: 'depart',
+
+    etapes: {
+
+      /* ── 1. L’arrivée ─────────────────────────────────────── */
+      'depart': {
+        lieu: 'Au bord du Forum', emoji: '🛵', ambiance: 'forum',
+        texte: [
+          'Tu descends du bus dans le vacarme des scooters, et la ville s’ouvre d’un coup sous tes pieds. Littéralement : de l’autre côté de la balustrade, sept mètres plus bas, s’étend un champ de colonnes cassées, de marches et de murs de brique. C’est le Forum Romain — le centre du monde, il y a deux mille ans.',
+          'Une femme en gilet orange remonte l’escalier de chantier, un carnet sous le bras. « Tu es en avance ! Giulia, archéologue de la Surintendance. Tiens, prends celui-ci : ici, un explorateur qui n’écrit rien repart avec des images et sans une seule idée. »',
+          'Sur un chapiteau renversé, un chat roux borgne te regarde arriver sans bouger une moustache.'
+        ],
+        objetGagne: 'Carnet d’archéologue',
+        saviezVous: 'Le centre historique de Rome est inscrit au <strong>patrimoine mondial de l’UNESCO depuis 1980</strong>. Le Forum, lui, a passé des siècles enterré sous les décombres et la terre : au Moyen Âge, on y faisait paître les vaches, et on l’appelait le <em>Campo Vaccino</em>, « le champ des vaches ». Il a fallu creuser tout le XIX<sup>e</sup> siècle pour le retrouver.',
+        choix: [
+          { texte: 'Poser une question à Giulia avant de descendre', destination: 'questions_giulia' },
+          { texte: 'Descendre tout de suite sur la Voie Sacrée', destination: 'forum' }
+        ]
+      },
+
+      'questions_giulia': {
+        lieu: 'L’escalier de chantier', emoji: '🦺', ambiance: 'forum',
+        texte: [
+          '« Pourquoi tout est en dessous ? Les Romains habitaient dans un trou ? »',
+          'Giulia rit. « Non : c’est la ville moderne qui a monté. Vingt siècles d’incendies, de gravats, de crues du Tibre et de maisons rebâties par-dessus les précédentes. À certains endroits, le sol d’aujourd’hui est <em>huit mètres</em> au-dessus de celui de César. Creuser, ici, c’est descendre dans le temps. »',
+          'Elle montre une plaque d’égout, en passant : quatre lettres y sont fondues. S · P · Q · R.'
+        ],
+        saviezVous: '<strong>SPQR</strong> veut dire <em>Senatus PopulusQue Romanus</em> : « le Sénat et le Peuple romain ». C’était la signature de la République, gravée sur les monuments et les enseignes des légions. Deux mille ans plus tard, la mairie de Rome l’écrit encore sur ses camions-poubelles et ses plaques d’égout.',
+        choix: [
+          { texte: 'Descendre sur la Voie Sacrée', destination: 'forum' },
+          { texte: 'Filer d’abord voir le Colisée, au bout de l’avenue', destination: 'colisee_exterieur' }
+        ]
+      },
+
+      /* ── 2. Le Forum ──────────────────────────────────────── */
+      'forum': {
+        lieu: 'La Voie Sacrée', emoji: '🏛️', ambiance: 'forum',
+        texte: [
+          'Tu marches sur de grandes dalles polies, creusées d’ornières : la <em>Via Sacra</em>, la rue par laquelle passaient les triomphes. À droite, trois colonnes énormes tiennent encore un morceau de corniche, comme un mot resté seul au milieu d’une phrase effacée.',
+          'Devant toi, un petit temple rond ; plus loin, un arc de marbre ; et partout, du gravier blanc que le soleil rend éblouissant. Le chat roux te double sans se presser.'
+        ],
+        saviezVous: 'Avant d’être le centre de Rome, cette vallée était un <strong>marécage</strong>. On l’a asséchée en creusant un grand canal couvert, la <em>Cloaca Maxima</em>, il y a plus de deux mille cinq cents ans. Sans cet égout, pas de Forum : la place la plus célèbre du monde antique commence par un travail de plomberie.',
+        choix: [
+          { texte: 'Fouiller du bout du pied le gravier, au pied d’une colonne', destination: 'gravier' },
+          { texte: 'S’approcher du petit temple rond', destination: 'temple_vesta' },
+          { texte: 'Remonter la Voie Sacrée jusqu’à l’arc de marbre', destination: 'arc_titus' }
+        ]
+      },
+
+      'gravier': {
+        lieu: 'Le gravier du Forum', emoji: '🎟️', ambiance: 'forum',
+        texte: [
+          'Tu écartes les cailloux blancs du bout de la chaussure, sans y croire. Et quelque chose ne roule pas comme les autres : une plaquette plate, jaune ivoire, longue comme ton pouce.',
+          'De l’os, poli, gravé. D’un côté, un nom en capitales. De l’autre, un chiffre romain : <strong>XXIII</strong>. Giulia, arrivée derrière toi, siffle doucement entre ses dents. « Ça, mon vieux, c’est une tessère. »'
+        ],
+        objetGagne: 'Tessère en os',
+        saviezVous: 'On a retrouvé des centaines de ces <strong>tessères en os</strong>, gravées de lettres et de chiffres. Pendant longtemps, on a dit : ce sont les billets d’entrée des spectacles. Aujourd’hui, beaucoup de chercheurs y voient plutôt des jetons de jeu, ou des étiquettes. <em>On ne sait pas.</em> En archéologie, savoir dire « on ne sait pas » fait partie du métier.',
+        choix: [
+          { texte: 'Aller voir le temple rond, tessère en poche', destination: 'temple_vesta' },
+          { texte: 'Monter vers le grand bâtiment de brique, tout droit', destination: 'curie' },
+          { texte: 'Courir jusqu’au Colisée essayer le chiffre XXIII', destination: 'colisee_exterieur' }
+        ]
+      },
+
+      'temple_vesta': {
+        lieu: 'Le temple de Vesta', emoji: '🔥', ambiance: 'forum',
+        texte: [
+          'Le temple est rond, comme une cabane de bois l’était au tout début, et il n’en reste qu’un quart : trois colonnes, un bout de mur, une marche. Au milieu, un creux dans le sol.',
+          'C’est là que brûlait le feu. Pas un feu ordinaire : le feu de la ville, qui ne devait jamais s’éteindre. On dit qu’il a brûlé pendant plus de mille ans.'
+        ],
+        saviezVous: 'Six prêtresses, les <strong>Vestales</strong>, entretenaient ce feu jour et nuit. Choisies enfants, elles servaient <strong>trente ans</strong>. En échange, elles avaient ce qu’aucune autre femme romaine n’avait : le droit de posséder, de témoigner en justice et de circuler seules. Laisser le feu s’éteindre était une faute très grave.',
+        choix: [
+          { texte: 'Entrer dans la cour de la maison des Vestales', destination: 'maison_vestales' },
+          { texte: 'Monter vers le grand bâtiment de brique', destination: 'curie' },
+          { texte: 'Revenir sur la Voie Sacrée', destination: 'forum' }
+        ]
+      },
+
+      'maison_vestales': {
+        lieu: 'La cour des Vestales', emoji: '🗿', ambiance: 'forum',
+        texte: [
+          'Une longue cour, deux bassins vides, et tout autour des statues de femmes drapées, alignées sur leurs socles. Chaque socle porte un nom, une date, un éloge.',
+          'Sauf un. Sur celui-là, le nom a été buriné, arraché à coups de ciseau, et il ne reste qu’un rectangle de marbre plus clair. Quelqu’un a voulu, il y a très longtemps, que cette femme-là soit oubliée. On ignore qui elle était, et pourquoi.'
+        ],
+        saviezVous: 'Effacer un nom gravé s’appelait la <em>damnatio memoriae</em> : la condamnation de la mémoire. On l’a fait pour des empereurs détestés, dont on a martelé le visage sur les monnaies et le nom sur les murs. C’est l’un des rares cas où <strong>un vide, dans la pierre, est lui-même une information</strong>.',
+        choix: [
+          { texte: 'Monter vers le grand bâtiment de brique', destination: 'curie' },
+          { texte: 'Continuer jusqu’à l’arc de marbre', destination: 'arc_titus' }
+        ]
+      },
+
+      'curie': {
+        lieu: 'La Curie', emoji: '🏛️', ambiance: 'forum',
+        texte: [
+          'Un grand bloc de brique, presque nu, avec un toit. Ça ne paie pas de mine — et c’est la salle du Sénat. Dedans : un sol de marbre en losanges, trois gradins de chaque côté, et un silence de cathédrale. Trois cents hommes tenaient là-dedans, et une partie du monde connu se décidait entre ces murs.',
+          'Les portes de bronze, en haut des marches, sont des copies. Les vraies ont été emportées au XVII<sup>e</sup> siècle pour servir à une basilique de la ville, où elles sont toujours.'
+        ],
+        saviezVous: 'Si la Curie est encore debout, c’est parce qu’elle a été <strong>transformée en église</strong> au VII<sup>e</sup> siècle. Beaucoup de monuments antiques ont survécu ainsi : réutilisés, on continuait à les entretenir. Ceux qu’on a laissés vides sont devenus des carrières de pierres toutes taillées.',
+        choix: [
+          { texte: 'Aller voir la colonne sculptée, derrière le Forum', destination: 'colonne_trajane' },
+          { texte: 'Marcher vingt minutes jusqu’au Panthéon', destination: 'pantheon' },
+          { texte: 'Redescendre vers l’arc de marbre', destination: 'arc_titus' }
+        ]
+      },
+
+      'colonne_trajane': {
+        lieu: 'La colonne de Trajan', emoji: '🌀', ambiance: 'forum',
+        texte: [
+          'Elle monte droit dans le ciel, blanche, entourée d’une bande sculptée qui s’enroule autour d’elle comme la peau d’une orange qu’on épluche. Des soldats, des bateaux, des ponts, des arbres coupés, des villages : une guerre entière racontée en images, du bas jusqu’en haut.',
+          'À son pied, sous une bâche, un homme applique une pâte grise sur un fragment de corniche. « Bruno, mouleur », dit-il sans se retourner. « Tu veux copier quelque chose ? Prends ça. » Il te tend un cadre de bois rempli de cire, avec un stylet planté dedans.'
+        ],
+        objetGagne: 'Tablette de cire',
+        saviezVous: 'Déroulée, la bande sculptée de la colonne ferait près de <strong>200 mètres de long</strong> et compte plus de deux mille personnages : c’est la plus ancienne bande dessinée monumentale qu’on connaisse. Détail cruel pour nous : le haut est presque invisible depuis le sol. On pense qu’on la regardait depuis les balcons des bibliothèques qui l’entouraient.',
+        choix: [
+          { texte: 'Filer vers le Colisée avec la tablette', destination: 'colisee_exterieur' },
+          { texte: 'Revenir sur la Voie Sacrée', destination: 'forum' }
+        ]
+      },
+
+      'arc_titus': {
+        lieu: 'L’arc de Titus', emoji: '🏹', ambiance: 'forum',
+        texte: [
+          'L’arc se dresse en haut de la montée, seul, avec son passage voûté où le vent s’engouffre. À l’intérieur, sur la paroi de droite, une procession sculptée : des hommes portent sur leurs épaules un grand chandelier à sept branches et des trompettes d’or, pris à Jérusalem pendant la guerre.',
+          'Les vainqueurs ont fait graver leur victoire dans le marbre. Les vaincus, eux, n’avaient pas de mur. Tu restes un moment sans rien dire, la main sur la pierre tiède.'
+        ],
+        saviezVous: 'Regarde bien les deux extrémités de l’arc : elles sont d’un blanc plus terne, sans sculptures. Ce sont les parties <strong>refaites au XIX<sup>e</sup> siècle</strong>, volontairement laissées nues, pour qu’on distingue toujours l’antique du moderne. Une restauration honnête ne cherche pas à faire croire qu’elle n’a pas eu lieu.',
+        choix: [
+          { texte: 'Descendre vers le Colisée, juste en dessous', destination: 'colisee_exterieur' },
+          { texte: 'Grimper le sentier de la colline du Palatin', destination: 'palatin' }
+        ]
+      },
+
+      /* ── 3. Le Panthéon ───────────────────────────────────── */
+      'pantheon': {
+        lieu: 'Le portique du Panthéon', emoji: '🏛️', ambiance: 'pantheon',
+        texte: [
+          'Au bout d’une ruelle étroite, la place s’ouvre d’un coup et le Panthéon est là, planté au milieu des cafés : seize colonnes de granit gris d’un seul tenant, hautes comme un immeuble de quatre étages, apportées d’Égypte par bateau et par barge.',
+          'Sur la façade, en lettres de bronze : <strong>M · AGRIPPA · L · F · COS · TERTIVM · FECIT</strong>. « Marcus Agrippa, fils de Lucius, consul pour la troisième fois, l’a fait. »'
+        ],
+        saviezVous: 'Cette inscription a trompé tout le monde pendant des siècles. Le bâtiment d’Agrippa a brûlé ; celui qu’on voit a été <strong>reconstruit sous Hadrien</strong>, qui a fait remettre le nom du premier constructeur. Comment l’a-t-on découvert ? Grâce aux <strong>timbres imprimés sur les briques</strong> — on y reviendra.',
+        choix: [
+          { texte: 'Entrer sous la coupole', destination: 'oculus' },
+          { texte: 'Repartir vers le Forum', destination: 'forum' }
+        ]
+      },
+
+      'oculus': {
+        lieu: 'Sous la coupole', emoji: '⚪', ambiance: 'pantheon',
+        texte: [
+          'Tu passes la porte, et tu lèves la tête d’un mouvement que tout le monde fait, ici, depuis mille neuf cents ans. Au-dessus de toi, une coupole immense creusée de caissons carrés qui rétrécissent en montant — et, tout en haut, un trou rond, ouvert sur le ciel.',
+          'Un disque de soleil est posé de travers sur le mur, comme une tache de peinture. Il glisse lentement pendant que tu le regardes. Le Panthéon est une horloge, et personne ne te l’avait dit.'
+        ],
+        saviezVous: 'La coupole mesure <strong>43,3 mètres de diamètre — exactement sa hauteur sous le trou</strong> : une sphère parfaite tiendrait dedans. Elle est en béton romain, et les bâtisseurs ont mis des pierres de plus en plus légères en montant, de la pierre lourde en bas, de la pierre ponce en haut. C’est encore aujourd’hui <strong>la plus grande coupole de béton sans armature du monde</strong>.',
+        choix: [
+          { texte: 'S’asseoir contre une colonne et attendre la pluie annoncée', destination: 'fin_oculus' },
+          { texte: 'Ressortir et retourner au Forum', destination: 'forum' }
+        ]
+      },
+
+      /* ── 4. Le Colisée ────────────────────────────────────── */
+      'colisee_exterieur': {
+        lieu: 'Devant le Colisée', emoji: '🏟️', ambiance: 'colisee',
+        texte: [
+          'Il est plus grand que tout ce que tu avais imaginé, et il est troué comme un vieux fromage. Quatre étages, des arcades sur des arcades, une moitié de façade qui manque, et sur toute la pierre des milliers de petits cratères réguliers.',
+          'Au-dessus des arcades du bas, des chiffres romains sont encore gravés dans le linteau. Tu remontes le long du mur en les lisant à voix haute : XX, XXI, XXII… et ta main serre la tessère au fond de ta poche.'
+        ],
+        saviezVous: 'Les trous ne sont pas des blessures de guerre : les blocs de travertin étaient tenus par des <strong>agrafes de fer</strong>, et au Moyen Âge on est venu les arracher pour récupérer le métal. Quant au nom, il ne vient pas de sa taille : il vient du <em>colosse</em>, une statue de bronze de trente mètres qui se dressait juste à côté.',
+        choix: [
+          { texte: 'Entrer par l’arcade et monter aux gradins', destination: 'colisee_gradins' },
+          { texte: 'Chercher l’escalier qui descend sous l’arène', destination: 'hypogee' },
+          { texte: 'Demander au gardien par où passent les archéologues', destination: 'nino_gardien' }
+        ]
+      },
+
+      'nino_gardien': {
+        lieu: 'La loge du gardien', emoji: '🔦', ambiance: 'colisee',
+        texte: [
+          'Nino garde la porte des chantiers depuis vingt-deux ans et connaît le monument mieux que le plan du monument. Il t’écoute, hoche la tête, et va chercher quelque chose dans un tiroir plein de câbles.',
+          '« En bas, il n’y a pas une seule fenêtre. Jamais eu. » Il te pose une lampe de fouille dans la main. « Les Romains y travaillaient à la petite flamme, dans la fumée. Toi, tu auras de la lumière — alors regarde vraiment. »'
+        ],
+        objetGagne: 'Lampe de fouille',
+        saviezVous: 'On a retrouvé dans les fouilles romaines des <strong>dizaines de milliers de lampes à huile</strong> en terre cuite. Elles éclairaient à peu près comme une bougie. Toute la machinerie du Colisée — des hommes, des bêtes, des treuils — fonctionnait sous l’arène dans cette lumière-là.',
+        choix: [
+          { texte: 'Descendre sous l’arène', destination: 'hypogee' },
+          { texte: 'Monter d’abord aux gradins', destination: 'colisee_gradins' }
+        ]
+      },
+
+      'colisee_gradins': {
+        lieu: 'Les gradins', emoji: '💺', ambiance: 'colisee',
+        texte: [
+          'Depuis les gradins, l’ovale est vertigineux. Le plancher de l’arène a disparu : à la place, on voit tout le dessous, un labyrinthe de murets et de couloirs à ciel ouvert, comme une fourmilière coupée en deux.',
+          'Autour de toi, les rangées de pierre montent en éventail. Chaque place était numérotée, chaque secteur réservé.'
+        ],
+        saviezVous: 'On tendait au-dessus du public un immense voile de toile, le <em>velarium</em>, manœuvré par des <strong>marins de la flotte de Misène</strong> : eux seuls savaient tirer autant de cordages ensemble. Et la place qu’on avait dépendait de qui on était : les sénateurs en bas, au bord de l’arène ; les femmes tout en haut, sous le ciel.',
+        choix: [
+          { texte: 'Chercher la rangée écrite sur ta tessère', destination: 'rangee_felix',
+            requiert: 'Tessère en os',
+            indice: 'Il te faudrait un numéro à chercher. Le gravier du Forum en cache un, au pied des colonnes.' },
+          { texte: 'Descendre sous l’arène', destination: 'hypogee' },
+          { texte: 'Sortir et grimper sur le Palatin', destination: 'palatin' }
+        ]
+      },
+
+      'rangee_felix': {
+        lieu: 'La vingt-troisième rangée', emoji: '🔎', ambiance: 'colisee',
+        texte: [
+          'XXIII. Tu comptes les rangées à voix basse, la tessère dans le poing, et tu t’accroupis devant un bloc gris comme les autres.',
+          'Il n’est pas comme les autres. Quelqu’un a gratté la pierre avec la pointe d’un clou, maladroitement, en lettres penchées : <strong>FELIX</strong>. Et juste en dessous, une petite marque en creux, un dessin dans un rond, net comme un tampon.'
+        ],
+        saviezVous: 'Les murs antiques sont couverts de <strong>graffitis</strong> : des noms, des insultes, des comptes, des cœurs, des chevaux mal dessinés. Ce sont souvent les seules traces des gens qui n’ont pas écrit de livres. Pour un archéologue, une bêtise gravée par un gamin il y a mille huit cents ans vaut de l’or.',
+        choix: [
+          { texte: 'Prendre l’empreinte de la marque à la cire', destination: 'empreinte',
+            requiert: 'Tablette de cire',
+            indice: 'Il faudrait de la cire pour copier un creux. Le mouleur, au pied de la colonne de Trajan, en distribue.' },
+          { texte: 'La recopier à main levée dans ton carnet', destination: 'releve_carnet' },
+          { texte: 'Redescendre vers les gradins', destination: 'colisee_gradins' }
+        ]
+      },
+
+      'releve_carnet': {
+        lieu: 'Le carnet ouvert', emoji: '✏️', ambiance: 'colisee',
+        texte: [
+          'Tu dessines la marque du mieux que tu peux : un rond, quelque chose au milieu, deux traits. Tu notes la rangée, le secteur, la date, l’heure.',
+          'Et en refermant le carnet, tu sais déjà que ce n’est pas assez. Un dessin, c’est ce que l’œil a cru voir. Une empreinte, c’est ce que la pierre a vraiment.'
+        ],
+        saviezVous: 'Relever un objet, ce n’est pas le dessiner joliment : c’est <strong>enregistrer où il était</strong> et à quoi il ressemblait, pour que la fouille reste lisible quand elle sera finie. Une fouille détruit ce qu’elle étudie — le carnet est tout ce qui en reste.',
+        choix: [
+          { texte: 'Retourner voir le mouleur chercher de la cire', destination: 'colonne_trajane' },
+          { texte: 'Rester au Colisée et descendre sous l’arène', destination: 'hypogee' }
+        ]
+      },
+
+      'empreinte': {
+        lieu: 'L’empreinte à la cire', emoji: '📜', ambiance: 'colisee',
+        texte: [
+          'Tu chauffes la cire entre tes mains, tu la presses contre la pierre, tu comptes jusqu’à trente, et tu décolles doucement.',
+          'La marque est là, en relief, parfaitement nette : un cercle, une petite roue à l’intérieur, et deux lettres. Ce n’est pas un graffiti d’ennui. C’est un <em>signe d’atelier</em> — la signature de ceux qui fabriquaient.'
+        ],
+        objetGagne: 'Empreinte du nom FELIX',
+        saviezVous: 'Les artisans romains signaient leur production : potiers, verriers, briquetiers, tuiliers. Ces marques, répétées sur des milliers d’objets, permettent de <strong>relier entre eux des chantiers distants de plusieurs kilomètres</strong> — et parfois de retrouver le nom d’un homme dont personne n’a jamais écrit l’histoire.',
+        choix: [
+          { texte: 'Descendre sous l’arène avec l’empreinte', destination: 'hypogee' },
+          { texte: 'Monter sur le Palatin, au musée du site', destination: 'palatin' }
+        ]
+      },
+
+      /* ── 5. Sous l’arène ──────────────────────────────────── */
+      'hypogee': {
+        lieu: 'L’hypogée', emoji: '🕳️', ambiance: 'souterrain',
+        texte: [
+          'Tu descends l’escalier de bois du chantier, et la lumière change : au-dessus de toi, l’ovale du ciel ; autour de toi, des couloirs de brique, hauts, étroits, qui se croisent en damier sous toute la surface de l’arène.',
+          'Le sol est jonché d’éclats. Entre deux briques, quelque chose de rond et de sombre attend depuis longtemps : un denier d’argent, tout usé, dont le profil ne se voit plus qu’en le penchant vers la lumière.'
+        ],
+        objetGagne: 'Denier d’argent',
+        saviezVous: 'Ce sous-sol, l’<em>hypogée</em>, n’existait pas à l’ouverture du monument : il a été creusé quelques années plus tard, sous Domitien. Une trentaine de <strong>monte-charges</strong> à treuil y faisaient surgir les cages au milieu de l’arène par des trappes. Des archéologues en ont reconstruit un en bois, grandeur nature : il fonctionne.',
+        choix: [
+          { texte: 'Suivre le grand couloir central, lampe allumée', destination: 'machinerie',
+            requiert: 'Lampe de fouille',
+            indice: 'Sans lumière, ce couloir-là ne mène nulle part. Le gardien du Colisée prête des lampes.' },
+          { texte: 'S’y engager quand même, à tâtons', destination: 'noir_complet' },
+          { texte: 'Remonter vers les gradins', destination: 'colisee_gradins' }
+        ]
+      },
+
+      'noir_complet': {
+        lieu: 'Le noir', emoji: '🌑', ambiance: 'souterrain',
+        texte: [
+          'Dix pas, et la lumière du ciel n’éclaire plus rien. Vingt pas, et tu avances les deux mains devant toi comme dans un jeu. Trente pas, et tu ne sais plus si tu es allé tout droit.',
+          'Tu t’arrêtes. Le silence, sous terre, n’est pas vide : il bourdonne dans les oreilles. Très loin au-dessus, un groupe de touristes rit, et le son arrive comme du fond d’un puits.'
+        ],
+        choix: [
+          { texte: 'Revenir en suivant le courant d’air frais', destination: 'hypogee' },
+          { texte: 'Appeler à l’aide, très fort', destination: 'fin_perdu' }
+        ]
+      },
+
+      'machinerie': {
+        lieu: 'La salle des treuils', emoji: '⚙️', ambiance: 'souterrain',
+        texte: [
+          'Le faisceau de ta lampe court sur les murs et découvre une salle basse. Dans le sol, deux rainures parallèles, profondes, polies : la glissière d’un monte-charge. Au mur, les logements carrés où s’enfonçait l’axe du treuil.',
+          'Tu passes le doigt dans la poussière du fond d’une niche, et tu ressors un anneau de bronze verdi. Une bague trop grande pour toi, plate sur le dessus, avec un dessin gravé en creux — un cercle, une petite roue.'
+        ],
+        objetGagne: 'Anneau-sceau de bronze',
+        saviezVous: 'Un <strong>anneau-sceau</strong> servait de signature : on le pressait dans la cire chaude qui fermait une lettre, un sac ou une porte. Le dessin gravé était toujours <em>en creux et à l’envers</em>, pour ressortir à l’endroit dans la cire. Perdre son anneau, à Rome, c’était perdre sa signature.',
+        choix: [
+          { texte: 'Suivre le canal qui part vers le Forum', destination: 'cloaca' },
+          { texte: 'Remonter vers les gradins', destination: 'colisee_gradins' },
+          { texte: 'Ressortir et monter sur le Palatin', destination: 'palatin' }
+        ]
+      },
+
+      'cloaca': {
+        lieu: 'La Cloaca Maxima', emoji: '💧', ambiance: 'souterrain',
+        texte: [
+          'Le boyau devient un canal voûté, si vieux que les blocs n’ont pas de mortier entre eux : on les a posés, et ils tiennent par leur seul poids depuis vingt-cinq siècles.',
+          'Une eau noire coule au fond, lentement, dans la même direction qu’au premier jour : vers le Tibre. Ta lampe fait briller la voûte. On dirait le ventre de la ville, et ça respire.'
+        ],
+        saviezVous: 'La <strong>Cloaca Maxima</strong> est l’un des plus vieux égouts du monde encore en service. Creusée à l’époque des rois de Rome pour assécher le marais du Forum, elle a été couverte, agrandie, réparée mille fois — et une partie de l’eau de Rome y passe toujours.',
+        choix: [
+          { texte: 'Ressortir côté Forum', destination: 'forum' },
+          { texte: 'Remonter par l’escalier du Palatin', destination: 'palatin' }
+        ]
+      },
+
+      /* ── 6. Le Palatin ────────────────────────────────────── */
+      'palatin': {
+        lieu: 'La colline du Palatin', emoji: '🌿', ambiance: 'palatin',
+        texte: [
+          'Le sentier monte entre les pins parasols, et le bruit de la ville tombe d’un coup. En haut, c’est une autre planète : de l’herbe, des orangers, des ruines couleur de brique, et le Forum entier étalé en contrebas comme une maquette.',
+          'C’est ici que tout a commencé, et ici que ça a fini : la colline des cabanes des débuts, et celle des palais des empereurs.'
+        ],
+        saviezVous: 'Le mot <strong>palais</strong> vient d’ici : les empereurs habitaient le <em>Palatium</em>, le Palatin. Le nom de la colline est devenu le nom de la chose — <em>palazzo</em>, <em>palace</em>, <em>palast</em>. Toutes les langues d’Europe se sont servies dans cette phrase-là.',
+        choix: [
+          { texte: 'Voir les trous dans le tuf, à l’écart du chemin', destination: 'cabane_romulus' },
+          { texte: 'Entrer dans les salles peintes de la maison d’Auguste', destination: 'maison_auguste' },
+          { texte: 'Monter au petit musée de la colline', destination: 'antiquarium' }
+        ]
+      },
+
+      'cabane_romulus': {
+        lieu: 'Les cabanes du début', emoji: '🛖', ambiance: 'palatin',
+        texte: [
+          'Il n’y a rien à voir, et c’est fabuleux. Dans la roche tendre, des trous ronds, régulièrement espacés, protégés par une grille. Rien d’autre.',
+          'Ce sont des trous de poteaux. Ils dessinent le plan d’une cabane ovale : un toit de branches et de roseaux, un foyer au milieu, une famille de bergers. La première Rome, c’était ça.'
+        ],
+        saviezVous: 'La légende dit que Romulus a fondé Rome en <strong>753 avant Jésus-Christ</strong>. Les fouilles du Palatin ont retrouvé des cabanes du <strong>VIII<sup>e</sup> siècle avant J.-C.</strong> : la légende et le sol tombent d’accord sur la date. Cela ne prouve pas que Romulus ait existé — cela prouve qu’il y avait bien un village, ici, à ce moment-là.',
+        choix: [
+          { texte: 'Descendre voir les salles peintes', destination: 'maison_auguste' },
+          { texte: 'Monter au petit musée de la colline', destination: 'antiquarium' }
+        ]
+      },
+
+      'maison_auguste': {
+        lieu: 'Les salles peintes', emoji: '🎨', ambiance: 'palatin',
+        texte: [
+          'On te fait entrer par petits groupes, cinq minutes, et la lumière s’allume doucement. Les murs sont rouges. D’un rouge si profond, si vivant, qu’il a l’air frais.',
+          'Autour, des colonnes peintes en trompe-l’œil, des guirlandes, des petits masques de théâtre, et des fenêtres fausses ouvertes sur des jardins qui n’ont jamais existé. Deux mille ans, et la peinture tient encore au mur.'
+        ],
+        saviezVous: 'Ce rouge vient du <strong>cinabre</strong>, un minerai si cher que son prix était surveillé par l’État. Et si ces peintures ont survécu, c’est par accident : les pièces ont été <strong>remblayées et enterrées</strong> pour servir de fondations aux palais construits par-dessus. On les a étouffées — c’est ce qui les a sauvées.',
+        choix: [
+          { texte: 'Sortir dans les jardins suspendus', destination: 'jardins_farnese' },
+          { texte: 'Monter au petit musée de la colline', destination: 'antiquarium' }
+        ]
+      },
+
+      'jardins_farnese': {
+        lieu: 'Les jardins du sommet', emoji: '🍊', ambiance: 'palatin',
+        texte: [
+          'Des allées de buis, des orangers, un bassin, deux pavillons — et tout cela posé sur le toit effondré d’un palais d’empereur, comme un jardin sur une tombe.',
+          'Sur le muret chaud, six chats dorment en ligne. Le roux borgne du Forum est là, bien sûr, au bout, et il te regarde arriver comme s’il t’attendait depuis le début de la journée.'
+        ],
+        saviezVous: 'Ces jardins ont été plantés au XVI<sup>e</sup> siècle par la famille Farnèse, par-dessus les ruines : ce sont <strong>parmi les premiers jardins botaniques d’Europe</strong>. Et les chats sont chez eux : à Rome, les colonies de chats des ruines sont protégées, nourries et soignées par des bénévoles.',
+        choix: [
+          { texte: 'S’asseoir avec les chats et regarder le Forum s’éteindre', destination: 'fin_chats' },
+          { texte: 'Monter au petit musée de la colline', destination: 'antiquarium' },
+          { texte: 'Redescendre vers les ruines', destination: 'palatin' }
+        ]
+      },
+
+      /* ── 7. L’archive ─────────────────────────────────────── */
+      'antiquarium': {
+        lieu: 'Le musée de la colline', emoji: '🏺', ambiance: 'palatin',
+        texte: [
+          'Le musée du Palatin tient dans un ancien couvent. Deux étages, des vitrines sobres, presque personne. Dans la première salle : des morceaux de peinture murale ; dans la deuxième, un mur entier de briques posées à plat, chacune avec une marque au milieu.',
+          'Giulia t’a rejoint, un café à la main, et regarde ce que tu tiens.'
+        ],
+        saviezVous: 'Les briques romaines portent souvent un <strong>timbre</strong> : le nom de l’atelier, celui du propriétaire du domaine, parfois le nom des consuls de l’année. Résultat : une brique romaine est un objet <em>daté</em>. C’est en lisant ces timbres qu’on a compris que le Panthéon n’était pas d’Agrippa mais d’Hadrien.',
+        choix: [
+          { texte: 'Comparer ton empreinte avec le mur de briques', destination: 'salle_felix',
+            requiert: 'Empreinte du nom FELIX',
+            indice: 'Il faudrait une empreinte à comparer. Elle se prend à la cire, sur un gradin du Colisée.' },
+          { texte: 'Traîner dans les vitrines des objets ordinaires', destination: 'visite_antiquarium' },
+          { texte: 'Ressortir sur la colline', destination: 'palatin' }
+        ]
+      },
+
+      'visite_antiquarium': {
+        lieu: 'La vitrine des jours ordinaires', emoji: '🎲', ambiance: 'palatin',
+        texte: [
+          'Ce ne sont pas les statues qui te retiennent, c’est la petite vitrine du fond : des dés en os, une poupée articulée, une clé, un peigne à qui il manque trois dents, et une minuscule sandale d’enfant, ratatinée mais entière.',
+          'Aucun empereur là-dedans. Rien que des gens.'
+        ],
+        saviezVous: 'Les musées ne gardent pas que les chefs-d’œuvre : <strong>les objets ordinaires racontent la vie ordinaire</strong>, dont les textes anciens ne parlent presque jamais. Les auteurs romains décrivent les banquets des riches ; ce sont les peignes, les chaussures et les jouets qui nous disent le reste.',
+        choix: [
+          { texte: 'Aller comparer ton empreinte au mur de briques', destination: 'salle_felix',
+            requiert: 'Empreinte du nom FELIX',
+            indice: 'Il faudrait une empreinte à comparer. Elle se prend à la cire, sur un gradin du Colisée.' },
+          { texte: 'Ressortir sur la colline', destination: 'palatin' }
+        ]
+      },
+
+      'salle_felix': {
+        lieu: 'Le mur des briques', emoji: '🧱', ambiance: 'palatin',
+        texte: [
+          'Tu lèves ton empreinte de cire contre la vitre, et tu remontes le mur brique après brique. Troisième rangée, cinquième brique : le même cercle, la même petite roue, les mêmes deux lettres. Identiques.',
+          'Giulia lit l’étiquette à voix haute. « Timbre d’atelier. Briqueterie du versant nord du Palatin. Et là, le nom du contremaître : <strong>FELIX</strong>. » Elle repose son café. « Ton graffiti, sur le gradin, ce n’est pas un spectateur qui s’ennuie. C’est un ouvrier qui a signé son travail. »'
+        ],
+        objetGagne: 'Le nom de Felix',
+        saviezVous: '<em>Felix</em> — « chanceux, heureux » — était un nom très souvent donné aux <strong>esclaves puis aux affranchis</strong>. Des hommes comme lui ont bâti la moitié de Rome sans que personne écrive leur histoire. Retrouver un nom, une fois, c’est rendre une personne à quelqu’un qui n’en avait plus.',
+        choix: [
+          { texte: 'Aller voir ce qu’il reste de sa briqueterie, au nord de la colline', destination: 'seuil_palatin' },
+          { texte: 'Ressortir sur la colline', destination: 'palatin' }
+        ]
+      },
+
+      'seuil_palatin': {
+        lieu: 'Le seuil de la briqueterie', emoji: '🚪', ambiance: 'palatin',
+        texte: [
+          'Au bout d’un sentier barré d’une chaîne, il ne reste presque rien : un carré de murs bas dans les herbes, et un seuil de pierre usé en son milieu par des pieds qui l’ont passé pendant des années.',
+          'Sous le seuil, la terre s’est affaissée. Un vide, une cavité, et calée dedans, la panse ronde d’un petit pot bouché à la cire. Sur le bouchon de cire durcie, une empreinte : un cercle, une petite roue.'
+        ],
+        choix: [
+          { texte: 'Comparer l’anneau au cachet, et dégager le pot', destination: 'depot_fondation',
+            requiert: ['Le nom de Felix', 'Anneau-sceau de bronze'],
+            indice: 'Il te faudrait l’anneau qui a fait ce cachet — il traîne dans la poussière de l’hypogée — et le nom que l’archive du musée porte sur ses briques.' },
+          { texte: 'Ne toucher à rien et tout consigner dans le carnet', destination: 'fin_archeologue' },
+          { texte: 'Redescendre vers les ruines', destination: 'palatin' }
+        ]
+      },
+
+      'depot_fondation': {
+        lieu: 'Sous le seuil', emoji: '🏺', ambiance: 'palatin',
+        texte: [
+          'Tu approches l’anneau du cachet de cire, sans le toucher. Le cercle, la roue, les deux lettres : la bague de bronze retrouvée sous l’arène a fermé ce pot-là. La même main a tenu les deux.',
+          'C’est un dépôt de fondation : le petit trésor qu’on glissait sous un seuil, le jour où l’on bâtissait, pour que la maison tienne et que la famille ait de la chance. Il est là depuis dix-huit siècles, à trente centimètres sous des chaussures de touristes.',
+          'Le vent fait bouger les herbes. Tu es seul, et le pot n’attend plus que toi.'
+        ],
+        saviezVous: 'On a retrouvé un peu partout dans le monde romain ces <strong>dépôts de fondation</strong> : sous un seuil, un mur, un four. Une monnaie, une lampe, parfois un œuf ou une petite offrande. Ce n’était pas un trésor caché des voleurs : c’était un cadeau fait à la maison elle-même.',
+        choix: [
+          { texte: '📣 Ne rien toucher et appeler Giulia tout de suite', destination: 'fin_felix' },
+          { texte: '🫙 Finir de dégager le pot toi-même, puis l’appeler', destination: 'fin_trop_vite' }
+        ]
+      },
+
+      /* ── 8. Les fins ──────────────────────────────────────── */
+      'fin_felix': {
+        fin: true, titreFin: 'Le nom rendu à Felix', badge: '🏺 Découvreur du dépôt',
+        lieu: 'Fin — la plus belle', emoji: '🏺', ambiance: 'fin',
+        texte: [
+          'Tu ne touches rien. Tu recules même d’un pas, et tu appelles. Giulia arrive en courant, regarde, s’accroupit, et reste silencieuse un long moment. Puis elle sort son téléphone et appelle du monde.',
+          'La fouille dure quatre jours. Quatre jours pour trente centimètres. On photographie, on dessine, on prélève couche par couche : c’est l’<em>ordre</em> des objets dans le pot qui raconte l’histoire, et cet ordre-là ne s’écrit qu’une seule fois. Dedans : trois monnaies, une lampe minuscule jamais allumée, et une tessère en os, jumelle de la tienne.',
+          'Un an plus tard, dans une vitrine du musée du Palatin, une petite étiquette dit : « Dépôt de fondation d’une briqueterie — atelier de <strong>FELIX</strong>, II<sup>e</sup> siècle. » Et en dessous, en tout petit : « signalé par un jeune visiteur ». Le trésor, ce n’étaient pas les monnaies. C’était un nom rendu à quelqu’un.'
+        ],
+        saviezVous: 'Ce qui donne sa valeur à une trouvaille, ce n’est presque jamais l’objet : c’est <strong>le contexte</strong> — ce qu’il y avait autour, en dessous, au-dessus. Un objet sorti seul de terre perd la moitié de ce qu’il pouvait dire. C’est pour cela qu’on ne ramasse rien sur un site : on signale, et on attend.'
+      },
+
+      'fin_trop_vite': {
+        fin: true, titreFin: 'Quatre minutes de trop', badge: '⏱️ Trop pressé',
+        lieu: 'Fin — à méditer', emoji: '⏱️', ambiance: 'fin',
+        texte: [
+          'Tu creuses avec les doigts, doucement, en te disant que tu fais attention. Le pot sort de terre. Le bouchon de cire, sec, se fend et tombe en miettes. Tu penches le pot dans ta main : trois monnaies, une lampe minuscule, une tessère d’os. Tout est là, tout est sauf.',
+          'Giulia arrive, et son visage tombe. Elle n’est pas fâchée, c’est presque pire. « Tout y est, oui. Mais dans quel ordre étaient-ils ? Laquelle était au fond ? Y avait-il de la terre entre les couches ? Ces questions-là, on ne peut plus les poser. »',
+          'Le pot part au musée, avec son contenu. Sur l’étiquette, il manquera toujours une phrase. Ce n’est pas grave — c’est juste perdu.'
+        ],
+        saviezVous: 'On appelle <em>stratigraphie</em> la lecture des couches : chaque couche est plus ancienne que celle du dessus. C’est le <strong>calendrier du sol</strong>, et il ne se lit qu’en creusant lentement, dans l’ordre. Une fois mélangée, une stratigraphie ne se recompose pas — même en remettant tout exactement à sa place.'
+      },
+
+      'fin_archeologue': {
+        fin: true, titreFin: 'Le carnet qui vaut de l’or', badge: '📓 Archéologue en herbe',
+        lieu: 'Fin — mission accomplie', emoji: '📓', ambiance: 'fin',
+        texte: [
+          'Tu ne touches à rien. Tu t’assieds dans l’herbe et tu travailles : le seuil, la cavité, la panse du pot, le cachet de cire, et surtout un plan — le sentier, la chaîne, le mur bas, les distances comptées en pas.',
+          'Giulia lit ton carnet page après page, sans rien dire. Puis : « Tu as fait mieux que trouver. Tu as fait un relevé. On peut ouvrir ça proprement, avec l’autorisation, avec l’équipe, en photographiant chaque étape. »',
+          'Ton carnet est scanné et rangé dans les archives du site, entre deux rapports de fouille. Il porte un numéro, maintenant. Un jour, quelqu’un que tu ne connaîtras jamais l’ouvrira pour comprendre ce qu’il y avait sous ce seuil.'
+        ],
+        saviezVous: 'En Italie comme en France, on ne fouille pas sans autorisation, et <strong>signaler une découverte est une obligation légale</strong>. Ce n’est pas de la paperasse : c’est ce qui garantit qu’un objet trouvé par hasard entre dans l’histoire commune au lieu de disparaître dans un tiroir.'
+      },
+
+      'fin_oculus': {
+        fin: true, titreFin: 'La pluie du Panthéon', badge: '⚪ Gardien de l’oculus',
+        lieu: 'Fin — sous la coupole', emoji: '⚪', ambiance: 'fin',
+        texte: [
+          'L’orage arrive comme ils arrivent à Rome : d’un coup, en fin d’après-midi. Tout le monde se serre sous le portique, et toi tu restes à l’intérieur, adossé à une colonne de marbre froid.',
+          'Alors la pluie entre. Par le trou rond, tout là-haut, elle tombe droit, en une colonne d’eau grise qui s’écrase au milieu du sol et rebondit en poussière. Elle ne mouille personne : le sol est légèrement bombé, et vingt-deux petits trous percés dans le marbre avalent l’eau à mesure.',
+          'Ils avaient tout prévu. Même la pluie. Tu regardes, et tu ne penses plus du tout à un trésor.'
+        ],
+        saviezVous: 'L’oculus n’a <strong>jamais eu de vitre</strong> : il est ouvert sur le ciel depuis dix-neuf siècles. Le sol du Panthéon est légèrement convexe et percé d’un système de drains qui évacuent la pluie. Le bâtiment a survécu parce qu’il est devenu une église en 609 — sinon, on l’aurait démonté comme le reste.'
+      },
+
+      'fin_chats': {
+        fin: true, titreFin: 'Le soir sur le Palatin', badge: '🐈 Compagnon des chats',
+        lieu: 'Fin — tout en haut', emoji: '🐈', ambiance: 'fin',
+        texte: [
+          'Tu t’assieds sur le muret tiède, entre le chat roux et un gros chat gris qui ne t’accorde même pas un regard. En dessous, le Forum s’allonge dans la lumière basse : les colonnes projettent des ombres de vingt mètres, la brique devient rose, puis violette.',
+          'Les cloches de la ville se mettent à sonner, décalées les unes des autres. Des hirondelles tournent au-dessus de la basilique. Le chat roux s’étire, se retourne, et pose sa tête contre ton genou comme si c’était prévu depuis toujours.',
+          'Tu n’as pas trouvé de trésor aujourd’hui. Tu as compris une chose plus difficile : cette ville n’est pas un décor mort. Elle est habitée — par des gens, par des chats, et par tous ceux qui y ont vécu avant.'
+        ],
+        saviezVous: 'Rome a compté <strong>un million d’habitants</strong> sous l’Empire : la première ville de l’histoire à atteindre ce chiffre. Il a fallu attendre Londres, au XIX<sup>e</sup> siècle, pour qu’une autre ville d’Europe y arrive à nouveau. Entre les deux, Rome était retombée à quelques dizaines de milliers d’habitants, vivant au milieu de ses propres ruines.'
+      },
+
+      'fin_perdu': {
+        fin: true, douce: true, titreFin: 'Perdu sous l’arène', badge: '🔦 Sauvé de justesse',
+        lieu: 'Fin — retour en arrière', emoji: '🔦', ambiance: 'souterrain',
+        texte: [
+          'Ta voix part dans le noir et revient de trois côtés à la fois. Tu appelles encore. Une lumière danse au bout du couloir, et la voix de Nino arrive avant lui : « Je t’avais dit de prendre une lampe ! »',
+          'Il te ramène à l’escalier en deux minutes — deux minutes, alors que tu te croyais à des kilomètres. « Sous terre, on ne se perd jamais loin », dit-il. « On se perd juste complètement. »',
+          'Ton aventure n’est pas finie : elle reprend là où tu as tourné du mauvais côté. Cette fois, prends de la lumière.'
+        ],
+        saviezVous: 'Sur un chantier souterrain, la règle ne se discute pas : <strong>jamais seul, jamais sans lumière de secours</strong>. L’obscurité totale n’est pas « très sombre » : l’œil ne s’y habitue pas, parce qu’il n’y a strictement rien à capter.',
+        choix: [
+          { texte: '↩︎ Revenir sous l’arène', destination: 'hypogee' },
+          { texte: '🔦 Aller emprunter une lampe au gardien', destination: 'nino_gardien' }
+        ]
+      }
+    }
+  };
+
+  /* ══════════════════════════════════════════════════════════════
+     MOTEUR DE RÉCIT
+     État courant, historique (pour l’annulation), sac, découvertes.
+     Tout tient dans un objet `etat` sérialisable : c’est lui qu’on
+     empile pour le bouton « Retour », et lui qu’on range dans le
+     localStorage entre deux visites.
+     ══════════════════════════════════════════════════════════════ */
+
+  var CLE_SAUVEGARDE = 'grenier.rome.v1';
+
+  var el = {
+    sac:          document.getElementById('sac'),
+    sacVide:      document.getElementById('sac-vide'),
+    sacInfo:      document.getElementById('sac-info'),
+    lieuEmoji:    document.getElementById('lieu-emoji'),
+    lieuNom:      document.getElementById('lieu-nom'),
+    badgeLieu:    document.getElementById('badge-lieu'),
+    titreFin:     document.getElementById('titre-fin'),
+    texte:        document.getElementById('texte'),
+    gain:         document.getElementById('gain'),
+    gainEmoji:    document.getElementById('gain-emoji'),
+    gainNom:      document.getElementById('gain-nom'),
+    blocSavoir:   document.getElementById('bloc-savoir'),
+    btnSavoir:    document.getElementById('btn-savoir'),
+    flecheSavoir: document.getElementById('fleche-savoir'),
+    texteSavoir:  document.getElementById('texte-savoir'),
+    choix:        document.getElementById('choix'),
+    scene:        document.getElementById('scene'),
+    btnRetour:    document.getElementById('btn-retour'),
+    btnRecommencer: document.getElementById('btn-recommencer'),
+    compteurSavoirs: document.getElementById('compteur-savoirs'),
+    jauge:        document.getElementById('jauge'),
+    jaugeTexte:   document.getElementById('jauge-texte'),
+    voileSavoirs: document.getElementById('voile-savoirs'),
+    listeSavoirs: document.getElementById('liste-savoirs'),
+    savoirsVide:  document.getElementById('savoirs-vide'),
+    btnSavoirs:   document.getElementById('btn-savoirs'),
+    fermerSavoirs: document.getElementById('fermer-savoirs'),
+    reprise:      document.getElementById('reprise'),
+    btnReprendre: document.getElementById('btn-reprendre'),
+    btnNeuf:      document.getElementById('btn-neuf')
+  };
+
+  var TOTAL_ETAPES = Object.keys(AVENTURE_ROME.etapes).length;
+  var TOTAL_SAVOIRS = Object.keys(AVENTURE_ROME.etapes).filter(function (k) {
+    return !!AVENTURE_ROME.etapes[k].saviezVous;
+  }).length;
+
+  var etat = null;         /* { etape, inventaire, savoirs, visitees } */
+  var historique = [];     /* pile d’états précédents, pour l’annulation */
+  var dernierGain = null;  /* objet ramassé à l’étape affichée */
+
+  function etatNeuf() {
+    return {
+      etape: AVENTURE_ROME.premiereEtape,
+      inventaire: [],
+      savoirs: [],
+      visitees: [AVENTURE_ROME.premiereEtape]
+    };
+  }
+
+  function copie(o) { return JSON.parse(JSON.stringify(o)); }
+
+  /* ── Sauvegarde locale (silencieuse : elle ne doit jamais casser
+        la partie si le navigateur refuse le stockage) ──────────── */
+  function sauver() {
+    try {
+      localStorage.setItem(CLE_SAUVEGARDE, JSON.stringify({ etat: etat, historique: historique }));
+    } catch (e) { /* navigation privée, quota plein : tant pis */ }
+  }
+  function lireSauvegarde() {
+    try {
+      var brut = localStorage.getItem(CLE_SAUVEGARDE);
+      if (!brut) return null;
+      var d = JSON.parse(brut);
+      if (!d || !d.etat || !AVENTURE_ROME.etapes[d.etat.etape]) return null;
+      return d;
+    } catch (e) { return null; }
+  }
+  function effacerSauvegarde() {
+    try { localStorage.removeItem(CLE_SAUVEGARDE); } catch (e) {}
+  }
+
+  /* ── Le sac ─────────────────────────────────────────────────── */
+  function possede(nom) { return etat.inventaire.indexOf(nom) !== -1; }
+
+  function ajouterObjet(nom) {
+    if (!nom || possede(nom)) return false;
+    etat.inventaire.push(nom);
+    return true;
+  }
+
+  function rendreSac(nouveau) {
+    el.sac.innerHTML = '';
+    if (!etat.inventaire.length) {
+      var vide = document.createElement('span');
+      vide.className = 'text-[.78rem] italic text-pierre-400';
+      vide.textContent = 'il est encore vide…';
+      el.sac.appendChild(vide);
+      el.sacInfo.hidden = true;
+      return;
+    }
+    etat.inventaire.forEach(function (nom) {
+      var o = OBJETS[nom] || { emoji: '❔', desc: '' };
+      /* Un bouton, pas une simple étiquette : sur un téléphone il n'y a
+         pas de survol, alors on touche l'objet pour savoir ce que c'est.
+         Le nom en toutes lettres n'apparaît qu'à partir des écrans
+         larges, sinon la barre du haut mangerait la moitié de l'écran. */
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'inline-flex min-h-[26px] items-center gap-1 rounded-full border border-laurier-400/60 bg-white/75 px-2.5 py-1 text-[.72rem] font-bold text-pierre-700 shadow-sm transition hover:border-laurier-500 hover:bg-white';
+      chip.title = nom + ' — ' + o.desc;
+      chip.setAttribute('aria-label', nom + '. ' + o.desc);
+      chip.innerHTML = '<span aria-hidden="true">' + o.emoji + '</span><span class="hidden sm:inline">' + nom + '</span>';
+      chip.addEventListener('click', function () { montrerObjet(nom); });
+      if (nom === nouveau) chip.classList.add('objet-neuf');
+      el.sac.appendChild(chip);
+    });
+    if (nouveau) montrerObjet(nouveau); else el.sacInfo.hidden = true;
+  }
+
+  function montrerObjet(nom) {
+    var o = OBJETS[nom];
+    if (!o) return;
+    el.sacInfo.hidden = false;
+    el.sacInfo.innerHTML = o.emoji + ' <strong>' + nom + '</strong> — ' + o.desc;
+  }
+
+  /* ── Jauge et compteur ──────────────────────────────────────── */
+  function rendreJauge() {
+    var n = etat.visitees.length;
+    var pct = Math.min(100, Math.round((n / TOTAL_ETAPES) * 100));
+    el.jauge.style.width = pct + '%';
+    el.jaugeTexte.textContent = n + (n > 1 ? ' lieux' : ' lieu');
+    el.compteurSavoirs.textContent = etat.savoirs.length + '/' + TOTAL_SAVOIRS;
+  }
+
+  /* ── Le panneau des découvertes ─────────────────────────────── */
+  function rendreSavoirs() {
+    el.listeSavoirs.innerHTML = '';
+    var vide = etat.savoirs.length === 0;
+    el.savoirsVide.hidden = !vide;
+    etat.savoirs.forEach(function (id) {
+      var e = AVENTURE_ROME.etapes[id];
+      if (!e) return;
+      var li = document.createElement('li');
+      li.className = 'rounded-2xl border border-pourpre-400/40 bg-white/70 p-3';
+      li.innerHTML =
+        '<p class="mb-1 text-[.7rem] font-bold uppercase tracking-widest text-pourpre-600">' +
+          (e.emoji || '💡') + ' ' + (e.lieu || '') + '</p>' +
+        '<p class="text-[.92rem] leading-relaxed text-pierre-700">' + e.saviezVous + '</p>';
+      el.listeSavoirs.appendChild(li);
+    });
+  }
+
+  function ouvrirSavoirs() {
+    rendreSavoirs();
+    el.voileSavoirs.hidden = false;
+    el.fermerSavoirs.focus();
+  }
+  function fermerSavoirs() {
+    el.voileSavoirs.hidden = true;
+    el.btnSavoirs.focus();
+  }
+
+  /* ── Affichage d’une étape ──────────────────────────────────── */
+  function afficher(id, animer) {
+    var e = AVENTURE_ROME.etapes[id];
+    if (!e) return;
+
+    document.body.dataset.ambiance = e.ambiance || 'soleil';
+
+    el.lieuEmoji.textContent = e.emoji || '🏛️';
+    el.lieuNom.textContent = e.lieu || '';
+
+    /* Titre, seulement pour les fins */
+    if (e.fin && e.titreFin) {
+      el.titreFin.hidden = false;
+      el.titreFin.innerHTML = '<span class="text-pourpre-600">' + (e.emoji || '') + '</span> ' + e.titreFin;
+    } else {
+      el.titreFin.hidden = true;
+    }
+
+    /* Le récit */
+    el.texte.innerHTML = '';
+    (Array.isArray(e.texte) ? e.texte : [e.texte]).forEach(function (p) {
+      var para = document.createElement('p');
+      para.innerHTML = p;
+      el.texte.appendChild(para);
+    });
+
+    /* L’objet ramassé */
+    if (dernierGain) {
+      var o = OBJETS[dernierGain] || { emoji: '❔' };
+      el.gain.hidden = false;
+      el.gainEmoji.textContent = o.emoji;
+      el.gainNom.textContent = dernierGain;
+    } else {
+      el.gain.hidden = true;
+    }
+
+    /* L’encadré pédagogique : replié par défaut, rouvert s’il a
+       déjà été débloqué au cours de cette partie. */
+    if (e.saviezVous) {
+      el.blocSavoir.hidden = false;
+      var dejaSu = etat.savoirs.indexOf(id) !== -1;
+      el.texteSavoir.innerHTML = e.saviezVous;
+      el.texteSavoir.hidden = !dejaSu;
+      el.flecheSavoir.textContent = dejaSu ? '▾' : '▸';
+      el.btnSavoir.setAttribute('aria-expanded', dejaSu ? 'true' : 'false');
+      el.btnSavoir.dataset.etape = id;
+    } else {
+      el.blocSavoir.hidden = true;
+    }
+
+    /* Les choix */
+    el.choix.innerHTML = '';
+
+    if (e.fin) {
+      el.choix.appendChild(bilanDeFin(e));
+    }
+
+    (e.choix || []).forEach(function (c, i) {
+      el.choix.appendChild(boutonChoix(c, i));
+    });
+
+    if (e.fin) {
+      el.choix.appendChild(boutonsDeFin());
+    }
+
+    rendreSac(dernierGain);
+    rendreJauge();
+    el.btnRetour.disabled = historique.length === 0;
+
+    if (animer) {
+      el.scene.classList.add('etape-entree');
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { el.scene.classList.remove('etape-entree'); });
+      });
+      el.texte.setAttribute('tabindex', '-1');
+      el.texte.focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  /* Un bouton de choix. Un choix verrouillé reste visible : l’enfant
+     voit la porte fermée et sait ce qui lui manque pour l’ouvrir. */
+  function boutonChoix(c, i) {
+    var requis = c.requiert ? (Array.isArray(c.requiert) ? c.requiert : [c.requiert]) : [];
+    var manquants = requis.filter(function (nom) { return !possede(nom); });
+    var ouvert = manquants.length === 0;
+
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'choix-anim flex w-full items-start gap-3 rounded-2xl border-2 px-4 py-3.5 text-left transition ' +
+      (ouvert
+        ? 'border-pierre-300 bg-white/80 text-pierre-700 shadow-sm hover:-translate-y-0.5 hover:border-pourpre-400 hover:bg-white hover:shadow-md focus:outline-none focus-visible:ring-4 focus-visible:ring-pourpre-300/60'
+        : 'cursor-not-allowed border-dashed border-pierre-400/70 bg-white/70 text-pierre-700');
+    b.style.animationDelay = (i * 70) + 'ms';
+
+    var num = document.createElement('span');
+    num.className = 'mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[.72rem] font-extrabold ' +
+      (ouvert ? 'bg-pourpre-500 text-white' : 'bg-pierre-300 text-pierre-600');
+    num.textContent = ouvert ? String(i + 1) : '🔒';
+    num.setAttribute('aria-hidden', 'true');
+
+    var corps = document.createElement('span');
+    corps.className = 'flex-1';
+    var ligne = document.createElement('span');
+    ligne.className = 'block font-bold leading-snug';
+    ligne.textContent = c.texte;
+    corps.appendChild(ligne);
+
+    if (!ouvert) {
+      var aide = document.createElement('span');
+      aide.className = 'mt-1 block text-[.82rem] font-normal italic leading-snug text-pierre-700';
+      aide.textContent = c.indice || ('Il te manque : ' + manquants.join(', ') + '.');
+      corps.appendChild(aide);
+      b.disabled = true;
+      b.setAttribute('aria-disabled', 'true');
+    } else {
+      b.addEventListener('click', function () { choisir(c.destination); });
+      b.dataset.raccourci = String(i + 1);
+    }
+
+    b.appendChild(num);
+    b.appendChild(corps);
+    return b;
+  }
+
+  /* Le bilan affiché sur un écran de fin. */
+  function bilanDeFin(e) {
+    var d = document.createElement('div');
+    d.className = 'choix-anim mb-5 rounded-2xl border-2 border-pourpre-400/60 bg-white/75 p-4';
+    var objets = etat.inventaire.length
+      ? etat.inventaire.map(function (n) { return (OBJETS[n] ? OBJETS[n].emoji : '❔') + ' ' + n; }).join(' · ')
+      : 'rien du tout — la prochaine fois, fouille le sable !';
+    d.innerHTML =
+      '<p class="mb-2 font-titre text-lg font-extrabold text-pourpre-600 pulse-accent inline-block rounded-full bg-white/70 px-3 py-1">' +
+        (e.badge || '🏅 Aventure terminée') + '</p>' +
+      '<dl class="space-y-1.5 text-sm text-pierre-700">' +
+        '<div><dt class="inline font-bold">Lieux explorés : </dt><dd class="inline">' + etat.visitees.length + ' sur ' + TOTAL_ETAPES + '</dd></div>' +
+        '<div><dt class="inline font-bold">Découvertes débloquées : </dt><dd class="inline">' + etat.savoirs.length + ' sur ' + TOTAL_SAVOIRS + '</dd></div>' +
+        '<div><dt class="inline font-bold">Dans ton sac : </dt><dd class="inline">' + objets + '</dd></div>' +
+      '</dl>';
+    return d;
+  }
+
+  function boutonsDeFin() {
+    var d = document.createElement('div');
+    d.className = 'choix-anim mt-4 flex flex-wrap gap-2 border-t border-pierre-300/60 pt-4';
+
+    var rejouer = document.createElement('button');
+    rejouer.type = 'button';
+    rejouer.className = 'rounded-xl bg-pourpre-500 px-4 py-2.5 text-sm font-bold text-white shadow transition hover:bg-pourpre-600';
+    rejouer.textContent = '⟳ Rejouer une autre aventure';
+    rejouer.addEventListener('click', recommencer);
+
+    var revoir = document.createElement('button');
+    revoir.type = 'button';
+    revoir.className = 'rounded-xl border border-pourpre-400/60 bg-white/80 px-4 py-2.5 text-sm font-bold text-pourpre-600 transition hover:bg-white';
+    revoir.textContent = '💡 Revoir mes découvertes';
+    revoir.addEventListener('click', ouvrirSavoirs);
+
+    d.appendChild(rejouer);
+    d.appendChild(revoir);
+    return d;
+  }
+
+  /* ── Navigation ─────────────────────────────────────────────── */
+  function choisir(destination) {
+    var suite = AVENTURE_ROME.etapes[destination];
+    if (!suite) return;
+
+    historique.push(copie(etat));
+    if (historique.length > 60) historique.shift();
+
+    etat.etape = destination;
+    if (etat.visitees.indexOf(destination) === -1) etat.visitees.push(destination);
+
+    dernierGain = appliquerGains(destination);
+
+    transition(function () { afficher(destination, true); });
+    sauver();
+  }
+
+  /* Ramasse tout ce que l'étape offre et renvoie le premier objet
+     réellement nouveau, celui qu'on annonce à l'écran. */
+  function appliquerGains(id) {
+    var e = AVENTURE_ROME.etapes[id];
+    if (!e) return null;
+    var gains = e.objetsGagnes || (e.objetGagne ? [e.objetGagne] : []);
+    var premier = null;
+    gains.forEach(function (nom) { if (ajouterObjet(nom) && !premier) premier = nom; });
+    return premier;
+  }
+
+  function retourEnArriere() {
+    if (!historique.length) return;
+    etat = historique.pop();
+    dernierGain = null;
+    transition(function () { afficher(etat.etape, true); });
+    sauver();
+  }
+
+  function recommencer() {
+    etat = etatNeuf();
+    historique = [];
+    effacerSauvegarde();
+    dernierGain = appliquerGains(etat.etape);
+    transition(function () { afficher(etat.etape, true); });
+  }
+
+  /* Un fondu court entre deux paragraphes : le temps de tourner
+     la page, pas plus. */
+  function transition(rendu) {
+    el.scene.classList.add('etape-sortie');
+    setTimeout(function () {
+      rendu();
+      el.scene.classList.remove('etape-sortie');
+    }, 190);
+  }
+
+  /* ── Branchements ───────────────────────────────────────────── */
+  el.btnSavoir.addEventListener('click', function () {
+    var id = el.btnSavoir.dataset.etape;
+    var ouvert = !el.texteSavoir.hidden;
+    el.texteSavoir.hidden = ouvert;
+    el.flecheSavoir.textContent = ouvert ? '▸' : '▾';
+    el.btnSavoir.setAttribute('aria-expanded', ouvert ? 'false' : 'true');
+    if (!ouvert && id && etat.savoirs.indexOf(id) === -1) {
+      etat.savoirs.push(id);
+      rendreJauge();
+      sauver();
+    }
+  });
+
+  el.btnRetour.addEventListener('click', retourEnArriere);
+  el.btnRecommencer.addEventListener('click', function () {
+    if (etat.visitees.length > 1 &&
+        !confirm('Tout recommencer depuis l’arrivée à Rome ? Ton sac et tes découvertes seront vidés.')) return;
+    recommencer();
+  });
+
+  el.btnSavoirs.addEventListener('click', ouvrirSavoirs);
+  el.fermerSavoirs.addEventListener('click', fermerSavoirs);
+  el.voileSavoirs.addEventListener('click', function (ev) {
+    if (ev.target === el.voileSavoirs) fermerSavoirs();
+  });
+
+  /* Clavier : 1-3 pour choisir, Échap pour fermer le panneau,
+     Retour arrière (hors champ de saisie) pour annuler. */
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape' && !el.voileSavoirs.hidden) { fermerSavoirs(); return; }
+    if (!el.voileSavoirs.hidden) return;
+    if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    if (/^[1-9]$/.test(ev.key)) {
+      var b = el.choix.querySelector('button[data-raccourci="' + ev.key + '"]');
+      if (b) { ev.preventDefault(); b.click(); }
+    } else if (ev.key === 'Backspace') {
+      ev.preventDefault();
+      retourEnArriere();
+    }
+  });
+
+  /* ── Démarrage ──────────────────────────────────────────────── */
+  var sauvegarde = lireSauvegarde();
+
+  function demarrer(reprise) {
+    if (reprise) {
+      etat = sauvegarde.etat;
+      historique = sauvegarde.historique || [];
+      /* Filet : une sauvegarde d’une version antérieure du récit
+         pourrait pointer vers une étape disparue. */
+      if (!AVENTURE_ROME.etapes[etat.etape]) etat = etatNeuf();
+      if (!Array.isArray(etat.inventaire)) etat.inventaire = [];
+      if (!Array.isArray(etat.savoirs)) etat.savoirs = [];
+      if (!Array.isArray(etat.visitees)) etat.visitees = [etat.etape];
+      dernierGain = null;
+    } else {
+      etat = etatNeuf();
+      historique = [];
+      effacerSauvegarde();
+      dernierGain = appliquerGains(etat.etape);
+    }
+    el.reprise.hidden = true;
+    afficher(etat.etape, false);
+  }
+
+  if (sauvegarde && sauvegarde.etat.etape !== AVENTURE_ROME.premiereEtape) {
+    el.reprise.hidden = false;
+    el.btnReprendre.addEventListener('click', function () { demarrer(true); });
+    el.btnNeuf.addEventListener('click', function () { demarrer(false); });
+    /* En attendant le choix, on montre quand même le début. */
+    etat = etatNeuf();
+    historique = [];
+    dernierGain = appliquerGains(etat.etape);
+    afficher(etat.etape, false);
+  } else {
+    demarrer(false);
+  }
+})();
+</script>
+</body>
+</html>

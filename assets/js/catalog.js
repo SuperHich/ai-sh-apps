@@ -59,7 +59,7 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'el-jem', 'sudoku', 'mots-fleches', 'mots-croises', 'roue-des-defis', 'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
+    'rome-antique', 'el-jem', 'sudoku', 'mots-fleches', 'mots-croises', 'roue-des-defis', 'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
     'fatima-al-fihriya', 'ibn-sina'
   ];
 
@@ -75,7 +75,7 @@
       blurb: 'Héros, savants et explorateurs qui ont marqué l\'Histoire.' },
     { key: 'histoire',   label: 'Histoire',            emoji: '🏺', accent: '#e8534f',
       cover: 'empires',
-      blurb: 'Frises, cartes et monuments : les empires du monde, les âges des pays, et l\'amphithéâtre d\'El Jem.' },
+      blurb: 'Frises, cartes et cités antiques : les empires du monde, les âges des pays, El Jem et Rome.' },
     { key: 'sciences',   label: 'Sciences & Découvertes', emoji: '🔭', accent: '#5bb8ff',
       cover: 'espace',
       blurb: 'Du Big Bang aux dinosaures, les grandes épopées du réel.' },
@@ -250,6 +250,11 @@
       dir: 'games', file: 'el-jem.html', age: 7, access: 'public',
       desc: 'Un livre dont tu es le héros dans l\'amphithéâtre romain d\'El Jem : les galeries sous l\'arène, le musée des mosaïques, un sac à remplir et cinq fins possibles.',
       tags: ['el jem', 'thysdrus', 'tunisie', 'rome', 'amphitheatre', 'colisee', 'archeologie', 'mosaique', 'olivier', 'aventure', 'livre dont tu es le heros', 'unesco'] },
+
+    { id: 'rome-antique', title: 'Le Secret de la Rome Antique', emoji: '\ud83c\udfdb\ufe0f', cat: 'histoire', kind: 'jeu',
+      dir: 'games', file: 'rome-antique.html', age: 7, access: 'public',
+      desc: 'Un livre dont tu es le héros dans la Rome antique : le Forum, les souterrains du Colisée, le Palatin et le Panthéon. Un sac à remplir et six fins possibles.',
+      tags: ['rome', 'roma', 'italie', 'forum', 'colisee', 'palatin', 'pantheon', 'vestales', 'romulus', 'archeologie', 'antiquite', 'aventure', 'livre dont tu es le heros', 'unesco'] },
 
     /* ── Sciences & Découvertes ──────────────────────────────── */
     { id: 'dinosaures', title: 'Les Dinosaures', emoji: '🦕', cat: 'sciences', kind: 'histoire',

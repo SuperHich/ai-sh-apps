@@ -73,6 +73,7 @@ everyone; the rest opens once a (local, free) account is created.
 │   ├── mots-croises.html
 │   ├── mots-fleches.html
 │   ├── reaction-game.html
+│   ├── rome-antique.html   # Gamebook: the Forum, the Colosseum, the Palatine
 │   ├── roue-des-defis.html
 │   ├── simon-game.html
 │   ├── sudoku.html
@@ -102,7 +103,7 @@ hand anywhere: moving one item between universes updates every badge.
 | Prophètes & Sagesse | Prophets, caliphs, spiritual figures |
 | Histoires en arabe | Arabic stories, read right to left |
 | Légendes du monde | Heroes, scholars and explorers |
-| **Histoire** | The timelines — the world's empires, the ages of Tunisia and France — and the El Jem gamebook |
+| **Histoire** | The timelines — the world's empires, the ages of Tunisia and France — and the two gamebooks, El Jem and Rome |
 | Sciences & Découvertes | From the Big Bang to the human body, explorers included |
 | Blagues & Humour | Jokes |
 | Mini-jeux | Reflexes, memory, words — and the wheel quiz |
@@ -110,9 +111,9 @@ hand anywhere: moving one item between universes updates every badge.
 
 Two boundaries are deliberate. **Histoire** was split off from *Légendes du
 monde* because a timeline and a story are not the same object: the legends are
-read, the timelines are walked through. *Le Secret d'El Jem* sits there rather
-than in *Mini-jeux* for the same reason: what it teaches is a real monument,
-and the game is only the way in. And **Outils** holds exactly one item,
+read, the timelines are walked through. The two gamebooks — *Le Secret d'El Jem* and
+*Le Secret de la Rome Antique* — sit there rather than in *Mini-jeux* for the
+same reason: what they teach is a real place, and the game is only the way in. And **Outils** holds exactly one item,
 because a tool is something you come to use for its own sake — the map and the
 quizzes are ways into the catalogue, not entries in it.
 
@@ -127,7 +128,7 @@ Every entry in `assets/js/catalog.js` still carries an `access` field:
 
 | `access`   | Who can open it        |
 |------------|------------------------|
-| `public`   | everyone — all 63 items |
+| `public`   | everyone — all 64 items |
 | `membre`   | requires an account — none at the moment |
 
 The field and the whole mechanism (locked card state, access filter,
@@ -429,6 +430,46 @@ scanner sees them in the file. If the CDN is unreachable, the page's own
 `<style>` still carries the background, the ambiances, the reading typography
 and a `[hidden]` rule, so the adventure stays legible and playable — plain, but
 never broken.
+
+## Le Secret de la Rome Antique
+
+`games/rome-antique.html` is the second gamebook, built on the engine of the
+first and set in the ancient city of Rome: the Forum, the Colosseum and its
+hypogeum, the Palatine, the Pantheon. Thirty-six passages, six endings,
+thirty-four *Le saviez-vous ?* boxes, eight objects.
+
+**One thread runs through the whole city.** A bone tessera found in the gravel
+of the Forum carries a number; the number finds a row in the Colosseum; the row
+carries a name scratched into a seat and a workshop mark; a wax squeeze of that
+mark matches a stamped brick in the Palatine museum, which gives the name back
+its man — Felix, a brickmaker; and his workshop's threshold still hides the
+small pot buried the day it was built. Each step is a real method: numbered
+seats, graffiti, brick stamps (the tool that redated the Pantheon from Agrippa
+to Hadrian), foundation deposits.
+
+**It teaches how we know, not just what.** The tessera's box says outright that
+scholars no longer agree on what these things were, and that saying *we don't
+know* is part of the job. The erased name on a Vestal's statue base is
+presented as information in its own right. And the two best endings are four
+minutes apart: call the archaeologist, or finish digging the pot out yourself
+first. Nothing is stolen in the second one — everything is recovered, intact.
+What is lost is the order of the objects inside, and with it the only sentence
+the deposit could still have said. That is the difference between a find and a
+souvenir, and no lecture makes it as well as being the one holding the pot.
+
+**Six ambiances instead of five** — Forum travertine, Colosseum ochre, the dark
+of the hypogeum, Palatine green, the grey daylight of the Pantheon's oculus,
+gold for the endings.
+
+The engine is a **deliberate copy** of the El Jem one rather than a shared
+module: every game in `games/` is a single file that runs on its own, and this
+one keeps that promise. What the two pages now share, and what was fixed in
+both while building the second: the pickup box was unreadable against the dark
+underground palette, and the tinted boxes (the place badge, the *Le saviez-vous ?*
+button) used a fixed accent colour that clashed the moment the ambience changed
+family — they now mix the live `--accent` with `color-mix()`, with the flat
+`rgba()` value left in place as a fallback. Every colour pair in all six
+ambiances was measured in a browser, hover states included.
 
 ## Tab icon
 

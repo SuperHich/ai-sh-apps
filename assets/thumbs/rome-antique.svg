@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="rmCiel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#1b2340"/>
+      <stop offset="42%"  stop-color="#5c3348"/>
+      <stop offset="76%"  stop-color="#a6412f"/>
+      <stop offset="100%" stop-color="#e0a05c"/>
+    </linearGradient>
+    <radialGradient id="rmSoleil" cx="62%" cy="74%" r="44%">
+      <stop offset="0%"   stop-color="#ffd9a0" stop-opacity=".8"/>
+      <stop offset="100%" stop-color="#ffd9a0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="rmSol" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#c6ab7d"/>
+      <stop offset="100%" stop-color="#8a6f47"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#rmCiel)"/>
+  <circle cx="248" cy="222" r="128" fill="url(#rmSoleil)"/>
+
+  <!-- Le Colisée : la haute façade d'un côté, l'anneau ruiné de l'autre -->
+  <path d="M168,250 L168,112 Q234,94 300,118 L300,250 Z" fill="#2a2620" fill-opacity=".95"/>
+  <path d="M300,250 L300,150 Q326,142 352,158 L352,250 Z" fill="#2a2620" fill-opacity=".95"/>
+  <g fill="#e8a55e" fill-opacity=".85">
+    <path d="M176.0,150.0 v-21.0 a9.0,9.0 0 0 1 18.0,0 v21.0 Z"/>
+    <path d="M202.0,150.0 v-21.0 a9.0,9.0 0 0 1 18.0,0 v21.0 Z"/>
+    <path d="M228.0,150.0 v-21.0 a9.0,9.0 0 0 1 18.0,0 v21.0 Z"/>
+    <path d="M254.0,150.0 v-21.0 a9.0,9.0 0 0 1 18.0,0 v21.0 Z"/>
+    <path d="M280.0,150.0 v-21.0 a9.0,9.0 0 0 1 18.0,0 v21.0 Z"/>
+  </g>
+  <g fill="#f2c288" fill-opacity=".9">
+    <path d="M176.0,198.0 v-27.0 a9.0,9.0 0 0 1 18.0,0 v27.0 Z"/>
+    <path d="M202.0,198.0 v-27.0 a9.0,9.0 0 0 1 18.0,0 v27.0 Z"/>
+    <path d="M228.0,198.0 v-27.0 a9.0,9.0 0 0 1 18.0,0 v27.0 Z"/>
+    <path d="M254.0,198.0 v-27.0 a9.0,9.0 0 0 1 18.0,0 v27.0 Z"/>
+    <path d="M280.0,198.0 v-27.0 a9.0,9.0 0 0 1 18.0,0 v27.0 Z"/>
+  </g>
+  <g fill="#f7dcb4" fill-opacity=".92">
+    <path d="M176.0,246.0 v-31.0 a9.0,9.0 0 0 1 18.0,0 v31.0 Z"/>
+    <path d="M202.0,246.0 v-31.0 a9.0,9.0 0 0 1 18.0,0 v31.0 Z"/>
+    <path d="M228.0,246.0 v-31.0 a9.0,9.0 0 0 1 18.0,0 v31.0 Z"/>
+    <path d="M254.0,246.0 v-31.0 a9.0,9.0 0 0 1 18.0,0 v31.0 Z"/>
+    <path d="M280.0,246.0 v-31.0 a9.0,9.0 0 0 1 18.0,0 v31.0 Z"/>
+    <path d="M306.0,246.0 v-31.0 a9.0,9.0 0 0 1 18.0,0 v31.0 Z"/>
+    <path d="M332.0,246.0 v-31.0 a9.0,9.0 0 0 1 18.0,0 v31.0 Z"/>
+  </g>
+  <!-- les corniches entre les étages -->
+  <g stroke="#e8a55e" stroke-opacity=".4" stroke-width="2.4" fill="none">
+    <path d="M168,156 Q234,142 300,160"/>
+    <path d="M168,204 Q234,192 300,208"/>
+  </g>
+
+  <!-- Le Forum : trois colonnes et un morceau d'entablement -->
+  <g fill="#2a2620" fill-opacity=".95">
+    <rect x="34" y="140" width="86" height="12" rx="2"/>
+    <rect x="42" y="152" width="12" height="96" rx="2"/>
+    <rect x="70" y="152" width="12" height="96" rx="2"/>
+    <rect x="98" y="152" width="12" height="96" rx="2"/>
+    <rect x="30" y="132" width="94" height="9" rx="2"/>
+  </g>
+
+  <!-- Un pin parasol, à la lisière du cadre : la silhouette de Rome -->
+  <g fill="#2a2620" fill-opacity=".95">
+    <path d="M382,250 q-4,-40 0,-72 l7,0 q4,32 2,72 Z"/>
+    <path d="M356,170 q5,-12 17,-15 q6,-11 20,-11 q16,0 21,12 q11,4 14,14 q-12,9 -36,9 q-26,0 -36,-9 Z"/>
+  </g>
+
+  <!-- Le sol du Forum -->
+  <path d="M0,250 Q120,242 220,248 T400,246 L400,300 L0,300 Z" fill="url(#rmSol)"/>
+
+  <!-- Le chat roux du Forum, assis sur une pierre -->
+  <g fill="#2a2620" fill-opacity=".9">
+    <rect x="118" y="262" width="42" height="12" rx="3"/>
+    <path d="M132,262 q-3,-16 5,-20 l-3,-8 6,4 4,-4 -1,8 q9,4 6,20 Z"/>
+    <path d="M147,262 q9,-3 8,-12 q4,7 -2,12 Z"/>
+  </g>
+
+  <!-- La tessère en os, tombée dans le gravier -->
+  <g transform="translate(300,266) rotate(-8)">
+    <rect x="0" y="0" width="34" height="14" rx="3" fill="#f7dcb4"/>
+    <g stroke="#5c5348" stroke-width="2" stroke-linecap="round">
+      <path d="M6,7 h4M13,4 v6M19,4 v6M25,4 l4,6M29,4 l-4,6"/>
+    </g>
+  </g>
+</svg>
