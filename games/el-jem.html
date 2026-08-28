@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Secret de l'Amphithéâtre d'El Jem — Le Grenier des Apps</title>
+<meta name="description" content="Un livre dont tu es le héros dans l'amphithéâtre romain d'El Jem, l'antique Thysdrus : galeries souterraines, mosaïques, inventaire et cinq fins possibles.">
+<meta name="theme-color" content="#faf1de">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="mask-icon" href="../assets/favicon-mono.svg" color="#c8791b">
+
+<!-- Tailwind CSS (CDN) — même choix que les autres jeux du Grenier :
+     le fichier reste autonome, ouvrable d'un double-clic. -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  /* Si la CDN ne répond pas, `tailwind` n'existe pas : on ne veut pas
+     d'erreur de page pour autant — la feuille maison prend le relais. */
+  if (window.tailwind) tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          sable:  { 50:'#fdf9f0', 100:'#faf1de', 200:'#f2e0bd', 300:'#e6c993', 400:'#d8ad63', 500:'#c8902f' },
+          pierre: { 100:'#efe7db', 200:'#ded2c0', 300:'#c5b49c', 400:'#a4907a', 500:'#7d6b57', 600:'#5d4e3d', 700:'#42372a', 800:'#2b231a' },
+          ocre:   { 300:'#eeb45e', 400:'#e0952f', 500:'#c8791b', 600:'#a35d12' },
+          olive:  { 300:'#b3c88c', 400:'#8ea760', 500:'#6d8a45', 600:'#4f6a30', 700:'#3b5223' }
+        },
+        fontFamily: {
+          sans:  ['Nunito', 'system-ui', 'sans-serif'],
+          titre: ['"Baloo 2"', 'system-ui', 'sans-serif']
+        }
+      }
+    }
+  };
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     Styles maison : les ambiances de lieu (le décor change quand on
+     descend sous l'arène ou qu'on entre au musée), les transitions
+     entre paragraphes et la poussière dorée. Le reste est en
+     classes Tailwind dans le balisage.
+     ───────────────────────────────────────────────────────────── */
+
+  :root {
+    --fond-1: #fdf9f0;
+    --fond-2: #f2e0bd;
+    --fond-3: #e6c993;
+    --encre:  #42372a;
+    --accent: #c8791b;   /* décor : frise, filets            */
+    --accent-txt: #7f440a; /* texte : doit rester lisible     */
+    --carte:  rgba(255, 252, 244, .93);
+  }
+
+  /* Une ambiance par famille de lieux : l'arène en plein soleil, les
+     souterrains dans la fraîcheur, le sommet dans le ciel, le musée
+     dans le bleu des mosaïques, les fins dans l'or du couchant. */
+  body[data-ambiance="soleil"]     { --fond-1:#fdf9f0; --fond-2:#f7e4c0; --fond-3:#e9c98f; --encre:#42372a; --accent:#c8791b; --accent-txt:#7f440a; --carte:rgba(255,252,244,.93); }
+  body[data-ambiance="souterrain"] { --fond-1:#2b231a; --fond-2:#1d1811; --fond-3:#120e09; --encre:#f6ecda; --accent:#f0ad4e; --accent-txt:#ffeed2; --carte:rgba(38,30,21,.82); }
+  body[data-ambiance="hauteur"]    { --fond-1:#eaf4fb; --fond-2:#f6e9cc; --fond-3:#e6c993; --encre:#33405b; --accent:#c8791b; --accent-txt:#7f440a; --carte:rgba(255,253,249,.93); }
+  body[data-ambiance="musee"]      { --fond-1:#eef6f5; --fond-2:#dcecea; --fond-3:#bcd8d6; --encre:#1f3b40; --accent:#0f766e; --accent-txt:#0b5951; --carte:rgba(255,255,255,.90); }
+  body[data-ambiance="fin"]        { --fond-1:#fff8e6; --fond-2:#f7dfa8; --fond-3:#e8b45e; --encre:#42372a; --accent:#c8791b; --accent-txt:#7f440a; --carte:rgba(255,252,242,.94); }
+
+  html { scroll-padding-top: 8.5rem; }
+
+  body {
+    background:
+      radial-gradient(120% 80% at 50% -10%, var(--fond-1) 0%, var(--fond-2) 55%, var(--fond-3) 100%)
+      fixed;
+    color: var(--encre);
+    transition: background-color .6s ease, color .5s ease;
+  }
+
+  /* Grain de pierre : une trame très légère, pour que le fond ne soit
+     pas un aplat de couleur mais une surface. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: .35;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(120,90,50,.10) 0 1px, transparent 1px),
+      radial-gradient(circle at 70% 60%, rgba(120,90,50,.08) 0 1px, transparent 1px),
+      radial-gradient(circle at 45% 85%, rgba(120,90,50,.09) 0 1px, transparent 1px);
+    background-size: 24px 24px, 31px 31px, 18px 18px;
+  }
+
+  /* ── Transition entre deux paragraphes ─────────────────────── */
+  .etape-sortie  { opacity: 0; transform: translateY(-10px) scale(.995); }
+  .etape-entree  { opacity: 0; transform: translateY(14px); }
+  #scene         { transition: opacity .28s ease, transform .28s ease; }
+
+  /* Les choix apparaissent l'un après l'autre. */
+  @keyframes monte { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform:none; } }
+  .choix-anim { animation: monte .34s cubic-bezier(.22,1,.36,1) both; }
+
+  /* Un objet qui entre dans le sac fait une petite fête. */
+  @keyframes pop { 0%{transform:scale(.4);opacity:0} 60%{transform:scale(1.14)} 100%{transform:scale(1);opacity:1} }
+  .objet-neuf { animation: pop .5s cubic-bezier(.22,1,.36,1) both; }
+
+  @keyframes lueur { 0%,100% { box-shadow: 0 0 0 0 rgba(200,121,27,.45); } 50% { box-shadow: 0 0 0 10px rgba(200,121,27,0); } }
+  .pulse-ocre { animation: lueur 1.8s ease-out 2; }
+
+  /* La frise d'arcades qui coiffe la carte, et tout ce qui doit rester
+     lisible aussi bien en plein soleil qu'au fond des souterrains :
+     ces éléments prennent la couleur de l'ambiance courante. */
+  .frise { color: var(--accent); }
+  .ton-accent { color: var(--accent-txt); }
+
+  /* Les encadrés teintés (le lieu, « Le saviez-vous ? ») prenaient une
+     couleur fixe, qui jurait dès que l'ambiance changeait de famille.
+     Ils se mélangent maintenant à l'accent du lieu ; la valeur en dur
+     reste comme repli pour les navigateurs sans color-mix. */
+  .teinte-accent { border-color: rgba(200,121,27,.45); background-color: rgba(200,121,27,.14); }
+  .teinte-accent:hover { background-color: rgba(200,121,27,.20); }
+  @supports (color: color-mix(in srgb, red, blue)) {
+    .teinte-accent { border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+                     background-color: color-mix(in srgb, var(--accent) 14%, transparent); }
+    .teinte-accent:hover { background-color: color-mix(in srgb, var(--accent) 20%, transparent); }
+  }
+
+  /* La carte du récit : parchemin au soleil, pierre sombre sous l'arène. */
+  .carte-recit { background: var(--carte); transition: background-color .6s ease; }
+
+  /* Confort de lecture pour les 7-12 ans : texte ample, interlignage
+     généreux, et une lettrine sur le premier paragraphe. */
+  .recit { font-size: 1.06rem; line-height: 1.85; }
+  @media (min-width: 640px) { .recit { font-size: 1.14rem; line-height: 1.9; } }
+
+  /* Filet de sécurité : si le CDN Tailwind ne répond pas, `hidden`
+     ne veut plus rien dire et tous les panneaux s'empileraient. */
+  [hidden] { display: none !important; }
+
+  .carte-verre { backdrop-filter: blur(6px); }
+
+  /* Barre de progression des découvertes. */
+  #jauge { transition: width .5s cubic-bezier(.22,1,.36,1); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  }
+</style>
+</head>
+
+<body data-ambiance="soleil" class="min-h-screen font-sans">
+
+<!-- ══════════════════════════════════════════════════════════════
+     BARRE HAUTE : le sac de l'explorateur + les outils de confort
+     ══════════════════════════════════════════════════════════════ -->
+<header class="sticky top-0 z-30 border-b border-pierre-300/50 bg-sable-50/85 shadow-sm carte-verre">
+  <div class="mx-auto flex max-w-3xl flex-col gap-2 px-3 py-2.5 sm:px-5">
+
+    <div class="flex items-center gap-2">
+      <a href="../index.html"
+         class="inline-flex shrink-0 items-center gap-1 rounded-full border border-pierre-300 bg-white/70 px-2.5 py-1 text-[.7rem] font-bold text-pierre-600 transition hover:bg-white hover:text-ocre-600"
+         title="Retour au Grenier des Apps">← Accueil</a>
+
+      <p class="min-w-0 flex-1 truncate font-titre text-base font-extrabold text-pierre-700 sm:text-lg">
+        🏛️ Le Secret de l'Amphithéâtre d'El&nbsp;Jem
+      </p>
+
+      <button id="btn-savoirs" type="button"
+              class="inline-flex shrink-0 items-center gap-1 rounded-full border border-ocre-400/60 bg-ocre-300/25 px-2.5 py-1 text-[.7rem] font-bold text-ocre-600 transition hover:bg-ocre-300/50">
+        💡 <span id="compteur-savoirs">0</span>
+        <span class="hidden sm:inline">découvertes</span>
+      </button>
+    </div>
+
+    <!-- ── Le sac : mini-inventaire toujours visible ── -->
+    <div class="flex items-center gap-2">
+      <span class="shrink-0 text-[.68rem] font-bold uppercase tracking-widest text-pierre-500">Ton sac</span>
+      <div id="sac" class="flex min-h-[30px] flex-1 flex-wrap items-center gap-1.5" aria-live="polite">
+        <span id="sac-vide" class="text-[.78rem] italic text-pierre-400">il est encore vide…</span>
+      </div>
+    </div>
+
+    <!-- Touche un objet du sac pour savoir ce que c'est. -->
+    <p id="sac-info" hidden class="-mt-1 rounded-lg bg-olive-300/25 px-2.5 py-1 text-[.75rem] leading-snug text-pierre-700"></p>
+
+    <!-- ── Jauge d'exploration ── -->
+    <div class="flex items-center gap-2">
+      <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-pierre-300/40">
+        <div id="jauge" class="h-full w-0 rounded-full bg-gradient-to-r from-ocre-300 to-ocre-500"></div>
+      </div>
+      <span id="jauge-texte" class="shrink-0 text-[.68rem] font-bold text-pierre-500">1 lieu</span>
+    </div>
+  </div>
+</header>
+
+<main class="mx-auto max-w-3xl px-3 py-5 sm:px-5 sm:py-8">
+
+  <!-- ══ Bandeau de reprise (affiché seulement s'il y a une partie sauvegardée) ══ -->
+  <div id="reprise" hidden
+       class="mb-4 rounded-2xl border-2 border-ocre-400/50 bg-sable-100/90 p-4 shadow-md carte-verre">
+    <p class="font-titre text-lg font-bold text-pierre-700">Tu étais déjà en route…</p>
+    <p class="mt-1 text-sm text-pierre-600">Une aventure commencée t'attend dans les pierres de Thysdrus.</p>
+    <div class="mt-3 flex flex-wrap gap-2">
+      <button id="btn-reprendre" type="button"
+              class="rounded-xl bg-ocre-500 px-4 py-2 text-sm font-bold text-white shadow transition hover:bg-ocre-600">
+        Reprendre l'aventure
+      </button>
+      <button id="btn-neuf" type="button"
+              class="rounded-xl border border-pierre-300 bg-white/80 px-4 py-2 text-sm font-bold text-pierre-600 transition hover:bg-white">
+        Repartir du début
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ La carte du récit ══ -->
+  <article class="carte-recit overflow-hidden rounded-3xl border border-pierre-300/60 shadow-xl carte-verre">
+
+    <!-- Frise d'arcades : le monument, dessiné en trois étages -->
+    <div class="frise bg-gradient-to-b from-sable-200/70 to-transparent px-4 pt-4">
+      <svg viewBox="0 0 600 74" class="mx-auto block h-14 w-full max-w-2xl sm:h-20" aria-hidden="true" fill="none">
+        <g stroke="currentColor" stroke-width="2.4" opacity=".55">
+          <!-- étage haut -->
+          <path d="M20 30h560" />
+          <g>
+            <path d="M40 30V16a12 12 0 0 1 24 0v14M88 30V16a12 12 0 0 1 24 0v14M136 30V16a12 12 0 0 1 24 0v14M184 30V16a12 12 0 0 1 24 0v14M232 30V16a12 12 0 0 1 24 0v14M280 30V16a12 12 0 0 1 24 0v14M328 30V16a12 12 0 0 1 24 0v14M376 30V16a12 12 0 0 1 24 0v14M424 30V16a12 12 0 0 1 24 0v14M472 30V16a12 12 0 0 1 24 0v14M520 30V16a12 12 0 0 1 24 0v14" />
+          </g>
+          <!-- étage bas, arcades plus hautes -->
+          <path d="M20 72h560" />
+          <g>
+            <path d="M40 72V48a12 12 0 0 1 24 0v24M88 72V48a12 12 0 0 1 24 0v24M136 72V48a12 12 0 0 1 24 0v24M184 72V48a12 12 0 0 1 24 0v24M232 72V48a12 12 0 0 1 24 0v24M280 72V48a12 12 0 0 1 24 0v24M328 72V48a12 12 0 0 1 24 0v24M376 72V48a12 12 0 0 1 24 0v24M424 72V48a12 12 0 0 1 24 0v24M472 72V48a12 12 0 0 1 24 0v24M520 72V48a12 12 0 0 1 24 0v24" />
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="px-4 pb-6 pt-2 sm:px-9 sm:pb-9">
+
+      <div id="scene">
+
+        <!-- Lieu -->
+        <p class="mb-3 flex flex-wrap items-center gap-2">
+          <span id="badge-lieu"
+                class="ton-accent teinte-accent inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[.7rem] font-bold uppercase tracking-[.14em]">
+            <span id="lieu-emoji">🏟️</span><span id="lieu-nom">L'arène</span>
+          </span>
+        </p>
+
+        <!-- Titre de fin (masqué pendant l'aventure) -->
+        <h2 id="titre-fin" hidden class="ton-accent mb-2 font-titre text-2xl font-extrabold sm:text-3xl"></h2>
+
+        <!-- Le paragraphe -->
+        <div id="texte" class="recit space-y-4" role="region" aria-live="polite" aria-atomic="true"></div>
+
+        <!-- Objet ramassé -->
+        <div id="gain" hidden
+             class="mt-4 flex items-center gap-3 rounded-2xl border-2 border-dashed border-olive-400/70 bg-white/75 px-4 py-3">
+          <span id="gain-emoji" class="text-2xl">🪙</span>
+          <p class="text-sm font-bold text-olive-700">
+            Tu ranges <span id="gain-nom" class="underline decoration-olive-400 decoration-2 underline-offset-2"></span> dans ton sac.
+          </p>
+        </div>
+
+        <!-- Encadré pédagogique, à déplier -->
+        <div id="bloc-savoir" hidden class="mt-5">
+          <button id="btn-savoir" type="button"
+                  class="teinte-accent flex w-full items-center gap-2 rounded-2xl border-2 px-4 py-3 text-left transition">
+            <span class="text-xl">💡</span>
+            <span class="ton-accent flex-1 font-titre text-base font-bold">Le saviez-vous&nbsp;?</span>
+            <span id="fleche-savoir" class="ton-accent transition">▸</span>
+          </button>
+          <p id="texte-savoir" hidden
+             class="mt-2 rounded-2xl border border-ocre-400/30 bg-white/70 px-4 py-3 text-[.95rem] leading-relaxed text-pierre-700"></p>
+        </div>
+
+        <!-- Les choix -->
+        <div id="choix" class="mt-6 space-y-3"></div>
+
+      </div>
+    </div>
+  </article>
+
+  <!-- ══ Outils de confort ══ -->
+  <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
+    <button id="btn-retour" type="button"
+            class="inline-flex items-center gap-1.5 rounded-xl border border-pierre-300 bg-white/70 px-3.5 py-2 text-sm font-bold text-pierre-600 shadow-sm transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40">
+      ↩︎ Retour au choix précédent
+    </button>
+    <button id="btn-recommencer" type="button"
+            class="inline-flex items-center gap-1.5 rounded-xl border border-pierre-300 bg-white/70 px-3.5 py-2 text-sm font-bold text-pierre-600 shadow-sm transition hover:bg-white">
+      ⟳ Recommencer l'aventure
+    </button>
+  </div>
+
+  <p class="mt-6 text-center text-xs text-pierre-500">
+    Amphithéâtre d'El Jem, l'antique <strong>Thysdrus</strong> — Tunisie · Patrimoine mondial de l'UNESCO depuis 1979.
+  </p>
+</main>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANNEAU « MES DÉCOUVERTES »
+     ══════════════════════════════════════════════════════════════ -->
+<div id="voile-savoirs" hidden class="fixed inset-0 z-40 flex items-end justify-center bg-pierre-800/50 p-0 sm:items-center sm:p-4">
+  <div role="dialog" aria-modal="true" aria-labelledby="titre-savoirs"
+       class="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border border-pierre-300 bg-sable-50 p-5 shadow-2xl sm:rounded-3xl">
+    <div class="mb-3 flex items-center justify-between gap-3">
+      <h3 id="titre-savoirs" class="font-titre text-xl font-extrabold text-pierre-700">💡 Mes découvertes</h3>
+      <button id="fermer-savoirs" type="button"
+              class="rounded-full border border-pierre-300 bg-white px-3 py-1 text-sm font-bold text-pierre-600 transition hover:bg-pierre-100">Fermer</button>
+    </div>
+    <p id="savoirs-vide" class="text-sm italic text-pierre-500">
+      Aucune découverte pour l'instant. Ouvre les encadrés « Le saviez-vous ? » que tu croises en chemin.
+    </p>
+    <ul id="liste-savoirs" class="space-y-2.5"></ul>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ══════════════════════════════════════════════════════════════
+     LES OBJETS DU SAC
+     Chaque objet est désigné partout par son nom exact : c’est la
+     clé qui relie « objetGagne » d’une étape à « requiert » d’un
+     choix situé plus loin dans l’aventure.
+     ══════════════════════════════════════════════════════════════ */
+  var OBJETS = {
+    'Carnet d’archéologue':        { emoji: '📓', desc: 'Pour noter, dessiner et relever ce que tu vois.' },
+    'Fragment de mosaïque':        { emoji: '🧩', desc: 'Quatre tesselles ocre et bleues encore collées ensemble.' },
+    'Pièce en bronze de Thysdrus': { emoji: '🪙', desc: 'Une monnaie romaine usée, frappée d’un profil d’empereur.' },
+    'Lampe à huile antique':       { emoji: '🏮', desc: 'Une petite lampe de terre cuite : la lumière des souterrains.' },
+    'Clé de fer rouillée':         { emoji: '🗝️', desc: 'Lourde, tordue, mangée par la rouille. Elle ouvre quelque chose.' },
+    'Message de la mosaïque':      { emoji: '📜', desc: 'Trois mots latins recopiés dans ton carnet : SVB ARCV OLEVM.' },
+    'Rameau d’olivier':            { emoji: '🫒', desc: 'Cueilli au pied du monument, comme les Romains le faisaient.' }
+  };
+
+  /* ══════════════════════════════════════════════════════════════
+     L’AVENTURE
+     Chaque étape : un paragraphe, parfois un objet à ramasser, un
+     encadré « Le saviez-vous ? » facultatif, et deux ou trois choix.
+     Un choix peut exiger un objet (« requiert ») : il reste visible,
+     mais fermé, avec l’indice de ce qu’il faudrait trouver.
+     ══════════════════════════════════════════════════════════════ */
+  var AVENTURE_EL_JEM = {
+    titre: 'Le Secret d’El Jem',
+    lieu: 'Amphithéâtre de Thysdrus (El Jem, Tunisie)',
+    premiereEtape: 'depart',
+
+    etapes: {
+
+      /* ── 1. L’arrivée ─────────────────────────────────────── */
+      'depart': {
+        lieu: 'Devant le monument', emoji: '🚌', ambiance: 'soleil',
+        texte: [
+          'Le car s’éloigne dans un nuage de poussière dorée, et tu restes là, la bouche ouverte. Au bout de la rue, entre les maisons blanches d’El Jem, une falaise de pierre jaune monte vers le ciel, percée d’arcades comme un immense gâteau de dentelle. Ce n’est pas une montagne : c’est un amphithéâtre romain, debout depuis dix-huit siècles.',
+          'Une femme au chapeau de paille t’attend à l’ombre, un carnet à la main. « Bienvenue à Thysdrus ! Je suis Leïla, archéologue. Tiens, ce carnet est pour toi. Un explorateur qui n’écrit rien finit toujours par tout oublier. »'
+        ],
+        objetGagne: 'Carnet d’archéologue',
+        saviezVous: 'La ville s’appelait <strong>Thysdrus</strong> à l’époque romaine. Son amphithéâtre est classé au <strong>patrimoine mondial de l’UNESCO depuis 1979</strong> : cela veut dire qu’il appartient un peu à toute l’humanité, et que le monde entier s’est engagé à le protéger.',
+        choix: [
+          { texte: 'Poser une question à Leïla avant d’entrer', destination: 'questions_leila' },
+          { texte: 'Franchir tout de suite la grande arcade d’entrée', destination: 'entree_monument' }
+        ]
+      },
+
+      'questions_leila': {
+        lieu: 'À l’ombre des arcades', emoji: '👒', ambiance: 'soleil',
+        texte: [
+          '« Madame, qui a construit une chose pareille, ici, au milieu des oliviers ? »',
+          'Leïla pose la main sur un bloc tiède. « Des gens très riches, et très en colère. Vers 238 après Jésus-Christ, les grands propriétaires de Thysdrus se sont révoltés contre un percepteur d’impôts trop dur, et ils ont proclamé empereur le vieux gouverneur de la province, Gordien. Un empereur, ici ! Le chantier de l’amphithéâtre date de ces années-là. »',
+          'Elle sourit. « Et regarde bien, en montant : je crois qu’on ne l’a jamais tout à fait terminé. »'
+        ],
+        saviezVous: 'Les blocs de pierre ne viennent pas d’El Jem : ils ont été taillés dans des <strong>carrières de la côte, à une trentaine de kilomètres</strong>, puis tirés jusqu’ici par des attelages de bœufs. Des milliers de voyages, un par un, pour un seul monument.',
+        choix: [
+          { texte: 'Entrer dans l’arène', destination: 'entree_monument' },
+          { texte: 'Demander à voir d’abord le musée des mosaïques', destination: 'musee_mosaiques' }
+        ]
+      },
+
+      /* ── 2. Le cœur du monument ───────────────────────────── */
+      'entree_monument': {
+        lieu: 'Le centre de l’arène', emoji: '🏟️', ambiance: 'soleil',
+        texte: [
+          'Tu te tiens au centre de la grande arène de l’amphithéâtre d’El Jem. Le soleil dore les immenses arcades de pierre, qui tournent autour de toi comme une couronne. Le sable crisse sous tes chaussures, et le silence est si vaste qu’on entendrait tomber une plume d’hirondelle.',
+          'Au sol, une longue fente noire s’ouvre au milieu de l’arène : l’accès aux galeries souterraines. De l’autre côté, un escalier de pierre usée grimpe vers le sommet des gradins.'
+        ],
+        saviezVous: 'L’amphithéâtre d’El Jem est l’un des <strong>plus grands colisées du monde romain</strong>, construit au III<sup>e</sup> siècle. Ses murs atteignent encore 35 mètres de haut — l’équivalent d’un immeuble de douze étages — et l’ovale mesure environ <strong>148 mètres sur 122</strong>.',
+        choix: [
+          { texte: '⬇︎ Descendre dans les galeries souterraines, à l’ombre', destination: 'souterrains' },
+          { texte: '⬆︎ Grimper les marches jusqu’au sommet des arcades', destination: 'sommet_gradins' },
+          { texte: '↻ Faire lentement le tour de l’arène en longeant le mur', destination: 'tour_arene' }
+        ]
+      },
+
+      'tour_arene': {
+        lieu: 'Le pourtour de l’arène', emoji: '🌾', ambiance: 'soleil',
+        texte: [
+          'Tu longes le mur du podium, cette barrière de pierre qui séparait autrefois le sable des premiers rangs. Ta main court sur les blocs : ici un trou de scellement, là une lettre gravée que personne ne lit plus.',
+          'Au pied du mur, quelque chose accroche la lumière. Tu écartes le sable du bout du doigt : quatre petits cubes de pierre, ocre et bleus, encore collés ensemble. Un fragment de mosaïque, tombé d’on ne sait où.'
+        ],
+        objetGagne: 'Fragment de mosaïque',
+        saviezVous: 'L’arène — la piste ovale au centre — mesure environ <strong>65 mètres sur 39</strong>. Autour, les gradins pouvaient accueillir près de <strong>35 000 spectateurs</strong> : bien plus que le nombre d’habitants de la petite ville d’El Jem aujourd’hui.',
+        choix: [
+          { texte: 'Descendre voir d’où vient ce fragment, sous l’arène', destination: 'souterrains' },
+          { texte: 'Monter en haut pour avoir une vue d’ensemble', destination: 'sommet_gradins' },
+          { texte: 'Porter le fragment au musée des mosaïques', destination: 'musee_mosaiques' }
+        ]
+      },
+
+      /* ── 3. Les hauteurs ──────────────────────────────────── */
+      'sommet_gradins': {
+        lieu: 'Le sommet des arcades', emoji: '🕊️', ambiance: 'hauteur',
+        texte: [
+          'Les marches sont creusées en leur milieu, usées par des siècles de pas. Tu montes, tu montes encore, et soudain le vent te frappe le visage : tu es au sommet. En dessous, l’arène n’est plus qu’un grand œil de sable au fond d’un entonnoir de pierre.',
+          'Des hirondelles filent entre les arcades en criant. Trois étages d’arches se superposent sous tes pieds, et tu comprends d’un coup pourquoi on parle d’un « colisée » : ce mot-là, tu ne le liras plus jamais pareil.'
+        ],
+        saviezVous: 'La façade comptait <strong>trois étages d’arcades</strong> superposés. Les Romains n’ont pas inventé l’arc, mais ils s’en sont servis mieux que personne : c’est l’arc qui permet d’empiler autant de pierre sans que tout s’écroule sous son propre poids.',
+        choix: [
+          { texte: 'Regarder la ville et la campagne au loin', destination: 'vue_ville' },
+          { texte: 'Redescendre par un couloir voûté sous les gradins', destination: 'vomitoire' },
+          { texte: 'Retourner au centre de l’arène', destination: 'entree_monument' }
+        ]
+      },
+
+      'vue_ville': {
+        lieu: 'La vue sur Thysdrus', emoji: '🫒', ambiance: 'hauteur',
+        texte: [
+          'De là-haut, tout s’explique. Les toits blancs d’El Jem se serrent contre le monument comme des poussins autour d’une poule. Et au-delà, jusqu’à l’horizon tremblant de chaleur, des oliviers : des milliers, des dizaines de milliers d’oliviers alignés, gris-vert, patients.',
+          'Juste en face, le toit clair du musée archéologique. Et sur ta gauche, une immense blessure : tout un pan du mur manque, comme si un géant y avait mordu.'
+        ],
+        saviezVous: 'C’est <strong>l’olivier qui a payé l’amphithéâtre</strong>. Thysdrus était au centre d’une région entière couverte d’oliveraies ; son huile partait en amphores vers Rome et tout l’Empire. La ville est devenue si riche qu’elle a pu s’offrir un monument digne d’une capitale.',
+        choix: [
+          { texte: 'Aller voir de plus près la brèche dans le mur', destination: 'breche_ouest' },
+          { texte: 'Descendre et traverser la ville jusqu’au musée', destination: 'musee_mosaiques' },
+          { texte: 'Rester assis là-haut et regarder le soleil descendre', destination: 'fin_coucher_soleil' }
+        ]
+      },
+
+      'breche_ouest': {
+        lieu: 'La brèche du mur ouest', emoji: '💥', ambiance: 'hauteur',
+        texte: [
+          'Le mur s’arrête net, déchiré sur toute sa hauteur. Les pierres arrachées gisent en contrebas, rondes et polies par le temps. Ce n’est pas la vieillesse qui a fait ça : c’est un coup, un seul, terrible.',
+          'Un rameau d’olivier a poussé dans une fissure, tout en haut de la cassure. Tu en cueilles une branche minuscule et tu la glisses dans ton carnet, entre deux pages.'
+        ],
+        objetGagne: 'Rameau d’olivier',
+        saviezVous: 'À la <strong>fin du XVII<sup>e</sup> siècle</strong>, des habitants révoltés s’étaient retranchés dans l’amphithéâtre, devenu une véritable forteresse : on a tiré au canon dans le mur pour les en déloger. La légende locale raconte aussi que la reine berbère <strong>El Kahina</strong> y aurait résisté mille ans plus tôt — mais cela, c’est une histoire, pas une preuve.',
+        choix: [
+          { texte: 'Descendre par le couloir voûté sous les gradins', destination: 'vomitoire' },
+          { texte: 'Remonter au sommet', destination: 'sommet_gradins' }
+        ]
+      },
+
+      'vomitoire': {
+        lieu: 'Un couloir sous les gradins', emoji: '🌀', ambiance: 'souterrain',
+        texte: [
+          'Tu entres dans un tunnel voûté qui plonge sous les gradins. La lumière s’éteint d’un coup, la chaleur aussi : la pierre garde la fraîcheur de la nuit. Le couloir décrit une longue courbe, et l’écho de tes pas te suit comme quelqu’un qui marcherait derrière toi.',
+          'Dans une fissure, au ras du sol, quelque chose de sombre est coincé. Tu tires, la pierre grince, et une clé de fer rouillée te reste dans la main. Elle est lourde comme une cuillère de fonte.'
+        ],
+        objetGagne: 'Clé de fer rouillée',
+        saviezVous: 'Ces couloirs s’appellent des <strong>vomitoria</strong> — de <em>vomere</em>, « rejeter » en latin. Ils permettaient de « recracher » les 35 000 spectateurs dehors en quelques minutes seulement. Nos stades modernes n’ont rien inventé : ils copient ce plan-là.',
+        choix: [
+          { texte: 'Suivre le couloir : une lanterne bouge au fond', destination: 'rencontre_ali' },
+          { texte: 'Continuer à descendre vers les souterrains de l’arène', destination: 'souterrains' },
+          { texte: 'Ressortir au grand jour, dans l’arène', destination: 'entree_monument' }
+        ]
+      },
+
+      'rencontre_ali': {
+        lieu: 'La loge du gardien', emoji: '🏮', ambiance: 'souterrain',
+        texte: [
+          'La lanterne appartient à Ali, le gardien du site, assis sur un tabouret devant un thé qui fume. « Un explorateur ! » dit-il sans lever les yeux. « Il en passe deux par siècle. »',
+          'Il te tend une petite lampe de terre cuite, ronde, avec un bec noirci. « Une copie, comme celles qu’on retrouve par centaines ici. Les vraies sont au musée. Mais celle-là éclaire pour de bon, et là où tu veux aller, tu en auras besoin. Ne cours pas, en bas. Les Romains ne couraient pas. »'
+        ],
+        objetGagne: 'Lampe à huile antique',
+        saviezVous: 'Sous l’arène, il n’y avait <strong>aucune fenêtre</strong> : tout le travail se faisait à la lampe à huile, une flamme grosse comme un pois. Les archéologues en retrouvent partout, souvent décorées — certaines montrent justement des scènes d’amphithéâtre.',
+        choix: [
+          { texte: 'Descendre dans les souterrains, la lampe allumée', destination: 'souterrains' },
+          { texte: 'Remonter d’abord au grand jour', destination: 'entree_monument' }
+        ]
+      },
+
+      /* ── 4. Les souterrains ───────────────────────────────── */
+      'souterrains': {
+        lieu: 'Les galeries souterraines', emoji: '🕳️', ambiance: 'souterrain',
+        texte: [
+          'Dans la fraîcheur des sous-sols où passe le vent, tu découvres deux couloirs voûtés qui se croisent sous l’arène, en forme de croix. Au-dessus de ta tête, une longue fente de ciel bleu : c’est l’arène, vue d’en dessous.',
+          'À tes pieds brille une ancienne pièce de monnaie romaine. Tu la frottes contre ta manche : un profil d’homme apparaît, couronné de laurier, le nez à moitié effacé par les siècles.'
+        ],
+        objetGagne: 'Pièce en bronze de Thysdrus',
+        saviezVous: 'Deux grandes galeries se croisent sous l’arène. C’est ici qu’attendaient les bêtes, le matériel et les hommes, avant d’être <strong>hissés d’un coup au milieu du sable</strong> par des monte-charges à contrepoids. Le public voyait apparaître un lion sorti de nulle part : c’était une machinerie de théâtre, pas de la magie.',
+        choix: [
+          { texte: 'Prendre le grand couloir de l’est, dans l’axe de l’arène', destination: 'couloir_est' },
+          { texte: 'Prendre le couloir de l’ouest, où l’air sent l’eau', destination: 'couloir_ouest' },
+          { texte: 'Remonter à la lumière', destination: 'entree_monument' }
+        ]
+      },
+
+      'couloir_ouest': {
+        lieu: 'Le couloir de la citerne', emoji: '💧', ambiance: 'souterrain',
+        texte: [
+          'Le couloir descend en pente douce. L’air devient humide, presque frais sur les joues, et un goutte-à-goutte résonne quelque part devant. Tu débouches au bord d’une citerne creusée dans le roc, vide depuis des siècles, dont les parois gardent encore leur enduit rose.',
+          'Dans une niche taillée à hauteur d’épaule, quelqu’un a laissé une petite lampe à huile de terre cuite, comme si on venait de sortir un instant. Plus loin, au fond du couloir, une porte de fer ferme une pièce basse.'
+        ],
+        objetGagne: 'Lampe à huile antique',
+        saviezVous: 'Un monument pareil avait besoin d’<strong>énormes réserves d’eau</strong> : pour les bêtes, pour le nettoyage, pour la foule. À El Jem, on a retrouvé des citernes creusées et des canalisations — dans une région où il ne pleut presque pas, l’eau se ramassait goutte à goutte et se gardait comme un trésor.',
+        choix: [
+          { texte: 'Aller examiner la porte de fer', destination: 'porte_ferronnee' },
+          { texte: 'Traverser vers le grand couloir de l’est', destination: 'couloir_est' },
+          { texte: 'Revenir au croisement des galeries', destination: 'souterrains' }
+        ]
+      },
+
+      'couloir_est': {
+        lieu: 'La grande galerie', emoji: '⛓️', ambiance: 'souterrain',
+        texte: [
+          'C’est la galerie principale, celle qui court sur toute la longueur de l’arène. De part et d’autre s’ouvrent des cages basses, taillées dans la pierre, avec encore les trous où passaient les barreaux. Le sol est marqué de rainures profondes, usées par des cordes.',
+          'Devant toi, la galerie s’enfonce dans un noir complet. Ce n’est pas la pénombre : c’est du noir, épais, où ta main disparaît.'
+        ],
+        saviezVous: 'Les rainures dans la pierre sont les traces des <strong>monte-charges</strong> : des plateformes de bois tirées par des cordes et des contrepoids, qui montaient jusqu’à une trappe s’ouvrant dans le sable de l’arène.',
+        choix: [
+          { texte: 'Avancer dans le noir, la lampe levée', destination: 'salle_fauves',
+            requiert: 'Lampe à huile antique',
+            indice: 'Il te faudrait une lampe. Le gardien en prête, et il en traîne une dans le couloir de la citerne.' },
+          { texte: 'Avancer quand même, à tâtons, sans lumière', destination: 'noir_complet' },
+          { texte: 'Revenir au croisement des galeries', destination: 'souterrains' }
+        ]
+      },
+
+      'noir_complet': {
+        lieu: 'Le noir absolu', emoji: '🌑', ambiance: 'souterrain',
+        texte: [
+          'Tu avances une main devant toi, puis deux. La pierre est froide. Tu comptes tes pas : dix, vingt, trente. Au trente-quatrième, ta main ne trouve plus rien du tout, et tu ne sais plus si tu es venu de la droite ou de la gauche.',
+          'Le silence sous terre n’est pas vide : il bourdonne. Quelque part au-dessus, très loin, une hirondelle crie. Tu t’assieds, le cœur battant, et tu attends que la peur redescende. Elle redescend toujours.'
+        ],
+        choix: [
+          { texte: 'Suivre le courant d’air frais jusqu’à la lumière', destination: 'souterrains' },
+          { texte: 'Appeler à l’aide, très fort', destination: 'fin_perdu' }
+        ]
+      },
+
+      'salle_fauves': {
+        lieu: 'La salle des cages', emoji: '🦁', ambiance: 'souterrain',
+        texte: [
+          'La flamme de ta lampe redresse la nuit : une voûte apparaît, puis des murs, puis une salle entière que personne n’avait éclairée depuis longtemps. Des alvéoles s’alignent sur les côtés, si basses qu’un homme s’y tiendrait accroupi.',
+          'Sur un mur, quelqu’un a gravé un dessin maladroit, il y a très longtemps : une palme, et à côté, un petit bonhomme les bras levés. Un employé qui s’ennuyait, peut-être. Un spectateur qui rêvait de gloire. Tu ne sauras jamais.'
+        ],
+        saviezVous: 'On a retrouvé partout dans l’Empire des <strong>graffitis antiques</strong> gravés par des gens ordinaires : des noms, des comptes, des dessins d’animaux. Ce sont souvent les seuls mots qui nous restent de ceux qui n’ont pas écrit de livres — et pour les archéologues, ils valent de l’or.',
+        choix: [
+          { texte: 'Se placer sous la trappe du monte-charge', destination: 'monte_charge' },
+          { texte: 'Suivre le mur jusqu’à une porte de fer, plus loin', destination: 'porte_ferronnee' },
+          { texte: 'Revenir vers le croisement', destination: 'souterrains' }
+        ]
+      },
+
+      'monte_charge': {
+        lieu: 'Sous la trappe', emoji: '🔺', ambiance: 'souterrain',
+        texte: [
+          'Tu te places au milieu du puits, à l’endroit exact où la plateforme montait. Au-dessus de toi, quinze mètres de vide, et tout en haut, un rectangle de ciel éblouissant.',
+          'Tu fermes les yeux une seconde. La corde grince, le plateau tremble, la lumière arrive d’un coup, et trente-cinq mille personnes crient en même temps. Tu rouvres les yeux : il n’y a que le vent, et une hirondelle qui traverse le rectangle bleu.'
+        ],
+        saviezVous: 'Les spectacles d’amphithéâtre étaient <strong>violents et meurtriers</strong> : des bêtes et des hommes y mouraient devant la foule. Les visiter aujourd’hui, ce n’est pas les admirer — c’est comprendre comment vivaient et pensaient des gens très différents de nous, et pourquoi nous avons décidé, depuis, que cela ne se faisait plus.',
+        choix: [
+          { texte: 'Remonter par l’échelle jusqu’au sable de l’arène', destination: 'entree_monument' },
+          { texte: 'Retourner explorer la salle des cages', destination: 'salle_fauves' }
+        ]
+      },
+
+      'porte_ferronnee': {
+        lieu: 'La porte de fer', emoji: '🚪', ambiance: 'souterrain',
+        texte: [
+          'Une porte basse ferme une pièce creusée dans le roc. Le bois a disparu depuis longtemps ; il ne reste que l’armature de fer et une serrure grosse comme ton poing, prise dans la pierre.',
+          'Sur le linteau, quelqu’un a gravé trois lettres, très nettes malgré les siècles : <strong>OLE</strong>. Et le début d’un quatrième signe, cassé net.'
+        ],
+        choix: [
+          { texte: 'Glisser la clé de fer dans la serrure', destination: 'chambre_huile',
+            requiert: ['Clé de fer rouillée', 'Lampe à huile antique'],
+            indice: 'Il te faut une clé — et de la lumière pour voir ce qu’il y a derrière. Cherche dans les couloirs sous les gradins, et demande au gardien.' },
+          { texte: 'Relever le dessin de la serrure dans ton carnet', destination: 'releve_carnet' },
+          { texte: 'Revenir au croisement des galeries', destination: 'souterrains' }
+        ]
+      },
+
+      'releve_carnet': {
+        lieu: 'Le carnet ouvert', emoji: '✏️', ambiance: 'souterrain',
+        texte: [
+          'Tu poses le carnet sur ton genou et tu dessines : la porte, la serrure, les trois lettres du linteau. Tu écris la date, l’heure, et l’endroit exact — « galerie ouest, à vingt pas de la citerne ».',
+          'Ce n’est pas spectaculaire. C’est pourtant exactement le travail d’un archéologue : avant de toucher quoi que ce soit, on note où c’était. Un objet arraché à sa place perd la moitié de son histoire.'
+        ],
+        saviezVous: 'En archéologie, <strong>le contexte vaut plus que l’objet</strong>. Une pièce de monnaie ramassée « quelque part » ne raconte presque rien ; la même pièce, relevée à sa place exacte, peut dater tout un bâtiment. C’est pour cela qu’on ne ramasse jamais rien sur un site sans le signaler.',
+        choix: [
+          { texte: 'Essayer maintenant d’ouvrir la porte', destination: 'porte_ferronnee' },
+          { texte: 'Aller montrer le relevé au musée', destination: 'musee_mosaiques' }
+        ]
+      },
+
+      /* ── 5. Le musée ──────────────────────────────────────── */
+      'musee_mosaiques': {
+        lieu: 'Le musée des mosaïques', emoji: '🖼️', ambiance: 'musee',
+        texte: [
+          'Le musée est frais et silencieux. Ici, les mosaïques ne sont pas au mur : elles sont au sol, comme dans les maisons romaines dont on les a détachées, et l’on marche autour d’elles sur des passerelles.',
+          'Des poissons, des paons, des chasseurs, des vignes entières faites de pierres minuscules. Un panneau annonce la salle voisine : « La Maison d’Afrique ».'
+        ],
+        saviezVous: 'Les riches maisons de Thysdrus avaient des <strong>sols entièrement en mosaïque</strong>. Chaque petit cube s’appelle une <em>tessère</em> ; il en faut plusieurs dizaines de milliers pour un seul sol, posées une à une dans le mortier frais.',
+        choix: [
+          { texte: 'Comparer ton fragment avec les mosaïques exposées', destination: 'salle_afrique',
+            requiert: 'Fragment de mosaïque',
+            indice: 'Il faudrait avoir trouvé un morceau de mosaïque. Cherche au pied du mur, dans l’arène.' },
+          { texte: 'Visiter tranquillement les salles', destination: 'visite_musee' },
+          { texte: 'Retourner à l’amphithéâtre', destination: 'entree_monument' }
+        ]
+      },
+
+      'visite_musee': {
+        lieu: 'L’atelier de restauration', emoji: '🧪', ambiance: 'musee',
+        texte: [
+          'Derrière une vitre, deux restauratrices travaillent sur un sol démonté en dizaines de morceaux. Elles ont étalé les fragments par terre et cherchent, comme dans un puzzle géant, quelle pierre va contre quelle pierre.',
+          '« On avance d’environ un mètre carré par semaine », dit l’une sans lever la tête. « Le tapis complet en fait quarante. » Tu fais le calcul, et ça te donne le vertige.'
+        ],
+        saviezVous: 'Restaurer une mosaïque, c’est la <strong>consolider sans la réinventer</strong> : on ne remplace pas les tesselles manquantes par de fausses tesselles anciennes. Les parties refaites sont volontairement laissées un peu neutres, pour qu’un visiteur puisse toujours distinguer l’antique du moderne.',
+        choix: [
+          { texte: 'Entrer dans la salle de la Maison d’Afrique', destination: 'salle_afrique',
+            requiert: 'Fragment de mosaïque',
+            indice: 'Sans ton fragment, la salle n’est qu’une belle salle. Retourne d’abord fouiller le sable de l’arène.' },
+          { texte: 'Retourner à l’amphithéâtre', destination: 'entree_monument' }
+        ]
+      },
+
+      'salle_afrique': {
+        lieu: 'La Maison d’Afrique', emoji: '🧩', ambiance: 'musee',
+        texte: [
+          'Tu sors ton fragment et tu le tiens à bout de bras devant la grande mosaïque. Ocre, bleu, ocre : les couleurs se répondent, le motif continue. Ton petit morceau vient d’une bordure exactement semblable — la même main, le même atelier, le même siècle.',
+          'Et dans l’angle du tapis, courant le long de la bordure, trois mots latins que tu recopies lettre à lettre dans ton carnet : <strong>SVB ARCV OLEVM</strong>. Leïla, arrivée derrière toi sans bruit, traduit à mi-voix : « Sous l’arche, l’huile. »'
+        ],
+        objetGagne: 'Message de la mosaïque',
+        saviezVous: 'Les Romains écrivaient en capitales, sans espaces ni accents, et le <strong>V servait aussi de U</strong> : <em>OLEVM</em> se lit <em>oleum</em>, « l’huile ». Beaucoup de mosaïques portent ainsi des mots, des noms de propriétaires, ou des souhaits de bonne santé adressés aux invités.',
+        choix: [
+          { texte: 'Redescendre en courant vers la porte de fer', destination: 'porte_ferronnee' },
+          { texte: 'Demander à Leïla ce qu’elle en pense', destination: 'conseil_leila' }
+        ]
+      },
+
+      'conseil_leila': {
+        lieu: 'Devant la mosaïque', emoji: '👒', ambiance: 'musee',
+        texte: [
+          '« Sous l’arche, l’huile », répète Leïla en croisant les bras. « Dans une ville qui a fait fortune avec l’huile d’olive, ce n’est pas une devise poétique : c’est une adresse. »',
+          'Elle te regarde bien en face. « Si tu trouves quelque chose là-dessous, tu ne le mets pas dans ta poche. Tu m’appelles. D’accord ? Un objet sans son histoire n’est plus qu’un caillou. »'
+        ],
+        choix: [
+          { texte: 'Promettre, et redescendre sous l’arène', destination: 'porte_ferronnee' },
+          { texte: 'Ranger le carnet et rentrer par l’arène', destination: 'entree_monument' }
+        ]
+      },
+
+      /* ── 6. Le secret ─────────────────────────────────────── */
+      'chambre_huile': {
+        lieu: 'La réserve d’huile', emoji: '🏺', ambiance: 'souterrain',
+        texte: [
+          'La clé accroche, résiste, puis tourne avec un bruit de gravier. La porte s’ouvre sur une pièce voûtée où l’air n’a pas bougé depuis très, très longtemps. Ta lampe découvre des amphores couchées le long du mur, vides, la panse fendue — les jarres d’huile d’un marchand de Thysdrus.',
+          'Au fond, une petite arche basse est murée d’un seul bloc scellé. Sur ce bloc, gravée en creux, une bordure ocre et bleue : exactement le motif de ton fragment.'
+        ],
+        saviezVous: 'L’huile d’olive était <strong>la grande richesse de la région</strong> : on la stockait dans des jarres et on l’expédiait en amphores vers Rome. Sous l’Empire, quand les temps devenaient dangereux, les gens enterraient leurs économies chez eux — les archéologues appellent cela un <em>trésor monétaire</em>, et on en retrouve encore aujourd’hui.',
+        choix: [
+          { texte: 'Pousser la pierre à l’endroit indiqué par l’inscription', destination: 'choix_final',
+            requiert: 'Message de la mosaïque',
+            indice: 'Trois mots manquent pour savoir où pousser. Ils sont écrits au musée, sur la bordure d’une mosaïque — mais il faut y apporter ton fragment.' },
+          { texte: 'Tout relever dans le carnet et remonter chercher Leïla', destination: 'fin_archeologue' },
+          { texte: 'Ressortir doucement et refermer la porte', destination: 'souterrains' }
+        ]
+      },
+
+      'choix_final': {
+        lieu: 'Le trésor de Thysdrus', emoji: '✨', ambiance: 'fin',
+        texte: [
+          'Tu appuies sous l’arche, là où l’inscription le disait. Le bloc bascule sans un bruit, comme s’il attendait depuis mille huit cents ans qu’on lui demande poliment.',
+          'Derrière : une jarre bouchée à la cire. Tu l’inclines, et une pluie de petites lunes de bronze glisse dans ta paume. Des pièces, des dizaines de pièces, et par-dessus, une lampe à huile miniature, intacte, avec un olivier gravé sur le dessus. L’épargne d’un marchand d’huile, cachée un jour de peur, et jamais reprise.',
+          'Ton cœur cogne. Personne ne sait que tu es là.'
+        ],
+        choix: [
+          { texte: '📣 Remonter en criant, et appeler Leïla', destination: 'fin_tresor' },
+          { texte: '🤫 Glisser une pièce dans ta poche et ne rien dire', destination: 'fin_secret' }
+        ]
+      },
+
+      /* ── 7. Les fins ──────────────────────────────────────── */
+      'fin_tresor': {
+        fin: true, titreFin: 'Le trésor de Thysdrus', badge: '🏺 Découvreur du trésor',
+        lieu: 'Fin — la plus belle', emoji: '🏺', ambiance: 'fin',
+        texte: [
+          'Tu remontes l’échelle du monte-charge en hurlant le nom de Leïla, et l’arène entière te renvoie ton propre cri. Une heure plus tard, il y a six personnes dans la petite salle voûtée, des lampes, un mètre ruban, un appareil photo qui claque toutes les dix secondes. Personne ne touche encore à rien : on mesure, on note, on dessine — exactement comme tu l’as fait sur ton carnet.',
+          'Deux cent quarante-trois pièces de bronze. La plus récente porte le portrait d’un empereur du III<sup>e</sup> siècle : le trésor a été caché à l’époque même où l’on construisait l’amphithéâtre au-dessus.',
+          'L’année suivante, dans la salle du musée, une petite lampe de terre cuite à l’olivier gravé repose sous une vitre. Sur l’étiquette, en tout petit, après le nom du site et la date : « signalé par un jeune visiteur ». Ce visiteur, c’est toi — et le vrai trésor, c’est l’histoire que ces pièces peuvent enfin raconter.'
+        ],
+        saviezVous: 'Un trésor monétaire se date par <strong>sa pièce la plus récente</strong> : elle donne l’année après laquelle le tout a forcément été enfoui. C’est pour cela qu’un trésor complet, laissé en place et fouillé correctement, apprend cent fois plus qu’une belle pièce isolée vendue à un collectionneur.'
+      },
+
+      'fin_secret': {
+        fin: true, titreFin: 'Le caillou dans la poche', badge: '🤫 Le secret gardé',
+        lieu: 'Fin — à méditer', emoji: '🤫', ambiance: 'fin',
+        texte: [
+          'Tu refermes la jarre, tu remets le bloc en place, et tu remontes au soleil avec une pièce de bronze au fond de la poche. Personne n’a rien vu. Le car repart ; tu tiens la pièce serrée dans ta main toute la route.',
+          'Le soir, dans ta chambre, tu la poses sur ton bureau. Elle est jolie. Elle est vieille. Et elle ne dit plus rien du tout : ni d’où elle vient, ni avec quoi elle était, ni pourquoi quelqu’un l’avait cachée. Sortie de sa jarre, elle a perdu son histoire — et la jarre, sans elle, a perdu la sienne.',
+          'Tu penses à Leïla. Tu penses que demain, tu écriras une lettre au musée. Ce ne sera pas trop tard : les objets rendus racontent encore.'
+        ],
+        saviezVous: 'Chaque objet emporté « en souvenir » d’un site archéologique <strong>efface une information pour toujours</strong>. C’est aussi interdit par la loi, en Tunisie comme dans presque tous les pays : le patrimoine appartient à tout le monde, donc à personne en particulier.'
+      },
+
+      'fin_archeologue': {
+        fin: true, titreFin: 'Le carnet qui vaut de l’or', badge: '📓 Archéologue en herbe',
+        lieu: 'Fin — mission accomplie', emoji: '📓', ambiance: 'fin',
+        texte: [
+          'Tu ne forces rien. Tu dessines : la salle, les amphores, l’arche murée, le motif gravé sur le bloc. Tu notes les mesures au pas, les couleurs, l’endroit exact. Puis tu remontes chercher Leïla.',
+          'Elle regarde ton carnet longtemps, page après page, sans rien dire. Puis elle relève la tête. « Tu as fait mieux que trouver quelque chose : tu as fait un relevé. On va pouvoir ouvrir ça proprement, avec l’autorisation, avec l’équipe, en photographiant chaque étape. »',
+          'Ton carnet est photocopié et rangé dans les archives du site, entre deux rapports de fouille. Il porte un numéro, maintenant. Et un jour, quelqu’un que tu ne connaîtras jamais le rouvrira pour comprendre ce qu’il y avait sous l’arche.'
+        ],
+        saviezVous: 'Une fouille archéologique <strong>détruit ce qu’elle étudie</strong> : on ne peut creuser une couche qu’une fois. Le seul moyen de la garder, c’est de tout enregistrer avant — plans, photos, carnets. C’est pour cela qu’on fouille lentement, et seulement quand c’est nécessaire.'
+      },
+
+      'fin_perdu': {
+        fin: true, douce: true, titreFin: 'Perdu sous l’arène', badge: '🔦 Sauvé de justesse',
+        lieu: 'Fin — retour en arrière', emoji: '🔦', ambiance: 'souterrain',
+        texte: [
+          'Ta voix part dans le noir et te revient de trois côtés à la fois. Tu appelles encore. Puis une lumière danse au bout de la galerie, et la voix d’Ali arrive avant lui : « Je t’avais dit de ne pas courir ! »',
+          'Il te ramène au croisement en trois minutes — trois minutes, alors que tu croyais être à des kilomètres. « Sous terre, on ne se perd pas loin », dit-il en riant. « On se perd juste complètement. »',
+          'Ton aventure n’est pas terminée : elle recommence là où tu as tourné du mauvais côté. Cette fois, prends de la lumière.'
+        ],
+        saviezVous: 'Les vrais spéléologues et archéologues ne descendent <strong>jamais seuls et jamais sans trois sources de lumière</strong>. Sous terre, l’obscurité n’est pas « très sombre » : c’est le noir total, où l’œil ne s’habitue jamais.',
+        choix: [
+          { texte: '↩︎ Revenir au croisement des galeries', destination: 'souterrains' },
+          { texte: '🏮 Aller emprunter une lampe au gardien', destination: 'rencontre_ali' }
+        ]
+      },
+
+      'fin_coucher_soleil': {
+        fin: true, titreFin: 'Le soir sur les arcades', badge: '🌇 Gardien du couchant',
+        lieu: 'Fin — tout en haut', emoji: '🌇', ambiance: 'fin',
+        texte: [
+          'Tu restes assis là-haut, les jambes dans le vide, et tu regardes la lumière changer. La pierre passe du blanc au miel, puis à l’orange, puis à ce rose qu’on ne voit qu’ici, une fois par jour, pendant quatre minutes.',
+          'En bas, dans l’arène, des techniciens déroulent des câbles et montent une estrade : ce soir, un orchestre jouera au milieu du sable, et les gradins seront pleins pour la première fois depuis dix-huit siècles. Un violon s’accorde. Le son monte tout droit jusqu’à toi, parfaitement clair.',
+          'Tu n’as pas trouvé de trésor aujourd’hui. Tu as trouvé autre chose : un monument qui n’est pas mort, et qui sert encore.'
+        ],
+        saviezVous: 'Chaque été, un <strong>festival international de musique symphonique</strong> se tient dans l’amphithéâtre d’El Jem. L’acoustique romaine, conçue pour que trente-cinq mille personnes entendent, fonctionne toujours aussi bien pour un orchestre.'
+      }
+    }
+  };
+
+  /* ══════════════════════════════════════════════════════════════
+     MOTEUR DE RÉCIT
+     État courant, historique (pour l’annulation), sac, découvertes.
+     Tout tient dans un objet `etat` sérialisable : c’est lui qu’on
+     empile pour le bouton « Retour », et lui qu’on range dans le
+     localStorage entre deux visites.
+     ══════════════════════════════════════════════════════════════ */
+
+  var CLE_SAUVEGARDE = 'grenier.eljem.v1';
+
+  var el = {
+    sac:          document.getElementById('sac'),
+    sacVide:      document.getElementById('sac-vide'),
+    sacInfo:      document.getElementById('sac-info'),
+    lieuEmoji:    document.getElementById('lieu-emoji'),
+    lieuNom:      document.getElementById('lieu-nom'),
+    badgeLieu:    document.getElementById('badge-lieu'),
+    titreFin:     document.getElementById('titre-fin'),
+    texte:        document.getElementById('texte'),
+    gain:         document.getElementById('gain'),
+    gainEmoji:    document.getElementById('gain-emoji'),
+    gainNom:      document.getElementById('gain-nom'),
+    blocSavoir:   document.getElementById('bloc-savoir'),
+    btnSavoir:    document.getElementById('btn-savoir'),
+    flecheSavoir: document.getElementById('fleche-savoir'),
+    texteSavoir:  document.getElementById('texte-savoir'),
+    choix:        document.getElementById('choix'),
+    scene:        document.getElementById('scene'),
+    btnRetour:    document.getElementById('btn-retour'),
+    btnRecommencer: document.getElementById('btn-recommencer'),
+    compteurSavoirs: document.getElementById('compteur-savoirs'),
+    jauge:        document.getElementById('jauge'),
+    jaugeTexte:   document.getElementById('jauge-texte'),
+    voileSavoirs: document.getElementById('voile-savoirs'),
+    listeSavoirs: document.getElementById('liste-savoirs'),
+    savoirsVide:  document.getElementById('savoirs-vide'),
+    btnSavoirs:   document.getElementById('btn-savoirs'),
+    fermerSavoirs: document.getElementById('fermer-savoirs'),
+    reprise:      document.getElementById('reprise'),
+    btnReprendre: document.getElementById('btn-reprendre'),
+    btnNeuf:      document.getElementById('btn-neuf')
+  };
+
+  var TOTAL_ETAPES = Object.keys(AVENTURE_EL_JEM.etapes).length;
+  var TOTAL_SAVOIRS = Object.keys(AVENTURE_EL_JEM.etapes).filter(function (k) {
+    return !!AVENTURE_EL_JEM.etapes[k].saviezVous;
+  }).length;
+
+  var etat = null;         /* { etape, inventaire, savoirs, visitees } */
+  var historique = [];     /* pile d’états précédents, pour l’annulation */
+  var dernierGain = null;  /* objet ramassé à l’étape affichée */
+
+  function etatNeuf() {
+    return {
+      etape: AVENTURE_EL_JEM.premiereEtape,
+      inventaire: [],
+      savoirs: [],
+      visitees: [AVENTURE_EL_JEM.premiereEtape]
+    };
+  }
+
+  function copie(o) { return JSON.parse(JSON.stringify(o)); }
+
+  /* ── Sauvegarde locale (silencieuse : elle ne doit jamais casser
+        la partie si le navigateur refuse le stockage) ──────────── */
+  function sauver() {
+    try {
+      localStorage.setItem(CLE_SAUVEGARDE, JSON.stringify({ etat: etat, historique: historique }));
+    } catch (e) { /* navigation privée, quota plein : tant pis */ }
+  }
+  function lireSauvegarde() {
+    try {
+      var brut = localStorage.getItem(CLE_SAUVEGARDE);
+      if (!brut) return null;
+      var d = JSON.parse(brut);
+      if (!d || !d.etat || !AVENTURE_EL_JEM.etapes[d.etat.etape]) return null;
+      return d;
+    } catch (e) { return null; }
+  }
+  function effacerSauvegarde() {
+    try { localStorage.removeItem(CLE_SAUVEGARDE); } catch (e) {}
+  }
+
+  /* ── Le sac ─────────────────────────────────────────────────── */
+  function possede(nom) { return etat.inventaire.indexOf(nom) !== -1; }
+
+  function ajouterObjet(nom) {
+    if (!nom || possede(nom)) return false;
+    etat.inventaire.push(nom);
+    return true;
+  }
+
+  function rendreSac(nouveau) {
+    el.sac.innerHTML = '';
+    if (!etat.inventaire.length) {
+      var vide = document.createElement('span');
+      vide.className = 'text-[.78rem] italic text-pierre-400';
+      vide.textContent = 'il est encore vide…';
+      el.sac.appendChild(vide);
+      el.sacInfo.hidden = true;
+      return;
+    }
+    etat.inventaire.forEach(function (nom) {
+      var o = OBJETS[nom] || { emoji: '❔', desc: '' };
+      /* Un bouton, pas une simple étiquette : sur un téléphone il n'y a
+         pas de survol, alors on touche l'objet pour savoir ce que c'est.
+         Le nom en toutes lettres n'apparaît qu'à partir des écrans
+         larges, sinon la barre du haut mangerait la moitié de l'écran. */
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'inline-flex min-h-[26px] items-center gap-1 rounded-full border border-olive-400/60 bg-white/75 px-2.5 py-1 text-[.72rem] font-bold text-pierre-700 shadow-sm transition hover:border-olive-500 hover:bg-white';
+      chip.title = nom + ' — ' + o.desc;
+      chip.setAttribute('aria-label', nom + '. ' + o.desc);
+      chip.innerHTML = '<span aria-hidden="true">' + o.emoji + '</span><span class="hidden sm:inline">' + nom + '</span>';
+      chip.addEventListener('click', function () { montrerObjet(nom); });
+      if (nom === nouveau) chip.classList.add('objet-neuf');
+      el.sac.appendChild(chip);
+    });
+    if (nouveau) montrerObjet(nouveau); else el.sacInfo.hidden = true;
+  }
+
+  function montrerObjet(nom) {
+    var o = OBJETS[nom];
+    if (!o) return;
+    el.sacInfo.hidden = false;
+    el.sacInfo.innerHTML = o.emoji + ' <strong>' + nom + '</strong> — ' + o.desc;
+  }
+
+  /* ── Jauge et compteur ──────────────────────────────────────── */
+  function rendreJauge() {
+    var n = etat.visitees.length;
+    var pct = Math.min(100, Math.round((n / TOTAL_ETAPES) * 100));
+    el.jauge.style.width = pct + '%';
+    el.jaugeTexte.textContent = n + (n > 1 ? ' lieux' : ' lieu');
+    el.compteurSavoirs.textContent = etat.savoirs.length + '/' + TOTAL_SAVOIRS;
+  }
+
+  /* ── Le panneau des découvertes ─────────────────────────────── */
+  function rendreSavoirs() {
+    el.listeSavoirs.innerHTML = '';
+    var vide = etat.savoirs.length === 0;
+    el.savoirsVide.hidden = !vide;
+    etat.savoirs.forEach(function (id) {
+      var e = AVENTURE_EL_JEM.etapes[id];
+      if (!e) return;
+      var li = document.createElement('li');
+      li.className = 'rounded-2xl border border-ocre-400/40 bg-white/70 p-3';
+      li.innerHTML =
+        '<p class="mb-1 text-[.7rem] font-bold uppercase tracking-widest text-ocre-600">' +
+          (e.emoji || '💡') + ' ' + (e.lieu || '') + '</p>' +
+        '<p class="text-[.92rem] leading-relaxed text-pierre-700">' + e.saviezVous + '</p>';
+      el.listeSavoirs.appendChild(li);
+    });
+  }
+
+  function ouvrirSavoirs() {
+    rendreSavoirs();
+    el.voileSavoirs.hidden = false;
+    el.fermerSavoirs.focus();
+  }
+  function fermerSavoirs() {
+    el.voileSavoirs.hidden = true;
+    el.btnSavoirs.focus();
+  }
+
+  /* ── Affichage d’une étape ──────────────────────────────────── */
+  function afficher(id, animer) {
+    var e = AVENTURE_EL_JEM.etapes[id];
+    if (!e) return;
+
+    document.body.dataset.ambiance = e.ambiance || 'soleil';
+
+    el.lieuEmoji.textContent = e.emoji || '🏛️';
+    el.lieuNom.textContent = e.lieu || '';
+
+    /* Titre, seulement pour les fins */
+    if (e.fin && e.titreFin) {
+      el.titreFin.hidden = false;
+      el.titreFin.innerHTML = '<span class="text-ocre-600">' + (e.emoji || '') + '</span> ' + e.titreFin;
+    } else {
+      el.titreFin.hidden = true;
+    }
+
+    /* Le récit */
+    el.texte.innerHTML = '';
+    (Array.isArray(e.texte) ? e.texte : [e.texte]).forEach(function (p) {
+      var para = document.createElement('p');
+      para.innerHTML = p;
+      el.texte.appendChild(para);
+    });
+
+    /* L’objet ramassé */
+    if (dernierGain) {
+      var o = OBJETS[dernierGain] || { emoji: '❔' };
+      el.gain.hidden = false;
+      el.gainEmoji.textContent = o.emoji;
+      el.gainNom.textContent = dernierGain;
+    } else {
+      el.gain.hidden = true;
+    }
+
+    /* L’encadré pédagogique : replié par défaut, rouvert s’il a
+       déjà été débloqué au cours de cette partie. */
+    if (e.saviezVous) {
+      el.blocSavoir.hidden = false;
+      var dejaSu = etat.savoirs.indexOf(id) !== -1;
+      el.texteSavoir.innerHTML = e.saviezVous;
+      el.texteSavoir.hidden = !dejaSu;
+      el.flecheSavoir.textContent = dejaSu ? '▾' : '▸';
+      el.btnSavoir.setAttribute('aria-expanded', dejaSu ? 'true' : 'false');
+      el.btnSavoir.dataset.etape = id;
+    } else {
+      el.blocSavoir.hidden = true;
+    }
+
+    /* Les choix */
+    el.choix.innerHTML = '';
+
+    if (e.fin) {
+      el.choix.appendChild(bilanDeFin(e));
+    }
+
+    (e.choix || []).forEach(function (c, i) {
+      el.choix.appendChild(boutonChoix(c, i));
+    });
+
+    if (e.fin) {
+      el.choix.appendChild(boutonsDeFin());
+    }
+
+    rendreSac(dernierGain);
+    rendreJauge();
+    el.btnRetour.disabled = historique.length === 0;
+
+    if (animer) {
+      el.scene.classList.add('etape-entree');
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { el.scene.classList.remove('etape-entree'); });
+      });
+      el.texte.setAttribute('tabindex', '-1');
+      el.texte.focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  /* Un bouton de choix. Un choix verrouillé reste visible : l’enfant
+     voit la porte fermée et sait ce qui lui manque pour l’ouvrir. */
+  function boutonChoix(c, i) {
+    var requis = c.requiert ? (Array.isArray(c.requiert) ? c.requiert : [c.requiert]) : [];
+    var manquants = requis.filter(function (nom) { return !possede(nom); });
+    var ouvert = manquants.length === 0;
+
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'choix-anim flex w-full items-start gap-3 rounded-2xl border-2 px-4 py-3.5 text-left transition ' +
+      (ouvert
+        ? 'border-pierre-300 bg-white/80 text-pierre-700 shadow-sm hover:-translate-y-0.5 hover:border-ocre-400 hover:bg-white hover:shadow-md focus:outline-none focus-visible:ring-4 focus-visible:ring-ocre-300/60'
+        : 'cursor-not-allowed border-dashed border-pierre-400/70 bg-white/70 text-pierre-700');
+    b.style.animationDelay = (i * 70) + 'ms';
+
+    var num = document.createElement('span');
+    num.className = 'mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[.72rem] font-extrabold ' +
+      (ouvert ? 'bg-ocre-500 text-white' : 'bg-pierre-300 text-pierre-600');
+    num.textContent = ouvert ? String(i + 1) : '🔒';
+    num.setAttribute('aria-hidden', 'true');
+
+    var corps = document.createElement('span');
+    corps.className = 'flex-1';
+    var ligne = document.createElement('span');
+    ligne.className = 'block font-bold leading-snug';
+    ligne.textContent = c.texte;
+    corps.appendChild(ligne);
+
+    if (!ouvert) {
+      var aide = document.createElement('span');
+      aide.className = 'mt-1 block text-[.82rem] font-normal italic leading-snug text-pierre-700';
+      aide.textContent = c.indice || ('Il te manque : ' + manquants.join(', ') + '.');
+      corps.appendChild(aide);
+      b.disabled = true;
+      b.setAttribute('aria-disabled', 'true');
+    } else {
+      b.addEventListener('click', function () { choisir(c.destination); });
+      b.dataset.raccourci = String(i + 1);
+    }
+
+    b.appendChild(num);
+    b.appendChild(corps);
+    return b;
+  }
+
+  /* Le bilan affiché sur un écran de fin. */
+  function bilanDeFin(e) {
+    var d = document.createElement('div');
+    d.className = 'choix-anim mb-5 rounded-2xl border-2 border-ocre-400/60 bg-white/75 p-4';
+    var objets = etat.inventaire.length
+      ? etat.inventaire.map(function (n) { return (OBJETS[n] ? OBJETS[n].emoji : '❔') + ' ' + n; }).join(' · ')
+      : 'rien du tout — la prochaine fois, fouille le sable !';
+    d.innerHTML =
+      '<p class="mb-2 font-titre text-lg font-extrabold text-ocre-600 pulse-ocre inline-block rounded-full bg-white/70 px-3 py-1">' +
+        (e.badge || '🏅 Aventure terminée') + '</p>' +
+      '<dl class="space-y-1.5 text-sm text-pierre-700">' +
+        '<div><dt class="inline font-bold">Lieux explorés : </dt><dd class="inline">' + etat.visitees.length + ' sur ' + TOTAL_ETAPES + '</dd></div>' +
+        '<div><dt class="inline font-bold">Découvertes débloquées : </dt><dd class="inline">' + etat.savoirs.length + ' sur ' + TOTAL_SAVOIRS + '</dd></div>' +
+        '<div><dt class="inline font-bold">Dans ton sac : </dt><dd class="inline">' + objets + '</dd></div>' +
+      '</dl>';
+    return d;
+  }
+
+  function boutonsDeFin() {
+    var d = document.createElement('div');
+    d.className = 'choix-anim mt-4 flex flex-wrap gap-2 border-t border-pierre-300/60 pt-4';
+
+    var rejouer = document.createElement('button');
+    rejouer.type = 'button';
+    rejouer.className = 'rounded-xl bg-ocre-500 px-4 py-2.5 text-sm font-bold text-white shadow transition hover:bg-ocre-600';
+    rejouer.textContent = '⟳ Rejouer une autre aventure';
+    rejouer.addEventListener('click', recommencer);
+
+    var revoir = document.createElement('button');
+    revoir.type = 'button';
+    revoir.className = 'rounded-xl border border-ocre-400/60 bg-white/80 px-4 py-2.5 text-sm font-bold text-ocre-600 transition hover:bg-white';
+    revoir.textContent = '💡 Revoir mes découvertes';
+    revoir.addEventListener('click', ouvrirSavoirs);
+
+    d.appendChild(rejouer);
+    d.appendChild(revoir);
+    return d;
+  }
+
+  /* ── Navigation ─────────────────────────────────────────────── */
+  function choisir(destination) {
+    var suite = AVENTURE_EL_JEM.etapes[destination];
+    if (!suite) return;
+
+    historique.push(copie(etat));
+    if (historique.length > 60) historique.shift();
+
+    etat.etape = destination;
+    if (etat.visitees.indexOf(destination) === -1) etat.visitees.push(destination);
+
+    dernierGain = appliquerGains(destination);
+
+    transition(function () { afficher(destination, true); });
+    sauver();
+  }
+
+  /* Ramasse tout ce que l'étape offre et renvoie le premier objet
+     réellement nouveau, celui qu'on annonce à l'écran. */
+  function appliquerGains(id) {
+    var e = AVENTURE_EL_JEM.etapes[id];
+    if (!e) return null;
+    var gains = e.objetsGagnes || (e.objetGagne ? [e.objetGagne] : []);
+    var premier = null;
+    gains.forEach(function (nom) { if (ajouterObjet(nom) && !premier) premier = nom; });
+    return premier;
+  }
+
+  function retourEnArriere() {
+    if (!historique.length) return;
+    etat = historique.pop();
+    dernierGain = null;
+    transition(function () { afficher(etat.etape, true); });
+    sauver();
+  }
+
+  function recommencer() {
+    etat = etatNeuf();
+    historique = [];
+    effacerSauvegarde();
+    dernierGain = appliquerGains(etat.etape);
+    transition(function () { afficher(etat.etape, true); });
+  }
+
+  /* Un fondu court entre deux paragraphes : le temps de tourner
+     la page, pas plus. */
+  function transition(rendu) {
+    el.scene.classList.add('etape-sortie');
+    setTimeout(function () {
+      rendu();
+      el.scene.classList.remove('etape-sortie');
+    }, 190);
+  }
+
+  /* ── Branchements ───────────────────────────────────────────── */
+  el.btnSavoir.addEventListener('click', function () {
+    var id = el.btnSavoir.dataset.etape;
+    var ouvert = !el.texteSavoir.hidden;
+    el.texteSavoir.hidden = ouvert;
+    el.flecheSavoir.textContent = ouvert ? '▸' : '▾';
+    el.btnSavoir.setAttribute('aria-expanded', ouvert ? 'false' : 'true');
+    if (!ouvert && id && etat.savoirs.indexOf(id) === -1) {
+      etat.savoirs.push(id);
+      rendreJauge();
+      sauver();
+    }
+  });
+
+  el.btnRetour.addEventListener('click', retourEnArriere);
+  el.btnRecommencer.addEventListener('click', function () {
+    if (etat.visitees.length > 1 &&
+        !confirm('Tout recommencer depuis l’arrivée à El Jem ? Ton sac et tes découvertes seront vidés.')) return;
+    recommencer();
+  });
+
+  el.btnSavoirs.addEventListener('click', ouvrirSavoirs);
+  el.fermerSavoirs.addEventListener('click', fermerSavoirs);
+  el.voileSavoirs.addEventListener('click', function (ev) {
+    if (ev.target === el.voileSavoirs) fermerSavoirs();
+  });
+
+  /* Clavier : 1-3 pour choisir, Échap pour fermer le panneau,
+     Retour arrière (hors champ de saisie) pour annuler. */
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape' && !el.voileSavoirs.hidden) { fermerSavoirs(); return; }
+    if (!el.voileSavoirs.hidden) return;
+    if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    if (/^[1-9]$/.test(ev.key)) {
+      var b = el.choix.querySelector('button[data-raccourci="' + ev.key + '"]');
+      if (b) { ev.preventDefault(); b.click(); }
+    } else if (ev.key === 'Backspace') {
+      ev.preventDefault();
+      retourEnArriere();
+    }
+  });
+
+  /* ── Démarrage ──────────────────────────────────────────────── */
+  var sauvegarde = lireSauvegarde();
+
+  function demarrer(reprise) {
+    if (reprise) {
+      etat = sauvegarde.etat;
+      historique = sauvegarde.historique || [];
+      /* Filet : une sauvegarde d’une version antérieure du récit
+         pourrait pointer vers une étape disparue. */
+      if (!AVENTURE_EL_JEM.etapes[etat.etape]) etat = etatNeuf();
+      if (!Array.isArray(etat.inventaire)) etat.inventaire = [];
+      if (!Array.isArray(etat.savoirs)) etat.savoirs = [];
+      if (!Array.isArray(etat.visitees)) etat.visitees = [etat.etape];
+      dernierGain = null;
+    } else {
+      etat = etatNeuf();
+      historique = [];
+      effacerSauvegarde();
+      dernierGain = appliquerGains(etat.etape);
+    }
+    el.reprise.hidden = true;
+    afficher(etat.etape, false);
+  }
+
+  if (sauvegarde && sauvegarde.etat.etape !== AVENTURE_EL_JEM.premiereEtape) {
+    el.reprise.hidden = false;
+    el.btnReprendre.addEventListener('click', function () { demarrer(true); });
+    el.btnNeuf.addEventListener('click', function () { demarrer(false); });
+    /* En attendant le choix, on montre quand même le début. */
+    etat = etatNeuf();
+    historique = [];
+    dernierGain = appliquerGains(etat.etape);
+    afficher(etat.etape, false);
+  } else {
+    demarrer(false);
+  }
+})();
+</script>
+</body>
+</html>

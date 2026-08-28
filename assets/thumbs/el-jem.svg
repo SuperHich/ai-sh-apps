@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ejCiel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#241634"/>
+      <stop offset="45%"  stop-color="#5c2f2a"/>
+      <stop offset="78%"  stop-color="#c8791b"/>
+      <stop offset="100%" stop-color="#e8b45e"/>
+    </linearGradient>
+    <radialGradient id="ejSoleil" cx="50%" cy="72%" r="46%">
+      <stop offset="0%"   stop-color="#ffd88a" stop-opacity=".85"/>
+      <stop offset="100%" stop-color="#ffd88a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ejSable" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#e6c993"/>
+      <stop offset="100%" stop-color="#b98f4f"/>
+    </linearGradient>
+    <radialGradient id="ejLampe" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#ffd88a" stop-opacity=".95"/>
+      <stop offset="100%" stop-color="#ffd88a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#ejCiel)"/>
+  <circle cx="200" cy="216" r="120" fill="url(#ejSoleil)"/>
+
+  <!-- le monument : trois cent vingt tonnes de pierre, en ombre chinoise -->
+  <!-- Le mur s'arrête net à droite : c'est la brèche du côté ouest,
+       ouverte au canon à la fin du XVIIe siècle. -->
+  <path d="M40,222 L40,104 Q168,76 286,95 L296,96 L296,120 L312,121 L312,141 L328,142 L328,130 L342,131 L342,158 L360,159 L360,222 Z"
+        fill="#2b1c12" fill-opacity=".94"/>
+  <path d="M286,95 L296,96 L296,120 L312,121 L312,141 L328,142 L328,130 L342,131 L342,158 L360,159"
+        fill="none" stroke="#e8b45e" stroke-opacity=".3" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- les arcades : le ciel du soir passe au travers -->
+  <g fill="#e8b45e" fill-opacity=".82">
+    <path d="M48.0,145.5 v-29.0 a11.0,11.0 0 0 1 22.0,0 v29.0 Z"/>
+    <path d="M80.0,143.3 v-29.0 a11.0,11.0 0 0 1 22.0,0 v29.0 Z"/>
+    <path d="M112.0,141.6 v-29.0 a11.0,11.0 0 0 1 22.0,0 v29.0 Z"/>
+    <path d="M144.0,140.6 v-29.0 a11.0,11.0 0 0 1 22.0,0 v29.0 Z"/>
+    <path d="M176.0,140.0 v-29.0 a11.0,11.0 0 0 1 22.0,0 v29.0 Z"/>
+    <path d="M208.0,140.1 v-29.0 a11.0,11.0 0 0 1 22.0,0 v29.0 Z"/>
+    <path d="M240.0,140.7 v-29.0 a11.0,11.0 0 0 1 22.0,0 v29.0 Z"/>
+  </g>
+  <g fill="#f7dfa8" fill-opacity=".9">
+    <path d="M48.0,214.0 v-45.0 a11.0,11.0 0 0 1 22.0,0 v45.0 Z"/>
+    <path d="M80.0,214.0 v-45.0 a11.0,11.0 0 0 1 22.0,0 v45.0 Z"/>
+    <path d="M112.0,214.0 v-45.0 a11.0,11.0 0 0 1 22.0,0 v45.0 Z"/>
+    <path d="M144.0,214.0 v-45.0 a11.0,11.0 0 0 1 22.0,0 v45.0 Z"/>
+    <path d="M176.0,214.0 v-45.0 a11.0,11.0 0 0 1 22.0,0 v45.0 Z"/>
+    <path d="M208.0,214.0 v-45.0 a11.0,11.0 0 0 1 22.0,0 v45.0 Z"/>
+    <path d="M240.0,214.0 v-45.0 a11.0,11.0 0 0 1 22.0,0 v45.0 Z"/>
+    <path d="M272.0,214.0 v-45.0 a11.0,11.0 0 0 1 22.0,0 v45.0 Z"/>
+    <path d="M304.0,214.0 v-45.0 a11.0,11.0 0 0 1 22.0,0 v45.0 Z"/>
+    <path d="M336.0,214.0 v-45.0 a11.0,11.0 0 0 1 22.0,0 v45.0 Z"/>
+  </g>
+
+  <!-- la corniche entre les deux étages -->
+  <path d="M44,147 Q168,120 290,131" fill="none" stroke="#e8b45e" stroke-opacity=".45" stroke-width="3"/>
+
+  <!-- l'entrée des galeries souterraines, et la lampe qui y brûle -->
+  <circle cx="200" cy="236" r="42" fill="url(#ejLampe)"/>
+  <path d="M186,246 v-18 a14,14 0 0 1 28,0 v18 Z" fill="#160f08"/>
+  <circle cx="200" cy="234" r="5" fill="#ffd88a"/>
+
+  <!-- le sable de l'arene -->
+  <path d="M0,244 Q100,232 200,240 T400,238 L400,300 L0,300 Z" fill="url(#ejSable)"/>
+
+  <!-- quatre tesselles de mosaique, tombees au pied du mur -->
+  <g transform="translate(36,258) rotate(-9)">
+    <rect x="0"  y="0"  width="13" height="13" rx="2" fill="#c8791b"/>
+    <rect x="15" y="0"  width="13" height="13" rx="2" fill="#1f6f8b"/>
+    <rect x="0"  y="15" width="13" height="13" rx="2" fill="#1f6f8b"/>
+    <rect x="15" y="15" width="13" height="13" rx="2" fill="#f7dfa8"/>
+  </g>
+
+  <!-- la cle de fer rouillee -->
+  <g transform="translate(316,262) rotate(12)" fill="none" stroke="#42372a" stroke-width="5" stroke-linecap="round">
+    <circle cx="9" cy="9" r="8"/>
+    <path d="M17,9 h34"/>
+    <path d="M44,9 v9"/>
+    <path d="M52,9 v9"/>
+  </g>
+</svg>
