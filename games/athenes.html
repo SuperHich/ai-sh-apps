@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Secret d'Athènes — Le Grenier des Apps</title>
+<meta name="description" content="Un livre dont tu es le héros dans l'Athènes antique : l'Agora, l'Acropole, le Céramique et le puits aux tessons. Une enquête sur une écriture, un sac à remplir, sept fins possibles.">
+<meta name="theme-color" content="#f4f1ea">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="mask-icon" href="../assets/favicon-mono.svg" color="#1f6aa5">
+
+<!-- Tailwind CSS (CDN) — même choix que les autres jeux du Grenier :
+     le fichier reste autonome, ouvrable d'un double-clic. -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  /* Si la CDN ne répond pas, `tailwind` n'existe pas : on ne veut pas
+     d'erreur de page pour autant — la feuille maison prend le relais. */
+  if (window.tailwind) tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          marbre:  { 50:'#fbfaf7', 100:'#f4f1ea', 200:'#e6e0d3', 300:'#d1c8b6', 400:'#b3a790', 500:'#8f8368' },
+          pierre:  { 100:'#eceae4', 200:'#dad6cc', 300:'#bdb7aa', 400:'#99927f', 500:'#736c5c', 600:'#545044', 700:'#3a372e', 800:'#26241e' },
+          egee:    { 300:'#7fb3d5', 400:'#3f88c5', 500:'#1f6aa5', 600:'#16527f' },
+          olivier: { 300:'#b7c99a', 400:'#8fa96b', 500:'#6d8a4a', 600:'#4f6a32', 700:'#3b5222' }
+        },
+        fontFamily: {
+          sans:  ['Nunito', 'system-ui', 'sans-serif'],
+          titre: ['"Baloo 2"', 'system-ui', 'sans-serif']
+        }
+      }
+    }
+  };
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     Styles maison : les ambiances de lieu (le décor change quand on
+     descend sous l'arène ou qu'on entre au musée), les transitions
+     entre paragraphes et la poussière dorée. Le reste est en
+     classes Tailwind dans le balisage.
+     ───────────────────────────────────────────────────────────── */
+
+  :root {
+    --fond-1: #fbfaf7;
+    --fond-2: #eef0e4;
+    --fond-3: #dfe2cd;
+    --encre:  #3a372e;
+    --accent: #b25a2a;     /* décor : le rocher, les filets   */
+    --accent-txt: #8e4520; /* texte : doit rester lisible     */
+    --carte:  rgba(255, 254, 250, .93);
+  }
+
+  /* Une ambiance par quartier de la ville antique : l'Agora dans la
+     poussière et les oliviers, l'Acropole dans le blanc du marbre et
+     le bleu de l'Égée, le puits et le canal dans le noir, l'atelier
+     du potier dans la terre cuite, les musées dans le gris des
+     vitrines, et l'or du soir pour les fins. */
+  body[data-ambiance="agora"]      { --fond-1:#fbfaf7; --fond-2:#eef0e4; --fond-3:#dce0c6; --encre:#3a372e; --accent:#b25a2a; --accent-txt:#8e4520; --carte:rgba(255,254,250,.93); }
+  body[data-ambiance="acropole"]   { --fond-1:#f8fcff; --fond-2:#e4eff8; --fond-3:#c6dcef; --encre:#1f3346; --accent:#1f6aa5; --accent-txt:#14496f; --carte:rgba(255,255,255,.93); }
+  body[data-ambiance="souterrain"] { --fond-1:#262320; --fond-2:#191713; --fond-3:#0e0d0a; --encre:#f4ecdd; --accent:#f0ad4e; --accent-txt:#ffeed2; --carte:rgba(33,30,25,.82); }
+  body[data-ambiance="atelier"]    { --fond-1:#fdf7f0; --fond-2:#f5e3d2; --fond-3:#e6c3a5; --encre:#3d2c20; --accent:#b25a2a; --accent-txt:#7d3c1b; --carte:rgba(255,251,246,.93); }
+  body[data-ambiance="musee"]      { --fond-1:#f5f7f9; --fond-2:#e5eaee; --fond-3:#ccd6dd; --encre:#26313a; --accent:#1f6aa5; --accent-txt:#14496f; --carte:rgba(255,255,255,.92); }
+  body[data-ambiance="fin"]        { --fond-1:#fffaec; --fond-2:#f7e3b4; --fond-3:#e6bd77; --encre:#3a372e; --accent:#b25a2a; --accent-txt:#8e4520; --carte:rgba(255,253,244,.94); }
+
+  html { scroll-padding-top: 8.5rem; }
+
+  body {
+    background:
+      radial-gradient(120% 80% at 50% -10%, var(--fond-1) 0%, var(--fond-2) 55%, var(--fond-3) 100%)
+      fixed;
+    color: var(--encre);
+    transition: background-color .6s ease, color .5s ease;
+  }
+
+  /* Grain de pierre : une trame très légère, pour que le fond ne soit
+     pas un aplat de couleur mais une surface. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: .35;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(120,90,50,.10) 0 1px, transparent 1px),
+      radial-gradient(circle at 70% 60%, rgba(120,90,50,.08) 0 1px, transparent 1px),
+      radial-gradient(circle at 45% 85%, rgba(120,90,50,.09) 0 1px, transparent 1px);
+    background-size: 24px 24px, 31px 31px, 18px 18px;
+  }
+
+  /* ── Transition entre deux paragraphes ─────────────────────── */
+  .etape-sortie  { opacity: 0; transform: translateY(-10px) scale(.995); }
+  .etape-entree  { opacity: 0; transform: translateY(14px); }
+  #scene         { transition: opacity .28s ease, transform .28s ease; }
+
+  /* Les choix apparaissent l'un après l'autre. */
+  @keyframes monte { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform:none; } }
+  .choix-anim { animation: monte .34s cubic-bezier(.22,1,.36,1) both; }
+
+  /* Un objet qui entre dans le sac fait une petite fête. */
+  @keyframes pop { 0%{transform:scale(.4);opacity:0} 60%{transform:scale(1.14)} 100%{transform:scale(1);opacity:1} }
+  .objet-neuf { animation: pop .5s cubic-bezier(.22,1,.36,1) both; }
+
+  @keyframes lueur { 0%,100% { box-shadow: 0 0 0 0 rgba(178,90,42,.45); } 50% { box-shadow: 0 0 0 10px rgba(178,90,42,0); } }
+  .pulse-accent { animation: lueur 1.8s ease-out 2; }
+
+  /* Le rocher de l'Acropole qui coiffe la carte, et tout ce qui doit
+     rester lisible aussi bien en plein soleil qu'au fond du puits :
+     ces éléments prennent la couleur de l'ambiance. */
+  .frise { color: var(--accent); }
+  .ton-accent { color: var(--accent-txt); }
+
+  /* Les encadrés teintés (le lieu, « Le saviez-vous ? ») prenaient une
+     couleur fixe, qui jurait dès que l'ambiance changeait de famille.
+     Ils se mélangent maintenant à l'accent du lieu ; la valeur en dur
+     reste comme repli pour les navigateurs sans color-mix. */
+  .teinte-accent { border-color: rgba(178,90,42,.45); background-color: rgba(178,90,42,.14); }
+  .teinte-accent:hover { background-color: rgba(178,90,42,.20); }
+  @supports (color: color-mix(in srgb, red, blue)) {
+    .teinte-accent { border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+                     background-color: color-mix(in srgb, var(--accent) 14%, transparent); }
+    .teinte-accent:hover { background-color: color-mix(in srgb, var(--accent) 20%, transparent); }
+  }
+
+  /* La carte du récit : marbre clair au soleil, pierre sombre au fond
+     du puits et du canal de l'Éridan. */
+  .carte-recit { background: var(--carte); transition: background-color .6s ease; }
+
+  /* Confort de lecture pour les 7-12 ans : texte ample, interlignage
+     généreux, et une lettrine sur le premier paragraphe. */
+  .recit { font-size: 1.06rem; line-height: 1.85; }
+  @media (min-width: 640px) { .recit { font-size: 1.14rem; line-height: 1.9; } }
+
+  /* Filet de sécurité : si le CDN Tailwind ne répond pas, `hidden`
+     ne veut plus rien dire et tous les panneaux s'empileraient. */
+  [hidden] { display: none !important; }
+
+  .carte-verre { backdrop-filter: blur(6px); }
+
+  /* Barre de progression des découvertes. */
+  #jauge { transition: width .5s cubic-bezier(.22,1,.36,1); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  }
+</style>
+</head>
+
+<body data-ambiance="agora" class="min-h-screen font-sans">
+
+<!-- ══════════════════════════════════════════════════════════════
+     BARRE HAUTE : le sac de l'explorateur + les outils de confort
+     ══════════════════════════════════════════════════════════════ -->
+<header class="sticky top-0 z-30 border-b border-pierre-300/50 bg-marbre-50/85 shadow-sm carte-verre">
+  <div class="mx-auto flex max-w-3xl flex-col gap-2 px-3 py-2.5 sm:px-5">
+
+    <div class="flex items-center gap-2">
+      <a href="../index.html"
+         class="inline-flex shrink-0 items-center gap-1 rounded-full border border-pierre-300 bg-white/70 px-2.5 py-1 text-[.7rem] font-bold text-pierre-600 transition hover:bg-white hover:text-egee-600"
+         title="Retour au Grenier des Apps">← Accueil</a>
+
+      <p class="min-w-0 flex-1 truncate font-titre text-base font-extrabold text-pierre-700 sm:text-lg">
+        🏺 Le Secret d'Athènes
+      </p>
+
+      <button id="btn-savoirs" type="button"
+              class="inline-flex shrink-0 items-center gap-1 rounded-full border border-egee-400/60 bg-egee-300/25 px-2.5 py-1 text-[.7rem] font-bold text-egee-600 transition hover:bg-egee-300/50">
+        💡 <span id="compteur-savoirs">0</span>
+        <span class="hidden sm:inline">découvertes</span>
+      </button>
+    </div>
+
+    <!-- ── Le sac : mini-inventaire toujours visible ── -->
+    <div class="flex items-center gap-2">
+      <span class="shrink-0 text-[.68rem] font-bold uppercase tracking-widest text-pierre-500">Ton sac</span>
+      <div id="sac" class="flex min-h-[30px] flex-1 flex-wrap items-center gap-1.5" aria-live="polite">
+        <span id="sac-vide" class="text-[.78rem] italic text-pierre-400">il est encore vide…</span>
+      </div>
+    </div>
+
+    <!-- Touche un objet du sac pour savoir ce que c'est. -->
+    <p id="sac-info" hidden class="-mt-1 rounded-lg bg-olivier-300/25 px-2.5 py-1 text-[.75rem] leading-snug text-pierre-700"></p>
+
+    <!-- ── Jauge d'exploration ── -->
+    <div class="flex items-center gap-2">
+      <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-pierre-300/40">
+        <div id="jauge" class="h-full w-0 rounded-full bg-gradient-to-r from-egee-300 to-egee-500"></div>
+      </div>
+      <span id="jauge-texte" class="shrink-0 text-[.68rem] font-bold text-pierre-500">1 lieu</span>
+    </div>
+  </div>
+</header>
+
+<main class="mx-auto max-w-3xl px-3 py-5 sm:px-5 sm:py-8">
+
+  <!-- ══ Bandeau de reprise (affiché seulement s'il y a une partie sauvegardée) ══ -->
+  <div id="reprise" hidden
+       class="mb-4 rounded-2xl border-2 border-egee-400/50 bg-marbre-100/90 p-4 shadow-md carte-verre">
+    <p class="font-titre text-lg font-bold text-pierre-700">Tu étais déjà en route…</p>
+    <p class="mt-1 text-sm text-pierre-600">Une aventure commencée t'attend dans la poussière de l'Agora.</p>
+    <div class="mt-3 flex flex-wrap gap-2">
+      <button id="btn-reprendre" type="button"
+              class="rounded-xl bg-egee-500 px-4 py-2 text-sm font-bold text-white shadow transition hover:bg-egee-600">
+        Reprendre l'aventure
+      </button>
+      <button id="btn-neuf" type="button"
+              class="rounded-xl border border-pierre-300 bg-white/80 px-4 py-2 text-sm font-bold text-pierre-600 transition hover:bg-white">
+        Repartir du début
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ La carte du récit ══ -->
+  <article class="carte-recit overflow-hidden rounded-3xl border border-pierre-300/60 shadow-xl carte-verre">
+
+    <!-- Frise d'arcades : le monument, dessiné en trois étages -->
+    <div class="frise bg-gradient-to-b from-marbre-200/70 to-transparent px-4 pt-4">
+      <svg viewBox="0 0 600 74" class="mx-auto block h-14 w-full max-w-2xl sm:h-20" aria-hidden="true" fill="none">
+        <g stroke="currentColor" stroke-width="2.4" stroke-linecap="round" opacity=".55">
+          <!-- le rocher de l'Acropole, et la ville en contrebas -->
+          <path d="M12 72 L64 64 L104 56 L140 52 L468 52 L508 58 L552 66 L588 72" stroke-linejoin="round" />
+          <!-- le Parthénon : fronton, entablement, huit colonnes -->
+          <path d="M236 26 L316 8 L396 26" stroke-linejoin="round" />
+          <path d="M236 26 h160 M240 32 h152" />
+          <path d="M245 32 v20 M251 32 v20" />
+          <path d="M242 32 h12" />
+          <path d="M265 32 v20 M271 32 v20" />
+          <path d="M262 32 h12" />
+          <path d="M285 32 v20 M291 32 v20" />
+          <path d="M282 32 h12" />
+          <path d="M305 32 v20 M311 32 v20" />
+          <path d="M302 32 h12" />
+          <path d="M325 32 v20 M331 32 v20" />
+          <path d="M322 32 h12" />
+          <path d="M345 32 v20 M351 32 v20" />
+          <path d="M342 32 h12" />
+          <path d="M365 32 v20 M371 32 v20" />
+          <path d="M362 32 h12" />
+          <path d="M385 32 v20 M391 32 v20" />
+          <path d="M382 32 h12" />
+          <path d="M236 52 h160" />
+          <!-- la tribune des caryatides de l'Érechthéion -->
+          <path d="M140 30 h76 M144 36 h68" />
+          <path d="M148 52 v-12 a4,4 0 0 1 8,0 v12" />
+          <path d="M166 52 v-12 a4,4 0 0 1 8,0 v12" />
+          <path d="M184 52 v-12 a4,4 0 0 1 8,0 v12" />
+          <path d="M202 52 v-12 a4,4 0 0 1 8,0 v12" />
+          <!-- l'olivier d'Athéna -->
+          <path d="M480 52 v-13" />
+          <path d="M462 38 q4,-9 18,-9 t18,9 q-7,5 -18,5 t-18,-5 Z" />
+        </g>
+      </svg>
+    </div>
+
+    <div class="px-4 pb-6 pt-2 sm:px-9 sm:pb-9">
+
+      <div id="scene">
+
+        <!-- Lieu -->
+        <p class="mb-3 flex flex-wrap items-center gap-2">
+          <span id="badge-lieu"
+                class="ton-accent teinte-accent inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[.7rem] font-bold uppercase tracking-[.14em]">
+            <span id="lieu-emoji">🏺</span><span id="lieu-nom">L'Agora</span>
+          </span>
+        </p>
+
+        <!-- Titre de fin (masqué pendant l'aventure) -->
+        <h2 id="titre-fin" hidden class="ton-accent mb-2 font-titre text-2xl font-extrabold sm:text-3xl"></h2>
+
+        <!-- Le paragraphe -->
+        <div id="texte" class="recit space-y-4" role="region" aria-live="polite" aria-atomic="true"></div>
+
+        <!-- Objet ramassé -->
+        <div id="gain" hidden
+             class="mt-4 flex items-center gap-3 rounded-2xl border-2 border-dashed border-olivier-400/70 bg-white/75 px-4 py-3">
+          <span id="gain-emoji" class="text-2xl">🪙</span>
+          <p class="text-sm font-bold text-olivier-700">
+            Tu ranges <span id="gain-nom" class="underline decoration-olivier-400 decoration-2 underline-offset-2"></span> dans ton sac.
+          </p>
+        </div>
+
+        <!-- Encadré pédagogique, à déplier -->
+        <div id="bloc-savoir" hidden class="mt-5">
+          <button id="btn-savoir" type="button"
+                  class="teinte-accent flex w-full items-center gap-2 rounded-2xl border-2 px-4 py-3 text-left transition">
+            <span class="text-xl">💡</span>
+            <span class="ton-accent flex-1 font-titre text-base font-bold">Le saviez-vous&nbsp;?</span>
+            <span id="fleche-savoir" class="ton-accent transition">▸</span>
+          </button>
+          <p id="texte-savoir" hidden
+             class="mt-2 rounded-2xl border border-egee-400/30 bg-white/70 px-4 py-3 text-[.95rem] leading-relaxed text-pierre-700"></p>
+        </div>
+
+        <!-- Les choix -->
+        <div id="choix" class="mt-6 space-y-3"></div>
+
+      </div>
+    </div>
+  </article>
+
+  <!-- ══ Outils de confort ══ -->
+  <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
+    <button id="btn-retour" type="button"
+            class="inline-flex items-center gap-1.5 rounded-xl border border-pierre-300 bg-white/70 px-3.5 py-2 text-sm font-bold text-pierre-600 shadow-sm transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40">
+      ↩︎ Retour au choix précédent
+    </button>
+    <button id="btn-recommencer" type="button"
+            class="inline-flex items-center gap-1.5 rounded-xl border border-pierre-300 bg-white/70 px-3.5 py-2 text-sm font-bold text-pierre-600 shadow-sm transition hover:bg-white">
+      ⟳ Recommencer l'aventure
+    </button>
+  </div>
+
+  <p class="mt-6 text-center text-xs text-pierre-500">
+    Agora, Acropole et Céramique — <strong>Athína</strong>, Grèce · Acropole inscrite au patrimoine mondial de l'UNESCO depuis 1987.
+  </p>
+</main>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANNEAU « MES DÉCOUVERTES »
+     ══════════════════════════════════════════════════════════════ -->
+<div id="voile-savoirs" hidden class="fixed inset-0 z-40 flex items-end justify-center bg-pierre-800/50 p-0 sm:items-center sm:p-4">
+  <div role="dialog" aria-modal="true" aria-labelledby="titre-savoirs"
+       class="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border border-pierre-300 bg-marbre-50 p-5 shadow-2xl sm:rounded-3xl">
+    <div class="mb-3 flex items-center justify-between gap-3">
+      <h3 id="titre-savoirs" class="font-titre text-xl font-extrabold text-pierre-700">💡 Mes découvertes</h3>
+      <button id="fermer-savoirs" type="button"
+              class="rounded-full border border-pierre-300 bg-white px-3 py-1 text-sm font-bold text-pierre-600 transition hover:bg-pierre-100">Fermer</button>
+    </div>
+    <p id="savoirs-vide" class="text-sm italic text-pierre-500">
+      Aucune découverte pour l'instant. Ouvre les encadrés « Le saviez-vous ? » que tu croises en chemin.
+    </p>
+    <ul id="liste-savoirs" class="space-y-2.5"></ul>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ══════════════════════════════════════════════════════════════
+     LES OBJETS DU SAC
+     Chaque objet est désigné partout par son nom exact : c’est la
+     clé qui relie « objetGagne » d’une étape à « requiert » d’un
+     choix situé plus loin dans l’aventure.
+     ══════════════════════════════════════════════════════════════ */
+  var OBJETS = {
+    'Carnet d’archéologue':   { emoji: '📓', desc: 'Pour noter, dessiner et relever ce que tu vois.' },
+    'Tesson au nom gravé':    { emoji: '🏺', desc: 'Un morceau de vase rayé de six lettres grecques.' },
+    'Lampe frontale':         { emoji: '🔦', desc: 'Celle des fouilleurs : les deux mains restent libres.' },
+    'Papier et fusain':       { emoji: '📄', desc: 'De quoi relever une écriture sans toucher la pierre.' },
+    'Frottis de l’écriture':  { emoji: '📜', desc: 'Les six lettres, reproduites trait pour trait.' },
+    'Obole à la chouette':    { emoji: '🦉', desc: 'Une monnaie d’argent : Athéna d’un côté, sa chouette de l’autre.' },
+    'Rameau d’olivier':       { emoji: '🫒', desc: 'Cueilli sous l’olivier de l’Érechthéion.' },
+    'Jeton de juré en bronze': { emoji: '🎫', desc: 'Une plaquette gravée d’un nom : la carte de juré d’un Athénien.' },
+    'Le nom des quatorze mains': { emoji: '🏷️', desc: 'Ce que disent les archives : cent quatre-vingt-dix tessons, quatorze écritures.' }
+  };
+
+  /* ══════════════════════════════════════════════════════════════
+     L’AVENTURE
+     Chaque étape : un paragraphe, parfois un objet à ramasser, un
+     encadré « Le saviez-vous ? » facultatif, et deux ou trois choix.
+     Un choix peut exiger un objet (« requiert ») : il reste visible,
+     mais fermé, avec l’indice de ce qu’il faudrait trouver.
+     ══════════════════════════════════════════════════════════════ */
+  var AVENTURE_ATHENES = {
+    titre: 'Le Secret d’Athènes',
+    lieu: 'Agora, Acropole et Céramique (Athènes, Grèce)',
+    premiereEtape: 'depart',
+
+    etapes: {
+
+      /* ── 1. L’arrivée ─────────────────────────────────────── */
+      'depart': {
+        lieu: 'Au pied du rocher', emoji: '🍋', ambiance: 'agora',
+        texte: [
+          'Il a plu cette nuit, ce qui n’arrive presque jamais en juillet, et Athènes sent le citronnier mouillé. Tu remontes une ruelle de Pláka entre les chats et les tables de café, et au détour d’un mur, le rocher est là : une falaise beige avec des colonnes posées dessus, à cent mètres au-dessus de ta tête.',
+          'Devant la grille du chantier, une femme range des tubes de plans dans un sac. « Sofia, épigraphiste. » Elle voit ta tête. « Ça veut dire que je lis ce que les gens ont écrit sur la pierre. Pas les livres : les pierres. Tiens, prends ce carnet — tu vas en avoir besoin avant midi. »'
+        ],
+        objetGagne: 'Carnet d’archéologue',
+        saviezVous: 'L’Acropole est inscrite au <strong>patrimoine mondial de l’UNESCO depuis 1987</strong>. Mais le rocher est habité depuis <strong>plus de cinq mille ans</strong> : bien avant les temples de marbre, c’était simplement le meilleur endroit de la région pour se défendre, avec une source d’eau au sommet.',
+        choix: [
+          { texte: 'Demander à Sofia ce qu’on peut lire sur une pierre', destination: 'questions_sofia' },
+          { texte: 'Descendre tout de suite dans l’Agora', destination: 'agora' }
+        ]
+      },
+
+      'questions_sofia': {
+        lieu: 'Devant la grille du chantier', emoji: '🔤', ambiance: 'agora',
+        texte: [
+          '« Tout, dit Sofia. Des lois, des factures, des listes de morts, des insultes, des noms de gagnants. Les Grecs écrivaient partout : sur le marbre, sur les murs, sur les morceaux de vase cassés. »',
+          'Elle trace du doigt cinq lettres dans la poussière du capot d’une voiture. « Et regarde celles-là. Alpha, bêta, gamma… tu les connais déjà à moitié. Notre A, notre B, notre M viennent de là. »'
+        ],
+        saviezVous: 'Les Grecs n’ont pas inventé l’alphabet : ils l’ont emprunté aux <strong>Phéniciens</strong> — les mêmes marins qui ont fondé Carthage. Mais ils y ont ajouté quelque chose d’énorme : les <strong>voyelles</strong>. Et au début, ils écrivaient en <em>boustrophédon</em> : une ligne de gauche à droite, la suivante de droite à gauche, « comme le bœuf laboure ».',
+        choix: [
+          { texte: 'Descendre dans l’Agora', destination: 'agora' },
+          { texte: 'Monter directement sur l’Acropole', destination: 'acropole_propylees' }
+        ]
+      },
+
+      /* ── 2. L’Agora ───────────────────────────────────────── */
+      'agora': {
+        lieu: 'L’Agora', emoji: '🏺', ambiance: 'agora',
+        texte: [
+          'En bas du rocher s’étend un grand terrain vague magnifique : des oliviers, des chemins de gravier, des socles vides, des chapiteaux couchés dans l’herbe, et une longue galerie à colonnes toute blanche qui a l’air neuve.',
+          'C’était le marché. C’était aussi le tribunal, la mairie, la poste, le café et le lieu où l’on votait. Tout se faisait ici, dehors, à voix haute.'
+        ],
+        saviezVous: 'Le mot <em>agora</em> veut dire « l’endroit où l’on se rassemble ». La démocratie athénienne ne se pratiquait pas dans un bâtiment fermé mais <strong>en plein air</strong>, debout, au milieu des marchands de poisson. Nos mots <em>politique</em>, <em>économie</em>, <em>démocratie</em> viennent tous de cette place.',
+        choix: [
+          { texte: 'Fouiller du regard le gravier lavé par la pluie', destination: 'graviers_agora' },
+          { texte: 'Aller voir le temple intact, sur la butte', destination: 'hephaisteion' },
+          { texte: 'Entrer dans la longue galerie blanche', destination: 'stoa_attale' }
+        ]
+      },
+
+      'graviers_agora': {
+        lieu: 'Le gravier lavé', emoji: '🏺', ambiance: 'agora',
+        texte: [
+          'La pluie de la nuit a lavé le chemin et fait ressortir tout ce qui traînait dessous : des cailloux, des tessons de pot moderne, un bouchon. Et un morceau de poterie brun-rouge, courbe, épais comme ton ongle.',
+          'Tu l’essuies sur ton short. Il y a des rayures dessus. Pas des rayures au hasard : six lettres, tracées à la pointe, penchées, un peu tremblées. <strong>ΘΕΜΙΣΤ…</strong> — et le tesson est cassé juste après.'
+        ],
+        objetGagne: 'Tesson au nom gravé',
+        saviezVous: 'Un morceau de vase cassé s’appelle un <em>ostrakon</em>. À Athènes, c’était le papier brouillon de tout le monde : gratuit, partout par terre. Une fois par an, on s’en servait aussi pour <strong>voter contre quelqu’un</strong> — chacun rayait un nom sur son tesson. C’est de là que vient notre mot <strong>ostracisme</strong>.',
+        choix: [
+          { texte: 'Courir montrer ça dans la galerie blanche', destination: 'stoa_attale' },
+          { texte: 'Passer d’abord par le temple sur la butte', destination: 'hephaisteion' },
+          { texte: 'Monter sur la colline où l’on votait', destination: 'pnyx' }
+        ]
+      },
+
+      'hephaisteion': {
+        lieu: 'Le temple d’Héphaïstos', emoji: '⚒️', ambiance: 'agora',
+        texte: [
+          'Celui-là n’est pas en ruine : il est entier. Colonnes, toit, frises — il manque juste la statue à l’intérieur. C’est le temple d’Héphaïstos, le dieu forgeron, et c’est le mieux conservé de toute la Grèce.',
+          'Autour, dans la terre, les archéologues ont retrouvé des scories de métal, des creusets, des ratés de fonte : le quartier des forgerons était juste en dessous. Le dieu habitait au-dessus de ses ouvriers.'
+        ],
+        saviezVous: 'S’il est intact, c’est parce qu’il a servi d’<strong>église pendant treize siècles</strong>. Et si tu trouves ses colonnes trop parfaites, regarde mieux : elles sont légèrement <strong>renflées au milieu</strong> et penchées vers l’intérieur. Un fût parfaitement droit paraît creux à l’œil ; les Grecs corrigeaient la géométrie pour tromper le regard.',
+        choix: [
+          { texte: 'Redescendre vers la galerie blanche', destination: 'stoa_attale' },
+          { texte: 'Marcher jusqu’au quartier des potiers', destination: 'ceramique' }
+        ]
+      },
+
+      'stoa_attale': {
+        lieu: 'La stoa d’Attale', emoji: '🏛️', ambiance: 'musee',
+        texte: [
+          'La galerie blanche n’est pas antique : elle a été <em>reconstruite</em> dans les années 1950, à l’emplacement exact et avec les mesures exactes de celle d’il y a deux mille deux cents ans. Dedans, il fait frais, et c’est le musée de l’Agora.',
+          'Des vitrines basses, presque vides, et dans chacune trois ou quatre objets de rien du tout : une cuillère, un jouet, un tesson. Sofia t’attend au fond, près d’une vitrine devant laquelle personne ne s’arrête.'
+        ],
+        saviezVous: 'Reconstruire un monument est très rare et très discuté : on risque de fabriquer un faux souvenir. Ici, on l’a fait pour une raison précise — <strong>abriter les fouilles</strong>. Le musée est dans le bâtiment, et le bâtiment enseigne à quoi ressemblait une galerie grecque : plafond, ombre, courants d’air compris.',
+        choix: [
+          { texte: 'Regarder la vitrine devant laquelle personne ne s’arrête', destination: 'vitrine_ostraka' },
+          { texte: 'S’arrêter devant la grosse pierre percée de fentes', destination: 'kleroterion' },
+          { texte: 'Passer par la porte « Fouilles — accès réservé »', destination: 'atelier_dafni' }
+        ]
+      },
+
+      'vitrine_ostraka': {
+        lieu: 'La vitrine des tessons', emoji: '🗳️', ambiance: 'musee',
+        texte: [
+          'Une trentaine de morceaux de vase, posés à plat sur du feutre gris. Sur chacun, un nom gravé. ΑΡΙΣΤΕΙΔΗΣ. ΚΙΜΩΝ. ΠΕΡΙΚΛΗΣ. Et là, deux fois : <strong>ΘΕΜΙΣΤΟΚΛΗΣ</strong> — Thémistocle.',
+          'Sofia lit l’étiquette du bout du doigt. « Ceux-là viennent d’un peu partout. Mais on en a trouvé cent quatre-vingt-dix d’un coup, en 1937, jetés ensemble au fond d’un puits sur le versant nord du rocher. Tous au même nom. Et ça, ajoute-t-elle en te regardant, ça pose un problème. »'
+        ],
+        saviezVous: 'Le vote d’ostracisme n’était pas une élection mais son contraire : on écrivait le nom de celui qu’on voulait <strong>voir partir</strong>. Le « gagnant » quittait Athènes pour <strong>dix ans</strong> — mais il gardait ses biens et restait citoyen. Il fallait un minimum d’environ six mille votes pour que la journée compte.',
+        choix: [
+          { texte: 'Demander quel est le problème', destination: 'kleroterion' },
+          { texte: 'Passer par la porte « Fouilles — accès réservé »', destination: 'atelier_dafni' },
+          { texte: 'Ressortir réfléchir dans l’Agora', destination: 'agora' }
+        ]
+      },
+
+      'kleroterion': {
+        lieu: 'La machine à tirer au sort', emoji: '⚙️', ambiance: 'musee',
+        texte: [
+          'C’est une dalle de marbre debout, percée de colonnes de fentes régulières, avec un tube de bronze fixé sur le côté. On dirait une machine, et c’en est une : un <em>klérotérion</em>.',
+          'Chaque citoyen glissait sa plaquette de bronze dans une fente. On versait des billes noires et blanches dans le tube, on les faisait sortir une par une, et chaque bille désignait une rangée entière : blanche, vous êtes jurés aujourd’hui ; noire, rentrez chez vous. Le hasard, en public, sous les yeux de tous.',
+          '« Le problème, dit Sofia, c’est que cent quatre-vingt-dix tessons au même nom, ça ne ressemble pas à cent quatre-vingt-dix personnes. »'
+        ],
+        saviezVous: 'À Athènes, la plupart des charges publiques étaient tirées au sort, pas élues : on pensait qu’une élection favorise toujours les riches et les beaux parleurs. À côté du klérotérion, on a retrouvé la <em>clepsydre</em>, une <strong>horloge à eau</strong> qui mesurait le temps de parole devant le tribunal — environ six minutes, et le suivant.',
+        choix: [
+          { texte: 'Montrer ton jeton de bronze à Sofia et essayer la machine', destination: 'tirage_au_sort',
+            requiert: 'Jeton de juré en bronze',
+            indice: 'Il faudrait une plaquette de juré. Il en dort dans la vase du canal, sous le quartier des potiers.' },
+          { texte: 'Passer par la porte « Fouilles — accès réservé »', destination: 'atelier_dafni' },
+          { texte: 'Monter sur la colline où l’on votait', destination: 'pnyx' }
+        ]
+      },
+
+      'tirage_au_sort': {
+        lieu: 'La réplique du klérotérion', emoji: '⚫', ambiance: 'musee',
+        texte: [
+          'Sofia note ton jeton, le photographie, l’étiquette — puis elle t’emmène devant la copie que le musée laisse toucher. Tu glisses la plaquette dans une fente, à la deuxième rangée.',
+          'Elle verse les billes. Noir. Noir. Blanc. Ta rangée sort : tu es juré. Tu ris, et tu t’arrêtes de rire quand tu réalises que ce mécanisme bête a distribué le pouvoir à des milliers de gens ordinaires pendant deux siècles.'
+        ],
+        saviezVous: 'Sur ces plaquettes de bronze — les <em>pinakia</em> — chaque Athénien faisait graver son nom, celui de son père et son quartier. C’était sa carte d’identité de citoyen. On en a retrouvé des dizaines dans l’Agora, et <strong>certaines dans des tombes</strong> : on emportait sa carte de juré dans l’autre monde.',
+        choix: [
+          { texte: 'Passer par la porte « Fouilles — accès réservé »', destination: 'atelier_dafni' },
+          { texte: 'Ressortir dans l’Agora', destination: 'agora' }
+        ]
+      },
+
+      'atelier_dafni': {
+        lieu: 'La maison de fouilles', emoji: '🔦', ambiance: 'musee',
+        texte: [
+          'Derrière la porte, ce n’est plus un musée : des caisses numérotées jusqu’au plafond, des bacs de tessons en train de sécher, une table couverte de plans, et une jeune femme en short qui recolle un pot avec une pince à linge.',
+          '« Dafni. Fouilleuse. » Elle écoute ton histoire de puits, hausse un sourcil, et décroche une lampe frontale du mur. « Le versant nord, c’est de l’autre côté. Prends ça. Et ne t’appuie sur rien. »'
+        ],
+        objetGagne: 'Lampe frontale',
+        saviezVous: 'Une fouille produit surtout des <strong>caisses</strong>. Pour un objet exposé, il y en a des milliers rangés en réserve, lavés, numérotés, reclassés — et c’est là que se font la plupart des découvertes : non pas dans la terre, mais des années plus tard, quand quelqu’un ouvre une caisse avec une question neuve.',
+        choix: [
+          { texte: 'Aller au puits du versant nord', destination: 'puits_nord' },
+          { texte: 'Descendre voir le canal, sous le quartier des potiers', destination: 'eridanos' },
+          { texte: 'Revenir dans les vitrines', destination: 'stoa_attale' }
+        ]
+      },
+
+      'pnyx': {
+        lieu: 'La colline de la Pnyx', emoji: '🗣️', ambiance: 'agora',
+        texte: [
+          'Une colline pelée, sans un touriste, avec des pins et une vue entière sur l’Acropole. Au milieu, un gros bloc de rocher taillé en marches : la tribune. C’est ici que se réunissait l’Assemblée, quarante fois par an, à l’aube.',
+          'Tu montes sur le bloc. Devant toi, la pente vide où six mille hommes s’asseyaient par terre. Ta voix porte étonnamment loin — la roche est taillée pour ça.'
+        ],
+        saviezVous: 'N’importe quel citoyen pouvait monter là et parler. Mais « citoyen » voulait dire : <strong>homme, adulte, né de parents athéniens</strong>. Les femmes, les étrangers installés et les esclaves — soit la grande majorité des habitants — n’avaient pas le droit de voter. La démocratie a commencé ici, et elle a mis deux mille cinq cents ans à s’élargir.',
+        choix: [
+          { texte: 'Rester sur la tribune jusqu’au coucher du soleil', destination: 'fin_democratie' },
+          { texte: 'Monter sur l’Acropole', destination: 'acropole_propylees' },
+          { texte: 'Redescendre dans l’Agora', destination: 'agora' }
+        ]
+      },
+
+      /* ── 3. L’Acropole ────────────────────────────────────── */
+      'acropole_propylees': {
+        lieu: 'Les Propylées', emoji: '🚪', ambiance: 'acropole',
+        texte: [
+          'On ne monte pas sur l’Acropole : on y entre. L’escalier passe entre des murs, tourne, et débouche sous une forêt de colonnes qui encadre le ciel. Le marbre est si blanc qu’il fait mal aux yeux, sauf par endroits où il est devenu couleur de miel.',
+          'Les marches sont creusées en cuvette au milieu. Des millions de pieds, deux mille cinq cents ans.'
+        ],
+        saviezVous: 'Tout ce marbre vient du <strong>mont Pentélique</strong>, à seize kilomètres de là. Il contient un peu de fer : c’est pour cela qu’en vieillissant au soleil, il ne devient pas gris mais <strong>doré</strong>. Les blocs descendaient par une route construite exprès, freinés à la corde dans les pentes.',
+        choix: [
+          { texte: 'Avancer vers le grand temple', destination: 'parthenon' },
+          { texte: 'Descendre au théâtre, sur le versant sud', destination: 'theatre_dionysos' },
+          { texte: 'Aller au musée, en contrebas', destination: 'musee_acropole' }
+        ]
+      },
+
+      'parthenon': {
+        lieu: 'Le Parthénon', emoji: '🏛️', ambiance: 'acropole',
+        texte: [
+          'Il est plus grand, plus jaune et plus cassé que sur les photos. Des grues sont posées à l’intérieur, des blocs numérotés attendent par terre en rangs : on le répare, et on le répare depuis quarante ans.',
+          'Sofia t’explique le plus étrange : dans ce bâtiment, <em>il n’y a pas une seule ligne droite</em>. Le sol bombe légèrement au milieu, les colonnes penchent vers l’intérieur, celles des angles sont plus épaisses. Tout est courbe pour que l’œil, lui, voie droit.'
+        ],
+        saviezVous: 'Le Parthénon a tenu debout, presque intact, pendant deux mille ans — jusqu’en <strong>1687</strong> : un obus vénitien a touché la poudrière que les Ottomans avaient installée à l’intérieur, et le temple a explosé. Une grande partie de sa frise sculptée se trouve aujourd’hui au British Museum, à Londres ; la Grèce en demande le retour depuis des décennies.',
+        choix: [
+          { texte: 'Aller voir le petit temple aux statues-colonnes', destination: 'erechtheion' },
+          { texte: 'Descendre au puits du versant nord', destination: 'puits_nord',
+            requiert: 'Lampe frontale',
+            indice: 'Un puits, c’est noir. Il t’en faudrait une lampe : la maison de fouilles, derrière le musée de l’Agora, en prête.' },
+          { texte: 'Rester assis contre le mur nord jusqu’à la fermeture', destination: 'fin_chouette' }
+        ]
+      },
+
+      'erechtheion': {
+        lieu: 'L’Érechthéion', emoji: '🫒', ambiance: 'acropole',
+        texte: [
+          'Un temple bizarre, tout en angles, posé sur un terrain en pente — et sur son côté sud, six jeunes filles de marbre portent le toit sur leur tête, une jambe en avant, parfaitement tranquilles. Les caryatides.',
+          'À côté, un olivier pousse dans un carré de terre sèche. La légende dit qu’Athéna et Poséidon se sont disputé la ville : lui a fait jaillir une source d’eau salée, elle a fait pousser un olivier. Les Athéniens ont choisi l’arbre. Une feuille tombe ; tu la ranges dans le carnet.'
+        ],
+        objetGagne: 'Rameau d’olivier',
+        saviezVous: 'Les six caryatides d’aujourd’hui sont des <strong>copies</strong>. Cinq originales sont au musée, à l’abri de la pollution ; la sixième est à Londres. L’olivier, lui, a été replanté au XX<sup>e</sup> siècle — mais l’emplacement, lui, est bien celui que les textes anciens décrivent.',
+        choix: [
+          { texte: 'Descendre au puits du versant nord, juste en dessous', destination: 'puits_nord',
+            requiert: 'Lampe frontale',
+            indice: 'Il fait noir là-dedans. La maison de fouilles, derrière le musée de l’Agora, prête des lampes.' },
+          { texte: 'Descendre au musée voir les vraies caryatides', destination: 'musee_acropole' },
+          { texte: 'Revenir devant le grand temple', destination: 'parthenon' }
+        ]
+      },
+
+      'theatre_dionysos': {
+        lieu: 'Le théâtre de Dionysos', emoji: '🎭', ambiance: 'acropole',
+        texte: [
+          'Un demi-cercle de gradins creusé dans la pente, ouvert sur la ville et sur la mer au loin. En bas, une piste ronde en terre battue. Tu descends au centre, tu dis « bonjour » à voix normale, et Sofia, tout en haut, te répond.',
+          'C’est ici que le théâtre a été inventé. Pas une salle : une colline, un chœur, et dix-sept mille personnes assises dans l’herbe pour trois jours de concours.'
+        ],
+        saviezVous: 'Au début, il n’y avait qu’un <strong>chœur</strong> qui chantait. Puis quelqu’un a eu l’idée de faire sortir un homme du groupe pour qu’il lui réponde : le premier <strong>acteur</strong>. Eschyle en a ajouté un deuxième, Sophocle un troisième — et le dialogue, donc toute notre idée du théâtre et du cinéma, est né de cet ajout-là.',
+        choix: [
+          { texte: 'Monter au musée de l’Acropole', destination: 'musee_acropole' },
+          { texte: 'Remonter sur le rocher', destination: 'acropole_propylees' }
+        ]
+      },
+
+      'musee_acropole': {
+        lieu: 'Le musée de l’Acropole', emoji: '🗿', ambiance: 'musee',
+        texte: [
+          'Un bâtiment de verre posé sur pilotis au-dessus d’un quartier antique — on marche sur un plancher transparent, avec des ruines sous les pieds. À l’étage, les cinq caryatides sont debout ensemble, sans vitrine, éclairées par le jour. Le sixième socle est vide, exprès.',
+          'Dans la salle des statues archaïques, des jeunes filles de marbre sourient d’un drôle de sourire. Et sur leurs robes, si tu te places bien, il reste des traces de rouge, de bleu, de vert.'
+        ],
+        saviezVous: 'Nos musées ont longtemps montré une Grèce <strong>toute blanche</strong> — c’est un malentendu. Les temples et les statues étaient <strong>peints de couleurs vives</strong>. Les pigments ont disparu au lavage et au soleil, mais on les retrouve en éclairant les surfaces en lumière rasante ou en ultraviolet. Le blanc grec est une invention moderne.',
+        choix: [
+          { texte: 'Retourner aux archives de la maison de fouilles', destination: 'archives' },
+          { texte: 'Marcher jusqu’au quartier des potiers', destination: 'ceramique' },
+          { texte: 'Remonter sur le rocher', destination: 'acropole_propylees' }
+        ]
+      },
+
+      'puits_nord': {
+        lieu: 'Le puits du versant nord', emoji: '🕳️', ambiance: 'souterrain',
+        texte: [
+          'Sur le flanc nord du rocher, à l’écart du chemin, une margelle ronde ferme un trou noir. Dafni te fait descendre les trois premiers mètres par l’échelle du chantier, attaché, pendant qu’elle tient la corde.',
+          'Ta lampe éclaire des parois taillées à la pointe, humides, et le fond encombré de terre. C’est là. En 1937, un fouilleur a sorti d’ici cent quatre-vingt-dix tessons portant tous le même nom — Thémistocle — comme on vide une poubelle vieille de deux mille cinq cents ans.',
+          'Dans la vase, quelque chose accroche la lumière : un disque d’argent gros comme un ongle.'
+        ],
+        objetGagne: 'Obole à la chouette',
+        saviezVous: 'Cette monnaie porte Athéna d’un côté et sa <strong>chouette</strong> de l’autre. Son argent vient des mines du Laurion, au sud de la ville. C’est Thémistocle — oui, celui des tessons — qui a convaincu les Athéniens de ne pas se partager cet argent et d’en construire une flotte. Cette flotte a sauvé la Grèce à Salamine.',
+        choix: [
+          { texte: 'Ne rien toucher d’autre, tout relever, et remonter', destination: 'fin_archeologue' },
+          { texte: 'Remonter et filer aux archives', destination: 'archives' },
+          { texte: 'Remonter et aller voir les potiers', destination: 'ceramique' }
+        ]
+      },
+
+      /* ── 4. Le Céramique ──────────────────────────────────── */
+      'ceramique': {
+        lieu: 'Le Céramique', emoji: '⚱️', ambiance: 'agora',
+        texte: [
+          'À dix minutes de l’Agora, un grand terrain bas, vert et silencieux, traversé par un filet d’eau : le quartier des potiers. C’était aussi le cimetière — on enterrait le long de la route, à la sortie de la ville, avec de grands vases posés sur les tombes.',
+          'Des tortues traversent les allées sans se presser. Une odeur de terre mouillée monte du canal.'
+        ],
+        saviezVous: 'Ce quartier s’appelait le <em>Kerameikos</em>, du nom des potiers — et c’est de là que vient notre mot <strong>céramique</strong>. Les ateliers étaient installés hors des maisons pour une raison simple : les fours prenaient feu, et une ville de bois brûle vite.',
+        choix: [
+          { texte: 'Entrer dans l’atelier d’où sort de la fumée', destination: 'atelier_nikos' },
+          { texte: 'Longer le grand mur bâti n’importe comment', destination: 'mur_themistocle' },
+          { texte: 'Descendre au canal qui passe sous le quartier', destination: 'eridanos' }
+        ]
+      },
+
+      'mur_themistocle': {
+        lieu: 'Le mur bâti à la hâte', emoji: '🧱', ambiance: 'agora',
+        texte: [
+          'Le rempart est là, sur cent mètres, et il est bâclé : des blocs de toutes les tailles, mal ajustés — et, coincés dedans, des morceaux de pierres tombales, des bases de statues, des colonnes cassées. On dirait un mur construit en une nuit avec tout ce qui traînait.',
+          'C’est exactement ce qui s’est passé. Les Perses venaient de brûler Athènes ; il fallait un rempart avant qu’ils reviennent. Alors on a pris les tombes.'
+        ],
+        saviezVous: 'Ce mur porte un nom : le <strong>mur de Thémistocle</strong>. Et il rend aux archéologues un service inespéré : les stèles réemployées dedans sont forcément <strong>plus anciennes que le mur</strong>. Un mur bâclé est parfois une meilleure horloge qu’un monument parfait.',
+        choix: [
+          { texte: 'Entrer dans l’atelier du potier', destination: 'atelier_nikos' },
+          { texte: 'Revenir dans le quartier', destination: 'ceramique' }
+        ]
+      },
+
+      'atelier_nikos': {
+        lieu: 'L’atelier du potier', emoji: '🔥', ambiance: 'atelier',
+        texte: [
+          'Il fait une chaleur de four, parce qu’il y a un four. Nikos fabrique des copies de vases grecs, et il est de mauvaise humeur, comme tous les jours où il enfourne. Des coupes noires et orange sèchent sur des planches.',
+          '« Une seule argile, dit-il sans lever les yeux. Tout le vase, le dessin, le fond : la même terre. Ce qui change, c’est le feu. Trois cuissons : on ouvre, on ferme, on rouvre. Le noir vient du manque d’air. » Il te tend un morceau de fusain et une feuille. « Tiens. Puisque tu poses des questions. »'
+        ],
+        objetGagne: 'Papier et fusain',
+        saviezVous: 'Le noir des vases grecs n’est pas de la peinture : c’est la <strong>même argile</strong>, très fine, qui devient noire quand on étouffe le feu et que l’oxygène manque. Le secret s’est perdu à l’Antiquité et n’a été retrouvé qu’au <strong>XX<sup>e</sup> siècle</strong>, par des chimistes — pas par des archéologues.',
+        choix: [
+          { texte: 'Poser ton tesson sous le papier et frotter au fusain', destination: 'frottis',
+            requiert: 'Tesson au nom gravé',
+            indice: 'Il faudrait d’abord avoir un tesson gravé. Le gravier de l’Agora, lavé par la pluie, en a rendu un.' },
+          { texte: 'Rester tout l’après-midi et faire cuire ta propre coupe', destination: 'fin_potier' },
+          { texte: 'Ressortir dans le quartier', destination: 'ceramique' }
+        ]
+      },
+
+      'frottis': {
+        lieu: 'Le frottis', emoji: '📜', ambiance: 'atelier',
+        texte: [
+          'Tu poses la feuille sur le tesson, tu tiens bien, et tu frottes le fusain à plat, doucement, comme on relève une pièce de monnaie sous une feuille.',
+          'Les six lettres apparaissent en clair sur le gris. Et maintenant qu’elles sont à plat, sur du papier, tu vois ce que tu ne voyais pas sur la courbe du pot : le thêta est ouvert en bas, le sigma penche à droite, et la barre du epsilon dépasse. Une écriture. Celle de quelqu’un.'
+        ],
+        objetGagne: 'Frottis de l’écriture',
+        saviezVous: 'C’est le geste de base de l’épigraphiste : on ne lit pas une inscription en la regardant, on en prend une <strong>copie à plat</strong> — au papier mouillé, autrefois, aujourd’hui aussi en photo sous lumière rasante. Deux inscriptions ne se comparent bien que <em>côte à côte, aplaties</em>.',
+        choix: [
+          { texte: 'Filer aux archives comparer les écritures', destination: 'archives' },
+          { texte: 'Revenir dans le quartier des potiers', destination: 'ceramique' }
+        ]
+      },
+
+      'eridanos': {
+        lieu: 'Le canal de l’Éridan', emoji: '💧', ambiance: 'souterrain',
+        texte: [
+          'Le filet d’eau du Céramique disparaît sous une voûte de pierres sèches, basse, à peine plus haute que toi. C’est l’Éridan : une rivière d’Athènes, canalisée il y a deux mille cinq cents ans et jamais remise à l’air libre depuis.',
+          'Le faisceau de ta lampe court sur les parois vertes. Tes pieds font ventouse dans la vase. Et dans cette vase, quelque chose de plat et de vert-de-gris : une plaquette de bronze, gravée de trois mots en grec.'
+        ],
+        objetGagne: 'Jeton de juré en bronze',
+        saviezVous: 'La vase des canaux et des puits est un <strong>cadeau pour les archéologues</strong> : sans air ni lumière, le bois, le cuir, les graines et les tissus s’y conservent au lieu de pourrir. Beaucoup de ce qu’on sait de la vie ordinaire à Athènes sort de ses puits et de ses égouts.',
+        choix: [
+          { texte: 'Continuer plus loin sous la voûte', destination: 'noir_eridanos' },
+          { texte: 'Ressortir dans le quartier des potiers', destination: 'ceramique' },
+          { texte: 'Ressortir côté Agora', destination: 'agora' }
+        ]
+      },
+
+      'noir_eridanos': {
+        lieu: 'Le noir sous la voûte', emoji: '🌑', ambiance: 'souterrain',
+        texte: [
+          'La voûte baisse. Tu avances plié en deux, puis accroupi. Un embranchement, puis un autre, et la lampe frontale choisit ce moment précis pour faiblir, jaunir, et s’éteindre.',
+          'Le noir est complet et l’eau continue de couler quelque part, tranquillement, comme si tu n’étais pas là. Tu poses la main sur la paroi froide et tu respires un grand coup.'
+        ],
+        choix: [
+          { texte: 'Remonter le courant : l’eau vient de l’entrée', destination: 'eridanos' },
+          { texte: 'Appeler à l’aide, très fort', destination: 'fin_perdu' }
+        ]
+      },
+
+      /* ── 5. L’enquête ─────────────────────────────────────── */
+      'archives': {
+        lieu: 'Les archives', emoji: '🗄️', ambiance: 'musee',
+        texte: [
+          'Une longue pièce sans fenêtre, des classeurs jusqu’au plafond, et des boîtes plates étiquetées à la main. Sofia en sort une, l’ouvre, et étale sur la table des photographies grand format : des tessons, un par cliché, tous au même nom.',
+          '« Cent quatre-vingt-dix. Tous Thémistocle. Trouvés ensemble. » Elle aligne trois photos côte à côte. « Regarde les thêtas. »'
+        ],
+        saviezVous: 'Les archives valent souvent plus que la vitrine : ce sont les <strong>carnets, plans et photos de fouille</strong> qui permettent, cinquante ans après, de reposer une question sur un objet trouvé par quelqu’un d’autre. Une découverte n’est pas finie le jour où on la sort de terre.',
+        choix: [
+          { texte: 'Comparer ton frottis aux photographies', destination: 'salle_ecritures',
+            requiert: 'Frottis de l’écriture',
+            indice: 'On ne compare pas deux écritures de mémoire : il te faudrait un frottis de ton tesson, au papier et au fusain.' },
+          { texte: 'Aller voir les vraies caryatides au musée', destination: 'musee_acropole' },
+          { texte: 'Ressortir dans l’Agora', destination: 'agora' }
+        ]
+      },
+
+      'salle_ecritures': {
+        lieu: 'Les quatorze mains', emoji: '✍️', ambiance: 'musee',
+        texte: [
+          'Tu poses ton frottis à côté des photos et vous cherchez ensemble, sans parler, pendant un quart d’heure. Le thêta ouvert en bas. Le sigma penché. La barre du epsilon qui dépasse.',
+          'Photo n° 68. Photo n° 71. Photo n° 112. La même écriture que la tienne — pas ressemblante : la même.',
+          '« Voilà le problème, dit Sofia doucement. Sur les cent quatre-vingt-dix tessons de ce puits, il n’y a qu’une <strong>quatorzaine d’écritures différentes</strong>. Cent quatre-vingt-dix bulletins. Quatorze mains. Ils ont été préparés à l’avance, en série, par un petit groupe — et distribués tout prêts à ceux qui allaient voter. »'
+        ],
+        objetGagne: 'Le nom des quatorze mains',
+        saviezVous: 'Ce lot a été trouvé en 1937 sur le versant nord de l’Acropole, et il est étudié depuis. Ce qu’on sait : même nom, peu de mains. Ce qu’on ne sait <strong>pas</strong> : qui les a préparés, en quelle année exactement, et s’ils ont seulement servi — on les a peut-être jetés sans les distribuer. La prudence fait partie du résultat.',
+        choix: [
+          { texte: 'Redescendre au puits vérifier d’où vient ton tesson', destination: 'retour_puits',
+            requiert: 'Lampe frontale',
+            indice: 'Il faudrait de la lumière pour redescendre. La maison de fouilles en prête, derrière le musée de l’Agora.' },
+          { texte: 'Rester aux archives et tout consigner', destination: 'fin_archeologue' }
+        ]
+      },
+
+      'retour_puits': {
+        lieu: 'Au fond du puits', emoji: '🔦', ambiance: 'souterrain',
+        texte: [
+          'Vous redescendez à deux, avec un mètre et un appareil photo. Sofia gratte la paroi à hauteur de genou et fait tomber un peu de terre dans un sachet. Elle compare : la terre du puits, brun-rouge, pleine de petits points blancs. La tranche de ton tesson : brun-rouge, pleine de petits points blancs.',
+          '« Même argile, même dépôt. Ton tesson est sorti d’ici — la pluie de cette nuit a dû le faire remonter dans le remblai qu’on a étalé sur les chemins de l’Agora, il y a quarante ans. »',
+          'Elle éteint sa lampe une seconde, dans le noir complet du puits. « Tu viens de rendre son cent quatre-vingt-onzième tesson à une histoire vieille de vingt-cinq siècles. Qu’est-ce qu’on en fait ? »'
+        ],
+        saviezVous: 'Comparer des <strong>argiles</strong> est une science : chaque gisement a sa composition, ses inclusions, sa couleur de cuisson. En laboratoire, on va jusqu’à l’analyse chimique pour dire de quel atelier — et parfois de quelle région — vient un tesson trouvé à mille kilomètres de là.',
+        choix: [
+          { texte: '📓 Laisser Sofia le publier, avec le relevé complet', destination: 'fin_ostraka' },
+          { texte: '📱 Remonter en courant le raconter à tout le monde', destination: 'fin_titre' }
+        ]
+      },
+
+      /* ── 6. Les fins ──────────────────────────────────────── */
+      'fin_ostraka': {
+        fin: true, titreFin: 'Le cent quatre-vingt-onzième tesson', badge: '✍️ Lecteur d’écritures',
+        lieu: 'Fin — la plus belle', emoji: '✍️', ambiance: 'fin',
+        texte: [
+          'Il ne se passe rien de spectaculaire. Ton tesson est lavé, séché, numéroté, photographié sous six angles. Ton frottis part dans une pochette avec la date, l’heure et l’endroit exact où tu l’as ramassé — l’endroit exact, c’est la moitié du travail.',
+          'Dix-huit mois plus tard, Sofia t’envoie un article. Quatorze pages, des tableaux de lettres, des photos. Ton tesson y est, planche 4. Il ajoute une main à la liste, ou peut-être confirme une main déjà connue : les auteurs écrivent qu’il faudra d’autres tessons pour trancher, et ils ont raison.',
+          'Ce n’est pas un scoop. C’est une phrase de plus, solide, dans une histoire que des gens continueront d’écrire après toi. C’est comme ça qu’on sait des choses.'
+        ],
+        saviezVous: 'Un résultat scientifique n’est pas un secret révélé : c’est une phrase <strong>que d’autres peuvent vérifier</strong>. On publie les photos, les mesures et les doutes en même temps que la conclusion, précisément pour que quelqu’un puisse venir dire, plus tard, « en fait, non ». C’est ce qui la rend solide.'
+      },
+
+      'fin_titre': {
+        fin: true, titreFin: 'La phrase qui a tout mangé', badge: '📱 Trop vite dit',
+        lieu: 'Fin — à méditer', emoji: '📱', ambiance: 'fin',
+        texte: [
+          'Tu remontes du puits en courant et tu racontes tout, très fort, à la première famille croisée sur le chemin. Le soir, quelqu’un l’a mis en ligne. Le lendemain, la phrase existe toute seule : <em>« Un enfant prouve que la démocratie grecque était truquée. »</em>',
+          'Elle est fausse à peu près partout. On ne sait pas qui a préparé ces tessons, ni quand exactement, ni même s’ils ont servi un jour. On ne sait pas non plus si le vote a eu lieu. Sofia publie l’article un an après, prudent et exact — et personne ne le lit, parce que tout le monde connaît déjà la réponse.',
+          'Elle n’est pas fâchée. Elle te dit juste, en te raccompagnant au bus : « La prochaine fois, garde-la deux jours. Une trouvaille et un titre, ce n’est pas la même chose. »'
+        ],
+        saviezVous: 'Une découverte voyage toujours plus vite que ses <strong>nuances</strong>. C’est pour cela que les chercheurs écrivent « il est possible que », « les données suggèrent », « d’autres exemplaires seraient nécessaires » : ce ne sont pas des précautions inutiles, c’est le résultat lui-même. Enlever les nuances, ce n’est pas simplifier — c’est changer la phrase.'
+      },
+
+      'fin_archeologue': {
+        fin: true, titreFin: 'Le carnet qui vaut de l’or', badge: '📓 Archéologue en herbe',
+        lieu: 'Fin — mission accomplie', emoji: '📓', ambiance: 'fin',
+        texte: [
+          'Tu ne forces rien et tu ne cours nulle part. Tu écris : où était le tesson, à quelle heure, dans quel sens, sous quelle épaisseur de gravier. Tu dessines les six lettres deux fois, en grand. Tu notes ce que tu ne sais pas, en le marquant d’un point d’interrogation — ça compte autant que le reste.',
+          'Sofia lit tout, pose deux questions, puis photocopie tes pages et les range dans une chemise avec un numéro dessus.',
+          '« Beaucoup de gens trouvent quelque chose. Presque personne ne note où. » Elle referme le classeur. « Toi, tu as fait la partie difficile. »'
+        ],
+        saviezVous: 'La règle est la même en Grèce, en Tunisie ou en France : on ne ramasse pas, on <strong>signale</strong>. Ce n’est pas de l’administration — un objet arraché à sa place perd la moitié de ce qu’il pouvait dire, et cette moitié-là ne revient jamais.'
+      },
+
+      'fin_democratie': {
+        fin: true, titreFin: 'Le soir sur la Pnyx', badge: '🗣️ Voix de la colline',
+        lieu: 'Fin — sur la tribune', emoji: '🗣️', ambiance: 'fin',
+        texte: [
+          'Tu restes sur le bloc de pierre pendant que le soleil descend derrière les collines. En face, l’Acropole passe du blanc au miel, puis au rose. Deux joggeurs, un chien, personne d’autre. Le lieu le plus important de l’histoire de la politique, un mardi soir, est un endroit très calme.',
+          'Tu essaies d’imaginer six mille hommes assis dans cette pente, et quelqu’un debout ici, à ta place, essayant de les convaincre à la voix. Et tu penses à tous ceux qui n’avaient pas le droit d’être assis là.',
+          'Ce n’était pas parfait. C’était un début — et ça ne s’est pas fait tout seul : il a fallu que des gens le veuillent, ici, sur cette colline pelée.'
+        ],
+        saviezVous: 'Le mot <strong>démocratie</strong> vient de <em>dêmos</em> (le peuple) et <em>krátos</em> (le pouvoir). Athènes ne l’a pratiquée pleinement que pendant environ <strong>deux siècles</strong>, et jamais pour tout le monde. Ce n’est pas une raison de la mépriser : c’est une raison de se rappeler que ça n’a jamais été garanti nulle part.'
+      },
+
+      'fin_chouette': {
+        fin: true, titreFin: 'La chouette d’Athéna', badge: '🦉 Veilleur du rocher',
+        lieu: 'Fin — à la fermeture', emoji: '🦉', ambiance: 'fin',
+        texte: [
+          'Les gardiens font sortir tout le monde et tu traînes exprès, assis contre le mur nord, jusqu’à ce qu’il n’y ait plus que le vent. Le marbre garde la chaleur de la journée dans le dos.',
+          'Alors quelque chose se pose sur un bloc, à trois mètres. Une petite chouette trapue, avec de gros sourcils blancs et un regard franchement désagréable. Elle te fixe. Tu ne bouges plus. Elle tourne la tête à cent quatre-vingts degrés, décide que tu n’es pas intéressant, et repart sans un bruit.',
+          'La chouette d’Athéna est sur les monnaies de la ville depuis deux mille cinq cents ans. Elle n’a jamais quitté le rocher.'
+        ],
+        saviezVous: 'La chouette d’Athéna existe pour de bon : c’est la <strong>chouette chevêche</strong>, qui niche dans les trous des vieux murs — et son nom savant est <em>Athene noctua</em>, « Athéna de la nuit ». Elle chasse au crépuscule, ce qui explique peut-être pourquoi les Grecs l’ont associée à une déesse de l’intelligence : elle voit quand les autres ne voient plus.'
+      },
+
+      'fin_potier': {
+        fin: true, titreFin: 'Trois cuissons', badge: '🔥 Apprenti du Céramique',
+        lieu: 'Fin — dans l’atelier', emoji: '🔥', ambiance: 'fin',
+        texte: [
+          'Tu restes. Nikos te met les mains dans l’argile sans explication, corrige ta position trois fois, râle une fois, et te laisse rater deux coupes avant que la troisième tienne debout.',
+          'Puis c’est le four : on chauffe grand ouvert, on ferme tout en jetant du bois vert, la fumée pique les yeux, on rouvre. Le lendemain matin, il sort du four une coupe orange avec, au fond, un dessin noir maladroit — une chouette, plus ou moins.',
+          '« Deux mille cinq cents ans, dit Nikos en te la mettant dans les mains, et personne n’a trouvé mieux que le feu et la boue. » Ta coupe est laide et elle est à toi.'
+        ],
+        saviezVous: 'On a retrouvé des vases grecs <strong>signés</strong> : « Exékias m’a fait », « Euphronios m’a peint ». Certains portent même des messages au futur propriétaire, ou des plaintes contre un rival. Les potiers d’Athènes savaient qu’ils fabriquaient des objets qui leur survivraient — et ils avaient raison de plusieurs milliers d’années.'
+      },
+
+      'fin_perdu': {
+        fin: true, douce: true, titreFin: 'Perdu sous le Céramique', badge: '🔦 Sauvé de justesse',
+        lieu: 'Fin — retour en arrière', emoji: '🔦', ambiance: 'souterrain',
+        texte: [
+          'Ta voix rebondit sur la voûte et revient de partout à la fois. Tu cries encore. Puis une lumière danse dans le boyau et la voix de Dafni arrive avant elle : « Je t’avais dit de ne pas dépasser la deuxième chicane ! »',
+          'Elle te sort de là en quatre minutes — quatre minutes, alors que tu te croyais au bout du monde. « Sous terre, on ne se perd jamais loin », dit-elle en te tendant sa gourde. « On se perd juste très bien. »',
+          'Ton aventure n’est pas finie : elle reprend là où tu as tourné du mauvais côté. Cette fois, vérifie tes piles.'
+        ],
+        saviezVous: 'Sur un chantier souterrain, la règle ne se discute pas : <strong>jamais seul, jamais sans lumière de secours</strong>, et quelqu’un en haut qui sait où tu es. Une lampe qui faiblit ne s’éteint pas d’un coup : elle prévient. Encore faut-il faire demi-tour au moment où elle prévient.',
+        choix: [
+          { texte: '↩︎ Revenir à l’entrée du canal', destination: 'eridanos' },
+          { texte: '🔦 Aller changer la lampe à la maison de fouilles', destination: 'atelier_dafni' }
+        ]
+      }
+    }
+  };
+
+  /* ══════════════════════════════════════════════════════════════
+     MOTEUR DE RÉCIT
+     État courant, historique (pour l’annulation), sac, découvertes.
+     Tout tient dans un objet `etat` sérialisable : c’est lui qu’on
+     empile pour le bouton « Retour », et lui qu’on range dans le
+     localStorage entre deux visites.
+     ══════════════════════════════════════════════════════════════ */
+
+  var CLE_SAUVEGARDE = 'grenier.athenes.v1';
+
+  var el = {
+    sac:          document.getElementById('sac'),
+    sacVide:      document.getElementById('sac-vide'),
+    sacInfo:      document.getElementById('sac-info'),
+    lieuEmoji:    document.getElementById('lieu-emoji'),
+    lieuNom:      document.getElementById('lieu-nom'),
+    badgeLieu:    document.getElementById('badge-lieu'),
+    titreFin:     document.getElementById('titre-fin'),
+    texte:        document.getElementById('texte'),
+    gain:         document.getElementById('gain'),
+    gainEmoji:    document.getElementById('gain-emoji'),
+    gainNom:      document.getElementById('gain-nom'),
+    blocSavoir:   document.getElementById('bloc-savoir'),
+    btnSavoir:    document.getElementById('btn-savoir'),
+    flecheSavoir: document.getElementById('fleche-savoir'),
+    texteSavoir:  document.getElementById('texte-savoir'),
+    choix:        document.getElementById('choix'),
+    scene:        document.getElementById('scene'),
+    btnRetour:    document.getElementById('btn-retour'),
+    btnRecommencer: document.getElementById('btn-recommencer'),
+    compteurSavoirs: document.getElementById('compteur-savoirs'),
+    jauge:        document.getElementById('jauge'),
+    jaugeTexte:   document.getElementById('jauge-texte'),
+    voileSavoirs: document.getElementById('voile-savoirs'),
+    listeSavoirs: document.getElementById('liste-savoirs'),
+    savoirsVide:  document.getElementById('savoirs-vide'),
+    btnSavoirs:   document.getElementById('btn-savoirs'),
+    fermerSavoirs: document.getElementById('fermer-savoirs'),
+    reprise:      document.getElementById('reprise'),
+    btnReprendre: document.getElementById('btn-reprendre'),
+    btnNeuf:      document.getElementById('btn-neuf')
+  };
+
+  var TOTAL_ETAPES = Object.keys(AVENTURE_ATHENES.etapes).length;
+  var TOTAL_SAVOIRS = Object.keys(AVENTURE_ATHENES.etapes).filter(function (k) {
+    return !!AVENTURE_ATHENES.etapes[k].saviezVous;
+  }).length;
+
+  var etat = null;         /* { etape, inventaire, savoirs, visitees } */
+  var historique = [];     /* pile d’états précédents, pour l’annulation */
+  var dernierGain = null;  /* objet ramassé à l’étape affichée */
+
+  function etatNeuf() {
+    return {
+      etape: AVENTURE_ATHENES.premiereEtape,
+      inventaire: [],
+      savoirs: [],
+      visitees: [AVENTURE_ATHENES.premiereEtape]
+    };
+  }
+
+  function copie(o) { return JSON.parse(JSON.stringify(o)); }
+
+  /* ── Sauvegarde locale (silencieuse : elle ne doit jamais casser
+        la partie si le navigateur refuse le stockage) ──────────── */
+  function sauver() {
+    try {
+      localStorage.setItem(CLE_SAUVEGARDE, JSON.stringify({ etat: etat, historique: historique }));
+    } catch (e) { /* navigation privée, quota plein : tant pis */ }
+  }
+  function lireSauvegarde() {
+    try {
+      var brut = localStorage.getItem(CLE_SAUVEGARDE);
+      if (!brut) return null;
+      var d = JSON.parse(brut);
+      if (!d || !d.etat || !AVENTURE_ATHENES.etapes[d.etat.etape]) return null;
+      return d;
+    } catch (e) { return null; }
+  }
+  function effacerSauvegarde() {
+    try { localStorage.removeItem(CLE_SAUVEGARDE); } catch (e) {}
+  }
+
+  /* ── Le sac ─────────────────────────────────────────────────── */
+  function possede(nom) { return etat.inventaire.indexOf(nom) !== -1; }
+
+  function ajouterObjet(nom) {
+    if (!nom || possede(nom)) return false;
+    etat.inventaire.push(nom);
+    return true;
+  }
+
+  function rendreSac(nouveau) {
+    el.sac.innerHTML = '';
+    if (!etat.inventaire.length) {
+      var vide = document.createElement('span');
+      vide.className = 'text-[.78rem] italic text-pierre-400';
+      vide.textContent = 'il est encore vide…';
+      el.sac.appendChild(vide);
+      el.sacInfo.hidden = true;
+      return;
+    }
+    etat.inventaire.forEach(function (nom) {
+      var o = OBJETS[nom] || { emoji: '❔', desc: '' };
+      /* Un bouton, pas une simple étiquette : sur un téléphone il n'y a
+         pas de survol, alors on touche l'objet pour savoir ce que c'est.
+         Le nom en toutes lettres n'apparaît qu'à partir des écrans
+         larges, sinon la barre du haut mangerait la moitié de l'écran. */
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'inline-flex min-h-[26px] items-center gap-1 rounded-full border border-olivier-400/60 bg-white/75 px-2.5 py-1 text-[.72rem] font-bold text-pierre-700 shadow-sm transition hover:border-olivier-500 hover:bg-white';
+      chip.title = nom + ' — ' + o.desc;
+      chip.setAttribute('aria-label', nom + '. ' + o.desc);
+      chip.innerHTML = '<span aria-hidden="true">' + o.emoji + '</span><span class="hidden sm:inline">' + nom + '</span>';
+      chip.addEventListener('click', function () { montrerObjet(nom); });
+      if (nom === nouveau) chip.classList.add('objet-neuf');
+      el.sac.appendChild(chip);
+    });
+    if (nouveau) montrerObjet(nouveau); else el.sacInfo.hidden = true;
+  }
+
+  function montrerObjet(nom) {
+    var o = OBJETS[nom];
+    if (!o) return;
+    el.sacInfo.hidden = false;
+    el.sacInfo.innerHTML = o.emoji + ' <strong>' + nom + '</strong> — ' + o.desc;
+  }
+
+  /* ── Jauge et compteur ──────────────────────────────────────── */
+  function rendreJauge() {
+    var n = etat.visitees.length;
+    var pct = Math.min(100, Math.round((n / TOTAL_ETAPES) * 100));
+    el.jauge.style.width = pct + '%';
+    el.jaugeTexte.textContent = n + (n > 1 ? ' lieux' : ' lieu');
+    el.compteurSavoirs.textContent = etat.savoirs.length + '/' + TOTAL_SAVOIRS;
+  }
+
+  /* ── Le panneau des découvertes ─────────────────────────────── */
+  function rendreSavoirs() {
+    el.listeSavoirs.innerHTML = '';
+    var vide = etat.savoirs.length === 0;
+    el.savoirsVide.hidden = !vide;
+    etat.savoirs.forEach(function (id) {
+      var e = AVENTURE_ATHENES.etapes[id];
+      if (!e) return;
+      var li = document.createElement('li');
+      li.className = 'rounded-2xl border border-egee-400/40 bg-white/70 p-3';
+      li.innerHTML =
+        '<p class="mb-1 text-[.7rem] font-bold uppercase tracking-widest text-egee-600">' +
+          (e.emoji || '💡') + ' ' + (e.lieu || '') + '</p>' +
+        '<p class="text-[.92rem] leading-relaxed text-pierre-700">' + e.saviezVous + '</p>';
+      el.listeSavoirs.appendChild(li);
+    });
+  }
+
+  function ouvrirSavoirs() {
+    rendreSavoirs();
+    el.voileSavoirs.hidden = false;
+    el.fermerSavoirs.focus();
+  }
+  function fermerSavoirs() {
+    el.voileSavoirs.hidden = true;
+    el.btnSavoirs.focus();
+  }
+
+  /* ── Affichage d’une étape ──────────────────────────────────── */
+  function afficher(id, animer) {
+    var e = AVENTURE_ATHENES.etapes[id];
+    if (!e) return;
+
+    document.body.dataset.ambiance = e.ambiance || 'soleil';
+
+    el.lieuEmoji.textContent = e.emoji || '🏛️';
+    el.lieuNom.textContent = e.lieu || '';
+
+    /* Titre, seulement pour les fins */
+    if (e.fin && e.titreFin) {
+      el.titreFin.hidden = false;
+      el.titreFin.innerHTML = '<span class="text-egee-600">' + (e.emoji || '') + '</span> ' + e.titreFin;
+    } else {
+      el.titreFin.hidden = true;
+    }
+
+    /* Le récit */
+    el.texte.innerHTML = '';
+    (Array.isArray(e.texte) ? e.texte : [e.texte]).forEach(function (p) {
+      var para = document.createElement('p');
+      para.innerHTML = p;
+      el.texte.appendChild(para);
+    });
+
+    /* L’objet ramassé */
+    if (dernierGain) {
+      var o = OBJETS[dernierGain] || { emoji: '❔' };
+      el.gain.hidden = false;
+      el.gainEmoji.textContent = o.emoji;
+      el.gainNom.textContent = dernierGain;
+    } else {
+      el.gain.hidden = true;
+    }
+
+    /* L’encadré pédagogique : replié par défaut, rouvert s’il a
+       déjà été débloqué au cours de cette partie. */
+    if (e.saviezVous) {
+      el.blocSavoir.hidden = false;
+      var dejaSu = etat.savoirs.indexOf(id) !== -1;
+      el.texteSavoir.innerHTML = e.saviezVous;
+      el.texteSavoir.hidden = !dejaSu;
+      el.flecheSavoir.textContent = dejaSu ? '▾' : '▸';
+      el.btnSavoir.setAttribute('aria-expanded', dejaSu ? 'true' : 'false');
+      el.btnSavoir.dataset.etape = id;
+    } else {
+      el.blocSavoir.hidden = true;
+    }
+
+    /* Les choix */
+    el.choix.innerHTML = '';
+
+    if (e.fin) {
+      el.choix.appendChild(bilanDeFin(e));
+    }
+
+    (e.choix || []).forEach(function (c, i) {
+      el.choix.appendChild(boutonChoix(c, i));
+    });
+
+    if (e.fin) {
+      el.choix.appendChild(boutonsDeFin());
+    }
+
+    rendreSac(dernierGain);
+    rendreJauge();
+    el.btnRetour.disabled = historique.length === 0;
+
+    if (animer) {
+      el.scene.classList.add('etape-entree');
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { el.scene.classList.remove('etape-entree'); });
+      });
+      el.texte.setAttribute('tabindex', '-1');
+      el.texte.focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  /* Un bouton de choix. Un choix verrouillé reste visible : l’enfant
+     voit la porte fermée et sait ce qui lui manque pour l’ouvrir. */
+  function boutonChoix(c, i) {
+    var requis = c.requiert ? (Array.isArray(c.requiert) ? c.requiert : [c.requiert]) : [];
+    var manquants = requis.filter(function (nom) { return !possede(nom); });
+    var ouvert = manquants.length === 0;
+
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'choix-anim flex w-full items-start gap-3 rounded-2xl border-2 px-4 py-3.5 text-left transition ' +
+      (ouvert
+        ? 'border-pierre-300 bg-white/80 text-pierre-700 shadow-sm hover:-translate-y-0.5 hover:border-egee-400 hover:bg-white hover:shadow-md focus:outline-none focus-visible:ring-4 focus-visible:ring-egee-300/60'
+        : 'cursor-not-allowed border-dashed border-pierre-400/70 bg-white/70 text-pierre-700');
+    b.style.animationDelay = (i * 70) + 'ms';
+
+    var num = document.createElement('span');
+    num.className = 'mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[.72rem] font-extrabold ' +
+      (ouvert ? 'bg-egee-500 text-white' : 'bg-pierre-300 text-pierre-600');
+    num.textContent = ouvert ? String(i + 1) : '🔒';
+    num.setAttribute('aria-hidden', 'true');
+
+    var corps = document.createElement('span');
+    corps.className = 'flex-1';
+    var ligne = document.createElement('span');
+    ligne.className = 'block font-bold leading-snug';
+    ligne.textContent = c.texte;
+    corps.appendChild(ligne);
+
+    if (!ouvert) {
+      var aide = document.createElement('span');
+      aide.className = 'mt-1 block text-[.82rem] font-normal italic leading-snug text-pierre-700';
+      aide.textContent = c.indice || ('Il te manque : ' + manquants.join(', ') + '.');
+      corps.appendChild(aide);
+      b.disabled = true;
+      b.setAttribute('aria-disabled', 'true');
+    } else {
+      b.addEventListener('click', function () { choisir(c.destination); });
+      b.dataset.raccourci = String(i + 1);
+    }
+
+    b.appendChild(num);
+    b.appendChild(corps);
+    return b;
+  }
+
+  /* Le bilan affiché sur un écran de fin. */
+  function bilanDeFin(e) {
+    var d = document.createElement('div');
+    d.className = 'choix-anim mb-5 rounded-2xl border-2 border-egee-400/60 bg-white/75 p-4';
+    var objets = etat.inventaire.length
+      ? etat.inventaire.map(function (n) { return (OBJETS[n] ? OBJETS[n].emoji : '❔') + ' ' + n; }).join(' · ')
+      : 'rien du tout — la prochaine fois, fouille le sable !';
+    d.innerHTML =
+      '<p class="mb-2 font-titre text-lg font-extrabold text-egee-600 pulse-accent inline-block rounded-full bg-white/70 px-3 py-1">' +
+        (e.badge || '🏅 Aventure terminée') + '</p>' +
+      '<dl class="space-y-1.5 text-sm text-pierre-700">' +
+        '<div><dt class="inline font-bold">Lieux explorés : </dt><dd class="inline">' + etat.visitees.length + ' sur ' + TOTAL_ETAPES + '</dd></div>' +
+        '<div><dt class="inline font-bold">Découvertes débloquées : </dt><dd class="inline">' + etat.savoirs.length + ' sur ' + TOTAL_SAVOIRS + '</dd></div>' +
+        '<div><dt class="inline font-bold">Dans ton sac : </dt><dd class="inline">' + objets + '</dd></div>' +
+      '</dl>';
+    return d;
+  }
+
+  function boutonsDeFin() {
+    var d = document.createElement('div');
+    d.className = 'choix-anim mt-4 flex flex-wrap gap-2 border-t border-pierre-300/60 pt-4';
+
+    var rejouer = document.createElement('button');
+    rejouer.type = 'button';
+    rejouer.className = 'rounded-xl bg-egee-500 px-4 py-2.5 text-sm font-bold text-white shadow transition hover:bg-egee-600';
+    rejouer.textContent = '⟳ Rejouer une autre aventure';
+    rejouer.addEventListener('click', recommencer);
+
+    var revoir = document.createElement('button');
+    revoir.type = 'button';
+    revoir.className = 'rounded-xl border border-egee-400/60 bg-white/80 px-4 py-2.5 text-sm font-bold text-egee-600 transition hover:bg-white';
+    revoir.textContent = '💡 Revoir mes découvertes';
+    revoir.addEventListener('click', ouvrirSavoirs);
+
+    d.appendChild(rejouer);
+    d.appendChild(revoir);
+    return d;
+  }
+
+  /* ── Navigation ─────────────────────────────────────────────── */
+  function choisir(destination) {
+    var suite = AVENTURE_ATHENES.etapes[destination];
+    if (!suite) return;
+
+    historique.push(copie(etat));
+    if (historique.length > 60) historique.shift();
+
+    etat.etape = destination;
+    if (etat.visitees.indexOf(destination) === -1) etat.visitees.push(destination);
+
+    dernierGain = appliquerGains(destination);
+
+    transition(function () { afficher(destination, true); });
+    sauver();
+  }
+
+  /* Ramasse tout ce que l'étape offre et renvoie le premier objet
+     réellement nouveau, celui qu'on annonce à l'écran. */
+  function appliquerGains(id) {
+    var e = AVENTURE_ATHENES.etapes[id];
+    if (!e) return null;
+    var gains = e.objetsGagnes || (e.objetGagne ? [e.objetGagne] : []);
+    var premier = null;
+    gains.forEach(function (nom) { if (ajouterObjet(nom) && !premier) premier = nom; });
+    return premier;
+  }
+
+  function retourEnArriere() {
+    if (!historique.length) return;
+    etat = historique.pop();
+    dernierGain = null;
+    transition(function () { afficher(etat.etape, true); });
+    sauver();
+  }
+
+  function recommencer() {
+    etat = etatNeuf();
+    historique = [];
+    effacerSauvegarde();
+    dernierGain = appliquerGains(etat.etape);
+    transition(function () { afficher(etat.etape, true); });
+  }
+
+  /* Un fondu court entre deux paragraphes : le temps de tourner
+     la page, pas plus. */
+  function transition(rendu) {
+    el.scene.classList.add('etape-sortie');
+    setTimeout(function () {
+      rendu();
+      el.scene.classList.remove('etape-sortie');
+    }, 190);
+  }
+
+  /* ── Branchements ───────────────────────────────────────────── */
+  el.btnSavoir.addEventListener('click', function () {
+    var id = el.btnSavoir.dataset.etape;
+    var ouvert = !el.texteSavoir.hidden;
+    el.texteSavoir.hidden = ouvert;
+    el.flecheSavoir.textContent = ouvert ? '▸' : '▾';
+    el.btnSavoir.setAttribute('aria-expanded', ouvert ? 'false' : 'true');
+    if (!ouvert && id && etat.savoirs.indexOf(id) === -1) {
+      etat.savoirs.push(id);
+      rendreJauge();
+      sauver();
+    }
+  });
+
+  el.btnRetour.addEventListener('click', retourEnArriere);
+  el.btnRecommencer.addEventListener('click', function () {
+    if (etat.visitees.length > 1 &&
+        !confirm('Tout recommencer depuis l’arrivée à Athènes ? Ton sac et tes découvertes seront vidés.')) return;
+    recommencer();
+  });
+
+  el.btnSavoirs.addEventListener('click', ouvrirSavoirs);
+  el.fermerSavoirs.addEventListener('click', fermerSavoirs);
+  el.voileSavoirs.addEventListener('click', function (ev) {
+    if (ev.target === el.voileSavoirs) fermerSavoirs();
+  });
+
+  /* Clavier : 1-3 pour choisir, Échap pour fermer le panneau,
+     Retour arrière (hors champ de saisie) pour annuler. */
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape' && !el.voileSavoirs.hidden) { fermerSavoirs(); return; }
+    if (!el.voileSavoirs.hidden) return;
+    if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    if (/^[1-9]$/.test(ev.key)) {
+      var b = el.choix.querySelector('button[data-raccourci="' + ev.key + '"]');
+      if (b) { ev.preventDefault(); b.click(); }
+    } else if (ev.key === 'Backspace') {
+      ev.preventDefault();
+      retourEnArriere();
+    }
+  });
+
+  /* ── Démarrage ──────────────────────────────────────────────── */
+  var sauvegarde = lireSauvegarde();
+
+  function demarrer(reprise) {
+    if (reprise) {
+      etat = sauvegarde.etat;
+      historique = sauvegarde.historique || [];
+      /* Filet : une sauvegarde d’une version antérieure du récit
+         pourrait pointer vers une étape disparue. */
+      if (!AVENTURE_ATHENES.etapes[etat.etape]) etat = etatNeuf();
+      if (!Array.isArray(etat.inventaire)) etat.inventaire = [];
+      if (!Array.isArray(etat.savoirs)) etat.savoirs = [];
+      if (!Array.isArray(etat.visitees)) etat.visitees = [etat.etape];
+      dernierGain = null;
+    } else {
+      etat = etatNeuf();
+      historique = [];
+      effacerSauvegarde();
+      dernierGain = appliquerGains(etat.etape);
+    }
+    el.reprise.hidden = true;
+    afficher(etat.etape, false);
+  }
+
+  if (sauvegarde && sauvegarde.etat.etape !== AVENTURE_ATHENES.premiereEtape) {
+    el.reprise.hidden = false;
+    el.btnReprendre.addEventListener('click', function () { demarrer(true); });
+    el.btnNeuf.addEventListener('click', function () { demarrer(false); });
+    /* En attendant le choix, on montre quand même le début. */
+    etat = etatNeuf();
+    historique = [];
+    dernierGain = appliquerGains(etat.etape);
+    afficher(etat.etape, false);
+  } else {
+    demarrer(false);
+  }
+})();
+</script>
+</body>
+</html>

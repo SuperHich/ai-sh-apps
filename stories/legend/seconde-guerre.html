@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Seconde Guerre mondiale – 1939-1945, la nuit la plus longue</title>
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="mask-icon" href="../../assets/favicon-mono.svg" color="#f0c04b">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+  :root {
+    --projecteur:#cfe0ea;   /* le faisceau blanc des projecteurs dans la nuit */
+    --nuit:#101a2c;
+    --acier:#6f7d86;
+    --braise:#c0552a;
+    --memoire:#8a2a3a;
+    --parchemin:#efe7d6;
+    --or:#d9a63c;
+    --aube:#e2b06a;
+    --encre:#06070a;
+    --dark:#090a0d;
+    --dark2:#0a0b0f;
+    --dark3:#08090c;
+    --serif:'EB Garamond','Georgia',serif;
+    --display:'Cinzel','Trajan Pro',serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--encre);color:var(--parchemin);
+    font-family:var(--serif);font-size:1.15em;line-height:1.8;
+    scroll-snap-type:y proximity;overflow-y:scroll;height:100vh;
+  }
+  ::selection{background:#1d3350;color:var(--parchemin);}
+
+  section{
+    min-height:100vh;scroll-snap-align:start;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:80px 24px;position:relative;overflow:hidden;
+  }
+  section.dark{background:var(--dark);}
+
+  section.hero-bg{
+    background:
+      radial-gradient(ellipse at 50% 60%,rgba(207,224,234,.12) 0%,transparent 62%),
+      radial-gradient(ellipse at 84% 16%,rgba(16,26,44,.7) 0%,transparent 54%),
+      var(--dark);
+  }
+  section.ombre-bg{
+    background:
+      radial-gradient(ellipse at 40% 56%,rgba(192,85,42,.18) 0%,transparent 58%),
+      radial-gradient(ellipse at 84% 18%,rgba(16,26,44,.6) 0%,transparent 52%),
+      var(--dark2);
+  }
+  section.flammes-bg{
+    background:
+      radial-gradient(ellipse at 52% 52%,rgba(192,85,42,.22) 0%,transparent 58%),
+      radial-gradient(ellipse at 14% 18%,rgba(207,224,234,.12) 0%,transparent 52%),
+      var(--dark3);
+  }
+  section.memoire-bg{
+    background:
+      radial-gradient(ellipse at 50% 50%,rgba(138,42,58,.18) 0%,transparent 58%),
+      radial-gradient(ellipse at 80% 20%,rgba(16,26,44,.6) 0%,transparent 52%),
+      var(--dark);
+  }
+  section.resistance-bg{
+    background:
+      radial-gradient(ellipse at 46% 48%,rgba(217,166,60,.18) 0%,transparent 58%),
+      radial-gradient(ellipse at 18% 76%,rgba(16,26,44,.6) 0%,transparent 54%),
+      var(--dark2);
+  }
+  section.aube-bg{
+    background:
+      radial-gradient(ellipse at 50% 54%,rgba(226,176,106,.22) 0%,transparent 60%),
+      radial-gradient(ellipse at 16% 16%,rgba(207,224,234,.12) 0%,transparent 52%),
+      var(--dark3);
+  }
+
+  .divider{width:120px;height:1px;background:linear-gradient(to right,transparent,rgba(217,166,60,.7),transparent);margin:26px auto;}
+
+  .hero-sec{text-align:center;}
+  .roman-num{font-family:var(--display);font-size:.87em;letter-spacing:6px;color:rgba(217,166,60,.65);text-transform:uppercase;margin-bottom:18px;display:block;}
+  h1{
+    font-family:var(--display);font-size:clamp(1.6em,5vw,3.7em);font-weight:800;
+    line-height:1.1;text-transform:uppercase;letter-spacing:2px;
+    background:linear-gradient(155deg,var(--parchemin) 20%,var(--or) 54%,var(--projecteur) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px;
+  }
+  .sub{font-family:var(--display);font-size:clamp(.8em,2vw,.96em);color:rgba(217,166,60,.7);letter-spacing:3px;text-transform:uppercase;margin-bottom:22px;}
+  .tagline{font-style:italic;color:rgba(239,231,214,.52);font-size:1.18em;max-width:590px;margin:0 auto 38px;}
+  .scroll-cue{
+    display:inline-block;font-family:var(--display);font-size:.75em;
+    letter-spacing:4px;text-transform:uppercase;color:rgba(217,166,60,.6);
+    animation:pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:.35;transform:translateY(0);}50%{opacity:.85;transform:translateY(7px);}}
+
+  .chapter{max-width:680px;width:100%;text-align:center;}
+  .chapter-num{font-family:var(--display);font-size:.75em;letter-spacing:5px;color:var(--memoire);text-transform:uppercase;margin-bottom:12px;display:block;}
+  h2{font-family:var(--display);font-size:clamp(1.35em,3.6vw,2.1em);font-weight:600;color:var(--or);text-transform:uppercase;letter-spacing:2px;margin-bottom:26px;}
+  p{text-align:justify;color:rgba(239,231,214,.83);font-size:1.04em;margin-bottom:14px;}
+  blockquote{border-left:3px solid rgba(217,166,60,.55);margin:26px 0;padding:14px 24px;text-align:left;background:rgba(217,166,60,.05);border-radius:0 4px 4px 0;}
+  blockquote p{text-align:left;font-style:italic;color:var(--parchemin);font-size:1.14em;margin:0;}
+  blockquote cite{display:block;margin-top:8px;font-size:.74em;letter-spacing:2px;text-transform:uppercase;color:rgba(217,166,60,.65);font-style:normal;}
+  strong{color:var(--parchemin);font-weight:600;}
+  em{color:rgba(217,166,60,.9);font-style:italic;}
+
+  .illus{width:100%;max-width:640px;margin:0 auto 34px;border-radius:6px;overflow:hidden;}
+  .illus svg{display:block;width:100%;}
+
+  .ending{text-align:center;}
+  .ending .ornament{font-size:2em;color:rgba(217,166,60,.7);display:block;margin-bottom:22px;letter-spacing:12px;}
+  .ending .moral{font-style:italic;font-size:1.18em;color:rgba(239,231,214,.72);max-width:580px;margin:0 auto 24px;text-align:center;}
+  .ending .ref{font-family:var(--display);font-size:.72em;letter-spacing:3px;color:var(--memoire);text-transform:uppercase;}
+
+  @keyframes twinkle{0%,100%{opacity:.2;}50%{opacity:.95;}}
+  @keyframes flicker{0%,100%{opacity:.55;}50%{opacity:1;}}
+  @keyframes drift{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+  @keyframes lueur{0%,100%{opacity:.3;}50%{opacity:.9;}}
+  @keyframes balaye{0%,100%{transform:rotate(-7deg);}50%{transform:rotate(7deg);}}
+  @keyframes vole{0%{transform:translateX(0);}100%{transform:translateX(120px);}}
+
+  @media(max-width:600px){section{padding:50px 16px;}h1{font-size:1.5em;}}
+  @media(prefers-reduced-motion:reduce){
+    .scroll-cue{animation:none;}
+    svg *{animation:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<script src="../../components/back-button.js"></script>
+<back-button href="index.html" color="blue"></back-button>
+
+<!-- ══ HERO ══ -->
+<section class="hero-bg hero-sec">
+
+  <div style="width:100%;max-width:560px;margin:0 auto 32px;">
+    <svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" role="img">
+      <title>Des faisceaux de projecteurs fouillent le ciel au-dessus d'une ville plongée dans le noir</title>
+      <defs>
+        <linearGradient id="sgCiel" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#05060a"/>
+          <stop offset="70%" stop-color="#101a2c"/>
+          <stop offset="100%" stop-color="#1b2740"/>
+        </linearGradient>
+        <linearGradient id="sgFaisceau" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#cfe0ea" stop-opacity=".38"/>
+          <stop offset="100%" stop-color="#cfe0ea" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="560" height="200" fill="url(#sgCiel)"/>
+
+      <!-- étoiles -->
+      <g fill="#efe7d6">
+        <circle cx="60"  cy="26" r="1.2" opacity=".6" style="animation:twinkle 3s ease-in-out infinite"/>
+        <circle cx="188" cy="16" r="1"   opacity=".5" style="animation:twinkle 3.6s ease-in-out infinite .4s"/>
+        <circle cx="404" cy="22" r="1.3" opacity=".65" style="animation:twinkle 2.8s ease-in-out infinite .8s"/>
+        <circle cx="502" cy="40" r="1"   opacity=".5" style="animation:twinkle 3.2s ease-in-out infinite .2s"/>
+      </g>
+
+      <!-- faisceaux de projecteurs -->
+      <g>
+        <g transform="translate(96 176)" style="animation:balaye 9s ease-in-out infinite">
+          <path d="M-9,0 L-46,-176 L26,-176 L9,0Z" fill="url(#sgFaisceau)"/>
+        </g>
+        <g transform="translate(300 178)" style="animation:balaye 11s ease-in-out infinite 1.5s">
+          <path d="M-8,0 L18,-178 L64,-178 L8,0Z" fill="url(#sgFaisceau)"/>
+        </g>
+        <g transform="translate(478 176)" style="animation:balaye 10s ease-in-out infinite .8s">
+          <path d="M-9,0 L-58,-176 L4,-176 L9,0Z" fill="url(#sgFaisceau)"/>
+        </g>
+      </g>
+
+      <!-- avion lointain pris dans un faisceau -->
+      <g transform="translate(200 52)" fill="#0e1118" opacity=".95" style="animation:vole 20s linear infinite">
+        <path d="M0,0 L26,0 L34,3 L26,6 L0,6Z"/>
+        <path d="M10,0 L2,-12 L8,-12 L18,0Z"/>
+        <path d="M10,6 L2,18 L8,18 L18,6Z"/>
+        <path d="M0,0 L-8,-6 L-4,0 L-8,6Z"/>
+      </g>
+
+      <!-- ville dans le noir complet -->
+      <rect x="0" y="176" width="560" height="24" fill="#07080b"/>
+      <g fill="#0a0c11">
+        <rect x="10"  y="146" width="34" height="32"/>
+        <rect x="50"  y="130" width="26" height="48"/>
+        <rect x="84"  y="156" width="40" height="22"/>
+        <rect x="140" y="138" width="30" height="40"/>
+        <rect x="188" y="158" width="46" height="20"/>
+        <rect x="250" y="126" width="24" height="52"/>
+        <rect x="286" y="150" width="38" height="28"/>
+        <rect x="340" y="140" width="28" height="38"/>
+        <rect x="386" y="158" width="44" height="20"/>
+        <rect x="444" y="134" width="26" height="44"/>
+        <rect x="486" y="152" width="46" height="26"/>
+      </g>
+      <!-- une coupole intacte au milieu -->
+      <g fill="#0b0e14">
+        <path d="M196,158 Q212,126 228,158Z"/>
+        <rect x="209" y="118" width="6" height="12"/>
+        <rect x="192" y="158" width="40" height="20"/>
+      </g>
+      <!-- une seule fenêtre allumée, mal camouflée -->
+      <rect x="300" y="160" width="7" height="9" fill="#d9a63c" opacity=".75" style="animation:flicker 4s ease-in-out infinite"/>
+    </svg>
+  </div>
+
+  <span class="roman-num">1939 – 1945 · Le monde entier</span>
+  <h1>La Seconde Guerre mondiale</h1>
+  <p class="sub">Six ans · Cinq continents · Le pire, et ceux qui ont dit non</p>
+  <div class="divider"></div>
+  <p class="tagline">Ce fut la guerre la plus meurtrière de l'histoire humaine. C'est aussi celle qui a montré, jusque dans le noir le plus complet, ce dont le courage ordinaire est capable.</p>
+  <span class="scroll-cue">Fais défiler ↓</span>
+</section>
+
+<!-- ══ I — L'OMBRE QUI MONTE ══ -->
+<section class="ombre-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre I</span>
+    <h2>L'ombre qui monte</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Un défilé aux flambeaux dont l'ombre s'étend sur une carte de l'Europe</title>
+        <rect x="0" y="0" width="640" height="250" fill="#0a0b0f"/>
+
+        <!-- mur de la ville, bannières sombres -->
+        <rect x="0" y="0" width="640" height="150" fill="#0d0f14"/>
+        <g fill="#141821">
+          <rect x="40"  y="0" width="46" height="120"/>
+          <rect x="150" y="0" width="46" height="132"/>
+          <rect x="440" y="0" width="46" height="126"/>
+          <rect x="552" y="0" width="46" height="118"/>
+        </g>
+        <g fill="#3a1d1d" opacity=".85">
+          <path d="M52,10 L74,10 L74,96 L63,86 L52,96Z"/>
+          <path d="M162,10 L184,10 L184,102 L173,92 L162,102Z"/>
+          <path d="M452,10 L474,10 L474,98 L463,88 L452,98Z"/>
+          <path d="M564,10 L586,10 L586,92 L575,82 L564,92Z"/>
+        </g>
+
+        <!-- flambeaux -->
+        <g>
+          <g transform="translate(120 176)">
+            <line x1="0" y1="0" x2="0" y2="-22" stroke="#2a2118" stroke-width="3"/>
+            <ellipse cy="-28" rx="5" ry="9" fill="#c0552a" style="animation:flicker 2.2s ease-in-out infinite"/>
+            <circle cy="-28" r="22" fill="#c0552a" opacity=".14" style="animation:flicker 2.2s ease-in-out infinite"/>
+          </g>
+          <g transform="translate(268 180)">
+            <line x1="0" y1="0" x2="0" y2="-20" stroke="#2a2118" stroke-width="3"/>
+            <ellipse cy="-26" rx="4.6" ry="8" fill="#c0552a" style="animation:flicker 2.6s ease-in-out infinite .4s"/>
+            <circle cy="-26" r="20" fill="#c0552a" opacity=".12" style="animation:flicker 2.6s ease-in-out infinite .4s"/>
+          </g>
+          <g transform="translate(420 178)">
+            <line x1="0" y1="0" x2="0" y2="-21" stroke="#2a2118" stroke-width="3"/>
+            <ellipse cy="-27" rx="4.8" ry="8.5" fill="#c0552a" style="animation:flicker 2.4s ease-in-out infinite .8s"/>
+            <circle cy="-27" r="21" fill="#c0552a" opacity=".13" style="animation:flicker 2.4s ease-in-out infinite .8s"/>
+          </g>
+        </g>
+
+        <!-- colonne de silhouettes en rangs -->
+        <g fill="#07080b">
+          <g transform="translate(96 200)"><circle cy="-24" r="7"/><path d="M-9,0 q2,-24 9,-24 q7,0 9,24Z"/></g>
+          <g transform="translate(146 200)"><circle cy="-24" r="7"/><path d="M-9,0 q2,-24 9,-24 q7,0 9,24Z"/></g>
+          <g transform="translate(196 200)"><circle cy="-24" r="7"/><path d="M-9,0 q2,-24 9,-24 q7,0 9,24Z"/></g>
+          <g transform="translate(246 200)"><circle cy="-24" r="7"/><path d="M-9,0 q2,-24 9,-24 q7,0 9,24Z"/></g>
+          <g transform="translate(296 200)"><circle cy="-24" r="7"/><path d="M-9,0 q2,-24 9,-24 q7,0 9,24Z"/></g>
+          <g transform="translate(346 200)"><circle cy="-24" r="7"/><path d="M-9,0 q2,-24 9,-24 q7,0 9,24Z"/></g>
+          <g transform="translate(396 200)"><circle cy="-24" r="7"/><path d="M-9,0 q2,-24 9,-24 q7,0 9,24Z"/></g>
+          <g transform="translate(446 200)"><circle cy="-24" r="7"/><path d="M-9,0 q2,-24 9,-24 q7,0 9,24Z"/></g>
+          <g transform="translate(496 200)"><circle cy="-24" r="7"/><path d="M-9,0 q2,-24 9,-24 q7,0 9,24Z"/></g>
+        </g>
+
+        <!-- le sol : une carte de l'Europe que l'ombre recouvre -->
+        <rect x="0" y="200" width="640" height="50" fill="#1a1a16"/>
+        <g stroke="#5c5a4a" stroke-width="1.2" fill="none" opacity=".55">
+          <path d="M60,236 q30,-14 62,-4 q26,8 54,-2 q30,-10 58,4 q34,14 70,0 q30,-12 66,2 q34,12 70,-4"/>
+          <path d="M40,246 q40,-8 80,2 q40,10 80,-2 q40,-12 80,0 q40,12 80,2 q40,-10 80,-2"/>
+        </g>
+        <g fill="#5c5a4a" opacity=".5">
+          <circle cx="150" cy="234" r="2"/><circle cx="290" cy="238" r="2"/>
+          <circle cx="430" cy="232" r="2"/><circle cx="540" cy="240" r="2"/>
+        </g>
+        <!-- l'ombre qui s'étale sur la carte -->
+        <path d="M0,200 L640,200 L640,250 L0,250Z" fill="#000000" opacity=".45"/>
+        <path d="M120,200 L520,200 L640,250 L0,250Z" fill="#000000" opacity=".35"/>
+      </svg>
+    </div>
+
+    <p>
+      La Première Guerre mondiale s'est achevée sur une paix dure. En Allemagne, le
+      <strong>traité de Versailles</strong> laisse un pays humilié, amputé et couvert de
+      dettes. Puis vient la <strong>crise économique de 1929</strong> : les usines
+      ferment, des millions de gens perdent tout, et beaucoup se mettent à chercher un
+      homme fort qui promettrait de tout réparer.
+    </p>
+    <p>
+      En <strong>1933</strong>, <strong>Adolf Hitler</strong> arrive au pouvoir. Son
+      parti, le parti nazi, supprime les élections libres, interdit les autres partis,
+      enferme ses opposants, brûle des livres — et fait de la haine des Juifs une loi
+      d'État : dès 1935, ils sont privés de la citoyenneté allemande. Ailleurs en Europe,
+      d'autres dictatures s'installent : celle de Mussolini en Italie, celle de Staline
+      en Union soviétique.
+    </p>
+    <p>
+      Hitler réarme, puis avance : la Rhénanie en 1936, l'Autriche en mars 1938, la
+      Tchécoslovaquie ensuite. À chaque fois, la France et le Royaume-Uni cèdent, terrifiés
+      à l'idée de revivre 1914. En septembre 1938, à Munich, ils lui abandonnent une
+      partie de la Tchécoslovaquie et rentrent chez eux en annonçant la paix.
+    </p>
+    <blockquote>
+      <p>« Je vous rapporte la paix pour notre temps. »</p>
+      <cite>Neville Chamberlain, de retour de Munich, septembre 1938</cite>
+    </blockquote>
+    <p>
+      Il restait onze mois. Le <strong>1<sup>er</sup> septembre 1939</strong>, l'armée
+      allemande envahit la <strong>Pologne</strong>. Deux jours plus tard, la France et
+      le Royaume-Uni déclarent la guerre. Cette fois, personne ne part en chantant :
+      les parents des soldats de 1939 sont les soldats de 1914, et ils savent
+      exactement ce qui commence.
+    </p>
+  </div>
+</section>
+
+<!-- ══ II — LE MONDE EN FLAMMES ══ -->
+<section class="flammes-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre II</span>
+    <h2>Le monde en flammes</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Londres sous le Blitz : incendies, projecteurs, ballons de barrage et une coupole intacte</title>
+        <rect x="0" y="0" width="640" height="250" fill="#0a0709"/>
+        <defs>
+          <linearGradient id="sgFeu" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#c0552a" stop-opacity=".55"/>
+            <stop offset="100%" stop-color="#c0552a" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="sgBeam2" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#cfe0ea" stop-opacity=".3"/>
+            <stop offset="100%" stop-color="#cfe0ea" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- lueur des incendies -->
+        <rect x="0" y="120" width="640" height="130" fill="url(#sgFeu)"/>
+        <ellipse cx="140" cy="196" rx="120" ry="46" fill="#c0552a" opacity=".2" style="animation:lueur 4s ease-in-out infinite"/>
+        <ellipse cx="500" cy="200" rx="100" ry="40" fill="#c0552a" opacity=".16" style="animation:lueur 5s ease-in-out infinite 1s"/>
+
+        <!-- projecteurs -->
+        <g transform="translate(70 250)" style="animation:balaye 9s ease-in-out infinite">
+          <path d="M-8,0 L-40,-250 L20,-250 L8,0Z" fill="url(#sgBeam2)"/>
+        </g>
+        <g transform="translate(560 250)" style="animation:balaye 11s ease-in-out infinite 1.2s">
+          <path d="M-8,0 L-20,-250 L40,-250 L8,0Z" fill="url(#sgBeam2)"/>
+        </g>
+
+        <!-- bombardiers en formation -->
+        <g fill="#0d1016" opacity=".95" style="animation:vole 24s linear infinite">
+          <g transform="translate(120 42) scale(.8)">
+            <path d="M0,0 L24,0 L31,3 L24,6 L0,6Z"/><path d="M9,0 L2,-11 L7,-11 L16,0Z"/><path d="M9,6 L2,17 L7,17 L16,6Z"/>
+          </g>
+          <g transform="translate(190 62) scale(.65)">
+            <path d="M0,0 L24,0 L31,3 L24,6 L0,6Z"/><path d="M9,0 L2,-11 L7,-11 L16,0Z"/><path d="M9,6 L2,17 L7,17 L16,6Z"/>
+          </g>
+          <g transform="translate(60 70) scale(.6)">
+            <path d="M0,0 L24,0 L31,3 L24,6 L0,6Z"/><path d="M9,0 L2,-11 L7,-11 L16,0Z"/><path d="M9,6 L2,17 L7,17 L16,6Z"/>
+          </g>
+        </g>
+
+        <!-- ballons de barrage -->
+        <g fill="#20262e" opacity=".9">
+          <g transform="translate(400 60)" style="animation:drift 7s ease-in-out infinite">
+            <ellipse rx="16" ry="10"/><path d="M14,0 L22,-5 L22,5Z"/>
+            <line x1="0" y1="10" x2="-8" y2="66" stroke="#20262e" stroke-width="1"/>
+          </g>
+          <g transform="translate(486 92)" style="animation:drift 6s ease-in-out infinite .6s">
+            <ellipse rx="12" ry="7.5"/><path d="M10,0 L17,-4 L17,4Z"/>
+            <line x1="0" y1="7.5" x2="6" y2="52" stroke="#20262e" stroke-width="1"/>
+          </g>
+        </g>
+
+        <!-- ville en feu -->
+        <rect x="0" y="206" width="640" height="44" fill="#0b0a0b"/>
+        <g fill="#100e10">
+          <rect x="14"  y="164" width="40" height="44"/>
+          <rect x="62"  y="146" width="28" height="62"/>
+          <rect x="100" y="176" width="52" height="32"/>
+          <rect x="170" y="158" width="32" height="50"/>
+          <rect x="430" y="170" width="44" height="38"/>
+          <rect x="486" y="150" width="26" height="58"/>
+          <rect x="524" y="180" width="56" height="28"/>
+          <rect x="592" y="162" width="34" height="46"/>
+        </g>
+        <!-- immeubles éventrés + flammes -->
+        <g fill="#0a090a">
+          <path d="M226,208 L226,168 L248,152 L248,186 L262,178 L262,208Z"/>
+          <path d="M370,208 L370,174 L386,162 L386,208Z"/>
+        </g>
+        <g>
+          <ellipse cx="112" cy="196" rx="7" ry="14" fill="#e08a3c" opacity=".85" style="animation:flicker 1.8s ease-in-out infinite"/>
+          <ellipse cx="128" cy="200" rx="5" ry="10" fill="#c0552a" opacity=".8" style="animation:flicker 2.4s ease-in-out infinite .3s"/>
+          <ellipse cx="540" cy="198" rx="6" ry="12" fill="#e08a3c" opacity=".8" style="animation:flicker 2.1s ease-in-out infinite .6s"/>
+          <ellipse cx="556" cy="202" rx="4" ry="8"  fill="#c0552a" opacity=".75" style="animation:flicker 2.6s ease-in-out infinite .9s"/>
+        </g>
+        <!-- fumées -->
+        <g fill="#22201f" opacity=".65">
+          <circle cx="120" cy="160" r="24"/><circle cx="152" cy="142" r="16"/>
+          <circle cx="548" cy="164" r="20"/><circle cx="576" cy="148" r="13"/>
+        </g>
+
+        <!-- la coupole qui tient debout, au centre -->
+        <g fill="#161a20">
+          <rect x="290" y="186" width="60" height="22"/>
+          <path d="M292,186 Q320,138 348,186Z"/>
+          <rect x="316" y="126" width="8" height="14"/>
+          <circle cx="320" cy="122" r="4"/>
+        </g>
+        <ellipse cx="320" cy="170" rx="70" ry="46" fill="#e2b06a" opacity=".1" style="animation:lueur 5s ease-in-out infinite"/>
+
+        <!-- pompiers minuscules, lance à incendie -->
+        <g fill="#08080a">
+          <g transform="translate(180 232)"><circle cy="-16" r="5"/><path d="M-6,0 q1,-16 6,-16 q5,0 6,16Z"/></g>
+          <g transform="translate(200 234)"><circle cy="-15" r="4.6"/><path d="M-6,0 q1,-15 6,-15 q5,0 6,15Z"/></g>
+          <path d="M206,224 Q230,214 250,206" stroke="#08080a" stroke-width="2" fill="none"/>
+        </g>
+      </svg>
+    </div>
+
+    <p>
+      La guerre nouvelle ne ressemble en rien à celle des tranchées. Elle est rapide,
+      motorisée : c'est la <em>Blitzkrieg</em>, la « guerre éclair ». La Pologne tombe
+      en cinq semaines. Au printemps 1940, le Danemark, la Norvège, les Pays-Bas et la
+      Belgique s'effondrent l'un après l'autre.
+    </p>
+    <p>
+      Puis c'est le tour de la <strong>France</strong>. En six semaines, l'armée
+      française, considérée comme la première du monde, est disloquée. Des millions de
+      civils fuient sur les routes : on appelle cela l'<strong>Exode</strong>. Le
+      22 juin 1940, la France signe l'armistice ; le pays est coupé en deux et le
+      gouvernement de Vichy choisit de collaborer avec l'occupant. Depuis Londres, un
+      général presque inconnu, <strong>Charles de Gaulle</strong>, refuse d'accepter la
+      défaite et lance un appel à la radio.
+    </p>
+    <blockquote>
+      <p>« Quoi qu'il arrive, la flamme de la résistance française ne doit pas s'éteindre et ne s'éteindra pas. »</p>
+      <cite>Appel du 18 juin 1940, BBC, Londres</cite>
+    </blockquote>
+    <p>
+      Le Royaume-Uni reste seul. Pendant l'été 1940, la <strong>bataille
+      d'Angleterre</strong> se joue dans le ciel : quelques centaines de jeunes pilotes
+      de la Royal Air Force affrontent une aviation bien plus nombreuse — et la font
+      renoncer. Puis viennent les nuits du <strong>Blitz</strong> : des mois de
+      bombardements sur Londres, Coventry et d'autres villes, les habitants dormant dans
+      le métro, les pompiers courant d'un incendie à l'autre.
+    </p>
+    <p>
+      En 1941, le conflit change encore d'échelle. En juin, Hitler attaque l'Union
+      soviétique, son alliée de la veille. En décembre, le Japon bombarde la base
+      américaine de <strong>Pearl Harbor</strong> : les États-Unis entrent en guerre. De
+      l'Atlantique au Pacifique, du désert de Libye aux forêts de Russie, il n'y a
+      presque plus un continent en paix.
+    </p>
+  </div>
+</section>
+
+<!-- ══ III — CEUX QU'ON A VOULU EFFACER ══ -->
+<section class="memoire-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre III</span>
+    <h2>Ceux qu'on a voulu effacer</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Une voie ferrée qui se perd dans la nuit, une valise abandonnée et six bougies de mémoire</title>
+        <rect x="0" y="0" width="640" height="250" fill="#07080b"/>
+
+        <!-- ciel de nuit -->
+        <rect x="0" y="0" width="640" height="120" fill="#0a0c12"/>
+        <g fill="#efe7d6">
+          <circle cx="90"  cy="28" r="1.1" opacity=".45" style="animation:twinkle 3.4s ease-in-out infinite"/>
+          <circle cx="250" cy="18" r="1"   opacity=".4"  style="animation:twinkle 3s ease-in-out infinite .5s"/>
+          <circle cx="520" cy="34" r="1.2" opacity=".5"  style="animation:twinkle 3.8s ease-in-out infinite .9s"/>
+        </g>
+
+        <!-- six bougies de mémoire, alignées dans le ciel bas -->
+        <g>
+          <g transform="translate(160 96)">
+            <rect x="-3" y="0" width="6" height="18" rx="1" fill="#2a2620"/>
+            <ellipse cy="-5" rx="3" ry="6" fill="#d9a63c" style="animation:flicker 2.2s ease-in-out infinite"/>
+            <circle cy="-5" r="16" fill="#d9a63c" opacity=".12" style="animation:flicker 2.2s ease-in-out infinite"/>
+          </g>
+          <g transform="translate(224 96)">
+            <rect x="-3" y="0" width="6" height="18" rx="1" fill="#2a2620"/>
+            <ellipse cy="-5" rx="3" ry="6" fill="#d9a63c" style="animation:flicker 2.6s ease-in-out infinite .3s"/>
+            <circle cy="-5" r="16" fill="#d9a63c" opacity=".12" style="animation:flicker 2.6s ease-in-out infinite .3s"/>
+          </g>
+          <g transform="translate(288 96)">
+            <rect x="-3" y="0" width="6" height="18" rx="1" fill="#2a2620"/>
+            <ellipse cy="-5" rx="3" ry="6" fill="#d9a63c" style="animation:flicker 2.4s ease-in-out infinite .6s"/>
+            <circle cy="-5" r="16" fill="#d9a63c" opacity=".12" style="animation:flicker 2.4s ease-in-out infinite .6s"/>
+          </g>
+          <g transform="translate(352 96)">
+            <rect x="-3" y="0" width="6" height="18" rx="1" fill="#2a2620"/>
+            <ellipse cy="-5" rx="3" ry="6" fill="#d9a63c" style="animation:flicker 2.8s ease-in-out infinite .9s"/>
+            <circle cy="-5" r="16" fill="#d9a63c" opacity=".12" style="animation:flicker 2.8s ease-in-out infinite .9s"/>
+          </g>
+          <g transform="translate(416 96)">
+            <rect x="-3" y="0" width="6" height="18" rx="1" fill="#2a2620"/>
+            <ellipse cy="-5" rx="3" ry="6" fill="#d9a63c" style="animation:flicker 2.3s ease-in-out infinite 1.2s"/>
+            <circle cy="-5" r="16" fill="#d9a63c" opacity=".12" style="animation:flicker 2.3s ease-in-out infinite 1.2s"/>
+          </g>
+          <g transform="translate(480 96)">
+            <rect x="-3" y="0" width="6" height="18" rx="1" fill="#2a2620"/>
+            <ellipse cy="-5" rx="3" ry="6" fill="#d9a63c" style="animation:flicker 2.7s ease-in-out infinite 1.5s"/>
+            <circle cy="-5" r="16" fill="#d9a63c" opacity=".12" style="animation:flicker 2.7s ease-in-out infinite 1.5s"/>
+          </g>
+        </g>
+
+        <!-- quai -->
+        <rect x="0" y="150" width="640" height="100" fill="#0e0f12"/>
+        <rect x="0" y="150" width="640" height="5" fill="#1b1d22"/>
+
+        <!-- voie ferrée qui fuit vers l'horizon -->
+        <path d="M300,150 L120,250 L200,250 L316,150Z" fill="#15171b"/>
+        <path d="M330,150 L560,250 L480,250 L324,150Z" fill="#15171b"/>
+        <g stroke="#2b2f36" stroke-width="2">
+          <line x1="302" y1="152" x2="150" y2="250"/>
+          <line x1="328" y1="152" x2="520" y2="250"/>
+        </g>
+        <!-- traverses -->
+        <g stroke="#23262c" stroke-width="3">
+          <line x1="306" y1="162" x2="326" y2="162"/>
+          <line x1="298" y1="180" x2="336" y2="180"/>
+          <line x1="286" y1="202" x2="350" y2="202"/>
+          <line x1="270" y1="228" x2="368" y2="228"/>
+        </g>
+        <!-- la nuit au bout des rails -->
+        <ellipse cx="316" cy="152" rx="60" ry="18" fill="#000" opacity=".8"/>
+
+        <!-- valise abandonnée sur le quai -->
+        <g transform="translate(126 214)">
+          <rect x="-30" y="-22" width="60" height="34" rx="3" fill="#3a2c1e" stroke="#5a4630" stroke-width="1.4"/>
+          <line x1="-30" y1="-8" x2="30" y2="-8" stroke="#5a4630" stroke-width="1.4"/>
+          <rect x="-6" y="-27" width="12" height="6" rx="2" fill="none" stroke="#5a4630" stroke-width="1.6"/>
+          <rect x="-4" y="-4" width="8" height="6" rx="1" fill="#8a6a3c" opacity=".8"/>
+        </g>
+        <!-- petit ours en peluche posé à côté -->
+        <g transform="translate(178 230)" fill="#4a3a26">
+          <circle cy="-14" r="6"/><circle cx="-5" cy="-19" r="2.4"/><circle cx="5" cy="-19" r="2.4"/>
+          <ellipse cy="-3" rx="6.4" ry="8"/>
+          <circle cx="-8" cy="-4" r="2.6"/><circle cx="8" cy="-4" r="2.6"/>
+        </g>
+
+        <!-- étoile jaune, posée à même le quai -->
+        <g transform="translate(474 216)" opacity=".9">
+          <path d="M0,-14 L4,-4 L15,-4 L6,3 L9,13 L0,7 L-9,13 L-6,3 L-15,-4 L-4,-4Z" fill="#d9a63c" opacity=".75"/>
+        </g>
+
+        <!-- lampadaire du quai -->
+        <g transform="translate(566 150)">
+          <rect x="-2" y="0" width="4" height="74" fill="#1b1d22"/>
+          <path d="M-12,0 L12,0 L6,-10 L-6,-10Z" fill="#1b1d22"/>
+          <circle cy="-2" r="4" fill="#d9a63c" opacity=".8" style="animation:flicker 3.4s ease-in-out infinite"/>
+          <ellipse cy="26" rx="30" ry="34" fill="#d9a63c" opacity=".07"/>
+        </g>
+      </svg>
+    </div>
+
+    <p>
+      Cette guerre-là ne se contente pas d'opposer des armées. Derrière le front,
+      l'Allemagne nazie organise méthodiquement l'assassinat de tout un peuple. Parce
+      qu'ils sont juifs, des familles entières sont recensées, marquées d'une
+      <strong>étoile jaune</strong>, chassées de leur travail et de leur école, enfermées
+      dans des ghettos, puis déportées par trains vers des camps construits pour les tuer.
+    </p>
+    <p>
+      C'est ce qu'on appelle la <strong>Shoah</strong> : environ <strong>six millions de
+      Juifs</strong> assassinés, dont un million et demi d'enfants. Les nazis
+      persécutent et tuent aussi les Tsiganes, les personnes handicapées, les
+      prisonniers soviétiques, les opposants politiques, et tous ceux qui ne rentrent
+      pas dans leur idée d'un monde « pur ».
+    </p>
+    <p>
+      La France n'y échappe pas. En juillet 1942, lors de la <strong>rafle du Vél'
+      d'Hiv</strong>, la police française elle-même arrête plus de treize mille personnes
+      à Paris, dont plus de quatre mille enfants, avant de les livrer aux Allemands.
+      Presque aucun n'est revenu.
+    </p>
+    <p>
+      Dans un immeuble d'Amsterdam, une adolescente nommée <strong>Anne Frank</strong>
+      passe deux ans cachée derrière une bibliothèque avec sa famille. Elle écrit chaque
+      jour dans un carnet. Dénoncée en 1944, elle meurt en camp à quinze ans ; son
+      journal, retrouvé sur le plancher, est aujourd'hui lu dans le monde entier.
+    </p>
+    <blockquote>
+      <p>« Malgré tout, je crois encore à la bonté du cœur des hommes. »</p>
+      <cite>Anne Frank, journal, 15 juillet 1944</cite>
+    </blockquote>
+    <p>
+      Il faut le dire, parce que c'est vrai, et parce que d'autres ont essayé de le
+      cacher. Mais il faut dire aussi ceci : partout, des gens ordinaires ont caché des
+      enfants dans leur grenier, fabriqué de faux papiers, gardé le silence devant la
+      police. On les appelle les <strong>Justes</strong>. Dans un village des Cévennes,
+      Le Chambon-sur-Lignon, des habitants ont ainsi sauvé des centaines d'enfants
+      juifs. Aucun n'a jamais parlé.
+    </p>
+  </div>
+</section>
+
+<!-- ══ IV — CEUX QUI ONT DIT NON ══ -->
+<section class="resistance-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre IV</span>
+    <h2>Ceux qui ont dit non</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>Une nuit d'occupation : un poste de radio clandestin, une presse à tracts et un mur marqué d'un V</title>
+        <rect x="0" y="0" width="640" height="250" fill="#0a0b0f"/>
+
+        <!-- mur de la pièce -->
+        <rect x="0" y="0" width="640" height="212" fill="#12131a"/>
+        <rect x="0" y="212" width="640" height="38" fill="#0c0d11"/>
+        <g stroke="#181a22" stroke-width="1" opacity=".8">
+          <line x1="0" y1="60" x2="640" y2="60"/><line x1="0" y1="132" x2="640" y2="132"/>
+        </g>
+
+        <!-- fenêtre aux volets fermés, un filet de lune -->
+        <g transform="translate(96 92)">
+          <rect x="-46" y="-52" width="92" height="104" rx="3" fill="#0a0c12" stroke="#242833" stroke-width="2"/>
+          <line x1="0" y1="-52" x2="0" y2="52" stroke="#242833" stroke-width="2"/>
+          <g stroke="#1c1f28" stroke-width="1.4">
+            <line x1="-40" y1="-40" x2="-6" y2="-40"/><line x1="-40" y1="-26" x2="-6" y2="-26"/>
+            <line x1="-40" y1="-12" x2="-6" y2="-12"/><line x1="-40" y1="2"   x2="-6" y2="2"/>
+            <line x1="6" y1="-40" x2="40" y2="-40"/><line x1="6" y1="-26" x2="40" y2="-26"/>
+            <line x1="6" y1="-12" x2="40" y2="-12"/><line x1="6" y1="2"   x2="40" y2="2"/>
+          </g>
+          <rect x="-3" y="-52" width="6" height="104" fill="#cfe0ea" opacity=".16" style="animation:lueur 6s ease-in-out infinite"/>
+        </g>
+
+        <!-- V peint sur le mur -->
+        <g transform="translate(548 78)">
+          <path d="M-26,-28 L0,26 L26,-28" stroke="#d9a63c" stroke-width="7" fill="none" stroke-linecap="round" opacity=".65"/>
+        </g>
+
+        <!-- table -->
+        <rect x="180" y="176" width="330" height="10" rx="2" fill="#3a2c1e"/>
+        <rect x="196" y="186" width="12" height="34" fill="#2a2016"/>
+        <rect x="482" y="186" width="12" height="34" fill="#2a2016"/>
+
+        <!-- le poste de radio, cadran allumé -->
+        <g transform="translate(258 148)">
+          <rect x="-46" y="-32" width="92" height="60" rx="6" fill="#2c2118" stroke="#4a3a26" stroke-width="1.6"/>
+          <rect x="-36" y="-22" width="42" height="24" rx="3" fill="#0e0d0a"/>
+          <rect x="-36" y="-22" width="42" height="24" rx="3" fill="#d9a63c" opacity=".55" style="animation:flicker 3s ease-in-out infinite"/>
+          <g stroke="#2a2118" stroke-width="1" opacity=".8">
+            <line x1="-30" y1="-22" x2="-30" y2="2"/><line x1="-20" y1="-22" x2="-20" y2="2"/>
+            <line x1="-10" y1="-22" x2="-10" y2="2"/><line x1="0" y1="-22" x2="0" y2="2"/>
+          </g>
+          <line x1="-14" y1="-24" x2="-14" y2="4" stroke="#c0552a" stroke-width="1.8"/>
+          <circle cx="26" cy="-12" r="9" fill="#1c1610" stroke="#4a3a26"/>
+          <circle cx="26" cy="10" r="7" fill="#1c1610" stroke="#4a3a26"/>
+          <g fill="#1c1610">
+            <rect x="-36" y="8" width="42" height="16" rx="2"/>
+          </g>
+          <!-- ondes -->
+          <g stroke="#d9a63c" stroke-width="1.4" fill="none" opacity=".45">
+            <path d="M52,-16 q10,16 0,32" style="animation:lueur 3s ease-in-out infinite"/>
+            <path d="M60,-24 q16,24 0,48" style="animation:lueur 3s ease-in-out infinite .4s"/>
+          </g>
+          <circle cx="0" cy="0" r="66" fill="#d9a63c" opacity=".07"/>
+        </g>
+
+        <!-- l'auditeur penché sur le poste, l'oreille contre le haut-parleur -->
+        <g fill="#08090c" transform="translate(196 176)">
+          <path d="M-16,0 q4,-40 16,-40 q12,0 16,40Z"/>
+          <circle cx="4" cy="-48" r="10"/>
+          <path d="M14,-44 q10,2 14,10" stroke="#08090c" stroke-width="5" fill="none" stroke-linecap="round"/>
+        </g>
+
+        <!-- presse à tracts et papiers -->
+        <g transform="translate(430 158)">
+          <rect x="-40" y="-8" width="80" height="26" rx="3" fill="#2a2620" stroke="#463f33" stroke-width="1.4"/>
+          <rect x="-30" y="-22" width="60" height="14" rx="2" fill="#1e1b16"/>
+          <line x1="34" y1="-16" x2="52" y2="-28" stroke="#463f33" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="54" cy="-30" r="4" fill="#463f33"/>
+        </g>
+        <!-- tracts en pile et un qui glisse -->
+        <g fill="#cfc6b0" opacity=".8">
+          <rect x="396" y="168" width="34" height="8" rx="1"/>
+          <rect x="400" y="164" width="34" height="8" rx="1" opacity=".9"/>
+          <rect x="392" y="160" width="34" height="8" rx="1" opacity=".75"/>
+        </g>
+        <g stroke="#3a352c" stroke-width=".8" opacity=".7">
+          <line x1="398" y1="171" x2="424" y2="171"/><line x1="404" y1="167" x2="428" y2="167"/>
+        </g>
+
+        <!-- bicyclette appuyée au mur, prête à partir -->
+        <g transform="translate(596 204)" stroke="#1e222b" stroke-width="2.4" fill="none">
+          <circle cx="-24" cy="0" r="13"/><circle cx="16" cy="0" r="13"/>
+          <path d="M-24,0 L-8,-18 L10,-18 L16,0 M-8,-18 L-2,0 M10,-18 L14,-24"/>
+        </g>
+      </svg>
+    </div>
+
+    <p>
+      Dans toute l'Europe occupée, des gens décident, un jour, de ne pas se soumettre.
+      Ils ne sont pas soldats. Ce sont des instituteurs, des cheminots, des ouvriers, des
+      étudiants, des curés, des paysannes. On les appelle les <strong>résistants</strong>.
+    </p>
+    <p>
+      Résister, c'est d'abord de tout petits gestes qui coûtent très cher : écouter en
+      cachette la <strong>radio de Londres</strong> le soir, volume au minimum, l'oreille
+      collée au poste. Imprimer un journal clandestin dans une cave. Peindre un
+      <strong>V</strong> sur un mur. Cacher un aviateur tombé du ciel, fabriquer de faux
+      papiers, faire dérailler un train de matériel.
+    </p>
+    <p>
+      Peu à peu, ces réseaux dispersés s'organisent. En 1943, <strong>Jean Moulin</strong>,
+      envoyé par de Gaulle, réussit à unir les mouvements de la Résistance française sous
+      une seule autorité. Arrêté, torturé, il meurt sans avoir parlé.
+    </p>
+    <p>
+      Ils étaient de toutes les origines : <strong>Lucie Aubrac</strong>, professeure,
+      organise l'évasion de son mari en pleine rue ; <strong>Missak Manouchian</strong>,
+      ouvrier arménien réfugié en France, mène un groupe de combattants étrangers avant
+      d'être fusillé ; en Pologne, les jeunes du ghetto de Varsovie se soulèvent en 1943
+      alors qu'ils savent n'avoir aucune chance.
+    </p>
+    <blockquote>
+      <p>« Ils étaient vingt et trois quand les fusils fleurirent, vingt et trois qui donnaient le cœur avant le temps. »</p>
+      <cite>Louis Aragon, en mémoire du groupe Manouchian</cite>
+    </blockquote>
+    <p>
+      Il y a aussi une résistance silencieuse et sans arme : à <strong>Bletchley
+      Park</strong>, en Angleterre, des mathématiciens — dont <strong>Alan Turing</strong>
+      — construisent des machines pour casser le code secret allemand Enigma. On estime
+      que leur travail, resté classé secret pendant trente ans, a raccourci la guerre de
+      deux ans.
+    </p>
+  </div>
+</section>
+
+<!-- ══ V — LE RETOUR DU JOUR ══ -->
+<section class="aube-bg">
+  <div class="chapter">
+    <span class="chapter-num">Chapitre V</span>
+    <h2>Le retour du jour</h2>
+    <div class="divider"></div>
+
+    <div class="illus">
+      <svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg" role="img">
+        <title>L'aube du 6 juin 1944 : la flotte du Débarquement au large des plages de Normandie</title>
+        <defs>
+          <linearGradient id="sgAube" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0b0f18"/>
+            <stop offset="58%" stop-color="#4a4a52"/>
+            <stop offset="100%" stop-color="#e2b06a"/>
+          </linearGradient>
+          <linearGradient id="sgMer" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#38414c"/>
+            <stop offset="100%" stop-color="#191d24"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="640" height="250" fill="url(#sgAube)"/>
+
+        <!-- soleil levant -->
+        <circle cx="470" cy="140" r="34" fill="#f0cf9a" opacity=".85"/>
+        <circle cx="470" cy="140" r="80" fill="#e2b06a" opacity=".18" style="animation:lueur 6s ease-in-out infinite"/>
+
+        <!-- nuages bas -->
+        <g fill="#2e3138" opacity=".55">
+          <ellipse cx="140" cy="66" rx="80" ry="16"/>
+          <ellipse cx="250" cy="52" rx="54" ry="11"/>
+          <ellipse cx="520" cy="60" rx="70" ry="13"/>
+        </g>
+
+        <!-- avions et planeurs -->
+        <g fill="#0f1218" opacity=".9">
+          <g transform="translate(120 34) scale(.7)">
+            <path d="M0,0 L24,0 L31,3 L24,6 L0,6Z"/><path d="M9,0 L2,-11 L7,-11 L16,0Z"/><path d="M9,6 L2,17 L7,17 L16,6Z"/>
+          </g>
+          <g transform="translate(196 24) scale(.55)">
+            <path d="M0,0 L24,0 L31,3 L24,6 L0,6Z"/><path d="M9,0 L2,-11 L7,-11 L16,0Z"/><path d="M9,6 L2,17 L7,17 L16,6Z"/>
+          </g>
+          <g transform="translate(324 40) scale(.5)">
+            <path d="M0,0 L24,0 L31,3 L24,6 L0,6Z"/><path d="M9,0 L2,-11 L7,-11 L16,0Z"/><path d="M9,6 L2,17 L7,17 L16,6Z"/>
+          </g>
+        </g>
+        <!-- parachutes -->
+        <g fill="#cfc6b0" opacity=".6">
+          <g transform="translate(560 66)">
+            <path d="M-12,0 q12,-16 24,0Z"/><line x1="-8" y1="0" x2="0" y2="12" stroke="#cfc6b0" stroke-width=".8"/>
+            <line x1="8" y1="0" x2="0" y2="12" stroke="#cfc6b0" stroke-width=".8"/><circle cx="0" cy="15" r="2.4"/>
+          </g>
+          <g transform="translate(600 96) scale(.8)">
+            <path d="M-12,0 q12,-16 24,0Z"/><line x1="-8" y1="0" x2="0" y2="12" stroke="#cfc6b0" stroke-width=".8"/>
+            <line x1="8" y1="0" x2="0" y2="12" stroke="#cfc6b0" stroke-width=".8"/><circle cx="0" cy="15" r="2.4"/>
+          </g>
+        </g>
+
+        <!-- mer -->
+        <path d="M0,158 L640,158 L640,250 L0,250Z" fill="url(#sgMer)"/>
+        <g stroke="#8e9aa6" stroke-width="1.2" fill="none" opacity=".25">
+          <path d="M0,182 q40,-6 80,0 q40,6 80,0 q40,-6 80,0 q40,6 80,0 q40,-6 80,0 q40,6 80,0 q40,-6 80,0"/>
+          <path d="M0,206 q46,-7 92,0 q46,7 92,0 q46,-7 92,0 q46,7 92,0 q46,-7 92,0 q46,7 92,0"/>
+        </g>
+        <!-- reflet du soleil sur l'eau -->
+        <g fill="#f0cf9a" opacity=".22">
+          <rect x="452" y="168" width="36" height="3" rx="1.5"/>
+          <rect x="446" y="182" width="48" height="3" rx="1.5"/>
+          <rect x="454" y="198" width="34" height="3" rx="1.5"/>
+        </g>
+
+        <!-- flotte à l'horizon -->
+        <g fill="#161a20">
+          <g transform="translate(70 158)">
+            <rect x="-26" y="-9" width="52" height="9" rx="2"/><rect x="-8" y="-18" width="16" height="9"/><line x1="0" y1="-18" x2="0" y2="-30" stroke="#161a20" stroke-width="1.6"/>
+          </g>
+          <g transform="translate(180 156) scale(.8)">
+            <rect x="-26" y="-9" width="52" height="9" rx="2"/><rect x="-8" y="-18" width="16" height="9"/><line x1="0" y1="-18" x2="0" y2="-30" stroke="#161a20" stroke-width="1.6"/>
+          </g>
+          <g transform="translate(280 158) scale(.65)">
+            <rect x="-26" y="-9" width="52" height="9" rx="2"/><rect x="-8" y="-18" width="16" height="9"/><line x1="0" y1="-18" x2="0" y2="-30" stroke="#161a20" stroke-width="1.6"/>
+          </g>
+          <g transform="translate(370 156) scale(.55)">
+            <rect x="-26" y="-9" width="52" height="9" rx="2"/><rect x="-8" y="-18" width="16" height="9"/><line x1="0" y1="-18" x2="0" y2="-30" stroke="#161a20" stroke-width="1.6"/>
+          </g>
+          <g transform="translate(560 157) scale(.7)">
+            <rect x="-26" y="-9" width="52" height="9" rx="2"/><rect x="-8" y="-18" width="16" height="9"/><line x1="0" y1="-18" x2="0" y2="-30" stroke="#161a20" stroke-width="1.6"/>
+          </g>
+        </g>
+
+        <!-- barge de débarquement au premier plan, rampe baissée -->
+        <g transform="translate(300 226)">
+          <path d="M-96,-26 L96,-26 L84,14 L-84,14Z" fill="#1b2027"/>
+          <path d="M-96,-26 L-108,-4 L-84,14Z" fill="#232932"/>
+          <rect x="-96" y="-30" width="192" height="6" rx="2" fill="#2b323b"/>
+          <!-- silhouettes de soldats à bord -->
+          <g fill="#0a0c10">
+            <g transform="translate(-52 -30)"><circle cy="-14" r="6"/><path d="M-7,0 q1,-14 7,-14 q6,0 7,14Z"/></g>
+            <g transform="translate(-20 -30)"><circle cy="-15" r="6.4"/><path d="M-7,0 q1,-15 7,-15 q6,0 7,15Z"/></g>
+            <g transform="translate(12 -30)"><circle cy="-14" r="6"/><path d="M-7,0 q1,-14 7,-14 q6,0 7,14Z"/></g>
+            <g transform="translate(44 -30)"><circle cy="-15" r="6.4"/><path d="M-7,0 q1,-15 7,-15 q6,0 7,15Z"/></g>
+          </g>
+        </g>
+        <!-- écume -->
+        <g fill="#cfd8de" opacity=".3">
+          <ellipse cx="196" cy="240" rx="40" ry="5"/>
+          <ellipse cx="404" cy="244" rx="46" ry="5"/>
+        </g>
+      </svg>
+    </div>
+
+    <p>
+      La guerre bascule à l'hiver 1942-1943. À <strong>Stalingrad</strong>, une armée
+      allemande entière est encerclée dans une ville en ruines et capitule en février
+      1943 : c'est la première grande défaite du Reich. En Afrique du Nord, les
+      Britanniques l'emportent à El Alamein. Dans le Pacifique, les Américains reprennent
+      l'avantage à Midway.
+    </p>
+    <p>
+      Puis vient le <strong>6 juin 1944</strong>. À l'aube, sur les plages de
+      <strong>Normandie</strong>, la plus grande flotte de tous les temps — près de sept
+      mille navires — débarque des dizaines de milliers de soldats venus des États-Unis,
+      du Royaume-Uni, du Canada, de France et de tout le Commonwealth. La journée est
+      terrible, surtout à Omaha Beach. Mais le soir, le mur est percé.
+    </p>
+    <p>
+      Le 25 août, <strong>Paris est libéré</strong>. Les villes retrouvent une à une leur
+      nom et leurs cloches. Le 8 mai 1945, l'Allemagne capitule ; en août, après les
+      bombes atomiques d'<strong>Hiroshima</strong> et de <strong>Nagasaki</strong> — deux
+      villes rayées de la carte en quelques secondes —, le Japon dépose les armes à son
+      tour. Le 2 septembre 1945, la guerre est finie.
+    </p>
+    <p>
+      Le monde découvre alors les camps : des soldats ouvrent les portes de Majdanek,
+      d'Auschwitz, de Bergen-Belsen, et voient ce que personne n'avait voulu croire. Le
+      bilan total dépasse <strong>cinquante millions de morts</strong>, dont une majorité
+      de civils — le contraire exact de 1914.
+    </p>
+    <blockquote>
+      <p>« Tous les êtres humains naissent libres et égaux en dignité et en droits. »</p>
+      <cite>Article premier de la Déclaration universelle des droits de l'homme, 1948</cite>
+    </blockquote>
+    <p>
+      Alors, pour la deuxième fois en trente ans, les survivants essaient de rendre cela
+      impossible. À Nuremberg, des juges font pour la première fois répondre des chefs
+      d'État de crimes contre l'humanité. En octobre 1945 naît l'<strong>Organisation des
+      Nations unies</strong>. Et d'anciens ennemis, la France et l'Allemagne, décident
+      quelques années plus tard de mettre leur charbon et leur acier en commun : c'est le
+      premier pas de la construction européenne.
+    </p>
+  </div>
+</section>
+
+<!-- ══ FIN ══ -->
+<section class="dark ending">
+  <div class="chapter">
+    <span class="ornament">✦ ✦ ✦</span>
+    <h2>Ce que l'histoire nous dit</h2>
+    <div class="divider"></div>
+
+    <p class="moral">
+      Cette guerre n'a pas commencé en 1939. Elle a commencé bien avant, chaque fois
+      qu'on a laissé passer une loi injuste, une haine ordinaire, une petite lâcheté
+      qui semblait moins coûteuse que de dire non tout de suite.
+    </p>
+    <p class="moral">
+      C'est pour cela qu'on continue de raconter les noms : Anne Frank et son carnet,
+      Jean Moulin qui n'a pas parlé, les habitants du Chambon qui n'ont rien dit non
+      plus, les mathématiciens de Bletchley, les vingt-trois de l'Affiche rouge. Aucun
+      n'était un héros de naissance. Chacun a simplement choisi, un jour précis, de ne
+      pas obéir.
+    </p>
+    <p class="moral">
+      Se souvenir n'est pas s'attrister. C'est apprendre à reconnaître assez tôt ce qui,
+      un jour, a mené jusque-là — et savoir que le courage, même celui d'une seule
+      personne, compte toujours plus qu'on ne le croit.
+    </p>
+    <p class="ref">1939 – 1945 · Varsovie · Londres · Auschwitz · Stalingrad · Normandie · Nuremberg</p>
+  </div>
+</section>
+
+</body>
+</html>

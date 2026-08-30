@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="atCiel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#16233f"/>
+      <stop offset="40%"  stop-color="#3c4a70"/>
+      <stop offset="72%"  stop-color="#a8613a"/>
+      <stop offset="100%" stop-color="#e8b878"/>
+    </linearGradient>
+    <radialGradient id="atSoleil" cx="50%" cy="70%" r="42%">
+      <stop offset="0%"   stop-color="#ffd9a0" stop-opacity=".75"/>
+      <stop offset="100%" stop-color="#ffd9a0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="atSol" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#3a3a2c"/>
+      <stop offset="100%" stop-color="#1d1d16"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="300" fill="url(#atCiel)"/>
+  <circle cx="200" cy="210" r="120" fill="url(#atSoleil)"/>
+
+  <!-- Le rocher de l'Acropole -->
+  <path d="M0,300 L0,224 Q46,206 92,166 L110,158 L296,154 L318,168 Q356,196 400,214 L400,300 Z"
+        fill="#20212c" fill-opacity=".95"/>
+
+  <!-- Le Parthénon, en marbre pâle sur le ciel -->
+  <g fill="#f2e2c0" fill-opacity=".93">
+    <path d="M106,101 L200,84 L294,101 Z"/>
+    <rect x="110" y="101" width="180" height="10" rx="2"/>
+    <rect x="124" y="110" width="8" height="40" rx="1"/>
+    <rect x="145" y="110" width="8" height="40" rx="1"/>
+    <rect x="166" y="110" width="8" height="40" rx="1"/>
+    <rect x="187" y="110" width="8" height="40" rx="1"/>
+    <rect x="208" y="110" width="8" height="40" rx="1"/>
+    <rect x="229" y="110" width="8" height="40" rx="1"/>
+    <rect x="250" y="110" width="8" height="40" rx="1"/>
+    <rect x="271" y="110" width="8" height="40" rx="1"/>
+    <rect x="112" y="150" width="176" height="7" rx="2"/>
+  </g>
+
+  <!-- Un olivier sur la pente -->
+  <g fill="#20212c" fill-opacity=".95">
+    <path d="M340,232 q-3,-20 1,-34 l5,0 q3,14 2,34 Z"/>
+    <path d="M312,202 q5,-10 17,-12 q7,-10 22,-10 q16,0 21,11 q13,2 16,11 q-13,7 -38,7 q-29,0 -38,-7 Z"/>
+  </g>
+
+  <!-- Le sol du chemin -->
+  <path d="M0,246 Q110,236 214,244 T400,240 L400,300 L0,300 Z" fill="url(#atSol)"/>
+
+  <!-- La chouette chevêche, posée sur une pierre -->
+  <g transform="translate(50,240)">
+    <rect x="-6" y="30" width="46" height="10" rx="3" fill="#6b6650"/>
+    <g transform="translate(4,0) scale(1.5)">
+      <path d="M8,20 q-7,-6 -7,-12 q0,-7 7,-7 q7,0 7,7 q0,6 -7,12 Z" fill="#6b6650"/>
+      <path d="M2.5,3.5 q-1,-4 1.5,-4.5 q1.5,0 2,2.5 Z" fill="#6b6650"/>
+      <path d="M13.5,3.5 q1,-4 -1.5,-4.5 q-1.5,0 -2,2.5 Z" fill="#6b6650"/>
+      <circle cx="5.4" cy="7" r="2.2" fill="#e8b878"/>
+      <circle cx="10.6" cy="7" r="2.2" fill="#e8b878"/>
+      <path d="M8,9 l-1.6,2.4 h3.2 Z" fill="#e8b878"/>
+    </g>
+  </g>
+
+  <!-- L'ostrakon : un tesson gravé de six lettres -->
+  <g transform="translate(268,254) rotate(-7)">
+    <path d="M0,6 q6,-8 20,-6 q14,2 26,0 q12,-2 16,6 q2,10 -8,14 q-16,6 -34,3 q-18,-3 -20,-17 Z" fill="#b2683a"/>
+    <g stroke="#241a12" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <ellipse cx="13" cy="14" rx="5" ry="6"/><path d="M9,14 h8"/>
+      <path d="M25,8 v12 M25,8 h7 M25,14 h6 M25,20 h7"/>
+      <path d="M39,20 V8 l5,7 l5,-7 v12"/>
+    </g>
+  </g>
+</svg>
