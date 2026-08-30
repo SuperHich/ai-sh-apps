@@ -59,7 +59,7 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'rome-antique', 'el-jem', 'sudoku', 'mots-fleches', 'mots-croises', 'roue-des-defis', 'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
+    'athenes', 'rome-antique', 'el-jem', 'sudoku', 'mots-fleches', 'mots-croises', 'roue-des-defis', 'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
     'fatima-al-fihriya', 'ibn-sina'
   ];
 
@@ -75,7 +75,7 @@
       blurb: 'Héros, savants et explorateurs qui ont marqué l\'Histoire.' },
     { key: 'histoire',   label: 'Histoire',            emoji: '🏺', accent: '#e8534f',
       cover: 'empires',
-      blurb: 'Frises, cartes et cités antiques : les empires du monde, les âges des pays, El Jem et Rome.' },
+      blurb: 'Frises, cartes et cités antiques : les empires du monde, les âges des pays, El Jem, Rome et Athènes.' },
     { key: 'sciences',   label: 'Sciences & Découvertes', emoji: '🔭', accent: '#5bb8ff',
       cover: 'espace',
       blurb: 'Du Big Bang aux dinosaures, les grandes épopées du réel.' },
@@ -255,6 +255,11 @@
       dir: 'games', file: 'rome-antique.html', age: 7, access: 'public',
       desc: 'Un livre dont tu es le héros dans la Rome antique : le Forum, les souterrains du Colisée, le Palatin et le Panthéon. Un sac à remplir et six fins possibles.',
       tags: ['rome', 'roma', 'italie', 'forum', 'colisee', 'palatin', 'pantheon', 'vestales', 'romulus', 'archeologie', 'antiquite', 'aventure', 'livre dont tu es le heros', 'unesco'] },
+
+    { id: 'athenes', title: 'Le Secret d\'Athènes', emoji: '\ud83c\udffa', cat: 'histoire', kind: 'jeu',
+      dir: 'games', file: 'athenes.html', age: 7, access: 'public',
+      desc: 'Un livre dont tu es le héros dans l\'Athènes antique : un tesson gravé, une écriture à reconnaître, et une enquête qui traverse l\'Agora, l\'Acropole et le quartier des potiers. Sept fins possibles.',
+      tags: ['athenes', 'grece', 'agora', 'acropole', 'parthenon', 'ceramique', 'ostracisme', 'democratie', 'chouette', 'epigraphie', 'archeologie', 'antiquite', 'aventure', 'livre dont tu es le heros', 'unesco'] },
 
     /* ── Sciences & Découvertes ──────────────────────────────── */
     { id: 'dinosaures', title: 'Les Dinosaures', emoji: '🦕', cat: 'sciences', kind: 'histoire',

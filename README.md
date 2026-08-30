@@ -64,6 +64,7 @@ everyone; the rest opens once a (local, free) account is created.
 │   ├── religion/           # Prophets & righteous figures
 │   └── science/            # Science & discovery
 ├── games/
+│   ├── athenes.html        # Gamebook: the Agora, the Acropolis, the ostraka
 │   ├── color-blind-game.html
 │   ├── el-jem.html         # Gamebook: the amphitheatre of Thysdrus
 │   ├── famille-en-or.html
@@ -103,7 +104,7 @@ hand anywhere: moving one item between universes updates every badge.
 | Prophètes & Sagesse | Prophets, caliphs, spiritual figures |
 | Histoires en arabe | Arabic stories, read right to left |
 | Légendes du monde | Heroes, scholars and explorers |
-| **Histoire** | The timelines — the world's empires, the ages of Tunisia and France — and the two gamebooks, El Jem and Rome |
+| **Histoire** | The timelines — the world's empires, the ages of Tunisia and France — and the three gamebooks: El Jem, Rome, Athens |
 | Sciences & Découvertes | From the Big Bang to the human body, explorers included |
 | Blagues & Humour | Jokes |
 | Mini-jeux | Reflexes, memory, words — and the wheel quiz |
@@ -111,9 +112,9 @@ hand anywhere: moving one item between universes updates every badge.
 
 Two boundaries are deliberate. **Histoire** was split off from *Légendes du
 monde* because a timeline and a story are not the same object: the legends are
-read, the timelines are walked through. The two gamebooks — *Le Secret d'El Jem* and
-*Le Secret de la Rome Antique* — sit there rather than in *Mini-jeux* for the
-same reason: what they teach is a real place, and the game is only the way in. And **Outils** holds exactly one item,
+read, the timelines are walked through. The three gamebooks — El Jem, Rome and
+Athens — sit there rather than in *Mini-jeux* for the same reason: what they
+teach is a real place, and the game is only the way in. And **Outils** holds exactly one item,
 because a tool is something you come to use for its own sake — the map and the
 quizzes are ways into the catalogue, not entries in it.
 
@@ -128,7 +129,7 @@ Every entry in `assets/js/catalog.js` still carries an `access` field:
 
 | `access`   | Who can open it        |
 |------------|------------------------|
-| `public`   | everyone — all 64 items |
+| `public`   | everyone — all 65 items |
 | `membre`   | requires an account — none at the moment |
 
 The field and the whole mechanism (locked card state, access filter,
@@ -470,6 +471,48 @@ button) used a fixed accent colour that clashed the moment the ambience changed
 family — they now mix the live `--accent` with `color-mix()`, with the flat
 `rgba()` value left in place as a fallback. Every colour pair in all six
 ambiances was measured in a browser, hover states included.
+
+## Le Secret d'Athènes
+
+`games/athenes.html` is the third gamebook, and the one whose subject is not a
+building but a **handwriting**. Thirty-three passages, seven endings,
+thirty-two *Le saviez-vous ?* boxes, nine objects, six ambiances — the Agora in
+the dust, the Acropolis in marble and Aegean blue, the dark of a well and a
+buried river, the potter's workshop in terracotta, the museums in glass grey,
+gold for the endings.
+
+**The thread is an investigation, not a dig.** Rain washes a potsherd up in the
+gravel of the Agora; six Greek letters are scratched on it — the start of
+ΘΕΜΙΣΤΟΚΛΗΣ. It is an *ostrakon*, a ballot from the yearly vote to exile
+someone. A charcoal rubbing taken in a potter's workshop turns those letters
+into something comparable; in the excavation archives it matches photographs
+of a deposit of 190 ostraka pulled from a well on the north slope in 1937 — all
+naming Themistocles, and written by only about fourteen hands. Ballots prepared
+in advance, in bulk, by a small group. Back down the well, the clay of the
+sherd matches the clay of the shaft: it is the 191st.
+
+**The two final endings split on what you do with a result, not on what you
+touch.** Let the epigraphist publish it — slowly, with the doubts printed
+beside the conclusion — or run up and tell everyone, in which case the sentence
+*"a child proves Greek democracy was rigged"* escapes and eats the careful
+version, which is false in almost every word: nobody knows who prepared those
+sherds, exactly when, or whether they were ever handed out. That is the lesson
+this city was chosen for, and it is deliberately not El Jem's (context) or
+Rome's (stratigraphy): **a finding is not a headline**, and the hedges are part
+of the result.
+
+The rest of the *how we know* runs through the boxes: the alphabet borrowed
+from the Phoenicians and given vowels, and written *boustrophedon* — as the ox
+ploughs; the Themistoclean wall dated by the gravestones built into it in a
+panic; the *kleroterion* that handed out power by drawing balls from a tube;
+the white Greece of our museums exposed as a misunderstanding, pigment traces
+and all; and the black of Greek vases that is not paint but the same clay
+starved of oxygen — a secret lost for two thousand years and recovered by
+chemists rather than archaeologists.
+
+Same engine as the other two, same deliberate duplication: one file, no build
+step, Tailwind from the CDN. Contrast measured in a browser across all six
+ambiances, hover states included.
 
 ## Tab icon
 
