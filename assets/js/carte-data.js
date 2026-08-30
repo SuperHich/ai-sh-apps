@@ -160,6 +160,14 @@
       note: 'D\'Ulm à Berne, de Berlin à Princeton : le trajet d\'Albert Einstein, de la boussole à la relativité.',
       stories: ['einstein'] },
 
+    { nom: 'Verdun & la ligne de front', lon: 5.38, lat: 49.16,
+      note: 'Les collines où la Grande Guerre s\'est arrêtée pendant trois cents jours, sur une ligne de tranchées longue de sept cents kilomètres.',
+      stories: ['grande-guerre'] },
+
+    { nom: 'Plages de Normandie', lon: -0.86, lat: 49.36,
+      note: 'Le sable où, à l\'aube du 6 juin 1944, la plus grande flotte de tous les temps a débarqué pour rouvrir le continent.',
+      stories: ['seconde-guerre'] },
+
     { nom: 'Côte de Bretagne', lon: -4.5, lat: 48.3,
       note: 'L\'île de Kervénan, son phare éteint et le Sentier des Brumes qui n\'apparaît qu\'une fois par siècle.',
       stories: ['phare'] }
@@ -198,6 +206,13 @@
                [-9, 40], [-14, 20], [-9, 0], [-5.7, -15.96]] },
 
     { story: 'einstein', nom: 'D\'Ulm à Princeton',
-      points: [[10.0, 48.4], [7.45, 46.95], [13.4, 52.5], [-4, 48], [-40, 45], [-74.66, 40.35]] }
+      points: [[10.0, 48.4], [7.45, 46.95], [13.4, 52.5], [-4, 48], [-40, 45], [-74.66, 40.35]] },
+
+    { story: 'grande-guerre', nom: 'La ligne de front, de la mer du Nord à la Suisse',
+      points: [[2.75, 51.13], [2.9, 50.72], [3.2, 50.42], [2.72, 50.02], [3.3, 49.62],
+               [4.05, 49.4], [5.38, 49.16], [5.9, 48.72], [6.9, 48.32], [7.32, 47.62]] },
+
+    { story: 'seconde-guerre', nom: 'Du Débarquement à la Libération de Paris',
+      points: [[-1.62, 50.72], [-0.86, 49.36], [-0.37, 49.18], [0.11, 49.44], [1.09, 49.03], [2.35, 48.85]] }
   ];
 })(window);

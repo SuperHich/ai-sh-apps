@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" preserveAspectRatio="xMidYMid slice">
+  <title>La Grande Guerre — les coquelicots et les barbelés d'un front abandonné</title>
+          <defs>
+            <linearGradient id="gguerreBg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#0c0d10"/>
+              <stop offset="58%"  stop-color="#2c3138"/>
+              <stop offset="100%" stop-color="#5a5346"/>
+            </linearGradient>
+            <radialGradient id="gguerreGlow" cx="70%" cy="26%" r="45%">
+              <stop offset="0%"   stop-color="#d9a63c" stop-opacity=".22"/>
+              <stop offset="100%" stop-color="#d9a63c" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#gguerreBg)"/>
+          <rect width="400" height="300" fill="url(#gguerreGlow)"/>
+          <!-- soleil pâle dans la brume -->
+          <circle cx="286" cy="80" r="30" fill="#e6d3a4" opacity=".35"/>
+          <!-- arbres brisés -->
+          <g fill="#131518">
+            <path d="M46,196 L42,132 L52,132 L56,196Z"/>
+            <path d="M42,140 L26,124 L44,136Z"/>
+            <path d="M104,198 L100,146 L109,146 L113,198Z"/>
+            <path d="M338,196 L334,142 L343,142 L347,196Z"/>
+          </g>
+          <!-- terre labourée -->
+          <path d="M0,190 Q100,180 200,190 Q300,200 400,188 L400,300 L0,300Z" fill="#312a20"/>
+          <path d="M0,214 Q110,204 220,214 Q320,222 400,210 L400,300 L0,300Z" fill="#241f18"/>
+          <!-- piquets et barbelés -->
+          <g stroke="#0e0f11" stroke-width="4">
+            <line x1="70" y1="216" x2="66" y2="168"/>
+            <line x1="196" y1="220" x2="200" y2="172"/>
+            <line x1="326" y1="216" x2="322" y2="168"/>
+          </g>
+          <g stroke="#15171a" stroke-width="2.2" fill="none">
+            <path d="M66,176 Q132,190 200,178 Q262,168 322,178"/>
+            <path d="M66,192 Q132,206 200,194 Q262,184 322,194"/>
+          </g>
+          <!-- casque posé sur la terre -->
+          <g transform="translate(300 250)" fill="#171a1e">
+            <path d="M-26,0 q0,-22 26,-22 q26,0 26,22Z"/>
+            <ellipse cy="0" rx="30" ry="5"/>
+          </g>
+          <!-- coquelicots -->
+          <g>
+            <g transform="translate(72 274)">
+              <line x1="0" y1="0" x2="0" y2="-30" stroke="#3f4a33" stroke-width="2.4"/>
+              <circle cy="-33" r="9" fill="#c33a2c"/><circle cy="-33" r="3" fill="#1a0d0a"/>
+            </g>
+            <g transform="translate(134 284)">
+              <line x1="0" y1="0" x2="0" y2="-24" stroke="#3f4a33" stroke-width="2.2"/>
+              <circle cy="-27" r="7.5" fill="#a82f24"/><circle cy="-27" r="2.6" fill="#1a0d0a"/>
+            </g>
+            <g transform="translate(206 278)">
+              <line x1="0" y1="0" x2="0" y2="-28" stroke="#3f4a33" stroke-width="2.2"/>
+              <circle cy="-31" r="8" fill="#c33a2c"/><circle cy="-31" r="2.8" fill="#1a0d0a"/>
+            </g>
+          </g>
+        </svg>

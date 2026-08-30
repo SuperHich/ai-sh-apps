@@ -59,7 +59,7 @@
 
   /* Derniers contenus arrivés, du plus récent au plus ancien. */
   GRENIER.newestIds = [
-    'rome-antique', 'el-jem', 'sudoku', 'mots-fleches', 'mots-croises', 'roue-des-defis', 'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
+    'seconde-guerre', 'grande-guerre', 'rome-antique', 'el-jem', 'sudoku', 'mots-fleches', 'mots-croises', 'roue-des-defis', 'france', 'tunisie', 'empires', 'anatomie', 'planetes', 'volcans', 'electricite', 'marie-curie', 'corps-humain',
     'fatima-al-fihriya', 'ibn-sina'
   ];
 
@@ -230,6 +230,15 @@
       dir: 'stories/legend', file: 'al-khwarizmi.html', age: 10, access: 'public',
       desc: 'Le savant de Bagdad qui inventa l\'algèbre et donna son nom à l\'algorithme.',
       tags: ['maths', 'algebre', 'bagdad', 'algorithme'] },
+    { id: 'grande-guerre', title: 'La Grande Guerre', emoji: '🌺', cat: 'legendes', kind: 'histoire',
+      dir: 'stories/legend', file: 'grande-guerre.html', age: 10, access: 'public',
+      desc: 'Partis en chantant pour six semaines, ils sont restés quatre ans dans la boue — jusqu\'à la trêve de Noël 1914, où les ennemis se sont serré la main.',
+      tags: ['1914', '1918', 'tranchees', 'verdun', 'armistice', 'poilus', 'coquelicot'] },
+    { id: 'seconde-guerre', title: 'La Seconde Guerre mondiale', emoji: '🕯️', cat: 'legendes', kind: 'histoire',
+      dir: 'stories/legend', file: 'seconde-guerre.html', age: 10, access: 'public',
+      desc: 'La guerre la plus meurtrière de l\'histoire — et, dans la nuit la plus noire, ceux qui ont caché des enfants, imprimé des tracts et refusé d\'obéir.',
+      tags: ['1939', '1945', 'resistance', 'shoah', 'memoire', 'debarquement', 'liberation'] },
+
 
     { id: 'empires', title: 'La Frise des Empires', emoji: '👑', cat: 'histoire', kind: 'outil',
       dir: '.', file: 'empires.html', age: 10, access: 'public',
